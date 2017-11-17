@@ -1,0 +1,15 @@
+export const limitsPerPage = {
+  meals                 : 50,
+  mealsFeatured         : 6,
+  mealsPlans            : 50,
+  testimonials          : 10,
+  homeTestimonials      : 10,
+  stockists             : 50,
+  customers             : 100,
+  customersOrders       : 100,
+  customersSubscriptions: 100,
+  deliveryAreas         : 50,
+  postCodes             : 30,
+  orders                : 50,
+  subscriptions         : 10,
+};
