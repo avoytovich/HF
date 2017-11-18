@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import { Header }   from './Header';
+// Components
+import MainNavigation from '../components/MainNavigation/MainNavigation';
 
 class Main extends Component {
 
   render() {
     return (
       <MuiThemeProvider>
-        <div>
+        <div className="main-wrapper">
+          <Header/>
           <div className="main-content">
-            { this.props.children }
+              <div className="content-navigation">
+                <MainNavigation/>
+              </div>
+              <div className="content-children">
+                { this.props.children }
+              </div>
           </div>
         </div>
       </MuiThemeProvider>

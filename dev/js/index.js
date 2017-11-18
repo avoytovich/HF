@@ -14,7 +14,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 //router
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory, IndexRedirect } from 'react-router';
 import { Provider } from 'react-redux';
 
 //styles
@@ -46,8 +46,17 @@ const router = (
     <div>
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
       <Route path={'/'}  component={Main} >
-        <IndexRoute component={() => <div>hello world</div>} />
+        <IndexRedirect to="organizations"/>
+
+        <Route path='organizations' component={() => <div>organizations</div>} />
+        <Route path='clinics' component={() => <div>clinics</div>} />
+        <Route path='users' component={() => <div>users</div>} />
+        <Route path='resource' component={() => <div>resource</div>} />
+        <Route path='matrix-setup' component={() => <div>matrix-setup</div>} />
+        <Route path='test-diagnostic-flow' component={() => <div>test-diagnostic-flow</div>} />
+
       </Route>
+
       {/*<Route path={'/'}  component={Login} />*/}
     </Router>
 
