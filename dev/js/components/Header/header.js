@@ -4,6 +4,11 @@ import { connect } from 'react-redux';
 // UI
 import AppBar from 'material-ui/AppBar';
 import SvgIcon from 'material-ui/SvgIcon';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+
 
 const HomeIcon = (props) => (
   <SvgIcon {...props} fill="#FFFFFF" height="36" viewBox="0 0 24 24" width="36">
@@ -12,17 +17,37 @@ const HomeIcon = (props) => (
   </SvgIcon>
 );
 
+const Logged = (props) => (
+  <IconMenu
+    {...props}
+    iconButtonElement={
+      <IconButton>
+        <MoreVertIcon color="white"/>
+      </IconButton>
+    }
+    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+  >
+
+    <MenuItem primaryText="Profile" />
+    <MenuItem primaryText="Sign out" />
+  </IconMenu>
+);
+
+
 const iconStyles = {
   height: '40px',
   width:  '40px',
 };
 
 class Header extends Component {
+
   render() {
     return (
       <AppBar
         className="header"
         iconElementLeft={<HomeIcon style={iconStyles} color="white"/>}
+        iconElementRight={<Logged /> }
       />
     )
   }
