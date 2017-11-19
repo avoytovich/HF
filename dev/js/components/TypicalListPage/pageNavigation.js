@@ -17,7 +17,7 @@ class PageNavigation extends Component {
 
   render() {
     return (
-      <GridList cols={2} cellHeight='auto'className="page-navigation">
+      <GridList cols={2} cellHeight='auto' className="page-navigation">
 
         <div>
           <RaisedButton label="+ Add New" className="page-navigation-button"/>
@@ -26,7 +26,9 @@ class PageNavigation extends Component {
         </div>
 
         <div>
+          {/*Pagination*/}
         </div>
+
       </GridList>
 
     )
