@@ -64,3 +64,21 @@ export const TEST_DIAGNOSTIC_FLOW_PAGE = {
     { title: 'Ending',          key: 'ending',       tooltip: 'Ending info'},
   ]
 };
+
+
+// Matrix Page
+export const DIAGNOSIS_TAB = {
+  key: 'diagnosis',
+  title: 'Diagnosis',
+  tableHeader: [
+    { title: 'Name',        key: 'name',         tooltip: 'info'},
+    { title: 'Type',        key: 'contact',      tooltip: 'info'},
+    { title: 'Body Areas',  key: 'users',        tooltip: 'info'},
+    { title: 'Key',         key: 'subscription', tooltip: 'info'},
+    { title: 'Sequence',    key: 'start',        tooltip: 'info'},
+    { title: 'Answer type', key: 'answer_type',  tooltip: 'info'},
+    { title: 'Created by',  key: 'created_by',   tooltip: 'info'},
+    { title: 'Created',     key: 'created',      tooltip: 'info'},
+  ]
+};
+

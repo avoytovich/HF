@@ -24,7 +24,7 @@ class MatrixComponent extends Component {
     value: 'diagnosis'
   };
 
-  componentDidMount() {
+  componentWillMount() {
     const { path } = this.props.routes.pop();
     this.setState({value: path});
   }
@@ -36,7 +36,7 @@ class MatrixComponent extends Component {
 
   render() {
     return (
-      <div>
+      <div id="matrix-setup">
         <Subheader className="page-sub-header">Matrix Setup</Subheader>
 
         <Tabs className="matrix-tabs" value={this.state.value}>
@@ -44,6 +44,7 @@ class MatrixComponent extends Component {
             <Tab  key={i}
                   value={item.url}
                   label={item.label}
+                  className="matrix-tab"
                   onActive={() => this.handleActive(item.url) }/>
           )}}
 

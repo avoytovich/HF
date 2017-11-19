@@ -62,7 +62,7 @@ TableComponent.defaultProps = {
   tableHeader:     [],
   selectable:      true,
   multiSelectable: true,
-  showRowHover:    true
+  showRowHover:    true,
 };
 
 TableComponent.PropTypes = {
