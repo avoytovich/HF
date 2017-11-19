@@ -29,19 +29,21 @@ class MainNavigation extends Component {
 //          </ListItem>
 //         )}
 //      </List>
-      <ul className="navigation-list">
-        {this.navigationList.map((nav, index) =>
-          <li key={index}>
-            <Link
-              to={nav.url}
-              activeClassName='active-route'>
-              <span>
-                {nav.title}
-              </span>
-            </Link>
-          </li>
-        )}
-      </ul>
+      <div className="content-navigation">
+        <ul className="navigation-list">
+          {this.navigationList.map((nav, index) =>
+            <li key={index}>
+              <Link
+                to={nav.url}
+                activeClassName='active-route'>
+                <span>
+                  {nav.title}
+                </span>
+              </Link>
+            </li>
+          )}
+        </ul>
+      </div>
     )
   }
 }

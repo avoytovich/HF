@@ -4,13 +4,6 @@ import PropTypes from 'prop-types';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 
 class TableComponent extends Component {
-  state = {
-    fixedHeader: true,
-    selectable: true,
-    multiSelectable: true,
-    showRowHover: true
-  };
-
 
   onRowSelection = (value) => {
     console.log('onRowSelection', value)
@@ -21,12 +14,13 @@ class TableComponent extends Component {
   };
 
   render() {
-    const {tableHeader, tableRows} = this.props;
-    const {fixedHeader, selectable, multiSelectable, showRowHover} = this.state;
+    const {
+      tableHeader, tableRows,
+      selectable, multiSelectable, showRowHover
+    } = this.props;
 
     return (
       <Table
-        fixedHeader
         selectable
         multiSelectable
         onRowSelection={this.onRowSelection}
@@ -64,18 +58,27 @@ const mapStateToProps = state => ({
 });
 
 TableComponent.defaultProps = {
-  tableRows:    [],
-  tableHeader:  []
+  tableRows:       [],
+  tableHeader:     [],
+  selectable:      true,
+  multiSelectable: true,
+  showRowHover:    true
 };
 
 TableComponent.PropTypes = {
+  //Content
   tableRows:   PropTypes.arrayOf(
                   PropTypes.shape({
                     title: PropTypes.string,
                     key:   PropTypes.string,
                   })
                 ),
-  tableHeader: PropTypes.PropTypes.arrayOf(PropTypes.object)
+  tableHeader: PropTypes.arrayOf(PropTypes.object),
+
+  //Styles
+  selectable:       PropTypes.boolean,
+  multiSelectable:  PropTypes.boolean,
+  showRowHover:     PropTypes.boolean
 };
 
 export default  connect(mapStateToProps)(TableComponent);

@@ -63,6 +63,110 @@ class TypicalListPage extends Component {
         subscription: 'Subscription',
         start: '01 Mar  2017',
         ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
+      },
+      {
+        organization: 'Organization Name',
+        contact: 'John Doe',
+        users: 100,
+        subscription: 'Subscription',
+        start: '01 Mar  2017',
+        ending: '01 Mar  2018'
       }
     ]
   };

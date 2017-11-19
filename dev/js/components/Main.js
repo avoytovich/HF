@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Header }   from './Header';
+import Header   from './Header/header';
 // Components
 import MainNavigation from '../components/MainNavigation/MainNavigation';
 
