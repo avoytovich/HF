@@ -9,3 +9,59 @@
   padding-top: 15px
   .diagnosis-table
     margin-top: 15px
+
+#create-question
+  .page-sub-header
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    padding-bottom: 15px
+    margin-bottom: 0
+    border-bottom: 2px solid $primary-grey
+  .nav-buttons
+    margin-right: 20px
+  .create-question-body
+    margin: 0!important
+    padding: 0 20px
+    height: 100%
+  .create-question-body > div:first-child
+      border-right: 2px solid $primary-grey
+
+  .main-question
+    padding: 20px 20px 40px 10px
+    .title
+      display: flex
+      flex-direction: row
+      justify-content: space-between
+      align-items: center
+    .size-buttons
+      border: 1px solid $primary-color
+      cursor: pointer
+      color: $primary-color
+  .item-wrap-row,
+  .item-wrap-column
+    display: flex
+    margin-top: 20px
+
+  .item-wrap-column
+    flex-direction: column
+
+  .item-wrap-row
+    flex-direction: row
+    justify-content: space-between
+    .item-wrap
+      flex: 1
+      div:nth-child(2n)
+        margin-right: 10px
+
+  .sub-item-wrap
+    display: flex
+    flex-direction: row
+  .label-text
+    display: flex
+    flex-direction: column
+    padding-bottom: 10px
+  .question-context
+    height: 120px
+  textarea
+    resize: none
