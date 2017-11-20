@@ -12,13 +12,13 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
-//router
+// router
 import { Router, Route, IndexRoute, browserHistory, IndexRedirect, Redirect } from 'react-router';
 import { Provider } from 'react-redux';
 
 const Switch = require('react-router').Switch;
 
-//styles
+// styles
 // import 'react-select/dist/react-select.min.css'
 import '../sass/index.sass';
 
