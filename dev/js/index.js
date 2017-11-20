@@ -14,8 +14,10 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 //router
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory, IndexRedirect, Redirect } from 'react-router';
 import { Provider } from 'react-redux';
+
+const Switch = require('react-router').Switch;
 
 //styles
 // import 'react-select/dist/react-select.min.css'
@@ -24,9 +26,32 @@ import '../sass/index.sass';
 //components
 import Main from './components/Main';
 import Login from './components/Login/Login';
+import TypicalListPage from './components/TypicalListPage/TypicalListPage';
+import {
+  MatrixComponent,
+  DiagnosisComponent,
+  ConditionsComponent,
+  TreatmentsComponent,
+  PackagesComponent,
+  EvaluationComponent,
+  MetaControlsComponent,
+  AchievementsComponent,
+  ExercisesComponent,
+  TestsComponent,
+  CreateQuestionComponent
+} from './components/Matrix-Setup';
 
 //reducer
 import rootReducer from './reducers';
+
+//constants
+import {
+  ORGANISATION_PAGE,
+  CLINICS_PAGE,
+  USERS_PAGE,
+  RESOURCE_PAGE,
+  TEST_DIAGNOSTIC_FLOW_PAGE
+} from './utils/constants'
 
 const enhancers = compose(
   applyMiddleware(multi, thunk),
@@ -45,8 +70,32 @@ const router = (
   <Provider store={store}>
     <div>
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
-      <Route path={'/'}  component={Main} >
-        <IndexRoute component={() => <div>hello world</div>} />
+      <Route path={'/'}                     component={Main} >
+        <IndexRedirect to="organizations"/>
+        <Route path='organizations'         component={() => <TypicalListPage {...ORGANISATION_PAGE}/>} />
+        <Route path='clinics'               component={() => <TypicalListPage {...CLINICS_PAGE}/>} />
+        <Route path='users'                 component={() => <TypicalListPage {...USERS_PAGE}/>} />
+        <Route path='resource'              component={() => <TypicalListPage {...RESOURCE_PAGE}/>} />
+        <Route path='matrix-setup'          component={ MatrixComponent }>
+
+          <IndexRedirect to="diagnosis"/>
+          <Route path='diagnosis'           component={ DiagnosisComponent } />
+          <Route path='conditions'          component={ ConditionsComponent } />
+          <Route path='treatments'          component={ TreatmentsComponent } />
+          <Route path='packages'            component={ PackagesComponent } />
+          <Route path='evaluation'          component={ EvaluationComponent } />
+          <Route path='meta-controls'       component={ MetaControlsComponent } />
+          <Route path='achievements'        component={ AchievementsComponent } />
+          <Route path='exercises'           component={ ExercisesComponent } />
+          <Route path='tests'               component={ TestsComponent } />
+
+        </Route>
+        <Route path='test-diagnostic-flow'  component={() => <TypicalListPage {...TEST_DIAGNOSTIC_FLOW_PAGE}/>} />
+
+        {/* Temporary path Todo: Change routes to react-router-dom ?*/}
+        <Route path='diagnosis-create'    component={ CreateQuestionComponent } />
+
+        <Redirect from="*" to="organizations"/>
       </Route>
       {/*<Route path={'/'}  component={Login} />*/}
     </Router>
