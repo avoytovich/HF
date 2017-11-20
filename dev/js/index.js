@@ -1,13 +1,12 @@
+import 'babel-polyfill';
 //npm-packages
 import React from 'react';
 import { render } from 'react-dom';
-import { createStore, compose, applyMiddleware } from 'redux';
 import { syncHistoryWithStore } from 'react-router-redux';
-import multi from 'redux-multi';
-import thunk from 'redux-thunk';
 import NotificationsSystem from 'reapop';
 import theme from 'reapop-theme-wybo';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import { PersistGate } from 'redux-persist/es/integration/react';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -41,9 +40,6 @@ import {
   CreateQuestionComponent
 } from './components/Matrix-Setup';
 
-//reducer
-import rootReducer from './reducers';
-
 //constants
 import {
   ORGANISATION_PAGE,
@@ -53,21 +49,21 @@ import {
   TEST_DIAGNOSTIC_FLOW_PAGE
 } from './utils/constants'
 
-const enhancers = compose(
-  applyMiddleware(multi, thunk),
-  window.devToolsExtension ? window.devToolsExtension() : f => f
-);
+import { configureStore } from './config/store';
 
-export const store = createStore(
-  rootReducer,
-  {},
-  enhancers
-);
-
+export const { persistor, store } = configureStore();
 export const history = syncHistoryWithStore(browserHistory, store);
+const onBeforeLift = () => {
+  // take some action before the gate lifts (gate prevent rendering until store is hydrated from local storage)
+}
 
 const router = (
   <Provider store={store}>
+    <PersistGate
+      loading={null}
+      onBeforeLift={onBeforeLift}
+      persistor={persistor}
+    >
     <div>
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
       <Route path={'/'}                     component={Main} >
@@ -103,6 +99,7 @@ const router = (
     <NotificationsSystem theme={theme}/>
 
     </div>
+    </PersistGate>
   </Provider>
 );
 
