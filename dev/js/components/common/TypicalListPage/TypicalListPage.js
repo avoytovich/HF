@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TableComponent from './TableComponent';
-import PageNavigation from './PageNavigation';
+import PageNavigation from './pageNavigation';
 
 import Subheader from 'material-ui/Subheader';
 
