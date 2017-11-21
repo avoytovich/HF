@@ -11,8 +11,13 @@ export const createReducer = (initialState, standardActionType, handlers = {}) =
   }
   // common action
   handlers[standardActionType] = (state, action) => ({ ...state, ...action.payload });
+
   // common clear action
   handlers[`${standardActionType}_CLEAR`] = () => initialState;
+
+  // common error handler func
+  handlers[`${standardActionType}_ERROR`] = (state, action) =>
+    ({ ...state, errors: action.payload.errors });
 
   return function reducer(state, action) {
     if (state === undefined) {

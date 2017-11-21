@@ -5,6 +5,7 @@ import storage from 'redux-persist/es/storage' // default: localStorage if web, 
 import notifierReducer from './commonReducers/notifierReducer';
 import commonReducer from './commonReducers/commonReducer';
 import userReducer from './userReducer/userReducer';
+import * as authReducers from './authReducers';
 
 const config = {
   key: 'root',
@@ -16,6 +17,7 @@ const rootReducer = persistCombineReducers(config, {
   notifications: notifierReducer(),
   commonReducer,
   userReducer,
+  ...authReducers,
   routing: routerReducer
 });
 

@@ -1,31 +1,46 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
+
 
 import Container from '../Container/Container';
 import Logo from '../Logo/Logo';
-
-const styles = theme => ({
-  paper: {
-    padding: 16,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-});
+import Input from '../../common/Input/Input';
+import { SIGN_UP } from '../../../actions';
 
 class SignUp extends Component {
   render() {
-    const { classes } = this.props;
+    const {
+      signupReducer: { email },
+    } = this.props;
     return (
       <Container>
         <Grid item xs={12} sm={6} hidden={{ smDown: true }}>
           <Logo />
         </Grid>
 
-        <Grid item xs={6} sm={3}>
-          <Paper className={classes.paper}>Not logo</Paper>
+        <Grid item xs={12} sm={6}>
+          <div className="sign-up-form-container">
+            <div className="sign-up-form-wrapper">
+              <div className="sing-up-title-wrapper">
+                <p className="sing-up-title">
+                  Sign Up
+                </p>
+              </div>
+
+              <Input
+                id='email'
+                name={SIGN_UP}
+                value={email}
+                label='Email'
+                placeholder='example@gmail.com'
+              />
+
+            </div>
+          </div>
+
         </Grid>
       </Container>
     );
@@ -33,7 +48,15 @@ class SignUp extends Component {
 }
 
 SignUp.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
 };
 
-export default withStyles(styles)(SignUp);
+const mapStateToProps = state => ({
+  signupReducer: state.signupReducer,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
