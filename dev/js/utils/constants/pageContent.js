@@ -71,7 +71,7 @@ export const DIAGNOSIS_TAB = {
   key: 'diagnosis',
   title: 'Diagnosis',
   tableHeader: [
-    { title: 'Name',        key: 'name',         tooltip: 'info'},
+    { title: 'Name',        key: 'users',        tooltip: 'info'},
     { title: 'Type',        key: 'contact',      tooltip: 'info'},
     { title: 'Body Areas',  key: 'users',        tooltip: 'info'},
     { title: 'Key',         key: 'subscription', tooltip: 'info'},

@@ -17,57 +17,31 @@ import EnhancedTableHead from './TableHeader';
 
 class TableComponent extends Component {
 
-  onRowSelection = (value) => {
-    console.log('onRowSelection', value)
-  };
-
-  onCellClick = (value) => {
-    console.log('onCellClick', value)
-  };
-
-
   state = {
     order: 'asc',
     orderBy: 'calories',
     selected: [],
-    page: 0,
-    rowsPerPage: 5,
-    data: [
-      {name: 'ddd', calories: 'dv', fat: 'ddd', carbs: 'dd', protein: 'ddsds', id: '1'},
-      {name: 'ddd', calories: 'dv', fat: 'ddd', carbs: 'dd', protein: 'ddsds', id: '2'},
-      {name: 'ddd', calories: 'dv', fat: 'ddd', carbs: 'dd', protein: 'ddsds', id: '3'},
-      {name: 'ddd', calories: 'dv', fat: 'ddd', carbs: 'dd', protein: 'ddsds', id: '4'},
-      {name: 'ddd', calories: 'dv', fat: 'ddd', carbs: 'dd', protein: 'ddsds', id: '5'},
-      {name: 'ddd', calories: 'dv', fat: 'ddd', carbs: 'dd', protein: 'ddsds', id: '6'},
-      {name: 'ddd', calories: 'dv', fat: 'ddd', carbs: 'dd', protein: 'ddsds', id: '7'}
-    ],
-    columnData: [
-      { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
-      { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
-      { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
-      { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-      { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
-    ]
   };
 
+  onRowSelection = (value) => console.log('onRowSelection', value);
 
+  onCellClick = (value) => console.log('onCellClick', value);
 
-  handleRequestSort = (event, property) => {
-    const orderBy = property;
-    let order = 'desc';
-
-    if (this.state.orderBy === property && this.state.order === 'desc') {
-      order = 'asc';
-    }
-
-    const data =
-      order === 'desc'
-        ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
-        : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
-
-    this.setState({ data, order, orderBy });
-  };
-
+//  handleRequestSort = (event, property) => {
+//    const orderBy = property;
+//    let order = 'desc';
+//
+//    if (this.state.orderBy === property && this.state.order === 'desc') {
+//      order = 'asc';
+//    }
+//
+//    const data =
+//      order === 'desc'
+//        ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
+//        : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
+//
+//    this.setState({ data, order, orderBy });
+//  };
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
@@ -79,50 +53,42 @@ class TableComponent extends Component {
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
-  handleClick = (event, id) => {}
+  handleClick = (event, id) => {};
 
   render() {
-    const {
-      tableHeader, tableRows,
-      selectable, multiSelectable, showRowHover
-    } = this.props;
-
-    const { data, order, orderBy, selected, rowsPerPage, page, columnData } = this.state;
-
-
+    const { order, orderBy, selected } = this.state;
+    const { tableHeader } = this.props;
+    const { data } = this.props.store;
 
     return (
       <Table>
+
         <EnhancedTableHead
+          path={this.props.path}
           numSelected={selected.length}
-          order={order}
-          orderBy={orderBy}
           onSelectAllClick={this.handleSelectAllClick}
-          onRequestSort={this.handleRequestSort}
           rowCount={data.length}
-          columnData={columnData}
+          columnTitleList={tableHeader}
         />
+
         <TableBody>
           {data.map(row => {
             const isSelected = this.isSelected(row.id);
             return <TableRow
               hover
-              onClick={event => this.handleClick(event, row.id)}
-              onKeyDown={event => this.handleKeyDown(event, row.id)}
               role="checkbox"
               aria-checked={isSelected}
               tabIndex={-1}
               key={row.id}
               selected={isSelected}
             >
-
               <TableCell padding="checkbox">
                 <Checkbox checked={isSelected}/>
               </TableCell>
-              {columnData.map( (col, index) => {
-                const {id} = col;
-                return <TableCell key={index}>{row[id] }</TableCell>
-              })}
+
+              {tableHeader.map( (col, index) =>
+                <TableCell key={index} padding="dense">{row[col.key]}</TableCell>)}
+
             </TableRow>
           })}
         </TableBody>
@@ -131,32 +97,23 @@ class TableComponent extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  commonReducer: state.commonReducer
+const mapStateToProps = (state, ownProps) => ({
+    store: state[ownProps.path]
 });
 
 TableComponent.defaultProps = {
-  tableRows:       [],
-  tableHeader:     [],
-  selectable:      true,
-  multiSelectable: true,
-  showRowHover:    true,
+  tableHeader : [],
 };
 
 TableComponent.PropTypes = {
-  //Content
-  tableRows:   PropTypes.arrayOf(
-                  PropTypes.shape({
-                    title: PropTypes.string,
-                    key:   PropTypes.string,
-                  })
-                ),
-  tableHeader: PropTypes.arrayOf(PropTypes.object),
-
-  //Styles
-  selectable:       PropTypes.boolean,
-  multiSelectable:  PropTypes.boolean,
-  showRowHover:     PropTypes.boolean
+  path        : PropTypes.string,
+  tableHeader : PropTypes.arrayOf(
+    PropTypes.shape({
+      title   : PropTypes.string.isRequired,
+      key     : PropTypes.string.isRequired,
+      tooltip : PropTypes.string
+    }).isRequired
+  ),
 };
 
 export default  connect(mapStateToProps)(TableComponent);

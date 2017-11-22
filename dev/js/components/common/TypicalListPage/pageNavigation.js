@@ -20,14 +20,11 @@ const SearchIcon = (props) => (
   </MuiSvgIcon>
 );
 
-
 class PageNavigation extends Component {
   state = {
     rowsPerPage: 5,
-    rows: [ 5,10,15, 2, 4, 5, 6, 7, 8, 8,  5,10,15, 2, 4, 5, 6, 7, 8, 8,  5,10,15, 2, 4, 5, 6, 7, 8, 8 ],
     numberOfRows: 5,
     page: 0,
-    total: undefined
   };
 
   handleChangePage = (event, page) => this.setState({ page });
@@ -38,7 +35,7 @@ class PageNavigation extends Component {
 
   render() {
 
-    const { rowsPerPage, page, } =  this.state;
+    const { data, pagination: { total, count, per_page, current_page, total_pages } } = this.props.store;
 
     return (
       <Grid container className="page-navigation">
@@ -56,16 +53,21 @@ class PageNavigation extends Component {
 
         </Grid>
 
-        <Grid item md={7} sm={12} >
-          <Grid container className="page-pagination">
-            <Grid item >
+        <Grid item
+              md={7}
+              sm={12}>
+          <Grid container
+                className="page-pagination">
+            <Grid item
+                  md={8}
+                  sm={12}>
               <Table>
                 <TableFooter>
                   <TableRow>
                     <TablePagination
-                      count={this.state.rows.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
+                      count={data.length}
+                      rowsPerPage={per_page}
+                      page={current_page}
                       onChangePage={this.handleChangePage}
                       onChangeRowsPerPage={this.handleChangeRowsPerPage}
                     />
@@ -74,11 +76,12 @@ class PageNavigation extends Component {
               </Table>
             </Grid>
 
-            <Grid item >
+            <Grid item
+                  md={3}
+                  sm={12}>
               <FormControl fullWidth>
                 <Input
                   id="amount"
-                  value={this.state.amount}
                   onChange={this.handleChange('amount')}
                   endAdornment={
                     <InputAdornment position="end">
@@ -91,11 +94,12 @@ class PageNavigation extends Component {
           </Grid>
         </Grid>
       </Grid>
-
-
     )
   }
 }
 
+const mapStateToProps = (state, ownProps) => ({
+  store: state[ownProps.path]
+});
 
-export default PageNavigation;
+export default connect(mapStateToProps)(PageNavigation);

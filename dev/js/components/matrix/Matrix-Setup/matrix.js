@@ -49,7 +49,7 @@ class MatrixComponent extends Component {
 
   handleActive = (url) => {
     browserHistory.push(`/${this.props.route.path}/${url}`);
-    this.findNewPathIndex(tabs, url);
+    this.findNewPathIndex(TABS, url);
   };
 
 
@@ -77,7 +77,9 @@ class MatrixComponent extends Component {
                       onClick={() => this.handleActive(item.url)}/>)}
             </Tabs>
           </AppBar>
-
+        <div className="content-children">
+            { this.props.children }
+        </div>
       </div>
     )
   }
@@ -88,13 +90,3 @@ const mapStateToProps = state => ({
 });
 
 export default  connect(mapStateToProps)(MatrixComponent);
-
-{/*<div className={styles.root}>*/}
-
-{/*<Tabs scrollable scrollButtons="off" value={this.state.value}>*/}
-{/*
-
-{/*<div className="content-children">*/}
-{/*/!*{ this.props.children }*!/*/}
-{/*</div>*/}
-{/*</div>*/}
