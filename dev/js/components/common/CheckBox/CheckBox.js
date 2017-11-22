@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import TextField from 'material-ui/TextField';
-import { FormControl, FormHelperText } from 'material-ui/Form';
 import omit from 'lodash/omit';
+import Checkbox from 'material-ui/Checkbox';
+import {
+  FormControlLabel,
+} from 'material-ui/Form';
 
 import { onChange } from '../../../actions'
 
@@ -21,36 +23,28 @@ class Input extends Component {
       id,
       value,
       classes,
+      checked,
       onChange,
       onCustomChange,
       label = '',
-      placeholder = '',
-      reducer: {
-        actionType,
-        errors,
-      },
+      // reducer: {
+      //   actionType,
+      //   errors,
+      // },
       ...props,
     } = this.props;
-    const error = errors[id];
+    // const error = errors[id];
     return (
-    <FormControl className={classes.formControl} error={!!error}>
-      <TextField
-        error={!!error}
-        id={id}
-        name={actionType}
-        value={value}
-        onChange={onCustomChange || onChange}
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={checked}
+            onChange={onCustomChange || onChange}
+            value="gilad"
+          />
+        }
         label={label}
-        placeholder={placeholder}
-        className={classes.textField}
-        margin="normal"
-        {...omit(props, ['dispatch'])}
       />
-      {
-        error &&
-        <FormHelperText>{ error }</FormHelperText>
-      }
-    </FormControl>
     );
   }
 }

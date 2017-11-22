@@ -1,20 +1,23 @@
 import validator from './validator';
-import { store } from '../../index'
 
-const validateResetPassword = data => {
+import { store } from '../../index';
+
+const validateDay = data => {
 
   let constraints = {
-    email         : {
-      email: true
+    email: {
+      email: {
+        message: "is not valid."
+      },
     },
-    password      : {
+    password: {
       length: {
         minimum: 6,
       }
     },
     confirmPassword: {
       equality: {
-        attribute : "resetPasswordAttribute",
+        attribute: "resetPasswordAttribute",
         message: "should match the password.",
         comparator: (v1, v2) => JSON.stringify(v1) === JSON.stringify(v2)
       }
@@ -22,7 +25,7 @@ const validateResetPassword = data => {
   };
 
   let { isValid, errors } =  validator(
-    { ...data, resetPasswordAttribute: store.getState().resetPasswordReducer.password },
+    { ...data, resetPasswordAttribute: store.getState().authReducer.password },
     constraints
   );
 
@@ -32,4 +35,4 @@ const validateResetPassword = data => {
   }
 };
 
-export default validateResetPassword;
+export default validateDay;

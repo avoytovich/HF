@@ -26,6 +26,8 @@ import '../sass/index.sass';
 // import Main from './components/Main';
 import Login from './components/auth/Login/Login';
 import SignUp from './components/auth/SignUp/SignUp';
+import ResetPassword from './components/auth/ResetPassword/ResetPassword';
+import ForgotPassword from './components/auth/ForgotPassword/ForgotPassword';
 // import TypicalListPage from './components/TypicalListPage/TypicalListPage';
 // import {
 //   MatrixComponent,
@@ -98,6 +100,9 @@ const router = (
 
       {/*</Route>*/}
       <Route path={'/signup'}  component={SignUp} />
+      <Route path={'/login'}  component={Login} />
+      <Route path={'/pass-reset'}  component={ResetPassword} />
+      <Route path={'/pass-forgot'}  component={ForgotPassword} />
 
     </Router>
 

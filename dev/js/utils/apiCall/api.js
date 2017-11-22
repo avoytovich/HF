@@ -1,8 +1,5 @@
 import { store }  from '../../index';
 
-//TODO
-const BASE_URL = '';
-
 export class Api {
   static headers = async () => {
     let headers = {
@@ -24,7 +21,7 @@ export class Api {
     const { isLoading } = store.getState().commonReducer;
     // wiredCommonPayload({ isLoading: isLoading + 1 });
     return Api.headers()
-      .then(headers => fetch(`${BASE_URL}${route}`, {
+      .then(headers => fetch(route, {
         method,
         headers,
         body: data && JSON.stringify(data),

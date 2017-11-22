@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 
+import Logo from '../Logo/Logo';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -15,7 +17,13 @@ class Container extends Component {
     return (
       <div className={classes.root}>
         <Grid container spacing={spacing || 0}>
-          {this.props.children}
+          <Grid item xs={12} sm={6} hidden={{ smDown: true }}>
+            <Logo />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            {this.props.children}
+          </Grid>
         </Grid>
       </div>
     );
@@ -23,8 +31,8 @@ class Container extends Component {
 }
 
 Container.propTypes = {
-  classes: PropTypes.object.isRequired,
-  children: PropTypes.array.isRequired,
+  children: PropTypes.object,
+  classes: PropTypes.object,
 };
 
 export default withStyles(styles)(Container);

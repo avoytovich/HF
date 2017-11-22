@@ -1,9 +1,9 @@
 import {
-  SIGN_UP,
+  AUTH,
 } from '../../actions';
 
-import validSignup from './validSignup';
+import validSignup from './validAuth';
 
 export const validate = {
-  [SIGN_UP]: validSignup,
+  [AUTH]: validSignup,
 };
