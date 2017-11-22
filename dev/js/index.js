@@ -23,10 +23,13 @@ const Switch = require('react-router').Switch;
 import '../sass/index.sass';
 
 //components
-// import Main from './components/Main';
+
+import Main from './components/Main';
+
 import Login from './components/auth/Login/Login';
 import SignUp from './components/auth/SignUp/SignUp';
-// import TypicalListPage from './components/TypicalListPage/TypicalListPage';
+
+//import TypicalListPage from './components/common/TypicalListPage/TypicalListPage';
 // import {
 //   MatrixComponent,
 //   DiagnosisComponent,
@@ -39,7 +42,7 @@ import SignUp from './components/auth/SignUp/SignUp';
 //   ExercisesComponent,
 //   TestsComponent,
 //   CreateQuestionComponent
-// } from './components/Matrix-Setup';
+// } from './components/matrix/Matrix-Setup';
 
 //constants
 // import {
@@ -56,7 +59,7 @@ export const { persistor, store } = configureStore();
 export const history = syncHistoryWithStore(browserHistory, store);
 const onBeforeLift = () => {
   // take some action before the gate lifts (gate prevent rendering until store is hydrated from local storage)
-}
+};
 
 
 const router = (
@@ -68,7 +71,7 @@ const router = (
     >
     <div>
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
-      {/*<Route path={'/'}                     component={Main} >*/}
+      <Route path={'/'}                     component={Main} >
         {/*<IndexRedirect to="organizations"/>*/}
         {/*<Route path='organizations'         component={() => <TypicalListPage {...ORGANISATION_PAGE}/>} />*/}
         {/*<Route path='clinics'               component={() => <TypicalListPage {...CLINICS_PAGE}/>} />*/}
@@ -97,8 +100,8 @@ const router = (
 
         {/*<Route path={'/login'}  component={Login} />*/}
 
-      {/*</Route>*/}
-      <Route path={'/signup'}  component={SignUp} />
+      </Route>
+      {/*<Route path={'/signup'}  component={SignUp} />*/}
 
     </Router>
 
