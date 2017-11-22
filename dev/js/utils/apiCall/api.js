@@ -5,7 +5,6 @@ const BASE_URL = '';
 
 export class Api {
   static headers = async () => {
-
     let headers = {
       'Content-Type': 'application/json',
     };
