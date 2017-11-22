@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 //UI
 import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
 import Table, {
   TableFooter,
   TablePagination,
@@ -21,11 +20,6 @@ const SearchIcon = (props) => (
 );
 
 class PageNavigation extends Component {
-  state = {
-    rowsPerPage: 5,
-    numberOfRows: 5,
-    page: 0,
-  };
 
   handleChangePage = (event, page) => this.setState({ page });
 
@@ -34,30 +28,27 @@ class PageNavigation extends Component {
   handleChange = () => {};
 
   render() {
-
-    const { data, pagination: { total, count, per_page, current_page, total_pages } } = this.props.store;
+    const { buttons } = this.props;
+    const { data, pagination: {  per_page, current_page } } = this.props.store;
 
     return (
-      <Grid container className="page-navigation">
-        <Grid item md={5} sm={12} >
+      <Grid container className="page-navigation" style={{justifyContent: 'space-around', alignItems: 'center'}}>
+        <Grid item
+              md={4}
+              sm={12} style={{alignItems: 'center'}}>
 
-          <Button raised className="page-navigation-button">
-            + Add New
-          </Button>
-          <Button raised className="page-navigation-button">
-            Import
-          </Button>
-          <Button raised className="page-navigation-button">
-            Delete
-          </Button>
+          <Grid container style={{justifyContent: 'space-around', alignItems: 'center'}}>
+            {this.props.children}
+          </Grid>
 
         </Grid>
 
         <Grid item
-              md={7}
+              md={8}
               sm={12}>
           <Grid container
                 className="page-pagination">
+
             <Grid item
                   md={8}
                   sm={12}>
