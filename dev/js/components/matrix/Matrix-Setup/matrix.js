@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
+import AppBar from 'material-ui/AppBar';
 
 // UI
 import Tabs, { Tab } from 'material-ui/Tabs';
@@ -16,6 +17,15 @@ const TABS = [
   { label: 'Exercises',     url: 'exercises' },
   { label: 'Tests',         url: 'tests' },
 ];
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    marginTop: theme.spacing.unit * 3,
+    backgroundColor: theme.palette.background.paper,
+  },
+});
+
 
 class MatrixComponent extends Component {
   state = {
@@ -37,15 +47,18 @@ class MatrixComponent extends Component {
       <div id="matrix-setup">
         <div className="page-sub-header">Matrix Setup</div>
 
-        <Tabs className="matrix-tabs" value={this.state.value}>
-          {TABS.map((item, i) =>
-            <Tab  key={i} label={item.label}  value={item.url} className="matrix-tab"/>
-          )}}
+        <div className={styles.root}>
 
-        </Tabs>
+            <Tabs scrollable scrollButtons="off" value={this.state.value}>
+              {TABS.map((item, i) =>
+                <Tab  key={i} label={item.label}  value={item.url} />
+              )}}
 
-        <div className="content-children">
-          {/*{ this.props.children }*/}
+            </Tabs>
+
+            <div className="content-children">
+              {/*{ this.props.children }*/}
+            </div>
         </div>
 
       </div>
