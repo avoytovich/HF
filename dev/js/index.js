@@ -66,6 +66,7 @@ export const store = createStore(
 
 export const history = syncHistoryWithStore(browserHistory, store);
 
+
 const router = (
   <Provider store={store}>
     <div>
