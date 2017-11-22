@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { DIAGNOSIS_TAB } from '../../utils/constants/pageContent';
 import { TableComponent } from '../TypicalListPage';
 import { GridList } from 'material-ui/GridList';
-import RaisedButton from 'material-ui/RaisedButton';
+//import RaisedButton from 'material-ui/RaisedButton';
 
 class ConditionsComponent extends Component {
   state = {
@@ -28,8 +28,8 @@ class ConditionsComponent extends Component {
         <GridList cols={2} cellHeight='auto' className="page-navigation">
 
           <div>
-            <RaisedButton label="+ Add New"   className="page-navigation-button"/>
-            <RaisedButton label="Delete"      className="page-navigation-button"/>
+            {/*<RaisedButton label="+ Add New"   className="page-navigation-button"/>*/}
+            {/*<RaisedButton label="Delete"      className="page-navigation-button"/>*/}
           </div>
 
           <div>

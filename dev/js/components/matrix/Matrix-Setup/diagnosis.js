@@ -181,8 +181,8 @@ class DiagnosisComponent extends Component {
 
     return (
       <div id="diagnosis-component">
-
-        <GridList cols={2} cellHeight='auto' className="page-navigation">
+        eee
+        {/*<GridList cols={2} cellHeight='auto' className="page-navigation">
 
           <div>
             <RaisedButton label="+ Add New"   className="page-navigation-button" onClick={() => this.create()}/>
@@ -192,7 +192,7 @@ class DiagnosisComponent extends Component {
           </div>
 
           <div>
-            {/*Pagination*/}
+            /!*Pagination*!/
           </div>
 
         </GridList>
@@ -202,7 +202,7 @@ class DiagnosisComponent extends Component {
             tableHeader={ tableHeader }
             tableRows={this.state.rows}
           />
-        </div>
+        </div>*/}
 
       </div>
     )

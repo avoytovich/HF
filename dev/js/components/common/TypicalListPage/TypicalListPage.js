@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import TableComponent from './TableComponent';
 import PageNavigation from './pageNavigation';
 
-//import Subheader from 'material-ui/Subheader';
 
 class TypicalListPage extends Component {
   state = {

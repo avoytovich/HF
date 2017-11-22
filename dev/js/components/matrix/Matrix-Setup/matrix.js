@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 
-
 // UI
-import Subheader from 'material-ui/Subheader';
-import {Tabs, Tab} from 'material-ui/Tabs';
+import Tabs, { Tab } from 'material-ui/Tabs';
 
 const TABS = [
   { label: 'Diagnosis',     url: 'diagnosis' },
@@ -29,29 +27,27 @@ class MatrixComponent extends Component {
     this.setState({value: path});
   }
 
-  handleActive = (url) => {
+  handleActive = (url, d) => {
     browserHistory.push(`/${this.props.route.path}/${url}`);
     this.setState({value: url});
   };
 
   render() {
+    debugger;
+
     return (
       <div id="matrix-setup">
-        <Subheader className="page-sub-header">Matrix Setup</Subheader>
+        <div className="page-sub-header">Matrix Setup</div>
 
         <Tabs className="matrix-tabs" value={this.state.value}>
           {TABS.map((item, i) =>
-            <Tab  key={i}
-                  value={item.url}
-                  label={item.label}
-                  className="matrix-tab"
-                  onActive={() => this.handleActive(item.url) }/>
+            <Tab  key={i} label={item.label}  value={item.url} className="matrix-tab"/>
           )}}
 
         </Tabs>
 
         <div className="content-children">
-          { this.props.children }
+          {/*{ this.props.children }*/}
         </div>
 
       </div>

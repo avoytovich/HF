@@ -108,7 +108,7 @@ class TableComponent extends Component {
             return <TableRow
               hover
               onClick={event => this.handleClick(event, row.id)}
-              onKeyDown={event => this.handleKeyDown(event, n.id)}
+              onKeyDown={event => this.handleKeyDown(event, row.id)}
               role="checkbox"
               aria-checked={isSelected}
               tabIndex={-1}

@@ -6,7 +6,6 @@ import Select from 'react-select';
 // UI
 import Subheader from 'material-ui/Subheader';
 import {Tabs, Tab} from 'material-ui/Tabs';
-import RaisedButton from 'material-ui/RaisedButton';
 import { GridList } from 'material-ui/GridList';
 import SvgIcon from 'material-ui/SvgIcon';
 
@@ -56,8 +55,8 @@ class CreateQuestionComponent extends Component {
         <Subheader className="page-sub-header">
           <span>Create Question</span>
           <div className="nav-buttons">
-            <RaisedButton label="Cancel" className="page-navigation-button" onClick={() => this.cancel()}/>
-            <RaisedButton label="Done"   className="page-navigation-button" onClick={() => this.done()} />
+            {/*<RaisedButton label="Cancel" className="page-navigation-button" onClick={() => this.cancel()}/>*/}
+            {/*<RaisedButton label="Done"   className="page-navigation-button" onClick={() => this.done()} />*/}
           </div>
         </Subheader>
 
@@ -92,7 +91,7 @@ class CreateQuestionComponent extends Component {
 
               <div className="sub-item-wrap">
                 <input type="text" className="Input-ui"/>
-                <RaisedButton label="+ Add"   className="page-navigation-button" onClick={() => this.done()} />
+                {/*<RaisedButton label="+ Add"   className="page-navigation-button" onClick={() => this.done()} />*/}
               </div>
 
             </div>
@@ -130,9 +129,9 @@ class CreateQuestionComponent extends Component {
             <div className="item-wrap-column">
               <span className="label-text">Type of Answer</span>
               <div className="item-wrap-row margin-top-remove">
-                <RaisedButton label="Single"     className="page-navigation-button"/>
-                <RaisedButton label="Continuous" className="page-navigation-button"/>
-                <RaisedButton label="Multiple"   className="page-navigation-button"/>
+                {/*<RaisedButton label="Single"     className="page-navigation-button"/>*/}
+                {/*<RaisedButton label="Continuous" className="page-navigation-button"/>*/}
+                {/*<RaisedButton label="Multiple"   className="page-navigation-button"/>*/}
               </div>
             </div>
 
@@ -149,9 +148,9 @@ class CreateQuestionComponent extends Component {
                 </div>
                )}
 
-              <RaisedButton label="+ Add Answer"
-                            className="page-navigation-button margin-top"
-                            onClick={this.addAnswer}/>
+              {/*<RaisedButton label="+ Add Answer"*/}
+                            {/*className="page-navigation-button margin-top"*/}
+                            {/*onClick={this.addAnswer}/>*/}
             </div>
 
           </div>
