@@ -3,9 +3,9 @@ import validator from './validator';
 const validateDay = data => {
 
   let constraints = {
-    name: {
-      presence: {
-        message: 'is required'
+    email: {
+      email: {
+        message: "is not valid"
       }
     }
   };

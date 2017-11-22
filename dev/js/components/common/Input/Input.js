@@ -4,13 +4,16 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import omit from 'lodash/omit';
 
 import { onChange } from '../../../actions'
 
 const styles = theme => ({
+  formControl: {
+    margin: theme.spacing.unit,
+  },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
     width: 300,
   },
 });
@@ -19,36 +22,48 @@ class Input extends Component {
   render() {
     const {
       id,
-      name,
       value,
       classes,
+      onChange,
       onCustomChange,
       label = '',
       placeholder = '',
+      reducer: {
+        actionType,
+        errors,
+      },
       ...props,
     } = this.props;
+    const error = errors[id];
     return (
+    <FormControl className={classes.formControl} error={!!error}>
       <TextField
+        error={!!error}
         id={id}
-        name={name}
+        name={actionType}
         value={value}
         onChange={onCustomChange || onChange}
         label={label}
         placeholder={placeholder}
         className={classes.textField}
         margin="normal"
-        {...props}
+        {...omit(props, ['dispatch'])}
       />
+      {
+        error &&
+        <FormHelperText>{ error }</FormHelperText>
+      }
+    </FormControl>
     );
   }
 }
 
 Input.propTypes = {
-  classes: PropTypes.object.isRequired,
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  reducer: PropTypes.object.isRequired,
+  classes: PropTypes.object,
+  onChange: PropTypes.func,
   label: PropTypes.string,
   placeholder: PropTypes.string,
   onCustomChange: PropTypes.func,

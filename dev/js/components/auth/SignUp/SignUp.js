@@ -13,6 +13,7 @@ import { SIGN_UP } from '../../../actions';
 class SignUp extends Component {
   render() {
     const {
+      signupReducer,
       signupReducer: { email },
     } = this.props;
     return (
@@ -32,8 +33,8 @@ class SignUp extends Component {
 
               <Input
                 id='email'
-                name={SIGN_UP}
                 value={email}
+                reducer={signupReducer}
                 label='Email'
                 placeholder='example@gmail.com'
               />
