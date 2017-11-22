@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-//import TableComponent from './TableComponent';
+import TableComponent from './TableComponent';
 import PageNavigation from './pageNavigation';
 
 //import Subheader from 'material-ui/Subheader';
@@ -181,10 +181,10 @@ class TypicalListPage extends Component {
 
         <PageNavigation />
 
-        {/*<TableComponent*/}
-          {/*tableHeader={ tableHeader }*/}
-          {/*tableRows={this.state.rows}*/}
-        {/*/>*/}
+        <TableComponent
+          tableHeader={ tableHeader }
+          tableRows={this.state.rows}
+        />
       </div>
     )
   }
