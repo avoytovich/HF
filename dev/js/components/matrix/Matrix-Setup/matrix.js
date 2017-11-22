@@ -33,8 +33,6 @@ class MatrixComponent extends Component {
   };
 
   render() {
-    debugger;
-
     return (
       <div id="matrix-setup">
         <div className="page-sub-header">Matrix Setup</div>
