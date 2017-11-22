@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { DIAGNOSIS_TAB } from '../../utils/constants/pageContent';
-import { TableComponent } from '../TypicalListPage';
-import { GridList } from 'material-ui/GridList';
-import RaisedButton from 'material-ui/RaisedButton';
+import { DIAGNOSIS_TAB } from '../../../utils/constants/pageContent';
+import { TableComponent } from '../../../components/common/TypicalListPage';
 import { browserHistory } from 'react-router'
 
 class DiagnosisComponent extends Component {
@@ -177,7 +175,7 @@ class DiagnosisComponent extends Component {
   };
 
   render() {
-    const { tableHeader } = DIAGNOSIS_TAB;
+//    const { tableHeader } = DIAGNOSIS_TAB;
 
     return (
       <div id="diagnosis-component">

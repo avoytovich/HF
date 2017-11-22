@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 import AppBar from 'material-ui/AppBar';
+import { withStyles } from 'material-ui/styles';
 
 // UI
 import Tabs, { Tab } from 'material-ui/Tabs';
@@ -29,37 +30,53 @@ const styles = theme => ({
 
 class MatrixComponent extends Component {
   state = {
-    value: 'diagnosis'
+    value: 0
   };
 
   componentWillMount() {
     const { path } = this.props.routes.pop();
-    this.setState({value: path});
+    this.findNewPathIndex(TABS, path);
   }
 
-  handleActive = (url, d) => {
+  findNewPathIndex = (tabs, path) => {
+    const newURL = tabs.reduce((result, item, index) => {
+      if (item) return  item.url === path ? index : result;
+
+      return result;
+    }, 0);
+    this.setState({value: newURL});
+  };
+
+  handleActive = (url) => {
     browserHistory.push(`/${this.props.route.path}/${url}`);
-    this.setState({value: url});
+    this.findNewPathIndex(tabs, url);
+  };
+
+
+  handleChange = (event, value) => {
+    this.setState({ value });
   };
 
   render() {
+
     return (
       <div id="matrix-setup">
         <div className="page-sub-header">Matrix Setup</div>
 
-        <div className={styles.root}>
-
-            <Tabs scrollable scrollButtons="off" value={this.state.value}>
+          <AppBar position="static" color="default">
+            <Tabs scrollable scrollButtons="off"
+              value={this.state.value}
+              onChange={this.handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              fullWidth
+            >
               {TABS.map((item, i) =>
-                <Tab  key={i} label={item.label}  value={item.url} />
-              )}}
-
+                <Tab  key={i}
+                      label={item.label}
+                      onClick={() => this.handleActive(item.url)}/>)}
             </Tabs>
-
-            <div className="content-children">
-              {/*{ this.props.children }*/}
-            </div>
-        </div>
+          </AppBar>
 
       </div>
     )
@@ -71,3 +88,13 @@ const mapStateToProps = state => ({
 });
 
 export default  connect(mapStateToProps)(MatrixComponent);
+
+{/*<div className={styles.root}>*/}
+
+{/*<Tabs scrollable scrollButtons="off" value={this.state.value}>*/}
+{/*
+
+{/*<div className="content-children">*/}
+{/*/!*{ this.props.children }*!/*/}
+{/*</div>*/}
+{/*</div>*/}

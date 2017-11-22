@@ -33,7 +33,7 @@ import TypicalListPage from './components/common/TypicalListPage/TypicalListPage
 
  import {
    MatrixComponent,
-//   DiagnosisComponent,
+   DiagnosisComponent,
 //   ConditionsComponent,
 //   TreatmentsComponent,
 //   PackagesComponent,
@@ -80,11 +80,12 @@ const router = (
         <Route path='clinics'               component={() => <TypicalListPage {...CLINICS_PAGE}/>} />
         <Route path='users'                 component={() => <TypicalListPage {...USERS_PAGE}/>} />
         <Route path='resource'              component={() => <TypicalListPage {...RESOURCE_PAGE}/>} />
-        <Route path='matrix-setup'          component={ MatrixComponent }/>
+        <Route path='matrix-setup'          component={ MatrixComponent }>
 
-          {/*<IndexRedirect to="diagnosis"/>*/}
-          {/*<Route path='diagnosis'           component={ DiagnosisComponent } />*/}
-          {/*<Route path='conditions'          component={ ConditionsComponent } />*/}
+          <IndexRedirect to="diagnosis"/>
+
+          <Route path='diagnosis'           component={ DiagnosisComponent } />
+          <Route path='conditions'          component={() => <TypicalListPage {...RESOURCE_PAGE}/>} />
           {/*<Route path='treatments'          component={ TreatmentsComponent } />*/}
           {/*<Route path='packages'            component={ PackagesComponent } />*/}
           {/*<Route path='evaluation'          component={ EvaluationComponent } />*/}
@@ -92,14 +93,15 @@ const router = (
           {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
           {/*<Route path='exercises'           component={ ExercisesComponent } />*/}
           {/*<Route path='tests'               component={ TestsComponent } />*/}
-
+          <Redirect from="*" to="diagnosis"/>
+        </Route>
 
         <Route path='test-diagnostic-flow'  component={() => <TypicalListPage {...TEST_DIAGNOSTIC_FLOW_PAGE}/>} />
 
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
         {/*<Route path='diagnosis-create'    component={ CreateQuestionComponent } />*/}
 
-        {/*<Redirect from="*" to="organizations"/>*/}
+        <Redirect from="*" to="organizations"/>
 
         {/*<Route path={'/login'}  component={Login} />*/}
 

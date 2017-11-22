@@ -1,5 +1,5 @@
 export MatrixComponent          from './matrix';
-//export DiagnosisComponent       from './diagnosis';
+export DiagnosisComponent       from './diagnosis';
 //export ConditionsComponent      from './conditions';
 //export TreatmentsComponent      from './treatments';
 //export PackagesComponent        from './packages'
