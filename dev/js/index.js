@@ -29,7 +29,8 @@ import Main from './components/Main';
 import Login from './components/auth/Login/Login';
 import SignUp from './components/auth/SignUp/SignUp';
 
-//import TypicalListPage from './components/common/TypicalListPage/TypicalListPage';
+import TypicalListPage from './components/common/TypicalListPage/TypicalListPage';
+
 // import {
 //   MatrixComponent,
 //   DiagnosisComponent,
@@ -45,13 +46,13 @@ import SignUp from './components/auth/SignUp/SignUp';
 // } from './components/matrix/Matrix-Setup';
 
 //constants
-// import {
-//   ORGANISATION_PAGE,
-//   CLINICS_PAGE,
-//   USERS_PAGE,
-//   RESOURCE_PAGE,
-//   TEST_DIAGNOSTIC_FLOW_PAGE
-// } from './utils/constants'
+ import {
+   ORGANISATION_PAGE,
+   CLINICS_PAGE,
+   USERS_PAGE,
+   RESOURCE_PAGE,
+   TEST_DIAGNOSTIC_FLOW_PAGE
+ } from './utils/constants'
 
 import { configureStore } from './config/store';
 
@@ -72,11 +73,13 @@ const router = (
     <div>
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
       <Route path={'/'}                     component={Main} >
-        {/*<IndexRedirect to="organizations"/>*/}
-        {/*<Route path='organizations'         component={() => <TypicalListPage {...ORGANISATION_PAGE}/>} />*/}
-        {/*<Route path='clinics'               component={() => <TypicalListPage {...CLINICS_PAGE}/>} />*/}
-        {/*<Route path='users'                 component={() => <TypicalListPage {...USERS_PAGE}/>} />*/}
-        {/*<Route path='resource'              component={() => <TypicalListPage {...RESOURCE_PAGE}/>} />*/}
+
+        <IndexRedirect to="organizations"/>
+
+        <Route path='organizations'         component={() => <TypicalListPage {...ORGANISATION_PAGE}/>} />
+        <Route path='clinics'               component={() => <TypicalListPage {...CLINICS_PAGE}/>} />
+        <Route path='users'                 component={() => <TypicalListPage {...USERS_PAGE}/>} />
+        <Route path='resource'              component={() => <TypicalListPage {...RESOURCE_PAGE}/>} />
         {/*<Route path='matrix-setup'          component={ MatrixComponent }>*/}
 
           {/*<IndexRedirect to="diagnosis"/>*/}
@@ -91,12 +94,12 @@ const router = (
           {/*<Route path='tests'               component={ TestsComponent } />*/}
 
         {/*</Route>*/}
-        {/*<Route path='test-diagnostic-flow'  component={() => <TypicalListPage {...TEST_DIAGNOSTIC_FLOW_PAGE}/>} />*/}
+        <Route path='test-diagnostic-flow'  component={() => <TypicalListPage {...TEST_DIAGNOSTIC_FLOW_PAGE}/>} />
 
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
         {/*<Route path='diagnosis-create'    component={ CreateQuestionComponent } />*/}
 
-        {/*<Redirect from="*" to="organizations"/>*/}
+        <Redirect from="*" to="organizations"/>
 
         {/*<Route path={'/login'}  component={Login} />*/}
 

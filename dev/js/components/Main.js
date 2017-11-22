@@ -17,7 +17,7 @@ class Main extends Component {
                 <MainNavigation/>
               </div>
               <div className="content-children">
-                {/*{ this.props.children }*/}
+                { this.props.children }
               </div>
           </div>
         </div>

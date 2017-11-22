@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TableComponent from './TableComponent';
+//import TableComponent from './TableComponent';
 import PageNavigation from './pageNavigation';
 
-import Subheader from 'material-ui/Subheader';
+//import Subheader from 'material-ui/Subheader';
 
 class TypicalListPage extends Component {
   state = {
@@ -176,14 +176,15 @@ class TypicalListPage extends Component {
 
     return (
       <div>
-        <Subheader className="page-sub-header">{ title }</Subheader>
+
+        <div className="page-sub-header">{ title }</div>
 
         <PageNavigation />
 
-        <TableComponent
-          tableHeader={ tableHeader }
-          tableRows={this.state.rows}
-        />
+        {/*<TableComponent*/}
+          {/*tableHeader={ tableHeader }*/}
+          {/*tableRows={this.state.rows}*/}
+        {/*/>*/}
       </div>
     )
   }
