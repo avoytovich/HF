@@ -31,6 +31,24 @@
   margin: 0!important
   display: flex
   flex-direction: row
+  justify-content: space-around
+  align-items: center
+
+  &.active-navigation
+    background-color: $lightBlue100
+
+  .child-buttons button
+    margin-right: 20px
+
+  .hidden-details
+    visibility: hidden
+
+  .navigation-count
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    h2
+      margin-bottom: 0
 
 .page-navigation-button
   margin-left: 12px
