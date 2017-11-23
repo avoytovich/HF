@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { DIAGNOSIS_TAB } from '../../utils/constants/pageContent';
 import { TableComponent } from '../TypicalListPage';
 import { GridList } from 'material-ui/GridList';
-import RaisedButton from 'material-ui/RaisedButton';
+//import RaisedButton from 'material-ui/RaisedButton';
 
 class MetaControlsComponent extends Component {
   state = {

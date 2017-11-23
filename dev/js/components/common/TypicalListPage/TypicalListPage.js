@@ -3,186 +3,30 @@ import { connect } from 'react-redux';
 import TableComponent from './TableComponent';
 import PageNavigation from './pageNavigation';
 
-import Subheader from 'material-ui/Subheader';
 
 class TypicalListPage extends Component {
   state = {
-    rows: [
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      }
-    ]
+      selected: []
   };
+
+
+  onRowClick = (selected = []) => this.setState({selected});
 
   render() {
     const { title, tableHeader } =  this.props;
 
     return (
       <div>
-        <Subheader className="page-sub-header">{ title }</Subheader>
 
-        <PageNavigation />
+        <div className="page-sub-header">{ title }</div>
+
+        <PageNavigation path="diagnosis"/>
 
         <TableComponent
+          path="diagnosis"
           tableHeader={ tableHeader }
-          tableRows={this.state.rows}
+          selected={this.state.selected}
+          onRowClick={this.onRowClick}
         />
       </div>
     )

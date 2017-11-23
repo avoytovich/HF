@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import 'babel-polyfill';
+//npm-packages
+import React from 'react';
+import { render } from 'react-dom';
+import { syncHistoryWithStore } from 'react-router-redux';
+import NotificationsSystem from 'reapop';
+import theme from 'reapop-theme-wybo';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import { PersistGate } from 'redux-persist/es/integration/react';
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+
+// router
+import { Router, Route, IndexRoute, browserHistory, IndexRedirect, Redirect } from 'react-router';
+import { Provider } from 'react-redux';
+
+const Switch = require('react-router').Switch;
+
+// styles
+// import 'react-select/dist/react-select.min.css'
+import '../sass/index.sass';
+
+//components
+
+import Main from './components/Main';
+
+import Login from './components/auth/Login/Login';
+import SignUp from './components/auth/SignUp/SignUp';
+
+import TypicalListPage from './components/common/TypicalListPage/TypicalListPage';
+
+ import {
+   MatrixComponent,
+   DiagnosisComponent,
+//   ConditionsComponent,
+//   TreatmentsComponent,
+//   PackagesComponent,
+//   EvaluationComponent,
+//   MetaControlsComponent,
+//   AchievementsComponent,
+//   ExercisesComponent,
+//   TestsComponent,
+//   CreateQuestionComponent
+ } from './components/matrix/Matrix-Setup';
+
+//constants
+ import {
+   ORGANISATION_PAGE,
+   CLINICS_PAGE,
+   USERS_PAGE,
+   RESOURCE_PAGE,
+   TEST_DIAGNOSTIC_FLOW_PAGE
+ } from './utils/constants/pageContent';
+
+import { configureStore } from './config/store';
+
+export const { persistor, store } = configureStore();
+export const history = syncHistoryWithStore(browserHistory, store);
+const onBeforeLift = () => {
+  // take some action before the gate lifts (gate prevent rendering until store is hydrated from local storage)
+};
+
+/** Class representing a point. */
+/**
+ * Create a point.
+ * @param {number} x - The x value.
+ * @param {number} y - The y value.
+ */
+
+/**
+ * @param value The haystack value.
+ * @param searchValue The needle value.
+ */
+const router = (
+  &lt;Provider store={store}>
+    &lt;PersistGate
+      loading={null}
+      onBeforeLift={onBeforeLift}
+      persistor={persistor}
+    >
+    &lt;div>
+    &lt;Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
+      &lt;Route path={'/'}                     component={Main} >
+
+        &lt;IndexRedirect to="organizations"/>
+
+        &lt;Route path='organizations'         component={() => &lt;TypicalListPage {...ORGANISATION_PAGE}/>} />
+        &lt;Route path='clinics'               component={() => &lt;TypicalListPage {...CLINICS_PAGE}/>} />
+        &lt;Route path='users'                 component={() => &lt;TypicalListPage {...USERS_PAGE}/>} />
+        &lt;Route path='resource'              component={() => &lt;TypicalListPage {...RESOURCE_PAGE}/>} />
+        &lt;Route path='matrix-setup'          component={ MatrixComponent }>
+
+          &lt;IndexRedirect to="diagnosis"/>
+
+          &lt;Route path='diagnosis'           component={ DiagnosisComponent } />
+          &lt;Route path='conditions'          component={() => &lt;TypicalListPage {...RESOURCE_PAGE}/>} />
+          {/*&lt;Route path='treatments'          component={ TreatmentsComponent } />*/}
+          {/*&lt;Route path='packages'            component={ PackagesComponent } />*/}
+          {/*&lt;Route path='evaluation'          component={ EvaluationComponent } />*/}
+          {/*&lt;Route path='meta-controls'       component={ MetaControlsComponent } />*/}
+          {/*&lt;Route path='achievements'        component={ AchievementsComponent } />*/}
+          {/*&lt;Route path='exercises'           component={ ExercisesComponent } />*/}
+          {/*&lt;Route path='tests'               component={ TestsComponent } />*/}
+          &lt;Redirect from="*" to="diagnosis"/>
+        &lt;/Route>
+
+        &lt;Route path='test-diagnostic-flow'  component={() => &lt;TypicalListPage {...TEST_DIAGNOSTIC_FLOW_PAGE}/>} />
+
+        {/* Temporary path Todo: Change routes to react-router-dom ?*/}
+        {/*&lt;Route path='diagnosis-create'    component={ CreateQuestionComponent } />*/}
+
+        &lt;Redirect from="*" to="organizations"/>
+
+        {/*&lt;Route path={'/login'}  component={Login} />*/}
+
+      &lt;/Route>
+      {/*&lt;Route path={'/signup'}  component={SignUp} />*/}
+
+    &lt;/Router>
+
+    &lt;NotificationsSystem theme={theme}/>
+
+    &lt;/div>
+    &lt;/PersistGate>
+  &lt;/Provider>
+);
+
+render(router, document.getElementById('root'));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#classes">classes</a></li><li><a href="global.html#createReducer">createReducer</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#router">router</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Nov 22 2017 21:34:05 GMT+0200 (EET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
