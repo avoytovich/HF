@@ -7,6 +7,7 @@ import NotificationsSystem from 'reapop';
 import theme from 'reapop-theme-wybo';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { PersistGate } from 'redux-persist/es/integration/react';
+import watch from 'redux-watch'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -52,13 +53,32 @@ import ForgotPassword from './components/auth/ForgotPassword/ForgotPassword';
 //   TEST_DIAGNOSTIC_FLOW_PAGE
 // } from './utils/constants'
 
+import {
+  dispatchCommonPayloadWired,
+} from './actions';
+
 import { configureStore } from './config/store';
 
 export const { persistor, store } = configureStore();
 export const history = syncHistoryWithStore(browserHistory, store);
+
 const onBeforeLift = () => {
-  // take some action before the gate lifts (gate prevent rendering until store is hydrated from local storage)
-}
+  const {
+    userReducer,
+    commonReducer,
+  } = store.getState();
+  dispatchCommonPayloadWired({
+    currentLanguage: commonReducer.languages[userReducer.language]
+  });
+
+  // watcher - will change lang on change 'language' prop in userReducer
+  const w = watch(store.getState, 'userReducer.language');
+  store.subscribe(w((newVal, oldVal, objectPath) => {
+    dispatchCommonPayloadWired({
+      currentLanguage: commonReducer.languages[newVal]
+    });
+  }))
+};
 
 const router = (
   <Provider store={store}>

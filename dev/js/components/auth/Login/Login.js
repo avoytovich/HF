@@ -8,7 +8,7 @@ import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
 import CheckBox from '../../common/CheckBox/CheckBox';
 
-import { login } from '../../../actions'
+import { login, dispatchUserPayloadWired } from '../../../actions'
 
 class Login extends Component {
   render() {
@@ -17,6 +17,10 @@ class Login extends Component {
       authReducer: {
         email,
         password,
+        remember_me,
+      },
+      commonReducer: {
+        currentLanguage: { L_LOGIN },
       },
     } = this.props;
     return (
@@ -26,10 +30,10 @@ class Login extends Component {
 
             <div className="login-title-wrapper">
               <p className="login-title">
-                Log In
+                { L_LOGIN.title }
               </p>
               <p className="login-sub-title">
-                Please enter your email and password
+                { L_LOGIN.subTitle }
               </p>
             </div>
 
@@ -38,30 +42,40 @@ class Login extends Component {
                 id='email'
                 value={email}
                 reducer={authReducer}
-                label='Email'
-                placeholder='example@mail.com'
+                label={ L_LOGIN.email.label }
+                placeholder={ L_LOGIN.email.placeholder }
               />
               <Input
                 id='password'
                 type="password"
                 value={password}
                 reducer={authReducer}
-                label='Password'
-                placeholder='example@mail.com'
+                label={ L_LOGIN.password.placeholder }
               />
             </div>
 
             <div>
               <CheckBox
+                id='remember_me'
+                value={remember_me}
                 reducer={authReducer}
                 label="dfsdfsdfsdf"
                 checked={true}
                 onChange={(val => console.log(val))}
-                red
               />
             </div>
 
             <div className="login-button-wrapper">
+              <p
+                onClick={() => dispatchUserPayloadWired({ language: 'en'}) }
+              >
+                en
+              </p>
+              <p
+                onClick={() => dispatchUserPayloadWired({ language: 'se'}) }
+              >
+                es
+              </p>
               <Button
                 onClick={() => login({ email, password })}
                 raised
@@ -84,6 +98,7 @@ Login.propTypes = {
 
 const mapStateToProps = state => ({
   authReducer: state.authReducer,
+  commonReducer: state.commonReducer,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

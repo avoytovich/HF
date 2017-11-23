@@ -7,6 +7,7 @@ const initialState = {
   email: '',
   password: '',
   confirmPassword: '',
+  remember_me: true,
 };
 
 export const authReducer = createReducer(initialState, AUTH);

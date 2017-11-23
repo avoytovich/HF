@@ -1,7 +1,9 @@
 import { createReducer } from '../../utils';
 import { USER } from '../../actions';
 
-const initialState = {};
+const initialState = {
+  language: 'en',
+};
 
 // const exampleFuncForAction = (state, action) => {
 //   do smth...

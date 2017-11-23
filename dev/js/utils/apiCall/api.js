@@ -3,7 +3,6 @@ import {
   dispatchUserPayloadWired,
   dispatchCommonPayloadWired,
 } from '../../actions';
-import { store } from '../../index';
 
 export class Api {
   static headers = async () => {

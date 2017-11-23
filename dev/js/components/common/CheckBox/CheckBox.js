@@ -43,7 +43,7 @@ class CheckBox extends Component {
 
 CheckBox.propTypes = {
   id: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.bool.isRequired,
   reducer: PropTypes.object.isRequired,
   classes: PropTypes.object,
   onChange: PropTypes.func,
