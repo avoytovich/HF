@@ -5,32 +5,23 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import omit from 'lodash/omit';
 import Checkbox from 'material-ui/Checkbox';
-import {
-  FormControlLabel,
-} from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 
 import { onChange } from '../../../actions'
-
-const styles = theme => ({
-  textField: {
-    width: 300,
-  },
-});
 
 class Input extends Component {
   render() {
     const {
       id,
       value,
-      classes,
       checked,
       onChange,
       onCustomChange,
       label = '',
-      // reducer: {
-      //   actionType,
-      //   errors,
-      // },
+      reducer: {
+        actionType,
+        errors,
+      },
       ...props,
     } = this.props;
     // const error = errors[id];
@@ -38,9 +29,10 @@ class Input extends Component {
       <FormControlLabel
         control={
           <Checkbox
-            checked={checked}
+            id={id}
+            checked={value}
             onChange={onCustomChange || onChange}
-            value="gilad"
+            {...omit(props, ['dispatch'])}
           />
         }
         label={label}
@@ -69,4 +61,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Input));
+export default connect(mapStateToProps, mapDispatchToProps)(Input);
