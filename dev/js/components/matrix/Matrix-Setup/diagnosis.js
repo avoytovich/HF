@@ -5,6 +5,10 @@ import { TableComponent }   from '../../../components/common/TypicalListPage';
 import { browserHistory }   from 'react-router'
 import PageNavigation       from '../../common/TypicalListPage/pageNavigation';
 import Button               from 'material-ui/Button';
+import Edit                 from 'material-ui-icons/Edit';
+import Delete               from 'material-ui-icons/Delete';
+import NotInterested        from 'material-ui-icons/NotInterested';
+
 import qs                   from 'query-string';
 
 class DiagnosisComponent extends Component {
@@ -13,17 +17,17 @@ class DiagnosisComponent extends Component {
   };
 
 
-  create = (id) => id ?
-      browserHistory.push(`/diagnosis-create`) :
-      browserHistory.push(`/diagnosis-create/${id}`);
+  create = (id) => id ? '' : '';
+//      browserHistory.push(`/diagnosis-create`) :
+//      browserHistory.push(`/diagnosis-create/${id}`);
 
   deleteItems = (items = []) => {
 
-    const string = qs.stringify({ firstName: 'John', lastName: 'Doe' });
-    browserHistory.push({
-      pathname: '/matrix-setup/diagnosis',
-      query: { order: 'asc' }
-    })
+//    const string = qs.stringify({ firstName: 'John', lastName: 'Doe' });
+//    browserHistory.push({
+//      pathname: '/matrix-setup/diagnosis',
+//      query: { order: 'asc' }
+//    })
   };
 
   deactivate = (items = []) => {alert('deactivate')};
@@ -37,18 +41,26 @@ class DiagnosisComponent extends Component {
     return (
       <div id="diagnosis-component">
 
-        <PageNavigation path="diagnosis">
+        <PageNavigation
+          path="diagnosis"
+          selected={selected}>
 
-          <Button raised dense>
+          <Button
+            disabled={selected.length > 1}
+            onClick={() => this.create(selected[0])}
+            raised dense>
+            <Edit />
             Edit
           </Button>
 
           <Button raised dense
             onClick={this.deleteItems}>
+            <Delete />
             Delete
           </Button>
 
           <Button raised dense>
+            <NotInterested />
             Deactivate
           </Button>
 

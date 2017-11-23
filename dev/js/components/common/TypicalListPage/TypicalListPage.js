@@ -6,169 +6,11 @@ import PageNavigation from './pageNavigation';
 
 class TypicalListPage extends Component {
   state = {
-    rows: [
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      }
-    ]
+      selected: []
   };
+
+
+  onRowClick = (selected = []) => this.setState({selected});
 
   render() {
     const { title, tableHeader } =  this.props;
@@ -178,11 +20,13 @@ class TypicalListPage extends Component {
 
         <div className="page-sub-header">{ title }</div>
 
-        <PageNavigation />
+        <PageNavigation path="diagnosis"/>
 
         <TableComponent
+          path="diagnosis"
           tableHeader={ tableHeader }
-          tableRows={this.state.rows}
+          selected={this.state.selected}
+          onRowClick={this.onRowClick}
         />
       </div>
     )

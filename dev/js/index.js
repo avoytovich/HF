@@ -85,7 +85,7 @@ const router = (
           <IndexRedirect to="diagnosis"/>
 
           <Route path='diagnosis'           component={ DiagnosisComponent } />
-          <Route path='conditions'          component={() => <TypicalListPage {...RESOURCE_PAGE}/>} />
+          {/*<Route path='conditions'          component={ ConditionsComponent } />*/}
           {/*<Route path='treatments'          component={ TreatmentsComponent } />*/}
           {/*<Route path='packages'            component={ PackagesComponent } />*/}
           {/*<Route path='evaluation'          component={ EvaluationComponent } />*/}

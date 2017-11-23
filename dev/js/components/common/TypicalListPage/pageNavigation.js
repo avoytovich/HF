@@ -8,6 +8,8 @@ import { FormControl }           from 'material-ui/Form';
 import Input, { InputAdornment } from 'material-ui/Input';
 import MuiSvgIcon                from 'material-ui/SvgIcon';
 import Button                    from 'material-ui/Button';
+import Add                       from 'material-ui-icons/Add';
+import Typography                from 'material-ui/Typography';
 
 const SearchIcon = (props) => (
   <MuiSvgIcon {...props}>
@@ -22,31 +24,56 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center'
   },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
 });
+
 
 
 class PageNavigation extends Component {
 
   handleChange = (event, value) => {};
 
+  mainClass = (selected) => {
+    return `page-navigation ${selected.length ? 'active-navigation' : 'enable-navigation'}`
+  };
   render() {
-    const { classes } = this.props;
-
+    const { classes, selected } = this.props;
+    const mainClass = this.mainClass(selected);
     return (
-      <Grid container className="page-navigation" style={{justifyContent: 'space-around', alignItems: 'center'}}>
+      <Grid container
+            className={mainClass}>
         <Grid item
-              md={4}
-              sm={12} style={{alignItems: 'center'}}>
+              lg={8}
+              md={7}
+              style={{alignItems: 'center'}}>
 
-          <Grid container style={{justifyContent: 'space-around', alignItems: 'center'}}>
-            {this.props.children}
-          </Grid>
+            <Grid container className={selected.length ? 'visible-details' : 'hidden-details'}>
+              <Grid md={2}
+                    item
+                    className="navigation-count">
+                <Typography type="title"
+                            gutterBottom>
+                  {selected.length} {selected.length > 1 ? 'Items' : 'Item'} selected
+                </Typography>
 
+              </Grid>
+
+              <Grid md={10}
+                    item className="child-buttons">
+                {this.props.children}
+              </Grid>
+
+            </Grid>
         </Grid>
 
         <Grid item
-              md={8}
-              sm={12}>
+              lg={4}
+              md={5}>
           <Grid container
                 className="page-pagination">
 
@@ -71,13 +98,16 @@ class PageNavigation extends Component {
             <Grid item
                   md={3}
                   xs={12}>
-              <Button raised dense>
-                + Create
+
+              <Button raised
+                      dense
+                      color="primary">
+                <Add />
+                Create
               </Button>
+
             </Grid>
-
           </Grid>
-
         </Grid>
       </Grid>
     )
@@ -87,5 +117,9 @@ class PageNavigation extends Component {
 const mapStateToProps = (state, ownProps) => ({
   store: state[ownProps.path]
 });
+
+PageNavigation.defaultProps = {
+  selected    : [],
+};
 
 export default connect(mapStateToProps)(withStyles(styles)(PageNavigation));
