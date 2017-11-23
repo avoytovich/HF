@@ -7,3 +7,6 @@ export const dispatchCommonPayload = payload =>
     type   : COMMON,
     payload: payload
   });
+
+export const dispatchCommonPayloadWired = payload =>
+  dispatchCommonPayload(payload)(store.dispatch);

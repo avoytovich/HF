@@ -9,7 +9,7 @@ import { FormControlLabel } from 'material-ui/Form';
 
 import { onChange } from '../../../actions'
 
-class Input extends Component {
+class CheckBox extends Component {
   render() {
     const {
       id,
@@ -41,7 +41,7 @@ class Input extends Component {
   }
 }
 
-Input.propTypes = {
+CheckBox.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   reducer: PropTypes.object.isRequired,
@@ -61,4 +61,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Input);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckBox);

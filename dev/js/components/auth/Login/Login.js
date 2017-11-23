@@ -23,6 +23,7 @@ class Login extends Component {
       <Container>
         <div className="login-form-container">
           <div className="login-form-wrapper">
+
             <div className="login-title-wrapper">
               <p className="login-title">
                 Log In
@@ -52,9 +53,11 @@ class Login extends Component {
 
             <div>
               <CheckBox
+                reducer={authReducer}
                 label="dfsdfsdfsdf"
                 checked={true}
                 onChange={(val => console.log(val))}
+                red
               />
             </div>
 
