@@ -61,10 +61,9 @@ class MatrixComponent extends Component {
 
     return (
       <div id="matrix-setup">
-        <div className="page-sub-header">Matrix Setup</div>
-
           <AppBar position="static" color="default">
-            <Tabs scrollable scrollButtons="off"
+            <Tabs
+              scrollable
               value={this.state.value}
               onChange={this.handleChange}
               indicatorColor="primary"

@@ -17,51 +17,63 @@ import EnhancedTableHead from './TableHeader';
 
 class TableComponent extends Component {
 
-  state = {
-    order: 'asc',
-    orderBy: 'calories',
-    selected: [],
-  };
+  /*** TableHead methods ***/
 
+  /*** Under constructions ***/
+
+
+  /*** Table methods ***/
   onRowSelection = (value) => console.log('onRowSelection', value);
 
   onCellClick = (value) => console.log('onCellClick', value);
 
-//  handleRequestSort = (event, property) => {
-//    const orderBy = property;
-//    let order = 'desc';
-//
-//    if (this.state.orderBy === property && this.state.order === 'desc') {
-//      order = 'asc';
-//    }
-//
-//    const data =
-//      order === 'desc'
-//        ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
-//        : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
-//
-//    this.setState({ data, order, orderBy });
-//  };
+  handleSelectAllClick = (event, checked, selected) => {};
 
-  handleSelectAllClick = (event, checked) => {
-    if (checked) {
-      this.setState({ selected: this.state.data.map(n => n.id) });
-      return;
+  matchItems(selected, id) {
+    return selected.reduce((result, item, index) =>
+                  item && item.id === id ? index : result, -1);
+  };
+  handleClick = (event, checked, selected) => {
+    const { id, deActive} = checked;
+
+    if (deActive) return;
+
+    const isIn = this.matchItems(selected, id);
+
+    let result = [];
+    switch(true) {
+      case !selected.length:
+        result = [checked];
+        break;
+
+      case isIn === -1 :
+        result = selected.concat([checked]);
+        break;
+
+      case isIn >= 0:
+        result = selected.filter(item => item && item.id !== id );
+        break;
+
+      default:
+        result = [];
     }
-    this.setState({ selected: [] });
+    this.props.onRowClick(result);
   };
 
-  isSelected = id => this.state.selected.indexOf(id) !== -1;
 
-  handleClick = (event, id) => {};
+  /*** Pagination methods ***/
+  handleChangePage = (event, page) => {};
+
+  handleChangeRowsPerPage = (event) => {};
+
+  handleChange = () => {};
 
   render() {
-    const { order, orderBy, selected } = this.state;
-    const { tableHeader } = this.props;
-    const { data } = this.props.store;
+    const { tableHeader, selected } = this.props;
+    const { data, pagination: {  per_page, current_page } } = this.props.store;
 
     return (
-      <Table>
+      <Table className="table-template">
 
         <EnhancedTableHead
           path={this.props.path}
@@ -73,25 +85,41 @@ class TableComponent extends Component {
 
         <TableBody>
           {data.map(row => {
-            const isSelected = this.isSelected(row.id);
+            const isSelected = !row.deActive && this.matchItems(selected, row.id) !== -1;
             return <TableRow
-              hover
-              role="checkbox"
-              aria-checked={isSelected}
-              tabIndex={-1}
-              key={row.id}
-              selected={isSelected}
-            >
-              <TableCell padding="checkbox">
-                <Checkbox checked={isSelected}/>
-              </TableCell>
+                      hover
+                      key={row.id}
+                      tabIndex={-1}
+                      role="checkbox"
+                      selected={isSelected}
+                      className={row.deActive ?'de-active' : 'active'}
+                      aria-checked={isSelected}
+                      onClick={event => this.handleClick(event, row, selected)}>
 
-              {tableHeader.map( (col, index) =>
-                <TableCell key={index} padding="dense">{row[col.key]}</TableCell>)}
+                      <TableCell padding="checkbox">
+                        <Checkbox checked={isSelected}
+                                  disabled={row.deActive}/>
+                      </TableCell>
 
+                    {tableHeader.map( (col, index) =>
+                      <TableCell key={index}
+                                 padding="dense">
+                        {row[col.key]}
+                      </TableCell>)}
             </TableRow>
           })}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              count={data.length}
+              rowsPerPage={per_page}
+              page={current_page}
+              onChangePage={this.handleChangePage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     )
   }
@@ -103,17 +131,26 @@ const mapStateToProps = (state, ownProps) => ({
 
 TableComponent.defaultProps = {
   tableHeader : [],
+  selected    : [],
+  data        : [],
 };
 
 TableComponent.PropTypes = {
-  path        : PropTypes.string,
+  data:       PropTypes.arrayOf(
+                PropTypes.object
+              ).isRequired,
+  path        : PropTypes.string.isRequired,
   tableHeader : PropTypes.arrayOf(
-    PropTypes.shape({
-      title   : PropTypes.string.isRequired,
-      key     : PropTypes.string.isRequired,
-      tooltip : PropTypes.string
-    }).isRequired
-  ),
+                  PropTypes.shape({
+                    title   : PropTypes.string.isRequired,
+                    key     : PropTypes.string.isRequired,
+                    tooltip : PropTypes.string
+                  }).isRequired
+                ),
+  selected    : PropTypes.arrayOf(
+                  PropTypes.object
+                ).isRequired,
+  onRowClick  : PropTypes.func.isRequired,
 };
 
 export default  connect(mapStateToProps)(TableComponent);

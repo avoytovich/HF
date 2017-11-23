@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect }          from 'react-redux';
 
 //UI
-import Grid from 'material-ui/Grid';
-import Table, {
-  TableFooter,
-  TablePagination,
-  TableRow,
-} from 'material-ui/Table';
-import { FormControl } from 'material-ui/Form';
+import Grid                      from 'material-ui/Grid';
+import { withStyles }            from 'material-ui/styles';
+import { FormControl }           from 'material-ui/Form';
 import Input, { InputAdornment } from 'material-ui/Input';
-import MuiSvgIcon from 'material-ui/SvgIcon';
+import MuiSvgIcon                from 'material-ui/SvgIcon';
+import Button                    from 'material-ui/Button';
 
 const SearchIcon = (props) => (
   <MuiSvgIcon {...props}>
@@ -19,17 +16,21 @@ const SearchIcon = (props) => (
   </MuiSvgIcon>
 );
 
+const styles = theme => ({
+  formControl: {
+    margin: theme.spacing.unit,
+    display: 'flex',
+    alignItems: 'center'
+  },
+});
+
+
 class PageNavigation extends Component {
 
-  handleChangePage = (event, page) => this.setState({ page });
-
-  handleChangeRowsPerPage = (event) => this.setState({rowsPerPage: event.target.value });
-
-  handleChange = () => {};
+  handleChange = (event, value) => {};
 
   render() {
-    const { buttons } = this.props;
-    const { data, pagination: {  per_page, current_page } } = this.props.store;
+    const { classes } = this.props;
 
     return (
       <Grid container className="page-navigation" style={{justifyContent: 'space-around', alignItems: 'center'}}>
@@ -50,39 +51,33 @@ class PageNavigation extends Component {
                 className="page-pagination">
 
             <Grid item
-                  md={8}
-                  sm={12}>
-              <Table>
-                <TableFooter>
-                  <TableRow>
-                    <TablePagination
-                      count={data.length}
-                      rowsPerPage={per_page}
-                      page={current_page}
-                      onChangePage={this.handleChangePage}
-                      onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                    />
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </Grid>
-
-            <Grid item
-                  md={3}
-                  sm={12}>
+                  md={9}
+                  xs={12}>
               <FormControl fullWidth>
                 <Input
-                  id="amount"
-                  onChange={this.handleChange('amount')}
-                  endAdornment={
-                    <InputAdornment position="end">
+                  id="search"
+                  className={classes.formControl}
+                  onChange={this.handleChange}
+                  placeholder='Search'
+                  startAdornment={
+                    <InputAdornment position="start">
                       <SearchIcon color="grey"/>
                     </InputAdornment>
                   }
                 />
               </FormControl>
             </Grid>
+
+            <Grid item
+                  md={3}
+                  xs={12}>
+              <Button raised dense>
+                + Create
+              </Button>
+            </Grid>
+
           </Grid>
+
         </Grid>
       </Grid>
     )
@@ -93,4 +88,4 @@ const mapStateToProps = (state, ownProps) => ({
   store: state[ownProps.path]
 });
 
-export default connect(mapStateToProps)(PageNavigation);
+export default connect(mapStateToProps)(withStyles(styles)(PageNavigation));

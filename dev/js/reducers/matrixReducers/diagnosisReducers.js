@@ -11,6 +11,7 @@ const initialState = {
       subscription: 'Subscription',
       created: '01 Mar  2017',
       created_by: 'John Doe',
+      deActive: false
     },
     {
       id: '2',
@@ -20,6 +21,7 @@ const initialState = {
       subscription: 'Subscription',
       created: '01 Mar  2017',
       created_by: 'John Doe',
+      deActive: false,
     },
     {
       id: '4',
@@ -29,6 +31,7 @@ const initialState = {
       subscription: 'Subscription',
       created: '01 Mar  2017',
       created_by: 'John Doe',
+      deActive: true
     },
     {
       id: '5',
@@ -38,6 +41,7 @@ const initialState = {
       subscription: 'Subscription',
       created: '01 Mar  2017',
       created_by: 'John Doe',
+      deActive: false
     },
     {
       id: '6',
@@ -47,6 +51,7 @@ const initialState = {
       subscription: 'Subscription',
       created: '01 Mar  2017',
       created_by: 'John Doe',
+      deActive: true
     },
     {
       id: '7',
@@ -56,6 +61,7 @@ const initialState = {
       subscription: 'Subscription',
       created: '01 Mar  2017',
       created_by: 'John Doe',
+      deActive: false
     },
     {
       id: '8',
@@ -65,6 +71,7 @@ const initialState = {
       subscription: 'Subscription',
       created: '01 Mar  2017',
       created_by: 'John Doe',
+      deActive: false
     },
     {
       id: '9',
@@ -74,6 +81,7 @@ const initialState = {
       subscription: 'Subscription',
       created: '01 Mar  2017',
       created_by: 'John Doe',
+      deActive: false
     },
     {
       id: '10',
@@ -83,13 +91,14 @@ const initialState = {
       subscription: 'Subscription',
       created: '01 Mar  2017',
       created_by: 'John Doe',
+      deActive: true
     }
   ],
   pagination: {
     total       : 0,
     count       : 0,
     per_page    : 5,
-    current_page: 0,
+    current_page: 1,
     total_pages : 0,
     order       : 'asc',
     orderBy     : 'users',
