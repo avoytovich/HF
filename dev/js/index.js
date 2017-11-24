@@ -94,6 +94,10 @@ const router = (
       persistor={persistor}
     >
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
+      <Route path={'/signup'}  component={SignUp} />
+      <Route path={'/login'}  component={Login} />
+      <Route path={'/pass-reset'}  component={ResetPassword} />
+      <Route path={'/pass-forgot'}  component={ForgotPassword} />
       <Route path={'/'}                     component={Main} >
 
         <IndexRedirect to="organizations"/>
@@ -128,10 +132,7 @@ const router = (
         {/*<Route path={'/login'}  component={Login} />*/}
 
       </Route>
-      <Route path={'/signup'}  component={SignUp} />
-      <Route path={'/login'}  component={Login} />
-      <Route path={'/pass-reset'}  component={ResetPassword} />
-      <Route path={'/pass-forgot'}  component={ForgotPassword} />
+
 
     </Router>
 

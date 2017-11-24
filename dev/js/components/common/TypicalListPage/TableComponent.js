@@ -17,26 +17,40 @@ import EnhancedTableHead from './TableHeader';
 
 class TableComponent extends Component {
 
-  /*** TableHead methods ***/
+  /**
+   * TableHead methods
+   */
+  handleSelectAllClick = (allSelected) => {
+    if (!allSelected) {
+      this.props.onSelectAllClick(this.props.store.data);
+    }
+    else {
+      this.props.onSelectAllClick([]);
+    }
+  };
 
-  /*** Under constructions ***/
+
+  handleRequestSort = (event, property) => {
+
+  };
 
 
-  /*** Table methods ***/
+  /***
+   * Table methods
+   */
   onRowSelection = (value) => console.log('onRowSelection', value);
 
   onCellClick = (value) => console.log('onCellClick', value);
-
-  handleSelectAllClick = (event, checked, selected) => {};
 
   matchItems(selected, id) {
     return selected.reduce((result, item, index) =>
                   item && item.id === id ? index : result, -1);
   };
+
   handleClick = (event, checked, selected) => {
     const { id, deActive} = checked;
 
-    if (deActive) return;
+//    if (deActive) return;
 
     const isIn = this.matchItems(selected, id);
 
@@ -60,16 +74,17 @@ class TableComponent extends Component {
     this.props.onRowClick(result);
   };
 
-
-  /*** Pagination methods ***/
+  /**
+   * Pagination methods
+   */
   handleChangePage = (event, page) => {};
 
   handleChangeRowsPerPage = (event) => {};
 
-  handleChange = () => {};
+  handleChange = (event) => {};
 
   render() {
-    const { tableHeader, selected } = this.props;
+    const { tableHeader, selected, onSelectAllClick} = this.props;
     const { data, pagination: {  per_page, current_page } } = this.props.store;
 
     return (
@@ -79,13 +94,14 @@ class TableComponent extends Component {
           path={this.props.path}
           numSelected={selected.length}
           onSelectAllClick={this.handleSelectAllClick}
+          onRequestSort={this.handleRequestSort}
           rowCount={data.length}
           columnTitleList={tableHeader}
         />
 
         <TableBody>
           {data.map(row => {
-            const isSelected = !row.deActive && this.matchItems(selected, row.id) !== -1;
+            const isSelected = this.matchItems(selected, row.id) !== -1; // !row.deActive &&
             return <TableRow
                       hover
                       key={row.id}
@@ -97,8 +113,7 @@ class TableComponent extends Component {
                       onClick={event => this.handleClick(event, row, selected)}>
 
                       <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected}
-                                  disabled={row.deActive}/>
+                        <Checkbox checked={isSelected}/>
                       </TableCell>
 
                     {tableHeader.map( (col, index) =>
@@ -136,21 +151,22 @@ TableComponent.defaultProps = {
 };
 
 TableComponent.PropTypes = {
-  data:       PropTypes.arrayOf(
-                PropTypes.object
-              ).isRequired,
-  path        : PropTypes.string.isRequired,
-  tableHeader : PropTypes.arrayOf(
-                  PropTypes.shape({
-                    title   : PropTypes.string.isRequired,
-                    key     : PropTypes.string.isRequired,
-                    tooltip : PropTypes.string
-                  }).isRequired
-                ),
-  selected    : PropTypes.arrayOf(
-                  PropTypes.object
-                ).isRequired,
-  onRowClick  : PropTypes.func.isRequired,
+  data             : PropTypes.arrayOf(
+                      PropTypes.object
+                    ).isRequired,
+  path             : PropTypes.string.isRequired,
+  tableHeader      : PropTypes.arrayOf(
+                      PropTypes.shape({
+                        title   : PropTypes.string.isRequired,
+                        key     : PropTypes.string.isRequired,
+                        tooltip : PropTypes.string
+                      }).isRequired
+                    ),
+  selected         : PropTypes.arrayOf(
+                      PropTypes.object
+                    ).isRequired,
+  onRowClick       : PropTypes.func.isRequired,
+  onSelectAllClick : PropTypes.func.isRequired,
 };
 
 export default  connect(mapStateToProps)(TableComponent);
