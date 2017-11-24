@@ -7,6 +7,7 @@ import achievements from './achievementsReducer';
 import exercises    from './exercisesReducers';
 import tests        from './testsReducers'
 import metaControls from './metaControlsReducers';
+import rules        from './rulesReducer';
 
 export default {
   diagnosis,
@@ -17,5 +18,6 @@ export default {
   achievements,
   exercises,
   tests,
-  metaControls
+  metaControls,
+  rules
 }

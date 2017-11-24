@@ -19,14 +19,13 @@ class EnhancedTableHead extends Component {
     const { rowCount, numSelected } = this.props;
     const allSelected = numSelected === rowCount;
     const someSelected = numSelected > 0 && numSelected < rowCount;
+
     this.props.onSelectAllClick(allSelected);
   };
 
   render() {
-    const { rowCount, onSelectAllClick, numSelected, columnTitleList } = this.props;
+    const { rowCount, numSelected, columnTitleList } = this.props;
     const { order, orderBy } = this.props.store.pagination;
-
-    console.log( order, orderBy);
     return (
       <TableHead>
         <TableRow>

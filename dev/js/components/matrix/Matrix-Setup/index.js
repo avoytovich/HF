@@ -1,5 +1,6 @@
 export MatrixComponent          from './matrix';
 export DiagnosisComponent       from './diagnosis';
+export CreateQuestionComponent  from './createDiagnosisQuestion/createQuestion'
 //export ConditionsComponent      from './conditions';
 //export TreatmentsComponent      from './treatments';
 //export PackagesComponent        from './packages'
@@ -8,4 +9,3 @@ export DiagnosisComponent       from './diagnosis';
 //export AchievementsComponent    from './achievements'
 //export ExercisesComponent       from './exercises'
 //export TestsComponent           from './tests'
-//export CreateQuestionComponent  from './createQuestion'

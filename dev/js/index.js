@@ -32,10 +32,6 @@ import SignUp from './components/auth/SignUp/SignUp';
 import ResetPassword from './components/auth/ResetPassword/ResetPassword';
 import ForgotPassword from './components/auth/ForgotPassword/ForgotPassword';
 // import TypicalListPage from './components/TypicalListPage/TypicalListPage';
-// import {
-//   MatrixComponent,
-//   DiagnosisComponent,
-
 import TypicalListPage from './components/common/TypicalListPage/TypicalListPage';
 
  import {
@@ -49,7 +45,7 @@ import TypicalListPage from './components/common/TypicalListPage/TypicalListPage
 //   AchievementsComponent,
 //   ExercisesComponent,
 //   TestsComponent,
-//   CreateQuestionComponent
+   CreateQuestionComponent
  } from './components/matrix/Matrix-Setup';
 
 //constants
@@ -128,7 +124,7 @@ const router = (
         <Route path='test-diagnostic-flow'  component={() => <TypicalListPage {...TEST_DIAGNOSTIC_FLOW_PAGE}/>} />
 
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
-        {/*<Route path='diagnosis-create'    component={ CreateQuestionComponent } />*/}
+        <Route path='diagnosis-create'    component={ CreateQuestionComponent } />
 
         {/*<Redirect from="*" to="organizations"/>*/}
 

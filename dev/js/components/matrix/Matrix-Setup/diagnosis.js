@@ -16,13 +16,11 @@ class DiagnosisComponent extends Component {
     selected: []
   };
 
-
-  create = (id) => id ? '' : '';
-//      browserHistory.push(`/diagnosis-create`) :
-//      browserHistory.push(`/diagnosis-create/${id}`);
+  create = (id) => id ?
+      browserHistory.push(`/diagnosis-create`) :
+      browserHistory.push(`/diagnosis-create/${id}`);
 
   deleteItems = (items = []) => {
-
 //    const string = qs.stringify({ firstName: 'John', lastName: 'Doe' });
 //    browserHistory.push({
 //      pathname: '/matrix-setup/diagnosis',
