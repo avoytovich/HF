@@ -10,26 +10,48 @@ import Checkbox from 'material-ui/Checkbox';
 import PropTypes from 'prop-types';
 
 class EnhancedTableHead extends Component {
+
   createSortHandler = property => event => {
-//    this.props.onRequestSort(event, property);
+    this.props.onRequestSort(event, property);
+  };
+
+  handleClick = (event) => {
+    const { rowCount, numSelected } = this.props;
+    const allSelected = numSelected === rowCount;
+    const someSelected = numSelected > 0 && numSelected < rowCount;
+    this.props.onSelectAllClick(allSelected);
   };
 
   render() {
-    const { onSelectAllClick, numSelected, columnTitleList } = this.props;
+    const { rowCount, onSelectAllClick, numSelected, columnTitleList } = this.props;
     const { order, orderBy } = this.props.store;
+
+    console.log('numSelected', numSelected);
+    console.log('rowCount', rowCount);
+
+
 
     return (
       <TableHead>
         <TableRow>
 
           <TableCell padding="checkbox">
-            <Checkbox/>
+            <Checkbox
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={numSelected === rowCount}
+              disabled={!rowCount}
+              onClick={this.handleClick}
+            />
           </TableCell>
 
           {columnTitleList.map((column, index) =>
             <TableCell key={index} padding="dense">
 
-              <TableSortLabel>
+              <TableSortLabel
+                active={orderBy === column.users}
+                direction={order}
+                onClick={this.createSortHandler(column.users)}
+              >
                 {column.title}
               </TableSortLabel>
 
@@ -44,14 +66,16 @@ class EnhancedTableHead extends Component {
 EnhancedTableHead.propTypes = {
   numSelected     : PropTypes.number.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
+  onRequestSort   : PropTypes.func.isRequired,
   path            : PropTypes.string.isRequired,
+  rowCount        : PropTypes.number.isRequired,
   columnTitleList : PropTypes.arrayOf(
     PropTypes.shape({
       title   : PropTypes.string.isRequired,
       key     : PropTypes.string.isRequired,
       tooltip : PropTypes.string
     }).isRequired
-  )
+  ),
 };
 
 EnhancedTableHead.defaultProps = {

@@ -34,6 +34,8 @@ class DiagnosisComponent extends Component {
 
   onRowClick = (selected = []) => this.setState({selected});
 
+  onSelectAllClick = (selected) => this.setState({selected});
+
   render() {
     const { tableHeader } = DIAGNOSIS_TAB;
     const { selected } = this.state;
@@ -71,6 +73,7 @@ class DiagnosisComponent extends Component {
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
+          onSelectAllClick={this.onSelectAllClick}
         />
 
       </div>

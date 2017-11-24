@@ -97,6 +97,10 @@ const router = (
     >
     <div>
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
+      <Route path={'/signup'}  component={SignUp} />
+      <Route path={'/login'}  component={Login} />
+      <Route path={'/pass-reset'}  component={ResetPassword} />
+      <Route path={'/pass-forgot'}  component={ForgotPassword} />
       <Route path={'/'}                     component={Main} >
 
         <IndexRedirect to="organizations"/>
@@ -126,15 +130,12 @@ const router = (
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
         {/*<Route path='diagnosis-create'    component={ CreateQuestionComponent } />*/}
 
-        <Redirect from="*" to="organizations"/>
+        {/*<Redirect from="*" to="organizations"/>*/}
 
         {/*<Route path={'/login'}  component={Login} />*/}
 
       </Route>
-      <Route path={'/signup'}  component={SignUp} />
-      <Route path={'/login'}  component={Login} />
-      <Route path={'/pass-reset'}  component={ResetPassword} />
-      <Route path={'/pass-forgot'}  component={ForgotPassword} />
+
 
     </Router>
 
