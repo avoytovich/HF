@@ -32,9 +32,6 @@ import SignUp from './components/auth/SignUp/SignUp';
 import ResetPassword from './components/auth/ResetPassword/ResetPassword';
 import ForgotPassword from './components/auth/ForgotPassword/ForgotPassword';
 // import TypicalListPage from './components/TypicalListPage/TypicalListPage';
-// import {
-//   MatrixComponent,
-//   DiagnosisComponent,
 
 import TypicalListPage from './components/common/TypicalListPage/TypicalListPage';
 
@@ -90,12 +87,12 @@ const onBeforeLift = () => {
 
 const router = (
   <Provider store={store}>
+    <div>
     <PersistGate
       loading={null}
       onBeforeLift={onBeforeLift}
       persistor={persistor}
     >
-    <div>
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
       <Route path={'/'}                     component={Main} >
 
@@ -126,7 +123,7 @@ const router = (
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
         {/*<Route path='diagnosis-create'    component={ CreateQuestionComponent } />*/}
 
-        <Redirect from="*" to="organizations"/>
+        {/*<Redirect from="*" to="organizations"/>*/}
 
         {/*<Route path={'/login'}  component={Login} />*/}
 
@@ -138,10 +135,10 @@ const router = (
 
     </Router>
 
-    <NotificationsSystem theme={theme}/>
 
-    </div>
     </PersistGate>
+    <NotificationsSystem theme={theme}/>
+  </div>
   </Provider>
 );
 
