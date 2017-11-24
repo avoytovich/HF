@@ -24,13 +24,9 @@ class EnhancedTableHead extends Component {
 
   render() {
     const { rowCount, onSelectAllClick, numSelected, columnTitleList } = this.props;
-    const { order, orderBy } = this.props.store;
+    const { order, orderBy } = this.props.store.pagination;
 
-    console.log('numSelected', numSelected);
-    console.log('rowCount', rowCount);
-
-
-
+    console.log( order, orderBy);
     return (
       <TableHead>
         <TableRow>
@@ -48,9 +44,9 @@ class EnhancedTableHead extends Component {
             <TableCell key={index} padding="dense">
 
               <TableSortLabel
-                active={orderBy === column.users}
+                active={orderBy === column.key}
                 direction={order}
-                onClick={this.createSortHandler(column.users)}
+                onClick={this.createSortHandler(column.key)}
               >
                 {column.title}
               </TableSortLabel>
