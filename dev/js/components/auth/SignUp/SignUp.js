@@ -3,45 +3,48 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
-
+import Button from 'material-ui/Button';
 
 import Container from '../Container/Container';
-import Logo from '../Logo/Logo';
 import Input from '../../common/Input/Input';
-import { SIGN_UP } from '../../../actions';
 
 class SignUp extends Component {
   render() {
     const {
-      signupReducer: { email },
+      authReducer,
+      authReducer: { email },
     } = this.props;
     return (
       <Container>
-        <Grid item xs={12} sm={6} hidden={{ smDown: true }}>
-          <Logo />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
           <div className="sign-up-form-container">
             <div className="sign-up-form-wrapper">
-              <div className="sing-up-title-wrapper">
-                <p className="sing-up-title">
+              <div className="sign-up-title-wrapper">
+                <p className="sign-up-title">
                   Sign Up
                 </p>
               </div>
 
-              <Input
-                id='email'
-                name={SIGN_UP}
-                value={email}
-                label='Email'
-                placeholder='example@gmail.com'
-              />
+              <div className="sign-up-input-wrapper">
+                <Input
+                  id='email'
+                  value={email}
+                  reducer={authReducer}
+                  label='Email'
+                  placeholder='example@gmail.com'
+                />
+              </div>
+
+              <div className="sign-up-button-wrapper">
+                <Button
+                  raised
+                  color="default"
+                >
+                  Sign Up
+                </Button>
+              </div>
 
             </div>
           </div>
-
-        </Grid>
       </Container>
     );
   }
@@ -52,7 +55,7 @@ SignUp.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  signupReducer: state.signupReducer,
+  authReducer: state.authReducer,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

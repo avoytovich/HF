@@ -15,7 +15,7 @@ export const createReducer = (initialState, standardActionType, handlers = {}) =
   // common clear action
   handlers[`${standardActionType}_CLEAR`] = () => initialState;
 
-  // common error handler func
+  // common error handler func - will fire by defualt when using dev/js/actions/common/onChange.js
   handlers[`${standardActionType}_ERROR`] = (state, action) =>
     ({ ...state, errors: action.payload.errors });
 

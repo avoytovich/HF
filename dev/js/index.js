@@ -7,6 +7,7 @@ import NotificationsSystem from 'reapop';
 import theme from 'reapop-theme-wybo';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { PersistGate } from 'redux-persist/es/integration/react';
+import watch from 'redux-watch'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -28,6 +29,12 @@ import Main from './components/Main';
 
 import Login from './components/auth/Login/Login';
 import SignUp from './components/auth/SignUp/SignUp';
+import ResetPassword from './components/auth/ResetPassword/ResetPassword';
+import ForgotPassword from './components/auth/ForgotPassword/ForgotPassword';
+// import TypicalListPage from './components/TypicalListPage/TypicalListPage';
+// import {
+//   MatrixComponent,
+//   DiagnosisComponent,
 
 import TypicalListPage from './components/common/TypicalListPage/TypicalListPage';
 
@@ -54,14 +61,32 @@ import TypicalListPage from './components/common/TypicalListPage/TypicalListPage
    TEST_DIAGNOSTIC_FLOW_PAGE
  } from './utils/constants/pageContent';
 
+import {
+  dispatchCommonPayloadWired,
+} from './actions';
+
 import { configureStore } from './config/store';
 
 export const { persistor, store } = configureStore();
 export const history = syncHistoryWithStore(browserHistory, store);
-const onBeforeLift = () => {
-  // take some action before the gate lifts (gate prevent rendering until store is hydrated from local storage)
-};
 
+const onBeforeLift = () => {
+  const {
+    userReducer,
+    commonReducer,
+  } = store.getState();
+  dispatchCommonPayloadWired({
+    currentLanguage: commonReducer.languages[userReducer.language]
+  });
+
+  // watcher - will change lang on change 'language' prop in userReducer
+  const w = watch(store.getState, 'userReducer.language');
+  store.subscribe(w((newVal, oldVal, objectPath) => {
+    dispatchCommonPayloadWired({
+      currentLanguage: commonReducer.languages[newVal]
+    });
+  }))
+};
 
 const router = (
   <Provider store={store}>
@@ -106,7 +131,10 @@ const router = (
         {/*<Route path={'/login'}  component={Login} />*/}
 
       </Route>
-      {/*<Route path={'/signup'}  component={SignUp} />*/}
+      <Route path={'/signup'}  component={SignUp} />
+      <Route path={'/login'}  component={Login} />
+      <Route path={'/pass-reset'}  component={ResetPassword} />
+      <Route path={'/pass-forgot'}  component={ForgotPassword} />
 
     </Router>
 

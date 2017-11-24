@@ -12,7 +12,7 @@ export const onChange = (e, val = 'value') => dispatch => {
       payload: { [property]: value }
     },
     {
-      type   : `${type}ERROR`,
+      type   : `${type}_ERROR`,
       payload: {
         errors: { [property]: errors[property] }
       }
