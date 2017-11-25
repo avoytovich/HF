@@ -1,13 +1,16 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import multi from 'redux-multi';
 import thunk from 'redux-thunk';
-import { persistStore, persistCombineReducers } from 'redux-persist';
+import { persistStore } from 'redux-persist';
 
 //reducer
 import rootReducer from '../reducers';
 
 const enhancers = compose(
-  applyMiddleware(multi, thunk),
+  applyMiddleware(
+    multi,
+    thunk,
+  ),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 );
 

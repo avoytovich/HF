@@ -8,7 +8,7 @@ import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
 import CheckBox from '../../common/CheckBox/CheckBox';
 
-import { login, dispatchUserPayloadWired } from '../../../actions'
+import { loginWired } from '../../../actions'
 
 class Login extends Component {
   render() {
@@ -54,30 +54,20 @@ class Login extends Component {
               />
             </div>
 
-            <div>
-              <CheckBox
-                id='remember_me'
-                value={remember_me}
-                reducer={authReducer}
-                label="dfsdfsdfsdf"
-                checked={true}
-                onChange={(val => console.log(val))}
-              />
-            </div>
+            {/*<div>*/}
+              {/*<CheckBox*/}
+                {/*id='remember_me'*/}
+                {/*value={remember_me}*/}
+                {/*reducer={authReducer}*/}
+                {/*label="dfsdfsdfsdf"*/}
+                {/*checked={true}*/}
+                {/*onChange={(val => console.log(val))}*/}
+              {/*/>*/}
+            {/*</div>*/}
 
             <div className="login-button-wrapper">
-              <p
-                onClick={() => dispatchUserPayloadWired({ language: 'en'}) }
-              >
-                en
-              </p>
-              <p
-                onClick={() => dispatchUserPayloadWired({ language: 'se'}) }
-              >
-                es
-              </p>
               <Button
-                onClick={() => login({ email, password })}
+                onClick={() => loginWired({ email, password })}
                 raised
                 color="default"
               >

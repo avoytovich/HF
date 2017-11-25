@@ -1,7 +1,11 @@
+import axios from 'axios';
+import get from 'lodash/get';
+
 import { store }  from '../../index';
 import {
   dispatchUserPayloadWired,
   dispatchCommonPayloadWired,
+  notifier,
 } from '../../actions';
 
 export class Api {
@@ -28,7 +32,10 @@ export class Api {
     route,
     method,
     data,
-    options = { needLoader: true },
+    options = {
+      needLoader: true,
+      showErrNotif: true,
+    },
   }) {
     const { isLoading } = store.getState().commonReducer;
     if (options.needLoader) {
@@ -36,32 +43,27 @@ export class Api {
       dispatchCommonPayloadWired({ isLoading: isLoading + 1 });
     }
     return Api.headers()
-      .then(headers => fetch(route, {
+      .then(headers => axios({
+        url: route,
         method,
         headers,
-        body: data && JSON.stringify(data),
+        data: data && JSON.stringify(data),
       }))
       .then(response => {
         dispatchCommonPayloadWired({ isLoading: isLoading && isLoading - 1 });
-
-        // token is coming in headers not in body
-        for (var pair of response.headers.entries()) {
-          if (pair[0] === 'app-token') {
-            dispatchUserPayloadWired({
-              token: pair[1],
-            });
-          }
-        }
-
-        if (response) {
-          if (!response.ok) {
-            throw new Error(response._bodyText);
-          }
-          return response.json();
-        }
+        return response
       })
       .catch(err => {
+
         dispatchCommonPayloadWired({ isLoading: isLoading && isLoading - 1 });
+        console.log(err);
+        if (options.showErrNotif) {
+          notifier({
+            title: 'Error occurred',
+            message: get(err, 'response.data.email[0]', 'Something went wrong'),
+            status: 'error',
+          })
+        }
       });
   };
 }
