@@ -86,12 +86,12 @@ const onBeforeLift = () => {
 
 const router = (
   <Provider store={store}>
+    <div>
     <PersistGate
       loading={null}
       onBeforeLift={onBeforeLift}
       persistor={persistor}
     >
-    <div>
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
       <Route path={'/signup'}  component={SignUp} />
       <Route path={'/login'}  component={Login} />
@@ -135,10 +135,10 @@ const router = (
 
     </Router>
 
-    <NotificationsSystem theme={theme}/>
 
-    </div>
     </PersistGate>
+    <NotificationsSystem theme={theme}/>
+  </div>
   </Provider>
 );
 
