@@ -5,6 +5,7 @@ import Menu, { MenuItem }       from 'material-ui/Menu';
 import Button                   from 'material-ui/Button';
 import MoreVertIcon             from 'material-ui-icons/MoreVert';
 
+import { isNot, andV1, mixid } from './rulesTemplate';
 
 
 class DiagnosisRulesComponent extends Component {
@@ -20,42 +21,40 @@ class DiagnosisRulesComponent extends Component {
     key: null
   };
 
-  rules = {
-    "and":[
-      {
-        "match":[
-          {
-            "key": "q_age",
-            "op" : "<",
-            "value":[49]
-          }
-        ]
-      },
-      {
-        "match":[
-          {
-            "key":"q_sex",
-            "op":"==",
-            "value":["B"]
-          }
-        ]
-      }
-    ]
-  };
+  rules = mixid;
 
   handleClick = (event, key) => this.setState({ open: true, anchorEl: event.currentTarget, key});
 
   handleRequestClose = (option) => {
     console.log('option', option);
-
     this.setState({ open: false, anchorEl: null, key: null });
-  }
+  };
 
+  showRule = (rules) => {
+    const isIn = (obj, key) => obj && obj.hasOwnProperty(key);
+
+    switch(true) {
+      case isIn(rules, 'not'):
+        return this.rules.not.map((item, index) =>
+          <RulesWithAnswerComponent key={index} rules={item} type="not"/>);
+
+      case isIn(rules, 'or'):
+        return this.rules.or.map((item, index) =>
+          <RulesWithAnswerComponent key={index} rules={item} type="or"/>);
+
+      case isIn(rules, 'and'):
+        return this.rules.and.map((item, index) =>
+            <RulesWithAnswerComponent key={index} rules={item} type="and"/>);
+
+      default:
+        console.log('Wrong type!');
+    }
+  };
 
   render() {
     return (
       <div className="rules-wrap">
-        <div className="rules rules-question">
+        <div className="rules rules-main-question">
             <input type="text" value={'some text'} disabled/>
             <Button
               aria-owns={this.state.open ? 'simple-menu' : null}
@@ -81,8 +80,7 @@ class DiagnosisRulesComponent extends Component {
               ))}
             </Menu>
         </div>
-
-        <RulesWithAnswerComponent/>
+        {this.showRule(this.rules)}
       </div>
     )
   }
@@ -91,3 +89,4 @@ const mapStateToProps = state => ({
   commonReducer: state.commonReducer
 });
 export default  connect(mapStateToProps)(DiagnosisRulesComponent);
+
