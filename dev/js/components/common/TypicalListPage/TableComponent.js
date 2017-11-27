@@ -17,8 +17,9 @@ import EnhancedTableHead from './TableHeader';
 
 class TableComponent extends Component {
 
+  // TableHead methods
   /**
-   * TableHead methods
+   * @param allSelected: boolean
    */
   handleSelectAllClick = (allSelected) => {
     if (!allSelected) {
@@ -29,17 +30,19 @@ class TableComponent extends Component {
     }
   };
 
-
   handleRequestSort = (event, property) => {
 
   };
 
-
-  /***
-   * Table methods
+  // TABLE METHODS
+   /**
+   * @param value: string
    */
   onRowSelection = (value) => console.log('onRowSelection', value);
 
+  /***
+   * @param value: string
+   */
   onCellClick = (value) => console.log('onCellClick', value);
 
   matchItems(selected, id) {
@@ -74,10 +77,12 @@ class TableComponent extends Component {
     this.props.onRowClick(result);
   };
 
+  // PAGINATION METHODS
   /**
-   * Pagination methods
+   * @param e: event
+   * @param page: string
    */
-  handleChangePage = (event, page) => {};
+  handleChangePage = (e, page) => {};
 
   handleChangeRowsPerPage = (event) => {};
 
