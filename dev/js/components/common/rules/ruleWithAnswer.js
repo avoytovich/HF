@@ -22,6 +22,8 @@ class RulesWithAnswerComponent extends Component {
     }
     else {
       const type = checkType(rules);
+
+      const matchInside = rules[type.key].every(item => item.hasOwnProperty('match'));
       return type.key === 'match' ?
           <RuleItemComponent
             rules={rules.match}
@@ -29,10 +31,11 @@ class RulesWithAnswerComponent extends Component {
           />
         :
         <div style={{width: '100%', display: 'flex', flexDirection: 'row'}}>
-          { type.label === 'or' && <div className="sub-rules">
-              <div className="sub-rules-title">
+          { type.label === 'or' &&
+            <div className="sub-rules">
+              {!matchInside && <div className="sub-rules-title">
                 {type.label}
-              </div>
+              </div>}
             </div>}
 
             <RulesWithAnswerComponent
