@@ -67,7 +67,8 @@ class PackagesComponent extends Component {
 
         <TableComponent
           path="packages"
-          domen="diagnostics"
+          url="packages"
+          domen="exercises"
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
