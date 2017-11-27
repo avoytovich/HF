@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 
+import { assets } from '../../../config/apiRoutes';
+
 const styles = theme => ({
   paper: {
     padding: 16,
@@ -15,10 +17,11 @@ class SignUp extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className="auth-logo-container">
-        <p className="auth-logo-title">
-          Heal Logo
-        </p>
+      <div
+        className="auth-logo-container"
+        style={{ backgroundImage: `url(${assets}/images/auth/page-1@3x.png)`}}
+      >
+        <img src={`${assets}/images/auth/logo.png`} alt="logo"/>
       </div>
     );
   }
