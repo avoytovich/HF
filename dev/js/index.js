@@ -58,9 +58,13 @@ import TypicalListPage from './components/common/TypicalListPage/TypicalListPage
    TEST_DIAGNOSTIC_FLOW_PAGE
  } from './utils/constants/pageContent';
 
+import { page } from './config';
+import { onAllEnter } from './utils';
+
 import {
   dispatchCommonPayloadWired,
 } from './actions';
+
 
 import { configureStore } from './config/store';
 
@@ -93,12 +97,20 @@ const router = (
       onBeforeLift={onBeforeLift}
       persistor={persistor}
     >
-    <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
-      <Route path={'/signup'}  component={SignUp} />
-      <Route path={'/login'}  component={Login} />
-      <Route path={'/pass-reset'}  component={ResetPassword} />
-      <Route path={'/pass-forgot'}  component={ForgotPassword} />
-      <Route path={'/'}                     component={Main} >
+    <Router
+      history={history}
+      onUpdate={() => window.scrollTo(0, 0)}
+    >
+      <Route path={page.signup}     component={SignUp} />
+      <Route path={page.login}      component={Login} />
+      <Route path={page.passReset}  component={ResetPassword} />
+      <Route path={page.passForgot} component={ForgotPassword} />
+      <Route
+        path={'/'}
+        component={Main}
+        onEnter={onAllEnter}
+        onChange={onAllEnter}
+      >
 
         <IndexRedirect to="organizations"/>
 

@@ -9,3 +9,6 @@ export const dispatchUserPayload = payload => dispatch =>
 
 export const dispatchUserPayloadWired = payload =>
   dispatchUserPayload(payload)(store.dispatch);
+
+export const dispatchUserClearWired = () =>
+  store.dispatch({ type: `${USER}_CLEAR` });

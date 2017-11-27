@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
@@ -7,6 +8,7 @@ import Button from 'material-ui/Button';
 
 import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
+import { page } from '../../../config';
 
 class SignUp extends Component {
   render() {
@@ -37,10 +39,19 @@ class SignUp extends Component {
               <div className="sign-up-button-wrapper">
                 <Button
                   raised
-                  color="default"
+                  className="button-custom-black"
                 >
                   Sign Up
                 </Button>
+              </div>
+
+              <div className="sign-up-to-login-wrapper">
+                <p
+                  onClick={() => browserHistory.push(page.login)}
+                  className="sign-up-to-login"
+                >
+                  Log In
+                </p>
               </div>
 
             </div>

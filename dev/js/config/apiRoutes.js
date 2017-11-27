@@ -10,5 +10,16 @@ export const domen = {
 };
 
 export const api = {
-  login: '/auth/login'
+  login: '/auth/login',
+  logout: '/auth/logout',
 };
+// form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`
+export const assets = 'http://localhost:3030/assets';
+
+export const page = {
+  home: '/',
+  login: '/login',
+  signup: '/signup',
+  passReset: '/pass-reset',
+  passForgot: '/pass-forgot',
+}
