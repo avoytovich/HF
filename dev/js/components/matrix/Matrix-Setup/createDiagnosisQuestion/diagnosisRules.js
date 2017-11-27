@@ -92,9 +92,7 @@ class DiagnosisRulesComponent extends Component {
               ))}
             </Menu>
         </div>
-        {this.showRule(mixid)}
-
-        {/*<RulesWithAnswerComponent rules={mixid} />*/}
+        {this.showRule(andV1)}
       </div>
     )
   }

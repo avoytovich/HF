@@ -23,24 +23,23 @@ class RulesWithAnswerComponent extends Component {
     else {
       const type = checkType(rules);
       return type.key === 'match' ?
-        <div style={{border: '1px solid black', width: '100%', display: 'flex', flexDirection: 'row'}}>
           <RuleItemComponent
             rules={rules.match}
             path={this.checkPath(type)}
           />
-        </div>
         :
-        <div style={{border: '1px solid black', width: '100%', display: 'flex', flexDirection: 'row'}}>
-          <div>
-            {type.label}
-          </div>
-          <div>
+        <div style={{width: '100%', display: 'flex', flexDirection: 'row'}}>
+          { type.label === 'or' && <div className="sub-rules">
+              <div className="sub-rules-title">
+                {type.label}
+              </div>
+            </div>}
+
             <RulesWithAnswerComponent
               rules={rules[type.key]}
               className="sub-title-rule"
               path={this.checkPath(type)}
             />
-          </div>
         </div>
     }
   };

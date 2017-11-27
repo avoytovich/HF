@@ -65,7 +65,8 @@ class RuleItemComponent extends Component {
   render() {
     const {open, anchorEl, questionSelected, answerSelected, navOptions, answer} = this.state;
 
-    console.log('props', this.props);
+    const supper = this.props.path.join(',');
+    console.log('props', this.props.path);
 
     return  <div className="rules">
     <div className="rules-type">
@@ -75,7 +76,6 @@ class RuleItemComponent extends Component {
     <div className="rules-question">
       <span className="title">Question</span>
       <Select.Async
-        name="type-of-question"
         loadOptions={this.getOptions}
         onChange={this.handleQuestionChange}
         value={questionSelected}
@@ -89,7 +89,6 @@ class RuleItemComponent extends Component {
       <Select
         options={answer}
         simpleValue
-        name="selected-state"
         disabled={!questionSelected}
         onChange={this.handleAnswerChange}
         value={answerSelected}
