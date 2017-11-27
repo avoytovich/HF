@@ -3,7 +3,7 @@ export DiagnosisComponent       from './diagnosis';
 export CreateQuestionComponent  from './createDiagnosisQuestion/createQuestion'
 //export ConditionsComponent      from './conditions';
 //export TreatmentsComponent      from './treatments';
-//export PackagesComponent        from './packages'
+export PackagesComponent        from './packages'
 //export EvaluationComponent      from './evaluation'
 //export MetaControlsComponent    from './metaControls'
 //export AchievementsComponent    from './achievements'

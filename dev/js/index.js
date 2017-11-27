@@ -39,7 +39,7 @@ import TypicalListPage from './components/common/TypicalListPage/TypicalListPage
    DiagnosisComponent,
 //   ConditionsComponent,
 //   TreatmentsComponent,
-//   PackagesComponent,
+   PackagesComponent,
 //   EvaluationComponent,
 //   MetaControlsComponent,
 //   AchievementsComponent,
@@ -101,10 +101,10 @@ const router = (
 
         <IndexRedirect to="organizations"/>
 
-        <Route path='organizations'         component={() => <TypicalListPage {...ORGANISATION_PAGE}/>} />
-        <Route path='clinics'               component={() => <TypicalListPage {...CLINICS_PAGE}/>} />
-        <Route path='users'                 component={() => <TypicalListPage {...USERS_PAGE}/>} />
-        <Route path='resource'              component={() => <TypicalListPage {...RESOURCE_PAGE}/>} />
+        <Route path='organizations'         component={() => <div>ORGANISATION_PAGE</div>} />
+        <Route path='clinics'               component={() => <div>CLINICS_PAGE</div>} />
+        <Route path='users'                 component={() => <div>USERS_PAGE</div>} />
+        <Route path='resource'              component={() => <div>RESOURCE_PAGE</div>} />
         <Route path='matrix-setup'          component={ MatrixComponent }>
 
           <IndexRedirect to="diagnosis"/>
@@ -112,7 +112,7 @@ const router = (
           <Route path='diagnosis'           component={ DiagnosisComponent } />
           {/*<Route path='conditions'          component={ ConditionsComponent } />*/}
           {/*<Route path='treatments'          component={ TreatmentsComponent } />*/}
-          {/*<Route path='packages'            component={ PackagesComponent } />*/}
+          <Route path='packages'            component={ PackagesComponent } />
           {/*<Route path='evaluation'          component={ EvaluationComponent } />*/}
           {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
           {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
@@ -121,7 +121,7 @@ const router = (
           <Redirect from="*" to="diagnosis"/>
         </Route>
 
-        <Route path='test-diagnostic-flow'  component={() => <TypicalListPage {...TEST_DIAGNOSTIC_FLOW_PAGE}/>} />
+        <Route path='test-diagnostic-flow'  component={() => <div>TEST_DIAGNOSTIC_FLOW_PAGE</div>} />
 
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
         <Route path='diagnosis-create'    component={ CreateQuestionComponent } />

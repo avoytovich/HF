@@ -1,65 +1,78 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { DIAGNOSIS_TAB } from '../../utils/constants/pageContent';
-import { TableComponent } from '../TypicalListPage';
-import { GridList } from 'material-ui/GridList';
-import RaisedButton from 'material-ui/RaisedButton';
+import { connect }          from 'react-redux';
+import { DIAGNOSIS_TAB }    from '../../../utils/constants/pageContent';
+import { TableComponent }   from '../../../components/common/TypicalListPage';
+import { browserHistory }   from 'react-router'
+import PageNavigation       from '../../common/TypicalListPage/pageNavigation';
+import Button               from 'material-ui/Button';
+import Edit                 from 'material-ui-icons/Edit';
+import Delete               from 'material-ui-icons/Delete';
+import NotInterested        from 'material-ui-icons/NotInterested';
 
 class PackagesComponent extends Component {
   state = {
-    rows: [
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      },
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      }
-    ]
+    selected: []
   };
+
+  create = (id) => {};
+//    id ?
+//    browserHistory.push(`/diagnosis-create`) :
+//    browserHistory.push(`/diagnosis-create/${id}`);
+
+  deleteItems = (items = []) => {
+//    const string = qs.stringify({ firstName: 'John', lastName: 'Doe' });
+//    browserHistory.push({
+//      pathname: '/matrix-setup/diagnosis',
+//      query: { order: 'asc' }
+//    })
+  };
+
+  deactivate = (items = []) => {alert('deactivate')};
+
+  onRowClick = (selected = []) => this.setState({selected});
+
+  onSelectAllClick = (selected) => this.setState({selected});
 
   render() {
     const { tableHeader } = DIAGNOSIS_TAB;
+    const { selected } = this.state;
 
     return (
       <div id="diagnosis-component">
 
-        <GridList cols={2} cellHeight='auto' className="page-navigation">
+        <PageNavigation
+          path="diagnosis"
+          selected={selected}>
 
-          <div>
-            <RaisedButton label="+ Add New"   className="page-navigation-button"/>
-            <RaisedButton label="Delete"      className="page-navigation-button"/>
-          </div>
+          <Button
+            disabled={selected.length > 1}
+            onClick={() => this.create(selected[0])}
+            raised dense>
+            <Edit />
+            Edit
+          </Button>
 
-          <div>
-            {/*Pagination*/}
-          </div>
+          <Button raised dense
+                  onClick={this.deleteItems}>
+            <Delete />
+            Delete
+          </Button>
 
-        </GridList>
+          <Button raised dense>
+            <NotInterested />
+            Deactivate
+          </Button>
 
-        <div className="diagnosis-table">
-          <TableComponent
-            tableHeader={ tableHeader }
-            tableRows={this.state.rows}
-          />
-        </div>
+        </PageNavigation>
+
+        <TableComponent
+          path="packages"
+          domen="diagnostics"
+          tableHeader={ tableHeader }
+          selected={selected}
+          onRowClick={this.onRowClick}
+          onSelectAllClick={this.onSelectAllClick}
+        />
 
       </div>
     )

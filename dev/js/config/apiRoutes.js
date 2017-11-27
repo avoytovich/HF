@@ -10,5 +10,6 @@ export const domen = {
 };
 
 export const api = {
-  login: '/auth/login'
+  login: '/auth/login',
+  packages: '/packages'
 };
