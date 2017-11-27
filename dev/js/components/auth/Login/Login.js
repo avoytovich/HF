@@ -69,9 +69,9 @@ class Login extends Component {
               <Button
                 onClick={() => loginWired({ email, password })}
                 raised
-                color="default"
+                className="button-custom-black"
               >
-                Login
+                { L_LOGIN.loginButton }
               </Button>
             </div>
 

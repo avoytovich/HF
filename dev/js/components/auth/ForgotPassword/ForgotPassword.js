@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
@@ -7,20 +8,24 @@ import Button from 'material-ui/Button';
 
 import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
+import { page } from '../../../config';
 
 class ForgotPassword extends Component {
   render() {
     const {
-      signupReducer,
-      signupReducer: { email },
+      authReducer,
+      authReducer: { email },
     } = this.props;
     return (
       <Container>
         <div className="sign-up-form-container">
           <div className="sign-up-form-wrapper">
             <div className="sing-up-title-wrapper">
-              <p className="sing-up-title">
-                Sign Up
+              <p className="login-title">
+                Forgot Password?
+              </p>
+              <p className="login-sub-title">
+                Please enter your email
               </p>
             </div>
 
@@ -28,7 +33,7 @@ class ForgotPassword extends Component {
               <Input
                 id='email'
                 value={email}
-                reducer={signupReducer}
+                reducer={authReducer}
                 label='Email'
                 placeholder='example@gmail.com'
               />
@@ -37,10 +42,19 @@ class ForgotPassword extends Component {
             <div className="sign-up-button-wrapper">
               <Button
                 raised
-                color="default"
+                className="button-custom-black"
               >
-                Primary
+                Send Password
               </Button>
+            </div>
+
+            <div className="sign-up-to-login-wrapper">
+              <p
+                onClick={() => browserHistory.push(page.login)}
+                className="sign-up-to-login"
+              >
+                Log In
+              </p>
             </div>
 
           </div>
@@ -55,7 +69,7 @@ ForgotPassword.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  login: state.signupReducer,
+  authReducer: state.authReducer,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
