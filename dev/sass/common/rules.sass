@@ -8,7 +8,6 @@
   border-radius: 3px
   background-color: #f2f2f2
   border: solid 1px #d0d0d0
-  //margin-top: 15px
   min-width: 485px
 
   .rules-type
@@ -55,7 +54,7 @@
   .sub-rules
     display: flex
     flex-direction: row
-    margin-bottom: 15px
+    min-width: 50px
 
     .sub-rules-title
       padding: 10px 10px
@@ -72,6 +71,9 @@
       span
         align-self: center
         display: block
+  .sub-rules + .rulesWithAnswer.sub-title-rule .rules:last-child
+    margin-bottom: 0
+
 
 .rules-wrap,
 .rulesWithAnswer
@@ -79,6 +81,8 @@
 .rules-wrap
   padding: 20px
   overflow-x: auto
+  //& > .rulesWithAnswer
+  //  margin-top: 20px
 
 .rules-main-question
   input
@@ -88,6 +92,16 @@
 
 .rulesWithAnswer
   display: flex
+  & > .rules
+    margin-bottom: 15px
 
 .add-margin
   margin-left: 55px
+
+.rulesWithAnswer:not(.sub-title-rule)
+  margin-bottom: 15px
+
+//////
+.sub-title-rule
+  display: flex
+  flex-direction: column

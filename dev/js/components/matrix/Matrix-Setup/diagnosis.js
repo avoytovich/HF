@@ -68,6 +68,7 @@ class DiagnosisComponent extends Component {
 
         <TableComponent
           path="diagnosis"
+          domen="diagnostics"
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}

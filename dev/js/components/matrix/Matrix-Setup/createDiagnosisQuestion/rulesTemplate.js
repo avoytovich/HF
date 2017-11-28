@@ -1,5 +1,6 @@
 export const isNot = {
-  "not":[
+  "not":
+    [
     {
       "match":[
         {
@@ -187,30 +188,30 @@ export const mixid = {
             }
           ]
       },
-//      {
-//        "not":
-//          [
-//            {
-//              "match":
-//                [
-//                  {
-//                    "key":"q_lowerback_redflag",
-//                    "op" : "==",
-//                    "value": ["A"]
-//                  }
-//                ]
-//            },
-//            {
-//              "match":
-//                [
-//                  {
-//                    "key":"q_neck_redflag",
-//                    "op":"==",
-//                    "value":["A"]
-//                  }
-//                ]
-//            }
-//          ]
-//      }
+      {
+        "not":
+          [
+            {
+              "match":
+                [
+                  {
+                    "key":"q_lowerback_redflag",
+                    "op" : "==",
+                    "value": ["A"]
+                  }
+                ]
+            },
+            {
+              "match":
+                [
+                  {
+                    "key":"q_neck_redflag",
+                    "op":"==",
+                    "value":["A"]
+                  }
+                ]
+            }
+          ]
+      }
     ]
 };

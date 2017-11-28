@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Table, {
   TableBody,
@@ -13,9 +14,23 @@ import Table, {
 import Checkbox from 'material-ui/Checkbox';
 import Tooltip from 'material-ui/Tooltip';
 import EnhancedTableHead from './TableHeader';
+import { getMmatrixInfo } from '../../../actions';
 
 
 class TableComponent extends Component {
+
+
+  componentDidMount() {
+    this.getInfo(this.props, this.props.store.pagination);
+  }
+
+  getInfo = ({domen, path}, {per_page, current_page}) => {
+    const query = {
+      per_page: per_page,
+      page: current_page
+    };
+    getMmatrixInfo(domen, path, query)
+  };
 
   // TableHead methods
   /**
@@ -173,5 +188,8 @@ TableComponent.PropTypes = {
   onRowClick       : PropTypes.func.isRequired,
   onSelectAllClick : PropTypes.func.isRequired,
 };
+const mapDispatchToProps = dispatch => bindActionCreators({
+  dispatch,
+}, dispatch);
 
-export default  connect(mapStateToProps)(TableComponent);
+export default  connect(mapStateToProps, mapDispatchToProps)(TableComponent);
