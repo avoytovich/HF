@@ -13,7 +13,7 @@ export class Api {
     const token = store.getState().userReducer.token;
     let headers = {
       'Content-Type': 'application/json',
-//      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'http://localhost:3030',
 //      'Access-Control-Allow-Headers': '*',
 //      'Access-Control-Allow-Method': 'POST, GET, OPTIONS, DELETE, PUT'
     };
