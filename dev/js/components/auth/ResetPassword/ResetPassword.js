@@ -9,18 +9,24 @@ import Button from 'material-ui/Button';
 import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
 import { page } from '../../../config';
+import { resetPasswordWired } from '../../../actions';
 
 class ResetPassword extends Component {
   render() {
-    console.log(this.props);
     const {
       authReducer,
       authReducer: {
         password,
         confirmPassword,
       },
+      location: {
+        query: {
+          token,
+          user_id,
+        }
+      }
     } = this.props;
-    console.log(this.props);
+    console.log(token, user_id);
     return (
       <Container>
         <div className="sign-up-form-container">
@@ -37,6 +43,7 @@ class ResetPassword extends Component {
             <div className="sign-up-input-wrapper">
               <Input
                 id='password'
+                type="password"
                 value={password}
                 reducer={authReducer}
                 label='Password'
@@ -44,6 +51,7 @@ class ResetPassword extends Component {
 
               <Input
                 id='confirmPassword'
+                type="password"
                 value={confirmPassword}
                 reducer={authReducer}
                 label='Repeat Password'
@@ -54,6 +62,11 @@ class ResetPassword extends Component {
               <Button
                 raised
                 className="button-custom-black"
+                onClick={() => resetPasswordWired({
+                  password,
+                  user_id,
+                  token,
+                })}
               >
                 Done
               </Button>

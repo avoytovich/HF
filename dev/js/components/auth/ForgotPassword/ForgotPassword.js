@@ -9,6 +9,7 @@ import Button from 'material-ui/Button';
 import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
 import { page } from '../../../config';
+import { sendEmailForgetPassWired } from '../../../actions';
 
 class ForgotPassword extends Component {
   render() {
@@ -41,6 +42,7 @@ class ForgotPassword extends Component {
 
             <div className="sign-up-button-wrapper">
               <Button
+                onClick={() => sendEmailForgetPassWired({ email })}
                 raised
                 className="button-custom-black"
               >

@@ -20,13 +20,13 @@ export class Api {
     return headers;
   };
 
-  static get = (route, options) => Api.xhr({ route, method: 'GET', options });
+  static get = (route, options, headers) => Api.xhr({ route, method: 'GET', options, headersIncome: headers });
 
-  static put = (route, data, options) => Api.xhr({ route, method: 'PUT', data, options });
+  static put = (route, data, options, headers) => Api.xhr({ route, method: 'PUT', data, options, headersIncome: headers });
 
-  static post = (route, data, options) => Api.xhr({ route, method: 'POST', data, options });
+  static post = (route, data, options, headers) => Api.xhr({ route, method: 'POST', data, options, headersIncome: headers });
 
-  static delete = (route, options) => Api.xhr({ route, method: 'DELETE', options });
+  static delete = (route, options, headers) => Api.xhr({ route, method: 'DELETE', options, headersIncome: headers });
 
   static xhr({
     route,
@@ -36,6 +36,7 @@ export class Api {
       needLoader: true,
       showErrNotif: true,
     },
+    headersIncome = {},
   }) {
     const { isLoading } = store.getState().commonReducer;
     if (options.needLoader) {
@@ -46,7 +47,7 @@ export class Api {
       .then(headers => axios({
         url: route,
         method,
-        headers,
+        headers: Object.assign(headers, headersIncome),
         data: data && JSON.stringify(data),
       }))
       .then(response => {
