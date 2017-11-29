@@ -68,7 +68,7 @@ export const TEST_DIAGNOSTIC_FLOW_PAGE = {
   ]
 };
 
-// Matrix Page
+// Matrix Pages
 export const DIAGNOSIS_TAB = {
   key: 'diagnosis',
   title: 'Diagnosis',
@@ -131,6 +131,56 @@ export const TREATMENTS_TAB = {
     },
     {
       title: 'Body Areas',  key: 'area',        className: 'center'
+    },
+    {
+      title: 'Key',         key: 'key',         className: 'left'
+    },
+    {
+      title: 'Created by',  key: 'created_by',  className: 'left'
+    },
+    {
+      title: 'Created',     key: 'created_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
+    {
+      title: 'Updated',     key: 'updated_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
+  ]
+};
+
+export const PACKAGES_TAB = {
+  key: 'conditions',
+  title: 'Conditions',
+  tableHeader: [
+    {
+      title: 'Name',        key: 'name',       className: 'left'
+    },
+    {
+      title: 'Body Areas',  key: 'body_area',   className: 'center'
+    },
+    {
+      title: 'Key',         key: 'key',         className: 'left'
+    },
+    {
+      title: 'Created by',  key: 'created_by',  className: 'left'
+    },
+    {
+      title: 'Created',     key: 'created_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
+    {
+      title: 'Updated',     key: 'updated_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
+  ]
+};
+
+export const EXERCISES_TAB = {
+  key: 'conditions',
+  title: 'Conditions',
+  tableHeader: [
+    {
+      title: 'Name',        key: 'name',       className: 'left'
+    },
+    {
+      title: 'Body Areas',  key: 'body_area',   className: 'center'
     },
     {
       title: 'Key',         key: 'key',         className: 'left'

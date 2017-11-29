@@ -287,4 +287,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(withRouter(TableComponent));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TableComponent));

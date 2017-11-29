@@ -21,8 +21,6 @@ class ConditionsComponent extends Component {
     browserHistory.push(`/treatments-create`) :
     browserHistory.push(`/treatments-create/${id}`);
 
-  deleteItems = (items = []) => {};
-
   onRowClick = (selected = []) => this.setState({selected});
 
   onSelectAllClick = (selected) => this.setState({selected});

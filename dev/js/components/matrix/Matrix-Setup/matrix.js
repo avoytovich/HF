@@ -11,11 +11,11 @@ const TABS = [
   { label: 'Diagnosis',     url: 'diagnosis' },
   { label: 'Conditions',    url: 'conditions' },
   { label: 'Treatments',    url: 'treatments' },
-//  { label: 'Packages',      url: 'packages' },
-//  { label: 'Evaluation',    url: 'evaluation' },
+//  { label: 'Evaluation',    url: 'evaluation' }, // api doesn't work
+  { label: 'Packages',      url: 'packages' },
+  { label: 'Exercises',     url: 'exercises' },
 //  { label: 'Meta Controls', url: 'meta-controls' },
 //  { label: 'Achievements',  url: 'achievements' },
-//  { label: 'Exercises',     url: 'exercises' },
 //  { label: 'Tests',         url: 'tests' },
 ];
 

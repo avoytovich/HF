@@ -3,9 +3,9 @@ export DiagnosisComponent       from './diagnosis';
 export CreateQuestionComponent  from './createDiagnosisQuestion/createQuestion'
 export ConditionsComponent      from './conditions';
 export TreatmentsComponent      from './treatments';
-//export PackagesComponent        from './packages'
-//export EvaluationComponent      from './evaluation'
-//export MetaControlsComponent    from './metaControls'
+export EvaluationComponent      from './evaluation'
+export PackagesComponent        from './packages';
+export ExercisesComponent       from './exercises';
 //export AchievementsComponent    from './achievements'
-//export ExercisesComponent       from './exercises'
+//export MetaControlsComponent    from './metaControls'
 //export TestsComponent           from './tests'
