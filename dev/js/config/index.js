@@ -1,5 +1,5 @@
 import {
-  page,
+  PAGE,
   api,
   domen,
 } from './apiRoutes'
@@ -7,7 +7,7 @@ import lang from './lang'
 import { configureStore } from './store'
 
 export {
-  page,
+  PAGE,
   api,
   domen,
   lang,

@@ -1,14 +1,14 @@
 import { pathToPage } from '../index';
 import { SAVE_USER_TO_STORE, dispatchCommonPayload } from '../../actions';
 import { store } from '../../index';
-import { page } from '../../config';
+import { PAGE } from '../../config';
 
 export function onAllEnter(nextState, replace) {
   const { userReducer } = store.getState();
   //redirect onAllEnter to client page
   if (!userReducer.token) {
     return replace({
-      pathname: page.login,
+      pathname: PAGE.login,
       state   : { nextPathname: nextState.location.pathname }
     })
   }

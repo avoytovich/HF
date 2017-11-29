@@ -14,6 +14,7 @@ export class Api {
     let headers = {
       'Content-Type': 'application/json',
     };
+
     if (token) {
       headers['App-Token'] = token;
     }

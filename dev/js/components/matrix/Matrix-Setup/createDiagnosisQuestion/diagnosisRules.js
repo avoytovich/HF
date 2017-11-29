@@ -4,6 +4,7 @@ import RulesWithAnswerComponent from '../../../common/rules/ruleWithAnswer'
 import Menu, { MenuItem }       from 'material-ui/Menu';
 import Button                   from 'material-ui/Button';
 import MoreVertIcon             from 'material-ui-icons/MoreVert';
+import { checkType }            from '../../../../utils';
 
 import { isNot, andV1, mixid } from './rulesTemplate';
 
@@ -21,9 +22,8 @@ class DiagnosisRulesComponent extends Component {
     key: null
   };
 
-  rules = mixid;
-
-  handleClick = (event, key) => this.setState({ open: true, anchorEl: event.currentTarget, key});
+  handleClick = (event, key) =>
+    this.setState({ open: true, anchorEl: event.currentTarget, key});
 
   handleRequestClose = (option) => {
     console.log('option', option);
@@ -35,16 +35,28 @@ class DiagnosisRulesComponent extends Component {
 
     switch(true) {
       case isIn(rules, 'not'):
-        return this.rules.not.map((item, index) =>
-          <RulesWithAnswerComponent key={index} rules={item} type="not"/>);
+        return rules.not.map((item, index) =>
+          <RulesWithAnswerComponent
+            key={index}
+            rules={item}
+            path={[ {key:'not'} ]}
+          />);
 
       case isIn(rules, 'or'):
-        return this.rules.or.map((item, index) =>
-          <RulesWithAnswerComponent key={index} rules={item} type="or"/>);
+        return rules.or.map((item, index) =>
+          <RulesWithAnswerComponent
+            key={index}
+            rules={item}
+            path={[ {key:'or'} ]}
+          />);
 
       case isIn(rules, 'and'):
-        return this.rules.and.map((item, index) =>
-            <RulesWithAnswerComponent key={index} rules={item} type="and"/>);
+        return rules.and.map((item, index) =>
+            <RulesWithAnswerComponent
+              key={index}
+              rules={item}
+              path={[ {key:'and'} ]}
+            />);
 
       default:
         console.log('Wrong type!');
@@ -80,7 +92,7 @@ class DiagnosisRulesComponent extends Component {
               ))}
             </Menu>
         </div>
-        {this.showRule(this.rules)}
+        {this.showRule(mixid)}
       </div>
     )
   }
