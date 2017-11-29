@@ -2,4 +2,4 @@ export const COMMON = "COMMON";
 
 export const USER   = "USER";
 export const AUTH   = "AUTH";
-export const LIST   = "LIST";
+export const TABLE  = "TABLE";

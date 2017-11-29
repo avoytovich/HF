@@ -10,7 +10,7 @@ import Table, {
         TableRow }            from 'material-ui/Table';
 import Checkbox               from 'material-ui/Checkbox';
 import EnhancedTableHead      from './TableHeader';
-import { getMmatrixInfo }     from '../../../actions';
+import { getMatrixInfo }      from '../../../actions';
 import get                    from 'lodash/get';
 import isEmpty                from 'lodash/isEmpty'
 import moment                 from 'moment';
@@ -40,10 +40,8 @@ class TableComponent extends Component {
     console.log('browserHistory', this.props.location.query);
     const currentQuery = this.props.location.query;
     const currentPath = PAGE[this.props.path];
-
-    const { per_page, current_page } = isEmpty(currentQuery) ? pagination : currentQuery;
-
-
+    const { per_page, current_page } =
+      isEmpty(currentQuery) ? pagination : currentQuery;
     browserHistory.push({
       pathname: currentPath,
       query: {
@@ -64,7 +62,7 @@ class TableComponent extends Component {
       per_page: per_page,
       page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
     };
-    getMmatrixInfo(domen, path, query)
+    getMatrixInfo(domen, path, query, 'diagnosis')
   };
 
   /**
@@ -124,6 +122,7 @@ class TableComponent extends Component {
   };
 
   /**
+   * Change number of page
    * @param e: event
    * @param nextPage: string
    */
@@ -141,6 +140,7 @@ class TableComponent extends Component {
   };
 
   /**
+   * Change count of items per page
    * @param event
    */
   handleChangeRowsPerPage = (event) => {
@@ -229,7 +229,7 @@ class TableComponent extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    store    : state[ownProps.path]
+    store    : state.tables[ownProps.path]
 });
 
 TableComponent.defaultProps = {

@@ -81,7 +81,7 @@ EnhancedTableHead.defaultProps = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  store: state[ownProps.path]
+  store: state.tables[ownProps.path]
 });
 
 export default connect(mapStateToProps)(EnhancedTableHead);

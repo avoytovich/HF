@@ -74,7 +74,7 @@ class DiagnosisComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  store: state.diagnosis
+  store: state.tables.diagnosis
 });
 
 export default  connect(mapStateToProps)(DiagnosisComponent);
