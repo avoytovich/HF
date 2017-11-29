@@ -25,6 +25,8 @@ import { withRouter }         from 'react-router'
  * 2) Add url to constant PAGE, key should be the same with 'path' props { [ path ]: '/some-url' };
  */
 
+//Todo: Add validation for manual typed query, finished with sorting and filter and default query params in props
+
 class TableComponent extends Component {
 
   componentDidMount() {
@@ -47,7 +49,7 @@ class TableComponent extends Component {
     const currentQuery = this.props.location.query;
     const currentPath = PAGE[this.props.path];
     const { per_page, current_page } =
-      isEmpty(currentQuery) ? pagination : currentQuery;
+      isEmpty(currentQuery) ? { per_page: 5, current_page: 0 } : currentQuery;
     browserHistory.push({
       pathname: currentPath,
       query: {
