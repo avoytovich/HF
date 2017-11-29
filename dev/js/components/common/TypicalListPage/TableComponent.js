@@ -19,6 +19,12 @@ import { PAGE }               from '../../../config'
 import { withRouter }         from 'react-router'
 
 
+/*
+ * Important Requirement:
+ * 1) Add path props to tableReducer in listOfTables = [ 'diagnosis', 'conditions', * YOUR_ITEM * ],
+ * 2) Add url to constant PAGE, key should be the same with 'path' props { [ path ]: '/some-url' };
+ */
+
 class TableComponent extends Component {
 
   componentDidMount() {
@@ -77,6 +83,10 @@ class TableComponent extends Component {
     }
   };
 
+  /**
+   * @param event
+   * @param property
+   */
   handleRequestSort = (event, property) => {};
 
    /**
@@ -89,6 +99,11 @@ class TableComponent extends Component {
    */
   onCellClick = (value) => console.log('onCellClick', value);
 
+  /**
+   * @param selected
+   * @param id
+   * @return {*}
+   */
   matchItems(selected, id) {
     return selected.reduce((result, item, index) =>
                   item && item.id === id ? index : result, -1);
@@ -158,6 +173,14 @@ class TableComponent extends Component {
 
   handleChange = (event) => {};
 
+  /**
+   * Formatting of values
+   * @param row
+   * @param key
+   * @param type
+   * @param format
+   * @return {*}
+   */
   getInfoByKey = (row, key, type, format) => {
     const value =  get(row, key);
     switch (type) {
@@ -243,6 +266,7 @@ TableComponent.PropTypes = {
                       PropTypes.object
                     ).isRequired,
   path             : PropTypes.string.isRequired,
+  domen            : PropTypes.string.isRequired,
   tableHeader      : PropTypes.arrayOf(
                       PropTypes.shape({
                         title   : PropTypes.string.isRequired,

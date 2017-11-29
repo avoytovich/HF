@@ -15,7 +15,7 @@ const template = {
   }
 };
 const initialState = {
-  listOfTables: [ 'diagnosis']
+  listOfTables: [ 'diagnosis', 'conditions']
 };
 
 const _initialState = () => {
