@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import { browserHistory } from 'react-router';
 
 import { Api } from '../../utils';
-import { page } from '../../config';
+import { PAGE } from '../../config';
 import {
   dispatchUserClearWired,
   notifier,

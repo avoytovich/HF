@@ -8,9 +8,16 @@ import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
 import CheckBox from '../../common/CheckBox/CheckBox';
 
-import { loginWired } from '../../../actions'
+import {
+  loginWired,
+  getUserWired,
+} from '../../../actions'
 
 class Login extends Component {
+  _loginAndGetUserInfo = (data) => {
+    loginWired(data)
+      .then(() => getUserWired());
+  }
   render() {
     const {
       authReducer,
@@ -67,7 +74,7 @@ class Login extends Component {
 
             <div className="login-button-wrapper">
               <Button
-                onClick={() => loginWired({ email, password })}
+                onClick={() => this._loginAndGetUserInfo({ email, password })}
                 raised
                 className="button-custom-black"
               >

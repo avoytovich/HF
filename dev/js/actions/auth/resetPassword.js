@@ -1,7 +1,7 @@
 import { browserHistory } from 'react-router';
 
 import { Api } from '../../utils';
-import { page } from '../../config';
+import { PAGE } from '../../config';
 import { notifier } from '../../actions';
 import { domen, api } from '../../config/apiRoutes';
 
@@ -19,7 +19,7 @@ export const resetPasswordWired = data => resetPassword(data)
       message: 'Password has been updated',
       status: 'success',
     })
-    browserHistory.push(page.login)
+    browserHistory.push(PAGE.login)
   })
   .catch(err => {
     notifier({

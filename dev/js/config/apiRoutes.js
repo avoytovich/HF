@@ -11,11 +11,12 @@ export const domen = {
 
 export const api = {
   login: '/auth/login',
+  userOwn: '/users/my',
   logout: '/auth/logout',
   packages: '/packages',
-  diagnosis: '/matrix/questions'
+  diagnosis: '/matrix/questions',
   passForgot: '/auth/password/forgot/web',
-  passReset: '/auth/password/update'
+  passReset: '/auth/password/update',
 };
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`
 export const assets = 'http://localhost:3030/assets';

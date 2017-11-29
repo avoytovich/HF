@@ -17,3 +17,8 @@ export const logoutWired = () => logout()
     dispatchUserClearWired();
     browserHistory.push(PAGE.login);
   });
+
+export const logoutSimple = () => {
+  dispatchUserClearWired();
+  browserHistory.push(PAGE.login);
+};
