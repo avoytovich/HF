@@ -6,7 +6,7 @@ import commonReducer              from './commonReducers/commonReducer';
 import userReducer                from './userReducer/userReducer';
 import * as authReducers          from './authReducers';
 import * as matrixReducers        from './matrixReducers';
-
+import * as tableReducers         from './TablesReducer'
 const config = {
   key: 'root',
   whitelist: ['userReducer'], // for those we need to be saved (only these will be saved)
@@ -18,6 +18,7 @@ const rootReducer = persistCombineReducers(config, {
   userReducer,
   ...authReducers,
   ...matrixReducers.default,
+  ...tableReducers.default,
   routing: routerReducer
 });
 

@@ -57,7 +57,7 @@ import TypicalListPage from './components/common/TypicalListPage/TypicalListPage
    TEST_DIAGNOSTIC_FLOW_PAGE
  } from './utils/constants/pageContent';
 
-import { page } from './config';
+import { PAGE } from './config';
 import { onAllEnter } from './utils';
 
 import {
@@ -100,10 +100,10 @@ const router = (
       history={history}
       onUpdate={() => window.scrollTo(0, 0)}
     >
-      <Route path={page.signup}     component={SignUp} />
-      <Route path={page.login}      component={Login} />
-      <Route path={page.passReset}  component={ResetPassword} />
-      <Route path={page.passForgot} component={ForgotPassword} />
+      <Route path={PAGE.signup}     component={SignUp} />
+      <Route path={PAGE.login}      component={Login} />
+      <Route path={PAGE.passReset}  component={ResetPassword} />
+      <Route path={PAGE.passForgot} component={ForgotPassword} />
       <Route
         path={'/'}
         component={Main}
@@ -121,10 +121,10 @@ const router = (
 
           <IndexRedirect to="diagnosis"/>
 
-          <Route path='diagnosis'           component={ DiagnosisComponent } />
+          <Route path='diagnosis'           component={(props) => <DiagnosisComponent {...props}/>} />
           {/*<Route path='conditions'          component={ ConditionsComponent } />*/}
           {/*<Route path='treatments'          component={ TreatmentsComponent } />*/}
-          <Route path='packages'            component={ PackagesComponent } />
+          <Route path='packages'            component={(props) => <PackagesComponent {...props} />} />
           {/*<Route path='evaluation'          component={ EvaluationComponent } />*/}
           {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
           {/*<Route path='achievements'        component={ AchievementsComponent } />*/}

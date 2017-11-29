@@ -9,8 +9,6 @@ import Edit                 from 'material-ui-icons/Edit';
 import Delete               from 'material-ui-icons/Delete';
 import NotInterested        from 'material-ui-icons/NotInterested';
 
-import qs                   from 'query-string';
-
 class DiagnosisComponent extends Component {
   state = {
     selected: []
@@ -21,11 +19,6 @@ class DiagnosisComponent extends Component {
       browserHistory.push(`/diagnosis-create/${id}`);
 
   deleteItems = (items = []) => {
-//    const string = qs.stringify({ firstName: 'John', lastName: 'Doe' });
-//    browserHistory.push({
-//      pathname: '/matrix-setup/diagnosis',
-//      query: { order: 'asc' }
-//    })
   };
 
   deactivate = (items = []) => {alert('deactivate')};
@@ -81,7 +74,7 @@ class DiagnosisComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  store: state.diagnosis
+  store: state.tables.diagnosis
 });
 
 export default  connect(mapStateToProps)(DiagnosisComponent);

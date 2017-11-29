@@ -1,38 +1,76 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component }   from 'react';
+import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
-import PropTypes from 'prop-types';
+import PropTypes              from 'prop-types';
 import Table, {
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableSortLabel,
-} from 'material-ui/Table';
-import Checkbox from 'material-ui/Checkbox';
-import Tooltip from 'material-ui/Tooltip';
-import EnhancedTableHead from './TableHeader';
-import { getMmatrixInfo } from '../../../actions';
+        TableBody,
+        TableCell,
+        TableFooter,
+        TablePagination,
+        TableRow }            from 'material-ui/Table';
+import Checkbox               from 'material-ui/Checkbox';
+import EnhancedTableHead      from './TableHeader';
+import { getMatrixInfo }      from '../../../actions';
+import get                    from 'lodash/get';
+import isEmpty                from 'lodash/isEmpty'
+import moment                 from 'moment';
+import { browserHistory }     from 'react-router'
+import { PAGE }               from '../../../config'
+import { withRouter }         from 'react-router'
 
+
+/*
+ * Important Requirement:
+ * 1) Add path props to tableReducer in listOfTables = [ 'diagnosis', 'conditions', * YOUR_ITEM * ],
+ * 2) Add url to constant PAGE, key should be the same with 'path' props { [ path ]: '/some-url' };
+ */
 
 class TableComponent extends Component {
 
-
   componentDidMount() {
-    this.getInfo(this.props, this.props.store.pagination);
+    this.setDefaultQuery(this.props.path, this.props.store.pagination);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location !== nextProps.location &&
+        nextProps.location.query) {
+      this.getInfo(this.props, nextProps.location.query);
+    }
+  }
+
+  /**
+   * @param pathname  : {string} - current url
+   * @param pagination: {{ per_page: string, page: string }}
+   */
+  setDefaultQuery = (pathname, pagination) => {
+    console.log('browserHistory', this.props.location.query);
+    const currentQuery = this.props.location.query;
+    const currentPath = PAGE[this.props.path];
+    const { per_page, current_page } =
+      isEmpty(currentQuery) ? pagination : currentQuery;
+    browserHistory.push({
+      pathname: currentPath,
+      query: {
+        current_page,
+        per_page
+      }
+    });
+  };
+
+  /**
+   * @param domen: {string}     - custom api to microservice
+   * @param path: {string}      - variable with location for curent page
+   * @param per_page: {string}  - count of items per page
+   * @param current_page: {string}      - current page
+   */
   getInfo = ({domen, path}, {per_page, current_page}) => {
     const query = {
       per_page: per_page,
-      page: current_page
+      page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
     };
-    getMmatrixInfo(domen, path, query)
+    getMatrixInfo(domen, path, query, 'diagnosis')
   };
 
-  // TableHead methods
   /**
    * @param allSelected: boolean
    */
@@ -45,11 +83,12 @@ class TableComponent extends Component {
     }
   };
 
-  handleRequestSort = (event, property) => {
+  /**
+   * @param event
+   * @param property
+   */
+  handleRequestSort = (event, property) => {};
 
-  };
-
-  // TABLE METHODS
    /**
    * @param value: string
    */
@@ -60,6 +99,11 @@ class TableComponent extends Component {
    */
   onCellClick = (value) => console.log('onCellClick', value);
 
+  /**
+   * @param selected
+   * @param id
+   * @return {*}
+   */
   matchItems(selected, id) {
     return selected.reduce((result, item, index) =>
                   item && item.id === id ? index : result, -1);
@@ -92,20 +136,66 @@ class TableComponent extends Component {
     this.props.onRowClick(result);
   };
 
-  // PAGINATION METHODS
   /**
+   * Change number of page
    * @param e: event
-   * @param page: string
+   * @param nextPage: string
    */
-  handleChangePage = (e, page) => {};
+  handleChangePage = (e, nextPage) => {
+    const currentPath = PAGE[this.props.path];
+    const { per_page } = this.props.store.pagination;
 
-  handleChangeRowsPerPage = (event) => {};
+    browserHistory.push({
+      pathname: currentPath,
+      query: {
+        per_page: per_page,
+        current_page: nextPage
+      }
+    });
+  };
+
+  /**
+   * Change count of items per page
+   * @param event
+   */
+  handleChangeRowsPerPage = (event) => {
+    const currentPath = PAGE[this.props.path];
+    const { current_page } = this.props.store.pagination;
+
+    browserHistory.push({
+      pathname: currentPath,
+      query: {
+        per_page: event.target.value,
+        current_page: 0
+      }
+    });
+  };
 
   handleChange = (event) => {};
 
+  /**
+   * Formatting of values
+   * @param row
+   * @param key
+   * @param type
+   * @param format
+   * @return {*}
+   */
+  getInfoByKey = (row, key, type, format) => {
+    const value =  get(row, key);
+    switch (type) {
+      case 'time':
+       return moment.unix(value).format('hh:mm DD.MM.YYYY');
+      case 'number':
+        return value;
+      default:
+        return value ? value : '-';
+    }
+  };
+
   render() {
     const { tableHeader, selected, onSelectAllClick} = this.props;
-    const { data, pagination: {  per_page, current_page } } = this.props.store;
+    const { data, pagination: {  per_page, current_page, total } } = this.props.store;
 
     return (
       <Table className="table-template">
@@ -128,7 +218,7 @@ class TableComponent extends Component {
                       tabIndex={-1}
                       role="checkbox"
                       selected={isSelected}
-                      className={row.deActive ?'de-active' : 'active'}
+                      className={row.enabled ? 'active' : 'de-active'}
                       aria-checked={isSelected}
                       onClick={event => this.handleClick(event, row, selected)}>
 
@@ -138,8 +228,9 @@ class TableComponent extends Component {
 
                     {tableHeader.map( (col, index) =>
                       <TableCell key={index}
+                                 className={col.className}
                                  padding="dense">
-                        {row[col.key]}
+                        { this.getInfoByKey(row, col.key, col.type, col.format) }
                       </TableCell>)}
             </TableRow>
           })}
@@ -147,9 +238,9 @@ class TableComponent extends Component {
         <TableFooter>
           <TableRow>
             <TablePagination
-              count={data.length}
+              count={total}
               rowsPerPage={per_page}
-              page={current_page}
+              page={current_page - 1}
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
             />
@@ -161,7 +252,7 @@ class TableComponent extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    store: state[ownProps.path]
+    store    : state.tables[ownProps.path]
 });
 
 TableComponent.defaultProps = {
@@ -175,6 +266,7 @@ TableComponent.PropTypes = {
                       PropTypes.object
                     ).isRequired,
   path             : PropTypes.string.isRequired,
+  domen            : PropTypes.string.isRequired,
   tableHeader      : PropTypes.arrayOf(
                       PropTypes.shape({
                         title   : PropTypes.string.isRequired,
@@ -188,8 +280,9 @@ TableComponent.PropTypes = {
   onRowClick       : PropTypes.func.isRequired,
   onSelectAllClick : PropTypes.func.isRequired,
 };
+
 const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(TableComponent);
+export default  connect(mapStateToProps, mapDispatchToProps)(withRouter(TableComponent));
