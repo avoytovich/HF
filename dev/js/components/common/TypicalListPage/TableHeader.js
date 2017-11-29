@@ -40,11 +40,14 @@ class EnhancedTableHead extends Component {
           </TableCell>
 
           {columnTitleList.map((column, index) =>
-            <TableCell key={index} padding="dense">
+            <TableCell className={column.className}
+                       key={index}
+                       padding="dense">
 
               <TableSortLabel
                 active={orderBy === column.key}
                 direction={order}
+
                 onClick={this.createSortHandler(column.key)}
               >
                 {column.title}

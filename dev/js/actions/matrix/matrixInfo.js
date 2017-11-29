@@ -1,10 +1,9 @@
-import get from 'lodash/get';
-import { Api } from '../../utils';
-import { dispatchUserPayloadWired } from '../../actions';
+import get            from 'lodash/get';
+import { Api }        from '../../utils';
 import { domen, api } from '../../config/apiRoutes';
-import qs                   from 'query-string';
-
-import axios from 'axios';
+import { LIST }       from '../index'
+import { store }      from '../../index'
+import qs             from 'query-string';
 
 const getInfo = (domenPath, apiPath, query) => {
   return query ?
@@ -16,8 +15,8 @@ export const getMmatrixInfo = (domenKey, apiKey, query) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey],
         querySt   = qs.stringify(query);
-  return getInfo(domenPath, apiPath, querySt).then(
-    res => {
-      console.log(res)
-    })
+  return getInfo(domenPath, apiPath, querySt).then(dispatchTableInfo)
 };
+
+export const dispatchTableInfo = ({data}) =>
+  store.dispatch({ type: `${LIST}_UPDATE` , payload: data});
