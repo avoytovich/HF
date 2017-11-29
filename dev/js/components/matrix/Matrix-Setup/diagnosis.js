@@ -1,19 +1,22 @@
-import React, { Component } from 'react';
-import { connect }          from 'react-redux';
-import { DIAGNOSIS_TAB }    from '../../../utils/constants/pageContent';
-import { TableComponent }   from '../../../components/common/TypicalListPage';
-import { browserHistory }   from 'react-router'
-import PageNavigation       from '../../common/TypicalListPage/pageNavigation';
-import Button               from 'material-ui/Button';
-import Edit                 from 'material-ui-icons/Edit';
-import Delete               from 'material-ui-icons/Delete';
-import NotInterested        from 'material-ui-icons/NotInterested';
-import DeactivateComponent  from './matrix-crud/deactivateModal';
+import React, { Component }     from 'react';
+import { connect }              from 'react-redux';
+import { DIAGNOSIS_TAB }        from '../../../utils/constants/pageContent';
+import { TableComponent }       from '../../../components/common/TypicalListPage';
+import { browserHistory }       from 'react-router'
+import PageNavigation           from '../../common/TypicalListPage/pageNavigation';
+import Button                   from 'material-ui/Button';
+import Edit                     from 'material-ui-icons/Edit';
+import Delete                   from 'material-ui-icons/Delete';
+import NotInterested            from 'material-ui-icons/NotInterested';
+import DeactivateComponent      from './matrix-crud/deactivateModal'
+import DeleteComponent          from './matrix-crud/deleteModal';
+
 
 class DiagnosisComponent extends Component {
   state = {
     selected: [],
-    deactivateOpen: false
+    deactivateOpen: false,
+    deleteOpen: false
   };
 
   create = (id) => id ?
@@ -31,7 +34,7 @@ class DiagnosisComponent extends Component {
 
   render() {
     const { tableHeader } = DIAGNOSIS_TAB;
-    const { selected, deactivateOpen } = this.state;
+    const { selected, deactivateOpen, deleteOpen } = this.state;
 
     return (
       <div id="diagnosis-component">
@@ -39,25 +42,37 @@ class DiagnosisComponent extends Component {
         <DeactivateComponent
           path="diagnosis"
           domen="diagnostics"
+          typeKey="deactivateOpen"
           list={selected}
           deactivateOpen={deactivateOpen}
           open={this.updateModal}
+          itemKey="question.en"
+        />
+
+        <DeleteComponent
+          path="diagnosis"
+          domen="diagnostics"
+          typeKey="deleteOpen"
+          list={selected}
+          deactivateOpen={deleteOpen}
+          open={this.updateModal}
+          itemKey="question.en"
         />
 
         <PageNavigation
           path="diagnosis"
           selected={selected}>
 
-          <Button
-            disabled={selected.length > 1}
-            onClick={() => this.create(selected[0])}
-            raised dense>
-            <Edit />
-            Edit
-          </Button>
+          {/*<Button*/}
+            {/*disabled={selected.length > 1}*/}
+            {/*onClick={() => this.create(selected[0])}*/}
+            {/*raised dense>*/}
+            {/*<Edit />*/}
+            {/*Edit*/}
+          {/*</Button>*/}
 
           <Button raised dense
-            onClick={this.deleteItems}>
+            onClick={() => this.updateModal('deleteOpen', true)}>
             <Delete />
             Delete
           </Button>

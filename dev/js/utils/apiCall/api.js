@@ -58,10 +58,13 @@ export class Api {
 
         dispatchCommonPayloadWired({ isLoading: isLoading && isLoading - 1 });
         console.log(err);
+
+        const message = err.response.data.message;
+
         if (options.showErrNotif) {
           notifier({
             title: 'Error occurred',
-            message: get(err, 'response.data.email[0]', 'Something went wrong'),
+            message: get(err, 'response.data.email[0]', message || 'Something went wrong'),
             status: 'error',
           })
         }

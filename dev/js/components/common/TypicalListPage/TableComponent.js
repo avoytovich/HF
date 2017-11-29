@@ -70,7 +70,7 @@ class TableComponent extends Component {
       per_page: per_page,
       page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
     };
-    getMatrixInfo(domen, path, query, 'diagnosis')
+    getMatrixInfo(domen, path, query, path)
   };
 
   /**
@@ -187,7 +187,7 @@ class TableComponent extends Component {
     const value =  get(row, key);
     switch (type) {
       case 'time':
-       return moment.unix(value).format('hh:mm DD.MM.YYYY');
+       return moment.unix(value).format(format);
       case 'number':
         return value;
       default:

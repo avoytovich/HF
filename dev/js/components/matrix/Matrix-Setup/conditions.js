@@ -1,49 +1,87 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { DIAGNOSIS_TAB } from '../../utils/constants/pageContent';
-import { TableComponent } from '../TypicalListPage';
-import { GridList } from 'material-ui/GridList';
-//import RaisedButton from 'material-ui/RaisedButton';
+import React, { Component }     from 'react';
+import { connect }              from 'react-redux';
+import { CONDITIONS_TAB }       from '../../../utils/constants/pageContent';
+import { TableComponent }       from '../../../components/common/TypicalListPage';
+import { browserHistory }       from 'react-router'
+import PageNavigation           from '../../common/TypicalListPage/pageNavigation';
+import Button                   from 'material-ui/Button';
+import Delete                   from 'material-ui-icons/Delete';
+import NotInterested            from 'material-ui-icons/NotInterested';
+import DeactivateComponent      from './matrix-crud/deactivateModal'
+import DeleteComponent          from './matrix-crud/deleteModal';
 
 class ConditionsComponent extends Component {
   state = {
-    rows: [
-      {
-        organization: 'Organization Name',
-        contact: 'John Doe',
-        users: 100,
-        subscription: 'Subscription',
-        start: '01 Mar  2017',
-        ending: '01 Mar  2018'
-      }
-    ]
+    selected: [],
+    deactivateOpen: false,
+    deleteOpen: false
   };
 
+  create = (id) => id ?
+    browserHistory.push(`/conditions-create`) :
+    browserHistory.push(`/conditions-create/${id}`);
+
+  deleteItems = (items = []) => {};
+
+  onRowClick = (selected = []) => this.setState({selected});
+
+  onSelectAllClick = (selected) => this.setState({selected});
+
+
+  updateModal = (key, value) => this.setState({ [key]: value });
   render() {
-    const { tableHeader } = DIAGNOSIS_TAB;
+    const { tableHeader } = CONDITIONS_TAB;
+    const { selected, deactivateOpen, deleteOpen } = this.state;
 
     return (
-      <div id="diagnosis-component">
+      <div id="conditions-component">
 
-        <GridList cols={2} cellHeight='auto' className="page-navigation">
+        <DeactivateComponent
+          path="conditions"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
+          list={selected}
+          deactivateOpen={deactivateOpen}
+          open={this.updateModal}
+          itemKey="title"
+        />
 
-          <div>
-            {/*<RaisedButton label="+ Add New"   className="page-navigation-button"/>*/}
-            {/*<RaisedButton label="Delete"      className="page-navigation-button"/>*/}
-          </div>
+        <DeleteComponent
+          path="conditions"
+          domen="diagnostics"
+          typeKey="deleteOpen"
+          list={selected}
+          deactivateOpen={deleteOpen}
+          open={this.updateModal}
+          itemKey="title"
+        />
 
-          <div>
-            {/*Pagination*/}
-          </div>
+        <PageNavigation
+          path="conditions"
+          selected={selected}>
 
-        </GridList>
+          <Button raised dense
+                  onClick={() => this.updateModal('deleteOpen', true)}>
+            <Delete />
+            Delete
+          </Button>
 
-        <div className="diagnosis-table">
-          <TableComponent
-            tableHeader={ tableHeader }
-            tableRows={this.state.rows}
-          />
-        </div>
+          <Button raised dense
+                  onClick={() => this.updateModal('deactivateOpen', true)}>
+            <NotInterested />
+            Deactivate
+          </Button>
+
+        </PageNavigation>
+
+        <TableComponent
+          path="conditions"
+          domen="diagnostics"
+          tableHeader={ tableHeader }
+          selected={selected}
+          onRowClick={this.onRowClick}
+          onSelectAllClick={this.onSelectAllClick}
+        />
 
       </div>
     )

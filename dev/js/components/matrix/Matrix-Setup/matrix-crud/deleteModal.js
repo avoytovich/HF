@@ -8,13 +8,13 @@ import Slide                  from 'material-ui/transitions/Slide';
 import Button                 from 'material-ui/Button';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deactivateItem }      from '../../../../actions';
+import { deleteItem }         from '../../../../actions';
 
 
-class DeactivateComponent extends Component {
+class DeleteComponent extends Component {
 
   deactivate = ({list, path, domen}) => {
-    deactivateItem(domen, path, list)
+    deleteItem(domen, path, list)
       .then(() => {
         this.props.open(this.props.typeKey, false);
       })
@@ -24,13 +24,14 @@ class DeactivateComponent extends Component {
 
   render() {
     const { list, deactivateOpen, open, typeKey, itemKey } = this.props;
+
     return  <Dialog
       open={deactivateOpen}
       transition={this.transition}
       keepMounted
-      onRequestClose={() => open(typeKey, false)}
+      onRequestClose={() => open(key, false)}
     >
-      <DialogTitle> Deactivate this question ? </DialogTitle>
+      <DialogTitle> Delete this question ? </DialogTitle>
 
       <DialogContent>
         {list.map((item, index) =>
@@ -44,7 +45,7 @@ class DeactivateComponent extends Component {
           Cancel
         </Button>
         <Button onClick={() => this.deactivate(this.props)} color="primary">
-          Deactivate
+          Delete
         </Button>
       </DialogActions>
 
@@ -55,4 +56,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapDispatchToProps)(DeactivateComponent)
+export default connect(mapDispatchToProps)(DeleteComponent)

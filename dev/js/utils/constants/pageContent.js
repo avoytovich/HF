@@ -1,4 +1,7 @@
 
+
+const TIME_FORMAT = 'DD MMM YYYY';
+
 export const ORGANISATION_PAGE = {
   key:         'organizations',
   title:       'Organizations',
@@ -65,14 +68,13 @@ export const TEST_DIAGNOSTIC_FLOW_PAGE = {
   ]
 };
 
-
 // Matrix Page
 export const DIAGNOSIS_TAB = {
   key: 'diagnosis',
   title: 'Diagnosis',
   tableHeader: [
     {
-      title: 'Name',        key: 'question.en', className: 'left'
+      title: 'Name',        key: 'question.en',       className: 'left'
     },
     {
       title: 'Type',        key: 'type',        className: 'left'
@@ -90,9 +92,58 @@ export const DIAGNOSIS_TAB = {
       title: 'Answer type', key: 'answer.type', className: 'center'
     },
     {
-      title: 'Created',     key: 'created_at',  className: 'left', type: 'time',   format: 'hh:mm DD.MM.YYYY'
+      title: 'Created',     key: 'created_at',  className: 'left', type: 'time',   format: TIME_FORMAT
     },
-//    { title: 'Created by',  key: 'created_by',  type: 'time'},
+  ]
+};
+
+export const CONDITIONS_TAB = {
+  key: 'conditions',
+  title: 'Conditions',
+  tableHeader: [
+    {
+      title: 'Name',        key: 'title',       className: 'left'
+    },
+    {
+      title: 'Body Areas',  key: 'area',        className: 'center'
+    },
+    {
+      title: 'Key',         key: 'key',         className: 'left'
+    },
+    {
+      title: 'Created by',  key: 'created_by',  className: 'left'
+    },
+    {
+      title: 'Created',     key: 'created_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
+    {
+      title: 'Updated',     key: 'updated_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
+  ]
+};
+
+export const TREATMENTS_TAB = {
+  key: 'conditions',
+  title: 'Conditions',
+  tableHeader: [
+    {
+      title: 'Name',        key: 'title', className: 'left'
+    },
+    {
+      title: 'Body Areas',  key: 'area',        className: 'center'
+    },
+    {
+      title: 'Key',         key: 'key',         className: 'left'
+    },
+    {
+      title: 'Created by',  key: 'created_by',  className: 'left'
+    },
+    {
+      title: 'Created',     key: 'created_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
+    {
+      title: 'Updated',     key: 'updated_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
   ]
 };
 

@@ -11,12 +11,12 @@ const TABS = [
   { label: 'Diagnosis',     url: 'diagnosis' },
   { label: 'Conditions',    url: 'conditions' },
   { label: 'Treatments',    url: 'treatments' },
-  { label: 'Packages',      url: 'packages' },
-  { label: 'Evaluation',    url: 'evaluation' },
-  { label: 'Meta Controls', url: 'meta-controls' },
-  { label: 'Achievements',  url: 'achievements' },
-  { label: 'Exercises',     url: 'exercises' },
-  { label: 'Tests',         url: 'tests' },
+//  { label: 'Packages',      url: 'packages' },
+//  { label: 'Evaluation',    url: 'evaluation' },
+//  { label: 'Meta Controls', url: 'meta-controls' },
+//  { label: 'Achievements',  url: 'achievements' },
+//  { label: 'Exercises',     url: 'exercises' },
+//  { label: 'Tests',         url: 'tests' },
 ];
 
 const styles = theme => ({
@@ -58,7 +58,6 @@ class MatrixComponent extends Component {
   };
 
   render() {
-
     return (
       <div id="matrix-setup">
           <AppBar position="static" color="default">

@@ -35,3 +35,11 @@ export const deactivateItem = (domenKey, apiKey, ids) => {
 
   return Promise.all(apiList).then(res => res)
 };
+
+export const deleteItem = (domenKey, apiKey, ids) => {
+  const domenPath = domen[domenKey],
+    apiPath   = api[apiKey],
+    apiList   = ids.map(item => Api.delete(`${domenPath}${apiPath}/${item.id}`));
+
+  return Promise.all(apiList).then(res => res)
+};

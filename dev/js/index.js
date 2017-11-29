@@ -37,9 +37,9 @@ import TypicalListPage from './components/common/TypicalListPage/TypicalListPage
  import {
    MatrixComponent,
    DiagnosisComponent,
-//   ConditionsComponent,
-//   TreatmentsComponent,
-   PackagesComponent,
+   ConditionsComponent,
+   TreatmentsComponent,
+//   PackagesComponent,
 //   EvaluationComponent,
 //   MetaControlsComponent,
 //   AchievementsComponent,
@@ -121,10 +121,10 @@ const router = (
 
           <IndexRedirect to="diagnosis"/>
 
-          <Route path='diagnosis'           component={(props) => <DiagnosisComponent {...props}/>} />
-          {/*<Route path='conditions'          component={ ConditionsComponent } />*/}
-          {/*<Route path='treatments'          component={ TreatmentsComponent } />*/}
-          <Route path='packages'            component={(props) => <PackagesComponent {...props} />} />
+          <Route path='diagnosis'           component={(props) => <DiagnosisComponent {...props}/> } />
+          <Route path='conditions'          component={(props) => <ConditionsComponent {...props}/>} />
+          <Route path='treatments'          component={(props) => <TreatmentsComponent {...props}/>} />
+          {/*<Route path='packages'            component={(props) => <PackagesComponent {...props} />} />*/}
           {/*<Route path='evaluation'          component={ EvaluationComponent } />*/}
           {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
           {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
