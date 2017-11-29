@@ -15,6 +15,8 @@ import StarBorder from 'material-ui-icons/StarBorder';
 
 
 class MainNavigation extends Component {
+  state = { open: false };
+
   navigationList = [
     { title: 'Users',                 url: '/users' },
     { title: 'Resource',              url: '/resource' },
@@ -22,25 +24,61 @@ class MainNavigation extends Component {
     { title: 'Test Diagnostic Flow',  url: '/test-diagnostic-flow' }
   ];
 
+  _onNavItemClick = (e, title) => {
+    if (title === 'Users') {
+      e.preventDefault();
+      this.setState({ open: !this.state.open });
+    }
+  };
+
+  _renderSubMenuItems = title => {
+    return title === 'Users' ?
+      (
+        <div>
+          <Collapse
+            component="li"
+            in={this.state.open}
+            timeout="auto"
+            unmountOnExit
+          >
+            <List disablePadding>
+              <ListItem button>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                <ListItemText inset primary="Starred" />
+              </ListItem>
+            </List>
+          </Collapse>
+        </div>
+      ) :
+      null;
+  };
+
   _renderMenuItems (items = []) {
-    return items.map((nav, index) =>
+    return items.map(({ title, url }, index) =>
       <Link
+        onClick={e => this._onNavItemClick(e, title)}
         key={index}
-        to={nav.url}
+        to={url}
         activeClassName='active-route'
         className="nav-menu-list-item"
       >
-        <ListItem
-          button
-        >
-          <ListItemIcon>
-            <SendIcon />
-          </ListItemIcon>
-          <ListItemText
-            inset
-            primary={nav.title}
-          />
-        </ListItem>
+        <div className="nav-inner-item-wrapper">
+          <ListItem
+            button
+          >
+            <ListItemIcon>
+              <SendIcon />
+            </ListItemIcon>
+            <ListItemText
+              inset
+              primary={title}
+            />
+            { title !== 'Users' ? null : this.state.open ? <ExpandLess /> : <ExpandMore /> }
+          </ListItem>
+        </div>
+        { this._renderSubMenuItems(title) }
       </Link>
     )
   }
@@ -60,50 +98,3 @@ const mapStateToProps = state => ({
 });
 
 export default  connect(mapStateToProps)(MainNavigation);
-
-
-class NestedList extends React.Component {
-  state = { open: true };
-
-  handleClick = () => {
-    this.setState({ open: !this.state.open });
-  };
-
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <List>
-        <ListItem button>
-          <ListItemIcon>
-            <SendIcon />
-          </ListItemIcon>
-          <ListItemText inset primary="Sent mail" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText inset primary="Drafts" />
-        </ListItem>
-        <ListItem button onClick={this.handleClick}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText inset primary="Inbox" />
-          {this.state.open ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse component="li" in={this.state.open} timeout="auto" unmountOnExit>
-          <List disablePadding>
-            <ListItem button className={classes.nested}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText inset primary="Starred" />
-            </ListItem>
-          </List>
-        </Collapse>
-      </List>
-    );
-  }
-}
