@@ -24,45 +24,28 @@ const Switch = require('react-router').Switch;
 import '../sass/index.sass';
 
 //components
-
-import Main from './components/Main';
-
-import Login from './components/auth/Login/Login';
-import SignUp from './components/auth/SignUp/SignUp';
-import ResetPassword from './components/auth/ResetPassword/ResetPassword';
-import ForgotPassword from './components/auth/ForgotPassword/ForgotPassword';
-// import TypicalListPage from './components/TypicalListPage/TypicalListPage';
-import TypicalListPage from './components/common/TypicalListPage/TypicalListPage';
-
- import {
+import Main                           from './components/Main';
+import Login                          from './components/auth/Login/Login';
+import SignUp                         from './components/auth/SignUp/SignUp';
+import ResetPassword                  from './components/auth/ResetPassword/ResetPassword';
+import ForgotPassword                 from './components/auth/ForgotPassword/ForgotPassword';
+import {
    MatrixComponent,
    DiagnosisComponent,
-//   ConditionsComponent,
-//   TreatmentsComponent,
+   ConditionsComponent,
+   TreatmentsComponent,
+   EvaluationComponent,
    PackagesComponent,
-//   EvaluationComponent,
+   ExercisesComponent,
 //   MetaControlsComponent,
 //   AchievementsComponent,
-//   ExercisesComponent,
 //   TestsComponent,
    CreateQuestionComponent
- } from './components/matrix/Matrix-Setup';
+ }                                    from './components/matrix/Matrix-Setup';
 
-//constants
- import {
-   ORGANISATION_PAGE,
-   CLINICS_PAGE,
-   USERS_PAGE,
-   RESOURCE_PAGE,
-   TEST_DIAGNOSTIC_FLOW_PAGE
- } from './utils/constants/pageContent';
-
-import { PAGE } from './config';
-import { onAllEnter } from './utils';
-
-import {
-  dispatchCommonPayloadWired,
-} from './actions';
+import { PAGE }                       from './config';
+import { onAllEnter }                 from './utils';
+import { dispatchCommonPayloadWired } from './actions';
 
 
 import { configureStore } from './config/store';
@@ -121,15 +104,16 @@ const router = (
 
           <IndexRedirect to="diagnosis"/>
 
-          <Route path='diagnosis'           component={(props) => <DiagnosisComponent {...props}/>} />
-          {/*<Route path='conditions'          component={ ConditionsComponent } />*/}
-          {/*<Route path='treatments'          component={ TreatmentsComponent } />*/}
-          <Route path='packages'            component={(props) => <PackagesComponent {...props} />} />
-          {/*<Route path='evaluation'          component={ EvaluationComponent } />*/}
+          <Route path='diagnosis'           component={(props) => <DiagnosisComponent  {...props}/>} />
+          <Route path='conditions'          component={(props) => <ConditionsComponent {...props}/>} />
+          <Route path='treatments'          component={(props) => <TreatmentsComponent {...props}/>} />
+          <Route path='packages'            component={(props) => <PackagesComponent   {...props}/>} />
+          {/*<Route path='evaluation'          component={(props) => <EvaluationComponent {...props} />} />*/}
+          <Route path='exercises'           component={(props) => <ExercisesComponent  {...props}/>} />
+
+          {/*<Route path='tests'               component={ TestsComponent } />*/}
           {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
           {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
-          {/*<Route path='exercises'           component={ ExercisesComponent } />*/}
-          {/*<Route path='tests'               component={ TestsComponent } />*/}
           <Redirect from="*" to="diagnosis"/>
         </Route>
 

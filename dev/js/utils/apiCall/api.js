@@ -72,7 +72,7 @@ export class Api {
         if (options.showErrNotif) {
           notifier({
             title: 'Error occurred',
-            message: get(err, 'response.data.email[0]', 'Something went wrong'),
+            message: get(err, 'response.data.message', 'Something went wrong'),
             status: 'error',
           })
         }

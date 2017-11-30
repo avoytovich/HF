@@ -25,6 +25,8 @@ import { withRouter }         from 'react-router'
  * 2) Add url to constant PAGE, key should be the same with 'path' props { [ path ]: '/some-url' };
  */
 
+//Todo: Add validation for manual typed query, finished with sorting and filter and default query params in props
+
 class TableComponent extends Component {
 
   componentDidMount() {
@@ -47,7 +49,7 @@ class TableComponent extends Component {
     const currentQuery = this.props.location.query;
     const currentPath = PAGE[this.props.path];
     const { per_page, current_page } =
-      isEmpty(currentQuery) ? pagination : currentQuery;
+      isEmpty(currentQuery) ? { per_page: 5, current_page: 0 } : currentQuery;
     browserHistory.push({
       pathname: currentPath,
       query: {
@@ -68,7 +70,7 @@ class TableComponent extends Component {
       per_page: per_page,
       page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
     };
-    getMatrixInfo(domen, path, query, 'diagnosis')
+    getMatrixInfo(domen, path, query, path)
   };
 
   /**
@@ -185,7 +187,7 @@ class TableComponent extends Component {
     const value =  get(row, key);
     switch (type) {
       case 'time':
-       return moment.unix(value).format('hh:mm DD.MM.YYYY');
+       return moment.unix(value).format(format);
       case 'number':
         return value;
       default:
@@ -285,4 +287,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(withRouter(TableComponent));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TableComponent));
