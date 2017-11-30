@@ -40,7 +40,15 @@ export class Api {
     },
     headersIncome = {},
   }) {
-    const { isLoading } = store.getState().commonReducer;
+    const {
+      commonReducer: {
+        isLoading
+      },
+      authReducer: {
+        email,
+        password,
+      },
+    } = store.getState();
     if (options.needLoader) {
       // to track if request is pending (works with multiple requests - value grater then 0 is true)
       dispatchCommonPayloadWired({ isLoading: isLoading + 1 });
@@ -59,8 +67,7 @@ export class Api {
       .catch(err => {
         dispatchCommonPayloadWired({ isLoading: isLoading && isLoading - 1 });
         if (err.response.status === 401) {
-          const { email, password } = store.getState().authReducer;
-          loginWired({ email, password });
+          return loginWired({ email, password });
         }
         if (options.showErrNotif) {
           notifier({
