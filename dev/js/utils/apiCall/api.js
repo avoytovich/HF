@@ -6,6 +6,7 @@ import {
   dispatchUserPayloadWired,
   dispatchCommonPayloadWired,
   notifier,
+  loginWired
 } from '../../actions';
 
 export class Api {
@@ -56,9 +57,11 @@ export class Api {
         return response
       })
       .catch(err => {
-
         dispatchCommonPayloadWired({ isLoading: isLoading && isLoading - 1 });
-        console.log(err);
+        if (err.response.status === 401) {
+          const { email, password } = store.getState().authReducer;
+          loginWired({ email, password });
+        }
         if (options.showErrNotif) {
           notifier({
             title: 'Error occurred',

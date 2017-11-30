@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router'
 import { connect } from 'react-redux';
+import { withStyles } from 'material-ui/styles';
+
 // UI
 import ListSubheader from 'material-ui/List/ListSubheader';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
@@ -13,6 +15,11 @@ import ExpandLess from 'material-ui-icons/ExpandLess';
 import ExpandMore from 'material-ui-icons/ExpandMore';
 import StarBorder from 'material-ui-icons/StarBorder';
 
+const styles = theme => ({
+  nested: {
+    paddingLeft: theme.spacing.unit * 4,
+  },
+});
 
 class MainNavigation extends Component {
   state = { open: false };
@@ -32,6 +39,7 @@ class MainNavigation extends Component {
   };
 
   _renderSubMenuItems = title => {
+    const { classes } = this.props;
     return title === 'Users' ?
       (
         <div>
@@ -41,8 +49,8 @@ class MainNavigation extends Component {
             timeout="auto"
             unmountOnExit
           >
-            <List disablePadding>
-              <ListItem button>
+            <List className="collapsed-nav-item">
+              <ListItem button className={classes.nested}>
                 <ListItemIcon>
                   <StarBorder />
                 </ListItemIcon>
@@ -55,6 +63,8 @@ class MainNavigation extends Component {
       null;
   };
 
+  _renderArrow= title => title !== 'Users' ? null : this.state.open ? <ExpandLess /> : <ExpandMore />;
+
   _renderMenuItems (items = []) {
     return items.map(({ title, url }, index) =>
       <Link
@@ -64,24 +74,23 @@ class MainNavigation extends Component {
         activeClassName='active-route'
         className="nav-menu-list-item"
       >
-        <div className="nav-inner-item-wrapper">
-          <ListItem
-            button
-          >
-            <ListItemIcon>
-              <SendIcon />
-            </ListItemIcon>
-            <ListItemText
-              inset
-              primary={title}
-            />
-            { title !== 'Users' ? null : this.state.open ? <ExpandLess /> : <ExpandMore /> }
-          </ListItem>
-        </div>
+        <ListItem
+          button
+        >
+          <ListItemIcon>
+            <SendIcon />
+          </ListItemIcon>
+          <ListItemText
+            inset
+            primary={title}
+          />
+          { this._renderArrow(title) }
+        </ListItem>
         { this._renderSubMenuItems(title) }
       </Link>
     )
   }
+
   render() {
     return (
       <div className="content-navigation">
@@ -97,4 +106,4 @@ const mapStateToProps = state => ({
   commonReducer: state.commonReducer
 });
 
-export default  connect(mapStateToProps)(MainNavigation);
+export default  connect(mapStateToProps)(withStyles(styles)(MainNavigation));
