@@ -11,6 +11,7 @@ export const domen = {
 
 export const api = {
   login     : '/auth/login',
+  userOwn   : '/users/my',
   logout    : '/auth/logout',
   packages  : '/packages',
   exercises : '/exercises',
