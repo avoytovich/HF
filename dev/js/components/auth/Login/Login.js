@@ -48,7 +48,6 @@ class Login extends Component {
             <div className="login-input-wrapper">
               <Input
                 id='email'
-                value={email}
                 reducer={authReducer}
                 label={ L_LOGIN.email.label }
                 placeholder={ L_LOGIN.email.placeholder }
@@ -56,7 +55,6 @@ class Login extends Component {
               <Input
                 id='password'
                 type="password"
-                value={password}
                 reducer={authReducer}
                 label={ L_LOGIN.password.placeholder }
               />

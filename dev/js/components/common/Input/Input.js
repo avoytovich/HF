@@ -58,7 +58,6 @@ class Input extends Component {
 
 Input.propTypes = {
   id: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
   reducer: PropTypes.object.isRequired,
   classes: PropTypes.object,
   onChange: PropTypes.func,
