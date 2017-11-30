@@ -67,7 +67,8 @@ export class Api {
       .catch(err => {
         dispatchCommonPayloadWired({ isLoading: isLoading && isLoading - 1 });
         if (err.response.status === 401) {
-          return loginWired({ email, password });
+          return loginWired({ email, password })
+            .then(() => Api.xhr({route, method, data, options, headersIncome}))
         }
         if (options.showErrNotif) {
           notifier({
