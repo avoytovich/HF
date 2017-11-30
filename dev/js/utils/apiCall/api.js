@@ -6,6 +6,7 @@ import {
   dispatchUserPayloadWired,
   dispatchCommonPayloadWired,
   notifier,
+  loginWired
 } from '../../actions';
 
 export class Api {
@@ -21,13 +22,13 @@ export class Api {
     return headers;
   };
 
-  static get = (route, options) => Api.xhr({ route, method: 'GET', options });
+  static get = (route, options, headers) => Api.xhr({ route, method: 'GET', options, headersIncome: headers });
 
-  static put = (route, data, options) => Api.xhr({ route, method: 'PUT', data, options });
+  static put = (route, data, options, headers) => Api.xhr({ route, method: 'PUT', data, options, headersIncome: headers });
 
-  static post = (route, data, options) => Api.xhr({ route, method: 'POST', data, options });
+  static post = (route, data, options, headers) => Api.xhr({ route, method: 'POST', data, options, headersIncome: headers });
 
-  static delete = (route, options) => Api.xhr({ route, method: 'DELETE', options });
+  static delete = (route, options, headers) => Api.xhr({ route, method: 'DELETE', options, headersIncome: headers });
 
   static xhr({
     route,
@@ -37,8 +38,17 @@ export class Api {
       needLoader: true,
       showErrNotif: true,
     },
+    headersIncome = {},
   }) {
-    const { isLoading } = store.getState().commonReducer;
+    const {
+      commonReducer: {
+        isLoading
+      },
+      authReducer: {
+        email,
+        password,
+      },
+    } = store.getState();
     if (options.needLoader) {
       // to track if request is pending (works with multiple requests - value grater then 0 is true)
       dispatchCommonPayloadWired({ isLoading: isLoading + 1 });
@@ -47,7 +57,7 @@ export class Api {
       .then(headers => axios({
         url: route,
         method,
-        headers,
+        headers: Object.assign(headers, headersIncome),
         data: data && JSON.stringify(data),
       }))
       .then(response => {
@@ -55,16 +65,15 @@ export class Api {
         return response
       })
       .catch(err => {
-
         dispatchCommonPayloadWired({ isLoading: isLoading && isLoading - 1 });
-        console.log(err);
-
-        const message = err.response.data.message;
-
+        if (err.response.status === 401) {
+          return loginWired({ email, password })
+            .then(() => Api.xhr({route, method, data, options, headersIncome}))
+        }
         if (options.showErrNotif) {
           notifier({
             title: 'Error occurred',
-            message: get(err, 'response.data.email[0]', message || 'Something went wrong'),
+            message: get(err, 'response.data.message', 'Something went wrong'),
             status: 'error',
           })
         }
