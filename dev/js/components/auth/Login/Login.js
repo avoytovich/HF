@@ -17,7 +17,8 @@ class Login extends Component {
   _loginAndGetUserInfo = (data) => {
     loginWired(data)
       .then(() => getUserWired());
-  }
+  };
+
   render() {
     const {
       authReducer,

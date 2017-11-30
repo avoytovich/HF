@@ -6,6 +6,7 @@ import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import omit from 'lodash/omit';
+import get from 'lodash/get';
 
 import { onChange } from '../../../actions'
 
@@ -19,19 +20,20 @@ class Input extends Component {
   render() {
     const {
       id,
-      value,
       classes,
       onChange,
       onCustomChange,
       label = '',
       placeholder = '',
+      reducer,
       reducer: {
         actionType,
         errors,
       },
       ...props,
     } = this.props;
-    const error = errors[id];
+    const value = get(reducer, id, '');
+    const error = get(errors, id, false);
     return (
     <FormControl className={classes.formControl} error={!!error}>
       <TextField
@@ -47,8 +49,7 @@ class Input extends Component {
         {...omit(props, ['dispatch'])}
       />
       {
-        error &&
-        <FormHelperText>{ error }</FormHelperText>
+        error && <FormHelperText>{ error }</FormHelperText>
       }
     </FormControl>
     );
