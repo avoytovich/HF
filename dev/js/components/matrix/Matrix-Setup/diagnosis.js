@@ -61,7 +61,8 @@ class DiagnosisComponent extends Component {
 
         <PageNavigation
           path="diagnosis"
-          selected={selected}>
+          selected={selected}
+          createItem={this.create}>
 
           {/*<Button*/}
             {/*disabled={selected.length > 1}*/}

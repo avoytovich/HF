@@ -42,7 +42,7 @@ class PageNavigation extends Component {
     return `page-navigation ${selected.length ? 'active-navigation' : 'enable-navigation'}`
   };
   render() {
-    const { classes, selected } = this.props;
+    const { classes, selected, createItem } = this.props;
     const mainClass = this.mainClass(selected);
     return (
       <Grid container
@@ -101,6 +101,7 @@ class PageNavigation extends Component {
 
               <Button raised
                       dense
+                      onClick={createItem}
                       color="primary">
                 <Add />
                 Create
