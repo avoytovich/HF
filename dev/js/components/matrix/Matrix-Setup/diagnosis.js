@@ -84,6 +84,12 @@ class DiagnosisComponent extends Component {
           </Button>
 
           <Button raised dense
+                  onClick={() => this.updateModal('activateOpen', true)}>
+            <NotInterested />
+            Activate
+          </Button>
+
+          <Button raised dense
                   onClick={() => this.updateModal('deactivateOpen', true)}>
             <NotInterested />
             Deactivate
