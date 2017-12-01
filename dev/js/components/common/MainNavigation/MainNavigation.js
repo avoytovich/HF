@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router'
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 
 // UI
-import ListSubheader from 'material-ui/List/ListSubheader';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Collapse from 'material-ui/transitions/Collapse';
-import InboxIcon from 'material-ui-icons/MoveToInbox';
-import DraftsIcon from 'material-ui-icons/Drafts';
-import SendIcon from 'material-ui-icons/Send';
 import ExpandLess from 'material-ui-icons/ExpandLess';
 import ExpandMore from 'material-ui-icons/ExpandMore';
-import StarBorder from 'material-ui-icons/StarBorder';
+import Person from 'material-ui-icons/Person'; // users
+import Domain from 'material-ui-icons/Domain'; // companies
+import InsertDriveFile from 'material-ui-icons/InsertDriveFile'; // resources
+import LocalHospital from 'material-ui-icons/LocalHospital'; // clinics
+import SettingsApplications from 'material-ui-icons/SettingsApplications'; // matrix
+
+import { PAGE } from '../../../config';
 
 const styles = theme => ({
   nested: {
@@ -24,78 +25,74 @@ const styles = theme => ({
 class MainNavigation extends Component {
   state = { open: false };
 
-  navigationList = [
-    { title: 'Users',                 url: '/users' },
-    { title: 'Resource',              url: '/resource' },
-    { title: 'Matrix Setup',          url: '/matrix-setup' },
-    { title: 'Test Diagnostic Flow',  url: '/test-diagnostic-flow' }
-  ];
-
-  _onNavItemClick = (e, title) => {
-    if (title === 'Users') {
-      e.preventDefault();
-      this.setState({ open: !this.state.open });
-    }
-  };
-
-  _renderSubMenuItems = title => {
-    const { classes } = this.props;
-    return title === 'Users' ?
-      (
-        <div>
-          <Collapse
-            component="li"
-            in={this.state.open}
-            timeout="auto"
-            unmountOnExit
-          >
-            <List className="collapsed-nav-item">
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <StarBorder />
-                </ListItemIcon>
-                <ListItemText inset primary="Starred" />
-              </ListItem>
-            </List>
-          </Collapse>
-        </div>
-      ) :
-      null;
-  };
-
-  _renderArrow= title => title !== 'Users' ? null : this.state.open ? <ExpandLess /> : <ExpandMore />;
-
-  _renderMenuItems (items = []) {
-    return items.map(({ title, url }, index) =>
-      <Link
-        onClick={e => this._onNavItemClick(e, title)}
-        key={index}
-        to={url}
-        activeClassName='active-route'
-        className="nav-menu-list-item"
-      >
-        <ListItem
-          button
-        >
-          <ListItemIcon>
-            <SendIcon />
-          </ListItemIcon>
-          <ListItemText
-            inset
-            primary={title}
-          />
-          { this._renderArrow(title) }
-        </ListItem>
-        { this._renderSubMenuItems(title) }
-      </Link>
-    )
-  }
-
   render() {
+    const { classes } = this.props;
     return (
       <div className="content-navigation">
         <List>
-        { this._renderMenuItems(this.navigationList)}
+          <Link to={PAGE.companies} activeClassName='active-route' className="nav-menu-list-item">
+            <ListItem button>
+              <ListItemIcon>
+                <Domain />
+              </ListItemIcon>
+              <ListItemText inset primary="Companies" />
+            </ListItem>
+          </Link>
+          <Link
+            to={PAGE.clinics}
+            activeClassName='active-route'
+            className="nav-menu-list-item"
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <LocalHospital />
+              </ListItemIcon>
+              <ListItemText inset primary="Clinics" />
+            </ListItem>
+          </Link>
+          <ListItem button onClick={() => this.setState({ open: !this.state.open })}>
+            <ListItemIcon>
+              <Person />
+            </ListItemIcon>
+            <ListItemText inset primary='Users'/>
+            { this.state.open ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse component="li" in={this.state.open} timeout="auto" unmountOnExit>
+            <List className="collapsed-nav-item">
+              <Link to={PAGE.companies} activeClassName='active-route' className="nav-menu-list-item">
+                <ListItem button className={classes.nested}>
+                  <ListItemIcon>
+                    <Domain />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Companies" />
+                </ListItem>
+              </Link>
+              <Link activeClassName='active-route' className="nav-menu-list-item">
+                <ListItem button className={classes.nested}>
+                  <ListItemIcon>
+                    <LocalHospital />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Clinics" />
+                </ListItem>
+              </Link>
+            </List>
+          </Collapse>
+          <Link to={PAGE.resources} activeClassName='active-route' className="nav-menu-list-item">
+            <ListItem button>
+              <ListItemIcon>
+                <InsertDriveFile />
+              </ListItemIcon>
+              <ListItemText inset primary='Resources'/>
+            </ListItem>
+          </Link>
+          <Link to={PAGE.matrixSetup} activeClassName='active-route' className="nav-menu-list-item">
+            <ListItem button>
+              <ListItemIcon>
+                <SettingsApplications />
+              </ListItemIcon>
+              <ListItemText inset primary='Matrix'/>
+            </ListItem>
+          </Link>
         </List>
       </div>
     )

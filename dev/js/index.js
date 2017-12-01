@@ -96,11 +96,11 @@ const router = (
 
         <IndexRedirect to="organizations"/>
 
-        <Route path='organizations'         component={() => <div>ORGANISATION_PAGE</div>} />
-        <Route path='clinics'               component={() => <div>CLINICS_PAGE</div>} />
-        <Route path='users'                 component={() => <div>USERS_PAGE</div>} />
-        <Route path='resource'              component={() => <div>RESOURCE_PAGE</div>} />
-        <Route path='matrix-setup'          component={ MatrixComponent }>
+        <Route path={PAGE.companies}         component={() => <div>ORGANISATION_PAGE</div>} />
+        <Route path={PAGE.clinics}           component={() => <div>CLINICS_PAGE</div>} />
+        <Route path={PAGE.users}             component={() => <div>USERS_PAGE</div>} />
+        <Route path={PAGE.resources}         component={() => <div>RESOURCE_PAGE</div>} />
+        <Route path={PAGE.matrixSetup}       component={ MatrixComponent }>
 
           <IndexRedirect to="diagnosis"/>
 

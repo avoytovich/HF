@@ -27,15 +27,20 @@ export const api = {
 export const assets = 'http://localhost:3030/assets';
 
 export const PAGE = {
-  home      : '/',
-  login     : '/login',
-  signup    : '/signup',
-  passReset : '/pass-reset',
-  passForgot: '/pass-forgot',
-  diagnosis : '/matrix-setup/diagnosis',
-  conditions: '/matrix-setup/conditions',
-  treatments: '/matrix-setup/treatments',
-  evaluation: '/matrix-setup/evaluation',
-  packages  : '/matrix-setup/packages',
-  exercises : '/matrix-setup/exercises'
+  home       : '/',
+  login      : '/login',
+  signup     : '/signup',
+  passReset  : '/pass-reset',
+  passForgot : '/pass-forgot',
+  companies  : '/companies',
+  clinics    : '/clinics',
+  users      : '/users',
+  resources  : '/resources',
+  matrixSetup: '/matrix-setup',
+  diagnosis  : '/matrix-setup/diagnosis',
+  conditions : '/matrix-setup/conditions',
+  treatments : '/matrix-setup/treatments',
+  evaluation : '/matrix-setup/evaluation',
+  packages   : '/matrix-setup/packages',
+  exercises  : '/matrix-setup/exercises',
 };
