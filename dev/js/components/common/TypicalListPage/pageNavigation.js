@@ -100,8 +100,7 @@ class PageNavigation extends Component {
                   xs={12}>
 
               <Button raised
-                      dense
-                      color="primary">
+                      densen>
                 <Add />
                 Create
               </Button>
