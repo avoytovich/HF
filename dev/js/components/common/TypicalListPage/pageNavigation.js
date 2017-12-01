@@ -99,11 +99,12 @@ class PageNavigation extends Component {
                   md={3}
                   xs={12}>
 
-              <Button raised
-                      densen>
-                <Add />
-                Create
-              </Button>
+              {/*<Button raised*/}
+                      {/*dense*/}
+                      {/*color="primary">*/}
+                {/*<Add />*/}
+                {/*Create*/}
+              {/*</Button>*/}
 
             </Grid>
           </Grid>
