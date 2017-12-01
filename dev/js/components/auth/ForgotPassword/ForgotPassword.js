@@ -8,7 +8,8 @@ import Button from 'material-ui/Button';
 
 import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
-import { page } from '../../../config';
+import { PAGE } from '../../../config';
+import { sendEmailForgetPassWired } from '../../../actions';
 
 class ForgotPassword extends Component {
   render() {
@@ -41,6 +42,7 @@ class ForgotPassword extends Component {
 
             <div className="sign-up-button-wrapper">
               <Button
+                onClick={() => sendEmailForgetPassWired({ email })}
                 raised
                 className="button-custom-black"
               >
@@ -50,7 +52,7 @@ class ForgotPassword extends Component {
 
             <div className="sign-up-to-login-wrapper">
               <p
-                onClick={() => browserHistory.push(page.login)}
+                onClick={() => browserHistory.push(PAGE.login)}
                 className="sign-up-to-login"
               >
                 Log In

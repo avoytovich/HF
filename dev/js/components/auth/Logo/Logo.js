@@ -21,7 +21,7 @@ class SignUp extends Component {
         className="auth-logo-container"
         style={{ backgroundImage: `url(${assets}/images/auth/page-1@3x.png)`}}
       >
-        <img src={`${assets}/images/auth/logo.png`} alt="logo"/>
+        <img src={`${assets}/images/common/logo.png`} alt="logo"/>
       </div>
     );
   }

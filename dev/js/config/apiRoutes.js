@@ -11,6 +11,7 @@ export const domen = {
 
 export const api = {
   login     : '/auth/login',
+  userOwn   : '/users/my',
   logout    : '/auth/logout',
   packages  : '/packages',
   exercises : '/exercises',
@@ -18,6 +19,8 @@ export const api = {
   conditions: '/matrix/conditions',
   treatments: '/matrix/treatments',
   evaluation: '/matrix/evaluation',
+  passForgot: '/auth/password/forgot/web',
+  passReset : '/auth/password/update',
 };
 
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`

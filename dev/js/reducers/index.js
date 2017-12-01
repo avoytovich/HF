@@ -9,7 +9,7 @@ import * as matrixReducers        from './matrixReducers';
 import * as tableReducers         from './TablesReducer'
 const config = {
   key: 'root',
-  whitelist: ['userReducer'], // for those we need to be saved (only these will be saved)
+  whitelist: ['userReducer', 'authReducer'], // for those we need to be saved (only these will be saved)
   storage,
 };
 const rootReducer = persistCombineReducers(config, {

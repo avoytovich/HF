@@ -6,7 +6,6 @@ import { PAGE } from '../../config';
 export function onAllEnter(nextState, replace) {
   const { userReducer } = store.getState();
   //redirect onAllEnter to client page
-  console.log(userReducer);
   if (!userReducer.token) {
     return replace({
       pathname: PAGE.login,
