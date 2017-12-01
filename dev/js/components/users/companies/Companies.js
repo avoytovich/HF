@@ -1,6 +1,6 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { DIAGNOSIS_TAB }        from '../../../utils/constants/pageContent';
+import { SEL_TAB }        from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import PageNavigation           from '../../common/TypicalListPage/pageNavigation';
@@ -34,7 +34,7 @@ class Companies extends Component {
   };
 
   render() {
-    const { tableHeader } = DIAGNOSIS_TAB;
+    const { tableHeader } = SEL_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
 
     return (

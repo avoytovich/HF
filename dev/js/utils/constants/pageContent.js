@@ -197,3 +197,30 @@ export const EXERCISES_TAB = {
   ]
 };
 
+
+
+export const SEL_TAB = {
+  key: 'conditions',
+  title: 'Conditions',
+  tableHeader: [
+    {
+      title: 'Name',        key: 'name',       className: 'left'
+    },
+    {
+      title: 'Customer Name',  key: 'customer_name',   className: 'center'
+    },
+    {
+      title: 'Email',         key: 'email',         className: 'left'
+    },
+    {
+      title: 'Role',         key: 'role',         className: 'left'
+    },
+    {
+      title: 'Created',     key: 'created_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
+    {
+      title: 'Updated',     key: 'updated_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
+  ]
+};
+
