@@ -40,10 +40,7 @@ class CreateQuestionComponent extends Component {
     ]
   };
 
-
-  componentWillUnmount() {
-    clearCreateQuestion()
-  }
+  componentWillUnmount() { clearCreateQuestion(); }
 
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
@@ -96,7 +93,6 @@ class CreateQuestionComponent extends Component {
   cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
 
   onAreasChange = (value) => {
-    debugger;
     updateCrateQuestionFields(value, 'bodyAreas')
   };
 
