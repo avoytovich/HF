@@ -8,16 +8,17 @@ import Slide                  from 'material-ui/transitions/Slide';
 import Button                 from 'material-ui/Button';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deactivateItem }      from '../../../../actions';
+import { deactivateItem,
+         getMatrixInfo }      from '../../../../actions';
 
 
 class DeactivateComponent extends Component {
 
   deactivate = ({list, path, domen}) => {
     deactivateItem(domen, path, list)
-      .then(() => {
-        this.props.open(this.props.typeKey, false);
-      })
+      .then(() =>
+        getMatrixInfo(domen, path, this.props.query, path)
+          .then(() => this.props.open(this.props.typeKey, false)))
   };
 
   transition = (props) => <Slide direction="up" {...props} />;

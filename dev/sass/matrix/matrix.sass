@@ -9,7 +9,13 @@
   .diagnosis-table
     margin-top: 15px
 
+
 #create-question
+  .row-item
+    margin-top: 15px
+    [class^="MuiFormControl"]
+      width: 100%
+
   .page-sub-header
     display: flex
     flex-direction: row
@@ -33,34 +39,39 @@
       flex-direction: row
       justify-content: space-between
       align-items: center
-    .size-buttons
-      border: 1px solid $primary-color
-      cursor: pointer
-      color: $primary-color
-  .item-wrap-row,
-  .item-wrap-column
-    display: flex
-    margin-top: 20px
 
-  .item-wrap-column
-    flex-direction: column
+    .answer
+      margin-top: 40px
 
-  .item-wrap-row
-    flex-direction: row
-    justify-content: space-between
-    .item-wrap
-      flex: 1
-      div:nth-child(2n)
-        margin-right: 10px
 
-  .sub-item-wrap
-    display: flex
-    flex-direction: row
-  .label-text
-    display: flex
-    flex-direction: column
-    padding-bottom: 10px
-  .question-context
-    height: 120px
-  textarea
-    resize: none
+  //  .size-buttons
+  //    border: 1px solid $primary-color
+  //    cursor: pointer
+  //    color: $primary-color
+  //.item-wrap-row,
+  //.item-wrap-column
+  //  display: flex
+  //  margin-top: 20px
+  //
+  //.item-wrap-column
+  //  flex-direction: column
+  //
+  //.item-wrap-row
+  //  flex-direction: row
+  //  justify-content: space-between
+  //  .item-wrap
+  //    flex: 1
+  //    div:nth-child(2n)
+  //      margin-right: 10px
+  //
+  //.sub-item-wrap
+  //  display: flex
+  //  flex-direction: row
+  //.label-text
+  //  display: flex
+  //  flex-direction: column
+  //  padding-bottom: 10px
+  //.question-context
+  //  height: 120px
+  //textarea
+  //  resize: none

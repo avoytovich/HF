@@ -74,7 +74,7 @@ export const DIAGNOSIS_TAB = {
   title: 'Diagnosis',
   tableHeader: [
     {
-      title: 'Name',        key: 'question.en',       className: 'left'
+      title: 'Name',        key: 'title',       className: 'left'
     },
     {
       title: 'Type',        key: 'type',        className: 'left'
