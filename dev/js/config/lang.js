@@ -17,9 +17,15 @@ export default {
     L_RESET_PASS: {},
 
     L_CREATE_QUESTION: {
-      question: 'Question',
-      enterQuestion : 'Enter question',
-
+      enterQuestion   : 'Enter question',
+      enterQuestionKey: 'Enter question',
+      question        : 'Question',
+      questionKey     : 'Question Key',
+      sequence        : 'Sequence',
+      enterSequence   : 'Enter sequence',
+      sequenceProp    : '',
+      answer          : 'Answer',
+      enterAnswer     : 'Enter Answer',
     }
   },
   se: {

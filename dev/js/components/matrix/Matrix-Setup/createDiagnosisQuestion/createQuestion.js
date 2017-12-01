@@ -1,16 +1,19 @@
-import React, { Component }     from 'react';
-import { connect }              from 'react-redux';
-import Select                   from 'react-select';
-import DiagnosisRulesComponent  from './diagnosisRules';
-
+import React, { Component }         from 'react';
+import { bindActionCreators }       from 'redux';
+import { connect }                  from 'react-redux';
+import Select                       from 'react-select';
+import DiagnosisRulesComponent      from './diagnosisRules';
+import { browserHistory }           from 'react-router'
+import { createDiagnosisQuestion }  from '../../../../actions';
 // UI
 import Grid                     from 'material-ui/Grid';
 import Button                   from 'material-ui/Button';
 import Typography               from 'material-ui/Typography';
 import TextField                from 'material-ui/TextField';
-import { bindActionCreators }   from 'redux';
+import Radio                    from 'material-ui/Radio';
 import Input                    from '../../../common/Input/Input';
-
+import { FormControlLabel,
+         FormGroup }            from 'material-ui/Form';
 
 
 class CreateQuestionComponent extends Component {
@@ -18,7 +21,20 @@ class CreateQuestionComponent extends Component {
     questionType: 'Diagnosis',
 
     backPath: '',
-    answer: [1,2,3]
+    answer: [1,2,3],
+    sequenceType: [
+      {label: 'ss', value: 'ddd'},
+      {label: 'ss', value: 'ddd'},
+      {label: 'ss', value: 'ddd'},
+      {label: 'ss', value: 'ddd'},
+      {label: 'ss', value: 'ddd'}
+    ],
+    selectedValue: 'single',
+    answerType: [
+      {label: 'Single',   value: 'single'},
+      {label: 'Range',    value: 'range'},
+      {label: 'Multiple', value: 'multiple '},
+    ]
   };
 
   getOptions = (input, callback) => {
@@ -36,15 +52,27 @@ class CreateQuestionComponent extends Component {
   };
 
   done = () => {
-    console.log('this.props', this.props);
-    this.props.router.goBack();
-//    browserHistory.push(`/${this.state.backPath}`);
+    const value = {
+      "key": "dddd_dd33",
+      "type": "diagnostic",
+      "step": 4.5,
+      "area": "body",
+      "title": "Test body nn",
+      "rule": {
+
+      },
+      "question": {
+        "en": "DD Question ddddd"
+      },
+      "answer": {
+        "answer": 33444
+      }
+    };
+    createDiagnosisQuestion('diagnostics', 'diagnosis', value)
+      .then(() => browserHistory.push(`/matrix-setup/diagnosis`));
   };
 
-  cancel = () => {
-    this.props.router.goBack();
-//    browserHistory.push(`/${this.state.backPath}`);
-  };
+  cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
 
   onChange = () => {}
 
@@ -58,14 +86,24 @@ class CreateQuestionComponent extends Component {
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        question
+        question,
+        questionKey,
+        sequence,
+        enterSequence,
+        sequenceProp,
+        answerType,
+        answerSingle,
+        answerMultiple,
+        answerRange,
+        answer,
+        enterAnswer
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
       },
     } = this.props;
 
-    debugger;
+    console.log('createDiagnosisQuestion', createDiagnosisQuestion);
 
     return (
       <div id="create-question">
@@ -73,10 +111,7 @@ class CreateQuestionComponent extends Component {
           <span>Create Question</span>
           <div className="nav-buttons">
 
-            <Button raised
-                    dense
-                    onClick={this.cancel}
-                    color="primary">
+            <Button onClick={this.cancel}>
               Cancel
             </Button>
 
@@ -84,7 +119,7 @@ class CreateQuestionComponent extends Component {
                     dense
                     onClick={this.done}
                     color="primary">
-              Done
+              Save
             </Button>
 
           </div>
@@ -142,86 +177,92 @@ class CreateQuestionComponent extends Component {
                     reducer={createDiagnosisQuestion}
                     label={ L_CREATE_QUESTION.question }
                     placeholder={ L_CREATE_QUESTION.enterQuestion }
+                    multiline={true}
+                    rows="5"
+                    cols="60"
                   />
                 </Grid>
               </Grid>
 
 
-              {/*<div className="item-wrap-column">*/}
-                {/*<span className="label-text">Type of Question</span>*/}
-                {/*<Select.Async*/}
-                  {/*name="type-of-question"*/}
-                  {/*loadOptions={this.getOptions}*/}
-                  {/*onChange={this.onChange}*/}
-                {/*/>*/}
-              {/*</div>*/}
+              <Grid container className="row-item">
+                <Grid item xs={12}>
+                  <Input
+                    id='questionKey'
+                    value={questionKey}
+                    reducer={createDiagnosisQuestion}
+                    label={ L_CREATE_QUESTION.questionKey }
+                    placeholder={ L_CREATE_QUESTION.enterQuestionKey }
+                  />
+                </Grid>
+              </Grid>
 
-              {/*<div className="item-wrap-column">*/}
-                {/*<span className="label-text">Type of Question</span>*/}
-
-                {/*<div className="sub-item-wrap">*/}
-                  {/*<input type="text" className="Input-ui"/>*/}
-                  {/*/!*<RaisedButton label="+ Add"   className="page-navigation-button" onClick={() => this.done()} />*!/*/}
-                {/*</div>*/}
-
-              {/*</div>*/}
-
-              {/*<div className="item-wrap-column">*/}
-                {/*<span className="label-text">Type of Question</span>*/}
-                {/*<textarea className="Input-ui question-context"/>*/}
-              {/*</div>*/}
-
-              {/*<div className="item-wrap-row">*/}
-
-                {/*<div className="item-wrap">*/}
-                  {/*<span className="label-text">Question Key</span>*/}
-
-                  {/*<Select.Async*/}
-                    {/*name="type-of-question"*/}
-                    {/*loadOptions={this.getOptions}*/}
-                    {/*onChange={this.onChange}*/}
+              <Grid container  className="row-item">
+                <Grid item xs={6}>
+                  {/*<Input*/}
+                    {/*select={true}*/}
+                    {/*id='sequenceProp'*/}
+                    {/*value={sequenceProp}*/}
+                    {/*reducer={createDiagnosisQuestion}*/}
+                    {/*label={ L_CREATE_QUESTION.sequence }*/}
+                    {/*placeholder={ L_CREATE_QUESTION.enterQuestionKey }*/}
+                    {/*currencies={this.state.sequenceType}*/}
                   {/*/>*/}
-                {/*</div>*/}
+                </Grid>
 
-                {/*<div className="item-wrap">*/}
+                <Grid item xs={6}>
+                  <Input
+                    id='sequence'
+                    type="number"
+                    value={sequence}
+                    reducer={createDiagnosisQuestion}
+                    label={ L_CREATE_QUESTION.sequence }
+                    placeholder={ L_CREATE_QUESTION.enterSequence }
+                  />
+                </Grid>
+              </Grid>
 
-                  {/*<span className="label-text">Sequence</span>*/}
-                  {/*<input type="number" className="Input-ui"/>*/}
-                {/*</div>*/}
-              {/*</div>*/}
 
-              {/*<br/>*/}
+              <Grid className="title answer">
+                <Typography type="title"
+                            gutterBottom>
+                  Answers
+                </Typography>
+              </Grid>
 
-              {/*<div className="title">*/}
-                {/*Answers*/}
-              {/*</div>*/}
+              <FormGroup>
+                <Grid container className="row-item">
+                  {this.state.answerType.map((item, index) =>
+                    (<Grid item xs={4} key={index}>
+                      <FormControlLabel
+                        control={<Radio
+                          checked={answerType === item.value}
+                          onChange={() => {}}
+                          value={item.value}
+                          aria-label={item.value}
+                        />}
+                        label={item.label} />
+                      </Grid>)
+                  )}
+                </Grid>
+              </FormGroup>
 
-              {/*<div className="item-wrap-column">*/}
-                {/*<span className="label-text">Type of Answer</span>*/}
-                {/*<div className="item-wrap-row margin-top-remove">*/}
-                  {/*/!*<RaisedButton label="Single"     className="page-navigation-button"/>*!/*/}
-                  {/*/!*<RaisedButton label="Continuous" className="page-navigation-button"/>*!/*/}
-                  {/*/!*<RaisedButton label="Multiple"   className="page-navigation-button"/>*!/*/}
-                {/*</div>*/}
-              {/*</div>*/}
-
-              {/*<br/>*/}
-
-              {/*<span className="label-text">Answers</span>*/}
-
-              {/*<div className="item-wrap-column margin-top-remove">*/}
-
-                {/*{this.state.answer.map((item, i) =>*/}
-                  {/*<div className="item-wrap-row" key={i} >*/}
-                    {/*<div>{i + 1}</div>*/}
-                    {/*<input type="string" className="Input-ui "/>*/}
-                  {/*</div>*/}
-                {/*)}*/}
-
-                {/*/!*<RaisedButton label="+ Add Answer"*!/*/}
-                {/*/!*className="page-navigation-button margin-top"*!/*/}
-                {/*/!*onClick={this.addAnswer}/>*!/*/}
-              {/*</div>*/}
+              <Grid container className="row-item">
+                <ol type="A" style={{width: '100%'}}>
+                {answerSingle.map((answer, index) => (
+                  <li  key={index} className="row-item">
+                    <Grid item xs={12}>
+                      <Input
+                        id={`answerSingle[${index}]`}
+                        value={answerSingle[index]}
+                        reducer={createDiagnosisQuestion}
+                        label={ L_CREATE_QUESTION.answer }
+                        placeholder={ L_CREATE_QUESTION.enterAnswer }
+                      />
+                    </Grid>
+                  </li>))}
+                </ol>
+              </Grid>
 
             </div>
           </Grid>
@@ -242,7 +283,7 @@ class CreateQuestionComponent extends Component {
 }
 const mapStateToProps = state => ({
   createDiagnosisQuestion: state.createDiagnosisQuestion,
-  commonReducer: state.commonReducer,
+  commonReducer          : state.commonReducer,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

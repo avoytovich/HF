@@ -43,3 +43,10 @@ export const deleteItem = (domenKey, apiKey, ids) => {
 
   return Promise.all(apiList).then(res => res)
 };
+
+
+export const createDiagnosisQuestion = (domenKey, apiKey, body) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.post(`${domenPath}${apiPath}`, body);
+}

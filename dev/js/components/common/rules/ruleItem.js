@@ -33,7 +33,7 @@ class RuleItemComponent extends Component {
       return result;
     }, '');
 
-    console.log('titleType', this.titleType);
+//    console.log('titleType', this.titleType);
   }
 
   handleQuestionChange = (questionSelected) =>
@@ -66,7 +66,6 @@ class RuleItemComponent extends Component {
     const {open, anchorEl, questionSelected, answerSelected, navOptions, answer} = this.state;
 
     const supper = this.props.path.join(',');
-    console.log('props', this.props.path);
 
     return  <div className="rules">
     <div className="rules-type">
