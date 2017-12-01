@@ -1,3 +1,5 @@
+import set from 'lodash/set';
+import keys from 'lodash/keys';
 /**
  *
  * @param initialState object
@@ -10,9 +12,20 @@ export const createReducer = (initialState, standardActionType, handlers = {}) =
     console.warn(`Reducer contains an 'undefined' action type. Have you misspelled a constant?`);
   }
   // common action
-  handlers[standardActionType] = (state, action) => ({ ...state, ...action.payload });
+  handlers[standardActionType] = (state, action) => {
+    const stateCopied = { ...state };
+
+    // it allows pass the path in state as complex (i.e. users[index].name)
+    keys(action.payload).forEach(prop => set(stateCopied, prop, action.payload[prop]));
+    return stateCopied;
+  };
+
   // common clear action
   handlers[`${standardActionType}_CLEAR`] = () => initialState;
+
+  // common error handler func - will fire by default when using dev/js/actions/common/onChange.js
+  handlers[`${standardActionType}_ERROR`] = (state, action) =>
+    ({ ...state, errors: action.payload.errors });
 
   return function reducer(state, action) {
     if (state === undefined) {

@@ -1,9 +1,9 @@
 import {
-  NEW_DAY,
+  AUTH,
 } from '../../actions';
 
-import validateDay from './validateDay';
+import validSignup from './validAuth';
 
 export const validate = {
-  [NEW_DAY]: validateDay,
+  [AUTH]: validSignup,
 };
