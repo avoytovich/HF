@@ -10,7 +10,8 @@ import Table, {
         TableRow }            from 'material-ui/Table';
 import Checkbox               from 'material-ui/Checkbox';
 import EnhancedTableHead      from './TableHeader';
-import { getMatrixInfo }      from '../../../actions';
+import { getMatrixInfo,
+         getInfoByPost }      from '../../../actions';
 import get                    from 'lodash/get';
 import isEmpty                from 'lodash/isEmpty'
 import moment                 from 'moment';
@@ -59,17 +60,31 @@ class TableComponent extends Component {
   };
 
   /**
+   * @param reqType
    * @param domen: {string}     - custom api to microservice
    * @param path: {string}      - variable with location for curent page
-   * @param per_page: {string}  - count of items per page
-   * @param current_page: {string}      - current page
+   * @param _query: {object}  - count of items per pa
    */
-  getInfo = ({domen, path}, {per_page, current_page}) => {
-    const query = {
-      per_page: per_page,
-      page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
-    };
-    getMatrixInfo(domen, path, query, path)
+  getInfo = ({reqType, domen, path}, _query) => {
+    switch (reqType) {
+      case 'POST':
+        const body = {
+          "limit": 0,
+          "page": 0,
+          "orderBy": 0,
+          "order": 0,
+        };
+        getInfoByPost(domen, path, body, _query);
+        break;
+
+      default:
+        const {per_page, current_page} = _query;
+        const query = {
+          per_page: per_page,
+          page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
+        };
+        getMatrixInfo(domen, path, query, path)
+    }
   };
 
   /**
@@ -262,12 +277,13 @@ TableComponent.defaultProps = {
   data        : [],
 };
 
-TableComponent.PropTypes = {
+TableComponent.propTypes = {
   data             : PropTypes.arrayOf(
                       PropTypes.object
                     ).isRequired,
   path             : PropTypes.string.isRequired,
   domen            : PropTypes.string.isRequired,
+  reqType          : PropTypes.string,
   tableHeader      : PropTypes.arrayOf(
                       PropTypes.shape({
                         title   : PropTypes.string.isRequired,

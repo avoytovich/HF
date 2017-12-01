@@ -12,7 +12,7 @@ const getInfo = (domenPath, apiPath, query) => {
     Api.get(`${domenPath}${apiPath}`);
 };
 
-export const getMatrixInfo = (domenKey, apiKey, query, path) => {
+export const getMatrixInfo = ( domenKey, apiKey, query, path) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey],
         querySt   = qs.stringify(query);
@@ -28,6 +28,14 @@ export const dispatchTableInfo = ({data}, path) => {
     }
   });
 };
+
+export const getInfoByPost = (domenKey, apiKey, body, _query) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  Api.post(`${domenPath}${apiPath}`, body).then(res => {
+  });
+
+}
 
 export const clearCreateQuestion = () =>
   store.dispatch({type:`${CREATE_QUESTION}_CLEAR`});

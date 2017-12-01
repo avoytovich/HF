@@ -18,7 +18,7 @@ import { PAGE } from '../../../config';
 
 const styles = theme => ({
   nested: {
-    paddingLeft: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing.unit * 2,
   },
 });
 
@@ -61,18 +61,17 @@ class MainNavigation extends Component {
             <List className="collapsed-nav-item">
               <Link to={PAGE.companies} activeClassName='active-route' className="nav-menu-list-item">
                 <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <Domain />
-                  </ListItemIcon>
-                  <ListItemText inset primary="Companies" />
+                  <ListItemText inset primary="Heal Users" />
                 </ListItem>
               </Link>
               <Link activeClassName='active-route' className="nav-menu-list-item">
                 <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <LocalHospital />
-                  </ListItemIcon>
-                  <ListItemText inset primary="Clinics" />
+                  <ListItemText inset primary="Heal Work Users" />
+                </ListItem>
+              </Link>
+              <Link activeClassName='active-route' className="nav-menu-list-item">
+                <ListItem button className={classes.nested}>
+                  <ListItemText inset primary="Heal Clinic Users" />
                 </ListItem>
               </Link>
             </List>

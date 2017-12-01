@@ -2,7 +2,7 @@
 
 const TIME_FORMAT = 'DD MMM YYYY';
 
-export const ORGANISATION_PAGE = {
+export const COMPANIES_PAGE = {
   key:         'organizations',
   title:       'Organizations',
   tableHeader: [

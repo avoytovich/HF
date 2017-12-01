@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
@@ -7,6 +8,8 @@ import Button from 'material-ui/Button';
 import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
 import CheckBox from '../../common/CheckBox/CheckBox';
+
+import { PAGE } from '../../../config';
 
 import {
   loginWired,
@@ -79,6 +82,15 @@ class Login extends Component {
               >
                 { L_LOGIN.loginButton }
               </Button>
+            </div>
+
+            <div className="sign-up-to-login-wrapper">
+              <p
+                onClick={() => browserHistory.push(PAGE.passForgot)}
+                className="sign-up-to-login"
+              >
+                Forgot Password
+              </p>
             </div>
 
           </div>
