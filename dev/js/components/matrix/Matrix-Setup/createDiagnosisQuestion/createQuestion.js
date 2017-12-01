@@ -7,6 +7,7 @@ import { browserHistory }           from 'react-router'
 import { genCharArray }             from '../../../../utils';
 import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
+  clearCreateQuestion,
   findArea }                        from '../../../../actions';
 
 // UI
@@ -23,7 +24,6 @@ import { FormControlLabel,
 class CreateQuestionComponent extends Component {
   state = {
     questionType: 'Diagnosis',
-
     backPath: '',
     answer: [1,2,3],
     sequenceType: [
@@ -40,6 +40,11 @@ class CreateQuestionComponent extends Component {
     ]
   };
 
+
+  componentWillUnmount() {
+    clearCreateQuestion()
+  }
+
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
       const { data } = res.data;
@@ -55,30 +60,11 @@ class CreateQuestionComponent extends Component {
   };
 
   done = (value) => {
-//    const def = {
-//      "key": "dddd_dd33",
-//      "type": "diagnostic",
-//      "step": 4.5,
-//      "area": "body",
-//      "title": "Test body nn",
-//      "rule": {
-//
-//      },
-//      "question": {
-//        "en": "DD Question ddddd"
-//      },
-//      "answer": {
-//        "answer": 33444
-//      }
-//    };
-
-
-
     const result = {
       type : 'diagnostic',
       key  : value.questionKey,
       step : value.sequence,
-      area : value.bodyAreas,
+      area : value.bodyAreas.key,
       title: 'new One',
       question: {
         en: value.question
@@ -110,6 +96,7 @@ class CreateQuestionComponent extends Component {
   cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
 
   onAreasChange = (value) => {
+    debugger;
     updateCrateQuestionFields(value, 'bodyAreas')
   };
 
@@ -140,8 +127,6 @@ class CreateQuestionComponent extends Component {
         currentLanguage: { L_CREATE_QUESTION },
       },
     } = this.props;
-
-    console.log('bodyAreas', bodyAreas);
 
     return (
       <div id="create-question">

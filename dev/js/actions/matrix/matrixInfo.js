@@ -29,6 +29,9 @@ export const dispatchTableInfo = ({data}, path) => {
   });
 };
 
+export const clearCreateQuestion = () =>
+  store.dispatch({type:`${CREATE_QUESTION}_CLEAR`});
+
 export const updateCrateQuestionFields = (data, path) => {
   return store.dispatch({type:`${CREATE_QUESTION}_UPDATE`,
     payload:{
