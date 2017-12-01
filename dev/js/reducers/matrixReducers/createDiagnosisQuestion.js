@@ -30,7 +30,8 @@ const createQuestionUpdate = (state, action) => {
   switch (action.type) {
     case `${CREATE_QUESTION}_UPDATE`:
       const {data, path } = action.payload;
-      return set(state, path, data);
+      const res =  set(state, path, data);
+      return Object.assign({}, res);
     default:
       return state;
   }
