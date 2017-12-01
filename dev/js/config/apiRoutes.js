@@ -21,6 +21,7 @@ export const api = {
   evaluation: '/matrix/evaluation',
   passForgot: '/auth/password/forgot/web',
   passReset : '/auth/password/update',
+  findArea  : '/matrix/areas/get/all',
 };
 
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`

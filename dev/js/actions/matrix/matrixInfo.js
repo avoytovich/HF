@@ -1,7 +1,8 @@
 import get            from 'lodash/get';
 import { Api }        from '../../utils';
 import { domen, api } from '../../config/apiRoutes';
-import { TABLE }      from '../index'
+import { TABLE,
+  CREATE_QUESTION }   from '../index'
 import { store }      from '../../index'
 import qs             from 'query-string';
 
@@ -28,6 +29,18 @@ export const dispatchTableInfo = ({data}, path) => {
   });
 };
 
+export const clearCreateQuestion = () =>
+  store.dispatch({type:`${CREATE_QUESTION}_CLEAR`});
+
+export const updateCrateQuestionFields = (data, path) => {
+  return store.dispatch({type:`${CREATE_QUESTION}_UPDATE`,
+    payload:{
+      data,
+      path
+    }
+  });
+};
+
 export const deactivateItem = (domenKey, apiKey, ids) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey],
@@ -43,3 +56,17 @@ export const deleteItem = (domenKey, apiKey, ids) => {
 
   return Promise.all(apiList).then(res => res)
 };
+
+
+export const diagnosisQuestionCreate = (domenKey, apiKey, body) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.post(`${domenPath}${apiPath}`, body);
+};
+
+export const findArea = (domenKey, apiKey) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.get(`${domenPath}${apiPath}`);
+};
+

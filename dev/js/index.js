@@ -104,7 +104,7 @@ const router = (
 
           <IndexRedirect to="diagnosis"/>
 
-          <Route path='diagnosis'           component={(props) => <DiagnosisComponent  {...props}/>} />
+          <Route path='diagnosis'           component={(props) => <DiagnosisComponent  {...props}/>}/>
           <Route path='conditions'          component={(props) => <ConditionsComponent {...props}/>} />
           <Route path='treatments'          component={(props) => <TreatmentsComponent {...props}/>} />
           <Route path='packages'            component={(props) => <PackagesComponent   {...props}/>} />
@@ -120,7 +120,7 @@ const router = (
         <Route path='test-diagnostic-flow'  component={() => <div>TEST_DIAGNOSTIC_FLOW_PAGE</div>} />
 
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
-        <Route path='diagnosis-create'    component={ CreateQuestionComponent } />
+        <Route path='diagnosis-create'      component={(props) => <CreateQuestionComponent/>} />
 
         {/*<Redirect from="*" to="organizations"/>*/}
 
