@@ -51,6 +51,9 @@ class Input extends Component {
           placeholder={placeholder}
           className={classes.textField}
           margin="normal"
+          SelectProps={{
+            native: true,
+          }}
           {...omit(props, ['dispatch'])}
         >
           {

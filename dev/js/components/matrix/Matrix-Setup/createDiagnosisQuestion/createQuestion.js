@@ -4,7 +4,11 @@ import { connect }                  from 'react-redux';
 import Select                       from 'react-select';
 import DiagnosisRulesComponent      from './diagnosisRules';
 import { browserHistory }           from 'react-router'
-import { createDiagnosisQuestion }  from '../../../../actions';
+import { genCharArray }             from '../../../../utils';
+import { diagnosisQuestionCreate,
+  updateCrateQuestionFields,
+  findArea }                        from '../../../../actions';
+
 // UI
 import Grid                     from 'material-ui/Grid';
 import Button                   from 'material-ui/Button';
@@ -23,11 +27,10 @@ class CreateQuestionComponent extends Component {
     backPath: '',
     answer: [1,2,3],
     sequenceType: [
-      {label: 'ss', value: 'ddd'},
-      {label: 'ss', value: 'ddd'},
-      {label: 'ss', value: 'ddd'},
-      {label: 'ss', value: 'ddd'},
-      {label: 'ss', value: 'ddd'}
+      {label: 'After',  value: 'after'},
+      {label: '',       value: 'none'},
+      {label: 'Before', value: 'before'},
+
     ],
     selectedValue: 'single',
     answerType: [
@@ -37,44 +40,78 @@ class CreateQuestionComponent extends Component {
     ]
   };
 
-  getOptions = (input, callback) => {
-    setTimeout(() => {
-      callback(null, {
-        options: [
-          { value: 'one', label: 'One' },
-          { value: 'two', label: 'Two' }
-        ],
+  getOptions = (input) => {
+    return findArea('diagnostics', 'findArea').then(res => {
+      const { data } = res.data;
+      const _data = data.map(item =>
+        Object.assign({}, item, { label: item.title }));
+      return {
+        options: _data,
         // CAREFUL! Only set this to true when there are no more options,
         // or more specific queries will not be sent to the server.
         complete: true
-      });
-    }, 500);
+      }
+    });
   };
 
-  done = () => {
-    const value = {
-      "key": "dddd_dd33",
-      "type": "diagnostic",
-      "step": 4.5,
-      "area": "body",
-      "title": "Test body nn",
-      "rule": {
+  done = (value) => {
+//    const def = {
+//      "key": "dddd_dd33",
+//      "type": "diagnostic",
+//      "step": 4.5,
+//      "area": "body",
+//      "title": "Test body nn",
+//      "rule": {
+//
+//      },
+//      "question": {
+//        "en": "DD Question ddddd"
+//      },
+//      "answer": {
+//        "answer": 33444
+//      }
+//    };
 
+
+
+    const result = {
+      type : 'diagnostic',
+      key  : value.questionKey,
+      step : value.sequence,
+      area : value.bodyAreas,
+      title: 'new One',
+      question: {
+        en: value.question
       },
-      "question": {
-        "en": "DD Question ddddd"
+      answer: {
+        type: value.answerType,
+        values: this.getAnswer(value.answerType, value)
       },
-      "answer": {
-        "answer": 33444
-      }
+      rule: {}
     };
-    createDiagnosisQuestion('diagnostics', 'diagnosis', value)
+
+    diagnosisQuestionCreate('diagnostics', 'diagnosis', result)
       .then(() => browserHistory.push(`/matrix-setup/diagnosis`));
+  };
+
+  getAnswer = (type, obj) => {
+    const letters      = genCharArray();
+    const correctValue = obj[type];
+    return Object.keys(correctValue).reduce((result, item, index) => {
+      if (item) {
+        const key   = letters[index];
+        const value = correctValue[item];
+        return Object.assign({}, result, { [key]:  value})
+      }
+      return result
+    }, {});
   };
 
   cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
 
-  onChange = () => {}
+  onAreasChange = (value) => {
+    updateCrateQuestionFields(value, 'bodyAreas')
+  };
 
   addAnswer = () => {
     const answer = this.state.answer.concat(1);
@@ -86,15 +123,16 @@ class CreateQuestionComponent extends Component {
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
+        bodyAreas,
         question,
         questionKey,
         sequence,
         enterSequence,
         sequenceProp,
         answerType,
-        answerSingle,
-        answerMultiple,
-        answerRange,
+        single,
+        multiple,
+        range,
         answer,
         enterAnswer
       },
@@ -103,7 +141,7 @@ class CreateQuestionComponent extends Component {
       },
     } = this.props;
 
-    console.log('createDiagnosisQuestion', createDiagnosisQuestion);
+    console.log('bodyAreas', bodyAreas);
 
     return (
       <div id="create-question">
@@ -117,7 +155,7 @@ class CreateQuestionComponent extends Component {
 
             <Button raised
                     dense
-                    onClick={this.done}
+                    onClick={() => this.done(createDiagnosisQuestion)}
                     color="primary">
               Save
             </Button>
@@ -163,7 +201,8 @@ class CreateQuestionComponent extends Component {
                   <Select.Async
                     name="body-areas"
                     loadOptions={this.getOptions}
-                    onChange={this.onChange}
+                    onChange={this.onAreasChange}
+                    value={bodyAreas}
                     />
                 </Grid>
 
@@ -198,7 +237,7 @@ class CreateQuestionComponent extends Component {
               </Grid>
 
               <Grid container  className="row-item">
-                <Grid item xs={6}>
+                {/*<Grid item xs={6}>*/}
                   {/*<Input*/}
                     {/*select={true}*/}
                     {/*id='sequenceProp'*/}
@@ -208,9 +247,9 @@ class CreateQuestionComponent extends Component {
                     {/*placeholder={ L_CREATE_QUESTION.enterQuestionKey }*/}
                     {/*currencies={this.state.sequenceType}*/}
                   {/*/>*/}
-                </Grid>
+                {/*</Grid>*/}
 
-                <Grid item xs={6}>
+                <Grid item xs={2}>
                   <Input
                     id='sequence'
                     type="number"
@@ -249,12 +288,11 @@ class CreateQuestionComponent extends Component {
 
               <Grid container className="row-item">
                 <ol type="A" style={{width: '100%'}}>
-                {answerSingle.map((answer, index) => (
+                {single.map((answer, index) => (
                   <li  key={index} className="row-item">
                     <Grid item xs={12}>
                       <Input
-                        id={`answerSingle[${index}]`}
-                        value={answerSingle[index]}
+                        id={`single[${index}]`}
                         reducer={createDiagnosisQuestion}
                         label={ L_CREATE_QUESTION.answer }
                         placeholder={ L_CREATE_QUESTION.enterAnswer }

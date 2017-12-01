@@ -17,3 +17,16 @@ export const checkType = (rules) => {
       return { label: 'rule', key: 'key'  };
   }
 };
+
+
+export const genCharArray = () => {
+  const charA = 'a', charZ = 'z';
+  let result = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
+
+  for (; i <= j; ++i) {
+    const char = String.fromCharCode(i);
+    result.push(char.toUpperCase());
+  }
+
+  return result;
+};
