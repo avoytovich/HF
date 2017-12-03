@@ -2,10 +2,11 @@ import React, { Component }   from 'react';
 import { connect }            from 'react-redux';
 import AddIcon                from 'material-ui-icons/Add';
 import { RulesItemComponent } from './';
-import MenuItem               from 'material-ui/Menu/MenuItem';
 import TextField              from 'material-ui/TextField';
 import { changeTypeOfRule }   from '../../../actions';
-
+import Button                from 'material-ui/Button';
+import ClickAwayListener     from 'material-ui/utils/ClickAwayListener';
+import Menu, { MenuItem }    from 'material-ui/Menu';
 
 const TYPES = [
   {label: 'And',  value: 'and'},
@@ -13,11 +14,31 @@ const TYPES = [
   {label: 'Not',  value: 'not'},
 ];
 
+const LIST = [
+  { label: 'And',        key: 'and' },
+  { label: 'Not',        key: 'not' },
+  { label: 'Or',         key: 'or' },
+  { label: 'Match',      key: 'match' },
+  { label: 'Equal',      key: 'equal' },
+  { label: 'Not Equal',  key: 'notEqual' },
+];
+
 class RulesBlockComponent extends Component {
+  state = {
+    open: false
+  };
 
   handleChange = (event, path, item) => {
     const type  = event.target.value;
     changeTypeOfRule(path, item, type);
+  };
+
+  handleClick = event => this.setState({ open: true, anchorEl: event.currentTarget });
+
+  handleRequestClose = () => this.setState({ open: false });
+
+  onSelected = () => {
+    this.handleRequestClose();
   };
 
   render() {
@@ -39,16 +60,37 @@ class RulesBlockComponent extends Component {
               {option.label}
             </MenuItem>))}
         </TextField>
-
       </div>
       <div className="rule-block-details">
 
-        <RulesItemComponent/>
+        {/*<RulesItemComponent/>*/}
+
+
 
         <div className="add-item">
-          <AddIcon /> ADD
-        </div>
+          <Button
+            aria-owns={this.state.open ? 'simple-menu' : null}
+            aria-haspopup="true"
+            onClick={this.handleClick}
+            aria-label="add">
+            <AddIcon /> ADD
+          </Button>
 
+          <ClickAwayListener
+            onClickAway={this.handleRequestClose}>
+            <Menu
+              id="simple-menu"
+              anchorEl={this.state.anchorEl}
+              open={this.state.open}
+              onRequestClose={this.handleRequestClose}>
+              {LIST.map((item, index) =>
+                (<MenuItem key={index}
+                           onClick={() => this.onSelected(item)}>
+                  {item.label}
+                </MenuItem>))}
+            </Menu>
+          </ClickAwayListener>
+        </div>
       </div>
     </div>
   }

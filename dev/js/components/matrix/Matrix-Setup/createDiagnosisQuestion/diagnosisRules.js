@@ -77,12 +77,14 @@ class DiagnosisRulesComponent extends Component {
                             key={index}
                             type={findElement.key}
                             item={item}/>;
+                break;
               case 'item':
                 return <RulesItemComponent
                             path={`rules.${index}`}
                             key={index}
                             type={findElement.key}
                             item={item}/>;
+                break;
               default:
                 return '';
             }

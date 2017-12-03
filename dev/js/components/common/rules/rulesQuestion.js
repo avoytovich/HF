@@ -68,7 +68,6 @@ class RulesQuestionComponent extends Component {
                     {item.label}
                   </MenuItem>))}
               </Menu>
-
             </ClickAwayListener>
 
         </div>
