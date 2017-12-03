@@ -8,22 +8,9 @@ import Button                 from 'material-ui/Button';
 import ClickAwayListener      from 'material-ui/utils/ClickAwayListener';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import { mathType, findType } from '../../../utils/matrix';
-import { addRules }           from '../../../actions';
-
-const TYPES = [
-  {label: 'And',  value: 'and'},
-  {label: 'Or',   value: 'or'},
-  {label: 'Not',  value: 'not'},
-];
-
-const LIST = [
-  { label: 'And',        key: 'and' },
-  { label: 'Not',        key: 'not' },
-  { label: 'Or',         key: 'or' },
-  { label: 'Match',      key: 'match' },
-  { label: 'Equal',      key: 'equal' },
-  { label: 'Not Equal',  key: 'notEqual' },
-];
+import { addRules,
+  changeToItemRuleRule }      from '../../../actions';
+import { TYPES }              from '../../../utils/matrix';
 
 class RulesBlockComponent extends Component {
   state = {
@@ -33,6 +20,10 @@ class RulesBlockComponent extends Component {
   handleChange = (event, path, item) => {
     const type  = event.target.value;
     changeTypeOfRule(path, item, type);
+
+    if (findType(type) === 'item'){
+      changeToItemRuleRule( path,  { [type] : [] } );
+    }
   };
 
   handleClick = event => this.setState({ open: true, anchorEl: event.currentTarget });
@@ -40,9 +31,9 @@ class RulesBlockComponent extends Component {
   handleRequestClose = () => this.setState({ open: false });
 
   onSelected = (item, path, type) => {
-    const body = findType(item.key) === 'block' ? [ { 'match': [] } ] : [];
+    const body = findType(item.value) === 'block' ? [ { 'match': [] } ] : [];
     addRules({
-      type: item.key,
+      type: item.value,
       path: `${path}.${type}`,
       body
     });
@@ -103,7 +94,7 @@ class RulesBlockComponent extends Component {
               anchorEl={this.state.anchorEl}
               open={this.state.open}
               onRequestClose={this.handleRequestClose}>
-              {LIST.map((item, index) =>
+              {TYPES.map((item, index) =>
                 (<MenuItem key={index}
                            onClick={() => this.onSelected(item, path, type)}>
                   {item.label}

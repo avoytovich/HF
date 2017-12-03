@@ -26,12 +26,13 @@
       width: 40px
       height: 40px
 
-.rules-block .items
+.rule-question + .items
   overflow: auto
 
+.rules-block .items > .rule-item
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26)
 .rules-block .items > div
   margin-bottom: 30px
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26)
 
 .rule-block,
 .rule-item
@@ -40,6 +41,7 @@
   .nav
     width: 64px
     min-width: 64px
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26)
 
 .rule-block .nav
   margin-right: 2px
@@ -61,6 +63,11 @@
   .rule-block,
   .rule-item
     margin-bottom: 2px
+
+.rule-block-details
+  background-color: white
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.16), 0 1px 4px 0 rgba(0, 0, 0, 0.26)
+
 
 .rule-block,
 .rule-item
@@ -91,15 +98,37 @@
   align-items: center
   color:  $primary-blue
   cursor: pointer
+  background-color: white
+  border-bottom: 1px solid $secondary-grey
 
 
 .rule-item
   width: 560px
   height: 72px
   background-color: white
+  border-bottom: 1px solid $secondary-grey
   .rule-nav
     width: 64px
     min-width: 64px
     background-color: $secondary-grey
   .rule-item-details
     background-color: white
+    display: flex
+    flex-direction: row
+    flex: 1
+    .rule-item-question,
+    .rule-item-answer,
+    .rule-item-delete
+      display: flex
+      flex-direction: column
+    .rule-item-question
+      flex: 7
+      justify-content: center
+      align-items: flex-start
+      padding-left: 10px
+    .rule-item-answer
+      flex: 4
+      justify-content: center
+      align-items: flex-start
+    .rule-item-delete
+      flex: 1
