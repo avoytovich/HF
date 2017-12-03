@@ -4,9 +4,11 @@ import AddIcon                from 'material-ui-icons/Add';
 import { RulesItemComponent } from './';
 import TextField              from 'material-ui/TextField';
 import { changeTypeOfRule }   from '../../../actions';
-import Button                from 'material-ui/Button';
-import ClickAwayListener     from 'material-ui/utils/ClickAwayListener';
-import Menu, { MenuItem }    from 'material-ui/Menu';
+import Button                 from 'material-ui/Button';
+import ClickAwayListener      from 'material-ui/utils/ClickAwayListener';
+import Menu, { MenuItem }     from 'material-ui/Menu';
+import { mathType, findType } from '../../../utils/matrix';
+import { addRules }           from '../../../actions';
 
 const TYPES = [
   {label: 'And',  value: 'and'},
@@ -37,17 +39,21 @@ class RulesBlockComponent extends Component {
 
   handleRequestClose = () => this.setState({ open: false });
 
-  onSelected = () => {
+  onSelected = (item, path, type) => {
+    const body = findType(item.key) === 'block' ? [ { 'match': [] } ] : [];
+    addRules({
+      type: item.key,
+      path: `${path}.${type}`,
+      body
+    });
     this.handleRequestClose();
   };
-
   render() {
-    const { type, key, path, item } = this.props;
-
+    const { type, path, item } = this.props;
     return <div className="rule-block">
       <div className={`nav ${type}`}>
         <TextField
-          id={`select-currency ${key}`}
+          id={`select-currency`}
           select
           value={type}
           onChange={(event) => this.handleChange(event, path, type)}
@@ -62,11 +68,25 @@ class RulesBlockComponent extends Component {
         </TextField>
       </div>
       <div className="rule-block-details">
-
-        {/*<RulesItemComponent/>*/}
-
-
-
+        {item[type].map((val, i) => {
+          const findElement = mathType(val);
+          switch(findElement.type) {
+            case 'block':
+              return <RulesBlockComponent
+                        path={`${path}.${type}.${i}`}
+                        type={findElement.key}
+                        key={i}
+                        item={val}
+                        />;
+            case 'item':
+              return <RulesItemComponent
+                        path={`${path}.${type}.${i}`}
+                        key={i}
+                        type={findElement.key}
+                        item={item}/>;
+            default:
+              console.log('Wrong type!');
+          }})}
         <div className="add-item">
           <Button
             aria-owns={this.state.open ? 'simple-menu' : null}
@@ -85,7 +105,7 @@ class RulesBlockComponent extends Component {
               onRequestClose={this.handleRequestClose}>
               {LIST.map((item, index) =>
                 (<MenuItem key={index}
-                           onClick={() => this.onSelected(item)}>
+                           onClick={() => this.onSelected(item, path, type)}>
                   {item.label}
                 </MenuItem>))}
             </Menu>
