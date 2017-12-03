@@ -64,6 +64,9 @@ class DiagnosisRulesComponent extends Component {
 
     return (
       <div className="rules-block">
+
+        <div className="vertical-line"></div>
+
         <RulesQuestionComponent/>
 
         <div className="items">

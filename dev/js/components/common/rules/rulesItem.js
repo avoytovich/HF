@@ -40,6 +40,7 @@ class RulesItemComponent extends Component {
           onChange={(event) => this.handleChange(event, path, type)}
           className="types-select"
           margin="normal"
+          fullWidth={true}
         >
           {TYPES.map((option, index) =>
             (<MenuItem key={index}

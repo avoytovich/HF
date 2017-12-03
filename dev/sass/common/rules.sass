@@ -34,6 +34,18 @@
 .rules-block .items > div
   margin-bottom: 30px
 
+.rules-block
+  position: relative
+  top: 0
+
+  .vertical-line
+    border-left: 2px solid #bdbdbd
+    width: 100%
+    height: calc(100% - 72px)
+    position: absolute
+    top: 0
+    left: 32px
+
 .rule-block,
 .rule-item
   display: flex
@@ -42,6 +54,7 @@
     width: 64px
     min-width: 64px
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26)
+    z-index: 1
 
 .rule-block .nav
   margin-right: 2px
@@ -74,6 +87,7 @@
   .types-select
     margin: 0
     display: flex
+    padding-top: 8px
     [class^='MuiInput']:before,
     [class^='MuiInput']:after
       display: none
@@ -82,12 +96,12 @@
       text-align: center
       color: white
       font-size: 12px
+      font-weight: bold
     [class^='MuiSvgIcon']
       fill: white
       stroke: white
       width: 20px
       height: 18px
-
 
 
 
@@ -101,6 +115,16 @@
   background-color: white
   border-bottom: 1px solid $secondary-grey
 
+[class*='MuiSelect-selectMenu-']
+  white-space: inherit!important
+  overflow: inherit!important
+  line-height: inherit!important
+  display: flex!important
+  justify-content: flex-start!important
+  align-items: center!important
+  text-align: left!important
+  margin: 0 5px!important
+
 
 .rule-item
   width: 560px
@@ -111,6 +135,9 @@
     width: 64px
     min-width: 64px
     background-color: $secondary-grey
+    z-index: 1
+
+
   .rule-item-details
     background-color: white
     display: flex
