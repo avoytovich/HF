@@ -1,11 +1,13 @@
 import { createReducer }   from '../../utils';
 import { CREATE_QUESTION } from '../../actions';
 import set                 from 'lodash/set';
+import get                 from 'lodash/get';
+import * as dotProp        from 'dot-prop-immutable';
 
 const initialState = {
   actionType    : CREATE_QUESTION,
   bodyAreas     : '', // {label: 'body', value: 'body'},
-  question      : '',
+  question      : 'Are you pregnant ?',
   questionType  : 'diagnostic',
   questionKey   : '',
   sequence      : 1,
@@ -23,6 +25,8 @@ const initialState = {
       from: 0,
       to: 100
     },
+
+  rules: [],
   errors: {},
 };
 
@@ -32,24 +36,33 @@ const createQuestionUpdate = (state, action) => {
       const {data, path } = action.payload;
       const res =  set(state, path, data);
       return Object.assign({}, res);
+
     default:
       return state;
   }
 
 };
 
-export default createReducer(initialState, CREATE_QUESTION, {
-  [`${CREATE_QUESTION}_UPDATE`]: createQuestionUpdate,
-});
+const createQuestionRules = (state, action) => {
+  const {path, type, body} = action.payload;
+  const rules = get(state, path);
+  const template = {
+    [type] : body
+  };
+  return Object.assign({}, set(state, path, rules.concat(template)));
+};
 
-//export default(state = initialState, action = CREATE_QUESTION) => {
-//  switch (action.type) {
-//
-//    case `${CREATE_QUESTION}_UPDATE`:
-//      const {data, path } = action.payload;
-//      return set(state, path, data);
-//
-//    default:
-//      return state;
-//  }
-//};
+const changeType = (state, action) => {
+  const {path, oldProp, newProp } = action.payload;
+  return dotProp.set(state, path, value => {
+    const propsBody = value[oldProp];
+    delete value[oldProp];
+    return Object.assign({}, value, {[newProp]: propsBody});
+  });
+};
+
+export default createReducer(initialState, CREATE_QUESTION, {
+  [`${CREATE_QUESTION}_UPDATE`]       : createQuestionUpdate,
+  [`${CREATE_QUESTION}_ADD_RULE`]     : createQuestionRules,
+  [`${CREATE_QUESTION}_CHANGE_TYPE`]  : changeType,
+});

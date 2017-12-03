@@ -117,7 +117,8 @@ class CreateQuestionComponent extends Component {
         multiple,
         range,
         answer,
-        enterAnswer
+        enterAnswer,
+        rules
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
@@ -146,7 +147,7 @@ class CreateQuestionComponent extends Component {
         <Grid container className="margin-remove">
 
           <Grid item
-                md={6}
+                md={1}
                 sm={12}
                 className="create-question-body">
 
@@ -287,7 +288,7 @@ class CreateQuestionComponent extends Component {
           </Grid>
 
           <Grid item
-                md={6}
+                md={11}
                 sm={12}
                 className="rules">
 

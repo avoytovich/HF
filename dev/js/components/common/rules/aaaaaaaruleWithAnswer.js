@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import { connect }           from 'react-redux';
-import RuleItemComponent     from './ruleItem';
+import RuleItemComponent     from './hhhITEM';
 import { checkType }         from '../../../utils';
 
 

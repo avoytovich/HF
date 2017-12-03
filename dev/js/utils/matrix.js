@@ -1,3 +1,26 @@
+export const types = [
+  { key: 'and',      type: 'block'},
+  { key: 'or' ,      type: 'block'},
+  { key: 'not',      type: 'block'},
+  { key: 'match',    type: 'item'},
+  { key: 'equal',    type: 'item'},
+  { key: 'notEqual', type: 'item'}
+];
+
+export const mathType = (el) =>
+  types.reduce((result, item) => {
+    if (item) {
+      return el.hasOwnProperty(item.key) ? item : result;
+    }
+    return result;
+  }, {});
+
+export const findType = (el) =>
+  types.reduce((result, item) =>
+    item.key === el ? item.type : result, 'block');
+
+
+
 export const checkType = (rules) => {
   const isIn = (obj, key) => obj && obj.hasOwnProperty(key);
   switch(true) {
