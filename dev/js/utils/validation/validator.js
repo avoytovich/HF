@@ -1,6 +1,9 @@
 import validate from 'validate.js';
 
 const validator = (data, constraints) => {
+
+
+
   let errorsArrays = validate(data, constraints);
   let isValid      = validate.isEmpty(errorsArrays);
   let errors       = {};

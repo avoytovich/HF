@@ -49,12 +49,17 @@ class Login extends Component {
             </div>
 
             <div className="login-input-wrapper">
-              <Input
-                id='email'
-                reducer={authReducer}
-                label={ L_LOGIN.email.label }
-                placeholder={ L_LOGIN.email.placeholder }
-              />
+              {[1, 2, 3].map((el) => {
+                return (
+                  <Input
+                    key={el}
+                    id={`emails[${el}].email`}
+                    reducer={authReducer}
+                    label={ L_LOGIN.email.label }
+                    placeholder={ L_LOGIN.email.placeholder }
+                  />
+                )
+              })}
               <Input
                 id='password'
                 type="password"

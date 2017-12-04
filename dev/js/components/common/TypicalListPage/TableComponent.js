@@ -34,6 +34,10 @@ class TableComponent extends Component {
     this.setDefaultQuery(this.props.path, this.props.store.pagination);
   }
 
+  /**
+   * New request on url query change
+   * @param nextProps
+   */
   componentWillReceiveProps(nextProps) {
     if (this.props.location !== nextProps.location &&
         nextProps.location.query) {
