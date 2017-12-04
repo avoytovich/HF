@@ -58,6 +58,7 @@
     "url-loader": "0.5.7",
     "validate.js": "0.11.1"
   },
+
   "devDependencies": {
     "react-hot-loader": "3.0.0-beta.3",
     "react-transform-hmr": "1.0.4",
