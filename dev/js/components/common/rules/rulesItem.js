@@ -4,10 +4,12 @@ import TextField            from 'material-ui/TextField';
 import Typography           from 'material-ui/Typography';
 import Menu, { MenuItem }   from 'material-ui/Menu';
 import IconButton           from 'material-ui/IconButton';
+import * as  SA             from 'react-select';
 import DeleteIcon           from 'material-ui-icons/Delete';
 import {
   changeTypeOfRule,
   addDefaultGroupRule,
+  findArea,
   deleteRules
 }                           from '../../../actions';
 import {
@@ -15,8 +17,23 @@ import {
   TYPES,
   findType
 }                           from '../../../utils/matrix';
+import Select               from 'material-ui/Select';
+import Input                from 'material-ui/Input';
+
+
+const names = [
+  {label: 'A', value: 'a'},
+  {label: 'B', value: 'b'},
+  {label: 'C', value: 'c'},
+  {label: 'D', value: 'd'},
+];
 
 class RulesItemComponent extends Component {
+
+  state = {
+    answer: []
+  };
+
 
   handleChange = (event, path, item) => {
     const type  = event.target.value;
@@ -28,6 +45,36 @@ class RulesItemComponent extends Component {
   };
 
   delete = (path, type) => deleteRules(path, type);
+
+  getOptions = (input) => {
+    return findArea('diagnostics', 'findArea').then(res => {
+      const { data } = res.data;
+      const _data = data.map(item =>
+        Object.assign({}, item, { label: item.title }));
+      return {
+        options: _data,
+        // CAREFUL! Only set this to true when there are no more options,
+        // or more specific queries will not be sent to the server.
+        complete: true
+      }
+    });
+  };
+
+  onAreasChange = (value) => {
+//    updateCrateQuestionFields(value, 'bodyAreas')
+  };
+
+
+  handleChange2 = (event) => {
+    console.log('event.target.value', event.target.value);
+
+    const currentSelect   = event.target.value.map(item => names.filter(current => current.value === item));
+    console.log('currentSelect', currentSelect);
+
+
+    this.setState({ answer: currentSelect });
+    console.log(this.state)
+  };
 
   render() {
     const { type, key, path, item } = this.props;
@@ -55,9 +102,13 @@ class RulesItemComponent extends Component {
           <Typography type="caption" gutterBottom>
             Question
           </Typography>
-          <div>
-            dddd
-          </div>
+          <SA.Async
+            name="body-areas"
+            loadOptions={this.getOptions}
+            onChange={this.onAreasChange}
+            className="ansyc-select"
+            value={''}
+          />
         </div>
 
         <div className="rule-item-answer">
@@ -65,7 +116,36 @@ class RulesItemComponent extends Component {
             Answer
           </Typography>
           <div>
-            sss
+
+
+            <Select
+              multiple
+              value={this.state.answer}
+              onChange={this.handleChange2}
+              input={<Input id="name-multiple" />}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    width: 400,
+                  },
+                },
+              }}
+            >
+              {names.map((item, index) => (
+                <MenuItem
+                  key={`${index}.${item.value}`}
+                  value={item.value}
+                  style={{
+                    fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
+                  }}
+                >
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Select>
+
+
+
           </div>
         </div>
 
