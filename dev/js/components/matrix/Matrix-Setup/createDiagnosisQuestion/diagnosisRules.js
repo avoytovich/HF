@@ -1,20 +1,15 @@
-import React, { Component }     from 'react';
-import { connect }              from 'react-redux';
-import RulesWithAnswerComponent from '../../../common/rules/ruleWithAnswer'
-import Menu, { MenuItem }       from 'material-ui/Menu';
-import Button                   from 'material-ui/Button';
-import MoreVertIcon             from 'material-ui-icons/MoreVert';
-import { checkType }            from '../../../../utils';
-
-import { isNot, andV1, mixid } from './rulesTemplate';
-
+import React, { Component }  from 'react';
+import { connect }           from 'react-redux';
+import {
+  RulesQuestionComponent,
+  RulesBlockComponent,
+  RulesItemComponent
+}                            from '../../../common/rules';
+import { mathType }          from '../../../../utils/matrix';
 
 class DiagnosisRulesComponent extends Component {
-  options = [
-    { label: 'Add', key: 'add' },
-    { label: 'Or',  key: 'or'  },
-    { label: 'Not', key: 'not' }
-  ];
+
+
 
   state = {
     anchorEl: null,
@@ -63,42 +58,48 @@ class DiagnosisRulesComponent extends Component {
     }
   };
 
+
   render() {
+    const { rules } = this.props.createDiagnosisQuestion;
+
     return (
-      <div className="rules-wrap">
-        <div className="rules rules-main-question">
-            <input type="text" value={'some text'} disabled/>
-            <Button
-              aria-owns={this.state.open ? 'simple-menu' : null}
-              aria-haspopup="true"
-              onClick={this.handleClick}>
+      <div className="rules-block">
 
-              <MoreVertIcon />
+        <div className="vertical-line"></div>
 
-            </Button>
+        <RulesQuestionComponent/>
 
-            <Menu
-              id="simple-menu"
-              anchorEl={this.state.anchorEl}
-              open={this.state.open}
-              onRequestClose={this.handleRequestClose}
-            >
-              {this.options.map((option, index) => (
-                <MenuItem
-                  key={index}
-                  onClick={() => this.handleRequestClose(option)}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Menu>
+        <div className="items">
+          {rules.map((item, index) => {
+            const findElement = mathType(item);
+
+            switch (findElement.type) {
+              case 'block':
+                return <RulesBlockComponent
+                            path={`rules.${index}`}
+                            key={index}
+                            type={findElement.key}
+                            item={item}/>;
+                break;
+              case 'item':
+                return <RulesItemComponent
+                            path={`rules.${index}`}
+                            key={index}
+                            type={findElement.key}
+                            item={item}/>;
+                break;
+              default:
+                return '';
+            }
+          })}
         </div>
-        {this.showRule(mixid)}
       </div>
     )
   }
 }
 const mapStateToProps = state => ({
-  commonReducer: state.commonReducer
+  commonReducer: state.commonReducer,
+  createDiagnosisQuestion: state.createDiagnosisQuestion
 });
 export default  connect(mapStateToProps)(DiagnosisRulesComponent);
 
