@@ -45,7 +45,6 @@ class TableComponent extends Component {
    * @param pagination: {{ per_page: string, page: string }}
    */
   setDefaultQuery = (pathname, pagination) => {
-    console.log('browserHistory', this.props.location.query);
     const currentQuery = this.props.location.query;
     const currentPath = PAGE[this.props.path];
     const { per_page, current_page } =

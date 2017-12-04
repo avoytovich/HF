@@ -1,2 +1,5 @@
+import createDiagnosisQuestion from './createDiagnosisQuestion';
 
-export default {}
+export default {
+  createDiagnosisQuestion
+}

@@ -26,6 +26,8 @@ class Input extends Component {
       label = '',
       placeholder = '',
       reducer,
+      select,
+      currencies,
       reducer: {
         actionType,
         errors,
@@ -34,20 +36,49 @@ class Input extends Component {
     } = this.props;
     const value = get(reducer, id, '');
     const error = get(errors, id, false);
+
     return (
     <FormControl className={classes.formControl} error={!!error}>
-      <TextField
-        error={!!error}
-        id={id}
-        name={actionType}
-        value={value}
-        onChange={onCustomChange || onChange}
-        label={label}
-        placeholder={placeholder}
-        className={classes.textField}
-        margin="normal"
-        {...omit(props, ['dispatch'])}
-      />
+      {select ?
+        <TextField
+          select
+          error={!!error}
+          id={id}
+          name={actionType}
+          value={value}
+          onChange={onCustomChange || onChange}
+          label={label}
+          placeholder={placeholder}
+          className={classes.textField}
+          margin="normal"
+          SelectProps={{
+            native: true,
+          }}
+          {...omit(props, ['dispatch'])}
+        >
+          {
+            currencies.map((option, index) =>
+            (<option key={index}
+                     selected={option.value === value}
+                     value={option.value}>
+              {option.label}
+            </option>))
+          }
+        </TextField>
+        :
+        <TextField
+          error={!!error}
+          id={id}
+          name={actionType}
+          value={value}
+          onChange={onCustomChange || onChange}
+          label={label}
+          placeholder={placeholder}
+          className={classes.textField}
+          margin="normal"
+          {...omit(props, ['dispatch'])}
+        />
+      }
       {
         error && <FormHelperText>{ error }</FormHelperText>
       }

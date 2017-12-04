@@ -8,7 +8,8 @@ import Slide                  from 'material-ui/transitions/Slide';
 import Button                 from 'material-ui/Button';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deleteItem }         from '../../../../actions';
+import { deleteItem,
+         getMatrixInfo }      from '../../../../actions';
 
 
 class DeleteComponent extends Component {
@@ -16,7 +17,8 @@ class DeleteComponent extends Component {
   deactivate = ({list, path, domen}) => {
     deleteItem(domen, path, list)
       .then(() => {
-        this.props.open(this.props.typeKey, false);
+        getMatrixInfo(domen, path, this.props.query, path)
+          .then(() => this.props.open(this.props.typeKey, false))
       })
   };
 

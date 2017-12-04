@@ -42,6 +42,7 @@ class ConditionsComponent extends Component {
           deactivateOpen={deactivateOpen}
           open={this.updateModal}
           itemKey="title"
+          query={this.props.location.query}
         />
 
         <DeleteComponent
@@ -52,6 +53,7 @@ class ConditionsComponent extends Component {
           deactivateOpen={deleteOpen}
           open={this.updateModal}
           itemKey="title"
+          query={this.props.location.query}
         />
 
         <PageNavigation

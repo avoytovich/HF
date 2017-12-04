@@ -5,7 +5,6 @@ import { TableComponent }       from '../../../components/common/TypicalListPage
 import { browserHistory }       from 'react-router'
 import PageNavigation           from '../../common/TypicalListPage/pageNavigation';
 import Button                   from 'material-ui/Button';
-import Edit                     from 'material-ui-icons/Edit';
 import Delete                   from 'material-ui-icons/Delete';
 import NotInterested            from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from './matrix-crud/deactivateModal'
@@ -30,7 +29,11 @@ class DiagnosisComponent extends Component {
   onSelectAllClick = (selected) => this.setState({selected});
 
 
-  updateModal = (key, value) => this.setState({ [key]: value });
+  updateModal = (key, value) => {
+    this.setState({ [key]: value });
+
+    if (!value) this.setState({ selected: [] });
+  };
 
   render() {
     const { tableHeader } = DIAGNOSIS_TAB;
@@ -46,7 +49,8 @@ class DiagnosisComponent extends Component {
           list={selected}
           deactivateOpen={deactivateOpen}
           open={this.updateModal}
-          itemKey="question.en"
+          itemKey="title"
+          query={this.props.location.query}
         />
 
         <DeleteComponent
@@ -56,12 +60,14 @@ class DiagnosisComponent extends Component {
           list={selected}
           deactivateOpen={deleteOpen}
           open={this.updateModal}
-          itemKey="question.en"
+          itemKey="title"
+          query={this.props.location.query}
         />
 
         <PageNavigation
           path="diagnosis"
-          selected={selected}>
+          selected={selected}
+          createItem={this.create}>
 
           {/*<Button*/}
             {/*disabled={selected.length > 1}*/}
@@ -75,6 +81,12 @@ class DiagnosisComponent extends Component {
             onClick={() => this.updateModal('deleteOpen', true)}>
             <Delete />
             Delete
+          </Button>
+
+          <Button raised dense
+                  onClick={() => this.updateModal('activateOpen', true)}>
+            <NotInterested />
+            Activate
           </Button>
 
           <Button raised dense
