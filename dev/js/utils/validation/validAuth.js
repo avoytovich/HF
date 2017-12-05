@@ -1,11 +1,12 @@
 import validator from './validator';
 
 import { store } from '../../index';
+import { bCN } from './index';
 
 const validateDay = data => {
 
   let constraints = {
-    email: {
+    emails: {
       email: {
         message: "is not valid."
       },
@@ -14,6 +15,11 @@ const validateDay = data => {
       length: {
         minimum: 6,
       }
+    },
+    [bCN('emails', 'email')]: {
+      email: {
+        message: "is not valid."
+      },
     },
     confirmPassword: {
       equality: {
