@@ -147,7 +147,7 @@ class CreateQuestionComponent extends Component {
         <Grid container className="margin-remove">
 
           <Grid item
-                md={1}
+                md={6}
                 sm={12}
                 className="create-question-body">
 
@@ -288,7 +288,7 @@ class CreateQuestionComponent extends Component {
           </Grid>
 
           <Grid item
-                md={11}
+                md={6}
                 sm={12}
                 className="rules">
 
