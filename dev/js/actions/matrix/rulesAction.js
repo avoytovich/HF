@@ -34,13 +34,21 @@ export const changeToItemRuleRule = ( path, body) =>
       payload:{ path, body }
     }
   );
-export const deleteRules = ( path, key) =>
-store.dispatch(
-  {
-    type:`${CREATE_QUESTION}_DELETE_ITEM`,
-    payload:{ path, key }
-  }
-);
 
+export const deleteRules = ( path, key) =>
+  store.dispatch(
+    {
+      type:`${CREATE_QUESTION}_DELETE_ITEM`,
+      payload:{ path, key }
+    }
+  );
+
+export const setQuestion = (path, type, item) =>
+  store.dispatch(
+    {
+      type:`${CREATE_QUESTION}_SET_QUESTION`,
+      payload:{ path, type, item }
+    }
+  );
 
 

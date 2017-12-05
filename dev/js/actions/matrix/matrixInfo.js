@@ -70,3 +70,9 @@ export const findArea = (domenKey, apiKey) => {
   return Api.get(`${domenPath}${apiPath}`);
 };
 
+export const findByArea = (domenKey, apiKey, body, string) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.post(`${domenPath}${apiPath}?search=${string}`, body);
+};
+

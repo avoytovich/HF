@@ -101,6 +101,20 @@ const deleteRule = (state, action) => {
   return recDelete(result, path)
 };
 
+const setQuestion = (state, action) => {
+  const {path, type, item} = action.payload;
+  return dotProp.set(
+    state,
+    `${path}.${type}`,
+    (value) => (
+      {
+        key   : item.key,
+        op    : '==',
+        value :[]
+      }
+    ));
+};
+
 export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_UPDATE`]              : createQuestionUpdate,
   [`${CREATE_QUESTION}_ADD_RULE`]            : createQuestionRules,
@@ -108,4 +122,6 @@ export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_ADD_DEF_GROUP_RULE`]  : addDefaultGroupRule,
   [`${CREATE_QUESTION}_CHANGE_TO_ITEM_RULE`] : changeToItemRule,
   [`${CREATE_QUESTION}_DELETE_ITEM`]         : deleteRule,
+  [`${CREATE_QUESTION}_SET_QUESTION`]        : setQuestion,
+
 });

@@ -9,8 +9,9 @@ import DeleteIcon           from 'material-ui-icons/Delete';
 import {
   changeTypeOfRule,
   addDefaultGroupRule,
-  findArea,
-  deleteRules
+  findByArea,
+  deleteRules,
+  setQuestion
 }                           from '../../../actions';
 import {
   DEFAULT_ITEM_TYPE,
@@ -19,6 +20,7 @@ import {
 }                           from '../../../utils/matrix';
 import Select               from 'material-ui/Select';
 import Input                from 'material-ui/Input';
+import get                  from 'lodash/get'
 
 
 const names = [
@@ -29,9 +31,9 @@ const names = [
 ];
 
 class RulesItemComponent extends Component {
-
   state = {
-    answer: []
+    answer: [],
+    answers: [],
   };
 
 
@@ -47,10 +49,19 @@ class RulesItemComponent extends Component {
   delete = (path, type) => deleteRules(path, type);
 
   getOptions = (input) => {
-    return findArea('diagnostics', 'findArea').then(res => {
+    if (input.length <= 2)
+      return Promise.resolve({ options: [] });
+
+    const body = {
+      "type": "diagnostic",
+      "area": 'body',
+      "step": 9,
+      "answerType": "single"
+    };
+    return findByArea('diagnostics', 'findByAre', body, input).then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
-        Object.assign({}, item, { label: item.title }));
+        Object.assign({}, item, { label: item.question.en, value: item.key }));
       return {
         options: _data,
         // CAREFUL! Only set this to true when there are no more options,
@@ -60,24 +71,28 @@ class RulesItemComponent extends Component {
     });
   };
 
+  getAnswersList = (data) => {
+    const { type, values } = data.answer;
+    // TODO: ...
+    return Object.keys(values)
+      .map(key => ({label: key, value: values[key]}) );
+  };
+
   onAreasChange = (value) => {
-//    updateCrateQuestionFields(value, 'bodyAreas')
+    const answers = this.getAnswersList(value);
+    setQuestion(this.props.path, this.props.type, value);
+    this.setState({answers});
   };
 
 
   handleChange2 = (event) => {
-    console.log('event.target.value', event.target.value);
-
-    const currentSelect   = event.target.value.map(item => names.filter(current => current.value === item));
-    console.log('currentSelect', currentSelect);
-
-
-    this.setState({ answer: currentSelect });
-    console.log(this.state)
+    this.setState({ answer: event.target.value });
   };
 
   render() {
     const { type, key, path, item } = this.props;
+    console.log('this.state', this.props.itemState);
+
     return <div className="rule-item">
       <div className="rule-nav">
         <TextField
@@ -107,7 +122,7 @@ class RulesItemComponent extends Component {
             loadOptions={this.getOptions}
             onChange={this.onAreasChange}
             className="ansyc-select"
-            value={''}
+            value={this.props.itemState.key}
           />
         </div>
 
@@ -122,7 +137,7 @@ class RulesItemComponent extends Component {
               multiple
               value={this.state.answer}
               onChange={this.handleChange2}
-              input={<Input id="name-multiple" />}
+              renderValue={(value) => value.map(item =>  item.label).join(', ')}
               MenuProps={{
                 PaperProps: {
                   style: {
@@ -131,15 +146,15 @@ class RulesItemComponent extends Component {
                 },
               }}
             >
-              {names.map((item, index) => (
+              {this.state.answers.map((item, index) => (
                 <MenuItem
                   key={`${index}.${item.value}`}
-                  value={item.value}
+                  value={item}
                   style={{
                     fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
                   }}
                 >
-                  {item.label}
+                  {item.label}.{item.value}
                 </MenuItem>
               ))}
             </Select>
@@ -160,8 +175,12 @@ class RulesItemComponent extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  state: state.createDiagnosisQuestion
-});
+const mapStateToProps = (state, props) =>{
+  const { path, type } = props;
+  return ({
+    state: state.createDiagnosisQuestion,
+    itemState: get(state.createDiagnosisQuestion, `${path}.${type}`)
+  })
+};
 
 export default connect(mapStateToProps)(RulesItemComponent);
