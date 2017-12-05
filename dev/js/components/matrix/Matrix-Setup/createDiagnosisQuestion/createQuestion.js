@@ -10,6 +10,7 @@ import { diagnosisQuestionCreate,
   clearCreateQuestion,
   findArea }                        from '../../../../actions';
 import { AsyncCreatable }           from 'react-select';
+import Menu, { MenuItem }           from 'material-ui/Menu';
 
 // UI
 import Grid                     from 'material-ui/Grid';
@@ -20,6 +21,7 @@ import Radio                    from 'material-ui/Radio';
 import Input                    from '../../../common/Input/Input';
 import { FormControlLabel,
          FormGroup }            from 'material-ui/Form';
+import _select                  from 'material-ui/Select';
 
 
 class CreateQuestionComponent extends Component {
@@ -27,17 +29,18 @@ class CreateQuestionComponent extends Component {
     questionType: 'Diagnosis',
     backPath: '',
     answer: [1,2,3],
-    sequenceType: [
+    sequenceTypes: [
       {label: 'Normal', value: ''},
       {label: 'After',  value: 'after'},
       {label: 'Before', value: 'before'},
 
     ],
+    sequenceType: '',
     selectedValue: 'single',
     answerType: [
       {label: 'Single',   value: 'single'},
       {label: 'Range',    value: 'range'},
-      {label: 'Multiple', value: 'multiple '},
+      {label: 'Multiple', value: 'multiple'},
     ]
   };
 
@@ -97,13 +100,55 @@ class CreateQuestionComponent extends Component {
     updateCrateQuestionFields(value, 'bodyAreas')
   };
 
+  handleChange2 = (event) => {
+    this.setState({ sequenceType: event.target.value });
+  };
+
   addAnswer = () => {
     const answer = this.state.answer.concat(1);
     this.setState({answer})
   };
 
-  render() {
+  changeAnswerType = (event) => {
+    const value = event.target.value;
+    updateCrateQuestionFields(value, 'answerType');
+  };
 
+
+  answers = (type) => {
+    switch (type) {
+      case 'multiple':
+        return <ol type="A" style={{width: '100%'}}>
+          {this.state.answer.map((answer, index) => (
+            <li  key={index} className="row-item">
+              <Grid item xs={12}>
+                <Input
+                  id={`single[${index}]`}
+                  reducer={this.props.createDiagnosisQuestion}
+                />
+              </Grid>
+            </li>))}
+        </ol>;
+
+      case 'range':
+          debugger;
+          return;
+      default:
+        return <ol type="A" style={{width: '100%'}}>
+          {this.state.answer.map((answer, index) => (
+            <li  key={index} className="row-item">
+              <Grid item xs={12}>
+                <Input
+                  id={`single[${index}]`}
+                  reducer={this.props.createDiagnosisQuestion}
+                />
+              </Grid>
+            </li>))}
+        </ol>;
+    }
+  };
+
+  render() {
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
@@ -222,16 +267,31 @@ class CreateQuestionComponent extends Component {
               </Grid>
 
               <Grid container  className="row-item">
-                <Grid item xs={6}>
-                  <Input
-                    select={true}
-                    id='sequenceProp'
-                    value={sequenceProp}
-                    reducer={createDiagnosisQuestion}
-                    label={ L_CREATE_QUESTION.sequence }
-                    placeholder={ L_CREATE_QUESTION.enterQuestionKey }
-                    currencies={this.state.sequenceType}
-                  />
+                <Grid item xs={3}>
+                  <_select
+                    value={this.state.sequenceType}
+                    onChange={this.handleChange2}
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          width: 400,
+                        },
+                      },
+                    }}
+                  >
+                    {this.state.sequenceTypes.map((item, index) => (
+                      <MenuItem
+                        key={`${index}.${item.value}`}
+                        value={item}
+                        style={{
+                          fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
+                        }}
+                      >
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </_select>
+
                 </Grid>
 
                 <Grid item xs={2}>
@@ -261,7 +321,7 @@ class CreateQuestionComponent extends Component {
                       <FormControlLabel
                         control={<Radio
                           checked={answerType === item.value}
-                          onChange={() => {}}
+                          onChange={this.changeAnswerType}
                           value={item.value}
                           aria-label={item.value}
                         />}
@@ -272,19 +332,7 @@ class CreateQuestionComponent extends Component {
               </FormGroup>
 
               <Grid container className="row-item">
-                <ol type="A" style={{width: '100%'}}>
-                {single.map((answer, index) => (
-                  <li  key={index} className="row-item">
-                    <Grid item xs={12}>
-                      <Input
-                        id={`single[${index}]`}
-                        reducer={createDiagnosisQuestion}
-                        label={ L_CREATE_QUESTION.answer }
-                        placeholder={ L_CREATE_QUESTION.enterAnswer }
-                      />
-                    </Grid>
-                  </li>))}
-                </ol>
+                {this.answers(answerType)}
               </Grid>
 
             </div>
