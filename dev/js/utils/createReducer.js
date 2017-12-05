@@ -25,7 +25,7 @@ export const createReducer = (initialState, standardActionType, handlers = {}) =
 
   // common error handler func - will fire by default when using dev/js/actions/common/onChange.js
   handlers[`${standardActionType}_ERROR`] = (state, action) =>
-    ({ ...state, errors: action.payload.errors });
+    ({ ...state, errors: { ...state.errors, ...action.payload.errors } });
 
   return function reducer(state, action) {
     if (state === undefined) {

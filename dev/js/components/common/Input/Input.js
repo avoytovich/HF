@@ -17,6 +17,8 @@ const styles = theme => ({
 });
 
 class Input extends Component {
+
+
   render() {
     const {
       id,
@@ -36,7 +38,6 @@ class Input extends Component {
     } = this.props;
     const value = get(reducer, id, '');
     const error = get(errors, id, false);
-
     return (
     <FormControl className={classes.formControl} error={!!error}>
       {select ?

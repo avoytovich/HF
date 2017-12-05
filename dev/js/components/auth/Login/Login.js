@@ -7,7 +7,6 @@ import Button from 'material-ui/Button';
 
 import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
-import CheckBox from '../../common/CheckBox/CheckBox';
 
 import { PAGE } from '../../../config';
 
@@ -28,7 +27,6 @@ class Login extends Component {
       authReducer: {
         email,
         password,
-        remember_me,
       },
       commonReducer: {
         currentLanguage: { L_LOGIN },
@@ -49,11 +47,11 @@ class Login extends Component {
             </div>
 
             <div className="login-input-wrapper">
-              {[1, 2, 3].map((el) => {
+              {[1, 2, 3].map((el, i) => {
                 return (
                   <Input
-                    key={el}
-                    id={`emails[${el}].email`}
+                    key={i}
+                    id={`emails[${i}].email`}
                     reducer={authReducer}
                     label={ L_LOGIN.email.label }
                     placeholder={ L_LOGIN.email.placeholder }
@@ -67,17 +65,6 @@ class Login extends Component {
                 label={ L_LOGIN.password.placeholder }
               />
             </div>
-
-            {/*<div>*/}
-              {/*<CheckBox*/}
-                {/*id='remember_me'*/}
-                {/*value={remember_me}*/}
-                {/*reducer={authReducer}*/}
-                {/*label="dfsdfsdfsdf"*/}
-                {/*checked={true}*/}
-                {/*onChange={(val => console.log(val))}*/}
-              {/*/>*/}
-            {/*</div>*/}
 
             <div className="login-button-wrapper">
               <Button

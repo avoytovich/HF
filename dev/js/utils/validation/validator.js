@@ -1,9 +1,11 @@
 import validate from 'validate.js';
 import each from 'lodash/each';
 import set from 'lodash/set';
+import get from 'lodash/get';
 import keys from 'lodash/keys';
+import isEmpty from 'lodash/isEmpty';
+import capitalize from 'lodash/capitalize';
 
-// 'emails[1].email:"sdfeeffsdfr"'
 /**
  * provides 'errors' object and 'isValid' boolean as props of a returned object
  * @param inputData: {object}
@@ -11,36 +13,40 @@ import keys from 'lodash/keys';
  * @return {{isValid: {boolean}, errors: {object}}}
  */
 const validator = (inputData, constraints) => {
-  let errorsArrays = [];
+  // if error - this validator return obj '{ [prop]: <Array>: array of errors }'
+  let errorsObjOfArrays = {};
 
+  // iterate over input data object
   each(keys(inputData), dataKey => {
+
+    // iterate over rules object
     each(keys(constraints), constraintKey => {
-      console.log(constraintKey.match('/'), dataKey.match(constraintKey));
-      console.log(constraintKey, dataKey);
-      if (constraintKey.match('/') && dataKey.match(constraintKey)) {
-        let tempDataObj   = { 't': data[dataKey] };
-        let tempCheckRule = { 't': constraints[constraintKey] };
-        let errrrr = validate(tempDataObj, tempCheckRule);
-        console.log(data[dataKey], constraints[constraintKey]);
-        errorsArrays.concat(errrrr);
+
+      // if rule object prop name contains regex symbol and matches input data prop-path name - do validation
+      if (constraintKey.match(/\^/) && dataKey.match(constraintKey)) {
+        let tempDataObj         = { 't': inputData[dataKey] };
+        let tempCheckRule       = { 't': constraints[constraintKey] };
+        let validatedObjWithErr = validate(tempDataObj, tempCheckRule);
+        if (validatedObjWithErr) {
+          let errMessage = get(validatedObjWithErr, 't[0]')
+            .replace('T ', `${capitalize(dataKey.split('.').pop())} `);
+          set(errorsObjOfArrays, dataKey, errMessage);
+        }
+
       }
     });
   });
-  console.log(errorsArrays);
 
-  // console.log(inputData, constraints);
-  errorsArrays = validate(inputData, constraints);
-  let isValid      = validate.isEmpty(errorsArrays);
+  // merge validated nested objects with direct data object props
+  errorsObjOfArrays = Object.assign(errorsObjOfArrays, validate(inputData, constraints));
+  let isValid      = isEmpty(errorsObjOfArrays);
   let errors       = {};
-  console.log(errorsArrays);
 
   if (!isValid) {
-    /**
-     * Show only first error message - will not affect the ui (spaces between inputs in a form).
-     * After first error is fixed by the user - next error will be shown if an input still has some
-     */
-    errors = Object.keys(errorsArrays).reduce((obj, error) => {
-      obj[error] = errorsArrays[error][0];
+    errors = keys(errorsObjOfArrays).reduce((obj, error) => {
+      obj[error] = typeof get(errorsObjOfArrays, `[${error}][0]`) === 'string' ?
+        get(errorsObjOfArrays, `[${error}][0]`) :
+        errorsObjOfArrays[error];
       return obj;
     }, {});
   }
