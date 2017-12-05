@@ -9,6 +9,7 @@ import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
   findArea }                        from '../../../../actions';
+import { AsyncCreatable }           from 'react-select';
 
 // UI
 import Grid                     from 'material-ui/Grid';
@@ -27,8 +28,8 @@ class CreateQuestionComponent extends Component {
     backPath: '',
     answer: [1,2,3],
     sequenceType: [
+      {label: 'Normal', value: ''},
       {label: 'After',  value: 'after'},
-      {label: '',       value: 'none'},
       {label: 'Before', value: 'before'},
 
     ],
@@ -118,7 +119,8 @@ class CreateQuestionComponent extends Component {
         range,
         answer,
         enterAnswer,
-        rules
+        rules,
+        questionTitle
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
@@ -162,11 +164,12 @@ class CreateQuestionComponent extends Component {
                 <Grid item
                        md={6}
                        sm={12}>
-                  <TextField
-                    id="questionType"
-                    label="Question Type"
-                    value={this.state.questionType}
-                    disabled={true}
+                  <Input
+                    id='questionTitle'
+                    value={questionTitle}
+                    reducer={createDiagnosisQuestion}
+                    label={ L_CREATE_QUESTION.question }
+                    placeholder={ L_CREATE_QUESTION.enterQuestion }
                   />
                 </Grid>
 
@@ -180,12 +183,12 @@ class CreateQuestionComponent extends Component {
                     Body Areas
                   </Typography>
 
-                  <Select.Async
-                    name="body-areas"
-                    loadOptions={this.getOptions}
-                    onChange={this.onAreasChange}
-                    value={bodyAreas}
-                    />
+                  <AsyncCreatable
+                      name="body-areas"
+                      loadOptions={this.getOptions}
+                      onChange={this.onAreasChange}
+                      value={bodyAreas}/>
+
                 </Grid>
 
               </Grid>
@@ -219,17 +222,17 @@ class CreateQuestionComponent extends Component {
               </Grid>
 
               <Grid container  className="row-item">
-                {/*<Grid item xs={6}>*/}
-                  {/*<Input*/}
-                    {/*select={true}*/}
-                    {/*id='sequenceProp'*/}
-                    {/*value={sequenceProp}*/}
-                    {/*reducer={createDiagnosisQuestion}*/}
-                    {/*label={ L_CREATE_QUESTION.sequence }*/}
-                    {/*placeholder={ L_CREATE_QUESTION.enterQuestionKey }*/}
-                    {/*currencies={this.state.sequenceType}*/}
-                  {/*/>*/}
-                {/*</Grid>*/}
+                <Grid item xs={6}>
+                  <Input
+                    select={true}
+                    id='sequenceProp'
+                    value={sequenceProp}
+                    reducer={createDiagnosisQuestion}
+                    label={ L_CREATE_QUESTION.sequence }
+                    placeholder={ L_CREATE_QUESTION.enterQuestionKey }
+                    currencies={this.state.sequenceType}
+                  />
+                </Grid>
 
                 <Grid item xs={2}>
                   <Input

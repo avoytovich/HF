@@ -8,7 +8,8 @@ import * as dotProp        from 'dot-prop-immutable';
 const initialState = {
   actionType    : CREATE_QUESTION,
   bodyAreas     : '', // {label: 'body', value: 'body'},
-  question      : 'Are you pregnant ?',
+  question      : '',
+  questionTitle : '',
   questionType  : 'diagnostic',
   questionKey   : '',
   sequence      : 1,
