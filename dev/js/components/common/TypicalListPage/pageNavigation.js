@@ -42,59 +42,32 @@ class PageNavigation extends Component {
     return `page-navigation ${selected.length ? 'active-navigation' : 'enable-navigation'}`
   };
   render() {
-    const { classes, selected, createItem } = this.props;
-    const mainClass = this.mainClass(selected);
+    const {
+      classes,
+      selected,
+      createItem,
+    } = this.props;
+    const selectedClassName = selected.length ? 'visible-details' : 'hidden-details';
+    const mainClass         = this.mainClass(selected);
     return (
-      <Grid
-        container
-        className={mainClass}
-      >
-        <Grid
-          item
-          lg={8}
-          md={7}
-          style={{alignItems: 'center'}}
-        >
-          <Grid
-            container
-            className={selected.length ? 'visible-details' : 'hidden-details'}
-          >
-            <Grid
-              md={2}
-              item
-              className="navigation-count"
-            >
-              <Typography
-                type="title"
-                gutterBottom
-              >
+      <Grid container className={mainClass}>
+        <Grid item lg={8} md={7} style={{alignItems: 'center'}}>
+          <Grid container className={selectedClassName}>
+            <Grid md={2} item className="navigation-count">
+              <Typography type="title" gutterBottom>
                 {selected.length} {selected.length > 1 ? 'Items' : 'Item'} selected
               </Typography>
             </Grid>
-            <Grid
-              md={10}
-              item
-              className="child-buttons"
-            >
+            <Grid md={10} item className="child-buttons">
+              {/*here go custom control buttons above table on pick row*/}
               {this.props.children}
             </Grid>
           </Grid>
         </Grid>
 
-        <Grid
-          item
-          lg={4}
-          md={5}
-        >
-          <Grid
-            container
-            className="page-pagination"
-          >
-            <Grid
-              item
-              md={9}
-              xs={12}
-            >
+        <Grid item lg={4} md={5}>
+          <Grid container className="page-pagination">
+            <Grid item md={9} xs={12}>
               <FormControl fullWidth>
                 <Input
                   id="search"
@@ -109,16 +82,8 @@ class PageNavigation extends Component {
                 />
               </FormControl>
             </Grid>
-            <Grid
-              item
-              md={3}
-              xs={12}
-            >
-              <Button
-                raised
-                dense
-                onClick={createItem}
-                color="primary">
+            <Grid item md={3} xs={12}>
+              <Button raised dense onClick={createItem} color="primary">
                 <Add />
                 Create
               </Button>

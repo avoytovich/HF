@@ -18,6 +18,5 @@ export const onChange = (e, val = 'value') => dispatch => {
         errors: { [property]: get(errors, property) }
       }
     },
-
   ]);
 };
