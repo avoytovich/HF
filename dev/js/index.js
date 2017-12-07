@@ -43,7 +43,8 @@ import {
 //   MetaControlsComponent,
 //   AchievementsComponent,
 //   TestsComponent,
-   CreateQuestionComponent
+   CreateQuestionComponent,
+  CreateConditionComponent
  }                                    from './components/matrix/Matrix-Setup';
 
 import { PAGE }                       from './config';
@@ -124,6 +125,7 @@ const router = (
 
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
         <Route path='diagnosis-create'      component={(props) => <CreateQuestionComponent/>} />
+        <Route path='conditions-create'     component={(props) => <CreateConditionComponent/>} />
 
         {/*<Redirect from="*" to="organizations"/>*/}
 

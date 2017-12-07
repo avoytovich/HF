@@ -25,6 +25,7 @@ export const api = {
   findArea     : '/matrix/areas/get/all',
   findByAre    : '/matrix/questions/find/area',
   findByKey    : '/matrix/questions/get/key',
+  findCondByKey: '/matrix/conditions/get/key',
   sequenceList : '/matrix/questions/steps/get/type'
 };
 

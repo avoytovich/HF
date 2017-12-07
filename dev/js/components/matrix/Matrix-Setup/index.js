@@ -9,3 +9,4 @@ export ExercisesComponent       from './exercises';
 //export AchievementsComponent    from './achievements'
 //export MetaControlsComponent    from './metaControls'
 //export TestsComponent           from './tests'
+export CreateConditionComponent from './createConditionsQuestion/createConditionsQuestion';
