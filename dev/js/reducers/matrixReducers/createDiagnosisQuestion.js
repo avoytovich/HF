@@ -15,15 +15,15 @@ const initialState = {
   },
   questionKey   : '',
   sequence      : 1,
-  sequenceType  : '',
+  sequenceType  : 'normal',
   answerType    : 'single',
   single  : [
-      undefined,
-      undefined,
+      { en: '', sw: ''},
+      { en: '', sw: ''}
     ],
   multiple: [
-      undefined,
-      undefined,
+      { en: '', sw: ''},
+      { en: '', sw: ''}
     ],
   range   : {
       from: 0,
@@ -118,6 +118,30 @@ const setQuestion = (state, action) => {
     ));
 };
 
+const addNewAnswer = (state, action) => {
+  const { type } = action.payload;
+  return dotProp.set(
+    state,
+    type,
+    value => value.concat({ en: '', sw: ''}))
+};
+
+const removeAnswer = (state, action) => {
+  const { type, index } = action.payload;
+  return dotProp.set(
+    state,
+    type,
+    value => {
+      const length = value.length;
+      if (length <= 2) {
+        return value;
+      }
+      else {
+        return value.filter((item, i) => index !== i);
+      }
+    });
+};
+
 export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_UPDATE`]              : createQuestionUpdate,
   [`${CREATE_QUESTION}_ADD_RULE`]            : createQuestionRules,
@@ -126,5 +150,6 @@ export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_CHANGE_TO_ITEM_RULE`] : changeToItemRule,
   [`${CREATE_QUESTION}_DELETE_ITEM`]         : deleteRule,
   [`${CREATE_QUESTION}_SET_QUESTION`]        : setQuestion,
-
+  [`${CREATE_QUESTION}_ADD_NEW_ANSWER`]      : addNewAnswer,
+  [`${CREATE_QUESTION}_REMOVE_ANSWER`]       : removeAnswer,
 });

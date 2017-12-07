@@ -1,7 +1,6 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import Select                       from 'react-select';
 import DiagnosisRulesComponent      from './diagnosisRules';
 import { browserHistory }           from 'react-router'
 import { genCharArray }             from '../../../../utils';
@@ -9,24 +8,25 @@ import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
   findUniqueKey,
+  addNewAnswer,
+  removeAnswer,
   findArea }                        from '../../../../actions';
-
-import { onChange }                   from '../../../../actions/common';
+import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
-import debounce                     from 'lodash/debounce';
-// UI
-import Grid                     from 'material-ui/Grid';
-import Button                   from 'material-ui/Button';
-import Typography               from 'material-ui/Typography';
-import TextField                from 'material-ui/TextField';
-import Radio                    from 'material-ui/Radio';
-import Input                    from '../../../common/Input/Input';
+import AddIcon                      from 'material-ui-icons/Add';
+import Clear                        from 'material-ui-icons/Clear';
+import Grid                         from 'material-ui/Grid';
+import Button                       from 'material-ui/Button';
+import Typography                   from 'material-ui/Typography';
+import TextField                    from 'material-ui/TextField';
+import Radio                        from 'material-ui/Radio';
+import Input                        from '../../../common/Input/Input';
 import { FormControlLabel,
-         FormGroup }            from 'material-ui/Form';
-import _select                  from 'material-ui/Select';
-import ChooseSequence           from './chooseSequence';
+         FormGroup }                from 'material-ui/Form';
+import _select                      from 'material-ui/Select';
+import ChooseSequence               from './chooseSequence';
 
 class CreateQuestionComponent extends Component {
   state = {
@@ -38,7 +38,6 @@ class CreateQuestionComponent extends Component {
       {label: 'Before', value: 'before'},
 
     ],
-    sequenceType: 'normal',
     selectedValue: 'single',
     answerType: [
       {label: 'Single',   value: 'single'},
@@ -47,7 +46,7 @@ class CreateQuestionComponent extends Component {
     ],
     questionLang: 'en',
     keyIsUniqueError: '',
-    chooseSequence: true
+    chooseSequence: false
   };
 
   constructor(props) {
@@ -78,7 +77,7 @@ class CreateQuestionComponent extends Component {
 
   handleSequenceTypeChange = (event) => {
     const sequenceType = event.target.value;
-    this.setState({ sequenceType });
+    updateCrateQuestionFields(sequenceType, 'sequenceType');
   };
 
   checkIfQuestionKeyValid = (event, value) => {
@@ -94,6 +93,24 @@ class CreateQuestionComponent extends Component {
         }
       });
     }
+  };
+
+  getAnswer = (type, obj) => {
+    const letters      = genCharArray();
+    const correctValue = obj[type];
+    return Object.keys(correctValue).reduce((result, item, index) => {
+      if (item) {
+        const key   = letters[index];
+        const value = correctValue[item];
+        return Object.assign({}, result, { [key]:  value})
+      }
+      return result
+    }, {});
+  };
+
+  changeAnswerType = (event) => {
+    const value = event.target.value;
+    updateCrateQuestionFields(value, 'answerType');
   };
 
   done = (value) => {
@@ -114,65 +131,56 @@ class CreateQuestionComponent extends Component {
     };
 
     diagnosisQuestionCreate('diagnostics', 'diagnosis', result)
-      .then(() => browserHistory.push(`/matrix-setup/diagnosis`));
-  };
-
-  getAnswer = (type, obj) => {
-    const letters      = genCharArray();
-    const correctValue = obj[type];
-    return Object.keys(correctValue).reduce((result, item, index) => {
-      if (item) {
-        const key   = letters[index];
-        const value = correctValue[item];
-        return Object.assign({}, result, { [key]:  value})
-      }
-      return result
-    }, {});
+    .then(() => browserHistory.push(`/matrix-setup/diagnosis`));
   };
 
   cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
 
-
-
-  addAnswer = () => {
-    const answer = this.state.answer.concat(1);
-    this.setState({answer})
-  };
-
-  changeAnswerType = (event) => {
-    const value = event.target.value;
-    updateCrateQuestionFields(value, 'answerType');
-  };
-
   answers = (type) => {
+    const { single, multiple } = this.props.createDiagnosisQuestion;
     switch (type) {
-      case 'multiple':
-        return <ol type="A" style={{width: '100%'}}>
-          {this.state.answer.map((answer, index) => (
-            <li  key={index} className="row-item">
-              <Grid item xs={12}>
-                <Input
-                  id={`single[${index}]`}
-                  reducer={this.props.createDiagnosisQuestion}
-                />
-              </Grid>
-            </li>))}
-        </ol>;
+      case 'single':
+        return <div className="answer-wrap">
+            <ol type="A" style={{width: '100%'}}>
+            {single.map((answer, index) => (
+              <li  key={index} className="row-item">
+                <div className="answer-item">
+                  <Input
+                    id={`single[${index}].en`}
+                    reducer={this.props.createDiagnosisQuestion}
+                  />
+                  <Clear onClick={() => removeAnswer(type, index)}/>
+                </div>
+              </li>))}
+          </ol>
+          <div className="add-answer"
+               onClick={() => addNewAnswer('single')}>
+            <AddIcon /> ADD ANSWER
+          </div>
+        </div>;
 
       case 'range':
           return;
+
       default:
-        return <ol type="A" style={{width: '100%'}}>
-          {this.state.answer.map((answer, index) => (
-            <li  key={index} className="row-item">
-              <Grid item xs={12}>
-                <Input
-                  id={`single[${index}]`}
-                  reducer={this.props.createDiagnosisQuestion}
-                />
-              </Grid>
-            </li>))}
-        </ol>;
+        return <div className="answer-wrap">
+            <ol type="A" style={{width: '100%'}}>
+            {multiple.map((answer, index) => (
+              <li  key={index} className="row-item">
+                <div className="answer-item">
+                  <Input
+                    id={`multiple[${index}].en`}
+                    reducer={this.props.createDiagnosisQuestion}
+                  />
+                  <Clear onClick={() => removeAnswer(type, index)}/>
+                </div>
+              </li>))}
+          </ol>
+          <div className="add-answer"
+               onClick={() => addNewAnswer('multiple')}>
+            <AddIcon /> ADD ANSWER
+          </div>
+        </div>;
     }
   };
 
@@ -184,8 +192,7 @@ class CreateQuestionComponent extends Component {
         question,
         questionKey,
         sequence,
-
-        sequenceProp,
+        sequenceType,
         answerType,
         single,
         multiple,
@@ -322,7 +329,7 @@ class CreateQuestionComponent extends Component {
               <Grid container  className="row-item">
                 <Grid item lg={3} className="sequence-type">
                   <_select
-                    value={this.state.sequenceType}
+                    value={sequenceType}
                     onChange={this.handleSequenceTypeChange}
                     MenuProps={{
                       PaperProps: {
@@ -353,7 +360,7 @@ class CreateQuestionComponent extends Component {
                     gutterBottom>
                     Sequence
                   </Typography>
-                  <div className="sequence">
+                  <div className="sequence" onClick={() => this.openChooseSequence(true)}>
                     { sequence }
                   </div>
                 </Grid>
@@ -361,36 +368,36 @@ class CreateQuestionComponent extends Component {
 
               <ChooseSequence
                   open={this.state.chooseSequence}
-                  handleRequestClose={this.openChooseSequence}/>
+                  handleRequestClose={(value) => this.openChooseSequence(value)}/>
 
 
-              {/*<Grid className="title answer">*/}
-                {/*<Typography type="title"*/}
-                            {/*gutterBottom>*/}
-                  {/*Answers*/}
-                {/*</Typography>*/}
-              {/*</Grid>*/}
+              <Grid className="title answer">
+                <Typography type="title"
+                            gutterBottom>
+                  Answers
+                </Typography>
+              </Grid>
 
-              {/*<FormGroup>*/}
-                {/*<Grid container className="row-item">*/}
-                  {/*{this.state.answerType.map((item, index) =>*/}
-                    {/*(<Grid item xs={4} key={index}>*/}
-                      {/*<FormControlLabel*/}
-                        {/*control={<Radio*/}
-                          {/*checked={answerType === item.value}*/}
-                          {/*onChange={this.changeAnswerType}*/}
-                          {/*value={item.value}*/}
-                          {/*aria-label={item.value}*/}
-                        {/*/>}*/}
-                        {/*label={item.label} />*/}
-                      {/*</Grid>)*/}
-                  {/*)}*/}
-                {/*</Grid>*/}
-              {/*</FormGroup>*/}
+              <FormGroup>
+                <Grid container className="row-item">
+                  {this.state.answerType.map((item, index) =>
+                    (<Grid item xs={4} key={index}>
+                      <FormControlLabel
+                        control={<Radio
+                          checked={answerType === item.value}
+                          onChange={this.changeAnswerType}
+                          value={item.value}
+                          aria-label={item.value}
+                        />}
+                        label={item.label} />
+                      </Grid>)
+                  )}
+                </Grid>
+              </FormGroup>
 
-              {/*<Grid container className="row-item">*/}
-                {/*{this.answers(answerType)}*/}
-              {/*</Grid>*/}
+              <Grid container className="row-item">
+                {this.answers(answerType)}
+              </Grid>
 
             </div>
           </Grid>

@@ -30,8 +30,9 @@ class ChooseSequence extends Component {
     getSequenceList('diagnostics', 'sequenceList').then(({data}) => this.setState({list: data.data}));
   };
 
-  onSelect = (value) => {
-    updateCrateQuestionFields(value, 'sequence')
+  onSelect = ({step}) => {
+    updateCrateQuestionFields(step, 'sequence');
+    this.props.handleRequestClose(false);
   };
 
   Transition = (props) => {
@@ -50,7 +51,7 @@ class ChooseSequence extends Component {
         <AppBar className="header-custom-black">
           <Toolbar>
             <IconButton color="contrast"
-                        onClick={handleRequestClose}
+                        onClick={() => handleRequestClose(false)}
                         aria-label="Close">
               <CloseIcon />
             </IconButton>
@@ -63,9 +64,13 @@ class ChooseSequence extends Component {
 
         <List>
           {this.state.list.map((item, index) =>
-            (<ListItem button key={index}
-                onClick={() => this.onSelect(item)}>
-              <ListItemText primary={item.step} secondary="Titania" />
+            (<ListItem button 
+                       key={index}
+                      onClick={(d) => {
+
+                        this.onSelect(item)
+                      }}>
+              <ListItemText primary={item.title} secondary={item.step} />
             </ListItem>)
           )}
         </List>
