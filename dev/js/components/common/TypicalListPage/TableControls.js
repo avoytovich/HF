@@ -6,17 +6,10 @@ import Grid                      from 'material-ui/Grid';
 import { withStyles }            from 'material-ui/styles';
 import { FormControl }           from 'material-ui/Form';
 import Input, { InputAdornment } from 'material-ui/Input';
-import MuiSvgIcon                from 'material-ui/SvgIcon';
 import Button                    from 'material-ui/Button';
 import Add                       from 'material-ui-icons/Add';
 import Typography                from 'material-ui/Typography';
-
-const SearchIcon = (props) => (
-  <MuiSvgIcon {...props}>
-    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-    <path d="M0 0h24v24H0z" fill="none"/>
-  </MuiSvgIcon>
-);
+import SearchIcon                from 'material-ui-icons/Search';
 
 const styles = theme => ({
   formControl: {
@@ -24,23 +17,16 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center'
   },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-  },
-  button: {
-    margin: theme.spacing.unit,
-  },
 });
 
-
-
-class PageNavigation extends Component {
+class TableControls extends Component {
 
   handleChange = (event, value) => {};
 
   mainClass = (selected) => {
     return `page-navigation ${selected.length ? 'active-navigation' : 'enable-navigation'}`
   };
+
   render() {
     const {
       classes,
@@ -99,8 +85,8 @@ const mapStateToProps = (state, ownProps) => ({
   store: state[ownProps.path]
 });
 
-PageNavigation.defaultProps = {
+TableControls.defaultProps = {
   selected    : [],
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(PageNavigation));
+export default connect(mapStateToProps)(withStyles(styles)(TableControls));

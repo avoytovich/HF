@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TableComponent from './TableComponent';
-import PageNavigation from './pageNavigation';
+import TableControls from './TableControls';
 
 
 class TypicalListPage extends Component {
@@ -20,7 +20,7 @@ class TypicalListPage extends Component {
 
         <div className="page-sub-header">{ title }</div>
 
-        <PageNavigation path="diagnosis"/>
+        <TableControls path="diagnosis"/>
 
         <TableComponent
           path="diagnosis"

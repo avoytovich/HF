@@ -3,7 +3,7 @@ import { connect }              from 'react-redux';
 import { DIAGNOSIS_TAB }        from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
-import PageNavigation           from '../../common/TypicalListPage/pageNavigation';
+import TableControls           from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
 import NotInterested            from 'material-ui-icons/NotInterested';
@@ -53,7 +53,7 @@ class EvaluationComponent extends Component {
           itemKey="title"
         />
 
-        <PageNavigation
+        <TableControls
           path="evaluation"
           selected={selected}>
 
@@ -69,7 +69,7 @@ class EvaluationComponent extends Component {
             Deactivate
           </Button>
 
-        </PageNavigation>
+        </TableControls>
 
         <TableComponent
           path="evaluation"

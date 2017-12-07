@@ -1,9 +1,9 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { SEL_TAB }        from '../../../utils/constants/pageContent';
+import { SEL_TAB }              from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
-import PageNavigation           from '../../common/TypicalListPage/pageNavigation';
+import TableControls           from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
@@ -51,7 +51,7 @@ class Companies extends Component {
           query={this.props.location.query}
         />
 
-        <PageNavigation
+        <TableControls
           path="companies"
           selected={selected}
           createItem={this.create}>
@@ -70,7 +70,7 @@ class Companies extends Component {
             Delete
           </Button>
 
-        </PageNavigation>
+        </TableControls>
 
         <TableComponent
           path="userAll"

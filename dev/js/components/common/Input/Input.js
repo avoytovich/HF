@@ -17,8 +17,6 @@ const styles = theme => ({
 });
 
 class Input extends Component {
-
-
   render() {
     const {
       id,

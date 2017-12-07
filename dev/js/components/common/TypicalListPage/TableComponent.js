@@ -2,16 +2,20 @@ import React, { Component }   from 'react';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes              from 'prop-types';
-import Table, {
-        TableBody,
-        TableCell,
-        TableFooter,
-        TablePagination,
-        TableRow }            from 'material-ui/Table';
+import
+  Table, {
+  TableBody,
+  TableCell,
+  TableFooter,
+  TablePagination,
+  TableRow
+}                             from 'material-ui/Table';
 import Checkbox               from 'material-ui/Checkbox';
 import EnhancedTableHead      from './TableHeader';
-import { getMatrixInfo,
-         getInfoByPost }      from '../../../actions';
+import {
+  getMatrixInfo,
+  getListByPost,
+}                             from '../../../actions';
 import get                    from 'lodash/get';
 import isEmpty                from 'lodash/isEmpty'
 import moment                 from 'moment';
@@ -41,7 +45,7 @@ class TableComponent extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.location !== nextProps.location &&
         nextProps.location.query) {
-      this.getInfo(this.props, nextProps.location.query);
+      this.getList(this.props, nextProps.location.query);
     }
   }
 
@@ -69,16 +73,12 @@ class TableComponent extends Component {
    * @param path: {string}      - variable with location for curent page
    * @param _query: {object}  - count of items per pa
    */
-  getInfo = ({reqType, domen, path}, _query) => {
+  getList = ({reqType, domen, path}, _query) => {
     switch (reqType) {
       case 'POST':
         const body = {
-          "limit": 0,
-          "page": 0,
-          "orderBy": 0,
-          "order": 0,
         };
-        getInfoByPost(domen, path, body, _query);
+        getListByPost(domen, path, body, _query);
         break;
 
       default:
@@ -125,15 +125,14 @@ class TableComponent extends Component {
    * @return {*}
    */
   matchItems(selected, id) {
-    return selected.reduce((result, item, index) =>
-                  item && item.id === id ? index : result, -1);
+    return selected.reduce((result, item, index) => {
+      return item && (item.id || item.customer_id) === id ? index : result;
+    }, -1)
   };
 
   handleClick = (event, checked, selected) => {
-    const { id, deActive} = checked;
-
-//    if (deActive) return;
-
+    let { id, deActive, customer_id } = checked;
+    id = id || customer_id;
     const isIn = this.matchItems(selected, id);
 
     let result = [];
@@ -147,7 +146,7 @@ class TableComponent extends Component {
         break;
 
       case isIn >= 0:
-        result = selected.filter(item => item && item.id !== id );
+        result = selected.filter(item => item && (item.id || item.customer_id) !== id );
         break;
 
       default:
@@ -201,7 +200,7 @@ class TableComponent extends Component {
    * @param format
    * @return {*}
    */
-  getInfoByKey = (row, key, type, format) => {
+  formatCellValue = (row, key, type, format) => {
     const value =  get(row, key);
     switch (type) {
       case 'time':
@@ -214,9 +213,19 @@ class TableComponent extends Component {
   };
 
   render() {
-    const { tableHeader, selected, onSelectAllClick} = this.props;
-    const { data, pagination: {  per_page, current_page, total } } = this.props.store;
-
+    const {
+      tableHeader,
+      selected,
+      onSelectAllClick,
+      store: {
+        data,
+        pagination: {
+          per_page,
+          current_page,
+          total,
+        },
+      }
+    } = this.props;
     return (
       <Table className="table-template">
 
@@ -230,30 +239,39 @@ class TableComponent extends Component {
         />
 
         <TableBody>
-          {data.map(row => {
-            const isSelected = this.matchItems(selected, row.id) !== -1; // !row.deActive &&
-            return <TableRow
-                      hover
-                      key={row.id}
-                      tabIndex={-1}
-                      role="checkbox"
-                      selected={isSelected}
-                      className={row.enabled ? 'active' : 'de-active'}
-                      aria-checked={isSelected}
-                      onClick={event => this.handleClick(event, row, selected)}>
-
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected}/>
+          {
+            data.map(row => {
+              const id         = row.id || row.customer_id;
+              const isSelected = this.matchItems(selected, id) !== -1; // !row.deActive &&
+              let isEnabled;
+              if (row.hasOwnProperty('enabled')) {
+                isEnabled  = row.enabled ? 'active' : 'de-active';
+              } else {
+                isEnabled  = row.customer_active ? 'active' : 'de-active';
+              }
+              return (
+                <TableRow
+                  hover
+                  key={id}
+                  tabIndex={-1}
+                  role="checkbox"
+                  selected={isSelected}
+                  className={isEnabled}
+                  aria-checked={isSelected}
+                  onClick={e => this.handleClick(e, row, selected)}
+                >
+                  <TableCell padding="checkbox"><Checkbox checked={isSelected}/></TableCell>
+                  {
+                    tableHeader.map((col, i) => (
+                      <TableCell key={i} className={col.className} padding="dense">
+                        { this.formatCellValue(row, col.key, col.type, col.format) }
                       </TableCell>
-
-                    {tableHeader.map( (col, index) =>
-                      <TableCell key={index}
-                                 className={col.className}
-                                 padding="dense">
-                        { this.getInfoByKey(row, col.key, col.type, col.format) }
-                      </TableCell>)}
-            </TableRow>
-          })}
+                    ))
+                  }
+                </TableRow>
+              )
+            })
+          }
         </TableBody>
         <TableFooter>
           <TableRow>
