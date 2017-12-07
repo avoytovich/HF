@@ -10,21 +10,22 @@ export const domen = {
 };
 
 export const api = {
-  login     : '/auth/login',
-  userOwn   : '/users/my',
-  userAll   : '/users/get/all',
-  logout    : '/auth/logout',
-  packages  : '/packages',
-  exercises : '/exercises',
-  diagnosis : '/matrix/questions',
-  conditions: '/matrix/conditions',
-  treatments: '/matrix/treatments',
-  evaluation: '/matrix/evaluation',
-  passForgot: '/auth/password/forgot/web',
-  passReset : '/auth/password/update',
-  findArea  : '/matrix/areas/get/all',
-  findByAre : '/matrix/questions/find/area',
-  findByKey : '/matrix/questions/get/key',
+  login        : '/auth/login',
+  userOwn      : '/users/my',
+  userAll      : '/users/get/all',
+  logout       : '/auth/logout',
+  packages     : '/packages',
+  exercises    : '/exercises',
+  diagnosis    : '/matrix/questions',
+  conditions   : '/matrix/conditions',
+  treatments   : '/matrix/treatments',
+  evaluation   : '/matrix/evaluation',
+  passForgot   : '/auth/password/forgot/web',
+  passReset    : '/auth/password/update',
+  findArea     : '/matrix/areas/get/all',
+  findByAre    : '/matrix/questions/find/area',
+  findByKey    : '/matrix/questions/get/key',
+  sequenceList : '/matrix/questions/steps/get/type'
 };
 
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`

@@ -31,7 +31,6 @@ import ChooseSequence           from './chooseSequence';
 class CreateQuestionComponent extends Component {
   state = {
     questionType: 'Diagnosis',
-    backPath: '',
     answer: [1,2,3],
     sequenceTypeList: [
       {label: 'Normal', value: 'normal'},

@@ -53,8 +53,7 @@ export const getInfoByPost = (domenKey, apiKey, body, _query) => {
       }
     })
   });
-
-}
+};
 
 export const clearCreateQuestion = () =>
   store.dispatch({type:`${CREATE_QUESTION}_CLEAR`});
@@ -107,5 +106,18 @@ export const findByArea = (domenKey, apiKey, body, string) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
   return Api.post(`${domenPath}${apiPath}?search=${string}`, body);
+};
+
+
+export const getSequenceList = (domenKey, apiKey) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey],
+        body = {
+          "type": "diagnostic",
+          "text": "",
+          "area": null,
+          "step": null
+        };
+  return Api.post(`${domenPath}${apiPath}`, body);
 };
 
