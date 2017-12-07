@@ -289,17 +289,17 @@ class CreateQuestionComponent extends Component {
               </Grid>
 
 
-              {/*<Grid container className="row-item">*/}
-                {/*<Grid item xs={12}>*/}
-                  {/*<Input*/}
-                    {/*id='questionKey'*/}
-                    {/*value={questionKey}*/}
-                    {/*reducer={createDiagnosisQuestion}*/}
-                    {/*label={ L_CREATE_QUESTION.questionKey }*/}
-                    {/*placeholder={ L_CREATE_QUESTION.enterQuestionKey }*/}
-                  {/*/>*/}
-                {/*</Grid>*/}
-              {/*</Grid>*/}
+              <Grid container className="row-item">
+                <Grid item xs={12}>
+                  <Input
+                    id='questionKey'
+                    value={questionKey}
+                    reducer={createDiagnosisQuestion}
+                    label={ L_CREATE_QUESTION.questionKey }
+                    placeholder={ L_CREATE_QUESTION.enterQuestionKey }
+                  />
+                </Grid>
+              </Grid>
 
               {/*<Grid container  className="row-item">*/}
                 {/*<Grid item xs={3}>*/}
