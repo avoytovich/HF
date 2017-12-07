@@ -5,6 +5,8 @@ import {
 
 import validSignup from './validAuth';
 
+export * from './bCN';
+
 export const validate = {
   [AUTH]            : validSignup,
   [CREATE_QUESTION] : validSignup,

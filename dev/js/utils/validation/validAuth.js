@@ -1,6 +1,7 @@
 import validator from './validator';
 
 import { store } from '../../index';
+import { bCN } from './index';
 
 const validateDay = data => {
 

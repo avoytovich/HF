@@ -12,7 +12,7 @@ const getInfo = (domenPath, apiPath, query) => {
     Api.get(`${domenPath}${apiPath}`);
 };
 
-export const getMatrixInfo = (domenKey, apiKey, query, path) => {
+export const getMatrixInfo = ( domenKey, apiKey, query, path) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey],
         querySt   = qs.stringify(query);
@@ -28,6 +28,33 @@ export const dispatchTableInfo = ({data}, path) => {
     }
   });
 };
+
+export const getInfoByPost = (domenKey, apiKey, body, _query) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+
+  const pagination =  {
+      total        : 0,
+      count        : 0,
+      per_page     : 5,
+      current_page : 0,
+      total_pages  : 0,
+      order        : 'asc',
+      orderBy      : 'users', // Custom
+  };
+
+  Api.post(`${domenPath}${apiPath}`, body).then(res => {
+    const {data} = res.data.data.users;
+    return store.dispatch({type:`${TABLE}_UPDATE`,
+      payload:{
+        data,
+        meta: {pagination},
+        path: 'userAll'
+      }
+    })
+  });
+
+}
 
 export const clearCreateQuestion = () =>
   store.dispatch({type:`${CREATE_QUESTION}_CLEAR`});

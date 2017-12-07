@@ -2,7 +2,7 @@
 
 const TIME_FORMAT = 'DD MMM YYYY';
 
-export const ORGANISATION_PAGE = {
+export const COMPANIES_PAGE = {
   key:         'organizations',
   title:       'Organizations',
   tableHeader: [
@@ -187,6 +187,33 @@ export const EXERCISES_TAB = {
     },
     {
       title: 'Created by',  key: 'created_by',  className: 'left'
+    },
+    {
+      title: 'Created',     key: 'created_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
+    {
+      title: 'Updated',     key: 'updated_at',  className: 'left', type: 'time',   format: TIME_FORMAT
+    },
+  ]
+};
+
+
+
+export const SEL_TAB = {
+  key: 'conditions',
+  title: 'Conditions',
+  tableHeader: [
+    {
+      title: 'Name',        key: 'name',       className: 'left'
+    },
+    {
+      title: 'Customer Name',  key: 'customer_name',   className: 'center'
+    },
+    {
+      title: 'Email',         key: 'email',         className: 'left'
+    },
+    {
+      title: 'Role',         key: 'role',         className: 'left'
     },
     {
       title: 'Created',     key: 'created_at',  className: 'left', type: 'time',   format: TIME_FORMAT
