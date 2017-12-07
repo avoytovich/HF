@@ -30,23 +30,24 @@ import ChooseSequence               from './chooseSequence';
 
 class CreateQuestionComponent extends Component {
   state = {
-    questionType: 'Diagnosis',
-    answer: [1,2,3],
+    questionType    : 'Diagnosis',
+    answer          : [1,2,3],
     sequenceTypeList: [
       {label: 'Normal', value: 'normal'},
       {label: 'After',  value: 'after'},
       {label: 'Before', value: 'before'},
 
     ],
-    selectedValue: 'single',
-    answerType: [
+    selectedValue   : 'single',
+    answerType      : [
       {label: 'Single',   value: 'single'},
       {label: 'Range',    value: 'range'},
       {label: 'Multiple', value: 'multiple'},
     ],
-    questionLang: 'en',
+    questionLang    : 'en',
+    answerLang      : ['en', 'en'],
     keyIsUniqueError: '',
-    chooseSequence: false
+    chooseSequence  : false
   };
 
   constructor(props) {
@@ -72,6 +73,22 @@ class CreateQuestionComponent extends Component {
   onAreasChange = (value) => updateCrateQuestionFields(value, 'bodyAreas');
 
   handleQuestionLangChange = (event, value) => this.setState({ questionLang: value });
+
+  handleAnswerLangChange = (value, index) => {
+    const state = this.state.answerLang;
+    const _value = state.map((el, i) => {
+      if (i === index) return value;
+
+      return el ;
+    });
+    this.setState({ answerLang: _value });
+  };
+
+  addNewAnswer = (value) => {
+    const inState = this.state.answerLang;
+    this.setState({ answerLang: inState.concat('en')});
+    addNewAnswer(value);
+  };
 
   openChooseSequence = (chooseSequence) => this.setState({ chooseSequence });
 
@@ -146,15 +163,26 @@ class CreateQuestionComponent extends Component {
               <li  key={index} className="row-item">
                 <div className="answer-item">
                   <Input
-                    id={`single[${index}].en`}
+                    id={`single[${index}].${this.state.answerLang[index]}`}
                     reducer={this.props.createDiagnosisQuestion}
                   />
                   <Clear onClick={() => removeAnswer(type, index)}/>
                 </div>
+                <Tabs
+                  value={this.state.answerLang[index] || 'en'}
+                  onChange={(event, value) => this.handleAnswerLangChange(value, index)}
+                  indicatorColor="primary"
+                  className="tab-lang answer"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="English" value="en" />
+                  <Tab label="Sweden"  value="sw" />
+                </Tabs>
               </li>))}
           </ol>
           <div className="add-answer"
-               onClick={() => addNewAnswer('single')}>
+               onClick={() => this.addNewAnswer('single')}>
             <AddIcon /> ADD ANSWER
           </div>
         </div>;
@@ -167,17 +195,30 @@ class CreateQuestionComponent extends Component {
             <ol type="A" style={{width: '100%'}}>
             {multiple.map((answer, index) => (
               <li  key={index} className="row-item">
+
                 <div className="answer-item">
                   <Input
-                    id={`multiple[${index}].en`}
+                    id={`multiple[${index}].${this.state.answerLang[index]}`}
                     reducer={this.props.createDiagnosisQuestion}
                   />
                   <Clear onClick={() => removeAnswer(type, index)}/>
                 </div>
+
+                <Tabs
+                  value={this.state.answerLang[index] || 'en'}
+                  onChange={(event, value) => this.handleAnswerLangChange(value, index)}
+                  indicatorColor="primary"
+                  className="tab-lang answer"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="English" value="en" />
+                  <Tab label="Sweden"  value="sw" />
+                </Tabs>
               </li>))}
           </ol>
           <div className="add-answer"
-               onClick={() => addNewAnswer('multiple')}>
+               onClick={() => this.addNewAnswer('multiple')}>
             <AddIcon /> ADD ANSWER
           </div>
         </div>;
