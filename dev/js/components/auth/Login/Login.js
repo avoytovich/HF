@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 
 import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
-import CheckBox from '../../common/CheckBox/CheckBox';
+
+import { PAGE } from '../../../config';
 
 import {
   loginWired,
@@ -25,7 +27,6 @@ class Login extends Component {
       authReducer: {
         email,
         password,
-        remember_me,
       },
       commonReducer: {
         currentLanguage: { L_LOGIN },
@@ -60,17 +61,6 @@ class Login extends Component {
               />
             </div>
 
-            {/*<div>*/}
-              {/*<CheckBox*/}
-                {/*id='remember_me'*/}
-                {/*value={remember_me}*/}
-                {/*reducer={authReducer}*/}
-                {/*label="dfsdfsdfsdf"*/}
-                {/*checked={true}*/}
-                {/*onChange={(val => console.log(val))}*/}
-              {/*/>*/}
-            {/*</div>*/}
-
             <div className="login-button-wrapper">
               <Button
                 onClick={() => this._loginAndGetUserInfo({ email, password })}
@@ -79,6 +69,15 @@ class Login extends Component {
               >
                 { L_LOGIN.loginButton }
               </Button>
+            </div>
+
+            <div className="sign-up-to-login-wrapper">
+              <p
+                onClick={() => browserHistory.push(PAGE.passForgot)}
+                className="sign-up-to-login"
+              >
+                Forgot Password
+              </p>
             </div>
 
           </div>

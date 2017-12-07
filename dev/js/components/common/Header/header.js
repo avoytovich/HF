@@ -58,7 +58,6 @@ class Header extends Component {
               color="default"
               className='header-user-info-wrapper'
             >
-              <AccountCircle />
               <p className="header-user-name">{name}</p>
               <ArrowDropDown />
 

@@ -29,6 +29,9 @@ import Login                          from './components/auth/Login/Login';
 import SignUp                         from './components/auth/SignUp/SignUp';
 import ResetPassword                  from './components/auth/ResetPassword/ResetPassword';
 import ForgotPassword                 from './components/auth/ForgotPassword/ForgotPassword';
+import Companies                      from './components/users/companies/Companies';
+import Clinics                      from './components/users/clinics/Clinics';
+import Users                      from './components/users/users/Users';
 import {
    MatrixComponent,
    DiagnosisComponent,
@@ -94,13 +97,13 @@ const router = (
         onChange={onAllEnter}
       >
 
-        <IndexRedirect to="organizations"/>
+        <IndexRedirect to={PAGE.companies}/>
 
-        <Route path='organizations'         component={() => <div>ORGANISATION_PAGE</div>} />
-        <Route path='clinics'               component={() => <div>CLINICS_PAGE</div>} />
-        <Route path='users'                 component={() => <div>USERS_PAGE</div>} />
-        <Route path='resource'              component={() => <div>RESOURCE_PAGE</div>} />
-        <Route path='matrix-setup'          component={ MatrixComponent }>
+        <Route path={PAGE.companies}         component={(props) => <Companies  {...props}/>} />
+        <Route path={PAGE.clinics}           component={(props) => <Clinics  {...props}/>} />
+        <Route path={PAGE.users}             component={(props) => <Users  {...props}/>} />
+        <Route path={PAGE.resources}         component={() => <div>RESOURCE_PAGE</div>} />
+        <Route path={PAGE.matrixSetup}       component={ MatrixComponent }>
 
           <IndexRedirect to="diagnosis"/>
 
