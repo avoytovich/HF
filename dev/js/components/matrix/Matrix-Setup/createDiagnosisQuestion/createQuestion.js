@@ -8,11 +8,14 @@ import { genCharArray }             from '../../../../utils';
 import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
+  findUniqueKey,
   findArea }                        from '../../../../actions';
+
+import { onChange }                   from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
-import Tabs, { Tab } from 'material-ui/Tabs';
-
+import Tabs, { Tab }                from 'material-ui/Tabs';
+import debounce                     from 'lodash/debounce';
 // UI
 import Grid                     from 'material-ui/Grid';
 import Button                   from 'material-ui/Button';
@@ -23,28 +26,34 @@ import Input                    from '../../../common/Input/Input';
 import { FormControlLabel,
          FormGroup }            from 'material-ui/Form';
 import _select                  from 'material-ui/Select';
-
+import ChooseSequence           from './chooseSequence';
 
 class CreateQuestionComponent extends Component {
   state = {
     questionType: 'Diagnosis',
     backPath: '',
     answer: [1,2,3],
-    sequenceTypes: [
-      {label: 'Normal', value: '', selected: true},
+    sequenceTypeList: [
+      {label: 'Normal', value: 'normal'},
       {label: 'After',  value: 'after'},
       {label: 'Before', value: 'before'},
 
     ],
-    sequenceType: '',
+    sequenceType: 'normal',
     selectedValue: 'single',
     answerType: [
       {label: 'Single',   value: 'single'},
       {label: 'Range',    value: 'range'},
       {label: 'Multiple', value: 'multiple'},
     ],
-    questionLang: 'en'
+    questionLang: 'en',
+    keyIsUniqueError: '',
+    chooseSequence: true
   };
+
+  constructor(props) {
+    super(props);
+  }
 
   componentWillUnmount() { clearCreateQuestion(); }
 
@@ -66,12 +75,27 @@ class CreateQuestionComponent extends Component {
 
   handleQuestionLangChange = (event, value) => this.setState({ questionLang: value });
 
+  openChooseSequence = (chooseSequence) => this.setState({ chooseSequence });
 
+  handleSequenceTypeChange = (event) => {
+    const sequenceType = event.target.value;
+    this.setState({ sequenceType });
+  };
 
+  checkIfQuestionKeyValid = (event, value) => {
+    this.props.onChange(event, value);
 
-
-
-
+    if (event.target.value.length > 3) {
+      findUniqueKey('diagnostics', 'findByKey', event.target.value).then(res => {
+        if (res) {
+          this.setState({keyIsUniqueError: 'Key is not Unique'});
+        }
+        else if (!res && this.state.keyIsUniqueError){
+          this.setState({keyIsUniqueError: ''});
+        }
+      });
+    }
+  };
 
   done = (value) => {
     const result = {
@@ -111,11 +135,6 @@ class CreateQuestionComponent extends Component {
 
 
 
-  handleChange2 = (event) => {
-    this.setState({ sequenceType: event.target.value });
-  };
-
-
   addAnswer = () => {
     const answer = this.state.answer.concat(1);
     this.setState({answer})
@@ -125,7 +144,6 @@ class CreateQuestionComponent extends Component {
     const value = event.target.value;
     updateCrateQuestionFields(value, 'answerType');
   };
-
 
   answers = (type) => {
     switch (type) {
@@ -143,7 +161,6 @@ class CreateQuestionComponent extends Component {
         </ol>;
 
       case 'range':
-//          debugger;
           return;
       default:
         return <ol type="A" style={{width: '100%'}}>
@@ -165,11 +182,10 @@ class CreateQuestionComponent extends Component {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
         questionTitle, bodyAreas,
-        questionEn, questionSw,
-        enterTitle,
+        question,
         questionKey,
         sequence,
-        enterSequence,
+
         sequenceProp,
         answerType,
         single,
@@ -219,7 +235,6 @@ class CreateQuestionComponent extends Component {
 
 
               {/*Title and Body Area*/}
-
               <Grid container className="row-item">
                 <Grid item md={6} sm={12}>
                   <Input
@@ -249,13 +264,12 @@ class CreateQuestionComponent extends Component {
 
 
               {/* Question !!! */}
-
               <Grid container className="row-item">
                 <Grid item xs={12}>
                   {this.state.questionLang === 'en' ?
                     <Input
-                      id='questionEn'
-                      value={questionEn}
+                      id='question.en'
+                      value={question.en}
                       reducer={createDiagnosisQuestion}
                       label={ L_CREATE_QUESTION.question }
                       placeholder={ L_CREATE_QUESTION.enterQuestion }
@@ -264,8 +278,8 @@ class CreateQuestionComponent extends Component {
                       cols="60"
                     /> :
                     <Input
-                      id='questionSw'
-                      value={questionSw}
+                      id='question.sw'
+                      value={question.sw}
                       reducer={createDiagnosisQuestion}
                       label={ L_CREATE_QUESTION.question }
                       placeholder={ L_CREATE_QUESTION.enterQuestion }
@@ -289,6 +303,7 @@ class CreateQuestionComponent extends Component {
               </Grid>
 
 
+              {/* Question Key */}
               <Grid container className="row-item">
                 <Grid item xs={12}>
                   <Input
@@ -297,50 +312,57 @@ class CreateQuestionComponent extends Component {
                     reducer={createDiagnosisQuestion}
                     label={ L_CREATE_QUESTION.questionKey }
                     placeholder={ L_CREATE_QUESTION.enterQuestionKey }
+                    error={!!this.state.keyIsUniqueError}
+                    onCustomChange={this.checkIfQuestionKeyValid}
                   />
                 </Grid>
               </Grid>
 
-              {/*<Grid container  className="row-item">*/}
-                {/*<Grid item xs={3}>*/}
-                  {/*<_select*/}
-                    {/*value={this.state.sequenceType}*/}
-                    {/*onChange={this.handleChange2}*/}
-                    {/*MenuProps={{*/}
-                      {/*PaperProps: {*/}
-                        {/*style: {*/}
-                          {/*width: 400,*/}
-                        {/*},*/}
-                      {/*},*/}
-                    {/*}}*/}
-                  {/*>*/}
-                    {/*{this.state.sequenceTypes.map((item, index) => (*/}
-                      {/*<MenuItem*/}
-                        {/*key={`${index}.${item.value}`}*/}
-                        {/*value={item}*/}
-                        {/*selected={item.selected}*/}
-                        {/*style={{*/}
-                          {/*fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',*/}
-                        {/*}}*/}
-                      {/*>*/}
-                        {/*{item.label}*/}
-                      {/*</MenuItem>*/}
-                    {/*))}*/}
-                  {/*</_select>*/}
 
-                {/*</Grid>*/}
+              {/* Sequence */}
+              <Grid container  className="row-item">
+                <Grid item lg={3} className="sequence-type">
+                  <_select
+                    value={this.state.sequenceType}
+                    onChange={this.handleSequenceTypeChange}
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          width: 400,
+                        },
+                      },
+                    }}
+                  >
+                    {this.state.sequenceTypeList.map((item, index) => (
+                      <MenuItem
+                        key={item.value}
+                        value={item.value}
+                        style={{
+                          fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
+                        }}
+                      >
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </_select>
+                </Grid>
 
-                {/*<Grid item xs={2}>*/}
-                  {/*<Input*/}
-                    {/*id='sequence'*/}
-                    {/*type="number"*/}
-                    {/*value={sequence}*/}
-                    {/*reducer={createDiagnosisQuestion}*/}
-                    {/*label={ L_CREATE_QUESTION.sequence }*/}
-                    {/*placeholder={ L_CREATE_QUESTION.enterSequence }*/}
-                  {/*/>*/}
-                {/*</Grid>*/}
-              {/*</Grid>*/}
+                <Grid item xs={2}
+                      className="sequence-wrap">
+                  <Typography
+                    type="caption"
+                    gutterBottom>
+                    Sequence
+                  </Typography>
+                  <div className="sequence">
+                    { sequence }
+                  </div>
+                </Grid>
+              </Grid>
+
+              <ChooseSequence
+                  open={this.state.chooseSequence}
+                  handleRequestClose={this.openChooseSequence}/>
 
 
               {/*<Grid className="title answer">*/}
@@ -394,6 +416,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  onChange,
   dispatch,
 }, dispatch);
 

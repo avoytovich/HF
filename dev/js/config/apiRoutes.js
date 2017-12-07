@@ -23,7 +23,8 @@ export const api = {
   passForgot: '/auth/password/forgot/web',
   passReset : '/auth/password/update',
   findArea  : '/matrix/areas/get/all',
-  findByAre : '/matrix/questions/find/area'
+  findByAre : '/matrix/questions/find/area',
+  findByKey : '/matrix/questions/get/key',
 };
 
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`

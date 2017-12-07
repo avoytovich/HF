@@ -9,11 +9,10 @@ const initialState = {
   actionType    : CREATE_QUESTION,
   bodyAreas     : '', // {label: 'body', value: 'body'},\
   questionTitle : '',
-  questionEn    : '',
-  questionSw    : '',
-
-
-
+  question: {
+    en: '',
+    sw: ''
+  },
   questionKey   : '',
   sequence      : 1,
   sequenceType  : '',

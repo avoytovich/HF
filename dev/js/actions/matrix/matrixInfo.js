@@ -97,6 +97,12 @@ export const findArea = (domenKey, apiKey) => {
   return Api.get(`${domenPath}${apiPath}`);
 };
 
+export const findUniqueKey = (domenKey, apiKey, key) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.post(`${domenPath}${apiPath}`, {key}, {showErrNotif: false});
+};
+
 export const findByArea = (domenKey, apiKey, body, string) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];

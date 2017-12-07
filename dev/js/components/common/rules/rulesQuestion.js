@@ -79,7 +79,7 @@ class RulesQuestionComponent extends Component {
               </Typography>
             </div>
             <div className="text">
-              {this.props.state.question}
+              {this.props.state.question.en}
             </div>
           </div>
         </div>
