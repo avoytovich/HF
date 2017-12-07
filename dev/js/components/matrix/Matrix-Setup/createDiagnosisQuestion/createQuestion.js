@@ -11,6 +11,7 @@ import { diagnosisQuestionCreate,
   findArea }                        from '../../../../actions';
 import { AsyncCreatable }           from 'react-select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
+import Tabs, { Tab } from 'material-ui/Tabs';
 
 // UI
 import Grid                     from 'material-ui/Grid';
@@ -30,7 +31,7 @@ class CreateQuestionComponent extends Component {
     backPath: '',
     answer: [1,2,3],
     sequenceTypes: [
-      {label: 'Normal', value: ''},
+      {label: 'Normal', value: '', selected: true},
       {label: 'After',  value: 'after'},
       {label: 'Before', value: 'before'},
 
@@ -41,7 +42,8 @@ class CreateQuestionComponent extends Component {
       {label: 'Single',   value: 'single'},
       {label: 'Range',    value: 'range'},
       {label: 'Multiple', value: 'multiple'},
-    ]
+    ],
+    questionLang: 'en'
   };
 
   componentWillUnmount() { clearCreateQuestion(); }
@@ -59,6 +61,17 @@ class CreateQuestionComponent extends Component {
       }
     });
   };
+
+  onAreasChange = (value) => updateCrateQuestionFields(value, 'bodyAreas');
+
+  handleQuestionLangChange = (event, value) => this.setState({ questionLang: value });
+
+
+
+
+
+
+
 
   done = (value) => {
     const result = {
@@ -96,13 +109,12 @@ class CreateQuestionComponent extends Component {
 
   cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
 
-  onAreasChange = (value) => {
-    updateCrateQuestionFields(value, 'bodyAreas')
-  };
+
 
   handleChange2 = (event) => {
     this.setState({ sequenceType: event.target.value });
   };
+
 
   addAnswer = () => {
     const answer = this.state.answer.concat(1);
@@ -131,7 +143,7 @@ class CreateQuestionComponent extends Component {
         </ol>;
 
       case 'range':
-          debugger;
+//          debugger;
           return;
       default:
         return <ol type="A" style={{width: '100%'}}>
@@ -152,8 +164,9 @@ class CreateQuestionComponent extends Component {
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        bodyAreas,
-        question,
+        questionTitle, bodyAreas,
+        questionEn, questionSw,
+        enterTitle,
         questionKey,
         sequence,
         enterSequence,
@@ -165,7 +178,6 @@ class CreateQuestionComponent extends Component {
         answer,
         enterAnswer,
         rules,
-        questionTitle
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
@@ -175,7 +187,7 @@ class CreateQuestionComponent extends Component {
     return (
       <div id="create-question">
         <div className="page-sub-header">
-          <span>Create Question</span>
+          <span>Create Diagnosis Question</span>
           <div className="nav-buttons">
 
             <Button onClick={this.cancel}>
@@ -205,135 +217,159 @@ class CreateQuestionComponent extends Component {
                 </Typography>
               </Grid>
 
+
+              {/*Title and Body Area*/}
+
               <Grid container className="row-item">
-                <Grid item
-                       md={6}
-                       sm={12}>
+                <Grid item md={6} sm={12}>
                   <Input
                     id='questionTitle'
                     value={questionTitle}
-                    reducer={createDiagnosisQuestion}
-                    label={ L_CREATE_QUESTION.question }
-                    placeholder={ L_CREATE_QUESTION.enterQuestion }
+                    reducer={ createDiagnosisQuestion }
+                    label={ L_CREATE_QUESTION.questionTitle }
+                    placeholder={ L_CREATE_QUESTION.enterTitle }
                   />
                 </Grid>
-
-                <Grid item
-                       md={6}
-                       sm={12}>
-
+                <Grid item md={6} sm={12} >
                   <Typography
                     type="caption"
-                    gutterBottom>
+                    gutterBottom
+                    className="custom-select-title">
                     Body Areas
                   </Typography>
-
                   <AsyncCreatable
-                      name="body-areas"
+                      name='body-areas'
+                      id='body-areas'
                       loadOptions={this.getOptions}
                       onChange={this.onAreasChange}
+                      placeholder={'Select body area'}
                       value={bodyAreas}/>
-
                 </Grid>
-
               </Grid>
+
+
+              {/* Question !!! */}
 
               <Grid container className="row-item">
                 <Grid item xs={12}>
-                  <Input
-                    id='question'
-                    value={question}
-                    reducer={createDiagnosisQuestion}
-                    label={ L_CREATE_QUESTION.question }
-                    placeholder={ L_CREATE_QUESTION.enterQuestion }
-                    multiline={true}
-                    rows="5"
-                    cols="60"
-                  />
+                  {this.state.questionLang === 'en' ?
+                    <Input
+                      id='questionEn'
+                      value={questionEn}
+                      reducer={createDiagnosisQuestion}
+                      label={ L_CREATE_QUESTION.question }
+                      placeholder={ L_CREATE_QUESTION.enterQuestion }
+                      multiline={true}
+                      rows="5"
+                      cols="60"
+                    /> :
+                    <Input
+                      id='questionSw'
+                      value={questionSw}
+                      reducer={createDiagnosisQuestion}
+                      label={ L_CREATE_QUESTION.question }
+                      placeholder={ L_CREATE_QUESTION.enterQuestion }
+                      multiline={true}
+                      rows="5"
+                      cols="60"
+                    />
+                  }
                 </Grid>
+                <Tabs
+                  value={this.state.questionLang}
+                  onChange={this.handleQuestionLangChange}
+                  indicatorColor="primary"
+                  className="tab-lang"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="English" value="en" />
+                  <Tab label="Sweden"  value="sw" />
+                </Tabs>
               </Grid>
 
 
-              <Grid container className="row-item">
-                <Grid item xs={12}>
-                  <Input
-                    id='questionKey'
-                    value={questionKey}
-                    reducer={createDiagnosisQuestion}
-                    label={ L_CREATE_QUESTION.questionKey }
-                    placeholder={ L_CREATE_QUESTION.enterQuestionKey }
-                  />
-                </Grid>
-              </Grid>
+              {/*<Grid container className="row-item">*/}
+                {/*<Grid item xs={12}>*/}
+                  {/*<Input*/}
+                    {/*id='questionKey'*/}
+                    {/*value={questionKey}*/}
+                    {/*reducer={createDiagnosisQuestion}*/}
+                    {/*label={ L_CREATE_QUESTION.questionKey }*/}
+                    {/*placeholder={ L_CREATE_QUESTION.enterQuestionKey }*/}
+                  {/*/>*/}
+                {/*</Grid>*/}
+              {/*</Grid>*/}
 
-              <Grid container  className="row-item">
-                <Grid item xs={3}>
-                  <_select
-                    value={this.state.sequenceType}
-                    onChange={this.handleChange2}
-                    MenuProps={{
-                      PaperProps: {
-                        style: {
-                          width: 400,
-                        },
-                      },
-                    }}
-                  >
-                    {this.state.sequenceTypes.map((item, index) => (
-                      <MenuItem
-                        key={`${index}.${item.value}`}
-                        value={item}
-                        style={{
-                          fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
-                        }}
-                      >
-                        {item.label}
-                      </MenuItem>
-                    ))}
-                  </_select>
+              {/*<Grid container  className="row-item">*/}
+                {/*<Grid item xs={3}>*/}
+                  {/*<_select*/}
+                    {/*value={this.state.sequenceType}*/}
+                    {/*onChange={this.handleChange2}*/}
+                    {/*MenuProps={{*/}
+                      {/*PaperProps: {*/}
+                        {/*style: {*/}
+                          {/*width: 400,*/}
+                        {/*},*/}
+                      {/*},*/}
+                    {/*}}*/}
+                  {/*>*/}
+                    {/*{this.state.sequenceTypes.map((item, index) => (*/}
+                      {/*<MenuItem*/}
+                        {/*key={`${index}.${item.value}`}*/}
+                        {/*value={item}*/}
+                        {/*selected={item.selected}*/}
+                        {/*style={{*/}
+                          {/*fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',*/}
+                        {/*}}*/}
+                      {/*>*/}
+                        {/*{item.label}*/}
+                      {/*</MenuItem>*/}
+                    {/*))}*/}
+                  {/*</_select>*/}
 
-                </Grid>
+                {/*</Grid>*/}
 
-                <Grid item xs={2}>
-                  <Input
-                    id='sequence'
-                    type="number"
-                    value={sequence}
-                    reducer={createDiagnosisQuestion}
-                    label={ L_CREATE_QUESTION.sequence }
-                    placeholder={ L_CREATE_QUESTION.enterSequence }
-                  />
-                </Grid>
-              </Grid>
+                {/*<Grid item xs={2}>*/}
+                  {/*<Input*/}
+                    {/*id='sequence'*/}
+                    {/*type="number"*/}
+                    {/*value={sequence}*/}
+                    {/*reducer={createDiagnosisQuestion}*/}
+                    {/*label={ L_CREATE_QUESTION.sequence }*/}
+                    {/*placeholder={ L_CREATE_QUESTION.enterSequence }*/}
+                  {/*/>*/}
+                {/*</Grid>*/}
+              {/*</Grid>*/}
 
 
-              <Grid className="title answer">
-                <Typography type="title"
-                            gutterBottom>
-                  Answers
-                </Typography>
-              </Grid>
+              {/*<Grid className="title answer">*/}
+                {/*<Typography type="title"*/}
+                            {/*gutterBottom>*/}
+                  {/*Answers*/}
+                {/*</Typography>*/}
+              {/*</Grid>*/}
 
-              <FormGroup>
-                <Grid container className="row-item">
-                  {this.state.answerType.map((item, index) =>
-                    (<Grid item xs={4} key={index}>
-                      <FormControlLabel
-                        control={<Radio
-                          checked={answerType === item.value}
-                          onChange={this.changeAnswerType}
-                          value={item.value}
-                          aria-label={item.value}
-                        />}
-                        label={item.label} />
-                      </Grid>)
-                  )}
-                </Grid>
-              </FormGroup>
+              {/*<FormGroup>*/}
+                {/*<Grid container className="row-item">*/}
+                  {/*{this.state.answerType.map((item, index) =>*/}
+                    {/*(<Grid item xs={4} key={index}>*/}
+                      {/*<FormControlLabel*/}
+                        {/*control={<Radio*/}
+                          {/*checked={answerType === item.value}*/}
+                          {/*onChange={this.changeAnswerType}*/}
+                          {/*value={item.value}*/}
+                          {/*aria-label={item.value}*/}
+                        {/*/>}*/}
+                        {/*label={item.label} />*/}
+                      {/*</Grid>)*/}
+                  {/*)}*/}
+                {/*</Grid>*/}
+              {/*</FormGroup>*/}
 
-              <Grid container className="row-item">
-                {this.answers(answerType)}
-              </Grid>
+              {/*<Grid container className="row-item">*/}
+                {/*{this.answers(answerType)}*/}
+              {/*</Grid>*/}
 
             </div>
           </Grid>
