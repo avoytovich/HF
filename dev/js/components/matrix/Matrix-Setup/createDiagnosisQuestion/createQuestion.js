@@ -188,7 +188,29 @@ class CreateQuestionComponent extends Component {
         </div>;
 
       case 'range':
-          return;
+          return <div className="answer-wrap range">
+
+            <Typography type="title" gutterBottom>
+              From
+            </Typography>
+
+            <Input
+              id='range.from'
+              type='number'
+              reducer={this.props.createDiagnosisQuestion}
+            />
+
+            <Typography type="title" gutterBottom className="range-to">
+             To
+            </Typography>
+
+            <Input
+              id='range.to'
+              type='number'
+              reducer={this.props.createDiagnosisQuestion}
+            />
+
+          </div>;
 
       default:
         return <div className="answer-wrap">
