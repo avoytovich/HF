@@ -113,16 +113,25 @@ class CreateQuestionComponent extends Component {
   };
 
   getAnswer = (type, obj) => {
-    const letters      = genCharArray();
-    const correctValue = obj[type];
-    return Object.keys(correctValue).reduce((result, item, index) => {
-      if (item) {
-        const key   = letters[index];
-        const value = correctValue[item];
-        return Object.assign({}, result, { [key]:  value})
-      }
-      return result
-    }, {});
+    if (type === 'range') {
+      const correctValue = obj[type];
+      return {
+        min: correctValue.from,
+        max: correctValue.to
+      };
+    }
+    else {
+      const letters = genCharArray();
+      const correctValue = obj[type];
+      return Object.keys(correctValue).reduce((result, item, index) => {
+        if (item) {
+          const key = letters[index];
+          const value = correctValue[item];
+          return Object.assign({}, result, {[key]:value})
+        }
+        return result
+      }, {});
+    }
   };
 
   changeAnswerType = (event) => {
@@ -131,24 +140,33 @@ class CreateQuestionComponent extends Component {
   };
 
   done = (value) => {
+    const { sequenceType, questionKey, sequence, bodyAreas, question, answerType, questionTitle } = value;
     const result = {
       type : 'diagnostic',
-      key  : value.questionKey,
-      step : value.sequence,
-      area : value.bodyAreas.key,
-      title: 'new One',
+      key  : questionKey,
+      step : this.getSequenceTypeResult(sequenceType, sequence),
+      area : bodyAreas.key || bodyAreas.value,
+      title: questionTitle,
       question: {
-        en: value.question
+        en: question.en,
+        sw: question.sw
       },
       answer: {
-        type: value.answerType,
-        values: this.getAnswer(value.answerType, value)
+        type: answerType,
+        values: this.getAnswer(answerType, value)
       },
       rule: {}
     };
+    debugger;
 
     diagnosisQuestionCreate('diagnostics', 'diagnosis', result)
     .then(() => browserHistory.push(`/matrix-setup/diagnosis`));
+  };
+
+  getSequenceTypeResult = (sequenceType, sequence) => {
+    return sequenceType === 'after' ?
+      sequence + 0.5 : sequenceType === 'before' ?
+        sequence - 0.5 : sequence;
   };
 
   cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);

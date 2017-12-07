@@ -48,7 +48,7 @@ class MatrixComponent extends Component {
   };
 
   handleActive = (url) => {
-    browserHistory.push(`/${this.props.route.path}/${url}`);
+    browserHistory.push(`${this.props.route.path}/${url}`);
     this.findNewPathIndex(TABS, url);
   };
 
