@@ -2,18 +2,22 @@ export const GROUP_TYPES = [
   { key: 'and',      type: 'block'},
   { key: 'or' ,      type: 'block'},
   { key: 'not',      type: 'block'},
-  { key: 'match',    type: 'item'},
-  { key: 'equal',    type: 'item'},
-  { key: 'notEqual', type: 'item'}
+  { key: 'match',    type: 'item',  subType: ''},
+  { key: 'equal',    type: 'item',  subType: ''},
+  { key: 'notEqual', type: 'item',  subType: ''},
+  { key: 'in',       type: 'item',  subType: ''},
+  { key: 'multiple', type: 'item',  subType: 'list'}
 ];
 
 export const TYPES = [
   { label: 'And',        value: 'and' },
   { label: 'Not',        value: 'not' },
   { label: 'Or',         value: 'or' },
-  { label: 'Match',      value: 'match' },
-  { label: 'Equal',      value: 'equal' },
-  { label: 'Not Equal',  value: 'notEqual' },
+  { label: 'Match',      value: 'match',    subType: ''},
+  { label: 'Equal',      value: 'equal',    subType: ''},
+  { label: 'Not Equal',  value: 'notEqual', subType: ''},
+  { label: 'In',         value: 'in',       subType: ''},
+  { label: 'Multiple',   value: 'multiple', subType: 'list'}
 ];
 
 export const mathType = (el) =>
@@ -46,6 +50,12 @@ export const checkType = (rules) => {
 
     case isIn(rules, 'match'):
       return { label: 'match', key: 'match' };
+
+    case isIn(rules, 'in'):
+      return { label: 'in', key: 'in' };
+
+    case isIn(rules, 'multiple'):
+      return { label: 'multiple', key: 'multiple' };
 
     default:
       return { label: 'rule', key: 'key'  };

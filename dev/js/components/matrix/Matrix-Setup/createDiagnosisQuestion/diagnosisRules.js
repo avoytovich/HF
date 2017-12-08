@@ -86,7 +86,10 @@ class DiagnosisRulesComponent extends Component {
                             path={`rules.${index}`}
                             key={index}
                             type={findElement.key}
-                            item={item}/>;
+                            item={item}
+                            reqType={this.props.type}
+                            step={this.props.step}
+                            area={this.props.area}/>;
                 break;
               default:
                 return '';

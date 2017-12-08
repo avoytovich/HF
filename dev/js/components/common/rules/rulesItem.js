@@ -52,10 +52,12 @@ class RulesItemComponent extends Component {
     if (input.length <= 2)
       return Promise.resolve({ options: [] });
 
+    const { reqType, area, step } = this.props;
+
     const body = {
-      "type": "diagnostic",
-      "area": 'body',
-      "step": 9,
+      "type": reqType,
+      "area": area.key || area.value || area.title,
+      "step": step,
       "answerType": "single"
     };
     return findByArea('diagnostics', 'findByAre', body, input).then(res => {

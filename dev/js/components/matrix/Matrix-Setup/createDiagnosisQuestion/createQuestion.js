@@ -486,7 +486,11 @@ class CreateQuestionComponent extends Component {
                 sm={12}
                 className="rules">
 
-            <DiagnosisRulesComponent/>
+            <DiagnosisRulesComponent
+              type="diagnostic"
+              area={bodyAreas}
+              step={sequence}
+            />
 
           </Grid>
 
