@@ -31,6 +31,8 @@ const initialState = {
     },
 
   rules: [],
+  treatmentsLevels: '',
+  treatmentsPackage: '',
   errors: {},
 };
 

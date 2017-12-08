@@ -58,7 +58,8 @@ class ConditionsComponent extends Component {
 
         <PageNavigation
           path="treatments"
-          selected={selected}>
+          selected={selected}
+          createItem={this.create}>
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>

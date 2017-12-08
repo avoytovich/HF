@@ -20,7 +20,6 @@ import Clear                        from 'material-ui-icons/Clear';
 import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
 import Typography                   from 'material-ui/Typography';
-import TextField                    from 'material-ui/TextField';
 import Radio                        from 'material-ui/Radio';
 import Input                        from '../../../common/Input/Input';
 import { FormControlLabel,
@@ -54,7 +53,7 @@ class CreateQuestionComponent extends Component {
     super(props);
   }
 
-  componentWillUnmount() { clearCreateQuestion(); }
+  componentWillMount() { clearCreateQuestion(); }
 
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
@@ -157,7 +156,6 @@ class CreateQuestionComponent extends Component {
       },
       rule: {}
     };
-    debugger;
 
     diagnosisQuestionCreate('diagnostics', 'diagnosis', result)
     .then(() => browserHistory.push(`/matrix-setup/diagnosis`));

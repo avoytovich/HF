@@ -44,7 +44,8 @@ import {
 //   AchievementsComponent,
 //   TestsComponent,
    CreateQuestionComponent,
-  CreateConditionComponent
+  CreateConditionComponent,
+  CreateTreatmentsComponent
  }                                    from './components/matrix/Matrix-Setup';
 
 import { PAGE }                       from './config';
@@ -126,6 +127,7 @@ const router = (
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
         <Route path='diagnosis-create'      component={(props) => <CreateQuestionComponent/>} />
         <Route path='conditions-create'     component={(props) => <CreateConditionComponent/>} />
+        <Route path='treatments-create'     component={(props) => <CreateTreatmentsComponent/>} />
 
         {/*<Redirect from="*" to="organizations"/>*/}
 
