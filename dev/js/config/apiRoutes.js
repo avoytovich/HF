@@ -1,5 +1,5 @@
 // TODO
-// users 18.195.77.253
+// Users 18.195.77.253
 // exercises 18.195.76.169
 // diagnostics 18.194.211.206
 
@@ -37,8 +37,9 @@ export const PAGE = {
   companies  : '/companies',
   clinics    : '/clinics',
   users      : '/users',
-  resources  : '/resources',
+  assets     : '/assets',
   matrixSetup: '/matrix-setup',
+  chat       : '/chat',
   diagnosis  : '/matrix-setup/diagnosis',
   conditions : '/matrix-setup/conditions',
   treatments : '/matrix-setup/treatments',

@@ -8,11 +8,12 @@ import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Collapse from 'material-ui/transitions/Collapse';
 import ExpandLess from 'material-ui-icons/ExpandLess';
 import ExpandMore from 'material-ui-icons/ExpandMore';
-import Person from 'material-ui-icons/Person'; // users
-import Domain from 'material-ui-icons/Domain'; // companies
-import InsertDriveFile from 'material-ui-icons/InsertDriveFile'; // resources
-import LocalHospital from 'material-ui-icons/LocalHospital'; // clinics
+import Person from 'material-ui-icons/Person'; // Users
+import Domain from 'material-ui-icons/Domain'; // Companies
+import InsertDriveFile from 'material-ui-icons/InsertDriveFile'; // assets
+import LocalHospital from 'material-ui-icons/LocalHospital'; // Clinics
 import SettingsApplications from 'material-ui-icons/SettingsApplications'; // matrix
+import Chat from 'material-ui-icons/Chat'; // matrix
 
 import { PAGE } from '../../../config';
 
@@ -33,7 +34,7 @@ class MainNavigation extends Component {
           <Link to={PAGE.companies} activeClassName='active-route' className="nav-menu-list-item">
             <ListItem button>
               <ListItemIcon>
-                <Domain />
+                <Domain className="nav-icon" />
               </ListItemIcon>
               <ListItemText inset primary="Companies" />
             </ListItem>
@@ -45,14 +46,14 @@ class MainNavigation extends Component {
           >
             <ListItem button>
               <ListItemIcon>
-                <LocalHospital />
+                <LocalHospital className="nav-icon" />
               </ListItemIcon>
               <ListItemText inset primary="Clinics" />
             </ListItem>
           </Link>
           <ListItem button onClick={() => this.setState({ open: !this.state.open })}>
             <ListItemIcon>
-              <Person />
+              <Person className="nav-icon" />
             </ListItemIcon>
             <ListItemText inset primary='Users'/>
             { this.state.open ? <ExpandLess /> : <ExpandMore />}
@@ -76,20 +77,28 @@ class MainNavigation extends Component {
               </Link>
             </List>
           </Collapse>
-          <Link to={PAGE.resources} activeClassName='active-route' className="nav-menu-list-item">
+          <Link to={PAGE.assets} activeClassName='active-route' className="nav-menu-list-item">
             <ListItem button>
               <ListItemIcon>
-                <InsertDriveFile />
+                <InsertDriveFile className="nav-icon" />
               </ListItemIcon>
-              <ListItemText inset primary='Resources'/>
+              <ListItemText inset primary='Assets'/>
             </ListItem>
           </Link>
           <Link to={PAGE.matrixSetup} activeClassName='active-route' className="nav-menu-list-item">
             <ListItem button>
               <ListItemIcon>
-                <SettingsApplications />
+                <SettingsApplications className="nav-icon" />
               </ListItemIcon>
               <ListItemText inset primary='Matrix'/>
+            </ListItem>
+          </Link>
+          <Link to={PAGE.chat} activeClassName='active-route' className="nav-menu-list-item">
+            <ListItem button>
+              <ListItemIcon>
+                <Chat className="nav-icon" />
+              </ListItemIcon>
+              <ListItemText inset primary='Chat'/>
             </ListItem>
           </Link>
         </List>

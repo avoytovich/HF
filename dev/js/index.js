@@ -30,8 +30,9 @@ import SignUp                         from './components/auth/SignUp/SignUp';
 import ResetPassword                  from './components/auth/ResetPassword/ResetPassword';
 import ForgotPassword                 from './components/auth/ForgotPassword/ForgotPassword';
 import Companies                      from './components/users/companies/Companies';
-import Clinics                      from './components/users/clinics/Clinics';
-import Users                      from './components/users/users/Users';
+import Clinics                        from './components/users/clinics/Clinics';
+import Users                          from './components/users/users/Users';
+import AssetsList                     from './components/assets/AssetsList/AssetsList';
 import {
    MatrixComponent,
    DiagnosisComponent,
@@ -102,7 +103,7 @@ const router = (
         <Route path={PAGE.companies}         component={(props) => <Companies  {...props}/>} />
         <Route path={PAGE.clinics}           component={(props) => <Clinics  {...props}/>} />
         <Route path={PAGE.users}             component={(props) => <Users  {...props}/>} />
-        <Route path={PAGE.resources}         component={() => <div>RESOURCE_PAGE</div>} />
+        <Route path={PAGE.assets}            component={(props) => <AssetsList {...props} />} />
         <Route path={PAGE.matrixSetup}       component={ MatrixComponent }>
 
           <IndexRedirect to="diagnosis"/>

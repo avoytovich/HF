@@ -41,9 +41,9 @@ export const USERS_PAGE = {
   ],
 };
 
-export const RESOURCE_PAGE = {
-  key: 'resource',
-  title: 'Resource',
+export const ASSETS_PAGE = {
+  key: 'assets',
+  title: 'Assets',
   tableHeader: [
     { title: 'Organization',    key: 'organization',},
     { title: 'Contact Person',  key: 'contact',     },
