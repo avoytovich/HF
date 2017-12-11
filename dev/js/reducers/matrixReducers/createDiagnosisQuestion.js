@@ -11,19 +11,19 @@ const initialState = {
   questionTitle : '',
   question: {
     en: '',
-    sw: ''
+    swe: ''
   },
   questionKey   : '',
   sequence      : 1,
   sequenceType  : 'normal',
   answerType    : 'single',
   single  : [
-      { en: '', sw: ''},
-      { en: '', sw: ''}
+      { en: '', swe: ''},
+      { en: '', swe: ''}
     ],
   multiple: [
-      { en: '', sw: ''},
-      { en: '', sw: ''}
+      { en: '', swe: ''},
+      { en: '', swe: ''}
     ],
   range   : {
       from: 0,
@@ -126,7 +126,7 @@ const addNewAnswer = (state, action) => {
   return dotProp.set(
     state,
     type,
-    value => value.concat({ en: '', sw: ''}))
+    value => value.concat({ en: '', swe: ''}))
 };
 
 const removeAnswer = (state, action) => {

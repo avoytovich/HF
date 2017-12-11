@@ -33,8 +33,9 @@ class InComponent extends Component {
 
     return findByArea('diagnostics', 'findByAre', body, input).then(res => {
       const { data } = res.data;
-      const _data = data.map(item =>
-        Object.assign({}, item, { label: item.question.en, value: item.key }));
+      const _data = data.map(item => {
+       return Object.assign({}, item, { label: item.question.en, value: item.key })
+      });
       return {
         options: _data,
         // CAREFUL! Only set this to true when there are no more options,
@@ -58,23 +59,20 @@ class InComponent extends Component {
 
   onAnswerChange = (event, {path, pathType}) => {
     const value = event.target.value;
-    debugger;
     setQuestion(path, pathType, value, 'value');
   };
 
 
-  getAnswerValue = (list, value) => {
-    return list.reduce((result, item) => {
+  getAnswerValue = (list, value) =>
+    list.reduce((result, item) => {
       if (item && !value) return item.label;
-
       return value.some(el => el === item.label) ? result.concat(item.label) : result;
-    }, [])
-  };
+    }, []);
 
 
   render() {
     const { key, value } = this.props.itemState[0];
-    const selectValue = [this.getAnswerValue(this.state.answers, value)];
+    const selectValue = this.getAnswerValue(this.state.answers, value);
 
     return <div className="rule-types">
       <div className="main-select">
@@ -106,7 +104,7 @@ class InComponent extends Component {
           margin="normal"
           disabled={!this.state.answers.length}
           fullWidth={true}
-          renderValue={item => item}
+          renderValue={item => `${item},`}
         >
           {this.state.answers.map((option, index) =>
             (<MenuItem key={index}

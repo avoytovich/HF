@@ -148,7 +148,7 @@ class CreateQuestionComponent extends Component {
       title: questionTitle,
       question: {
         en: question.en,
-        sw: question.sw
+        swe: question.swe
       },
       answer: {
         type: answerType,
@@ -193,7 +193,7 @@ class CreateQuestionComponent extends Component {
                   centered
                 >
                   <Tab label="English" value="en" />
-                  <Tab label="Sweden"  value="sw" />
+                  <Tab label="Sweden"  value="swe" />
                 </Tabs>
               </li>))}
           </ol>
@@ -251,7 +251,7 @@ class CreateQuestionComponent extends Component {
                   centered
                 >
                   <Tab label="English" value="en" />
-                  <Tab label="Sweden"  value="sw" />
+                  <Tab label="Sweden"  value="swe" />
                 </Tabs>
               </li>))}
           </ol>
@@ -363,8 +363,8 @@ class CreateQuestionComponent extends Component {
                       cols="60"
                     /> :
                     <Input
-                      id='question.sw'
-                      value={question.sw}
+                      id='question.swe'
+                      value={question.swe}
                       reducer={createDiagnosisQuestion}
                       label={ L_CREATE_QUESTION.question }
                       placeholder={ L_CREATE_QUESTION.enterQuestion }
@@ -383,7 +383,7 @@ class CreateQuestionComponent extends Component {
                   centered
                 >
                   <Tab label="English" value="en" />
-                  <Tab label="Sweden"  value="sw" />
+                  <Tab label="Sweden"  value="swe" />
                 </Tabs>
               </Grid>
 
