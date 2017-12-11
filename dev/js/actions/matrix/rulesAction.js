@@ -43,11 +43,11 @@ export const deleteRules = ( path, key) =>
     }
   );
 
-export const setQuestion = (path, type, item) =>
+export const setQuestion = (path, type, item, property) =>
   store.dispatch(
     {
       type:`${CREATE_QUESTION}_SET_QUESTION`,
-      payload:{ path, type, item }
+      payload:{ path, type, item, property }
     }
   );
 

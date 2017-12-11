@@ -2,10 +2,10 @@ export const GROUP_TYPES = [
   { key: 'and',      type: 'block'},
   { key: 'or' ,      type: 'block'},
   { key: 'not',      type: 'block'},
-  { key: 'match',    type: 'item',  subType: ''},
-  { key: 'equal',    type: 'item',  subType: ''},
-  { key: 'notEqual', type: 'item',  subType: ''},
-  { key: 'in',       type: 'item',  subType: ''},
+  { key: 'match',    type: 'item',  subType: 'single'},
+  { key: 'equal',    type: 'item',  subType: 'single'},
+  { key: 'notEqual', type: 'item',  subType: 'single'},
+  { key: 'in',       type: 'item',  subType: 'list'},
   { key: 'multiple', type: 'item',  subType: 'list'}
 ];
 
@@ -13,12 +13,18 @@ export const TYPES = [
   { label: 'And',        value: 'and' },
   { label: 'Not',        value: 'not' },
   { label: 'Or',         value: 'or' },
-  { label: 'Match',      value: 'match',    subType: ''},
-  { label: 'Equal',      value: 'equal',    subType: ''},
-  { label: 'Not Equal',  value: 'notEqual', subType: ''},
-  { label: 'In',         value: 'in',       subType: ''},
-  { label: 'Multiple',   value: 'multiple', subType: 'list'}
+  { label: 'Match',      value: 'match',    subType: 'single'},
+  { label: 'Equal',      value: 'equal',    subType: 'single'},
+  { label: 'Not Equal',  value: 'notEqual', subType: 'single'},
+  { label: 'In',         value: 'in',       subType: 'single'},
+  { label: 'Multiple',   value: 'multiple', subType: 'multiple'}
 ];
+
+export const DEF_ITEM = {
+  key: '',
+  op: '',
+  value: ''
+};
 
 export const mathType = (el) =>
   GROUP_TYPES.reduce((result, item) => {

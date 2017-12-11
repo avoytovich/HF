@@ -9,7 +9,8 @@ import { addRules }          from '../../../actions';
 import { findType }          from '../../../utils/matrix';
 import {
   TYPES,
-  GROUP_TYPES
+  GROUP_TYPES,
+  DEF_ITEM
 }                             from '../../../utils/matrix';
 
 class RulesQuestionComponent extends Component {
@@ -23,7 +24,7 @@ class RulesQuestionComponent extends Component {
   handleRequestClose = () => this.setState({ open: false });
 
   onSelected = (item) => {
-    const body = findType(item.value) === 'block' ? [ { 'match': [] } ] : [];
+    const body = findType(item.value) === 'block' ? [ { 'match': [ DEF_ITEM ] } ] : [ DEF_ITEM ];
     addRules({
       type: item.value,
       path: 'rules',

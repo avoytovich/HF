@@ -107,17 +107,16 @@ const deleteRule = (state, action) => {
 };
 
 const setQuestion = (state, action) => {
-  const {path, type, item} = action.payload;
+  const {path, type, item, property} = action.payload;
   return dotProp.set(
     state,
     `${path}.${type}`,
-    (value) => (
-      {
-        key   : item.key,
-        op    : '==',
-        value :[]
-      }
-    ));
+    (value) => {
+      const _value = value[0];
+      const result = Object.assign(_value, {[property]: item});
+      return [result]
+    }
+    );
 };
 
 const addNewAnswer = (state, action) => {

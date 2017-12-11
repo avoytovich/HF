@@ -10,7 +10,7 @@ import Menu, { MenuItem }     from 'material-ui/Menu';
 import { mathType, findType } from '../../../utils/matrix';
 import { addRules,
   changeToItemRuleRule }      from '../../../actions';
-import { TYPES }              from '../../../utils/matrix';
+import { TYPES, DEF_ITEM }              from '../../../utils/matrix';
 
 class RulesBlockComponent extends Component {
   state = {
@@ -22,7 +22,12 @@ class RulesBlockComponent extends Component {
     changeTypeOfRule(path, item, type);
 
     if (findType(type) === 'item'){
-      changeToItemRuleRule( path,  { [type] : [] } );
+      changeToItemRuleRule(
+        path,
+        {
+          [type] : [ DEF_ITEM ]
+        }
+      );
     }
   };
 
@@ -31,7 +36,7 @@ class RulesBlockComponent extends Component {
   handleRequestClose = () => this.setState({ open: false });
 
   onSelected = (item, path, type) => {
-    const body = findType(item.value) === 'block' ? [ { 'match': [] } ] : [];
+    const body = findType(item.value) === 'block' ? [ { 'match': [ DEF_ITEM ] } ] : [ DEF_ITEM ];
     addRules({
       type: item.value,
       path: `${path}.${type}`,

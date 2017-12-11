@@ -21,14 +21,17 @@ import {
 import Select               from 'material-ui/Select';
 import Input                from 'material-ui/Input';
 import get                  from 'lodash/get'
+import {
+  MatchComponent,
+  EqualComponent,
+  InComponent,
+  MultipleComponent,
+  NotEqualComponent,
 
+}   from './rulesTypes';
 
-const names = [
-  {label: 'A', value: 'a'},
-  {label: 'B', value: 'b'},
-  {label: 'C', value: 'c'},
-  {label: 'D', value: 'd'},
-];
+import { DEF_ITEM }     from '../../../utils/matrix';
+
 
 class RulesItemComponent extends Component {
   state = {
@@ -42,7 +45,7 @@ class RulesItemComponent extends Component {
     changeTypeOfRule(path, item, type);
 
     if (findType(type) === 'block') {
-      addDefaultGroupRule(type, path, [{ [ DEFAULT_ITEM_TYPE || 'match' ]: [] }]);
+      addDefaultGroupRule(type, path, [{ [ DEFAULT_ITEM_TYPE || 'match' ]: [ DEF_ITEM ] }]);
     }
   };
 
@@ -80,20 +83,39 @@ class RulesItemComponent extends Component {
       .map(key => ({label: key, value: values[key]}) );
   };
 
-  onAreasChange = (value) => {
-    const answers = this.getAnswersList(value);
-    setQuestion(this.props.path, this.props.type, value);
-    this.setState({answers});
-  };
-
-
   handleChange2 = (event) => {
     this.setState({ answer: event.target.value });
   };
 
+
+  checkTypes = () => {
+    const { reqType, area, step, type, path } = this.props;
+
+    const _props = {
+      area: area.key || area.value || area.title,
+      type: reqType,
+      step: step,
+      path,
+      pathType: type
+    };
+
+    switch (type) {
+      case 'match':
+       return <MatchComponent {..._props}/>;
+      case 'equal':
+        return <EqualComponent {..._props}/>;
+      case 'multiple':
+        return <MultipleComponent {..._props}/>;
+      case 'notEqual':
+        return <NotEqualComponent {..._props}/>;
+      case 'in':
+        return <InComponent/>;
+      default:
+    }
+  };
+
   render() {
     const { type, key, path, item } = this.props;
-    console.log('this.state', this.props.itemState);
 
     return <div className="rule-item">
       <div className="rule-nav">
@@ -114,64 +136,12 @@ class RulesItemComponent extends Component {
         </TextField>
       </div>
       <div className="rule-item-details">
-
-        <div className="rule-item-question">
-          <Typography type="caption" gutterBottom>
-            Question
-          </Typography>
-          <SA.Async
-            name="body-areas"
-            loadOptions={this.getOptions}
-            onChange={this.onAreasChange}
-            className="ansyc-select"
-            value={this.props.itemState.key}
-          />
-        </div>
-
-        <div className="rule-item-answer">
-          <Typography type="caption" gutterBottom>
-            Answer
-          </Typography>
-          <div>
-
-
-            <Select
-              multiple
-              value={this.state.answer}
-              onChange={this.handleChange2}
-              renderValue={(value) => value.map(item =>  item.label).join(', ')}
-              MenuProps={{
-                PaperProps: {
-                  style: {
-                    width: 400,
-                  },
-                },
-              }}
-            >
-              {this.state.answers.map((item, index) => (
-                <MenuItem
-                  key={`${index}.${item.value}`}
-                  value={item}
-                  style={{
-                    fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
-                  }}
-                >
-                  {item.label}.{item.value}
-                </MenuItem>
-              ))}
-            </Select>
-
-
-
-          </div>
-        </div>
-
-        <div className="rule-item-delete">
-          <IconButton aria-label="Delete" onClick={() => this.delete(path, type)}>
-            <DeleteIcon />
-          </IconButton>
-        </div>
-
+        {this.checkTypes()}
+      </div>
+      <div className="rule-item-delete">
+        <IconButton aria-label="Delete" onClick={() => this.delete(path, type)}>
+          <DeleteIcon />
+        </IconButton>
       </div>
     </div>
   }
