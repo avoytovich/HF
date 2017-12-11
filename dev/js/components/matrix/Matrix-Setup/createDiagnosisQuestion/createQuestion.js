@@ -157,7 +157,7 @@ class CreateQuestionComponent extends Component {
       rule: rules
     };
 
-    diagnosisQuestionCreate('diagnostics', 'diagnosis', result)
+    diagnosisQuestionCreate('diagnostics', 'createQuestion', result)
     .then(() => browserHistory.push(`/matrix-setup/diagnosis`));
   };
 

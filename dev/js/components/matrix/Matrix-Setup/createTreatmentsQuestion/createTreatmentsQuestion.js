@@ -7,9 +7,10 @@ import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
   findUniqueKey,
+  findPackage,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
-import { AsyncCreatable }           from 'react-select';
+import { AsyncCreatable, Async }    from 'react-select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
@@ -30,20 +31,6 @@ class CreateTreatmentsComponent extends Component {
 
   componentWillUnmount() { clearCreateQuestion(); }
 
-  getPackageOptions = (input, callback) => {
-    setTimeout(() => {
-      callback(null, {
-        options: [
-          { value: 'package1', label: 'Package 1' },
-          { value: 'package2', label: 'Package 2' }
-        ],
-        // CAREFUL! Only set this to true when there are no more options,
-        // or more specific queries will not be sent to the server.
-        complete: true
-      });
-    }, 1200);
-  };
-
   getAreaOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
       const { data } = res.data;
@@ -51,12 +38,25 @@ class CreateTreatmentsComponent extends Component {
         Object.assign({}, item, { label: item.title }));
       return {
         options: _data,
-//         CAREFUL! Only set this to true when there are no more options,
-//         or more specific queries will not be sent to the server.
         complete: true
       }
     });
   };
+
+  getPackageOptions = (input) => {
+    const area = this.props.createDiagnosisQuestion.bodyAreas;
+    const _area = area.key || area.value || area.title;
+    return findPackage('diagnostics', 'getPackageByArea', input, _area).then(res => {
+      const { data } = res.data;
+      const _data = data.map(item =>
+        Object.assign({}, item, { label: item.title }));
+      return {
+        options: _data,
+        complete: true
+      }
+    });
+  };
+
 
   onAreasChange = (value) => updateCrateQuestionFields(value, 'bodyAreas');
 
@@ -100,9 +100,9 @@ class CreateTreatmentsComponent extends Component {
   };
 
   done = (value) => {
-    const { bodyAreas, questionKey, questionTitle, treatmentsLevels, treatmentsPackage } = value;
+    const { bodyAreas, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
     const result = {
-      rule   : [],
+      rule   : rules,
       key    : questionKey,
       area   : bodyAreas.key || bodyAreas.value,
       title  : questionTitle,
@@ -213,7 +213,7 @@ class CreateTreatmentsComponent extends Component {
                     className="custom-select-title">
                     Package
                   </Typography>
-                  <AsyncCreatable
+                  <Async
                     name='package'
                     id='package'
                     loadOptions={this.getPackageOptions}
@@ -257,9 +257,6 @@ class CreateTreatmentsComponent extends Component {
                 </Grid>
               </Grid>
 
-
-
-
             </div>
           </Grid>
 
@@ -268,7 +265,9 @@ class CreateTreatmentsComponent extends Component {
                 sm={12}
                 className="rules">
 
-            <DiagnosisRulesComponent/>
+            <DiagnosisRulesComponent
+              area={bodyAreas}
+            />
 
           </Grid>
 
