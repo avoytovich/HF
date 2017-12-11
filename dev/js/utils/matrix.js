@@ -23,7 +23,7 @@ export const TYPES = [
 export const DEF_ITEM = {
   key: '',
   op: '',
-  value: ''
+  value: []
 };
 
 export const mathType = (el) =>

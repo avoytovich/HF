@@ -66,9 +66,9 @@ class CreateConditionComponent extends Component {
 
 
   done = (value) => {
-    const { bodyAreas, questionKey, questionTitle } = value;
+    const { bodyAreas, questionKey, questionTitle, rules } = value;
     const result = {
-      rule  : [],
+      rule  : rules,
       key   : questionKey,
 //      zone  : bodyAreas.key || bodyAreas.value,
       area  : bodyAreas.key || bodyAreas.value,
@@ -88,7 +88,8 @@ class CreateConditionComponent extends Component {
       createDiagnosisQuestion: {
         questionTitle,
         bodyAreas,
-        questionKey
+        questionKey,
+        sequence
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
@@ -175,7 +176,11 @@ class CreateConditionComponent extends Component {
                 sm={12}
                 className="rules">
 
-            <DiagnosisRulesComponent/>
+            <DiagnosisRulesComponent
+              type="diagnostic"
+              area={bodyAreas}
+              step={null}
+            />
 
           </Grid>
 

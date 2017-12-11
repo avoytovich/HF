@@ -45,7 +45,7 @@ class RulesBlockComponent extends Component {
     this.handleRequestClose();
   };
   render() {
-    const { type, path, item, step, area } = this.props;
+    const { type, reqType, path, item, step, area } = this.props;
     return <div className="rule-block">
       <div className={`nav ${type}`}>
         <TextField
@@ -73,6 +73,9 @@ class RulesBlockComponent extends Component {
                         type={findElement.key}
                         key={i}
                         item={val}
+                        reqType={reqType}
+                        step={step}
+                        area={area}
                         />;
             case 'item':
               return <RulesItemComponent
@@ -80,7 +83,7 @@ class RulesBlockComponent extends Component {
                         key={i}
                         type={findElement.key}
                         item={item}
-                        reqType={type}
+                        reqType={reqType}
                         step={step}
                         area={area}
               />;

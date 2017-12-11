@@ -70,14 +70,6 @@ class DiagnosisComponent extends Component {
           selected={selected}
           createItem={this.create}>
 
-          {/*<Button*/}
-            {/*disabled={selected.length > 1}*/}
-            {/*onClick={() => this.create(selected[0])}*/}
-            {/*raised dense>*/}
-            {/*<Edit />*/}
-            {/*Edit*/}
-          {/*</Button>*/}
-
           <Button raised dense
             onClick={() => this.updateModal('deleteOpen', true)}>
             <Delete />

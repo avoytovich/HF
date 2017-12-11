@@ -61,7 +61,7 @@ class RulesItemComponent extends Component {
       case 'notEqual':
         return <NotEqualComponent {..._props}/>;
       case 'in':
-        return <InComponent/>;
+        return <InComponent {..._props}/>;
       default:
     }
   };
