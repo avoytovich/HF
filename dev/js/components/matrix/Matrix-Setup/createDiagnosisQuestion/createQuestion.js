@@ -139,7 +139,8 @@ class CreateQuestionComponent extends Component {
   };
 
   done = (value) => {
-    const { sequenceType, questionKey, sequence, bodyAreas, question, answerType, questionTitle } = value;
+    const { sequenceType, questionKey, sequence, bodyAreas, question, answerType, questionTitle, rules } = value;
+    debugger;
     const result = {
       type : 'diagnostic',
       key  : questionKey,
@@ -154,7 +155,7 @@ class CreateQuestionComponent extends Component {
         type: answerType,
         values: this.getAnswer(answerType, value)
       },
-      rule: {}
+      rule: rules
     };
 
     diagnosisQuestionCreate('diagnostics', 'diagnosis', result)

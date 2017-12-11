@@ -113,7 +113,9 @@ const setQuestion = (state, action) => {
     `${path}.${type}`,
     (value) => {
       const _value = value[0];
-      const result = Object.assign(_value, {[property]: item});
+      const result = property ?
+        Object.assign(_value, {[property]: item}):
+        Object.assign(_value, item);
       return [result]
     }
     );

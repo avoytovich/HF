@@ -9,7 +9,6 @@ import {
   changeTypeOfRule,
   addDefaultGroupRule,
   findByArea,
-  deleteRules,
   setQuestion
 }                             from '../../../../actions';
 
@@ -26,7 +25,7 @@ const SYMBOLS = [
 class MatchComponent extends Component {
 
   state = {
-    answer: [],
+    answers: [],
     type: 'list', // list or range
     min: 0,
     max: 0,
@@ -53,28 +52,36 @@ class MatchComponent extends Component {
     });
   };
 
+  getAnswersList = (values) =>
+    Object.keys(values).map(key => ({label: key, value: values[key]}) );
+
   onChange = (value) => {
     const { subtype, type, values, min, max} = value.answer;
+    const {path, pathType} = this.props;
+
      if (subtype === 'range') {
        this.setState({type: 'range', min, max});
+       setQuestion(path, pathType, {key: value.key, op: '==', value: min});
      }
      else {
-       this.setState({type: 'list'});
+       const answers = this.getAnswersList(values);
+       this.setState({type: 'list', answers});
+       setQuestion(path, pathType, {key: value.value, op: '==', value: 'A'});
      }
-     const {path, pathType} = this.props;
-     setQuestion(path, pathType, value.key, 'key');
 
-//      const answers = this.getAnswersList(value);
+//      const answers = this.getAnswersList(values);
   };
 
   onSymbolChange = (event) => {
     const value = event.target.value;
     const {path, pathType} = this.props;
-    setQuestion(path, pathType, value.value, 'op');
+    setQuestion(path, pathType, value, 'op');
   };
 
-  onAnswerChange = () => {
-
+  onAnswerChange = (event) => {
+    const value = event.target.value;
+    const {path, pathType} = this.props;
+    setQuestion(path, pathType, value.label, 'value');
   };
 
   rangeChanged = (event) => {
@@ -84,12 +91,29 @@ class MatchComponent extends Component {
   };
 
 
-  getValue = (value) =>
-    SYMBOLS.reduce((result, item) => item && item.value === value ? item : result, {value: '==',  label: '=='});
+  getSymbolValue = (value) => {
+    debugger;
+   return SYMBOLS.reduce((result, item) => {
+     debugger;
+     return item && item.value === value ? item.value : result
+   }, '==');
+  };
+
+  getAnswerValue = (list, value) => {
+    return list.reduce((result, item) => {
+      if (item && !value) return item.label;
+
+      return item.label === value ? item.label : result
+    },'A' );
+  };
+
 
   render() {
-    const {key, op, value} = this.props.itemState[0];
-    const opValue = this.getValue(op);
+    const { key, op, value } = this.props.itemState[0];
+    const opValue     = this.getSymbolValue(op);
+    const selectValue = this.getAnswerValue(this.state.answers, value);
+    console.log('opValue', opValue);
+    console.log('selectValue', selectValue);
 
     return <div className="rule-types">
       <div className="main-select">
@@ -113,14 +137,14 @@ class MatchComponent extends Component {
           id="types"
           select
           value={ opValue }
-          onChange={(event) => this.onSymbolChange(event, '', '')}
+          onChange={(event) => this.onSymbolChange(event)}
           className="types-select"
           margin="normal"
           fullWidth={true}
         >
           {SYMBOLS.map((option, index) =>
             (<MenuItem key={index}
-                       value={option}>
+                       value={option.value}>
               {option.label}
             </MenuItem>))}
         </TextField>
@@ -135,16 +159,16 @@ class MatchComponent extends Component {
           <TextField
             id="match-answer"
             select
-            value={ {value:'', label: '' } }
-            onChange={(event) => this.onAnswerChange(event, '', '')}
+            value={ selectValue || 'A' }
+            onChange={(event) => this.onAnswerChange(event)}
             className="types-select"
             margin="normal"
-            disabled={!this.state.answer.length}
+            disabled={!this.state.answers.length}
             fullWidth={true}
           >
-            {this.state.answer.map((option, index) =>
+            {this.state.answers.map((option, index) =>
               (<MenuItem key={index}
-                         value={option.value}>
+                         value={option.label }>
                 {option.label}
               </MenuItem>))}
           </TextField>
