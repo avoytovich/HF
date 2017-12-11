@@ -4,26 +4,23 @@ import { Async }              from 'react-select';
 import TextField              from 'material-ui/TextField';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
-
 import {
   changeTypeOfRule,
   addDefaultGroupRule,
   findByArea,
   setQuestion
 }                             from '../../../../actions';
+import {
+  onAnswerChange,
+  onSymbolChange,
+  getSymbolValue,
+  getAnswerValue,
+  getAnswersList,
+  SYMBOLS
+}                             from '../../../../utils';
 
-
-const SYMBOLS = [
-  {value: '>',   label: '>'},
-  {value: '<',   label: '<'},
-  {value: '>=',  label: '>='},
-  {value: '<=',  label: '<='},
-  {value: '!=',  label: '!='},
-  {value: '==',  label: '=='}
-];
 
 class MatchComponent extends Component {
-
   state = {
     answers: [],
     type: 'list', // list or range
@@ -36,7 +33,6 @@ class MatchComponent extends Component {
       return Promise.resolve({ options: [] });
 
     const { type, area, step } = this.props;
-
     const body = { type, area, step, "answerType": "single" };
 
     return findByArea('diagnostics', 'findByAre', body, input).then(res => {
@@ -52,60 +48,27 @@ class MatchComponent extends Component {
     });
   };
 
-  getAnswersList = (values) =>
-    Object.keys(values).map(key => ({label: key, value: values[key]}) );
 
-  onChange = (value) => {
+
+  onAsyncChange = (value, {path, pathType}) => {
     const { subtype, type, values, min, max} = value.answer;
-    const {path, pathType} = this.props;
 
-     if (subtype === 'range') {
-       this.setState({type: 'range', min, max});
-       setQuestion(path, pathType, {key: value.key, op: '==', value: min});
-     }
-     else {
-       const answers = this.getAnswersList(values);
-       this.setState({type: 'list', answers});
-       setQuestion(path, pathType, {key: value.value, op: '==', value: 'A'});
-     }
-
-//      const answers = this.getAnswersList(values);
+    if (subtype === 'range') {
+      this.setState({type: 'range', min, max});
+      setQuestion(path, pathType, {key: value.key, op: '==', value: [min]});
+    }
+    else {
+      const answers = getAnswersList(values);
+      this.setState({type: 'list', answers});
+      setQuestion(path, pathType, {key: value.value, op: '==', value: ['A']});
+    }
   };
-
-  onSymbolChange = (event) => {
-    const value = event.target.value;
-    const {path, pathType} = this.props;
-    setQuestion(path, pathType, value, 'op');
-  };
-
-  onAnswerChange = (event) => {
-    const value = event.target.value;
-    const {path, pathType} = this.props;
-    setQuestion(path, pathType, value.label, 'value');
-  };
-
-  rangeChanged = (event) => {
-    const value = [event.target.value];
-    const { path, pathType } = this.props;
-    setQuestion(path, pathType, value, 'value');
-  };
-
-
-  getSymbolValue = (value) =>
-    SYMBOLS.reduce((result, item) => item && item.value === value ? item.value : result, '==');
-
-  getAnswerValue = (list, value) =>
-    list.reduce((result, item) => {
-      if (item && !value) return item.label;
-
-      return item.label === value ? item.label : result
-    },'A' );
 
 
   render() {
     const { key, op, value } = this.props.itemState[0];
-    const opValue     = this.getSymbolValue(op);
-    const selectValue = this.getAnswerValue(this.state.answers, value);
+    const opValue     = getSymbolValue(op);
+    const selectValue = getAnswerValue(this.state.answers, value);
 
     return <div className="rule-types">
       <div className="main-select">
@@ -116,7 +79,7 @@ class MatchComponent extends Component {
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={this.getOptions}
-          onChange={this.onChange}
+          onChange={(event) => this.onAsyncChange(event, this.props)}
           className="ansyc-select"
           value={key}
         />
@@ -131,7 +94,7 @@ class MatchComponent extends Component {
           name={`symbols-${this.props.path}-${this.props.pathType}`}
           select
           value={ opValue }
-          onChange={(event) => this.onSymbolChange(event)}
+          onChange={(event) => onSymbolChange(event, this.props)}
           className="types-select"
           margin="normal"
           fullWidth={true}
@@ -155,7 +118,7 @@ class MatchComponent extends Component {
             name={`answer-${this.props.path}-${this.props.pathType}`}
             select
             value={ selectValue || 'A' }
-            onChange={(event) => this.onAnswerChange(event)}
+            onChange={(event) => onAnswerChange(event, this.props, 'value') }
             className="types-select"
             margin="normal"
             disabled={!this.state.answers.length}
@@ -178,7 +141,7 @@ class MatchComponent extends Component {
                    value={value}
                    min={this.state.min}
                    max={this.state.max}
-                   onChange={this.rangeChanged}
+                   onChange={(event) => onAnswerChange(event, this.props, 'value')}
             />
           </div>
         }

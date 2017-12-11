@@ -56,9 +56,9 @@ class InComponent extends Component {
     setQuestion(path, pathType, {key: value.value, value: ['A']});
   };
 
-  onAnswerChange = (event) => {
+  onAnswerChange = (event, {path, pathType}) => {
     const value = event.target.value;
-    const {path, pathType} = this.props;
+    debugger;
     setQuestion(path, pathType, value, 'value');
   };
 
@@ -75,7 +75,6 @@ class InComponent extends Component {
   render() {
     const { key, value } = this.props.itemState[0];
     const selectValue = [this.getAnswerValue(this.state.answers, value)];
-    console.log('selectValue', selectValue);
 
     return <div className="rule-types">
       <div className="main-select">
@@ -102,7 +101,7 @@ class InComponent extends Component {
           id={`answer-${this.props.path}-${this.props.pathType}`}
           name={`answer-${this.props.path}-${this.props.pathType}`}
           value={ selectValue || ['A'] }
-          onChange={(event) => this.onAnswerChange(event)}
+          onChange={(event) => this.onAnswerChange(event, this.props)}
           className="types-select"
           margin="normal"
           disabled={!this.state.answers.length}

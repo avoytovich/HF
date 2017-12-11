@@ -1,20 +1,21 @@
 import React, { Component }   from 'react';
 import { connect }            from 'react-redux';
 import { Async }              from 'react-select';
-import TextField              from 'material-ui/TextField';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
 import Select                 from 'material-ui/Select';
-
 import {
-  changeTypeOfRule,
-  addDefaultGroupRule,
   findByArea,
   setQuestion
 }                             from '../../../../actions';
-
+import {
+  onAnswerChange,
+  getAnswerValue,
+  getAnswersList,
+}                             from '../../../../utils';
 
 class NotEqualComponent extends Component {
+
   state = {
     answers: [],
     type: 'list', // list or range
@@ -43,10 +44,7 @@ class NotEqualComponent extends Component {
     });
   };
 
-  getAnswersList = (values) =>
-    Object.keys(values).map(key => ({label: key, value: values[key]}) );
-
-  onChange = (value) => {
+  onAsyncChange = (value) => {
     const { subtype, type, values, min, max} = value.answer;
     const {path, pathType} = this.props;
 
@@ -55,36 +53,15 @@ class NotEqualComponent extends Component {
       setQuestion(path, pathType, {key: value.key, op: '!=', value: min});
     }
     else {
-      const answers = this.getAnswersList(values);
+      const answers = getAnswersList(values);
       this.setState({type: 'list', answers});
       setQuestion(path, pathType, {key: value.value, op: '!=', value: 'A'});
     }
   };
 
-  onAnswerChange = (event) => {
-    const value = event.target.value;
-    const {path, pathType} = this.props;
-    setQuestion(path, pathType, value.label, 'value');
-  };
-
-  rangeChanged = (event) => {
-    const value = [event.target.value];
-    const { path, pathType } = this.props;
-    setQuestion(path, pathType, value, 'value');
-  };
-
-
-  getAnswerValue = (list, value) =>
-    list.reduce((result, item) => {
-      if (item && !value) return item.label;
-
-      return item.label === value ? item.label : result
-    },'A' );
-
-
   render() {
     const { key, op, value } = this.props.itemState[0];
-    const selectValue = this.getAnswerValue(this.state.answers, value);
+    const selectValue = getAnswerValue(this.state.answers, value);
 
     return <div className="rule-types">
       <div className="main-select">
@@ -95,7 +72,7 @@ class NotEqualComponent extends Component {
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={this.getOptions}
-          onChange={this.onChange}
+          onChange={(event) => this.onAsyncChange(event, this.props)}
           className="ansyc-select"
           value={key}
         />
@@ -111,7 +88,7 @@ class NotEqualComponent extends Component {
             id={`answer-${this.props.path}-${this.props.pathType}`}
             name={`answer-${this.props.path}-${this.props.pathType}`}
             value={ selectValue || 'A' }
-            onChange={(event) => this.onAnswerChange(event)}
+            onChange={(event) => onAnswerChange(event, this.props, 'value') }
             className="types-select"
             margin="normal"
             disabled={!this.state.answers.length}
@@ -135,7 +112,7 @@ class NotEqualComponent extends Component {
                    value={value}
                    min={this.state.min}
                    max={this.state.max}
-                   onChange={this.rangeChanged}
+                   onChange={(event) => onAnswerChange(event, this.props, 'value')}
             />
           </div>
         }
