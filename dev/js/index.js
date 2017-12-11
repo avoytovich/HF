@@ -17,8 +17,6 @@ injectTapEventPlugin();
 import { Router, Route, IndexRoute, browserHistory, IndexRedirect, Redirect } from 'react-router';
 import { Provider } from 'react-redux';
 
-const Switch = require('react-router').Switch;
-
 // styles
 // import 'react-select/dist/react-select.min.css'
 import '../sass/index.sass';
@@ -33,6 +31,7 @@ import Companies                      from './components/users/companies/Compani
 import Clinics                        from './components/users/clinics/Clinics';
 import Users                          from './components/users/users/Users';
 import AssetsList                     from './components/assets/AssetsList/AssetsList';
+import Upload                         from './components/assets/Upload/Upload';
 import {
    MatrixComponent,
    DiagnosisComponent,
@@ -104,6 +103,7 @@ const router = (
         <Route path={PAGE.clinics}           component={(props) => <Clinics  {...props}/>} />
         <Route path={PAGE.users}             component={(props) => <Users  {...props}/>} />
         <Route path={PAGE.assets}            component={(props) => <AssetsList {...props} />} />
+        <Route path={PAGE.assetsUpload}      component={(props) => <Upload {...props} />} />
         <Route path={PAGE.matrixSetup}       component={ MatrixComponent }>
 
           <IndexRedirect to="diagnosis"/>

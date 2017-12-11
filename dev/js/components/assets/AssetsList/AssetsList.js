@@ -1,12 +1,16 @@
 import React, { Component }     from 'react';
-import { connect }              from 'react-redux';
-import { SEL_TAB }              from '../../../utils/constants/pageContent';
-import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
-import TableControls           from '../../common/TypicalListPage/TableControls';
+import { connect }              from 'react-redux';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
+import ModeEdit                 from 'material-ui-icons/ModeEdit';
+import FileUpload               from 'material-ui-icons/FileUpload';
+
+import { ASSETS_TAB }           from '../../../utils/constants/pageContent';
+import { TableComponent }       from '../../../components/common/TypicalListPage';
+import TableControls            from '../../common/TypicalListPage/TableControls';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
+import { PAGE }                 from '../../../config'
 
 
 class AssetsList extends Component {
@@ -15,10 +19,6 @@ class AssetsList extends Component {
     deactivateOpen: false,
     deleteOpen: false
   };
-
-  create = (id) => id ?
-    browserHistory.push(`/diagnosis-create`) :
-    browserHistory.push(`/diagnosis-create/${id}`);
 
   deleteItems = (items = []) => {};
 
@@ -34,15 +34,15 @@ class AssetsList extends Component {
   };
 
   render() {
-    const { tableHeader } = SEL_TAB;
+    const { tableHeader } = ASSETS_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
 
     return (
       <div id="diagnosis-component">
 
         <DeleteComponent
-          path="companies"
-          domen="users"
+          path="assets"
+          domen="exercises"
           typeKey="deleteOpen"
           list={selected}
           deactivateOpen={deleteOpen}
@@ -54,7 +54,10 @@ class AssetsList extends Component {
         <TableControls
           path="companies"
           selected={selected}
-          createItem={this.create}>
+          createItem={() => browserHistory.push(PAGE.assetsUpload)}
+          createButtonText='Upload'
+          CreateButtonIcon={() => <FileUpload />}
+        >
 
           {/*<Button*/}
           {/*disabled={selected.length > 1}*/}
@@ -64,18 +67,29 @@ class AssetsList extends Component {
           {/*Edit*/}
           {/*</Button>*/}
 
-          <Button raised dense
-                  onClick={() => this.updateModal('deleteOpen', true)}>
+          <Button
+            raised
+            dense
+            onClick={() => this.updateModal('deleteOpen', true)}
+          >
             <Delete />
             Delete
+          </Button>
+
+          <Button
+            raised
+            dense
+            onClick={() => this.updateModal('deleteOpen', true)}
+          >
+            <ModeEdit />
+            Update
           </Button>
 
         </TableControls>
 
         <TableComponent
-          path="userAll"
-          domen="users"
-          reqType="POST"
+          path="assets"
+          domen="exercises"
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}

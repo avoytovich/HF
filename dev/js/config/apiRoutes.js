@@ -7,10 +7,13 @@ export const domen = {
   users      : 'http://18.195.77.253',
   exercises  : 'http://18.195.76.169',
   diagnostics: 'http://18.194.211.206',
+  s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com',
 };
 
 export const api = {
   login     : '/auth/login',
+  generate  : '/dev/exercises/files/url/generate',
+  assets    : '/files',
   userOwn   : '/users/my',
   userAll   : '/users/get/all',
   logout    : '/auth/logout',
@@ -38,6 +41,7 @@ export const PAGE = {
   clinics    : '/clinics',
   users      : '/users',
   assets     : '/assets',
+  assetsUpload: '/assets/upload',
   matrixSetup: '/matrix-setup',
   chat       : '/chat',
   diagnosis  : '/matrix-setup/diagnosis',

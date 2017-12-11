@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect }          from 'react-redux';
 
 //UI
@@ -32,6 +33,8 @@ class TableControls extends Component {
       classes,
       selected,
       createItem,
+      createButtonText,
+      CreateButtonIcon,
     } = this.props;
     const selectedClassName = selected.length ? 'visible-details' : 'hidden-details';
     const mainClass         = this.mainClass(selected);
@@ -70,8 +73,8 @@ class TableControls extends Component {
             </Grid>
             <Grid item md={3} xs={12}>
               <Button raised dense onClick={createItem} color="primary">
-                <Add />
-                Create
+                { CreateButtonIcon ? <CreateButtonIcon /> : <Add /> }
+                { createButtonText || 'Create' }
               </Button>
             </Grid>
           </Grid>
@@ -87,6 +90,12 @@ const mapStateToProps = (state, ownProps) => ({
 
 TableControls.defaultProps = {
   selected    : [],
+};
+
+TableControls.propTypes = {
+  createItem: PropTypes.func,
+  createButtonText: PropTypes.string,
+  CreateButtonIcon: PropTypes.func,
 };
 
 export default connect(mapStateToProps)(withStyles(styles)(TableControls));
