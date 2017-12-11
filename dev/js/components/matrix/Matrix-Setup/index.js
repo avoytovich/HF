@@ -11,3 +11,4 @@ export ExercisesComponent       from './exercises';
 //export TestsComponent           from './tests'
 export CreateConditionComponent  from './createConditionsQuestion/createConditionsQuestion';
 export CreateTreatmentsComponent from './createTreatmentsQuestion/createTreatmentsQuestion';
+export CreateEvaluationComponent from './createEvaluationQuestion/createEvaluation';
