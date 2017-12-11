@@ -114,11 +114,11 @@ const setQuestion = (state, action) => {
     (value) => {
       const _value = value[0];
       const result = property ?
-        Object.assign(_value, {[property]: item}):
-        Object.assign(_value, item);
+        Object.assign({}, _value, {[property]: item}):
+        Object.assign({}, _value, item);
       return [result]
     }
-    );
+  );
 };
 
 const addNewAnswer = (state, action) => {

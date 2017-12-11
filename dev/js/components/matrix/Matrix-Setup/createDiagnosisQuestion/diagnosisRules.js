@@ -61,7 +61,7 @@ class DiagnosisRulesComponent extends Component {
 
   render() {
     const { rules } = this.props.createDiagnosisQuestion;
-
+    const {type, step, area} = this.props;
     return (
       <div className="rules-block">
 
@@ -79,7 +79,10 @@ class DiagnosisRulesComponent extends Component {
                             path={`rules.${index}`}
                             key={index}
                             type={findElement.key}
-                            item={item}/>;
+                            item={item}
+                            reqType={type}
+                            step={step}
+                            area={area}/>;
                 break;
               case 'item':
                 return <RulesItemComponent
@@ -87,9 +90,9 @@ class DiagnosisRulesComponent extends Component {
                             key={index}
                             type={findElement.key}
                             item={item}
-                            reqType={this.props.type}
-                            step={this.props.step}
-                            area={this.props.area}/>;
+                            reqType={type}
+                            step={step}
+                            area={area}/>;
                 break;
               default:
                 return '';

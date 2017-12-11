@@ -45,7 +45,7 @@ class RulesBlockComponent extends Component {
     this.handleRequestClose();
   };
   render() {
-    const { type, path, item } = this.props;
+    const { type, path, item, step, area } = this.props;
     return <div className="rule-block">
       <div className={`nav ${type}`}>
         <TextField
@@ -79,7 +79,11 @@ class RulesBlockComponent extends Component {
                         path={`${path}.${type}.${i}`}
                         key={i}
                         type={findElement.key}
-                        item={item}/>;
+                        item={item}
+                        reqType={type}
+                        step={step}
+                        area={area}
+              />;
             default:
               console.log('Wrong type!');
           }})}

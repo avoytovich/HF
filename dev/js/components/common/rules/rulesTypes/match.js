@@ -91,29 +91,21 @@ class MatchComponent extends Component {
   };
 
 
-  getSymbolValue = (value) => {
-    debugger;
-   return SYMBOLS.reduce((result, item) => {
-     debugger;
-     return item && item.value === value ? item.value : result
-   }, '==');
-  };
+  getSymbolValue = (value) =>
+    SYMBOLS.reduce((result, item) => item && item.value === value ? item.value : result, '==');
 
-  getAnswerValue = (list, value) => {
-    return list.reduce((result, item) => {
+  getAnswerValue = (list, value) =>
+    list.reduce((result, item) => {
       if (item && !value) return item.label;
 
       return item.label === value ? item.label : result
     },'A' );
-  };
 
 
   render() {
     const { key, op, value } = this.props.itemState[0];
     const opValue     = this.getSymbolValue(op);
     const selectValue = this.getAnswerValue(this.state.answers, value);
-    console.log('opValue', opValue);
-    console.log('selectValue', selectValue);
 
     return <div className="rule-types">
       <div className="main-select">
@@ -121,7 +113,8 @@ class MatchComponent extends Component {
           Question
         </div>
         <Async
-          name="match-type"
+          id={`match-type-${this.props.path}-${this.props.pathType}`}
+          name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={this.getOptions}
           onChange={this.onChange}
           className="ansyc-select"
@@ -134,7 +127,8 @@ class MatchComponent extends Component {
           Symbol
         </div>
         <TextField
-          id="types"
+          id={`symbols-${this.props.path}-${this.props.pathType}`}
+          name={`symbols-${this.props.path}-${this.props.pathType}`}
           select
           value={ opValue }
           onChange={(event) => this.onSymbolChange(event)}
@@ -157,7 +151,8 @@ class MatchComponent extends Component {
 
         {this.state.type === 'list' ?
           <TextField
-            id="match-answer"
+            id={`answer-${this.props.path}-${this.props.pathType}`}
+            name={`answer-${this.props.path}-${this.props.pathType}`}
             select
             value={ selectValue || 'A' }
             onChange={(event) => this.onAnswerChange(event)}
@@ -178,6 +173,8 @@ class MatchComponent extends Component {
               {value || 0}
             </div>
             <input type="range"
+                   id={`range-${this.props.path}-${this.props.pathType}`}
+                   name={`range-${this.props.path}-${this.props.pathType}`}
                    value={value}
                    min={this.state.min}
                    max={this.state.max}
