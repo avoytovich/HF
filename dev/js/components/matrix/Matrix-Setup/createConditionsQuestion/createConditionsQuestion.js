@@ -159,7 +159,7 @@ class CreateConditionComponent extends Component {
                     id='questionKey'
                     value={questionKey}
                     reducer={createDiagnosisQuestion}
-                    label={ L_CREATE_QUESTION.questionKey }
+                    label={ 'Condition Key' }
                     placeholder={ L_CREATE_QUESTION.enterQuestionKey }
                     error={!!this.state.keyIsUniqueError}
                     onCustomChange={this.checkIfQuestionKeyValid}
