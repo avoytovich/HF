@@ -24,15 +24,15 @@ class EqualComponent extends Component {
     max: 0,
   };
 
-  getOptions = (input) => {
-    if (input.length < 3)
+  getOptions = (input, key) => {
+    if (input.length < 3 && !key)
       return Promise.resolve({ options: [] });
 
     const { type, area, step } = this.props;
 
     const body = { type, area, step, "answerType": "single" };
 
-    return findByArea('diagnostics', 'findByAre', body, input).then(res => {
+    return findByArea('diagnostics', 'findByAre', body, input || key).then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.question.en, value: item.key }));
@@ -72,7 +72,7 @@ class EqualComponent extends Component {
         <Async
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
-          loadOptions={this.getOptions}
+          loadOptions={(input) => this.getOptions(input, key)}
           onChange={(event) => this.onAsyncChange(event, this.props)}
           className="ansyc-select"
           value={key}
