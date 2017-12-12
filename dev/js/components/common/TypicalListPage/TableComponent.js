@@ -132,6 +132,9 @@ class TableComponent extends Component {
   };
 
   handleClick = (event, checked, selected) => {
+    event && event.preventDefault();
+    event && event.stopPropagation();
+
     const { id, deActive} = checked;
 
 //    if (deActive) return;

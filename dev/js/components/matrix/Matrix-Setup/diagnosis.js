@@ -45,6 +45,7 @@ class DiagnosisComponent extends Component {
       <div id="diagnosis-component">
 
         <DeactivateComponent
+          pathReq="createQuestion"
           path="diagnosis"
           domen="diagnostics"
           typeKey="deactivateOpen"
@@ -56,6 +57,7 @@ class DiagnosisComponent extends Component {
         />
 
         <DeleteComponent
+          pathReq="createQuestion"
           path="diagnosis"
           domen="diagnostics"
           typeKey="deleteOpen"
