@@ -6,23 +6,21 @@ import { bCN } from './index';
 const validateDay = data => {
 
   let constraints = {
-    email: {
-      email: {
-        message: "is not valid."
-      },
-    },
-    password: {
+    [bCN('tmp_files', 'name_real')]: {
       length: {
-        minimum: 6,
+        minimum: 2,
       }
     },
-    confirmPassword: {
-      equality: {
-        attribute: "resetPasswordAttribute",
-        message: "should match the password.",
-        comparator: (v1, v2) => JSON.stringify(v1) === JSON.stringify(v2)
+    [bCN('tmp_files', 'title')]: {
+      length: {
+        minimum: 2,
       }
-    }
+    },
+    [bCN('tmp_files', 'description')]: {
+      length: {
+        minimum: 2,
+      }
+    },
   };
 
   let { isValid, errors } =  validator(

@@ -30,16 +30,8 @@ export class Api {
 
   static delete = (route, options, headers) => Api.xhr({ route, method: 'DELETE', options, headersIncome: headers });
 
-  static xhr({
-    route,
-    method,
-    data,
-    options = {
-      needLoader: true,
-      showErrNotif: true,
-    },
-    headersIncome = {},
-  }) {
+  static xhr({ route, method, data, options = {}, headersIncome = {} }) {
+    options = { ...{ needLoader: true, showErrNotif: true, onUploadProgress: p => {} }, ...options};
     const {
       commonReducer: {
         isLoading
@@ -59,6 +51,10 @@ export class Api {
         method,
         headers: Object.assign(headers, headersIncome),
         data: data && JSON.stringify(data),
+        onUploadProgress: progressEvent => {
+          const percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+          options.onUploadProgress(percentCompleted)
+        },
       }))
       .then(response => {
         dispatchCommonPayloadWired({ isLoading: isLoading && isLoading - 1 });

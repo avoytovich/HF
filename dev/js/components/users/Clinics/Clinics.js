@@ -1,13 +1,15 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { DIAGNOSIS_TAB }        from '../../../utils/constants/pageContent';
+import isEmpty                  from 'lodash/isEmpty';
+import { SEL_TAB }              from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
-import TableControls           from '../../common/TypicalListPage/TableControls';
+import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
 
+import { PAGE } from '../../../config';
 
 class Clinics extends Component {
   state = {
@@ -15,6 +17,15 @@ class Clinics extends Component {
     deactivateOpen: false,
     deleteOpen: false
   };
+
+  // componentDidMount() {
+  //   const currentPath = PAGE[this.props.path];
+  //   console.log(currentPath);
+  //   browserHistory.push({
+  //     pathname: currentPath,
+  //     query: { per_page: 20, current_page: 0, customer_type: 'organization' }
+  //   });
+  // }
 
   create = (id) => id ?
     browserHistory.push(`/diagnosis-create`) :
@@ -34,7 +45,7 @@ class Clinics extends Component {
   };
 
   render() {
-    const { tableHeader } = DIAGNOSIS_TAB;
+    const { tableHeader } = SEL_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
 
     return (
@@ -75,6 +86,7 @@ class Clinics extends Component {
         <TableComponent
           path="userAll"
           domen="users"
+          reqType="POST"
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}

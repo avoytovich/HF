@@ -1,17 +1,15 @@
 import { browserHistory } from 'react-router';
 
 import { Api } from '../../utils';
-import { getS3Link } from '../../actions';
 import {
-  domen,
-  api,
   PAGE,
 } from '../../config';
 
-export const uploadAssets = () => Api.get(`${domen.users}${api.userOwn}`);
+export const uploadAssets = (url, data, onUploadProgress) =>
+  Api.put(url, data, onUploadProgress);
 
-export const uploadAssetsWired = () => uploadAssets()
+export const uploadAssetsWired = (url, data, onUploadProgress) => uploadAssets(url, data, onUploadProgress)
   .then(response => {
-    dispatchUserPayloadWired(response.data.data);
-    browserHistory.push(PAGE.home)
+    console.log('uploadAssetsWired', response);
+    // browserHistory.push(PAGE.assets)
   });

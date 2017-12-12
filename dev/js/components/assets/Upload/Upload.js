@@ -1,42 +1,59 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Dropzone from 'react-dropzone';
-import FileUpload from 'material-ui-icons/FileUpload';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import { getS3Link } from '../../../actions'
-import AssetEdit from '../AssetEdit/AssetEdit'
+import {
+  getS3Link,
+  uploadAssetsWired,
+  dispatchAssetsPayload,
+} from '../../../actions'
+import AssetItem from '../AssetItem/AssetItem'
+import Dropzone from '../Dropzone/Dropzone'
 
 class Upload extends Component {
   _onDrop = (acceptedF, rejectedF) => {
-    acceptedF.map(file => {
-      getS3Link(file.name.split('.').pop())
-        .then(res => console.log(res))
-    })
+    const {
+      dispatchAssetsPayload,
+      assetsReducer: {
+        tmp_files
+      }
+    } = this.props;
+    dispatchAssetsPayload({ tmp_files: acceptedF });
+    if (acceptedF.length) {
+      console.log('sent_req');
+      acceptedF.map((file, i) => {
+        getS3Link(file.name.split('.').pop())
+          .then(res => uploadAssetsWired(
+            res.url,
+            file, // TODO toFormData
+            progress => dispatchAssetsPayload({ [`tmp_files[${i}].progress`]: progress })
+          ))
+      })
+    }
+  };
+
+  _renderFiles = (files = []) => {
+    if (files.length) {
+      return files.map((file, i) => {
+        return <AssetItem key={i} index={i}/>;
+      });
+    } else {
+      return <Dropzone onDrop={this._onDrop} />
+    }
   };
 
   render() {
+    const {
+      assetsReducer: {
+        tmp_files,
+      }
+    } = this.props;
     return (
       <div className="upload-container">
-        <AssetEdit />
-        <Dropzone
-          accept='image/png,image/jpeg,image/bmp,video/mp4'
-          multiple
-          className="dropzone"
-          activeClassName="dropzone-active"
-          onDrop={this._onDrop}
-        >
-         <div>
-           <p className="upload-instruction-wrapper">
-             <FileUpload />
-             Drop files here or click to upload
-           </p>
-           <p className="upload-instruction-wrapper">
-             Format files: .mkv
-           </p>
-         </div>
-        </Dropzone>
+        { this._renderFiles(tmp_files) }
       </div>
-    );
+    )
   }
 }
 
@@ -45,4 +62,13 @@ Upload.propTypes = {
   classes: PropTypes.object,
 };
 
-export default Upload;
+const mapStateToProps = state => ({
+  assetsReducer: state.assetsReducer,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  dispatchAssetsPayload,
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Upload);

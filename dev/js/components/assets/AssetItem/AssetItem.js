@@ -1,38 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import InsertDriveFile from 'material-ui-icons/InsertDriveFile';
 import Delete from 'material-ui-icons/Delete';
 import Grid from 'material-ui/Grid';
+import { LinearProgress } from 'material-ui/Progress';
 
 import Input from '../../common/Input/Input';
+import { dispatchDeleteAssetPayloadWired } from '../../../actions';
 
-class AssetEdit extends Component {
-
-  render() {
-    const {
-      assetsReducer,
-      index,
-      name,
-      onDeleteClick,
-    } = this.props;
-    console.log(assetsReducer);
-    return (
-      <div className="progress-container">
-        <div className="edit-name-controls-container">
-          <div className="progress-name-controls-sub-container">
-            <InsertDriveFile />
-            <div className="progress-name">{name}</div>
-          </div>
-          <Delete onClick={onDeleteClick} className="c-pointer"/>
-        </div>
-        <div className="progress-line-container">
+class AssetItem extends Component {
+  _renderProgressOrFile = (progress, index) => {
+    const { assetsReducer } = this.props;
+    switch(progress) {
+      case 100:
+        return (
           <Grid container spacing={16}>
             <Grid item xs={3}>
               <Input
                 style={{ width: '100%' }}
-                id={`tmp_files${index}name_real`}
+                id={`tmp_files[${index}].name_real`}
                 reducer={assetsReducer}
                 label='File Name'
               />
@@ -40,7 +29,7 @@ class AssetEdit extends Component {
             <Grid item xs={3}>
               <Input
                 style={{ width: '100%' }}
-                id={`tmp_files${index}title`}
+                id={`tmp_files[${index}].title`}
                 reducer={assetsReducer}
                 label='Title'
               />
@@ -48,29 +37,57 @@ class AssetEdit extends Component {
             <Grid item xs={6}>
               <Input
                 style={{ width: '100%' }}
-                id={`tmp_files${index}description`}
+                id={`tmp_files[${index}].description`}
                 reducer={assetsReducer}
                 label='Description'
               />
             </Grid>
           </Grid>
+        );
 
+      default:
+        return <LinearProgress mode="determinate" value={progress} />
+    }
+  };
+
+  render() {
+    const {
+      assetsReducer: {
+        tmp_files,
+      },
+      progress,
+      index,
+      onDeleteClick,
+    } = this.props;
+    return (
+      <div className="progress-container">
+        <div className="progress-name-controls-container">
+          <div className="progress-name-controls-sub-container">
+            <InsertDriveFile />
+            <div className="progress-name">{get(tmp_files[index], 'name', 'File.png')}</div>
+          </div>
+          <Delete
+            onClick={() => dispatchDeleteAssetPayloadWired(index)}
+            className="c-pointer"
+          />
+        </div>
+        <div className="progress-line-container">
+          { this._renderProgressOrFile(progress, index)}
         </div>
       </div>
     );
   }
 }
 
-AssetEdit.defaultProps = {
+AssetItem.defaultProps = {
   onDeleteClick: () => console.log('delete clicked'),
-  name: 'File.png',
+  index: 0,
+  progress: 0,
 }
 
-AssetEdit.propTypes = {
-  reducer: PropTypes.object,
-  index: PropTypes.number,
-  name: PropTypes.string,
+AssetItem.propTypes = {
   onDeleteClick: PropTypes.func,
+  index: PropTypes.number,
 };
 
 const mapStateToProps = state => ({
@@ -81,7 +98,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(AssetEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(AssetItem);
 
 `{
     "tmp_files":[
