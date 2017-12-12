@@ -4,7 +4,7 @@ import { ASSETS } from '../../actions';
 const initialState = {
   actionType: ASSETS,
   errors: {},
-  files: [],
+  tmp_files: [],
 };
 
-export const authReducer = createReducer(initialState, ASSETS);
+export const assetsReducer = createReducer(initialState, ASSETS);
