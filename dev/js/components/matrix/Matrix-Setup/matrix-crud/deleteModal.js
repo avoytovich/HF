@@ -14,8 +14,8 @@ import { deleteItem,
 
 class DeleteComponent extends Component {
 
-  deactivate = ({list, path, domen}) => {
-    deleteItem(domen, path, list)
+  deactivate = ({list, path, pathReq, domen}) => {
+    deleteItem(domen, pathReq, list)
       .then(() => {
         getMatrixInfo(domen, path, this.props.query, path)
           .then(() => this.props.open(this.props.typeKey, false))

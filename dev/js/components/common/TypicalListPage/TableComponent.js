@@ -2,14 +2,12 @@ import React, { Component }   from 'react';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes              from 'prop-types';
-import
-  Table, {
-  TableBody,
-  TableCell,
-  TableFooter,
-  TablePagination,
-  TableRow
-}                             from 'material-ui/Table';
+import Table, {
+        TableBody,
+        TableCell,
+        TableFooter,
+        TablePagination,
+        TableRow }            from 'material-ui/Table';
 import Checkbox               from 'material-ui/Checkbox';
 import EnhancedTableHead      from './TableHeader';
 import {
@@ -110,9 +108,11 @@ class TableComponent extends Component {
   handleRequestSort = (event, property) => {};
 
    /**
-   * @param value: string
+    * @param value: string
+    * @param row: {Object}
+    * @param selected
    */
-  onRowSelection = (value) => console.log('onRowSelection', value);
+  onRowSelection = (value, row, selected) => this.props.onEdit && this.props.onEdit(row.id);
 
   /***
    * @param value: string
@@ -133,6 +133,13 @@ class TableComponent extends Component {
   handleClick = (event, checked, selected) => {
     let { id, deActive, customer_id } = checked;
     id = id || customer_id;
+    event && event.preventDefault();
+    event && event.stopPropagation();
+
+    const { id, deActive} = checked;
+
+//    if (deActive) return;
+
     const isIn = this.matchItems(selected, id);
 
     let result = [];
@@ -318,6 +325,7 @@ TableComponent.propTypes = {
                     ).isRequired,
   onRowClick       : PropTypes.func.isRequired,
   onSelectAllClick : PropTypes.func.isRequired,
+  onEdit           : PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({

@@ -18,7 +18,7 @@ class ConditionsComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/conditions-create`) :
+    browserHistory.push(`/conditions-create-new`) :
     browserHistory.push(`/conditions-create/${id}`);
 
   deleteItems = (items = []) => {};

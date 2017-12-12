@@ -91,7 +91,7 @@ const recDelete = (state, path) => {
   if (path !== 'rules' && !hasItems.length) {
     const _state = dotProp.delete(state, _path);
 
-    return _state.rules.length ?
+    return _state.rules &&_state.rules.length ?
       recDelete(_state, _path.join('.')) :
       dotProp.set(_state, 'rules', []);
   }
@@ -145,6 +145,46 @@ const removeAnswer = (state, action) => {
     });
 };
 
+const setFullQuestion = (state, action) => {
+  const { body: { area, title, question, key, step, answer, rule }} = action.payload;
+  const { subtype, type } = answer;
+  const _type = subtype === 'range' || type === 'range' ? 'range' : type
+
+    const _body = {
+      bodyAreas: { key: area, label:area, title: area },
+      questionTitle: title,
+      question,
+      sequence: step,
+      questionKey: key,
+      answerType: _type,
+      rules: rule,
+      [_type]: parseAnswers(answer)
+//      sequenceType: null,
+    };
+  return Object.assign({}, state, _body);
+};
+
+
+const parseAnswers= (answer) => {
+  if (answer.type === 'range') {
+    const {max, min} = answer.values;
+    return {
+      from: min,
+      to: max
+    };
+  }
+  else if (answer.subtype === 'range') {
+    const { max, min } = answer;
+    return {
+      from: min,
+      to: max
+    };
+  }
+  else  {
+    const list = answer.values;
+    return Object.keys(list).map(item => list[item]);
+  }
+};
 export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_UPDATE`]              : createQuestionUpdate,
   [`${CREATE_QUESTION}_ADD_RULE`]            : createQuestionRules,
@@ -155,4 +195,5 @@ export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_SET_QUESTION`]        : setQuestion,
   [`${CREATE_QUESTION}_ADD_NEW_ANSWER`]      : addNewAnswer,
   [`${CREATE_QUESTION}_REMOVE_ANSWER`]       : removeAnswer,
+  [`${CREATE_QUESTION}_SET_FULL_QUESTION`]   : setFullQuestion,
 });

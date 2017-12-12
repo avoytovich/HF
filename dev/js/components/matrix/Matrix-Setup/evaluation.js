@@ -20,7 +20,7 @@ class EvaluationComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/evaluations-create`) :
+    browserHistory.push(`/evaluations-create-new`) :
     browserHistory.push(`/evaluations-create/${id}`);
 
   deleteItems = (items = []) => {};
@@ -39,7 +39,6 @@ class EvaluationComponent extends Component {
   render() {
     const { tableHeader } = DIAGNOSIS_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
-    console.log('this.props.location', this.props.location);
 
     return (
       <div id="diagnosis-component">

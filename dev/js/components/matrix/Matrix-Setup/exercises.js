@@ -19,7 +19,7 @@ class ExercisesComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/exercises-create`) :
+    browserHistory.push(`/exercises-create-new`) :
     browserHistory.push(`/exercises-create/${id}`);
 
 

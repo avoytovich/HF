@@ -18,7 +18,7 @@ class PackagesComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/packages-create`) :
+    browserHistory.push(`/packages-create-new`) :
     browserHistory.push(`/packages-create/${id}`);
 
 
@@ -59,7 +59,8 @@ class PackagesComponent extends Component {
 
         <TableControls
           path="packages"
-          selected={selected}>
+          selected={selected}
+          createItem={this.create}>
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>

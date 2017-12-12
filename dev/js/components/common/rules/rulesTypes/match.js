@@ -28,39 +28,55 @@ class MatchComponent extends Component {
     max: 0,
   };
 
-  getOptions = (input) => {
-    if (input.length < 3)
-      return Promise.resolve({ options: [] });
+  getOptions = (input, key) => {
 
-    const { type, area, step } = this.props;
-    const body = { type, area, step, "answerType": "single" };
+    switch(true) {
+      case !input.length  && !key:
+        return Promise.resolve({ options: [] });
 
-    return findByArea('diagnostics', 'findByAre', body, input).then(res => {
-      const { data } = res.data;
-      const _data = data.map(item =>
-        Object.assign({}, item, { label: item.question.en, value: item.key }));
-      return {
-        options: _data,
-        // CAREFUL! Only set this to true when there are no more options,
-        // or more specific queries will not be sent to the server.
-        complete: true
-      }
-    });
+      case input.length && input.length < 3:
+        return Promise.resolve({ options: [] });
+
+      default:
+        const { type, area, step } = this.props;
+        const body = { type, area, step, "answerType": "single" };
+
+        return findByArea('diagnostics', 'findByAre', body, input || key).then(res => {
+          const { data } = res.data;
+          const _data = data.map(item =>
+            Object.assign({}, item, { label: item.question.en, value: item.key }));
+
+          !input.length && key && this.onAsyncChange(_data[0], true);
+
+          return {
+            options: _data,
+            // CAREFUL! Only set this to true when there are no more options,
+            // or more specific queries will not be sent to the server.
+            complete: true
+          }
+        });
+    }
+
+//    if ( !input.length  && !key || (input.length && input.length < 3))
   };
 
+  onAsyncChange = (value, edit) => {
+    const { path, pathType, itemState} = this.props;
+    if (!value || (Array.isArray(value) && !value.length)) {
+      return  setQuestion(path, pathType, '', 'key');
+    }
 
-
-  onAsyncChange = (value, {path, pathType}) => {
     const { subtype, type, values, min, max} = value.answer;
-
     if (subtype === 'range') {
       this.setState({type: 'range', min, max});
-      setQuestion(path, pathType, {key: value.key, op: '==', value: [min]});
+      const _value = edit ? itemState[0] : {key: value.key, op: '==', value: [min]};
+      setQuestion(path, pathType, _value);
     }
     else {
       const answers = getAnswersList(values);
       this.setState({type: 'list', answers});
-      setQuestion(path, pathType, {key: value.value, op: '==', value: ['A']});
+      const _value = edit ? itemState[0] : {key: value.value, op: '==', value: ['A']};
+      setQuestion(path, pathType, _value);
     }
   };
 
@@ -78,10 +94,10 @@ class MatchComponent extends Component {
         <Async
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
-          loadOptions={this.getOptions}
+          loadOptions={(input) => this.getOptions(input, key)}
           onChange={(event) => this.onAsyncChange(event, this.props)}
           className="ansyc-select"
-          value={key}
+          value={ key }
         />
       </div>
 

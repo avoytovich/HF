@@ -69,3 +69,4 @@ export const removeAnswer = (type, index) =>
   );
 
 
+

@@ -9,7 +9,9 @@ import { diagnosisQuestionCreate,
   clearCreateQuestion,
   findUniqueKey,
   addNewAnswer,
+  updateQuestionCreate,
   removeAnswer,
+  getQuestionById,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -53,7 +55,18 @@ class CreateQuestionComponent extends Component {
     super(props);
   }
 
-  componentWillMount() { clearCreateQuestion(); }
+  componentWillMount() {
+    clearCreateQuestion();
+    if (this.props.routeParams.id) {
+      getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
+        if (answer.values) {
+          const keys = Object.keys(answer.values);
+          const answerLang = keys.map(() => 'en');
+          this.setState({answerLang})
+        }
+      });
+    }
+  }
 
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
@@ -157,8 +170,13 @@ class CreateQuestionComponent extends Component {
       rule: rules
     };
 
-    diagnosisQuestionCreate('diagnostics', 'createQuestion', result)
-    .then(() => browserHistory.push(`/matrix-setup/diagnosis`));
+    !this.props.routeParams.id ?
+      diagnosisQuestionCreate('diagnostics', 'createQuestion', result)
+      .then(() => browserHistory.push(`/matrix-setup/diagnosis`)) :
+
+      updateQuestionCreate('diagnostics', 'createQuestion', result, this.props.routeParams.id)
+      .then(() => browserHistory.push(`/matrix-setup/diagnosis`))
+
   };
 
   getSequenceTypeResult = (sequenceType, sequence) => {
@@ -171,6 +189,7 @@ class CreateQuestionComponent extends Component {
 
   answers = (type) => {
     const { single, multiple } = this.props.createDiagnosisQuestion;
+
     switch (type) {
       case 'single':
         return <div className="answer-wrap">
@@ -179,7 +198,7 @@ class CreateQuestionComponent extends Component {
               <li  key={index} className="row-item">
                 <div className="answer-item">
                   <Input
-                    id={`single[${index}].${this.state.answerLang[index]}`}
+                    id={`single[${index}][${this.state.answerLang[index]}]`}
                     reducer={this.props.createDiagnosisQuestion}
                   />
                   <Clear onClick={() => removeAnswer(type, index)}/>
