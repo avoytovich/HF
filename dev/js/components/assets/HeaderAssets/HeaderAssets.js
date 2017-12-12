@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
+import omit from 'lodash/omit'
 
 // UI
 import AppBar from 'material-ui/AppBar';
@@ -9,6 +10,7 @@ import Close from 'material-ui-icons/Close';
 
 import {
   logoutSimple,
+  createAssetsWired,
 } from '../../../actions';
 import { PAGE } from '../../../config';
 
@@ -20,9 +22,14 @@ class HeaderAssets extends Component {
   handleMenu = event => this.setState({ anchorEl: event.currentTarget });
   handleRequestClose = () => this.setState({ anchorEl: null });
 
-  _signOut = () => {
-    this.handleRequestClose();
-    logoutSimple();
+  _createAssets = (files = []) => {
+    if (files.length) {
+      files = files.map(file => {
+        file.name_origin = file.name_real;
+        return omit(file, ['progress'])
+      });
+      createAssetsWired({ tmp_files: files });
+    }
   };
 
   render() {
@@ -31,7 +38,10 @@ class HeaderAssets extends Component {
     const {
       userReducer: {
         name = '',
-      }
+      },
+      assetsReducer: {
+        tmp_files,
+      },
     } = this.props;
     return (
       <AppBar
@@ -51,7 +61,10 @@ class HeaderAssets extends Component {
           </div>
 
           <div>
-            <p className="upload-header-save-button">
+            <p
+              className="upload-header-save-button"
+              onClick={() => this._createAssets(tmp_files)}
+            >
               SAVE
             </p>
           </div>
@@ -66,6 +79,7 @@ class HeaderAssets extends Component {
 const mapStateToProps = state => ({
   commonReducer: state.commonReducer,
   userReducer: state.userReducer,
+  assetsReducer: state.assetsReducer,
 });
 
 export default connect(mapStateToProps)(HeaderAssets);
