@@ -9,6 +9,7 @@ import Delete                   from 'material-ui-icons/Delete';
 import NotInterested            from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from './matrix-crud/deactivateModal'
 import DeleteComponent          from './matrix-crud/deleteModal';
+import Done                     from 'material-ui-icons/Done';
 
 
 class DiagnosisComponent extends Component {
@@ -18,9 +19,10 @@ class DiagnosisComponent extends Component {
     deleteOpen: false
   };
 
-  create = (id) => id ?
-      browserHistory.push(`/diagnosis-create`) :
-      browserHistory.push(`/diagnosis-create/${id}`);
+  create = (id) => {
+    const path = id ? `/diagnosis-create/${id}` : `/diagnosis-create-new`;
+    browserHistory.push(path)
+  };
 
   deleteItems = (items = []) => {};
 
@@ -43,6 +45,7 @@ class DiagnosisComponent extends Component {
       <div id="diagnosis-component">
 
         <DeactivateComponent
+          pathReq="createQuestion"
           path="diagnosis"
           domen="diagnostics"
           typeKey="deactivateOpen"
@@ -54,6 +57,7 @@ class DiagnosisComponent extends Component {
         />
 
         <DeleteComponent
+          pathReq="createQuestion"
           path="diagnosis"
           domen="diagnostics"
           typeKey="deleteOpen"
@@ -67,15 +71,7 @@ class DiagnosisComponent extends Component {
         <PageNavigation
           path="diagnosis"
           selected={selected}
-          createItem={this.create}>
-
-          {/*<Button*/}
-            {/*disabled={selected.length > 1}*/}
-            {/*onClick={() => this.create(selected[0])}*/}
-            {/*raised dense>*/}
-            {/*<Edit />*/}
-            {/*Edit*/}
-          {/*</Button>*/}
+          createItem={() => this.create()}>
 
           <Button raised dense
             onClick={() => this.updateModal('deleteOpen', true)}>
@@ -83,11 +79,11 @@ class DiagnosisComponent extends Component {
             Delete
           </Button>
 
-          <Button raised dense
-                  onClick={() => this.updateModal('activateOpen', true)}>
-            <NotInterested />
-            Activate
-          </Button>
+          {/*<Button raised dense*/}
+                  {/*onClick={() => this.updateModal('activateOpen', true)}>*/}
+            {/*<Done />*/}
+            {/*Activate*/}
+          {/*</Button>*/}
 
           <Button raised dense
                   onClick={() => this.updateModal('deactivateOpen', true)}>
@@ -103,6 +99,7 @@ class DiagnosisComponent extends Component {
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
+          onEdit={(id) => this.create(id)}
           onSelectAllClick={this.onSelectAllClick}
         />
 

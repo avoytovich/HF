@@ -43,7 +43,11 @@ import {
 //   MetaControlsComponent,
 //   AchievementsComponent,
 //   TestsComponent,
-   CreateQuestionComponent
+   CreateQuestionComponent,
+  CreateConditionComponent,
+  CreateTreatmentsComponent,
+  CreateEvaluationComponent,
+  CreatePackageComponent
  }                                    from './components/matrix/Matrix-Setup';
 
 import { PAGE }                       from './config';
@@ -111,7 +115,7 @@ const router = (
           <Route path='conditions'          component={(props) => <ConditionsComponent {...props}/>} />
           <Route path='treatments'          component={(props) => <TreatmentsComponent {...props}/>} />
           <Route path='packages'            component={(props) => <PackagesComponent   {...props}/>} />
-          {/*<Route path='evaluation'          component={(props) => <EvaluationComponent {...props} />} />*/}
+          <Route path='evaluations'         component={(props) => <EvaluationComponent {...props} />} />
           <Route path='exercises'           component={(props) => <ExercisesComponent  {...props}/>} />
 
           {/*<Route path='tests'               component={ TestsComponent } />*/}
@@ -119,11 +123,24 @@ const router = (
           {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
           <Redirect from="*" to="diagnosis"/>
         </Route>
-
+        evaluation
         <Route path='test-diagnostic-flow'  component={() => <div>TEST_DIAGNOSTIC_FLOW_PAGE</div>} />
 
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
-        <Route path='diagnosis-create'      component={(props) => <CreateQuestionComponent/>} />
+        <Route path='diagnosis-create/:id'   component={(props) => <CreateQuestionComponent {...props}/>} />
+        <Route path='diagnosis-create-new'   component={(props) => <CreateQuestionComponent {...props}/>} />
+
+        <Route path='conditions-create/:id'  component={(props) => <CreateConditionComponent {...props}/>} />
+        <Route path='conditions-create-new'  component={(props) => <CreateConditionComponent {...props}/>} />
+
+        <Route path='treatments-create/:id'  component={(props) => <CreateTreatmentsComponent {...props}/>} />
+        <Route path='treatments-create-new'  component={(props) => <CreateTreatmentsComponent {...props}/>} />
+
+        <Route path='evaluations-create/:id' component={(props) => <CreateEvaluationComponent {...props}/>} />
+        <Route path='evaluations-create-new' component={(props) => <CreateEvaluationComponent {...props}/>} />
+
+        <Route path='packages-create/:id'    component={(props) => <CreatePackageComponent {...props}/>} />
+        <Route path='packages-create-new'    component={(props) => <CreatePackageComponent {...props}/>} />
 
         {/*<Redirect from="*" to="organizations"/>*/}
 

@@ -9,6 +9,9 @@ import Delete                   from 'material-ui-icons/Delete';
 import NotInterested            from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from './matrix-crud/deactivateModal'
 import DeleteComponent          from './matrix-crud/deleteModal';
+import Done                     from 'material-ui-icons/Done';
+
+
 class EvaluationComponent extends Component {
   state = {
     selected: [],
@@ -17,50 +20,66 @@ class EvaluationComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/evaluation-create`) :
-    browserHistory.push(`/evaluation-create/${id}`);
+    browserHistory.push(`/evaluations-create-new`) :
+    browserHistory.push(`/evaluations-create/${id}`);
+
+  deleteItems = (items = []) => {};
 
   onRowClick = (selected = []) => this.setState({selected});
 
   onSelectAllClick = (selected) => this.setState({selected});
 
-  updateModal = (key, value) => this.setState({ [key]: value });
+
+  updateModal = (key, value) => {
+    this.setState({ [key]: value });
+
+    if (!value) this.setState({ selected: [] });
+  };
 
   render() {
     const { tableHeader } = DIAGNOSIS_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
 
     return (
-      <div id="evaluation-component">
+      <div id="diagnosis-component">
 
         <DeactivateComponent
-          path="evaluation"
+          path="evaluations"
           domen="diagnostics"
           typeKey="deactivateOpen"
           list={selected}
           deactivateOpen={deactivateOpen}
           open={this.updateModal}
           itemKey="title"
+          query={this.props.location.query}
         />
 
         <DeleteComponent
-          path="evaluation"
+          path="evaluations"
           domen="diagnostics"
           typeKey="deleteOpen"
           list={selected}
           deactivateOpen={deleteOpen}
           open={this.updateModal}
           itemKey="title"
+          query={this.props.location.query}
         />
 
         <PageNavigation
-          path="evaluation"
-          selected={selected}>
+          path="evaluations"
+          selected={selected}
+          createItem={this.create}>
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>
             <Delete />
             Delete
+          </Button>
+
+          <Button raised dense
+                  onClick={() => this.updateModal('activateOpen', true)}>
+            <Done />
+            Activate
           </Button>
 
           <Button raised dense
@@ -72,7 +91,7 @@ class EvaluationComponent extends Component {
         </PageNavigation>
 
         <TableComponent
-          path="evaluation"
+          path="evaluations"
           domen="diagnostics"
           tableHeader={ tableHeader }
           selected={selected}
@@ -86,7 +105,7 @@ class EvaluationComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  commonReducer: state.commonReducer
+  store: state.tables.diagnosis
 });
 
 export default  connect(mapStateToProps)(EvaluationComponent);

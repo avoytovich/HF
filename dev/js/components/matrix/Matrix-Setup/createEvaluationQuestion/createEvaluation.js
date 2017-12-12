@@ -1,7 +1,7 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import DiagnosisRulesComponent      from './diagnosisRules';
+import DiagnosisRulesComponent      from '../createDiagnosisQuestion/diagnosisRules';
 import { browserHistory }           from 'react-router'
 import { genCharArray }             from '../../../../utils';
 import { diagnosisQuestionCreate,
@@ -9,9 +9,7 @@ import { diagnosisQuestionCreate,
   clearCreateQuestion,
   findUniqueKey,
   addNewAnswer,
-  updateQuestionCreate,
   removeAnswer,
-  getQuestionById,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -27,9 +25,9 @@ import Input                        from '../../../common/Input/Input';
 import { FormControlLabel,
          FormGroup }                from 'material-ui/Form';
 import _select                      from 'material-ui/Select';
-import ChooseSequence               from './chooseSequence';
+import ChooseSequence               from '../createDiagnosisQuestion/chooseSequence';
 
-class CreateQuestionComponent extends Component {
+class CreateEvaluationComponent extends Component {
   state = {
     questionType    : 'Diagnosis',
     answer          : [1,2,3],
@@ -55,18 +53,7 @@ class CreateQuestionComponent extends Component {
     super(props);
   }
 
-  componentWillMount() {
-    clearCreateQuestion();
-    if (this.props.routeParams.id) {
-      getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
-        if (answer.values) {
-          const keys = Object.keys(answer.values);
-          const answerLang = keys.map(() => 'en');
-          this.setState({answerLang})
-        }
-      });
-    }
-  }
+  componentWillMount() { clearCreateQuestion(); }
 
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
@@ -170,13 +157,8 @@ class CreateQuestionComponent extends Component {
       rule: rules
     };
 
-    !this.props.routeParams.id ?
-      diagnosisQuestionCreate('diagnostics', 'createQuestion', result)
-      .then(() => browserHistory.push(`/matrix-setup/diagnosis`)) :
-
-      updateQuestionCreate('diagnostics', 'createQuestion', result, this.props.routeParams.id)
-      .then(() => browserHistory.push(`/matrix-setup/diagnosis`))
-
+    diagnosisQuestionCreate('diagnostics', 'createQuestion', result)
+    .then(() => browserHistory.push(`/matrix-setup/diagnosis`));
   };
 
   getSequenceTypeResult = (sequenceType, sequence) => {
@@ -189,7 +171,6 @@ class CreateQuestionComponent extends Component {
 
   answers = (type) => {
     const { single, multiple } = this.props.createDiagnosisQuestion;
-
     switch (type) {
       case 'single':
         return <div className="answer-wrap">
@@ -198,7 +179,7 @@ class CreateQuestionComponent extends Component {
               <li  key={index} className="row-item">
                 <div className="answer-item">
                   <Input
-                    id={`single[${index}][${this.state.answerLang[index]}]`}
+                    id={`single[${index}].${this.state.answerLang[index]}`}
                     reducer={this.props.createDiagnosisQuestion}
                   />
                   <Clear onClick={() => removeAnswer(type, index)}/>
@@ -528,4 +509,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(CreateQuestionComponent);
+export default  connect(mapStateToProps, mapDispatchToProps)(CreateEvaluationComponent);

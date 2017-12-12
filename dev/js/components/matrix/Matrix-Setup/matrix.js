@@ -11,8 +11,8 @@ const TABS = [
   { label: 'Diagnosis',     url: 'diagnosis' },
   { label: 'Conditions',    url: 'conditions' },
   { label: 'Treatments',    url: 'treatments' },
-//  { label: 'Evaluation',    url: 'evaluation' }, // api doesn't work
   { label: 'Packages',      url: 'packages' },
+  { label: 'Evaluation',    url: 'evaluations' },
   { label: 'Exercises',     url: 'exercises' },
 //  { label: 'Meta Controls', url: 'meta-controls' },
 //  { label: 'Achievements',  url: 'achievements' },
@@ -48,7 +48,7 @@ class MatrixComponent extends Component {
   };
 
   handleActive = (url) => {
-    browserHistory.push(`/${this.props.route.path}/${url}`);
+    browserHistory.push(`${this.props.route.path}/${url}`);
     this.findNewPathIndex(TABS, url);
   };
 

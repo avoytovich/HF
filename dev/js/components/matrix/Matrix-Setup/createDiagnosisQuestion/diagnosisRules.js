@@ -21,7 +21,6 @@ class DiagnosisRulesComponent extends Component {
     this.setState({ open: true, anchorEl: event.currentTarget, key});
 
   handleRequestClose = (option) => {
-    console.log('option', option);
     this.setState({ open: false, anchorEl: null, key: null });
   };
 
@@ -61,13 +60,13 @@ class DiagnosisRulesComponent extends Component {
 
   render() {
     const { rules } = this.props.createDiagnosisQuestion;
-
+    const {type, step, area, URL} = this.props;
     return (
       <div className="rules-block">
 
         <div className="vertical-line"></div>
 
-        <RulesQuestionComponent/>
+        <RulesQuestionComponent url="treatments"/>
 
         <div className="items">
           {rules.map((item, index) => {
@@ -79,14 +78,22 @@ class DiagnosisRulesComponent extends Component {
                             path={`rules.${index}`}
                             key={index}
                             type={findElement.key}
-                            item={item}/>;
+                            item={item}
+                            reqType={type}
+                            step={step}
+                            url={URL}
+                            area={area}/>;
                 break;
               case 'item':
                 return <RulesItemComponent
                             path={`rules.${index}`}
                             key={index}
                             type={findElement.key}
-                            item={item}/>;
+                            item={item}
+                            reqType={type}
+                            step={step}
+                            url={URL}
+                            area={area}/>;
                 break;
               default:
                 return '';

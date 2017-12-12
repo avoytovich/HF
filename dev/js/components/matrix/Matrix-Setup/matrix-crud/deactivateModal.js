@@ -14,8 +14,8 @@ import { deactivateItem,
 
 class DeactivateComponent extends Component {
 
-  deactivate = ({list, path, domen}) => {
-    deactivateItem(domen, path, list)
+  deactivate = ({list, path, pathReq, domen}) => {
+    deactivateItem(domen, pathReq, list)
       .then(() =>
         getMatrixInfo(domen, path, this.props.query, path)
           .then(() => this.props.open(this.props.typeKey, false)))

@@ -18,7 +18,7 @@ class ConditionsComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/conditions-create`) :
+    browserHistory.push(`/conditions-create-new`) :
     browserHistory.push(`/conditions-create/${id}`);
 
   deleteItems = (items = []) => {};
@@ -60,7 +60,8 @@ class ConditionsComponent extends Component {
 
         <PageNavigation
           path="conditions"
-          selected={selected}>
+          selected={selected}
+          createItem={this.create}>
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>
