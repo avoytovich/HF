@@ -32,11 +32,9 @@ class MatchComponent extends Component {
 
     switch(true) {
       case !input.length  && !key:
-        debugger;
         return Promise.resolve({ options: [] });
 
-        case input.length && input.length < 3:
-        debugger;
+      case input.length && input.length < 3:
         return Promise.resolve({ options: [] });
 
       default:
@@ -63,7 +61,11 @@ class MatchComponent extends Component {
   };
 
   onAsyncChange = (value, some) => {
-    const { path, pathType } = some;
+    const { path, pathType } = this.props;
+    if (!value || (Array.isArray(value) && !value.length)) {
+      return  setQuestion(path, pathType, '', 'key');
+    }
+
     const { subtype, type, values, min, max} = value.answer;
 
     if (subtype === 'range') {
@@ -82,9 +84,6 @@ class MatchComponent extends Component {
     const { key, op, value } = this.props.itemState[0];
     const opValue     = getSymbolValue(op);
     const selectValue = getAnswerValue(this.state.answers, value);
-    const options =  [{value: key, label: key}]
-    console.log('options', options);
-    console.log('key', key);
 
     return <div className="rule-types">
       <div className="main-select">
