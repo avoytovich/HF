@@ -18,7 +18,7 @@ class ConditionsComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/treatments-create`) :
+    browserHistory.push(`/treatments-create-new`) :
     browserHistory.push(`/treatments-create/${id}`);
 
   onRowClick = (selected = []) => this.setState({selected});

@@ -30,6 +30,9 @@ class MultipleComponent extends Component {
       const _data = data.map(item => {
         return Object.assign({}, item, { label: item.question.en, value: item.key })
       });
+
+      key && this.onAsyncChange(_data[0], this.props);
+
       return {
         options: _data,
         // CAREFUL! Only set this to true when there are no more options,

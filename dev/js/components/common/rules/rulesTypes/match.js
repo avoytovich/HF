@@ -29,26 +29,38 @@ class MatchComponent extends Component {
   };
 
   getOptions = (input, key) => {
-    if (input.length < 3 && !key)
-      return Promise.resolve({ options: [] });
 
-    const { type, area, step } = this.props;
-    const body = { type, area, step, "answerType": "single" };
+    switch(true) {
+      case !input.length  && !key:
+        debugger;
+        return Promise.resolve({ options: [] });
 
-    return findByArea('diagnostics', 'findByAre', body, input || key).then(res => {
-      const { data } = res.data;
-      const _data = data.map(item =>
-        Object.assign({}, item, { label: item.question.en, value: item.key }));
-      return {
-        options: _data,
-        // CAREFUL! Only set this to true when there are no more options,
-        // or more specific queries will not be sent to the server.
-        complete: true
-      }
-    });
+        case input.length && input.length < 3:
+        debugger;
+        return Promise.resolve({ options: [] });
+
+      default:
+        const { type, area, step } = this.props;
+        const body = { type, area, step, "answerType": "single" };
+
+        return findByArea('diagnostics', 'findByAre', body, input || key).then(res => {
+          const { data } = res.data;
+          const _data = data.map(item =>
+            Object.assign({}, item, { label: item.question.en, value: item.key }));
+
+          key && this.onAsyncChange(_data[0], this.props);
+
+          return {
+            options: _data,
+            // CAREFUL! Only set this to true when there are no more options,
+            // or more specific queries will not be sent to the server.
+            complete: true
+          }
+        });
+    }
+
+//    if ( !input.length  && !key || (input.length && input.length < 3))
   };
-
-
 
   onAsyncChange = (value, some) => {
     const { path, pathType } = some;

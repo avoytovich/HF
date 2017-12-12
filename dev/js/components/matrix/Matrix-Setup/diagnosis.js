@@ -21,7 +21,6 @@ class DiagnosisComponent extends Component {
 
   create = (id) => {
     const path = id ? `/diagnosis-create/${id}` : `/diagnosis-create-new`;
-    debugger;
     browserHistory.push(path)
   };
 

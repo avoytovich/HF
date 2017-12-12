@@ -20,7 +20,7 @@ class EvaluationComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/evaluations-create`) :
+    browserHistory.push(`/evaluations-create-new`) :
     browserHistory.push(`/evaluations-create/${id}`);
 
   deleteItems = (items = []) => {};

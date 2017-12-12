@@ -85,13 +85,14 @@ const changeType = (state, action) => {
 
 
 const recDelete = (state, path) => {
+  debugger;
   const _path  = path.split('.').slice(0, -1);
   const hasItems = dotProp.get(state,`${_path.join('.')}`);
 
   if (path !== 'rules' && !hasItems.length) {
     const _state = dotProp.delete(state, _path);
 
-    return _state.rules.length ?
+    return _state.rules &&_state.rules.length ?
       recDelete(_state, _path.join('.')) :
       dotProp.set(_state, 'rules', []);
   }
@@ -103,6 +104,7 @@ const recDelete = (state, path) => {
 const deleteRule = (state, action) => {
   const {path, key } = action.payload;
   const result = dotProp.delete(state, `${path}`);
+  debugger;
   return recDelete(result, path)
 };
 
@@ -147,7 +149,7 @@ const removeAnswer = (state, action) => {
 
 const setFullQuestion = (state, action) => {
   const { body: { area, title, question, key, step, answer, rule }} = action.payload;
-  const {type, values} = answer;
+  const {type } = answer;
     const _body = {
       bodyAreas: { key: area, label:area, title: area },
       questionTitle: title,
@@ -156,18 +158,23 @@ const setFullQuestion = (state, action) => {
       questionKey: key,
       answerType: type,
       rules: rule,
-      [type]: parseAnswers(type, values)
+      [type]: parseAnswers(answer)
 //      sequenceType: null,
     };
     return Object.assign({}, state, _body);
 };
 
 
-const parseAnswers= (type, list) => {
-  if (type === 'range') {
-    return [];
+const parseAnswers= (answer) => {
+  if (answer.type === 'range') {
+    const {max, min} = answer.values;
+    return {
+      from: min,
+      to: max
+    };
   }
-  else {
+  else  {
+    const list = answer.values;
     return Object.keys(list).map(item => list[item]);
   }
 };
