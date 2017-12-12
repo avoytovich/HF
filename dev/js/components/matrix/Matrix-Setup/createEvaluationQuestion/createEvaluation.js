@@ -1,7 +1,7 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import DiagnosisRulesComponent      from './diagnosisRules';
+import DiagnosisRulesComponent      from '../createDiagnosisQuestion/diagnosisRules';
 import { browserHistory }           from 'react-router'
 import { genCharArray }             from '../../../../utils';
 import { diagnosisQuestionCreate,
@@ -25,9 +25,9 @@ import Input                        from '../../../common/Input/Input';
 import { FormControlLabel,
          FormGroup }                from 'material-ui/Form';
 import _select                      from 'material-ui/Select';
-import ChooseSequence               from './chooseSequence';
+import ChooseSequence               from '../createDiagnosisQuestion/chooseSequence';
 
-class CreateQuestionComponent extends Component {
+class CreateEvaluationComponent extends Component {
   state = {
     questionType    : 'Diagnosis',
     answer          : [1,2,3],
@@ -509,4 +509,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(CreateQuestionComponent);
+export default  connect(mapStateToProps, mapDispatchToProps)(CreateEvaluationComponent);

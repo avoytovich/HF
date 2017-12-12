@@ -9,6 +9,7 @@ import Delete                   from 'material-ui-icons/Delete';
 import NotInterested            from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from './matrix-crud/deactivateModal'
 import DeleteComponent          from './matrix-crud/deleteModal';
+import Done                     from 'material-ui-icons/Done';
 
 
 class DiagnosisComponent extends Component {
@@ -69,14 +70,6 @@ class DiagnosisComponent extends Component {
           selected={selected}
           createItem={this.create}>
 
-          {/*<Button*/}
-            {/*disabled={selected.length > 1}*/}
-            {/*onClick={() => this.create(selected[0])}*/}
-            {/*raised dense>*/}
-            {/*<Edit />*/}
-            {/*Edit*/}
-          {/*</Button>*/}
-
           <Button raised dense
             onClick={() => this.updateModal('deleteOpen', true)}>
             <Delete />
@@ -85,7 +78,7 @@ class DiagnosisComponent extends Component {
 
           <Button raised dense
                   onClick={() => this.updateModal('activateOpen', true)}>
-            <NotInterested />
+            <Done />
             Activate
           </Button>
 

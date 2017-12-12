@@ -10,7 +10,7 @@ import Menu, { MenuItem }     from 'material-ui/Menu';
 import { mathType, findType } from '../../../utils/matrix';
 import { addRules,
   changeToItemRuleRule }      from '../../../actions';
-import { TYPES }              from '../../../utils/matrix';
+import { TYPES, DEF_ITEM }              from '../../../utils/matrix';
 
 class RulesBlockComponent extends Component {
   state = {
@@ -22,7 +22,12 @@ class RulesBlockComponent extends Component {
     changeTypeOfRule(path, item, type);
 
     if (findType(type) === 'item'){
-      changeToItemRuleRule( path,  { [type] : [] } );
+      changeToItemRuleRule(
+        path,
+        {
+          [type] : [ DEF_ITEM ]
+        }
+      );
     }
   };
 
@@ -31,7 +36,7 @@ class RulesBlockComponent extends Component {
   handleRequestClose = () => this.setState({ open: false });
 
   onSelected = (item, path, type) => {
-    const body = findType(item.value) === 'block' ? [ { 'match': [] } ] : [];
+    const body = findType(item.value) === 'block' ? [ { 'match': [ DEF_ITEM ] } ] : [ DEF_ITEM ];
     addRules({
       type: item.value,
       path: `${path}.${type}`,
@@ -40,7 +45,7 @@ class RulesBlockComponent extends Component {
     this.handleRequestClose();
   };
   render() {
-    const { type, path, item } = this.props;
+    const { type, reqType, path, item, step, area } = this.props;
     return <div className="rule-block">
       <div className={`nav ${type}`}>
         <TextField
@@ -68,13 +73,20 @@ class RulesBlockComponent extends Component {
                         type={findElement.key}
                         key={i}
                         item={val}
+                        reqType={reqType}
+                        step={step}
+                        area={area}
                         />;
             case 'item':
               return <RulesItemComponent
                         path={`${path}.${type}.${i}`}
                         key={i}
                         type={findElement.key}
-                        item={item}/>;
+                        item={item}
+                        reqType={reqType}
+                        step={step}
+                        area={area}
+              />;
             default:
               console.log('Wrong type!');
           }})}

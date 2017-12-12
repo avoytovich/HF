@@ -58,7 +58,8 @@ class ConditionsComponent extends Component {
 
         <TableControls
           path="treatments"
-          selected={selected}>
+          selected={selected}
+          createItem={this.create}>
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>

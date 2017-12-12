@@ -43,7 +43,10 @@ import {
 //   MetaControlsComponent,
 //   AchievementsComponent,
 //   TestsComponent,
-   CreateQuestionComponent
+   CreateQuestionComponent,
+  CreateConditionComponent,
+  CreateTreatmentsComponent,
+  CreateEvaluationComponent
  }                                    from './components/matrix/Matrix-Setup';
 
 import { PAGE }                       from './config';
@@ -112,7 +115,7 @@ const router = (
           <Route path='conditions'          component={(props) => <ConditionsComponent {...props}/>} />
           <Route path='treatments'          component={(props) => <TreatmentsComponent {...props}/>} />
           <Route path='packages'            component={(props) => <PackagesComponent   {...props}/>} />
-          {/*<Route path='evaluation'          component={(props) => <EvaluationComponent {...props} />} />*/}
+          <Route path='evaluations'         component={(props) => <EvaluationComponent {...props} />} />
           <Route path='exercises'           component={(props) => <ExercisesComponent  {...props}/>} />
 
           {/*<Route path='tests'               component={ TestsComponent } />*/}
@@ -120,11 +123,14 @@ const router = (
           {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
           <Redirect from="*" to="diagnosis"/>
         </Route>
-
+        evaluation
         <Route path='test-diagnostic-flow'  component={() => <div>TEST_DIAGNOSTIC_FLOW_PAGE</div>} />
 
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
         <Route path='diagnosis-create'      component={(props) => <CreateQuestionComponent/>} />
+        <Route path='conditions-create'     component={(props) => <CreateConditionComponent/>} />
+        <Route path='treatments-create'     component={(props) => <CreateTreatmentsComponent/>} />
+        <Route path='evaluations-create'    component={(props) => <CreateEvaluationComponent/>} />
 
         {/*<Redirect from="*" to="organizations"/>*/}
 

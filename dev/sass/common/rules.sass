@@ -146,7 +146,7 @@
   .rule-item-details
     background-color: white
     display: flex
-    flex-direction: row
+    flex-direction: column
     flex: 1
     //z-index: 1
     .rule-item-question,
@@ -168,4 +168,44 @@
   .ansyc-select
     width: 100%
     //padding-right: 15px
+
+.rule-types
+  display: flex
+  flex-direction: row
+  margin-bottom: 5px
+  margin-left: 15px
+  .main-select
+    display: flex
+    flex: 4
+    flex-direction: column
+    margin-right: 10px
+  .symbol-select
+    display: flex
+    flex: 1
+    flex-direction: column
+    [class*='MuiSelect-select']
+      justify-content: center!important
+  .answer-select
+    display: flex
+    flex: 2
+    flex-direction: column
+    margin-left: 10px
+  [class*='MuiSelect-select']
+    color: black!important
+    border-bottom: 1px solid black
+    padding-bottom: 1px!important
+    margin: 0!important
+  [class*='MuiSvgIcon']
+    fill: black
+  .title
+    color: grey
+    margin-top: 10px
+    margin-bottom: 2px
+    font-size: 12px
+  .range-answer
+    display: flex
+    flex-direction: column
+    .range-answer-title
+      margin: 3px 0
+
 

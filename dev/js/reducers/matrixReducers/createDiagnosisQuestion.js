@@ -7,20 +7,23 @@ import * as dotProp        from 'dot-prop-immutable';
 
 const initialState = {
   actionType    : CREATE_QUESTION,
-  bodyAreas     : '', // {label: 'body', value: 'body'},
-  question      : 'Are you pregnant ?',
-  questionType  : 'diagnostic',
+  bodyAreas     : '', // {label: 'body', value: 'body'},\
+  questionTitle : '',
+  question: {
+    en: '',
+    swe: ''
+  },
   questionKey   : '',
   sequence      : 1,
-  sequenceType  : '',
+  sequenceType  : 'normal',
   answerType    : 'single',
   single  : [
-      undefined,
-      undefined,
+      { en: '', swe: ''},
+      { en: '', swe: ''}
     ],
   multiple: [
-      undefined,
-      undefined,
+      { en: '', swe: ''},
+      { en: '', swe: ''}
     ],
   range   : {
       from: 0,
@@ -28,6 +31,8 @@ const initialState = {
     },
 
   rules: [],
+  treatmentsLevels: '',
+  treatmentsPackage: '',
   errors: {},
 };
 
@@ -101,6 +106,45 @@ const deleteRule = (state, action) => {
   return recDelete(result, path)
 };
 
+const setQuestion = (state, action) => {
+  const {path, type, item, property} = action.payload;
+  return dotProp.set(
+    state,
+    `${path}.${type}`,
+    (value) => {
+      const _value = value[0];
+      const result = property ?
+        Object.assign({}, _value, {[property]: item}):
+        Object.assign({}, _value, item);
+      return [result]
+    }
+  );
+};
+
+const addNewAnswer = (state, action) => {
+  const { type } = action.payload;
+  return dotProp.set(
+    state,
+    type,
+    value => value.concat({ en: '', swe: ''}))
+};
+
+const removeAnswer = (state, action) => {
+  const { type, index } = action.payload;
+  return dotProp.set(
+    state,
+    type,
+    value => {
+      const length = value.length;
+      if (length <= 2) {
+        return value;
+      }
+      else {
+        return value.filter((item, i) => index !== i);
+      }
+    });
+};
+
 export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_UPDATE`]              : createQuestionUpdate,
   [`${CREATE_QUESTION}_ADD_RULE`]            : createQuestionRules,
@@ -108,4 +152,7 @@ export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_ADD_DEF_GROUP_RULE`]  : addDefaultGroupRule,
   [`${CREATE_QUESTION}_CHANGE_TO_ITEM_RULE`] : changeToItemRule,
   [`${CREATE_QUESTION}_DELETE_ITEM`]         : deleteRule,
+  [`${CREATE_QUESTION}_SET_QUESTION`]        : setQuestion,
+  [`${CREATE_QUESTION}_ADD_NEW_ANSWER`]      : addNewAnswer,
+  [`${CREATE_QUESTION}_REMOVE_ANSWER`]       : removeAnswer,
 });

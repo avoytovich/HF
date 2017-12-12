@@ -19,8 +19,10 @@ export default {
     L_CREATE_QUESTION: {
       enterQuestion   : 'Enter question',
       enterQuestionKey: 'Enter question',
+      enterTitle      : 'Enter title',
       question        : 'Question',
       questionKey     : 'Question Key',
+      questionTitle   : 'Title',
       sequence        : 'Sequence',
       enterSequence   : 'Enter sequence',
       sequenceProp    : '',
