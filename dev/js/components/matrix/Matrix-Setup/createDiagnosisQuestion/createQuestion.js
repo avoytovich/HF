@@ -200,6 +200,7 @@ class CreateQuestionComponent extends Component {
                   <Input
                     id={`single[${index}][${this.state.answerLang[index]}]`}
                     reducer={this.props.createDiagnosisQuestion}
+                    className="MuiFormControl-CUSTOM"
                   />
                   <Clear onClick={() => removeAnswer(type, index)}/>
                 </div>
@@ -211,7 +212,7 @@ class CreateQuestionComponent extends Component {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="English" value="en" />
+                  <Tab label="English" value="en"/>
                   <Tab label="Sweden"  value="swe" />
                 </Tabs>
               </li>))}
@@ -269,7 +270,7 @@ class CreateQuestionComponent extends Component {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="English" value="en" />
+                  <Tab label="English" value="en"/>
                   <Tab label="Sweden"  value="swe" />
                 </Tabs>
               </li>))}
