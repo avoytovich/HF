@@ -52,7 +52,7 @@ class AssetsList extends Component {
         />
 
         <TableControls
-          path="companies"
+          path="assets"
           selected={selected}
           createItem={() => browserHistory.push(PAGE.assetsUpload)}
           createButtonText='Upload'
