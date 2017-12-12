@@ -46,7 +46,7 @@ class MatchComponent extends Component {
           const _data = data.map(item =>
             Object.assign({}, item, { label: item.question.en, value: item.key }));
 
-          key && this.onAsyncChange(_data[0], this.props);
+          !input.length && key && this.onAsyncChange(_data[0], true);
 
           return {
             options: _data,
@@ -60,22 +60,23 @@ class MatchComponent extends Component {
 //    if ( !input.length  && !key || (input.length && input.length < 3))
   };
 
-  onAsyncChange = (value, some) => {
-    const { path, pathType } = this.props;
+  onAsyncChange = (value, edit) => {
+    const { path, pathType, itemState} = this.props;
     if (!value || (Array.isArray(value) && !value.length)) {
       return  setQuestion(path, pathType, '', 'key');
     }
 
     const { subtype, type, values, min, max} = value.answer;
-
     if (subtype === 'range') {
       this.setState({type: 'range', min, max});
-      setQuestion(path, pathType, {key: value.key, op: '==', value: [min]});
+      const _value = edit ? itemState[0] : {key: value.key, op: '==', value: [min]};
+      setQuestion(path, pathType, _value);
     }
     else {
       const answers = getAnswersList(values);
       this.setState({type: 'list', answers});
-      setQuestion(path, pathType, {key: value.value, op: '==', value: ['A']});
+      const _value = edit ? itemState[0] : {key: value.value, op: '==', value: ['A']};
+      setQuestion(path, pathType, _value);
     }
   };
 

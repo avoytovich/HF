@@ -50,7 +50,7 @@ class EqualComponent extends Component {
               value:item.key
             }));
 
-          key && this.onAsyncChange(_data[0], this.props);
+          !input.length && key && this.onAsyncChange(_data[0], true);
 
           return {
             options:_data,
@@ -62,11 +62,10 @@ class EqualComponent extends Component {
     }
   };
 
-  onAsyncChange = (value) => {
-    const { path, pathType } = this.props;
+  onAsyncChange = (value, edit) => {
+    const { path, pathType, itemState } = this.props;
 
     if (!value || (Array.isArray(value) && !value.length)) {
-      debugger
       return  setQuestion(path, pathType, '', 'key');
     }
 
@@ -74,12 +73,14 @@ class EqualComponent extends Component {
 
     if (subtype === 'range') {
       this.setState({type: 'range', min, max});
-      setQuestion(path, pathType, {key: value.key, op: '==', value: [min]});
+      const _value = edit ? itemState[0] : {key: value.key, op: '==', value: [min]};
+      setQuestion(path, pathType, _value);
     }
     else {
       const answers = getAnswersList(values);
       this.setState({type: 'list', answers});
-      setQuestion(path, pathType, {key: value.value, op: '==', value: ['A']});
+      const _value = edit ? itemState[0] : {key: value.value, op: '==', value: ['A']};
+      setQuestion(path, pathType, _value);
     }
   };
 

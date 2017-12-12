@@ -9,6 +9,7 @@ import { diagnosisQuestionCreate,
   clearCreateQuestion,
   findUniqueKey,
   addNewAnswer,
+  updateQuestionCreate,
   removeAnswer,
   getQuestionById,
   findArea }                        from '../../../../actions';
@@ -62,7 +63,7 @@ class CreateQuestionComponent extends Component {
         const answerLang = keys.map(() => 'en');
         this.setState({answerLang})
       });
-    };
+    }
   }
 
   getOptions = (input) => {
@@ -167,8 +168,13 @@ class CreateQuestionComponent extends Component {
       rule: rules
     };
 
-    diagnosisQuestionCreate('diagnostics', 'createQuestion', result)
-    .then(() => browserHistory.push(`/matrix-setup/diagnosis`));
+    !this.props.routeParams.id ?
+      diagnosisQuestionCreate('diagnostics', 'createQuestion', result)
+      .then(() => browserHistory.push(`/matrix-setup/diagnosis`)) :
+
+      updateQuestionCreate('diagnostics', 'createQuestion', result, this.props.routeParams.id)
+      .then(() => browserHistory.push(`/matrix-setup/diagnosis`))
+
   };
 
   getSequenceTypeResult = (sequenceType, sequence) => {

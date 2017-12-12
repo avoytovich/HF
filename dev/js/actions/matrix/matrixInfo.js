@@ -102,6 +102,12 @@ export const diagnosisQuestionCreate = (domenKey, apiKey, body) => {
   return Api.post(`${domenPath}${apiPath}`, body);
 };
 
+export const updateQuestionCreate = (domenKey, apiKey, body, id) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.put(`${domenPath}${apiPath}/${id}`, body);
+};
+
 export const getQuestionById = (domenKey, apiKey, id) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
