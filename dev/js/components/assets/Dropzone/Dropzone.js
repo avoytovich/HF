@@ -10,10 +10,10 @@ class Dropzone extends Component {
     return (
       <DropzoneLib
         accept='image/png,image/jpeg,image/bmp,video/mp4'
-        multiple
         className="dropzone"
         activeClassName="dropzone-active"
         onDrop={onDrop}
+        maxSize={100000000}
       >
         <div>
           <p className="upload-instruction-wrapper">

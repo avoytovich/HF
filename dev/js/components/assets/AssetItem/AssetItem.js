@@ -46,7 +46,8 @@ class AssetItem extends Component {
         );
 
       default:
-        return <LinearProgress mode="determinate" value={progress} />
+        return progress ? <LinearProgress mode="determinate" value={progress} /> :
+          <LinearProgress />
     }
   };
 
@@ -64,7 +65,7 @@ class AssetItem extends Component {
         <div className="progress-name-controls-container">
           <div className="progress-name-controls-sub-container">
             <InsertDriveFile />
-            <div className="progress-name">{get(tmp_files[index], 'name', 'File.png')}</div>
+            <div className="progress-name">{get(tmp_files[index], 'name_real', '-')}</div>
           </div>
           <Delete
             onClick={() => dispatchDeleteAssetPayloadWired(index)}
@@ -88,6 +89,7 @@ AssetItem.defaultProps = {
 AssetItem.propTypes = {
   onDeleteClick: PropTypes.func,
   index: PropTypes.number,
+  progress: PropTypes.number,
 };
 
 const mapStateToProps = state => ({
@@ -111,4 +113,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(AssetItem);
       "name_real":"name_real"
     }
   ]
-}`
+}`;

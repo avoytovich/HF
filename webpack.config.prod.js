@@ -6,12 +6,15 @@ module.exports = {
   entry: [
     './dev/js/index'
   ],
+  node: {
+    fs: "empty"
+  },
   output: {
     path: path.join(__dirname, 'dist/js'),
     publicPath: "/js/",
     filename: 'bundle.js',
   },
-
+  target: 'node',
   module: {
     loaders: [
       {

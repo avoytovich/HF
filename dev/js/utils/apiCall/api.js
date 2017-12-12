@@ -1,5 +1,6 @@
 import axios from 'axios';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 
 import { store }  from '../../index';
 import {
@@ -49,7 +50,7 @@ export class Api {
       .then(headers => axios({
         url: route,
         method,
-        headers: Object.assign(headers, headersIncome),
+        headers: isEmpty(headersIncome) ? headers : headersIncome,
         data: data && JSON.stringify(data),
         onUploadProgress: progressEvent => {
           const percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
@@ -62,7 +63,8 @@ export class Api {
       })
       .catch(err => {
         dispatchCommonPayloadWired({ isLoading: isLoading && isLoading - 1 });
-        if (err.response.status === 401) {
+        console.log(err);
+        if (get(err, 'response.status') === 401) {
           return loginWired({ email, password })
             .then(() => Api.xhr({route, method, data, options, headersIncome}))
         }

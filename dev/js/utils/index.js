@@ -6,3 +6,4 @@ export * from './constants';
 export * from './createReducer';
 export * from './onRoutesOperations';
 export * from './matrix';
+export * from './getBase64Promise';
