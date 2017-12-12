@@ -10,6 +10,7 @@ import { diagnosisQuestionCreate,
   findUniqueKey,
   addNewAnswer,
   removeAnswer,
+  getQuestionById,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -53,7 +54,16 @@ class CreateQuestionComponent extends Component {
     super(props);
   }
 
-  componentWillMount() { clearCreateQuestion(); }
+  componentWillMount() {
+    clearCreateQuestion();
+    if (this.props.routeParams.id) {
+      getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
+        const keys = Object.keys(answer.values);
+        const answerLang = keys.map(() => 'en');
+        this.setState({answerLang})
+      });
+    };
+  }
 
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
@@ -179,7 +189,7 @@ class CreateQuestionComponent extends Component {
               <li  key={index} className="row-item">
                 <div className="answer-item">
                   <Input
-                    id={`single[${index}].${this.state.answerLang[index]}`}
+                    id={`single[${index}][${this.state.answerLang[index]}]`}
                     reducer={this.props.createDiagnosisQuestion}
                   />
                   <Clear onClick={() => removeAnswer(type, index)}/>

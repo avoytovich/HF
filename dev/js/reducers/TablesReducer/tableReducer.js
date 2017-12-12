@@ -1,5 +1,6 @@
-import { TABLE } from '../../actions';
-import set       from 'lodash/set';
+import { TABLE }      from '../../actions';
+import set            from 'lodash/set';
+import * as dotProp   from 'dot-prop-immutable';
 
 
 const template = {
@@ -10,8 +11,11 @@ const template = {
     per_page     : 5,
     current_page : 0,
     total_pages  : 0,
-    order        : 'asc',
-    orderBy      : 'users', // Custom
+  },
+  sortOptional: {
+    sortedBy     : 'desc',
+    orderBy      : 'title', // Custom
+    search       : null
   }
 };
 const initialState = {
@@ -33,6 +37,10 @@ export default(state = _initialState(), action = TABLE) => {
     case `${TABLE}_UPDATE`:
       const {data, meta:{pagination}, path } = action.payload;
       return set(state, path, {data, pagination});
+
+    case `${TABLE}_UPDATE_FIELDS`:
+      const { orderBy, sortedBy, search, path: pathLink } = action.payload;
+      return dotProp.set(state, pathLink, value => Object.assign({}, value, {orderBy, sortedBy, search}));
 
     default:
       return state;

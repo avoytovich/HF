@@ -46,7 +46,8 @@ import {
    CreateQuestionComponent,
   CreateConditionComponent,
   CreateTreatmentsComponent,
-  CreateEvaluationComponent
+  CreateEvaluationComponent,
+  CreatePackageComponent
  }                                    from './components/matrix/Matrix-Setup';
 
 import { PAGE }                       from './config';
@@ -126,10 +127,20 @@ const router = (
         <Route path='test-diagnostic-flow'  component={() => <div>TEST_DIAGNOSTIC_FLOW_PAGE</div>} />
 
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
-        <Route path='diagnosis-create'      component={(props) => <CreateQuestionComponent/>} />
-        <Route path='conditions-create'     component={(props) => <CreateConditionComponent/>} />
-        <Route path='treatments-create'     component={(props) => <CreateTreatmentsComponent/>} />
-        <Route path='evaluations-create'    component={(props) => <CreateEvaluationComponent/>} />
+        <Route path='diagnosis-create/:id'   component={(props) => <CreateQuestionComponent {...props}/>} />
+        <Route path='diagnosis-create-new'   component={(props) => <CreateQuestionComponent {...props}/>} />
+
+        <Route path='conditions-create/:id'  component={(props) => <CreateConditionComponent {...props}/>} />
+        <Route path='conditions-create-new'  component={(props) => <CreateConditionComponent {...props}/>} />
+
+        <Route path='treatments-create/:id'  component={(props) => <CreateTreatmentsComponent {...props}/>} />
+        <Route path='treatments-create-new'  component={(props) => <CreateTreatmentsComponent {...props}/>} />
+
+        <Route path='evaluations-create/:id' component={(props) => <CreateEvaluationComponent {...props}/>} />
+        <Route path='evaluations-create-new' component={(props) => <CreateEvaluationComponent {...props}/>} />
+
+        <Route path='packages-create/:id'    component={(props) => <CreatePackageComponent {...props}/>} />
+        <Route path='packages-create-new'    component={(props) => <CreatePackageComponent {...props}/>} />
 
         {/*<Redirect from="*" to="organizations"/>*/}
 

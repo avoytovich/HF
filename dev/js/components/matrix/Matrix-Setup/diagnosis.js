@@ -19,9 +19,11 @@ class DiagnosisComponent extends Component {
     deleteOpen: false
   };
 
-  create = (id) => id ?
-      browserHistory.push(`/diagnosis-create`) :
-      browserHistory.push(`/diagnosis-create/${id}`);
+  create = (id) => {
+    const path = id ? `/diagnosis-create/${id}` : `/diagnosis-create-new`;
+    debugger;
+    browserHistory.push(path)
+  };
 
   deleteItems = (items = []) => {};
 
@@ -68,7 +70,7 @@ class DiagnosisComponent extends Component {
         <PageNavigation
           path="diagnosis"
           selected={selected}
-          createItem={this.create}>
+          createItem={() => this.create()}>
 
           <Button raised dense
             onClick={() => this.updateModal('deleteOpen', true)}>
@@ -76,11 +78,11 @@ class DiagnosisComponent extends Component {
             Delete
           </Button>
 
-          <Button raised dense
-                  onClick={() => this.updateModal('activateOpen', true)}>
-            <Done />
-            Activate
-          </Button>
+          {/*<Button raised dense*/}
+                  {/*onClick={() => this.updateModal('activateOpen', true)}>*/}
+            {/*<Done />*/}
+            {/*Activate*/}
+          {/*</Button>*/}
 
           <Button raised dense
                   onClick={() => this.updateModal('deactivateOpen', true)}>
@@ -96,6 +98,7 @@ class DiagnosisComponent extends Component {
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
+          onEdit={(id) => this.create(id)}
           onSelectAllClick={this.onSelectAllClick}
         />
 

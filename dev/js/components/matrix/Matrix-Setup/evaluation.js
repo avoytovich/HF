@@ -39,7 +39,6 @@ class EvaluationComponent extends Component {
   render() {
     const { tableHeader } = DIAGNOSIS_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
-    console.log('this.props.location', this.props.location);
 
     return (
       <div id="diagnosis-component">

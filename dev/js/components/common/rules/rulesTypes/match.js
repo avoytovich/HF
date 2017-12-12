@@ -67,8 +67,11 @@ class MatchComponent extends Component {
 
   render() {
     const { key, op, value } = this.props.itemState[0];
+    console.log(this.props.itemState[0]);
     const opValue     = getSymbolValue(op);
     const selectValue = getAnswerValue(this.state.answers, value);
+    console.log('selectValue',selectValue);
+    console.log('opValue', opValue);
 
     return <div className="rule-types">
       <div className="main-select">
@@ -81,7 +84,7 @@ class MatchComponent extends Component {
           loadOptions={this.getOptions}
           onChange={(event) => this.onAsyncChange(event, this.props)}
           className="ansyc-select"
-          value={key}
+          value={'q_age'}
         />
       </div>
 

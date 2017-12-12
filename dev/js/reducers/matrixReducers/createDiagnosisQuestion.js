@@ -145,6 +145,32 @@ const removeAnswer = (state, action) => {
     });
 };
 
+const setFullQuestion = (state, action) => {
+  const { body: { area, title, question, key, step, answer, rule }} = action.payload;
+  const {type, values} = answer;
+    const _body = {
+      bodyAreas: { key: area, label:area, title: area },
+      questionTitle: title,
+      question,
+      sequence: step,
+      questionKey: key,
+      answerType: type,
+      rules: rule,
+      [type]: parseAnswers(type, values)
+//      sequenceType: null,
+    };
+    return Object.assign({}, state, _body);
+};
+
+
+const parseAnswers= (type, list) => {
+  if (type === 'range') {
+    return [];
+  }
+  else {
+    return Object.keys(list).map(item => list[item]);
+  }
+};
 export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_UPDATE`]              : createQuestionUpdate,
   [`${CREATE_QUESTION}_ADD_RULE`]            : createQuestionRules,
@@ -155,4 +181,5 @@ export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_SET_QUESTION`]        : setQuestion,
   [`${CREATE_QUESTION}_ADD_NEW_ANSWER`]      : addNewAnswer,
   [`${CREATE_QUESTION}_REMOVE_ANSWER`]       : removeAnswer,
+  [`${CREATE_QUESTION}_SET_FULL_QUESTION`]   : setFullQuestion,
 });

@@ -110,9 +110,11 @@ class TableComponent extends Component {
   handleRequestSort = (event, property) => {};
 
    /**
-   * @param value: string
+    * @param value: string
+    * @param row: {Object}
+    * @param selected
    */
-  onRowSelection = (value) => console.log('onRowSelection', value);
+  onRowSelection = (value, row, selected) => this.props.onEdit && this.props.onEdit(row.id);
 
   /***
    * @param value: string
@@ -240,10 +242,11 @@ class TableComponent extends Component {
                       selected={isSelected}
                       className={row.enabled ? 'active' : 'de-active'}
                       aria-checked={isSelected}
-                      onClick={event => this.handleClick(event, row, selected)}>
+                      onClick={event => this.onRowSelection(event, row, selected)}>
 
                       <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected}/>
+                        <Checkbox checked={isSelected}
+                                  onClick={event => this.handleClick(event, row, selected)}/>
                       </TableCell>
 
                     {tableHeader.map( (col, index) =>
@@ -300,6 +303,7 @@ TableComponent.propTypes = {
                     ).isRequired,
   onRowClick       : PropTypes.func.isRequired,
   onSelectAllClick : PropTypes.func.isRequired,
+  onEdit           : PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({

@@ -17,7 +17,19 @@ export const getMatrixInfo = ( domenKey, apiKey, query, path) => {
         apiPath   = api[apiKey],
         querySt   = qs.stringify(query);
   return getInfo(domenPath, apiPath, querySt)
-          .then((res) => dispatchTableInfo(res, path))
+          .then((res) => {
+    dispatchTableInfo(res, path);
+    updateTableFields(query, `${path}.sortOptional`);
+  })
+};
+
+export const updateTableFields = (query, path) => {
+  return store.dispatch({type:`${TABLE}_UPDATE_FIELDS`,
+    payload:{
+      ...query,
+      path
+    }
+  });
 };
 
 export const dispatchTableInfo = ({data}, path) => {
@@ -88,6 +100,25 @@ export const diagnosisQuestionCreate = (domenKey, apiKey, body) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
   return Api.post(`${domenPath}${apiPath}`, body);
+};
+
+export const getQuestionById = (domenKey, apiKey, id) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
+      if (res) {
+        const { data } = res.data;
+        const body = {...data};
+        store.dispatch(
+          {
+            type:`${CREATE_QUESTION}_SET_FULL_QUESTION`,
+            payload: { body }
+          }
+        );
+        return data;
+      };
+    }
+  );
 };
 
 export const findArea = (domenKey, apiKey) => {
