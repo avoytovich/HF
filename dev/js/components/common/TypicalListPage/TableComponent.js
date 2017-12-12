@@ -136,8 +136,6 @@ class TableComponent extends Component {
     event && event.preventDefault();
     event && event.stopPropagation();
 
-    const { id, deActive} = checked;
-
 //    if (deActive) return;
 
     const isIn = this.matchItems(selected, id);
