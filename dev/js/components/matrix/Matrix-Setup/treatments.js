@@ -18,7 +18,7 @@ class ConditionsComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/treatments-create`) :
+    browserHistory.push(`/treatments-create-new`) :
     browserHistory.push(`/treatments-create/${id}`);
 
   onRowClick = (selected = []) => this.setState({selected});
@@ -58,7 +58,8 @@ class ConditionsComponent extends Component {
 
         <PageNavigation
           path="treatments"
-          selected={selected}>
+          selected={selected}
+          createItem={this.create}>
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>

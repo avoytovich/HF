@@ -7,17 +7,13 @@ import ClickAwayListener     from 'material-ui/utils/ClickAwayListener';
 import Menu, { MenuItem }    from 'material-ui/Menu';
 import { addRules }          from '../../../actions';
 import { findType }          from '../../../utils/matrix';
+import {
+  TYPES,
+  GROUP_TYPES,
+  DEF_ITEM
+}                             from '../../../utils/matrix';
 
 class RulesQuestionComponent extends Component {
-  list = [
-    { label: 'And',        key: 'and' },
-    { label: 'Not',        key: 'not' },
-    { label: 'Or',         key: 'or' },
-    { label: 'Match',      key: 'match' },
-    { label: 'Equal',      key: 'equal' },
-    { label: 'Not Equal',  key: 'notEqual' },
-  ];
-
   state = {
     anchorEl: null,
     open: false,
@@ -28,9 +24,9 @@ class RulesQuestionComponent extends Component {
   handleRequestClose = () => this.setState({ open: false });
 
   onSelected = (item) => {
-    const body = findType(item.key) === 'block' ? [ { 'match': [] } ] : [];
+    const body = findType(item.value) === 'block' ? [ { 'match': [ DEF_ITEM ] } ] : [ DEF_ITEM ];
     addRules({
-      type: item.key,
+      type: item.value,
       path: 'rules',
       body
     });
@@ -62,7 +58,7 @@ class RulesQuestionComponent extends Component {
                 open={this.state.open}
                 onRequestClose={this.handleRequestClose}
               >
-                {this.list.map((item, index) =>
+                {TYPES.map((item, index) =>
                   (<MenuItem key={index}
                              onClick={() => this.onSelected(item)}>
                     {item.label}
@@ -79,7 +75,7 @@ class RulesQuestionComponent extends Component {
               </Typography>
             </div>
             <div className="text">
-              {this.props.state.question}
+              {this.props.state.question.en}
             </div>
           </div>
         </div>
