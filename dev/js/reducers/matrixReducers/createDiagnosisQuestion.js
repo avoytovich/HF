@@ -85,7 +85,6 @@ const changeType = (state, action) => {
 
 
 const recDelete = (state, path) => {
-  debugger;
   const _path  = path.split('.').slice(0, -1);
   const hasItems = dotProp.get(state,`${_path.join('.')}`);
 
@@ -104,7 +103,6 @@ const recDelete = (state, path) => {
 const deleteRule = (state, action) => {
   const {path, key } = action.payload;
   const result = dotProp.delete(state, `${path}`);
-  debugger;
   return recDelete(result, path)
 };
 
@@ -149,25 +147,34 @@ const removeAnswer = (state, action) => {
 
 const setFullQuestion = (state, action) => {
   const { body: { area, title, question, key, step, answer, rule }} = action.payload;
-  const {type } = answer;
+  const { subtype, type } = answer;
+  const _type = subtype === 'range' || type === 'range' ? 'range' : type
+
     const _body = {
       bodyAreas: { key: area, label:area, title: area },
       questionTitle: title,
       question,
       sequence: step,
       questionKey: key,
-      answerType: type,
+      answerType: _type,
       rules: rule,
-      [type]: parseAnswers(answer)
+      [_type]: parseAnswers(answer)
 //      sequenceType: null,
     };
-    return Object.assign({}, state, _body);
+  return Object.assign({}, state, _body);
 };
 
 
 const parseAnswers= (answer) => {
   if (answer.type === 'range') {
     const {max, min} = answer.values;
+    return {
+      from: min,
+      to: max
+    };
+  }
+  else if (answer.subtype === 'range') {
+    const { max, min } = answer;
     return {
       from: min,
       to: max

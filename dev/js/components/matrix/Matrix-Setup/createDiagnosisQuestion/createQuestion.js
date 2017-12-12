@@ -59,9 +59,11 @@ class CreateQuestionComponent extends Component {
     clearCreateQuestion();
     if (this.props.routeParams.id) {
       getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
-        const keys = Object.keys(answer.values);
-        const answerLang = keys.map(() => 'en');
-        this.setState({answerLang})
+        if (answer.values) {
+          const keys = Object.keys(answer.values);
+          const answerLang = keys.map(() => 'en');
+          this.setState({answerLang})
+        }
       });
     }
   }
@@ -187,6 +189,7 @@ class CreateQuestionComponent extends Component {
 
   answers = (type) => {
     const { single, multiple } = this.props.createDiagnosisQuestion;
+
     switch (type) {
       case 'single':
         return <div className="answer-wrap">
