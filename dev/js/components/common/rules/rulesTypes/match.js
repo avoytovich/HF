@@ -61,6 +61,7 @@ class MatchComponent extends Component {
   };
 
   onAsyncChange = (value, edit) => {
+    debugger;
     const { path, pathType, itemState} = this.props;
     if (!value || (Array.isArray(value) && !value.length)) {
       return  setQuestion(path, pathType, '', 'key');
@@ -95,7 +96,7 @@ class MatchComponent extends Component {
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) => this.getOptions(input, key)}
-          onChange={(event) => this.onAsyncChange(event, this.props)}
+          onChange={(event) => this.onAsyncChange(event)}
           className="ansyc-select"
           value={ key }
         />
