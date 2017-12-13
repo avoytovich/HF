@@ -17,14 +17,12 @@ class Upload extends Component {
     const { dispatchAssetsPayload } = this.props;
     const tmp_files = acceptedF.map(({ type, name }) => ({
       type: type.split('/').shift() === 'image' ? 'image' : 'video',
-      name,
-      title: name,
+      title: '',
       description: '',
-      name_real: name
+      name_real: name.split('.').pop()
     }));
     dispatchAssetsPayload({ tmp_files });
     if (acceptedF.length) {
-      console.log('sent_req');
       acceptedF.map((file, i) => {
         getS3Link(file.name.split('.').pop())
           .then((res) => getBase64Promise(file)
@@ -101,7 +99,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Upload);
       "title":"title",
       "description":"description",
       "name_origin":"name_origin",
-      "name_real":"name_real"
+      "name_real":"name_real" // unique
     }
   ]
 }`;

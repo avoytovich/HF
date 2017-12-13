@@ -5,9 +5,11 @@ import {
 } from '../../actions';
 
 import validSignup from './validAuth';
-import validAssets from './validAssets';
+import { validAssets } from './validAssets';
 
 export * from './bCN';
+
+export { validAssets } from './validAssets';
 
 export const validate = {
   [AUTH]            : validSignup,

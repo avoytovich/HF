@@ -75,6 +75,7 @@ export class Api {
             status: 'error',
           })
         }
+        return Promise.reject(err)
       });
   };
 }

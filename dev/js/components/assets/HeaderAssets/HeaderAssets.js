@@ -10,7 +10,7 @@ import Close from 'material-ui-icons/Close';
 
 import {
   logoutSimple,
-  createAssetsWired,
+  createAssetsPreValidate,
 } from '../../../actions';
 import { PAGE } from '../../../config';
 
@@ -28,7 +28,7 @@ class HeaderAssets extends Component {
         file.name_origin = file.name_real;
         return omit(file, ['progress'])
       });
-      createAssetsWired({ tmp_files: files });
+      createAssetsPreValidate({ tmp_files: files });
     }
   };
 

@@ -36,7 +36,7 @@ class AssetsList extends Component {
   render() {
     const { tableHeader } = ASSETS_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
-
+    console.log('selected', selected);
     return (
       <div id="diagnosis-component">
 
@@ -58,15 +58,6 @@ class AssetsList extends Component {
           createButtonText='Upload'
           CreateButtonIcon={() => <FileUpload />}
         >
-
-          {/*<Button*/}
-          {/*disabled={selected.length > 1}*/}
-          {/*onClick={() => this.create(selected[0])}*/}
-          {/*raised dense>*/}
-          {/*<Edit />*/}
-          {/*Edit*/}
-          {/*</Button>*/}
-
           <Button
             raised
             dense
@@ -74,15 +65,6 @@ class AssetsList extends Component {
           >
             <Delete />
             Delete
-          </Button>
-
-          <Button
-            raised
-            dense
-            onClick={() => this.updateModal('deleteOpen', true)}
-          >
-            <ModeEdit />
-            Update
           </Button>
 
         </TableControls>
