@@ -30,4 +30,7 @@ export const getAnswerValue = (list, value) =>
   }, 'A' );
 
 export const  getAnswersList = (values) =>
-  Object.keys(values).map(key => ({label: key, value: values[key]}) );
+  Object.keys(values).map(key => {
+    const _value = values[key] && values[key].en;
+    return {label: key, value: _value}
+  });

@@ -61,13 +61,13 @@ class MatchComponent extends Component {
   };
 
   onAsyncChange = (value, edit) => {
-    debugger;
     const { path, pathType, itemState} = this.props;
     if (!value || (Array.isArray(value) && !value.length)) {
       return  setQuestion(path, pathType, '', 'key');
     }
 
     const { subtype, type, values, min, max} = value.answer;
+
     if (subtype === 'range') {
       this.setState({type: 'range', min, max});
       const _value = edit ? itemState[0] : {key: value.key, op: '==', value: [min]};
@@ -140,11 +140,12 @@ class MatchComponent extends Component {
             margin="normal"
             disabled={!this.state.answers.length}
             fullWidth={true}
+            renderValue={item => item}
           >
             {this.state.answers.map((option, index) =>
               (<MenuItem key={index}
                          value={option.label }>
-                {option.label}
+                {option.label}.{option.value}
               </MenuItem>))}
           </TextField>
           :
