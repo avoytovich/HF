@@ -67,6 +67,7 @@ class MatchComponent extends Component {
     }
 
     const { subtype, type, values, min, max} = value.answer;
+
     if (subtype === 'range') {
       this.setState({type: 'range', min, max});
       const _value = edit ? itemState[0] : {key: value.key, op: '==', value: [min]};
@@ -95,7 +96,7 @@ class MatchComponent extends Component {
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) => this.getOptions(input, key)}
-          onChange={(event) => this.onAsyncChange(event, this.props)}
+          onChange={(event) => this.onAsyncChange(event)}
           className="ansyc-select"
           value={ key }
         />
@@ -139,11 +140,12 @@ class MatchComponent extends Component {
             margin="normal"
             disabled={!this.state.answers.length}
             fullWidth={true}
+            renderValue={item => item}
           >
             {this.state.answers.map((option, index) =>
               (<MenuItem key={index}
                          value={option.label }>
-                {option.label}
+                {option.label}.{option.value}
               </MenuItem>))}
           </TextField>
           :

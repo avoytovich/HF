@@ -97,7 +97,7 @@ class EqualComponent extends Component {
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) => this.getOptions(input, key)}
-          onChange={(event) => this.onAsyncChange(event, this.props)}
+          onChange={(event) => this.onAsyncChange(event)}
           className="ansyc-select"
           value={key}
         />
