@@ -1,24 +1,24 @@
 import React, { Component }     from 'react';
-import { connect }              from 'react-redux';
-import { DIAGNOSIS_TAB }        from '../../../utils/constants/pageContent';
-import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
-import PageNavigation           from '../../common/TypicalListPage/pageNavigation';
+import { connect }              from 'react-redux';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
+import ModeEdit                 from 'material-ui-icons/ModeEdit';
+import FileUpload               from 'material-ui-icons/FileUpload';
+
+import { ASSETS_TAB }           from '../../../utils/constants/pageContent';
+import { TableComponent }       from '../../../components/common/TypicalListPage';
+import TableControls            from '../../common/TypicalListPage/TableControls';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
+import { PAGE }                 from '../../../config'
 
 
-class Clinics extends Component {
+class AssetsList extends Component {
   state = {
     selected: [],
     deactivateOpen: false,
     deleteOpen: false
   };
-
-  create = (id) => id ?
-    browserHistory.push(`/diagnosis-create`) :
-    browserHistory.push(`/diagnosis-create/${id}`);
 
   deleteItems = (items = []) => {};
 
@@ -34,15 +34,15 @@ class Clinics extends Component {
   };
 
   render() {
-    const { tableHeader } = DIAGNOSIS_TAB;
+    const { tableHeader } = ASSETS_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
-
+    console.log('selected', selected);
     return (
       <div id="diagnosis-component">
 
         <DeleteComponent
-          path="companies"
-          domen="users"
+          path="assets"
+          domen="exercises"
           typeKey="deleteOpen"
           list={selected}
           deactivateOpen={deleteOpen}
@@ -51,30 +51,27 @@ class Clinics extends Component {
           query={this.props.location.query}
         />
 
-        <PageNavigation
-          path="companies"
+        <TableControls
+          path="assets"
           selected={selected}
-          createItem={this.create}>
-
-          {/*<Button*/}
-          {/*disabled={selected.length > 1}*/}
-          {/*onClick={() => this.create(selected[0])}*/}
-          {/*raised dense>*/}
-          {/*<Edit />*/}
-          {/*Edit*/}
-          {/*</Button>*/}
-
-          <Button raised dense
-                  onClick={() => this.updateModal('deleteOpen', true)}>
+          createItem={() => browserHistory.push(PAGE.assetsUpload)}
+          createButtonText='Upload'
+          CreateButtonIcon={() => <FileUpload />}
+        >
+          <Button
+            raised
+            dense
+            onClick={() => this.updateModal('deleteOpen', true)}
+          >
             <Delete />
             Delete
           </Button>
 
-        </PageNavigation>
+        </TableControls>
 
         <TableComponent
-          path="userAll"
-          domen="users"
+          path="assets"
+          domen="exercises"
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
@@ -90,4 +87,4 @@ const mapStateToProps = state => ({
   store: state.tables.diagnosis
 });
 
-export default  connect(mapStateToProps)(Clinics);
+export default  connect(mapStateToProps)(AssetsList);

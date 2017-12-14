@@ -1,20 +1,31 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { DIAGNOSIS_TAB }        from '../../../utils/constants/pageContent';
+import isEmpty                  from 'lodash/isEmpty';
+import { SEL_TAB }              from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
-import PageNavigation           from '../../common/TypicalListPage/pageNavigation';
+import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
 
+import { PAGE } from '../../../config';
 
-class Users extends Component {
+class Clinics extends Component {
   state = {
     selected: [],
     deactivateOpen: false,
     deleteOpen: false
   };
+
+  // componentDidMount() {
+  //   const currentPath = PAGE[this.props.path];
+  //   console.log(currentPath);
+  //   browserHistory.push({
+  //     pathname: currentPath,
+  //     query: { per_page: 20, current_page: 0, customer_type: 'organization' }
+  //   });
+  // }
 
   create = (id) => id ?
     browserHistory.push(`/diagnosis-create`) :
@@ -34,7 +45,7 @@ class Users extends Component {
   };
 
   render() {
-    const { tableHeader } = DIAGNOSIS_TAB;
+    const { tableHeader } = SEL_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
 
     return (
@@ -51,7 +62,7 @@ class Users extends Component {
           query={this.props.location.query}
         />
 
-        <PageNavigation
+        <TableControls
           path="companies"
           selected={selected}
           createItem={this.create}>
@@ -70,11 +81,12 @@ class Users extends Component {
             Delete
           </Button>
 
-        </PageNavigation>
+        </TableControls>
 
         <TableComponent
           path="userAll"
           domen="users"
+          reqType="POST"
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
@@ -90,4 +102,4 @@ const mapStateToProps = state => ({
   store: state.tables.diagnosis
 });
 
-export default  connect(mapStateToProps)(Users);
+export default  connect(mapStateToProps)(Clinics);
