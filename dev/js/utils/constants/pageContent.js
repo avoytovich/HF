@@ -41,9 +41,9 @@ export const USERS_PAGE = {
   ],
 };
 
-export const RESOURCE_PAGE = {
-  key: 'resource',
-  title: 'Resource',
+export const ASSETS_PAGE = {
+  key: 'assets',
+  title: 'Assets',
   tableHeader: [
     { title: 'Organization',    key: 'organization',},
     { title: 'Contact Person',  key: 'contact',     },
@@ -221,6 +221,20 @@ export const SEL_TAB = {
     {
       title: 'Updated',     key: 'updated_at',  className: 'left', type: 'time',   format: TIME_FORMAT
     },
+  ]
+};
+
+
+
+export const ASSETS_TAB = {
+  key: 'assets',
+  title: 'Assets',
+  tableHeader: [
+    { title: 'Title',         key: 'name_real',        className: 'left' },
+    { title: 'Extension',     key: 'extension_origin', className: 'center' },
+    { title: 'Type',          key: 'type',             className: 'left' },
+    { title: 'Upload Date',   key: 'updated_at',       className: 'left', type: 'time',   format: TIME_FORMAT },
+    { title: 'Size',          key: 'size',             className: 'left'},
   ]
 };
 

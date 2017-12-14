@@ -3,7 +3,7 @@ import { connect }              from 'react-redux';
 import { CONDITIONS_TAB }       from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
-import PageNavigation           from '../../common/TypicalListPage/pageNavigation';
+import TableControls           from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
 import NotInterested            from 'material-ui-icons/NotInterested';
@@ -58,7 +58,7 @@ class ConditionsComponent extends Component {
           query={this.props.location.query}
         />
 
-        <PageNavigation
+        <TableControls
           path="conditions"
           selected={selected}
           createItem={this.create}>
@@ -75,7 +75,7 @@ class ConditionsComponent extends Component {
             Deactivate
           </Button>
 
-        </PageNavigation>
+        </TableControls>
 
         <TableComponent
           path="conditions"

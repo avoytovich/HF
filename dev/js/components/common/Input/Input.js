@@ -11,14 +11,15 @@ import get from 'lodash/get';
 import { onChange } from '../../../actions'
 
 const styles = theme => ({
+  formControl: {
+    width: '100%',
+  },
   textField: {
     width: 300,
   },
 });
 
 class Input extends Component {
-
-
   render() {
     const {
       id,
@@ -29,6 +30,7 @@ class Input extends Component {
       placeholder = '',
       reducer,
       select,
+      style,
       currencies,
       reducer: {
         actionType,
@@ -51,6 +53,7 @@ class Input extends Component {
           label={label}
           placeholder={placeholder}
           className={classes.textField}
+          style={style}
           margin="normal"
           SelectProps={{
             native: true,
@@ -76,6 +79,7 @@ class Input extends Component {
           label={label}
           placeholder={placeholder}
           className={classes.textField}
+          style={style}
           margin="normal"
           {...omit(props, ['dispatch'])}
         />
@@ -88,6 +92,10 @@ class Input extends Component {
   }
 }
 
+Input.defaultProps = {
+  styles: {},
+};
+
 Input.propTypes = {
   id: PropTypes.string.isRequired,
   reducer: PropTypes.object.isRequired,
@@ -96,6 +104,7 @@ Input.propTypes = {
   label: PropTypes.string,
   placeholder: PropTypes.string,
   onCustomChange: PropTypes.func,
+  style: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

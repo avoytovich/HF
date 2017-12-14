@@ -1,5 +1,5 @@
 // TODO
-// users 18.195.77.253
+// Users 18.195.77.253
 // exercises 18.195.76.169
 // diagnostics 18.194.211.206
 
@@ -7,6 +7,7 @@ export const domen = {
   users      : 'http://18.195.77.253',
   exercises  : 'http://18.195.76.169',
   diagnostics: 'http://18.194.211.206',
+  s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com',
 };
 
 export const api = {
@@ -30,27 +31,30 @@ export const api = {
   createQuestion    : '/matrix/questions',
   getPackageByArea  : '/packages/get/area',
   treatmentsFindArea: '/matrix/treatments/find/area',
+  generate  : '/dev/exercises/files/url/generate',
+  assets    : '/files',
+  evaluation: '/matrix/evaluation',
 };
 
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`
 export const assets = 'http://localhost:3030/assets';
 
 export const PAGE = {
-  home            : '/',
-  login           : '/login',
-  signup          : '/signup',
-  passReset       : '/pass-reset',
-  passForgot      : '/pass-forgot',
-  companies       : '/companies',
-  clinics         : '/clinics',
-  users           : '/users',
-  resources       : '/resources',
-  matrixSetup     : '/matrix-setup',
-  diagnosis       : '/matrix-setup/diagnosis',
-  conditions      : '/matrix-setup/conditions',
-  treatments      : '/matrix-setup/treatments',
-  evaluations     : '/matrix-setup/evaluations',
-  packages        : '/matrix-setup/packages',
-  exercises       : '/matrix-setup/exercises',
+  home       : '/',
+  login      : '/login',
+  signup     : '/signup',
+  passReset  : '/pass-reset',
+  passForgot : '/pass-forgot',
+  companies  : '/companies',
+  clinics    : '/clinics',
+  users      : '/users',
+  assets     : '/assets',
+  assetsUpload: '/assets/upload',
+  matrixSetup: '/matrix-setup',
+  chat       : '/chat',
+  diagnosis  : '/matrix-setup/diagnosis',
+  conditions : '/matrix-setup/conditions',
+  treatments : '/matrix-setup/treatments',
+  evaluation : '/matrix-setup/evaluation',
   diagnosisCreate : '/diagnosis-create',
 };

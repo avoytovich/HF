@@ -5,6 +5,7 @@ import notifierReducer            from './commonReducers/notifierReducer';
 import commonReducer              from './commonReducers/commonReducer';
 import userReducer                from './userReducer/userReducer';
 import * as authReducers          from './authReducers';
+import * as assetsReducer          from './assetsReducer';
 import * as matrixReducers        from './matrixReducers';
 import * as tableReducers         from './TablesReducer'
 const config = {
@@ -17,6 +18,7 @@ const rootReducer = persistCombineReducers(config, {
   commonReducer,
   userReducer,
   ...authReducers,
+  ...assetsReducer,
   ...matrixReducers.default,
   ...tableReducers.default,
   routing: routerReducer
