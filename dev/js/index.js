@@ -29,6 +29,7 @@ import ResetPassword                  from './components/auth/ResetPassword/Rese
 import ForgotPassword                 from './components/auth/ForgotPassword/ForgotPassword';
 import Companies                      from './components/users/companies/Companies';
 import Clinics                        from './components/users/clinics/Clinics';
+import Profile                        from './components/users/Profile/Profile';
 import Users                          from './components/users/users/Users';
 import AssetsList                     from './components/assets/AssetsList/AssetsList';
 import Upload                         from './components/assets/Upload/Upload';
@@ -108,6 +109,7 @@ const router = (
         <Route path={PAGE.users}             component={(props) => <Users  {...props}/>} />
         <Route path={PAGE.assets}            component={(props) => <AssetsList {...props} />} />
         <Route path={PAGE.assetsUpload}      component={(props) => <Upload {...props} />} />
+        <Route path={PAGE.clinicProfile}     component={(props) => <Profile {...props} />} />
         <Route path={PAGE.matrixSetup}       component={ MatrixComponent }>
 
           <IndexRedirect to="diagnosis"/>

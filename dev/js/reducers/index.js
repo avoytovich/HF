@@ -4,6 +4,7 @@ import storage                    from 'redux-persist/es/storage' // default: lo
 import notifierReducer            from './commonReducers/notifierReducer';
 import commonReducer              from './commonReducers/commonReducer';
 import userReducer                from './userReducer/userReducer';
+import profileReducer                from './profileReducer/profileReducer';
 import * as authReducers          from './authReducers';
 import * as assetsReducer          from './assetsReducer';
 import * as matrixReducers        from './matrixReducers';
@@ -17,6 +18,7 @@ const rootReducer = persistCombineReducers(config, {
   notifications: notifierReducer(),
   commonReducer,
   userReducer,
+  profileReducer,
   ...authReducers,
   ...assetsReducer,
   ...matrixReducers.default,

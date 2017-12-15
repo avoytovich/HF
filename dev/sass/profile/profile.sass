@@ -1,0 +1,72 @@
+@import "../variables/colors"
+@import "../variables/fonts"
+
+.profile-main-container
+  background: $grey100
+  height: 100%
+  font-family: $Roboto
+  padding: 20px
+
+  .profile-sub-header
+    font-size: 21px
+    text-align: left
+    padding: 10px
+    color: #757575
+
+    span
+      color: #000000
+
+.information-block
+  display: flex
+
+.profile-paper-container
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+  width: 100%
+
+  .profile-paper-sub-header
+    font-size: 20px
+    text-align: left
+    color: #000000
+    padding: 30px 30px 10px 30px
+
+  .profile-paper-data-container
+    display: flex
+    flex-direction: column
+    padding: 0 30px
+
+    .profile-paper-data
+      display: flex
+      font-size: 14px
+      text-align: left
+      color: rgba(0, 0, 0, 0.87)
+      padding: 10px 0
+
+      .profile-paper-data-title
+        font-weight: 500
+        width: 50%
+
+      .profile-paper-data-info
+        width: 50%
+        display: flex
+        justify-content: space-between
+
+        .chat-image-container
+          width: 20px
+          height: 20px
+
+          img
+            width: 100%
+
+      .users-count
+        color: $primary-blue
+
+.profile-paper-hr
+  margin: 13px 0
+  height: 1px
+  background: #e0e0e0
+
+
+
+
