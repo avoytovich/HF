@@ -30,7 +30,7 @@ class Profile extends Component {
   componentWillMount (){
     getProfileWired(this.props.params.id);
   }
-  renderItem =(el, index, profileReducer)=>{
+  renderItem =(el, profileReducer)=>{
     return (
       <div className = 'profile-paper-data' key={el.path}>
         <div className = 'profile-paper-data-title'>
@@ -90,7 +90,7 @@ class Profile extends Component {
               <div className="profile-paper-hr"></div>
               <div className = 'profile-paper-sub-header'>Billing Address</div>
               <div className = 'profile-paper-data-container'>
-                {map(billingAddress, this.renderItem(profileReducer))}
+                {map(billingAddress, this.renderItem)}
               </div>
             </div>
           </Paper>
