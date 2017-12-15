@@ -4,7 +4,7 @@ import { browserHistory }       from 'react-router'
 import Paper                    from 'material-ui/Paper';
 import Grid                     from 'material-ui/Grid';
 import { withStyles }           from 'material-ui/styles';
-import { get }                  from 'lodash'
+import { get, map }                  from 'lodash'
 import CommentIcon              from 'material-ui-icons/Comment';
 
 import { PAGE } from '../../../config';
@@ -30,12 +30,64 @@ class Profile extends Component {
   componentWillMount (){
     getProfileWired(this.props.params.id);
   }
+  renderItem =(el)=>{
+    return (
+      <div className = 'profile-paper-data' key={el.title}>
+        <div className = 'profile-paper-data-title'>
+          {el.title}
+        </div>
+        <div className = 'profile-paper-data-info'>
+          {el.info}
+        </div>
+      </div>
+    )
+  }
 
   render() {
     const {
       classes,
       profileReducer
     } = this.props;
+
+    const mainInformation = [
+      {title:'Company / Entity Name',
+        info: get(profileReducer, 'name','-'),
+      },
+      {title:'EU VAT nr.',
+        info: get(profileReducer, 'legal_info.vat','-'),
+      },
+      {title:'Registration nr. (Non EU)',
+        info: get(profileReducer, 'legal_info.reg_num','-'),
+      },
+      {title:'Address',
+        info: get(profileReducer, 'contact_info.address','-'),
+      },
+      {title:'Region',
+        info: get(profileReducer, 'contact_info.region','-'),
+      },
+      {title:'Country',
+        info: get(profileReducer, 'contact_info.country','-'),
+      },
+      {title:'Industry',
+        info: get(profileReducer, 'contact_info.industry','-'),
+      }];
+
+    const billingAddress = [
+      {
+        title: 'Address',
+        info: get(profileReducer, 'billing_info.address','-'),
+      },
+      {
+        title: 'Region',
+        info: get(profileReducer, 'billing_info.region','-'),
+      },
+      {
+        title: 'Country',
+        info: get(profileReducer, 'billing_info.country','-'),
+      },
+    ]
+
+    console.log(mainInformation);
     return (
     <div className="profile-main-container">
       <div className="profile-sub-header">Companies <span>Company name</span></div>
@@ -50,62 +102,7 @@ class Profile extends Component {
             <div className = 'profile-paper-container'>
               <div className = 'profile-paper-sub-header'>Information</div>
               <div className = 'profile-paper-data-container'>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title'>
-                    Company / Entity Name
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                    {get(profileReducer, 'name')||'-'}
-                  </div>
-                </div>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title'>
-                    EU VAT nr.
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                   {get(profileReducer, 'legal_info.vat')||'-'}
-                  </div>
-                </div>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title'>
-                    Registration nr. (Non EU)
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                    {get(profileReducer, 'legal_info.reg_num')||'-'}
-                  </div>
-                </div>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title'>
-                    Address
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                    {get(profileReducer, 'contact_info.address')||'-'}
-                  </div>
-                </div>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title'>
-                    Region
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                    {get(profileReducer, 'contact_info.region')||'-'}
-                  </div>
-                </div>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title'>
-                    Country
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                    {get(profileReducer, 'contact_info.country')||'-'}
-                  </div>
-                </div>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title'>
-                    Industry
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                    {get(profileReducer, 'contact_info.country')||'-'}
-                  </div>
-                </div>
+                {map(mainInformation, this.renderItem)}
               </div>
               <div className="profile-paper-hr"></div>
               <div className = 'profile-paper-sub-header'>Company Users</div>
@@ -117,30 +114,7 @@ class Profile extends Component {
               <div className="profile-paper-hr"></div>
               <div className = 'profile-paper-sub-header'>Billing Address</div>
               <div className = 'profile-paper-data-container'>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title'>
-                    Address
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                    {get(profileReducer, 'billing_info.address')||'-'}
-                  </div>
-                </div>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title'>
-                    Region
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                    {get(profileReducer, 'billing_info.region')||'-'}
-                  </div>
-                </div>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title'>
-                    Country
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                    {get(profileReducer, 'billing_info.country')||'-'}
-                  </div>
-                </div>
+                {map(billingAddress, this.renderItem)}
               </div>
             </div>
           </Paper>

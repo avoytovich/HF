@@ -1,6 +1,7 @@
 import { browserHistory } from 'react-router';
 
 import { Api } from '../../utils';
+import { get } from 'lodash'
 import { dispatchProfilePayloadWired } from '../../actions';
 import {
   domen,
@@ -12,5 +13,5 @@ export const getProfile = (id) => Api.get(`${domen.users}/customers/${id}`);
 
 export const getProfileWired = (id) => getProfile(id)
   .then(response => {
-    dispatchProfilePayloadWired(response.data.data);
+    dispatchProfilePayloadWired(get(response.data,'data', {}));
   });
