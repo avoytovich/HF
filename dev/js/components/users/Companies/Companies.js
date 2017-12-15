@@ -33,7 +33,11 @@ class Companies extends Component {
 
   deleteItems = (items = []) => {};
 
-  onRowClick = (selected = []) => this.setState({selected});
+  onRowClick = (selected) => {
+    console.log(selected)
+    // selected = []) => this.setState({selected}
+    browserHistory.push(`/clinic/${selected[0].user_id}/profile`);
+  }
 
   onSelectAllClick = (selected) => this.setState({selected});
 
