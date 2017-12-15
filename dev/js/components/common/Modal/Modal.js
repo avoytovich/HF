@@ -81,6 +81,7 @@ Modal.propTypes = {
   confirmButtonText: PropTypes.string,
   CustomContent    : PropTypes.func,
   itemName         : PropTypes.string,
+  fullScreen       : PropTypes.bool,
 };
 
 Modal.defaultProps = {
