@@ -13,5 +13,5 @@ export const getProfile = (id) => Api.get(`${domen.users}/customers/${id}`);
 
 export const getProfileWired = (id) => getProfile(id)
   .then(response => {
-    dispatchProfilePayloadWired(get(response.data,'data', {}));
+    dispatchProfilePayloadWired(get(response,'data.data', {}));
   });
