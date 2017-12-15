@@ -30,14 +30,14 @@ class Profile extends Component {
   componentWillMount (){
     getProfileWired(this.props.params.id);
   }
-  renderItem =(el)=>{
+  renderItem =(el, index, profileReducer)=>{
     return (
-      <div className = 'profile-paper-data' key={el.title}>
+      <div className = 'profile-paper-data' key={el.path}>
         <div className = 'profile-paper-data-title'>
           {el.title}
         </div>
         <div className = 'profile-paper-data-info'>
-          {el.info}
+          {get(profileReducer, el.path,'-')}
         </div>
       </div>
     )
@@ -50,42 +50,18 @@ class Profile extends Component {
     } = this.props;
 
     const mainInformation = [
-      {title:'Company / Entity Name',
-        info: get(profileReducer, 'name','-'),
-      },
-      {title:'EU VAT nr.',
-        info: get(profileReducer, 'legal_info.vat','-'),
-      },
-      {title:'Registration nr. (Non EU)',
-        info: get(profileReducer, 'legal_info.reg_num','-'),
-      },
-      {title:'Address',
-        info: get(profileReducer, 'contact_info.address','-'),
-      },
-      {title:'Region',
-        info: get(profileReducer, 'contact_info.region','-'),
-      },
-      {title:'Country',
-        info: get(profileReducer, 'contact_info.country','-'),
-      },
-      {title:'Industry',
-        info: get(profileReducer, 'contact_info.industry','-'),
-      }];
+      {title:'Company / Entity Name', path: 'name'},
+      {title:'EU VAT nr.', path: 'legal_info.vat'},
+      {title:'Registration nr. (Non EU)', path: 'legal_info.reg_num'},
+      {title:'Address', path: 'contact_info.address'},
+      {title:'Region', path: 'contact_info.region'},
+      {title:'Country', path: 'contact_info.country'},
+      {title:'Industry', path:  'contact_info.industry'}];
 
     const billingAddress = [
-      {
-        title: 'Address',
-        info: get(profileReducer, 'billing_info.address','-'),
-      },
-      {
-        title: 'Region',
-        info: get(profileReducer, 'billing_info.region','-'),
-      },
-      {
-        title: 'Country',
-        info: get(profileReducer, 'billing_info.country','-'),
-      },
-    ]
+      {title: 'Address', path: 'billing_info.address'},
+      {title: 'Region', path: 'billing_info.region'},
+      {title: 'Country', path: 'billing_info.country'}];
 
     console.log(mainInformation);
     return (
@@ -114,7 +90,7 @@ class Profile extends Component {
               <div className="profile-paper-hr"></div>
               <div className = 'profile-paper-sub-header'>Billing Address</div>
               <div className = 'profile-paper-data-container'>
-                {map(billingAddress, this.renderItem)}
+                {map(billingAddress, this.renderItem(profileReducer))}
               </div>
             </div>
           </Paper>
