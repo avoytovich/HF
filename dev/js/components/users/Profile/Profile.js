@@ -25,12 +25,29 @@ const styles = theme => ({
 
 });
 
+const mainInformation = [
+  {title:'Company / Entity Name', path: 'name'},
+  {title:'EU VAT nr.', path: 'legal_info.vat'},
+  {title:'Registration nr. (Non EU)', path: 'legal_info.reg_num'},
+  {title:'Address', path: 'contact_info.address'},
+  {title:'Region', path: 'contact_info.region'},
+  {title:'Country', path: 'contact_info.country'},
+  {title:'Industry', path:  'contact_info.industry'}
+];
+
+const billingAddress = [
+  {title: 'Address', path: 'billing_info.address'},
+  {title: 'Region', path: 'billing_info.region'},
+  {title: 'Country', path: 'billing_info.country'}
+];
+
 class Profile extends Component {
 
   componentWillMount (){
     getProfileWired(this.props.params.id);
   }
-  renderItem =(el, profileReducer)=>{
+
+  _renderItem =(el, index, profileReducer)=>{
     return (
       <div className = 'profile-paper-data' key={el.path}>
         <div className = 'profile-paper-data-title'>
@@ -41,7 +58,7 @@ class Profile extends Component {
         </div>
       </div>
     )
-  }
+  };
 
   render() {
     const {
@@ -49,21 +66,6 @@ class Profile extends Component {
       profileReducer
     } = this.props;
 
-    const mainInformation = [
-      {title:'Company / Entity Name', path: 'name'},
-      {title:'EU VAT nr.', path: 'legal_info.vat'},
-      {title:'Registration nr. (Non EU)', path: 'legal_info.reg_num'},
-      {title:'Address', path: 'contact_info.address'},
-      {title:'Region', path: 'contact_info.region'},
-      {title:'Country', path: 'contact_info.country'},
-      {title:'Industry', path:  'contact_info.industry'}];
-
-    const billingAddress = [
-      {title: 'Address', path: 'billing_info.address'},
-      {title: 'Region', path: 'billing_info.region'},
-      {title: 'Country', path: 'billing_info.country'}];
-
-    console.log(mainInformation);
     return (
     <div className="profile-main-container">
       <div className="profile-sub-header">Companies <span>Company name</span></div>
@@ -78,7 +80,7 @@ class Profile extends Component {
             <div className = 'profile-paper-container'>
               <div className = 'profile-paper-sub-header'>Information</div>
               <div className = 'profile-paper-data-container'>
-                {map(mainInformation, this.renderItem)}
+                {map(mainInformation, (el,index) => this._renderItem(el,index,profileReducer))}
               </div>
               <div className="profile-paper-hr"></div>
               <div className = 'profile-paper-sub-header'>Company Users</div>
@@ -90,7 +92,7 @@ class Profile extends Component {
               <div className="profile-paper-hr"></div>
               <div className = 'profile-paper-sub-header'>Billing Address</div>
               <div className = 'profile-paper-data-container'>
-                {map(billingAddress, this.renderItem)}
+                {map(billingAddress, (el,index) => this._renderItem(el,index,profileReducer))}
               </div>
             </div>
           </Paper>
