@@ -1,67 +1,96 @@
 import React, { Component }   from 'react';
-import Dialog, {
+import PropTypes  from 'prop-types';
+import isEmpty  from 'lodash/isEmpty';
+import
+  Dialog,
+{
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle }          from 'material-ui/Dialog';
+  DialogTitle
+}                             from 'material-ui/Dialog';
 import Slide                  from 'material-ui/transitions/Slide';
 import Button                 from 'material-ui/Button';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deleteItem,
-  getMatrixInfo }      from '../../../../actions';
-
 
 class Modal extends Component {
-
-  deactivate = ({list, path, pathReq, domen}) => {
-    deleteItem(domen, pathReq, list)
-      .then(() => {
-        getMatrixInfo(domen, path, this.props.query, path)
-          .then(() => this.props.open(this.props.typeKey, false))
-      })
+  _renderItems = (items) => {
+    return items.map((item, i) => {
+      return (
+        <DialogContentText key={i}>
+          {i + 1}. { item[this.props.itemName] }
+        </DialogContentText>
+      )
+    });
   };
-
-  transition = (props) => <Slide direction="up" {...props} />;
 
   render() {
     const {
-      list,
-      deactivateOpen,
+      title,
       open,
-      typeKey,
-      itemKey
+      toggleModal,
+      items,
+      onConfirmClick,
+      cancelButtonText,
+      confirmButtonText,
+      fullScreen,
+      showControls,
+      CustomContent,
     } = this.props;
+    return  open ?
+      <Dialog
+        fullScreen={fullScreen}
+        transition={(props) => <Slide direction="up" {...props} />}
+        open={true}
+        onRequestClose={toggleModal}
+      >
+        { title && <DialogTitle>{ title }</DialogTitle> }
 
-    return  <Dialog
-      open={deactivateOpen}
-      transition={this.transition}
-      keepMounted
-      onRequestClose={() => open(key, false)}
-    >
-      <DialogTitle> Delete this question ? </DialogTitle>
+        <DialogContent>
 
-      <DialogContent>
-        {list.map((item, index) =>
-          <DialogContentText key={index}>
-            {index + 1}. {item[itemKey]}
-          </DialogContentText>)}
-      </DialogContent>
+          { !isEmpty(items) && this._renderItems(items) }
 
-      <DialogActions>
-        <Button onClick={() => open(typeKey, false)} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={() => this.deactivate(this.props)} color="primary">
-          Delete
-        </Button>
-      </DialogActions>
+          { CustomContent && <CustomContent />}
 
-    </Dialog>;
+        </DialogContent>
+
+        { showControls &&
+          <DialogActions>
+            <Button onClick={() => toggleModal()} color="default">
+              {cancelButtonText}
+            </Button>
+            <Button onClick={() => onConfirmClick()} color="primary">
+              {confirmButtonText}
+            </Button>
+          </DialogActions>
+        }
+
+      </Dialog> :
+      null;
   }
 }
-const mapDispatchToProps = dispatch => bindActionCreators({
-  dispatch,
-}, dispatch);
 
-export default connect(mapDispatchToProps)(Modal)
+Modal.propTypes = {
+  title            : PropTypes.string.isRequired,
+  open             : PropTypes.bool.isRequired,
+  toggleModal      : PropTypes.func.isRequired,
+  items            : PropTypes.array.isRequired,
+  onConfirmClick   : PropTypes.func.isRequired,
+  cancelButtonText : PropTypes.string,
+  confirmButtonText: PropTypes.string,
+  CustomContent    : PropTypes.func,
+  itemName         : PropTypes.string,
+};
+
+Modal.defaultProps = {
+  title            : 'Title',
+  open             : false,
+  items            : [],
+  cancelButtonText : 'Cancel',
+  confirmButtonText: 'Confirm',
+  fullScreen       : false,
+  showControls     : true,
+};
+
+export default Modal;

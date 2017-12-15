@@ -9,6 +9,7 @@ import FileUpload               from 'material-ui-icons/FileUpload';
 import { ASSETS_TAB }           from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import TableControls            from '../../common/TypicalListPage/TableControls';
+import Modal                    from '../../common/Modal/Modal';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
 import { PAGE }                 from '../../../config'
 
@@ -16,39 +17,41 @@ import { PAGE }                 from '../../../config'
 class AssetsList extends Component {
   state = {
     selected: [],
-    deactivateOpen: false,
+    showDeleteModal: false,
     deleteOpen: false
   };
 
-  deleteItems = (items = []) => {};
+  _deleteItems = (items = []) => {};
 
-  onRowClick = (selected = []) => this.setState({selected});
+  _onRowClick = (selected = []) => this.setState({selected});
 
-  onSelectAllClick = (selected) => this.setState({selected});
+  _onSelectAllClick = (selected) => this.setState({selected});
 
 
-  updateModal = (key, value) => {
+  _updateModal = (key, value) => {
     this.setState({ [key]: value });
 
     if (!value) this.setState({ selected: [] });
   };
 
+  _toggleDeleteModal = () => this.setState({ showDeleteModal: !this.state.showDeleteModal });
+
   render() {
     const { tableHeader } = ASSETS_TAB;
-    const { selected, deactivateOpen, deleteOpen } = this.state;
-    console.log('selected', selected);
+    const {
+      selected,
+      showDeleteModal,
+    } = this.state;
     return (
       <div id="diagnosis-component">
 
-        <DeleteComponent
-          path="assets"
-          domen="exercises"
-          typeKey="deleteOpen"
-          list={selected}
-          deactivateOpen={deleteOpen}
-          open={this.updateModal}
-          itemKey="title"
-          query={this.props.location.query}
+        <Modal
+          itemName="name_real"
+          open={showDeleteModal}
+          title='Delete Packages'
+          toggleModal={this._toggleDeleteModal}
+          items={selected}
+          onConfirmClick={() => {}}
         />
 
         <TableControls
@@ -61,7 +64,7 @@ class AssetsList extends Component {
           <Button
             raised
             dense
-            onClick={() => this.updateModal('deleteOpen', true)}
+            onClick={this._toggleDeleteModal}
           >
             <Delete />
             Delete
@@ -74,8 +77,8 @@ class AssetsList extends Component {
           domen="exercises"
           tableHeader={ tableHeader }
           selected={selected}
-          onRowClick={this.onRowClick}
-          onSelectAllClick={this.onSelectAllClick}
+          onRowClick={this._onRowClick}
+          onSelectAllClick={this._onSelectAllClick}
         />
 
       </div>
