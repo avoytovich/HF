@@ -1,80 +1,37 @@
 import React, { Component }   from 'react';
 import { connect }            from 'react-redux';
 import { Async }              from 'react-select';
-import TextField              from 'material-ui/TextField';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
 import Select                 from 'material-ui/Select';
-
+import { setQuestion  }       from '../../../../actions';
 import {
-  changeTypeOfRule,
-  addDefaultGroupRule,
-  findByArea,
-  setQuestion
-}                             from '../../../../actions';
+  getAnswersList,
+  getMultipleAnswerValue,
+  getOptions
+}                             from '../../../../utils'
 
 
 class InComponent extends Component {
-
   state = {
     answers: [],
-    type: 'list', // list or range
+    type: 'list',
     min: 0,
     max: 0,
   };
 
-  getOptions = (input, key) => {
-    switch(true) {
-      case !input.length && !key:
-        return Promise.resolve({options:[]});
-
-      case input.length && input.length < 3:
-        return Promise.resolve({options:[]});
-      default:
-
-        const {type, area, step} = this.props;
-
-        const body = {
-          type,
-          area,
-          step,
-          "answerType":"multiple"
-        };
-
-        return findByArea('diagnostics', 'findByAre', body, input || key).then(res => {
-          const {data} = res.data;
-          const _data = data.map(item =>
-            Object.assign({}, item, {
-              label:item.question.en,
-              value:item.key
-            }));
-
-          !input.length && key && this.onAsyncChange(_data[0], true);
-
-          return {
-            options:_data,
-            // CAREFUL! Only set this to true when there are no more options,
-            // or more specific queries will not be sent to the server.
-            complete:true
-          }
-        });
-    }
-  };
-
-  getAnswersList = (values) =>
-    Object.keys(values).map(key => ({label: key, value: values[key]}) );
-
   onAsyncChange = (value, edit) => {
     const { path, pathType, itemState} = this.props;
-    if (!value || (Array.isArray(value) && !value.length)) {
+
+    if (!value || (Array.isArray(value) && !value.length))
       return  setQuestion(path, pathType, '', 'key');
-    }
 
-    const { subtype, type, values, min, max} = value.answer;
 
-    const answers = this.getAnswersList(values);
+    const { subtype, type, values, min, max} = value.answer,
+          answers = getAnswersList(values),
+          _value = edit ? itemState[0].value :  ['A'];
+
     this.setState({type: 'list', answers});
-    const _value = edit ? itemState[0].value :  ['A'];
     setQuestion(path, pathType, {key: value.value, value: _value});
   };
 
@@ -83,17 +40,9 @@ class InComponent extends Component {
     setQuestion(path, pathType, value, 'value');
   };
 
-
-  getAnswerValue = (list, value) =>
-    list.reduce((result, item) => {
-      if (item && !value) return item.label;
-      return value.some(el => el === item.label) ? result.concat(item.label) : result;
-    }, []);
-
-
   render() {
     const { key, value } = this.props.itemState[0];
-    const selectValue = this.getAnswerValue(this.state.answers, value);
+    const selectValue    = getMultipleAnswerValue(this.state.answers, value);
 
     return <div className="rule-types">
       <div className="main-select">
@@ -101,20 +50,19 @@ class InComponent extends Component {
           Question
         </div>
         <Async
-          id={`match-type-${this.props.path}-${this.props.pathType}`}
-          name={`match-type-${this.props.path}-${this.props.pathType}`}
-          loadOptions={(input) => this.getOptions(input, key)}
+          id={`in-type-${this.props.path}-${this.props.pathType}`}
+          name={`in-type-${this.props.path}-${this.props.pathType}`}
+          loadOptions={(input) =>
+            getOptions(input, key, this.onAsyncChange, this.props, 'diagnostics', 'multiple')}
           onChange={this.onAsyncChange}
           className="ansyc-select"
           value={key}
         />
       </div>
-
       <div className="answer-select">
         <div className="title">
           Answer
         </div>
-
         <Select
           multiple
           id={`answer-${this.props.path}-${this.props.pathType}`}

@@ -5,14 +5,12 @@ import TextField              from 'material-ui/TextField';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
 import Select                 from 'material-ui/Select';
-import {
-  findByArea,
-  setQuestion
-}                             from '../../../../actions';
+import { setQuestion }        from '../../../../actions';
 import {
   onAnswerChange,
   getAnswerValue,
   getAnswersList,
+  getOptions
 }                             from '../../../../utils';
 
 class EqualComponent extends Component {
@@ -22,44 +20,6 @@ class EqualComponent extends Component {
     type: 'list', // list or range
     min: 0,
     max: 0,
-  };
-
-  getOptions = (input, key) => {
-    switch(true) {
-      case !input.length && !key:
-        return Promise.resolve({options:[]});
-
-      case input.length && input.length < 3:
-        return Promise.resolve({options:[]});
-      default:
-
-        const {type, area, step} = this.props;
-
-        const body = {
-          type,
-          area,
-          step,
-          "answerType":"single"
-        };
-
-        return findByArea('diagnostics', 'findByAre', body, input || key).then(res => {
-          const {data} = res.data;
-          const _data = data.map(item =>
-            Object.assign({}, item, {
-              label:item.question.en,
-              value:item.key
-            }));
-
-          !input.length && key && this.onAsyncChange(_data[0], true);
-
-          return {
-            options:_data,
-            // CAREFUL! Only set this to true when there are no more options,
-            // or more specific queries will not be sent to the server.
-            complete:true
-          }
-        });
-    }
   };
 
   onAsyncChange = (value, edit) => {
@@ -96,7 +56,7 @@ class EqualComponent extends Component {
         <Async
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
-          loadOptions={(input) => this.getOptions(input, key)}
+          loadOptions={(input) => getOptions(input, key, this.onAsyncChange, this.props, 'diagnostics', 'single')}
           onChange={(event) => this.onAsyncChange(event)}
           className="ansyc-select"
           value={key}

@@ -2,6 +2,7 @@ import React, { Component }   from 'react';
 import { connect }            from 'react-redux';
 import { Async }              from 'react-select';
 import TextField              from 'material-ui/TextField';
+import Select                 from 'material-ui/Select';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
 import {
@@ -16,6 +17,7 @@ import {
   getSymbolValue,
   getAnswerValue,
   getAnswersList,
+  getOptions,
   SYMBOLS
 }                             from '../../../../utils';
 
@@ -26,38 +28,6 @@ class MatchComponent extends Component {
     type: 'list', // list or range
     min: 0,
     max: 0,
-  };
-
-  getOptions = (input, key) => {
-
-    switch(true) {
-      case !input.length  && !key:
-        return Promise.resolve({ options: [] });
-
-      case input.length && input.length < 3:
-        return Promise.resolve({ options: [] });
-
-      default:
-        const { type, area, step } = this.props;
-        const body = { type, area, step, "answerType": "single" };
-
-        return findByArea('diagnostics', 'findByAre', body, input || key).then(res => {
-          const { data } = res.data;
-          const _data = data.map(item =>
-            Object.assign({}, item, { label: item.question.en, value: item.key }));
-
-          !input.length && key && this.onAsyncChange(_data[0], true);
-
-          return {
-            options: _data,
-            // CAREFUL! Only set this to true when there are no more options,
-            // or more specific queries will not be sent to the server.
-            complete: true
-          }
-        });
-    }
-
-//    if ( !input.length  && !key || (input.length && input.length < 3))
   };
 
   onAsyncChange = (value, edit) => {
@@ -95,7 +65,7 @@ class MatchComponent extends Component {
         <Async
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
-          loadOptions={(input) => this.getOptions(input, key)}
+          loadOptions={(input) => getOptions(input, key, this.onAsyncChange, this.props, 'diagnostics', 'single')}
           onChange={(event) => this.onAsyncChange(event)}
           className="ansyc-select"
           value={ key }
@@ -130,10 +100,9 @@ class MatchComponent extends Component {
         </div>
 
         {this.state.type === 'list' ?
-          <TextField
+          <Select
             id={`answer-${this.props.path}-${this.props.pathType}`}
             name={`answer-${this.props.path}-${this.props.pathType}`}
-            select
             value={ selectValue || 'A' }
             onChange={(event) => onAnswerChange(event, this.props, 'value') }
             className="types-select"
@@ -147,7 +116,7 @@ class MatchComponent extends Component {
                          value={option.label }>
                 {option.label}.{option.value}
               </MenuItem>))}
-          </TextField>
+          </Select>
           :
           <div className="range-answer">
             <div className="range-answer-title">
