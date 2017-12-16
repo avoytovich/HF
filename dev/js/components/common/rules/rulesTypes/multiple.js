@@ -7,10 +7,12 @@ import Select                 from 'material-ui/Select';
 import {
   onMultipleAsyncChange,
   getMultipleAnswerValue,
-  getOptions
+  getOptions,
+  onAnswerChange
 }                             from '../../../../utils';
 
 class MultipleComponent extends Component {
+
   state = {
     answers: [],
     type   : 'list', // list or range
