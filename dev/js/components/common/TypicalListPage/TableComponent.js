@@ -222,6 +222,7 @@ class TableComponent extends Component {
       tableHeader,
       selected,
       onSelectAllClick,
+      rowsPerPageOptions,
       store: {
         data,
         pagination: {
@@ -286,6 +287,7 @@ class TableComponent extends Component {
               page={current_page - 1}
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
             />
           </TableRow>
         </TableFooter>
@@ -299,31 +301,33 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 TableComponent.defaultProps = {
-  tableHeader : [],
-  selected    : [],
-  data        : [],
+  tableHeader       : [],
+  selected          : [],
+  data              : [],
+  rowsPerPageOptions: [ 5, 10, 15, 25, 50 ] // The per page may not be greater than 50.
 };
 
 TableComponent.propTypes = {
-  data             : PropTypes.arrayOf(
-                      PropTypes.object
-                    ).isRequired,
-  path             : PropTypes.string.isRequired,
-  domen            : PropTypes.string.isRequired,
-  reqType          : PropTypes.string,
-  tableHeader      : PropTypes.arrayOf(
-                      PropTypes.shape({
-                        title   : PropTypes.string.isRequired,
-                        key     : PropTypes.string.isRequired,
-                        tooltip : PropTypes.string
-                      }).isRequired
-                    ),
-  selected         : PropTypes.arrayOf(
-                      PropTypes.object
-                    ).isRequired,
-  onRowClick       : PropTypes.func.isRequired,
-  onSelectAllClick : PropTypes.func.isRequired,
-  onEdit           : PropTypes.func,
+  data              : PropTypes.arrayOf(
+                       PropTypes.object
+                     ).isRequired,
+  path              : PropTypes.string.isRequired,
+  domen             : PropTypes.string.isRequired,
+  reqType           : PropTypes.string,
+  tableHeader       : PropTypes.arrayOf(
+                       PropTypes.shape({
+                         title   : PropTypes.string.isRequired,
+                         key     : PropTypes.string.isRequired,
+                         tooltip : PropTypes.string
+                       }).isRequired
+                     ),
+  selected          : PropTypes.arrayOf(
+                       PropTypes.object
+                     ).isRequired,
+  onRowClick        : PropTypes.func.isRequired,
+  onSelectAllClick  : PropTypes.func.isRequired,
+  onEdit            : PropTypes.func,
+  rowsPerPageOptions: PropTypes.arrayOf( PropTypes.number )
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({

@@ -5,13 +5,9 @@ import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
 import Select                 from 'material-ui/Select';
 import {
-  findByArea,
-  setQuestion
-}                             from '../../../../actions';
-import {
   onAnswerChange,
   getAnswerValue,
-  getAnswersList,
+  onSingleAsyncChange,
   getOptions
 }                             from '../../../../utils';
 
@@ -19,35 +15,17 @@ class NotEqualComponent extends Component {
 
   state = {
     answers: [],
-    type: 'list', // list or range
-    min: 0,
-    max: 0,
+    type   : 'list', // list or range
+    min    : 0,
+    max    : 0,
   };
 
-  onAsyncChange = (value, edit) => {
-    const { path, pathType, itemState } = this.props;
-    if (!value || (Array.isArray(value) && !value.length)) {
-      return  setQuestion(path, pathType, '', 'key');
-    }
-
-    const { subtype, type, values, min, max} = value.answer;
-
-    if (subtype === 'range') {
-      this.setState({type: 'range', min, max});
-      const _value = edit ? itemState[0] : {key: value.key, op: '==', value: [min]};
-      setQuestion(path, pathType, _value);
-    }
-    else {
-      const answers = getAnswersList(values);
-      this.setState({type: 'list', answers});
-      const _value = edit ? itemState[0] : {key: value.value, op: '==', value: ['A']};
-      setQuestion(path, pathType, _value);
-    }
-  };
+  onAsyncChange = (value, edit) =>
+    this.setState({...onSingleAsyncChange(value, edit, this.props)});
 
   render() {
-    const { key, op, value } = this.props.itemState[0];
-    const selectValue = getAnswerValue(this.state.answers, value);
+    const { key, op, value } = this.props.itemState[0],
+          selectValue        = getAnswerValue(this.state.answers, value);
 
     return <div className="rule-types">
       <div className="main-select">
@@ -101,17 +79,14 @@ class NotEqualComponent extends Component {
                    max={this.state.max}
                    onChange={(event) => onAnswerChange(event, this.props, 'value')}
             />
-          </div>
-        }
-
+          </div>}
       </div>
-
     </div>;
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  state: state.createDiagnosisQuestion,
+  state    : state.createDiagnosisQuestion,
   itemState: get(state.createDiagnosisQuestion, `${props.path}.${props.pathType}`)
 });
 

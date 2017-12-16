@@ -6,66 +6,43 @@ import Select                 from 'material-ui/Select';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
 import {
-  changeTypeOfRule,
-  addDefaultGroupRule,
-  findByArea,
-  setQuestion
-}                             from '../../../../actions';
-import {
   onAnswerChange,
   onSymbolChange,
   getSymbolValue,
   getAnswerValue,
-  getAnswersList,
   getOptions,
+  onSingleAsyncChange,
   SYMBOLS
 }                             from '../../../../utils';
 
-
 class MatchComponent extends Component {
+
   state = {
     answers: [],
-    type: 'list', // list or range
-    min: 0,
-    max: 0,
+    type   : 'list',  // list or range
+    min    : 0,
+    max    : 0,
   };
 
-  onAsyncChange = (value, edit) => {
-    const { path, pathType, itemState} = this.props;
-    if (!value || (Array.isArray(value) && !value.length)) {
-      return  setQuestion(path, pathType, '', 'key');
-    }
-
-    const { subtype, type, values, min, max} = value.answer;
-
-    if (subtype === 'range') {
-      this.setState({type: 'range', min, max});
-      const _value = edit ? itemState[0] : {key: value.key, op: '==', value: [min]};
-      setQuestion(path, pathType, _value);
-    }
-    else {
-      const answers = getAnswersList(values);
-      this.setState({type: 'list', answers});
-      const _value = edit ? itemState[0] : {key: value.value, op: '==', value: ['A']};
-      setQuestion(path, pathType, _value);
-    }
-  };
-
+  onAsyncChange = (value, edit) =>
+    this.setState({...onSingleAsyncChange(value, edit, this.props)});
 
   render() {
-    const { key, op, value } = this.props.itemState[0];
-    const opValue     = getSymbolValue(op);
-    const selectValue = getAnswerValue(this.state.answers, value);
+    const { key, op, value } = this.props.itemState[0],
+          opValue            = getSymbolValue(op),
+          selectValue        = getAnswerValue(this.state.answers, value);
 
     return <div className="rule-types">
       <div className="main-select">
         <div className="title">
           Question
         </div>
+
         <Async
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
-          loadOptions={(input) => getOptions(input, key, this.onAsyncChange, this.props, 'diagnostics', 'single')}
+          loadOptions={(input) =>
+            getOptions(input, key, this.onAsyncChange, this.props, 'diagnostics', 'single')}
           onChange={(event) => this.onAsyncChange(event)}
           className="ansyc-select"
           value={ key }
@@ -76,6 +53,7 @@ class MatchComponent extends Component {
         <div className="title">
           Symbol
         </div>
+
         <TextField
           id={`symbols-${this.props.path}-${this.props.pathType}`}
           name={`symbols-${this.props.path}-${this.props.pathType}`}
@@ -120,8 +98,9 @@ class MatchComponent extends Component {
           :
           <div className="range-answer">
             <div className="range-answer-title">
-              {value || 0}
+              { value || 0 }
             </div>
+
             <input type="range"
                    id={`range-${this.props.path}-${this.props.pathType}`}
                    name={`range-${this.props.path}-${this.props.pathType}`}
@@ -130,17 +109,14 @@ class MatchComponent extends Component {
                    max={this.state.max}
                    onChange={(event) => onAnswerChange(event, this.props, 'value')}
             />
-          </div>
-        }
-
+          </div>}
       </div>
-
     </div>;
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  state: state.createDiagnosisQuestion,
+  state    : state.createDiagnosisQuestion,
   itemState: get(state.createDiagnosisQuestion, `${props.path}.${props.pathType}`)
 });
 

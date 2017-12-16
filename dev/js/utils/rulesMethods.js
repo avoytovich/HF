@@ -9,6 +9,57 @@ export const SYMBOLS = [
   {value: '==',  label: '=='}
 ];
 
+
+export const onSingleAsyncChange = (value, edit, props) => {
+  const { path, pathType, itemState} = props;
+
+  if (!value || (Array.isArray(value) && !value.length))
+    return  setQuestion(path, pathType, '', 'key');
+
+  const { subtype, type, values, min, max} = value.answer;
+
+  if (subtype === 'range') {
+    const _value = edit ?
+      itemState[0] :
+      {
+        key: value.key,
+        op: '==',
+        value: [min]
+      };
+
+    setQuestion(path, pathType, _value);
+    return { type: 'range', min, max }
+  }
+  else {
+    const answers = getAnswersList(values);
+    const _value = edit ?
+      itemState[0] :
+      {
+        key: value.value,
+        op: '==',
+        value: ['A']
+      };
+
+    setQuestion(path, pathType, _value);
+    return { type: 'list', answers };
+  }
+};
+
+export const onMultipleAsyncChange = (value, edit, props) => {
+  const { path, pathType, itemState } = props;
+
+  if (!value || (Array.isArray(value) && !value.length))
+      return  setQuestion(path, pathType, '', 'key');
+
+  const { subtype, type, values, min, max} = value.answer,
+        answers = getAnswersList(values),
+        _value = edit ? itemState[0].value :  ['A'];
+
+  setQuestion(path, pathType, { key: value.value, value: _value });
+  return { type: 'list', answers }
+};
+
+
 export const onAnswerChange = (event, {path, pathType}, key) => {
   const value = event.target.value;
   setQuestion(path, pathType, value, key);
