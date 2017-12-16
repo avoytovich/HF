@@ -30,7 +30,6 @@ class DiagnosisComponent extends Component {
 
   onSelectAllClick = (selected) => this.setState({selected});
 
-
   updateModal = (key, value) => {
     this.setState({ [key]: value });
 
