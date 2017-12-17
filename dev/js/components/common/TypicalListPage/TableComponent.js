@@ -31,6 +31,9 @@ import { withRouter }         from 'react-router'
 //Todo: Add validation for manual typed query, finished with sorting and filter and default query params in props
 
 class TableComponent extends Component {
+  constructor(props){
+    super(props)
+  }
 
   componentDidMount() {
     this.setDefaultQuery(this.props.path, this.props.store.pagination);
@@ -53,7 +56,7 @@ class TableComponent extends Component {
    */
   setDefaultQuery = (pathname, pagination) => {
     const currentQuery = this.props.location.query;
-    const currentPath = PAGE[this.props.path];
+    const currentPath = PAGE[pathname];
     const { per_page, current_page } =
       isEmpty(currentQuery) ? { per_page: 5, current_page: 0 } : currentQuery;
     browserHistory.push({
@@ -71,12 +74,10 @@ class TableComponent extends Component {
    * @param path: {string}      - variable with location for curent page
    * @param _query: {object}  - count of items per pa
    */
-  getList = ({reqType, domen, path}, _query) => {
+  getList = ({ reqType, domen, path }, _query) => {
     switch (reqType) {
       case 'POST':
-        const body = {
-        };
-        getListByPost(domen, path, body, _query);
+        getListByPost(domen, path, _query);
         break;
 
       default:
@@ -205,15 +206,13 @@ class TableComponent extends Component {
    * @param format
    * @return {*}
    */
-  formatCellValue = (row, key, type, format) => {
-    const value =  get(row, key);
+  formatCellValue = (row, { key, type, format }) => {
+    const value =  get(row, key, '-') || '-';
     switch (type) {
       case 'time':
        return moment.unix(value).format(format);
-      case 'number':
-        return value;
       default:
-        return value ? value : '-';
+        return value;
     }
   };
 
@@ -221,7 +220,9 @@ class TableComponent extends Component {
     const {
       tableHeader,
       selected,
+      tableCellPropsFunc,
       onSelectAllClick,
+      CellContent,
       store: {
         data,
         pagination: {
@@ -270,8 +271,15 @@ class TableComponent extends Component {
                   <TableCell padding="checkbox"><Checkbox checked={isSelected}/></TableCell>
                   {
                     tableHeader.map((col, i) => (
-                      <TableCell key={i} className={col.className} padding="dense">
-                        { this.formatCellValue(row, col.key, col.type, col.format) }
+                      <TableCell
+                        key={i}
+                        className={col.className}
+                        padding="dense"
+                        {...tableCellPropsFunc(row, col)}
+                      >
+                        <div className="cell-wrapper">
+                          { this.formatCellValue(row, col) } <CellContent />
+                        </div>
                       </TableCell>
                     ))
                   }
@@ -304,6 +312,8 @@ TableComponent.defaultProps = {
   tableHeader : [],
   selected    : [],
   data        : [],
+  tableCellPropsFunc: () => ({}),
+  CellContent: () => null,
 };
 
 TableComponent.propTypes = {
@@ -326,6 +336,8 @@ TableComponent.propTypes = {
   onRowClick       : PropTypes.func.isRequired,
   onSelectAllClick : PropTypes.func.isRequired,
   onEdit           : PropTypes.func,
+  tableCellPropsFunc: PropTypes.func,
+  CellContent: PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({

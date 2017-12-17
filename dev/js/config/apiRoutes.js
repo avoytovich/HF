@@ -51,6 +51,7 @@ export const PAGE = {
   users      : '/users',
   assets     : '/assets',
   assetsUpload: '/assets/upload',
+  assetsEdit : '/assets/edit',
   clinicProfile: '/clinic/:id/profile',
   matrixSetup: '/matrix-setup',
   chat       : '/chat',

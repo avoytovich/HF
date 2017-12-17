@@ -82,6 +82,7 @@ Modal.propTypes = {
   CustomContent    : PropTypes.func,
   itemName         : PropTypes.string,
   fullScreen       : PropTypes.bool,
+  showControls     : PropTypes.bool,
 };
 
 Modal.defaultProps = {

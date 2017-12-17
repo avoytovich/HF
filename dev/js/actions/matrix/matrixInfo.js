@@ -17,12 +17,11 @@ export const getMatrixInfo = ( domenKey, apiKey, query, path) => {
         apiPath   = api[apiKey],
         querySt   = qs.stringify(query);
   return getList(domenPath, apiPath, querySt)
-          .then((res) => dispatchTableInfo(res, path))
-  return getInfo(domenPath, apiPath, querySt)
-          .then((res) => {
-    dispatchTableInfo(res, path);
-    updateTableFields(query, `${path}.sortOptional`);
-  })
+    .then((res) => {
+      dispatchTableInfo(res, path);
+      updateTableFields(query, `${path}.sortOptional`);
+      return res;
+    })
 };
 
 export const updateTableFields = (query, path) => {
@@ -43,33 +42,20 @@ export const dispatchTableInfo = ({data}, path) => {
   });
 };
 
-export const getListByPost = (domenKey, apiKey, body, _query) => {
-  const domenPath = domen[domenKey],
-        apiPath   = api[apiKey];
-
-  const pagination =  {
-      total        : 0,
-      count        : 0,
-      per_page     : 5,
-      current_page : 0,
-      total_pages  : 0,
-      order        : 'asc',
-      orderBy      : 'users',
-  };
-
-  Api.post(`${domenPath}${apiPath}`, body).then(res => {
-    const {data} = res.data.data.users;
-    console.log(res);
-    return store.dispatch({
-      type:`${TABLE}_UPDATE`,
-      payload:{
-        data,
-        meta: {pagination},
-        path: 'userAll'
-      }
-    })
-  });
-};
+export const getListByPost = (domenKey, apiKey, _query) => {
+  return Api.post(`${domen[domenKey]}${api[apiKey]}`, _query)
+    .then(res => {
+      const { data, meta } = res.data;
+      return store.dispatch({
+        type: `${TABLE}_UPDATE`,
+        payload: {
+          data,
+          meta,
+          path: 'userAll'
+        }
+      })
+    });
+}
 
 export const clearCreateQuestion = () =>
   store.dispatch({type:`${CREATE_QUESTION}_CLEAR`});

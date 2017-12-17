@@ -11,6 +11,7 @@ import {
 import { getBase64Promise } from '../../../utils'
 import AssetItem from '../AssetItem/AssetItem'
 import Dropzone from '../Dropzone/Dropzone'
+import HeaderAssets from '../HeaderAssets/HeaderAssets'
 
 class Upload extends Component {
   _onDrop = (acceptedF, rejectedF) => {
@@ -19,7 +20,7 @@ class Upload extends Component {
       type: type.split('/').shift() === 'image' ? 'image' : 'video',
       title: '',
       description: '',
-      name_real: name.split('.').pop()
+      name_real: name.split('.').shift()
     }));
     dispatchAssetsPayload({ tmp_files });
     if (acceptedF.length) {
@@ -33,8 +34,8 @@ class Upload extends Component {
                 progress => dispatchAssetsPayload({ [`tmp_files[${i}].progress`]: progress }),
                 file.type
               );
-              let subSTR = res.data.url.split('?').shift();
-              let link   = subSTR.substr(subSTR.indexOf('temp'));
+              let linkLong = res.data.url.split('?').shift();
+              let link     = linkLong.substr(linkLong.indexOf('temp'));
               dispatchAssetsPayload({ [`tmp_files[${i}]link`]: link });
             }));
       })
@@ -65,10 +66,12 @@ class Upload extends Component {
     const {
       assetsReducer: {
         tmp_files,
-      }
+      },
+      toggleModal,
     } = this.props;
     return (
       <div className="upload-container">
+        <HeaderAssets toggleModal={toggleModal} />
         { this._renderFiles(tmp_files) }
       </div>
     )
@@ -78,6 +81,7 @@ class Upload extends Component {
 Upload.propTypes = {
   children: PropTypes.object,
   classes: PropTypes.object,
+  toggleModal: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
