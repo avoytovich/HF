@@ -21,7 +21,7 @@ import {
   InComponent,
   MultipleComponent,
   NotEqualComponent,
-
+  ConditionsComponent
 }                           from './rulesTypes';
 import { DEF_ITEM }         from '../../../utils/matrix';
 
@@ -68,7 +68,7 @@ class RulesItemComponent extends Component {
       case 'in':
         return <InComponent {..._props}/>;
       case 'true':
-        return '';
+        return <ConditionsComponent {..._props}/>;
       default:
     }
   };

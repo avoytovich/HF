@@ -135,7 +135,8 @@ class TableComponent extends Component {
     * @param row: {Object}
     * @param selected
    */
-  onRowSelection = (value, row, selected) => this.props.onEdit && this.props.onEdit(row.id);
+  onRowSelection = (value, row, selected) =>
+    this.props.onEdit && this.props.onEdit(row.id);
 
   /***
    * @param value: string
@@ -289,9 +290,12 @@ class TableComponent extends Component {
                   selected={isSelected}
                   className={isEnabled}
                   aria-checked={isSelected}
-                  onClick={e => this.handleClick(e, row, selected)}
+                  onClick={() => this.onRowSelection(event, row, selected)}
                 >
-                  <TableCell padding="checkbox"><Checkbox checked={isSelected}/></TableCell>
+                  <TableCell padding="checkbox">
+                    <Checkbox checked={isSelected}
+                              onClick={event => this.handleClick(event, row, selected)}/>
+                  </TableCell>
                   {
                     tableHeader.map((col, i) => (
                       <TableCell key={i} className={col.className} padding="dense">

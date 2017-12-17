@@ -143,7 +143,7 @@ export const findPackage = (domenKey, apiKey, input, area) => {
   const body = { body_area: area, title: input };
 
   return Api.post(`${domenPath}${apiPath}`, body, {showErrNotif: false});
-}
+};
 
 export const findUniqueKey = (domenKey, apiKey, key) => {
   const domenPath = domen[domenKey],
@@ -155,6 +155,12 @@ export const findByArea = (domenKey, apiKey, body, string) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
   return Api.post(`${domenPath}${apiPath}?search=${string}`, body);
+};
+
+export const findConditionsByArea = (domenKey, apiKey, body, string) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.post(`${domenPath}${apiPath}`, body);
 };
 
 

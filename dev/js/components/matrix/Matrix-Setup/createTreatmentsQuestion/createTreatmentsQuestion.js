@@ -268,7 +268,7 @@ class CreateTreatmentsComponent extends Component {
 
             <DiagnosisRulesComponent
               page="treatments"
-              type="treatments"
+              type="diagnostic"
               area={bodyAreas}
               step={null}
             />

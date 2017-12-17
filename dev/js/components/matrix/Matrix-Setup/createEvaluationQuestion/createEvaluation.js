@@ -541,7 +541,7 @@ class CreateEvaluationComponent extends Component {
                 className="rules">
 
             <DiagnosisRulesComponent
-              type="evaluations"
+              type="diagnostic"
               page="evaluations"
               area={bodyAreas}
               step={sequence}
