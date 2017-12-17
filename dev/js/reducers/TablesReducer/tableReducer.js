@@ -14,7 +14,7 @@ const TEMPLATE = {
   },
   sortOptional: {
     sortedBy     : 'desc',
-    orderBy      : '', // Custom
+    orderBy      : 'name', // Custom
     search       : null
   }
 };
@@ -34,19 +34,27 @@ const initialState = {
     },
     {
       name: 'treatments',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'title' }
+      ]
     },
     {
       name: 'evaluations',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'title' }
+      ]
     },
     {
       name: 'packages',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'title' }
+      ]
     },
     {
       name: 'exercises',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'title' }
+      ]
     },
     {
       name: 'userAll',

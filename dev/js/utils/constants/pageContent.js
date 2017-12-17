@@ -109,7 +109,7 @@ export const PACKAGES_TAB = {
   key: 'conditions',
   title: 'Conditions',
   tableHeader: [
-    { title: 'Name',       key: 'name',       className: 'left'                                    },
+    { title: 'Name',       key: 'title',      className: 'left'                                    },
     { title: 'Body Areas', key: 'body_area',  className: 'center'                                  },
     { title: 'Key',        key: 'key',        className: 'left'                                    },
     { title: 'Created by', key: 'created_by', className: 'left'                                    },
@@ -122,7 +122,7 @@ export const EXERCISES_TAB = {
   key: 'conditions',
   title: 'Conditions',
   tableHeader: [
-    { title: 'Name',       key: 'name',       className: 'left'                                    },
+    { title: 'Name',       key: 'title',      className: 'left'                                    },
     { title: 'Body Areas', key: 'body_area',  className: 'center'                                  },
     { title: 'Key',        key: 'key',        className: 'left'                                    },
     { title: 'Created by', key: 'created_by', className: 'left'                                    },
