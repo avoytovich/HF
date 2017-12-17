@@ -27,9 +27,10 @@ import { DEF_ITEM }         from '../../../utils/matrix';
 
 
 class RulesItemComponent extends Component {
-  listTypes = []
+  listTypes = [];
+
   componentWillMount() {
-    this.listTypes = checkQuestionType(this.props.state.page);
+    this.listTypes = checkQuestionType(this.props.page);
   }
 
 
@@ -73,7 +74,7 @@ class RulesItemComponent extends Component {
   };
 
   render() {
-    const { type, key, path, item } = this.props;
+    const { type, key, path, item, page} = this.props;
 
     return <div className="rule-item">
       <div className="rule-nav">
@@ -108,7 +109,7 @@ class RulesItemComponent extends Component {
 const mapStateToProps = (state, props) =>{
   const { path, type } = props;
   return ({
-    state: state.createDiagnosisQuestion,
+    store    : state.createDiagnosisQuestion,
     itemState: get(state.createDiagnosisQuestion, `${path}.${type}`)
   })
 };

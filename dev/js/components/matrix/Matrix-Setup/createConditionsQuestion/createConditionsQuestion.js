@@ -177,9 +177,8 @@ class CreateConditionComponent extends Component {
                 className="rules">
 
             <DiagnosisRulesComponent
-              type="diagnostic"
               area={bodyAreas}
-              step={null}
+              page="conditions"
             />
 
           </Grid>

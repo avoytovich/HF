@@ -24,7 +24,7 @@ class RulesQuestionComponent extends Component {
   listTypes = [];
 
   componentWillMount() {
-    this.listTypes = checkQuestionType(this.props.state.page);
+    this.listTypes = checkQuestionType(this.props.page);
   }
 
   handleClick = event => this.setState({ open: true, anchorEl: event.currentTarget });

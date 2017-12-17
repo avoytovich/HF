@@ -21,7 +21,7 @@ class QuestionVariety extends Component {
       case 'condition':
         return <div className="simple-question-variety">Question</div>;
 
-      case 'evaluation':
+      case 'evaluations':
         return <Select
           value={value}
           onChange={this.handleChange}

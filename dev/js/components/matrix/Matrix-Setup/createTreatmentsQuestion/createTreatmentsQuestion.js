@@ -267,7 +267,10 @@ class CreateTreatmentsComponent extends Component {
                 className="rules">
 
             <DiagnosisRulesComponent
+              page="treatments"
+              type="treatments"
               area={bodyAreas}
+              step={null}
             />
 
           </Grid>

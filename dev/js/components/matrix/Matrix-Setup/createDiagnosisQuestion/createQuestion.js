@@ -542,6 +542,7 @@ class CreateQuestionComponent extends Component {
 
             <DiagnosisRulesComponent
               type="diagnostic"
+              page="diagnostic"
               area={bodyAreas}
               step={sequence}
             />

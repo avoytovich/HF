@@ -98,8 +98,8 @@ export const checkQuestionType = (page) => {
     case 'diagnosis'  :
       return TYPES;
 
-    case 'condition'  :
-    case 'evaluation' :
+    case 'conditions'  :
+    case 'evaluations' :
     case 'treatments' :
       return TYPES_OPTIONAL;
 
