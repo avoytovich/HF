@@ -7,6 +7,8 @@ import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
   findUniqueKey,
+  getConditionById,
+  updateQuestionCreate,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -26,6 +28,14 @@ class CreateConditionComponent extends Component {
     clearCreateQuestion();
     updateCrateQuestionFields(this.state.questionType, 'page');
   }
+
+
+  componentWillMount() {
+    if (this.props.routeParams.id) {
+      getConditionById('diagnostics', 'getConditionById', this.props.routeParams.id);
+    }
+  }
+
 
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
@@ -70,12 +80,16 @@ class CreateConditionComponent extends Component {
     const result = {
       rule  : rules,
       key   : questionKey,
-//      zone  : bodyAreas.key || bodyAreas.value,
-      area  : bodyAreas.key || bodyAreas.value,
+      area  : bodyAreas.key  || bodyAreas.value || bodyAreas.label,
       title : questionTitle
     };
-    diagnosisQuestionCreate('diagnostics', 'conditions', result)
-      .then(() => browserHistory.push(`/matrix-setup/conditions`));
+
+    !this.props.routeParams.id ?
+      diagnosisQuestionCreate('diagnostics', 'conditions', result)
+      .then(() => browserHistory.push(`/matrix-setup/conditions`)) :
+
+      updateQuestionCreate('diagnostics', 'conditions', result, this.props.routeParams.id)
+      .then(() => browserHistory.push(`/matrix-setup/conditions`))
   };
 
 

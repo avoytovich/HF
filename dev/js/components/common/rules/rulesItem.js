@@ -49,7 +49,7 @@ class RulesItemComponent extends Component {
     const { reqType, area, step, type, path } = this.props;
 
     const _props = {
-      area: area.key || area.value || area.title,
+      area: area ? area.key || area.value || area.title : null,
       type: reqType,
       step: step,
       path,

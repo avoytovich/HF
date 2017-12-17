@@ -31,6 +31,7 @@ export const api = {
   sequenceList        : '/matrix/questions/steps/get/type',
   questionsByStep     : '/matrix/questions/get/area',
   createQuestion      : '/matrix/questions',
+  getConditionById    : '/matrix/conditions',
   getPackageByArea    : '/packages/get/area',
   treatmentsFindArea  : '/matrix/treatments/find/area',
   generate            : '/dev/exercises/files/url/generate',
@@ -58,5 +59,7 @@ export const PAGE = {
   conditions      : '/matrix-setup/conditions',
   treatments      : '/matrix-setup/treatments',
   evaluations     : '/matrix-setup/evaluations',
+  packages        : '/matrix-setup/packages',
+  exercises       : '/matrix-setup/exercises',
   diagnosisCreate : '/diagnosis-create',
 };

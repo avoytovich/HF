@@ -148,8 +148,8 @@ const removeAnswer = (state, action) => {
 
 const setFullQuestion = (state, action) => {
   const { body: { area, title, question, key, step, answer, rule }} = action.payload;
-  const { subtype, type } = answer;
-  const _type = subtype === 'range' || type === 'range' ? 'range' : type
+  const { subtype, type } = answer ;
+  const _type = subtype === 'range' || type === 'range' ? 'range' : type;
 
     const _body = {
       bodyAreas: { key: area, label:area, title: area },
@@ -164,6 +164,17 @@ const setFullQuestion = (state, action) => {
     };
   return Object.assign({}, state, _body);
 };
+
+const setFullQuestionForCondition = (state, action) => {
+  const { body: { area, title, key, rule }} = action.payload;
+  const _body = {
+    bodyAreas: { key: area, label:area, title: area },
+    questionTitle: title,
+    questionKey: key,
+    rules: rule,
+  };
+  return Object.assign({}, state, _body);
+}
 
 
 const parseAnswers= (answer) => {
@@ -197,4 +208,5 @@ export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_ADD_NEW_ANSWER`]      : addNewAnswer,
   [`${CREATE_QUESTION}_REMOVE_ANSWER`]       : removeAnswer,
   [`${CREATE_QUESTION}_SET_FULL_QUESTION`]   : setFullQuestion,
+  [`${CREATE_QUESTION}_SET_COND_QUESTION`]   : setFullQuestionForCondition
 });

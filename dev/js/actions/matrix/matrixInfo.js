@@ -130,6 +130,24 @@ export const getQuestionById = (domenKey, apiKey, id) => {
     }
   );
 };
+export const getConditionById = (domenKey, apiKey, id) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
+      if (res) {
+        const { data } = res.data;
+        const body = {...data};
+        store.dispatch(
+          {
+            type:`${CREATE_QUESTION}_SET_COND_QUESTION`,
+            payload: { body }
+          }
+        );
+        return data;
+      }
+    }
+  );
+};
 
 export const findArea = (domenKey, apiKey) => {
   const domenPath = domen[domenKey],
