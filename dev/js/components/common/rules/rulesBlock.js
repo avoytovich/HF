@@ -7,15 +7,27 @@ import { changeTypeOfRule }   from '../../../actions';
 import Button                 from 'material-ui/Button';
 import ClickAwayListener      from 'material-ui/utils/ClickAwayListener';
 import Menu, { MenuItem }     from 'material-ui/Menu';
-import { mathType, findType } from '../../../utils/matrix';
-import { addRules,
-  changeToItemRuleRule }      from '../../../actions';
-import { TYPES, DEF_ITEM }              from '../../../utils/matrix';
+import {
+  mathType,
+  checkQuestionType,
+  findType
+}                             from '../../../utils/matrix';
+import {
+  addRules,
+  changeToItemRuleRule
+}                             from '../../../actions';
+import { TYPES, DEF_ITEM }    from '../../../utils/matrix';
 
 class RulesBlockComponent extends Component {
+  listTypes = [];
+
   state = {
     open: false
   };
+
+  componentWillMount() {
+    this.listTypes = checkQuestionType(this.props.state.page);
+  }
 
   handleChange = (event, path, item) => {
     const type  = event.target.value;
@@ -44,6 +56,7 @@ class RulesBlockComponent extends Component {
     });
     this.handleRequestClose();
   };
+
   render() {
     const { type, reqType, path, item, step, area } = this.props;
     return <div className="rule-block">
@@ -56,7 +69,7 @@ class RulesBlockComponent extends Component {
           className="types-select"
           margin="normal"
         >
-          {TYPES.map((option, index) =>
+          {this.listTypes.map((option, index) =>
             (<MenuItem key={index}
                       value={option.value}>
               {option.label}

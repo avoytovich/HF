@@ -5,6 +5,7 @@ import TextField              from 'material-ui/TextField';
 import Select                 from 'material-ui/Select';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
+import { QuestionVariety }    from '../'
 import {
   onAnswerChange,
   onSymbolChange,
@@ -34,9 +35,8 @@ class MatchComponent extends Component {
 
     return <div className="rule-types">
       <div className="main-select">
-        <div className="title">
-          Question
-        </div>
+
+        <QuestionVariety />
 
         <Async
           id={`match-type-${this.props.path}-${this.props.pathType}`}

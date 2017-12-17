@@ -29,7 +29,7 @@ import ChooseSequence               from '../createDiagnosisQuestion/chooseSeque
 
 class CreateEvaluationComponent extends Component {
   state = {
-    questionType    : 'Diagnosis',
+    questionType    : 'evaluations',
     answer          : [1,2,3],
     sequenceTypeList: [
       {label: 'Normal', value: 'normal'},
@@ -51,6 +51,7 @@ class CreateEvaluationComponent extends Component {
 
   constructor(props) {
     super(props);
+    updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
   componentWillMount() { clearCreateQuestion(); }

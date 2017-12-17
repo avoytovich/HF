@@ -4,6 +4,7 @@ import { Async }              from 'react-select';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
 import Select                 from 'material-ui/Select';
+import { QuestionVariety }    from '../'
 import {
   getMultipleAnswerValue,
   onMultipleAsyncChange,
@@ -29,9 +30,9 @@ class InComponent extends Component {
 
     return <div className="rule-types">
       <div className="main-select">
-        <div className="title">
-          Question
-        </div>
+
+        <QuestionVariety />
+
         <Async
           id={`in-type-${this.props.path}-${this.props.pathType}`}
           name={`in-type-${this.props.path}-${this.props.pathType}`}

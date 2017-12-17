@@ -11,10 +11,9 @@ import {
 }                           from '../../../actions';
 import {
   DEFAULT_ITEM_TYPE,
-  TYPES,
+  checkQuestionType,
   findType
 }                           from '../../../utils/matrix';
-import Select               from 'material-ui/Select';
 import get                  from 'lodash/get'
 import {
   MatchComponent,
@@ -28,6 +27,11 @@ import { DEF_ITEM }         from '../../../utils/matrix';
 
 
 class RulesItemComponent extends Component {
+  listTypes = []
+  componentWillMount() {
+    this.listTypes = checkQuestionType(this.props.state.page);
+  }
+
 
   handleChange = (event, path, item) => {
     const type  = event.target.value;
@@ -62,6 +66,8 @@ class RulesItemComponent extends Component {
         return <NotEqualComponent {..._props}/>;
       case 'in':
         return <InComponent {..._props}/>;
+      case 'true':
+        return '';
       default:
     }
   };
@@ -80,7 +86,7 @@ class RulesItemComponent extends Component {
           margin="normal"
           fullWidth={true}
         >
-          {TYPES.map((option, index) =>
+          {this.listTypes.map((option, index) =>
             (<MenuItem key={index}
                        value={option.value}>
               {option.label}

@@ -7,7 +7,7 @@ import * as dotProp        from 'dot-prop-immutable';
 
 const initialState = {
   actionType    : CREATE_QUESTION,
-  bodyAreas     : '', // {label: 'body', value: 'body'},\
+  bodyAreas     : '',
   questionTitle : '',
   question: {
     en: '',
@@ -34,6 +34,7 @@ const initialState = {
   treatmentsLevels: '',
   treatmentsPackage: '',
   errors: {},
+  page: null
 };
 
 const createQuestionUpdate = (state, action) => {

@@ -32,7 +32,7 @@ import ChooseSequence               from './chooseSequence';
 
 class CreateQuestionComponent extends Component {
   state = {
-    questionType    : 'Diagnosis',
+    questionType    : 'diagnosis',
     answer          : [1,2,3],
     sequenceTypeList: [
       {label: 'Normal', value: 'normal'},
@@ -55,11 +55,13 @@ class CreateQuestionComponent extends Component {
 
   constructor(props) {
     super(props);
+    clearCreateQuestion();
+
+    updateCrateQuestionFields(this.state.questionType, 'page');
     this.getSequenceQuestionList();
   }
 
   componentWillMount() {
-    clearCreateQuestion();
     if (this.props.routeParams.id) {
       getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
         if (answer.values) {
@@ -70,6 +72,7 @@ class CreateQuestionComponent extends Component {
       });
     }
   }
+
 
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {

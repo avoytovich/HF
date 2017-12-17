@@ -6,7 +6,10 @@ import AddIcon               from 'material-ui-icons/Add';
 import ClickAwayListener     from 'material-ui/utils/ClickAwayListener';
 import Menu, { MenuItem }    from 'material-ui/Menu';
 import { addRules }          from '../../../actions';
-import { findType }          from '../../../utils/matrix';
+import {
+  checkQuestionType,
+  findType
+}                             from '../../../utils/matrix';
 import {
   TYPES,
   GROUP_TYPES,
@@ -18,6 +21,11 @@ class RulesQuestionComponent extends Component {
     anchorEl: null,
     open: false,
   };
+  listTypes = [];
+
+  componentWillMount() {
+    this.listTypes = checkQuestionType(this.props.state.page);
+  }
 
   handleClick = event => this.setState({ open: true, anchorEl: event.currentTarget });
 
@@ -58,7 +66,7 @@ class RulesQuestionComponent extends Component {
                 open={this.state.open}
                 onRequestClose={this.handleRequestClose}
               >
-                {TYPES.map((item, index) =>
+                {this.listTypes.map((item, index) =>
                   (<MenuItem key={index}
                              onClick={() => this.onSelected(item)}>
                     {item.label}

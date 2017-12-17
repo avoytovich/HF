@@ -1,23 +1,36 @@
 export const GROUP_TYPES = [
-  { key: 'and',      type: 'block'},
-  { key: 'or' ,      type: 'block'},
-  { key: 'not',      type: 'block'},
-  { key: 'match',    type: 'item',  subType: 'single'},
-  { key: 'equal',    type: 'item',  subType: 'single'},
-  { key: 'notEqual', type: 'item',  subType: 'single'},
-  { key: 'in',       type: 'item',  subType: 'list'},
-  { key: 'multiple', type: 'item',  subType: 'list'}
+  { key: 'and',      type: 'block'                    },
+  { key: 'or' ,      type: 'block'                    },
+  { key: 'not',      type: 'block'                    },
+  { key: 'match',    type: 'item',  subType: 'single' },
+  { key: 'equal',    type: 'item',  subType: 'single' },
+  { key: 'notEqual', type: 'item',  subType: 'single' },
+  { key: 'in',       type: 'item',  subType: 'list'   },
+  { key: 'multiple', type: 'item',  subType: 'list'   },
+  { key: 'true',     type: 'item',  subType: 'list'   }
 ];
 
 export const TYPES = [
-  { label: 'And',        value: 'and' },
-  { label: 'Not',        value: 'not' },
-  { label: 'Or',         value: 'or' },
-  { label: 'Match',      value: 'match',    subType: 'single'},
-  { label: 'Equal',      value: 'equal',    subType: 'single'},
-  { label: 'Not Equal',  value: 'notEqual', subType: 'single'},
-  { label: 'In',         value: 'in',       subType: 'single'},
-  { label: 'Multiple',   value: 'multiple', subType: 'multiple'}
+  { label: 'And',        value: 'and'                           },
+  { label: 'Not',        value: 'not'                           },
+  { label: 'Or',         value: 'or'                            },
+  { label: 'Match',      value: 'match',    subType: 'single'   },
+  { label: 'Equal',      value: 'equal',    subType: 'single'   },
+  { label: 'Not Equal',  value: 'notEqual', subType: 'single'   },
+  { label: 'In',         value: 'in',       subType: 'single'   },
+  { label: 'Multiple',   value: 'multiple', subType: 'multiple' }
+];
+
+export const TYPES_OPTIONAL = [
+  { label: 'And',        value: 'and'                            },
+  { label: 'Not',        value: 'not'                            },
+  { label: 'Or',         value: 'or'                             },
+  { label: 'Match',      value: 'match',     subType: 'single'   },
+  { label: 'Equal',      value: 'equal',     subType: 'single'   },
+  { label: 'Not Equal',  value: 'notEqual',  subType: 'single'   },
+  { label: 'In',         value: 'in',        subType: 'single'   },
+  { label: 'Multiple',   value: 'multiple',  subType: 'multiple' },
+  { label: 'Condition',  value: 'true',      subType: 'single'   }
 ];
 
 export const DEF_ITEM = {
@@ -40,7 +53,6 @@ export const DEFAULT_ITEM_TYPE = 'equal';
 export const findType = (el) =>
   GROUP_TYPES.reduce((result, item) =>
     item.key === el ? item.type : result, 'block');
-
 
 export const checkType = (rules) => {
   const isIn = (obj, key) => obj && obj.hasOwnProperty(key);
@@ -68,7 +80,6 @@ export const checkType = (rules) => {
   }
 };
 
-
 export const genCharArray = () => {
   const charA = 'a', charZ = 'z';
   let result = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
@@ -79,4 +90,20 @@ export const genCharArray = () => {
   }
 
   return result;
+};
+
+
+export const checkQuestionType = (page) => {
+  switch (page) {
+    case 'diagnosis'  :
+      return TYPES;
+
+    case 'condition'  :
+    case 'evaluation' :
+    case 'treatments' :
+      return TYPES_OPTIONAL;
+
+    default:
+      return TYPES;
+  }
 };

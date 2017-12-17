@@ -31,6 +31,7 @@ class CreatePackageComponent extends Component {
 
   constructor(props) {
     super(props);
+    updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
   componentWillUnmount() { clearCreateQuestion(); }

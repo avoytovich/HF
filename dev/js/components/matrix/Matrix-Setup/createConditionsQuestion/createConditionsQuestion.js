@@ -23,9 +23,9 @@ class CreateConditionComponent extends Component {
 
   constructor(props) {
     super(props);
+    clearCreateQuestion();
+    updateCrateQuestionFields(this.state.questionType, 'page');
   }
-
-  componentWillUnmount() { clearCreateQuestion(); }
 
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
