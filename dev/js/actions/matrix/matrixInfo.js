@@ -170,3 +170,10 @@ export const getSequenceList = (domenKey, apiKey) => {
   return Api.post(`${domenPath}${apiPath}`, body);
 };
 
+export const getQuestionsByStep = (domenKey, apiKey, body) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+
+  return Api.post(`${domenPath}${apiPath}`, body).then(({data}) => data.data);
+}
+
