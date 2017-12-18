@@ -24,10 +24,11 @@ import { withRouter }         from 'react-router'
 
 
 const DEFAULT_QUERY = {
-  per_page: 5,
+  per_page    : 5,
   current_page: 0,
-  sortedBy: 'desc',
-  orderBy: 'title',
+  sortedBy    : 'desc',
+  orderBy     : 'title',
+//  search      :'VAS'
 };
 
 
