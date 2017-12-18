@@ -18,7 +18,6 @@ import {
 export const createAssets = data => Api.post(`${domen.exercises}${api.assets}`, data);
 
 export const createAssetsWired = data => createAssets(data)
-  .then(response => browserHistory.push(PAGE.assets))
   .catch(err => {
     let errors = {};
     let errorsReceived = get(err, 'response.data', {});
@@ -31,5 +30,6 @@ export const createAssetsPreValidate= data => {
   if (isValid) {
     return createAssetsWired(data);
   }
-  dispatchAssetsPayloadWired({ errors })
+  dispatchAssetsPayloadWired({ errors });
+  return false;
 };

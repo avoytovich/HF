@@ -148,11 +148,11 @@ export const ASSETS_TAB = {
   key: 'assets',
   title: 'Assets',
   tableHeader: [
-    { title: 'Title',       key: 'name_real',        className: 'left'                                    },
-    { title: 'Extension',   key: 'extension_origin', className: 'center'                                  },
-    { title: 'Type',        key: 'type',             className: 'left'                                    },
-    { title: 'Upload Date', key: 'updated_at',       className: 'left', type: 'time', format: TIME_FORMAT },
-    { title: 'Size',        key: 'size',             className: 'left'                                    }
+    { title: 'Title',         key: 'name_real',        className: 'left assets-title-cell' },
+    { title: 'Extension',     key: 'extension_origin', className: 'center' },
+    { title: 'Type',          key: 'type',             className: 'left' },
+    { title: 'Upload Date',   key: 'updated_at',       className: 'left', type: 'time',   format: TIME_FORMAT },
+    { title: 'Size',          key: 'size',             className: 'left'},
   ]
 };
 

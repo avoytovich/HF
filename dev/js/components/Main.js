@@ -8,25 +8,11 @@ import MainNavigation from './common/MainNavigation/MainNavigation';
 import { PAGE } from '../config'
 
 class Main extends Component {
-  _pickHeader = pathname => {
-    switch (pathname) {
-      case PAGE.assetsUpload:
-        return <HeaderAssets />;
-
-      default:
-        return <Header />;
-    }
-  };
 
   render() {
-    const {
-      location: {
-        pathname,
-      },
-    } = this.props;
     return (
         <div className="main-wrapper">
-          { this._pickHeader(pathname) }
+          <Header />
           <div className="main-content">
               <div className="content-navigation">
                 <MainNavigation/>

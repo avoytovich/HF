@@ -6,7 +6,7 @@ import {
   api,
 } from '../../config';
 
-export const getS3Link = extension => Api.post(`${domen.s3}${api.generate}`, {
+export const getS3Link = (extension, isPublic = true) => Api.post(`${domen.s3}${api.generate}`, {
   extension,
-  public: true
+  public: isPublic,
 });

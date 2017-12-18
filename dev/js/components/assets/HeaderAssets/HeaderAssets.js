@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 import omit from 'lodash/omit'
@@ -9,36 +10,25 @@ import Toolbar from 'material-ui/Toolbar';
 import Close from 'material-ui-icons/Close';
 
 import {
-  logoutSimple,
   createAssetsPreValidate,
 } from '../../../actions';
 import { PAGE } from '../../../config';
 
 class HeaderAssets extends Component {
-  state = {
-    anchorEl: null
-  };
-
-  handleMenu = event => this.setState({ anchorEl: event.currentTarget });
-  handleRequestClose = () => this.setState({ anchorEl: null });
-
   _createAssets = (files = []) => {
     if (files.length) {
       files = files.map(file => {
         file.name_origin = file.name_real;
         return omit(file, ['progress'])
       });
-      createAssetsPreValidate({ tmp_files: files });
+      createAssetsPreValidate({ tmp_files: files })
+        .then(res => res && this.props.toggleModal())
     }
   };
 
   render() {
-    const { anchorEl } = this.state;
-    const open = Boolean(anchorEl);
     const {
-      userReducer: {
-        name = '',
-      },
+      headerTitle,
       assetsReducer: {
         tmp_files,
       },
@@ -53,10 +43,10 @@ class HeaderAssets extends Component {
           <div className="upload-header-title-container">
             <Close
               className="upload-header-title-icon"
-              onClick={() => browserHistory.push(PAGE.assets)}
+              onClick={() => this.props.toggleModal()}
             />
             <p className="upload-header-title">
-              Upload Files
+              {headerTitle || 'Upload Files' }
             </p>
           </div>
 
@@ -75,6 +65,11 @@ class HeaderAssets extends Component {
     )
   }
 }
+
+HeaderAssets.propTypes = {
+  toggleModal: PropTypes.func,
+  headerTitle: PropTypes.string
+};
 
 const mapStateToProps = state => ({
   commonReducer: state.commonReducer,

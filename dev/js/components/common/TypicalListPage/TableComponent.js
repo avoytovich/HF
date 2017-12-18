@@ -78,12 +78,10 @@ class TableComponent extends Component {
    * @param path: {string}      - variable with location for curent page
    * @param _query: {object}  - count of items per pa
    */
-  getList = ({reqType, domen, path}, _query) => {
+  getList = ({ reqType, domen, path }, _query) => {
     switch (reqType) {
       case 'POST':
-        const body = {
-        };
-        getListByPost(domen, path, body, _query);
+        getListByPost(domen, path, _query);
         break;
 
       default:
@@ -232,15 +230,13 @@ class TableComponent extends Component {
    * @param format
    * @return {*}
    */
-  formatCellValue = (row, key, type, format) => {
-    const value =  get(row, key);
+  formatCellValue = (row, { key, type, format }) => {
+    const value =  get(row, key, '-') || '-';
     switch (type) {
       case 'time':
        return moment.unix(value).format(format);
-      case 'number':
-        return value;
       default:
-        return value ? value : '-';
+        return value;
     }
   };
 
@@ -248,7 +244,9 @@ class TableComponent extends Component {
     const {
       tableHeader,
       selected,
+      tableCellPropsFunc,
       onSelectAllClick,
+      CellContent,
       rowsPerPageOptions,
       store: {
         data,
@@ -279,8 +277,10 @@ class TableComponent extends Component {
               let isEnabled;
               if (row.hasOwnProperty('enabled')) {
                 isEnabled  = row.enabled ? 'active' : 'de-active';
-              } else {
+              } else if (row.hasOwnProperty('customer_active')){
                 isEnabled  = row.customer_active ? 'active' : 'de-active';
+              } else {
+                isEnabled  = 'active';
               }
               return (
                 <TableRow
@@ -299,8 +299,15 @@ class TableComponent extends Component {
                   </TableCell>
                   {
                     tableHeader.map((col, i) => (
-                      <TableCell key={i} className={col.className} padding="dense">
-                        { this.formatCellValue(row, col.key, col.type, col.format) }
+                      <TableCell
+                        key={i}
+                        className={col.className}
+                        padding="dense"
+                        {...tableCellPropsFunc(row, col)}
+                      >
+                        <div className="cell-wrapper">
+                          { this.formatCellValue(row, col) } <CellContent />
+                        </div>
                       </TableCell>
                     ))
                   }
@@ -334,30 +341,34 @@ TableComponent.defaultProps = {
   tableHeader       : [],
   selected          : [],
   data              : [],
+  tableCellPropsFunc: () => ({}),
+  CellContent       : () => null,
   rowsPerPageOptions: [ 5, 10, 25 ] // The per page may not be greater than 50.
 };
 
 TableComponent.propTypes = {
-  data              : PropTypes.arrayOf(
-                       PropTypes.object
-                     ).isRequired,
-  path              : PropTypes.string.isRequired,
-  domen             : PropTypes.string.isRequired,
-  reqType           : PropTypes.string,
-  tableHeader       : PropTypes.arrayOf(
-                       PropTypes.shape({
-                         title   : PropTypes.string.isRequired,
-                         key     : PropTypes.string.isRequired,
-                         tooltip : PropTypes.string
-                       }).isRequired
-                     ),
-  selected          : PropTypes.arrayOf(
-                       PropTypes.object
-                     ).isRequired,
-  onRowClick        : PropTypes.func.isRequired,
-  onSelectAllClick  : PropTypes.func.isRequired,
-  onEdit            : PropTypes.func,
-  rowsPerPageOptions: PropTypes.arrayOf( PropTypes.number )
+  data             : PropTypes.arrayOf(
+                      PropTypes.object
+                    ).isRequired,
+  path             : PropTypes.string.isRequired,
+  domen            : PropTypes.string.isRequired,
+  reqType          : PropTypes.string,
+  tableHeader      : PropTypes.arrayOf(
+                      PropTypes.shape({
+                        title   : PropTypes.string.isRequired,
+                        key     : PropTypes.string.isRequired,
+                        tooltip : PropTypes.string
+                      }).isRequired
+                    ),
+  selected         : PropTypes.arrayOf(
+                      PropTypes.object
+                    ).isRequired,
+  onRowClick       : PropTypes.func.isRequired,
+  onSelectAllClick : PropTypes.func.isRequired,
+  onEdit           : PropTypes.func,
+  tableCellPropsFunc: PropTypes.func,
+  CellContent: PropTypes.func,
+  rowsPerPageOptions: PropTypes.arrayOf( PropTypes.number ),
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
