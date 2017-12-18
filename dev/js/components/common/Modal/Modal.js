@@ -76,7 +76,7 @@ Modal.propTypes = {
   open             : PropTypes.bool.isRequired,
   toggleModal      : PropTypes.func.isRequired,
   items            : PropTypes.array.isRequired,
-  onConfirmClick   : PropTypes.func.isRequired,
+  onConfirmClick   : PropTypes.func,
   cancelButtonText : PropTypes.string,
   confirmButtonText: PropTypes.string,
   CustomContent    : PropTypes.func,

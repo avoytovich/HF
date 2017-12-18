@@ -108,8 +108,6 @@ const router = (
         <Route path={PAGE.clinics}           component={(props) => <Clinics  {...props}/>} />
         <Route path={PAGE.users}             component={(props) => <Users  {...props}/>} />
         <Route path={PAGE.assets}            component={(props) => <AssetsList {...props} />} />
-        <Route path={PAGE.assetsUpload}      component={(props) => <Upload {...props} />} />
-        <Route path={`${PAGE.assetsEdit}/:assetId`}        component={(props) => <Upload {...props} />} />
         <Route path={PAGE.clinicProfile}     component={(props) => <Profile {...props} />} />
         <Route path={PAGE.matrixSetup}       component={ MatrixComponent }>
 

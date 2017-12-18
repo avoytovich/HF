@@ -13,7 +13,7 @@ import AssetItem from '../AssetItem/AssetItem'
 import Dropzone from '../Dropzone/Dropzone'
 import HeaderAssets from '../HeaderAssets/HeaderAssets'
 
-class Upload extends Component {
+class Edit extends Component {
   _onDrop = (acceptedF, rejectedF) => {
     const { dispatchAssetsPayload } = this.props;
     const tmp_files = acceptedF.map(({ type, name }) => ({
@@ -43,24 +43,25 @@ class Upload extends Component {
   };
 
   _renderFiles = (files = []) => {
-    if (files.length) {
-      return files.map(({ progress }, i) => {
-        return (
-          <AssetItem
-            key={i}
-            index={i}
-            progress={progress}
-          />
-        )
-      });
-    } else {
+    return files.map(({ progress }, i) => {
       return (
-        <Dropzone
-          onDrop={this._onDrop}
+        <AssetItem
+          key={i}
+          index={i}
+          progress={progress}
         />
       )
-    }
+    });
   };
+
+  _renderChangeFile = () => {
+    return (
+      <div className="change-file-wrapper">
+        <p>CHANGE FILE</p>
+        <input type="file" className="change-file-input"/>
+      </div>
+    );
+  }
 
   render() {
     const {
@@ -71,14 +72,18 @@ class Upload extends Component {
     } = this.props;
     return (
       <div className="upload-container">
-        <HeaderAssets toggleModal={toggleModal} />
+        <HeaderAssets
+          headerTitle={tmp_files[0].name_real}
+          toggleModal={toggleModal}
+        />
+        { this._renderChangeFile() }
         { this._renderFiles(tmp_files) }
       </div>
     )
   }
 }
 
-Upload.propTypes = {
+Edit.propTypes = {
   children: PropTypes.object,
   classes: PropTypes.object,
   toggleModal: PropTypes.func,
@@ -93,7 +98,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Upload);
+export default connect(mapStateToProps, mapDispatchToProps)(Edit);
 
 `{
     "tmp_files":[
@@ -107,12 +112,3 @@ export default connect(mapStateToProps, mapDispatchToProps)(Upload);
     }
   ]
 }`;
-
-`created_at:1513180318
- extension_origin:"jpg"
- id:15
- name_origin:"jpgasdasd"
- name_real:"jpgasdasd"
- path:"https://s3.eu-central-1.amazonaws.com/heal.dev.public/exercises/temp/d0f95998-5dfa-a4dc-2815-133330911c45.jpg"
- type:"image"
- updated_at:1513180318`

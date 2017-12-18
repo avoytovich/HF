@@ -15,8 +15,6 @@ import {
 import { PAGE } from '../../../config';
 
 class HeaderAssets extends Component {
-  handleRequestClose = () => this.setState({ anchorEl: null });
-
   _createAssets = (files = []) => {
     if (files.length) {
       files = files.map(file => {
@@ -30,6 +28,7 @@ class HeaderAssets extends Component {
 
   render() {
     const {
+      headerTitle,
       assetsReducer: {
         tmp_files,
       },
@@ -47,7 +46,7 @@ class HeaderAssets extends Component {
               onClick={() => this.props.toggleModal()}
             />
             <p className="upload-header-title">
-              Upload Files
+              {headerTitle || 'Upload Files' }
             </p>
           </div>
 
@@ -68,7 +67,8 @@ class HeaderAssets extends Component {
 }
 
 HeaderAssets.propTypes = {
-  toggleModal: PropTypes.func
+  toggleModal: PropTypes.func,
+  headerTitle: PropTypes.string
 };
 
 const mapStateToProps = state => ({

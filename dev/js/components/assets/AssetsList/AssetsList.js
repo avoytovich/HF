@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Button from 'material-ui/Button';
 import Delete from 'material-ui-icons/Delete';
 import FileUpload from 'material-ui-icons/FileUpload';
@@ -11,12 +12,14 @@ import { TableComponent } from '../../../components/common/TypicalListPage';
 import TableControls from '../../common/TypicalListPage/TableControls';
 import Modal from '../../common/Modal/Modal';
 import Upload from '../Upload/Upload';
+import Edit from '../Edit/Edit';
 import {
   PAGE,
 } from '../../../config';
 import {
   deleteAsset,
   getMatrixInfo,
+  dispatchAssetsPayloadWired,
 } from '../../../actions';
 
 const domen = 'exercises';
@@ -27,6 +30,7 @@ class AssetsList extends Component {
     selected: [],
     showDeleteModal: false,
     showUploadModal: false,
+    showEditModal: false,
     deleteOpen: false
   };
 
@@ -47,8 +51,10 @@ class AssetsList extends Component {
     if (col.key === 'name_real') {
       return {
         onClick: (e) => {
+          console.log(row);
           e.stopPropagation();
-          browserHistory.push(`${PAGE.assetsEdit}/${row.id}`);
+          dispatchAssetsPayloadWired({ [`tmp_files[${0}]`]: { ...row, progress: 100 } });
+          this._toggleEditModal()
         }
       }
     }
@@ -63,12 +69,15 @@ class AssetsList extends Component {
 
   _toggleUpdateModal = () => this.setState({ showUploadModal: !this.state.showUploadModal });
 
+  _toggleEditModal = () => this.setState({ showEditModal: !this.state.showEditModal });
+
   render() {
     const { tableHeader } = ASSETS_TAB;
     const {
       selected,
       showDeleteModal,
       showUploadModal,
+      showEditModal,
     } = this.state;
     return (
       <div id="diagnosis-component">
@@ -116,8 +125,15 @@ class AssetsList extends Component {
           open={showUploadModal}
           showControls={false}
           toggleModal={this._toggleUpdateModal}
-          onConfirmClick={() => this._deleteItems(selected)}
           CustomContent={() => <Upload toggleModal={this._toggleUpdateModal} />}
+        />
+
+        <Modal
+          fullScreen
+          open={showEditModal}
+          showControls={false}
+          toggleModal={this._toggleEditModal}
+          CustomContent={() => <Edit toggleModal={this._toggleEditModal} />}
         />
 
       </div>
@@ -128,5 +144,6 @@ class AssetsList extends Component {
 const mapStateToProps = state => ({
   store: state.tables.diagnosis
 });
+
 
 export default  connect(mapStateToProps)(AssetsList);
