@@ -4,7 +4,7 @@ import { Async }              from 'react-select';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
 import Select                 from 'material-ui/Select';
-import { QuestionVariety }    from '../index'
+import { QuestionVariety }    from '../questionVariety';
 import {
   onAnswerChange,
   getAnswerValue,
