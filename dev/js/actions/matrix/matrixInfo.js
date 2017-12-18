@@ -17,11 +17,12 @@ export const getMatrixInfo = ( domenKey, apiKey, query, path) => {
         apiPath   = api[apiKey],
         querySt   = qs.stringify(query);
   return getList(domenPath, apiPath, querySt)
-    .then((res) => {
-      dispatchTableInfo(res, path);
-      updateTableFields(query, `${path}.sortOptional`);
-      return res;
-    })
+          .then((res) => dispatchTableInfo(res, path));
+//  return getInfo(domenPath, apiPath, querySt)
+//          .then((res) => {
+//    dispatchTableInfo(res, path);
+//    updateTableFields(query, `${path}.sortOptional`);
+//  })
 };
 
 export const updateTableFields = (query, path) => {
@@ -112,10 +113,47 @@ export const getQuestionById = (domenKey, apiKey, id) => {
           }
         );
         return data;
-      };
+      }
     }
   );
 };
+export const getConditionById = (domenKey, apiKey, id) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
+      if (res) {
+        const { data } = res.data;
+        const body = {...data};
+        store.dispatch(
+          {
+            type:`${CREATE_QUESTION}_SET_COND_QUESTION`,
+            payload: { body }
+          }
+        );
+        return data;
+      }
+    }
+  );
+};
+
+export const getTreatmentById = (domenKey, apiKey, id) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
+    if (res) {
+      const { data } = res.data;
+      const body = {...data};
+      store.dispatch(
+        {
+          type:`${CREATE_QUESTION}_SET_COND_QUESTION`,
+          payload: { body }
+        }
+      );
+      return data;
+    }
+  });
+};
+
 
 export const findArea = (domenKey, apiKey) => {
   const domenPath = domen[domenKey],
@@ -129,7 +167,7 @@ export const findPackage = (domenKey, apiKey, input, area) => {
   const body = { body_area: area, title: input };
 
   return Api.post(`${domenPath}${apiPath}`, body, {showErrNotif: false});
-}
+};
 
 export const findUniqueKey = (domenKey, apiKey, key) => {
   const domenPath = domen[domenKey],
@@ -143,6 +181,12 @@ export const findByArea = (domenKey, apiKey, body, string) => {
   return Api.post(`${domenPath}${apiPath}?search=${string}`, body);
 };
 
+export const findConditionsByArea = (domenKey, apiKey, body, string) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.post(`${domenPath}${apiPath}`, body);
+};
+
 
 export const getSequenceList = (domenKey, apiKey) => {
   const domenPath = domen[domenKey],
@@ -154,5 +198,12 @@ export const getSequenceList = (domenKey, apiKey) => {
           "step": null
         };
   return Api.post(`${domenPath}${apiPath}`, body);
+};
+
+export const getQuestionsByStep = (domenKey, apiKey, body) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+
+  return Api.post(`${domenPath}${apiPath}`, body).then(({data}) => data.data);
 };
 

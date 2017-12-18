@@ -18,8 +18,8 @@ class ConditionsComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/conditions-create-new`) :
-    browserHistory.push(`/conditions-create/${id}`);
+    browserHistory.push(`/conditions-create/${id}`):
+    browserHistory.push(`/conditions-create-new`);
 
   deleteItems = (items = []) => {};
 
@@ -61,7 +61,7 @@ class ConditionsComponent extends Component {
         <TableControls
           path="conditions"
           selected={selected}
-          createItem={this.create}>
+          createItem={() => this.create()}>
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>
@@ -83,6 +83,7 @@ class ConditionsComponent extends Component {
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
+          onEdit={(id) => this.create(id)}
           onSelectAllClick={this.onSelectAllClick}
         />
 

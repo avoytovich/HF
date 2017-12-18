@@ -8,9 +8,6 @@ import {
 import { mathType }          from '../../../../utils/matrix';
 
 class DiagnosisRulesComponent extends Component {
-
-
-
   state = {
     anchorEl: null,
     open: false,
@@ -60,13 +57,13 @@ class DiagnosisRulesComponent extends Component {
 
   render() {
     const { rules } = this.props.createDiagnosisQuestion;
-    const {type, step, area, URL} = this.props;
+    const {type, step, area, URL, page} = this.props;
     return (
       <div className="rules-block">
 
         <div className="vertical-line"></div>
 
-        <RulesQuestionComponent url="treatments"/>
+        <RulesQuestionComponent page={page}/>
 
         <div className="items">
           {rules.map((item, index) => {
@@ -82,7 +79,8 @@ class DiagnosisRulesComponent extends Component {
                             reqType={type}
                             step={step}
                             url={URL}
-                            area={area}/>;
+                            area={area}
+                            page={page}/>;
                 break;
               case 'item':
                 return <RulesItemComponent
@@ -93,7 +91,8 @@ class DiagnosisRulesComponent extends Component {
                             reqType={type}
                             step={step}
                             url={URL}
-                            area={area}/>;
+                            area={area}
+                            page={page}/>;
                 break;
               default:
                 return '';

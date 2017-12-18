@@ -1,13 +1,15 @@
-import EqualComponent     from './equal';
-import NotEqualComponent  from './notEqual';
-import InComponent        from './in';
-import MatchComponent     from './match';
-import MultipleComponent  from './multiple';
+import EqualComponent       from './equal';
+import NotEqualComponent    from './notEqual';
+import InComponent          from './in';
+import MatchComponent       from './match';
+import MultipleComponent    from './multiple';
+import ConditionsComponent  from './condition';
 
 export {
   EqualComponent,
   NotEqualComponent,
   InComponent,
   MatchComponent,
-  MultipleComponent
+  MultipleComponent,
+  ConditionsComponent
 }

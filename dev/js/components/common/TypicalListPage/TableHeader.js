@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect }          from 'react-redux';
+import PropTypes            from 'prop-types';
+import Checkbox             from 'material-ui/Checkbox';
 import {
   TableCell,
   TableHead,
   TableRow,
   TableSortLabel,
-} from 'material-ui/Table';
-import Checkbox from 'material-ui/Checkbox';
-import PropTypes from 'prop-types';
+}                           from 'material-ui/Table';
 
 class EnhancedTableHead extends Component {
-
+  /**
+   * @param property
+   */
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
   };
 
+  /**
+   * @param event
+   */
   handleClick = (event) => {
     const { rowCount, numSelected } = this.props;
     const allSelected = numSelected === rowCount;
@@ -25,7 +30,8 @@ class EnhancedTableHead extends Component {
 
   render() {
     const { rowCount, numSelected, columnTitleList } = this.props;
-    const { order, orderBy } = this.props.store.pagination;
+    const { sortedBy, orderBy } = this.props.store.sortOptional;
+
     return (
       <TableHead>
         <TableRow>
@@ -46,7 +52,7 @@ class EnhancedTableHead extends Component {
 
               <TableSortLabel
                 active={orderBy === column.key}
-                direction={order}
+                direction={sortedBy}
 
                 onClick={this.createSortHandler(column.key)}
               >

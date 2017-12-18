@@ -22,6 +22,16 @@ import { PAGE }               from '../../../config'
 import { withRouter }         from 'react-router'
 
 
+
+const DEFAULT_QUERY = {
+  per_page    : 5,
+  current_page: 0,
+  sortedBy    : 'desc',
+  orderBy     : 'title',
+//  search      :'VAS'
+};
+
+
 /*
  * Important Requirement:
  * 1) Add path props to tableReducer in listOfTables = [ 'diagnosis', 'conditions', * YOUR_ITEM * ],
@@ -31,9 +41,6 @@ import { withRouter }         from 'react-router'
 //Todo: Add validation for manual typed query, finished with sorting and filter and default query params in props
 
 class TableComponent extends Component {
-  constructor(props){
-    super(props)
-  }
 
   componentDidMount() {
     this.setDefaultQuery(this.props.path, this.props.store.pagination);
@@ -56,15 +63,12 @@ class TableComponent extends Component {
    */
   setDefaultQuery = (pathname, pagination) => {
     const currentQuery = this.props.location.query;
-    const currentPath = PAGE[pathname];
-    const { per_page, current_page } =
-      isEmpty(currentQuery) ? { per_page: 5, current_page: 0 } : currentQuery;
+    const currentPath = PAGE[this.props.path];
+    const query = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
+
     browserHistory.push({
       pathname: currentPath,
-      query: {
-        current_page,
-        per_page
-      }
+      query   : { ...query }
     });
   };
 
@@ -81,10 +85,13 @@ class TableComponent extends Component {
         break;
 
       default:
-        const {per_page, current_page} = _query;
+        const {per_page, current_page, sortedBy, orderBy} = _query;
         const query = {
-          per_page: per_page,
+          sortedBy,
+          orderBy,
+          per_page,
           page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
+
         };
         getMatrixInfo(domen, path, query, path)
     }
@@ -106,14 +113,29 @@ class TableComponent extends Component {
    * @param event
    * @param property
    */
-  handleRequestSort = (event, property) => {};
+  handleRequestSort = (event, property) => {
+    const currentPath = PAGE[this.props.path];
+    const { sortedBy, orderBy } = this.props.location.query;
+    const  _sortedBy = property === orderBy ?
+      sortedBy === 'asc' ? 'desc' : 'asc'
+      : sortedBy;
+
+
+    const query = Object.assign({}, this.props.location.query, { orderBy : property, sortedBy: _sortedBy });
+    browserHistory.push({
+      pathname: currentPath,
+      query   : { ...query }
+    });
+
+  };
 
    /**
     * @param value: string
     * @param row: {Object}
     * @param selected
    */
-  onRowSelection = (value, row, selected) => this.props.onEdit && this.props.onEdit(row.id);
+  onRowSelection = (value, row, selected) =>
+    this.props.onEdit && this.props.onEdit(row.id);
 
   /***
    * @param value: string
@@ -131,13 +153,17 @@ class TableComponent extends Component {
     }, -1)
   };
 
+
+  /**
+   * @param event
+   * @param checked
+   * @param selected
+   */
   handleClick = (event, checked, selected) => {
     let { id, deActive, customer_id } = checked;
     id = id || customer_id;
     event && event.preventDefault();
     event && event.stopPropagation();
-
-//    if (deActive) return;
 
     const isIn = this.matchItems(selected, id);
 
@@ -196,8 +222,6 @@ class TableComponent extends Component {
     });
   };
 
-  handleChange = (event) => {};
-
   /**
    * Formatting of values
    * @param row
@@ -223,6 +247,7 @@ class TableComponent extends Component {
       tableCellPropsFunc,
       onSelectAllClick,
       CellContent,
+      rowsPerPageOptions,
       store: {
         data,
         pagination: {
@@ -266,9 +291,12 @@ class TableComponent extends Component {
                   selected={isSelected}
                   className={isEnabled}
                   aria-checked={isSelected}
-                  onClick={e => this.handleClick(e, row, selected)}
+                  onClick={() => this.onRowSelection(event, row, selected)}
                 >
-                  <TableCell padding="checkbox"><Checkbox checked={isSelected}/></TableCell>
+                  <TableCell padding="checkbox">
+                    <Checkbox checked={isSelected}
+                              onClick={event => this.handleClick(event, row, selected)}/>
+                  </TableCell>
                   {
                     tableHeader.map((col, i) => (
                       <TableCell
@@ -296,6 +324,7 @@ class TableComponent extends Component {
               page={current_page - 1}
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
             />
           </TableRow>
         </TableFooter>
@@ -314,6 +343,7 @@ TableComponent.defaultProps = {
   data        : [],
   tableCellPropsFunc: () => ({}),
   CellContent: () => null,
+  rowsPerPageOptions: [ 5, 10, 25 ] // The per page may not be greater than 50.
 };
 
 TableComponent.propTypes = {
@@ -338,6 +368,7 @@ TableComponent.propTypes = {
   onEdit           : PropTypes.func,
   tableCellPropsFunc: PropTypes.func,
   CellContent: PropTypes.func,
+  rowsPerPageOptions: PropTypes.arrayOf( PropTypes.number ),
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({

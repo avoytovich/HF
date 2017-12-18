@@ -1,4 +1,4 @@
-import { setQuestion }      from '../actions';
+import { setQuestion, findByArea, findConditionsByArea }      from '../actions';
 
 export const SYMBOLS = [
   {value: '>',   label: '>'},
@@ -8,6 +8,66 @@ export const SYMBOLS = [
   {value: '!=',  label: '!='},
   {value: '==',  label: '=='}
 ];
+
+
+export const onSingleAsyncChange = (value, edit, props) => {
+  const { path, pathType, itemState} = props;
+
+  if (!value || (Array.isArray(value) && !value.length))
+    return  setQuestion(path, pathType, '', 'key');
+
+  const { subtype, type, values, min, max} = value.answer;
+
+  if (subtype === 'range') {
+    const _value = edit ?
+      itemState[0] :
+      {
+        key: value.key,
+        op: '==',
+        value: [min]
+      };
+
+    setQuestion(path, pathType, _value);
+    return { type: 'range', min, max }
+  }
+  else {
+    const answers = getAnswersList(values);
+    const _value = edit ?
+      itemState[0] :
+      {
+        key: value.value,
+        op: '==',
+        value: ['A']
+      };
+
+    setQuestion(path, pathType, _value);
+    return { type: 'list', answers };
+  }
+};
+
+export const onConditionAsyncChange = (value, edit, props) => {
+  const { path, pathType, itemState} = props;
+  if (!value || (Array.isArray(value) && !value.length))
+      return  setQuestion(path, pathType, '', 'key');
+
+  const _value = edit ? itemState[0] : { key: value.value };
+  setQuestion(path, pathType, _value);
+};
+
+export const onMultipleAsyncChange = (value, edit, props) => {
+  const { path, pathType, itemState } = props;
+
+  if (!value || (Array.isArray(value) && !value.length))
+      return  setQuestion(path, pathType, '', 'key');
+
+  const { subtype, type, values, min, max} = value.answer,
+        answers = getAnswersList(values),
+        _value = edit ? itemState[0].value :  ['A'];
+
+  setQuestion(path, pathType, { key: value.value, value: _value });
+  return { type: 'list', answers }
+};
+
 
 export const onAnswerChange = (event, {path, pathType}, key) => {
   const value = event.target.value;
@@ -29,8 +89,88 @@ export const getAnswerValue = (list, value) =>
     return value === item.label ? item.label : result;
   }, 'A' );
 
+
+export const getMultipleAnswerValue = (list, value) =>
+    list.reduce((result, item) => {
+      if (item && !value) return item.label;
+      return value.some(el => el === item.label) ? result.concat(item.label) : result;
+    }, []);
+
 export const  getAnswersList = (values) =>
   Object.keys(values).map(key => {
     const _value = values[key] && values[key].en;
     return {label: key, value: _value}
   });
+
+
+export const getOptions = (input, key, onChangeCallBack, props, questionType, answerType, _type) => {
+  switch(true) {
+    case !input.length  && !key:
+      return Promise.resolve({ options: [] });
+
+    case input.length && input.length < 3:
+      return Promise.resolve({ options: [] });
+
+    default:
+      const { type, area, step } = props;
+
+      const body = {
+        type: _type || type,
+        area: area || null,
+        step: step || null,
+        answerType
+      };
+
+      return findByArea(questionType, 'findByAre', body, input || key).then(res => {
+        const { data } = res.data;
+        const _data = data.map(item => {
+          return Object.assign({}, item, { label: item.question.en, value: item.key })
+        });
+
+        !input.length && key && onChangeCallBack(_data[0], true);
+
+        return {
+          options: _data,
+          // CAREFUL! Only set this to true when there are no more options,
+          // or more specific queries will not be sent to the server.
+          complete: true
+        }
+      });
+  }
+};
+
+export const getConditionOptions = (input, key, onChangeCallBack, props, questionType, answerType, _type) => {
+  switch(true) {
+    case !input.length  && !key:
+      return Promise.resolve({ options: [] });
+
+    case input.length && input.length < 3:
+      return Promise.resolve({ options: [] });
+
+    default:
+      const { type, area, step } = props;
+
+      const body = {
+//        type: _type || type,
+        area: area || null,
+//        step: step || null,
+//        answerType
+      };
+
+      return findConditionsByArea(questionType, 'findConditionsByAre', body).then(res => {
+        const { data } = res.data;
+        const _data = data.map(item => {
+          return Object.assign({}, item, { label: item.title, value: item.key })
+        });
+
+        !input.length && key && onChangeCallBack(_data[0], true);
+
+        return {
+          options: _data,
+          // CAREFUL! Only set this to true when there are no more options,
+          // or more specific queries will not be sent to the server.
+          complete: true
+        }
+      });
+  }
+};
