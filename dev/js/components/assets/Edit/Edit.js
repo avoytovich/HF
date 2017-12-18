@@ -14,12 +14,12 @@ import Dropzone from '../Dropzone/Dropzone'
 import HeaderAssets from '../HeaderAssets/HeaderAssets'
 
 class Edit extends Component {
-  _onDrop = (acceptedF, rejectedF) => {
+  _onFile = (e) => {
+    console.log(this.refs.file.files);
+    const acceptedF = [...this.refs.file.files];
     const { dispatchAssetsPayload } = this.props;
     const tmp_files = acceptedF.map(({ type, name }) => ({
       type: type.split('/').shift() === 'image' ? 'image' : 'video',
-      title: '',
-      description: '',
       name_real: name.split('.').shift()
     }));
     dispatchAssetsPayload({ tmp_files });
@@ -58,7 +58,7 @@ class Edit extends Component {
     return (
       <div className="change-file-wrapper">
         <p>CHANGE FILE</p>
-        <input type="file" className="change-file-input"/>
+        <input type="file" ref='file' onChange={this._onFile} className="change-file-input"/>
       </div>
     );
   }
