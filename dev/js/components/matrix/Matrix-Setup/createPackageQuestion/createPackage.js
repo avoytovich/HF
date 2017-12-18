@@ -37,7 +37,7 @@ class CreatePackageComponent extends Component {
   state = {
     questionType    : 'packages',
     keyIsUniqueError: '',
-    tab: ''
+    tab: '0'
   };
 
   constructor(props) {
@@ -102,7 +102,6 @@ class CreatePackageComponent extends Component {
       ]
     };
 
-    debugger;
     !this.props.routeParams.id ?
       diagnosisQuestionCreate('exercises', 'packages', result)
       .then(() => browserHistory.push(`/matrix-setup/packages`)) :
@@ -112,14 +111,9 @@ class CreatePackageComponent extends Component {
 
   };
 
-
   cancel = () => browserHistory.push(`/matrix-setup/packages`);
 
-
-  handleTabChange = (event, tab) => {
-    this.setState({ tab });
-  };
-
+  handleTabChange = (event, tab) => this.setState({ tab });
 
   render() {
     const {
@@ -270,26 +264,30 @@ class CreatePackageComponent extends Component {
                 sm={12}
                 className="rules">
 
-            <div>
-              <span>Exercises</span>
-
-              <div onClick={() => {}}>
-                ADD LEVEL
-              </div>
-
-            </div>
+            <Grid container className="row-item package-level-header">
+              <Grid item xs={6} className="package-level-header-item-left">
+                  <Typography
+                    type="title">
+                    Exercises
+                  </Typography>
+              </Grid>
+              <Grid item xs={6} className="package-level-header-item-right">
+                <Button color="primary" onClick={() => {}}>
+                  + ADD LEVEL
+                </Button>
+              </Grid>
+            </Grid>
             <Tabs
               value={this.state.tab}
               onChange={this.handleTabChange}
               indicatorColor="primary"
               textColor="primary"
-              centered
+              scrollable
+              fullWidth
             >
               <Tab label="Level 1" />
-              <Tab label="Level 2" />
-              <Tab label="Level 3" />
-            </Tabs>
 
+            </Tabs>
           </Grid>
 
         </Grid>

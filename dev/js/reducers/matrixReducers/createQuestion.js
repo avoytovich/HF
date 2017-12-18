@@ -168,7 +168,6 @@ const setFullQuestion = (state, action) => {
 };
 
 const setFullQuestionForCondition = (state, action) => {
-  debugger;
   const { body: { area, title, key, rule }} = action.payload;
   const _body = {
     bodyAreas: { key: area, label:area, title: area },
@@ -176,7 +175,6 @@ const setFullQuestionForCondition = (state, action) => {
     questionKey: key,
     rules: rule,
   };
-  debugger;
   return Object.assign({}, state, _body);
 }
 

@@ -34,7 +34,6 @@ class CreateTreatmentsComponent extends Component {
 
   componentWillMount() {
     if (this.props.routeParams.id) {
-      debugger;
       getTreatmentById('diagnostics', 'treatments', this.props.routeParams.id);
     }
   }
@@ -113,7 +112,6 @@ class CreateTreatmentsComponent extends Component {
 
   done = (value) => {
     const { bodyAreas, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
-    debugger;
     const result = {
       rule   : rules,
       key    : questionKey,
