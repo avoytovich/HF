@@ -338,11 +338,11 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 TableComponent.defaultProps = {
-  tableHeader : [],
-  selected    : [],
-  data        : [],
+  tableHeader       : [],
+  selected          : [],
+  data              : [],
   tableCellPropsFunc: () => ({}),
-  CellContent: () => null,
+  CellContent       : () => null,
   rowsPerPageOptions: [ 5, 10, 25 ] // The per page may not be greater than 50.
 };
 
