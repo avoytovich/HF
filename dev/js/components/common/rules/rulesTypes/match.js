@@ -5,7 +5,7 @@ import TextField              from 'material-ui/TextField';
 import Select                 from 'material-ui/Select';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
-import { QuestionVariety }    from '../'
+import { QuestionVariety }    from '../index'
 import {
   onAnswerChange,
   onSymbolChange,
