@@ -8,6 +8,8 @@ import { diagnosisQuestionCreate,
   clearCreateQuestion,
   findUniqueKey,
   findPackage,
+  getTreatmentById,
+  updateQuestionCreate,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable, Async }    from 'react-select';
@@ -30,7 +32,16 @@ class CreateTreatmentsComponent extends Component {
     updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
-  componentWillUnmount() { clearCreateQuestion(); }
+  componentWillMount() {
+    if (this.props.routeParams.id) {
+      debugger;
+      getTreatmentById('diagnostics', 'treatments', this.props.routeParams.id);
+    }
+  }
+
+  componentWillUnmount() {
+    clearCreateQuestion();
+  }
 
   getAreaOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
@@ -102,16 +113,22 @@ class CreateTreatmentsComponent extends Component {
 
   done = (value) => {
     const { bodyAreas, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
+    debugger;
     const result = {
       rule   : rules,
       key    : questionKey,
-      area   : bodyAreas.key || bodyAreas.value,
+      area   : bodyAreas.key || bodyAreas.value || bodyAreas.label,
       title  : questionTitle,
       package: treatmentsPackage.value,
       level  : treatmentsLevels,
     };
-    diagnosisQuestionCreate('diagnostics', 'treatments', result)
-    .then(() => browserHistory.push(`/matrix-setup/treatments`));
+
+    !this.props.routeParams.id ?
+      diagnosisQuestionCreate('diagnostics', 'treatments', result)
+      .then(() => browserHistory.push(`/matrix-setup/treatments`)) :
+
+      updateQuestionCreate('diagnostics', 'conditions', result, this.props.routeParams.id)
+      .then(() => browserHistory.push(`/matrix-setup/treatments`))
   };
 
 
@@ -152,7 +169,7 @@ class CreateTreatmentsComponent extends Component {
 
           </div>
         </div>
-        <Grid container className="margin-remove">
+        <Grid container className="margin-remove create-question-body-wrap">
 
           <Grid item
                 md={6}

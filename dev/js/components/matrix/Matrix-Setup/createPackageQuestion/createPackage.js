@@ -7,6 +7,7 @@ import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
   findUniqueKey,
+  updateQuestionCreate,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -18,14 +19,24 @@ import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
 
+
+export const THERAPY = [
+  { value: '1',  label: 'Daily'},
+  { value: '2',  label: 'Every other day'},
+  { value: '7',  label: 'Weekly'},
+  { value: '2H', label: 'Every two hours'},
+  { value: 'ME', label: 'Morning and evening'},
+];
+
+export const PACKAGE_TYPE = [
+  {value: 'symptomatic', label: 'Symptomatic'},
+  {value: 'therapeutic', label: 'Therapeutic'}
+];
+
 class CreatePackageComponent extends Component {
   state = {
     questionType    : 'packages',
     keyIsUniqueError: '',
-    type: [
-      {value: 'symptomatic', label: 'Symptomatic'},
-      {value: 'therapeutic', label: 'Therapeutic'}
-    ],
     tab: ''
   };
 
@@ -75,16 +86,30 @@ class CreatePackageComponent extends Component {
 
 
   done = (value) => {
-    const { bodyAreas, questionKey, questionTitle, rules } = value;
+    const { bodyAreas, questionKey, questionTitle, package_levels, therapyContinuity, packageType } = value;
     const result = {
-      rule  : rules,
-      key   : questionKey,
-//      zone  : bodyAreas.key || bodyAreas.value,
-      area  : bodyAreas.key || bodyAreas.value,
-      title : questionTitle
+      key           : questionKey,
+      body_area     : bodyAreas.key || bodyAreas.value || bodyAreas.label,
+      title         : questionTitle,
+      type          : packageType,
+//      therapy       : therapyContinuity,
+      package_levels: [
+        {
+          "level" : "0",
+          "therapy_continuity" : 1,
+          "exercise_ids":[3,4,5,6,7,8,9]
+        }
+      ]
     };
-    diagnosisQuestionCreate('diagnostics', 'packages', result)
-    .then(() => browserHistory.push(`/matrix-setup/packages`));
+
+    debugger;
+    !this.props.routeParams.id ?
+      diagnosisQuestionCreate('exercises', 'packages', result)
+      .then(() => browserHistory.push(`/matrix-setup/packages`)) :
+
+      updateQuestionCreate('exercises', 'packages', result, this.props.routeParams.id)
+      .then(() => browserHistory.push(`/matrix-setup/packages`))
+
   };
 
 
@@ -103,7 +128,8 @@ class CreatePackageComponent extends Component {
         questionTitle,
         bodyAreas,
         questionKey,
-        sequence
+        packageType,
+        therapyContinuity,
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
@@ -183,17 +209,49 @@ class CreatePackageComponent extends Component {
 
 
               <Grid container className="row-item">
-                <Grid item xs={12}>
+                <Grid item md={6} sm={12}>
+                  <Typography
+                    type="caption"
+                    gutterBottom
+                    className="custom-select-title">
+                    Type
+                  </Typography>
                   <SELECT
-                    value={''}
-                    onChange={() => {}}
+                    value={packageType}
+                    onChange={(event) => updateCrateQuestionFields(event.target.value, 'packageType')}
+                    className="MuiFormControlDEFAULT"
                   >
-                    {this.state.type.map((item, index) => (
+                    {PACKAGE_TYPE.map((item, index) => (
                       <MenuItem
                         key={item.value}
                         value={item.value}
                         style={{
-                          fontWeight: this.state.type.indexOf(item.value) !== -1 ? '500' : '400',
+                          fontWeight: PACKAGE_TYPE.indexOf(item.value) !== -1 ? '500' : '400',
+                        }}
+                      >
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </SELECT>
+                </Grid>
+                <Grid item md={6} sm={12} >
+                  <Typography
+                    type="caption"
+                    gutterBottom
+                    className="custom-select-title">
+                    Therapy continuity
+                  </Typography>
+                  <SELECT
+                    value={therapyContinuity}
+                    onChange={(event) =>  updateCrateQuestionFields(event.target.value, 'therapyContinuity')}
+                    className="MuiFormControlDEFAULT"
+                  >
+                    {THERAPY.map((item, index) => (
+                      <MenuItem
+                        key={item.value}
+                        value={item.value}
+                        style={{
+                          fontWeight: PACKAGE_TYPE.indexOf(item.value) !== -1 ? '500' : '400',
                         }}
                       >
                         {item.label}

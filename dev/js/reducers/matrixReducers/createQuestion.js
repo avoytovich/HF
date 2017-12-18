@@ -34,7 +34,9 @@ const initialState = {
   treatmentsLevels: '',
   treatmentsPackage: '',
   errors: {},
-  page: null
+  page: null,
+  packageType: 'symptomatic',
+  therapyContinuity: '1',
 };
 
 const createQuestionUpdate = (state, action) => {
@@ -166,6 +168,7 @@ const setFullQuestion = (state, action) => {
 };
 
 const setFullQuestionForCondition = (state, action) => {
+  debugger;
   const { body: { area, title, key, rule }} = action.payload;
   const _body = {
     bodyAreas: { key: area, label:area, title: area },
@@ -173,6 +176,7 @@ const setFullQuestionForCondition = (state, action) => {
     questionKey: key,
     rules: rule,
   };
+  debugger;
   return Object.assign({}, state, _body);
 }
 
