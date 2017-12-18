@@ -9,6 +9,7 @@ import { diagnosisQuestionCreate,
   clearCreateQuestion,
   findUniqueKey,
   addNewAnswer,
+  getSequenceList,
   updateQuestionCreate,
   removeAnswer,
   getQuestionById,
@@ -26,12 +27,12 @@ import Radio                        from 'material-ui/Radio';
 import Input                        from '../../../common/Input/Input';
 import { FormControlLabel,
          FormGroup }                from 'material-ui/Form';
-import _select                      from 'material-ui/Select';
+import MUISelect                    from 'material-ui/Select';
 import ChooseSequence               from './chooseSequence';
 
 class CreateQuestionComponent extends Component {
   state = {
-    questionType    : 'Diagnosis',
+    questionType    : 'diagnosis',
     answer          : [1,2,3],
     sequenceTypeList: [
       {label: 'Normal', value: 'normal'},
@@ -48,15 +49,19 @@ class CreateQuestionComponent extends Component {
     questionLang    : 'en',
     answerLang      : ['en', 'en'],
     keyIsUniqueError: '',
-    chooseSequence  : false
+    chooseSequence  : false,
+    sequenceList    : []
   };
 
   constructor(props) {
     super(props);
+    clearCreateQuestion();
+
+    updateCrateQuestionFields(this.state.questionType, 'page');
+    this.getSequenceQuestionList();
   }
 
   componentWillMount() {
-    clearCreateQuestion();
     if (this.props.routeParams.id) {
       getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
         if (answer.values) {
@@ -67,6 +72,7 @@ class CreateQuestionComponent extends Component {
       });
     }
   }
+
 
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
@@ -157,7 +163,7 @@ class CreateQuestionComponent extends Component {
       type : 'diagnostic',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
-      area : bodyAreas.key || bodyAreas.value,
+      area : bodyAreas.key || bodyAreas.value || bodyAreas.label,
       title: questionTitle,
       question: {
         en: question.en,
@@ -283,6 +289,10 @@ class CreateQuestionComponent extends Component {
     }
   };
 
+  getSequenceQuestionList = () =>
+    getSequenceList('diagnostics', 'sequenceList')
+    .then(({data}) => this.setState({sequenceList: data.data}));
+
   render() {
     const {
       createDiagnosisQuestion,
@@ -293,12 +303,6 @@ class CreateQuestionComponent extends Component {
         sequence,
         sequenceType,
         answerType,
-        single,
-        multiple,
-        range,
-        answer,
-        enterAnswer,
-        rules,
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
@@ -427,7 +431,7 @@ class CreateQuestionComponent extends Component {
               {/* Sequence */}
               <Grid container  className="row-item">
                 <Grid item lg={3} className="sequence-type">
-                  <_select
+                  <MUISelect
                     value={sequenceType}
                     onChange={this.handleSequenceTypeChange}
                     MenuProps={{
@@ -449,7 +453,7 @@ class CreateQuestionComponent extends Component {
                         {item.label}
                       </MenuItem>
                     ))}
-                  </_select>
+                  </MUISelect>
                 </Grid>
 
                 <Grid item xs={2}
@@ -459,16 +463,46 @@ class CreateQuestionComponent extends Component {
                     gutterBottom>
                     Sequence
                   </Typography>
-                  <div className="sequence" onClick={() => this.openChooseSequence(true)}>
-                    { sequence }
+
+                  <div className="sequence" >
+                    <MUISelect
+                      value={sequence}
+                      onChange={({target}) => updateCrateQuestionFields(target.value, 'sequence')}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            width: 400,
+                          },
+                        },
+                      }}
+                    >
+                      {this.state.sequenceList.map((item, index) => (
+                        <MenuItem
+                          key={item.step}
+                          value={item.step}
+                          style={{
+                            fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
+                          }}
+                        >
+                          {item.step}
+                        </MenuItem>
+                      ))}
+                    </MUISelect>
                   </div>
                 </Grid>
+                <Typography color="primary"
+                            className="open-sequence"
+                            onClick={() => this.openChooseSequence(true)}>
+                  OPEN SEQUENCE
+                </Typography>
               </Grid>
 
-              <ChooseSequence
-                  open={this.state.chooseSequence}
-                  handleRequestClose={(value) => this.openChooseSequence(value)}/>
-
+              {this.state.chooseSequence &&
+                <ChooseSequence
+                    open={this.state.chooseSequence}
+                    list={this.state.sequenceList}
+                    defaultStep={sequence}
+                    handleRequestClose={(value) => this.openChooseSequence(value)}/>}
 
               <Grid className="title answer">
                 <Typography type="title"
@@ -508,6 +542,7 @@ class CreateQuestionComponent extends Component {
 
             <DiagnosisRulesComponent
               type="diagnostic"
+              page="diagnostic"
               area={bodyAreas}
               step={sequence}
             />

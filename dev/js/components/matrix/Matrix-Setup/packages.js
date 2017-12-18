@@ -35,18 +35,8 @@ class PackagesComponent extends Component {
     return (
       <div id="packages-component">
 
-        <DeactivateComponent
-          path="packages"
-          domen="exercises"
-          typeKey="deactivateOpen"
-          list={selected}
-          deactivateOpen={deactivateOpen}
-          open={this.updateModal}
-          itemKey="title"
-          query={this.props.location.query}
-        />
-
         <DeleteComponent
+          pathReq="packages"
           path="packages"
           domen="exercises"
           typeKey="deleteOpen"
@@ -66,12 +56,6 @@ class PackagesComponent extends Component {
                   onClick={() => this.updateModal('deleteOpen', true)}>
             <Delete />
             Delete
-          </Button>
-
-          <Button raised dense
-                  onClick={() => this.updateModal('deactivateOpen', true)}>
-            <NotInterested />
-            Deactivate
           </Button>
 
         </TableControls>

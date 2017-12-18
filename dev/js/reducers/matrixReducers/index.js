@@ -1,4 +1,4 @@
-import createDiagnosisQuestion from './createDiagnosisQuestion';
+import createDiagnosisQuestion from './createQuestion';
 
 export default {
   createDiagnosisQuestion

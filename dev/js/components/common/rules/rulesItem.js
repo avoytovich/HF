@@ -11,10 +11,9 @@ import {
 }                           from '../../../actions';
 import {
   DEFAULT_ITEM_TYPE,
-  TYPES,
+  checkQuestionType,
   findType
 }                           from '../../../utils/matrix';
-import Select               from 'material-ui/Select';
 import get                  from 'lodash/get'
 import {
   MatchComponent,
@@ -22,12 +21,18 @@ import {
   InComponent,
   MultipleComponent,
   NotEqualComponent,
-
+  ConditionsComponent
 }                           from './rulesTypes';
 import { DEF_ITEM }         from '../../../utils/matrix';
 
 
 class RulesItemComponent extends Component {
+  listTypes = [];
+
+  componentWillMount() {
+    this.listTypes = checkQuestionType(this.props.page);
+  }
+
 
   handleChange = (event, path, item) => {
     const type  = event.target.value;
@@ -44,7 +49,7 @@ class RulesItemComponent extends Component {
     const { reqType, area, step, type, path } = this.props;
 
     const _props = {
-      area: area.key || area.value || area.title,
+      area: area ? area.key || area.value || area.title : null,
       type: reqType,
       step: step,
       path,
@@ -62,12 +67,14 @@ class RulesItemComponent extends Component {
         return <NotEqualComponent {..._props}/>;
       case 'in':
         return <InComponent {..._props}/>;
+      case 'true':
+        return <ConditionsComponent {..._props}/>;
       default:
     }
   };
 
   render() {
-    const { type, key, path, item } = this.props;
+    const { type, key, path, item, page} = this.props;
 
     return <div className="rule-item">
       <div className="rule-nav">
@@ -80,7 +87,7 @@ class RulesItemComponent extends Component {
           margin="normal"
           fullWidth={true}
         >
-          {TYPES.map((option, index) =>
+          {this.listTypes.map((option, index) =>
             (<MenuItem key={index}
                        value={option.value}>
               {option.label}
@@ -102,7 +109,7 @@ class RulesItemComponent extends Component {
 const mapStateToProps = (state, props) =>{
   const { path, type } = props;
   return ({
-    state: state.createDiagnosisQuestion,
+    store    : state.createDiagnosisQuestion,
     itemState: get(state.createDiagnosisQuestion, `${path}.${type}`)
   })
 };

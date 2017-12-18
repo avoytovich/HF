@@ -7,15 +7,27 @@ import { changeTypeOfRule }   from '../../../actions';
 import Button                 from 'material-ui/Button';
 import ClickAwayListener      from 'material-ui/utils/ClickAwayListener';
 import Menu, { MenuItem }     from 'material-ui/Menu';
-import { mathType, findType } from '../../../utils/matrix';
-import { addRules,
-  changeToItemRuleRule }      from '../../../actions';
-import { TYPES, DEF_ITEM }              from '../../../utils/matrix';
+import {
+  mathType,
+  checkQuestionType,
+  findType
+}                             from '../../../utils/matrix';
+import {
+  addRules,
+  changeToItemRuleRule
+}                             from '../../../actions';
+import { TYPES, DEF_ITEM }    from '../../../utils/matrix';
 
 class RulesBlockComponent extends Component {
+  listTypes = [];
+
   state = {
     open: false
   };
+
+  componentDidMount() {
+    this.listTypes = checkQuestionType(this.props.page);
+  }
 
   handleChange = (event, path, item) => {
     const type  = event.target.value;
@@ -44,8 +56,9 @@ class RulesBlockComponent extends Component {
     });
     this.handleRequestClose();
   };
+
   render() {
-    const { type, reqType, path, item, step, area } = this.props;
+    const { type, reqType, path, item, step, area, page } = this.props;
     return <div className="rule-block">
       <div className={`nav ${type}`}>
         <TextField
@@ -56,7 +69,7 @@ class RulesBlockComponent extends Component {
           className="types-select"
           margin="normal"
         >
-          {TYPES.map((option, index) =>
+          {checkQuestionType(this.props.page).map((option, index) =>
             (<MenuItem key={index}
                       value={option.value}>
               {option.label}
@@ -76,6 +89,7 @@ class RulesBlockComponent extends Component {
                         reqType={reqType}
                         step={step}
                         area={area}
+                        page={page}
                         />;
             case 'item':
               return <RulesItemComponent
@@ -86,6 +100,7 @@ class RulesBlockComponent extends Component {
                         reqType={reqType}
                         step={step}
                         area={area}
+                        page={page}
               />;
             default:
               console.log('Wrong type!');
@@ -106,7 +121,7 @@ class RulesBlockComponent extends Component {
               anchorEl={this.state.anchorEl}
               open={this.state.open}
               onRequestClose={this.handleRequestClose}>
-              {TYPES.map((item, index) =>
+              {this.listTypes.map((item, index) =>
                 (<MenuItem key={index}
                            onClick={() => this.onSelected(item, path, type)}>
                   {item.label}
@@ -120,7 +135,7 @@ class RulesBlockComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  state: state.createDiagnosisQuestion
+  store: state.createDiagnosisQuestion
 });
 
 export default connect(mapStateToProps)(RulesBlockComponent);

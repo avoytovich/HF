@@ -9,7 +9,10 @@ import { diagnosisQuestionCreate,
   clearCreateQuestion,
   findUniqueKey,
   addNewAnswer,
+  getSequenceList,
+  updateQuestionCreate,
   removeAnswer,
+  getQuestionById,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -23,13 +26,13 @@ import Typography                   from 'material-ui/Typography';
 import Radio                        from 'material-ui/Radio';
 import Input                        from '../../../common/Input/Input';
 import { FormControlLabel,
-         FormGroup }                from 'material-ui/Form';
-import _select                      from 'material-ui/Select';
+  FormGroup }                       from 'material-ui/Form';
+import MUISelect                    from 'material-ui/Select';
 import ChooseSequence               from '../createDiagnosisQuestion/chooseSequence';
 
 class CreateEvaluationComponent extends Component {
   state = {
-    questionType    : 'Diagnosis',
+    questionType    : 'evaluations',
     answer          : [1,2,3],
     sequenceTypeList: [
       {label: 'Normal', value: 'normal'},
@@ -46,14 +49,30 @@ class CreateEvaluationComponent extends Component {
     questionLang    : 'en',
     answerLang      : ['en', 'en'],
     keyIsUniqueError: '',
-    chooseSequence  : false
+    chooseSequence  : false,
+    sequenceList    : []
   };
 
   constructor(props) {
     super(props);
+    clearCreateQuestion();
+
+    updateCrateQuestionFields(this.state.questionType, 'page');
+    this.getSequenceQuestionList();
   }
 
-  componentWillMount() { clearCreateQuestion(); }
+  componentWillMount() {
+    if (this.props.routeParams.id) {
+      getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
+        if (answer.values) {
+          const keys = Object.keys(answer.values);
+          const answerLang = keys.map(() => 'en');
+          this.setState({answerLang})
+        }
+      });
+    }
+  }
+
 
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
@@ -157,8 +176,13 @@ class CreateEvaluationComponent extends Component {
       rule: rules
     };
 
-    diagnosisQuestionCreate('diagnostics', 'createQuestion', result)
-    .then(() => browserHistory.push(`/matrix-setup/diagnosis`));
+    !this.props.routeParams.id ?
+      diagnosisQuestionCreate('diagnostics', 'createQuestion', result)
+      .then(() => browserHistory.push(`/matrix-setup/diagnosis`)) :
+
+      updateQuestionCreate('diagnostics', 'createQuestion', result, this.props.routeParams.id)
+      .then(() => browserHistory.push(`/matrix-setup/diagnosis`))
+
   };
 
   getSequenceTypeResult = (sequenceType, sequence) => {
@@ -171,16 +195,18 @@ class CreateEvaluationComponent extends Component {
 
   answers = (type) => {
     const { single, multiple } = this.props.createDiagnosisQuestion;
+
     switch (type) {
       case 'single':
         return <div className="answer-wrap">
-            <ol type="A" style={{width: '100%'}}>
+          <ol type="A" style={{width: '100%'}}>
             {single.map((answer, index) => (
               <li  key={index} className="row-item">
                 <div className="answer-item">
                   <Input
-                    id={`single[${index}].${this.state.answerLang[index]}`}
+                    id={`single[${index}][${this.state.answerLang[index]}]`}
                     reducer={this.props.createDiagnosisQuestion}
+                    className="MuiFormControl-CUSTOM"
                   />
                   <Clear onClick={() => removeAnswer(type, index)}/>
                 </div>
@@ -192,7 +218,7 @@ class CreateEvaluationComponent extends Component {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="English" value="en" />
+                  <Tab label="English" value="en"/>
                   <Tab label="Sweden"  value="swe" />
                 </Tabs>
               </li>))}
@@ -204,33 +230,33 @@ class CreateEvaluationComponent extends Component {
         </div>;
 
       case 'range':
-          return <div className="answer-wrap range">
+        return <div className="answer-wrap range">
 
-            <Typography type="title" gutterBottom>
-              From
-            </Typography>
+          <Typography type="title" gutterBottom>
+            From
+          </Typography>
 
-            <Input
-              id='range.from'
-              type='number'
-              reducer={this.props.createDiagnosisQuestion}
-            />
+          <Input
+            id='range.from'
+            type='number'
+            reducer={this.props.createDiagnosisQuestion}
+          />
 
-            <Typography type="title" gutterBottom className="range-to">
-             To
-            </Typography>
+          <Typography type="title" gutterBottom className="range-to">
+            To
+          </Typography>
 
-            <Input
-              id='range.to'
-              type='number'
-              reducer={this.props.createDiagnosisQuestion}
-            />
+          <Input
+            id='range.to'
+            type='number'
+            reducer={this.props.createDiagnosisQuestion}
+          />
 
-          </div>;
+        </div>;
 
       default:
         return <div className="answer-wrap">
-            <ol type="A" style={{width: '100%'}}>
+          <ol type="A" style={{width: '100%'}}>
             {multiple.map((answer, index) => (
               <li  key={index} className="row-item">
 
@@ -250,7 +276,7 @@ class CreateEvaluationComponent extends Component {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="English" value="en" />
+                  <Tab label="English" value="en"/>
                   <Tab label="Sweden"  value="swe" />
                 </Tabs>
               </li>))}
@@ -263,6 +289,10 @@ class CreateEvaluationComponent extends Component {
     }
   };
 
+  getSequenceQuestionList = () =>
+    getSequenceList('diagnostics', 'sequenceList')
+    .then(({data}) => this.setState({sequenceList: data.data}));
+
   render() {
     const {
       createDiagnosisQuestion,
@@ -273,12 +303,6 @@ class CreateEvaluationComponent extends Component {
         sequence,
         sequenceType,
         answerType,
-        single,
-        multiple,
-        range,
-        answer,
-        enterAnswer,
-        rules,
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
@@ -338,12 +362,12 @@ class CreateEvaluationComponent extends Component {
                     Body Areas
                   </Typography>
                   <AsyncCreatable
-                      name='body-areas'
-                      id='body-areas'
-                      loadOptions={this.getOptions}
-                      onChange={this.onAreasChange}
-                      placeholder={'Select body area'}
-                      value={bodyAreas}/>
+                    name='body-areas'
+                    id='body-areas'
+                    loadOptions={this.getOptions}
+                    onChange={this.onAreasChange}
+                    placeholder={'Select body area'}
+                    value={bodyAreas}/>
                 </Grid>
               </Grid>
 
@@ -407,7 +431,7 @@ class CreateEvaluationComponent extends Component {
               {/* Sequence */}
               <Grid container  className="row-item">
                 <Grid item lg={3} className="sequence-type">
-                  <_select
+                  <MUISelect
                     value={sequenceType}
                     onChange={this.handleSequenceTypeChange}
                     MenuProps={{
@@ -429,7 +453,7 @@ class CreateEvaluationComponent extends Component {
                         {item.label}
                       </MenuItem>
                     ))}
-                  </_select>
+                  </MUISelect>
                 </Grid>
 
                 <Grid item xs={2}
@@ -439,16 +463,46 @@ class CreateEvaluationComponent extends Component {
                     gutterBottom>
                     Sequence
                   </Typography>
-                  <div className="sequence" onClick={() => this.openChooseSequence(true)}>
-                    { sequence }
+
+                  <div className="sequence" >
+                    <MUISelect
+                      value={sequence}
+                      onChange={({target}) => updateCrateQuestionFields(target.value, 'sequence')}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            width: 400,
+                          },
+                        },
+                      }}
+                    >
+                      {this.state.sequenceList.map((item, index) => (
+                        <MenuItem
+                          key={item.step}
+                          value={item.step}
+                          style={{
+                            fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
+                          }}
+                        >
+                          {item.step}
+                        </MenuItem>
+                      ))}
+                    </MUISelect>
                   </div>
                 </Grid>
+                <Typography color="primary"
+                            className="open-sequence"
+                            onClick={() => this.openChooseSequence(true)}>
+                  OPEN SEQUENCE
+                </Typography>
               </Grid>
 
+              {this.state.chooseSequence &&
               <ChooseSequence
-                  open={this.state.chooseSequence}
-                  handleRequestClose={(value) => this.openChooseSequence(value)}/>
-
+                open={this.state.chooseSequence}
+                list={this.state.sequenceList}
+                defaultStep={sequence}
+                handleRequestClose={(value) => this.openChooseSequence(value)}/>}
 
               <Grid className="title answer">
                 <Typography type="title"
@@ -469,7 +523,7 @@ class CreateEvaluationComponent extends Component {
                           aria-label={item.value}
                         />}
                         label={item.label} />
-                      </Grid>)
+                    </Grid>)
                   )}
                 </Grid>
               </FormGroup>
@@ -488,6 +542,7 @@ class CreateEvaluationComponent extends Component {
 
             <DiagnosisRulesComponent
               type="diagnostic"
+              page="evaluations"
               area={bodyAreas}
               step={sequence}
             />
