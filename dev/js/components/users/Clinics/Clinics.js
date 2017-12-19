@@ -18,6 +18,17 @@ class Clinics extends Component {
     deleteOpen: false
   };
 
+  _tableCellPropsFunc = (row, col) => {
+    if (col.key === 'name') {
+      return {
+        onClick: (e) => {
+          e.stopPropagation();
+          browserHistory.push(`/clinic/${row.id}/profile`);
+        }
+      }
+    }
+    return {};
+  };
 
   create = (id) => id ?
     browserHistory.push(`/diagnosis-create`) :
@@ -84,6 +95,7 @@ class Clinics extends Component {
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
+          tableCellPropsFunc={this._tableCellPropsFunc}
         />
 
       </div>
