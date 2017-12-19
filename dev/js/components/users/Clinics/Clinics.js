@@ -1,7 +1,7 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
 import isEmpty                  from 'lodash/isEmpty';
-import { SEL_TAB }              from '../../../utils/constants/pageContent';
+import { CLINICS_TAB }              from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
@@ -36,9 +36,9 @@ class Clinics extends Component {
   };
 
   render() {
-    const { tableHeader } = SEL_TAB;
+    const { tableHeader } = CLINICS_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
-
+    const querySelector = {...this.props.location.query,...{type: 'clinic'}};
     return (
       <div id="diagnosis-component">
 
@@ -83,6 +83,7 @@ class Clinics extends Component {
           selected={selected}
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
+          query= {querySelector}
         />
 
       </div>
