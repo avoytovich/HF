@@ -20,11 +20,11 @@ export const onSingleAsyncChange = (value, edit, props) => {
 
   if (subtype === 'range') {
     const _value = edit ?
-      itemState[0] :
+      itemState :
       {
         key: value.key,
         op: '==',
-        value: [min]
+        value: min
       };
 
     setQuestion(path, pathType, _value);
@@ -33,11 +33,11 @@ export const onSingleAsyncChange = (value, edit, props) => {
   else {
     const answers = getAnswersList(values);
     const _value = edit ?
-      itemState[0] :
+      itemState :
       {
         key: value.value,
         op: '==',
-        value: ['A']
+        value: 'A'
       };
 
     setQuestion(path, pathType, _value);
@@ -128,8 +128,6 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
         const _data = data.map(item => {
           return Object.assign({}, item, { label: item.question.en, value: item.key })
         });
-
-        debugger;
 
         !input.length &&
         key &&

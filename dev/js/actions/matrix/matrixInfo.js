@@ -136,6 +136,24 @@ export const getConditionById = (domenKey, apiKey, id) => {
   );
 };
 
+export const getPackagenById = (domenKey, apiKey, id) => {
+  const domenPath = domen[domenKey],
+    apiPath   = api[apiKey];
+  return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
+      if (res) {
+        const { data } = res.data;
+        store.dispatch(
+          {
+            type:`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`,
+            payload: { body: {...data }}
+          }
+        );
+        return data;
+      }
+    }
+  );
+};
+
 export const getTreatmentById = (domenKey, apiKey, id) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];

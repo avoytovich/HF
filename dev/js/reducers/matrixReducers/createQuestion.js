@@ -175,6 +175,18 @@ const setFullQuestionForCondition = (state, action) => {
 };
 
 
+const setFullQuestionForPackage = (state, action) => {
+  const { body: { body_area, title, key, packageLevels }} = action.payload;
+  const _body = {
+    bodyAreas: { key: body_area, label:body_area, title: body_area },
+    questionTitle: title,
+    questionKey: key,
+    packageLevels: packageLevels.data
+  };
+  return Object.assign({}, state, _body);
+};
+
+
 const parseAnswers= (answer) => {
   if (answer.type === 'range') {
     const {max, min} = answer.values;
@@ -196,15 +208,16 @@ const parseAnswers= (answer) => {
   }
 };
 export default createReducer(initialState, CREATE_QUESTION, {
-  [`${CREATE_QUESTION}_UPDATE`]              : createQuestionUpdate,
-  [`${CREATE_QUESTION}_ADD_RULE`]            : createQuestionRules,
-  [`${CREATE_QUESTION}_CHANGE_TYPE`]         : changeType,
-  [`${CREATE_QUESTION}_ADD_DEF_GROUP_RULE`]  : addDefaultGroupRule,
-  [`${CREATE_QUESTION}_CHANGE_TO_ITEM_RULE`] : changeToItemRule,
-  [`${CREATE_QUESTION}_DELETE_ITEM`]         : deleteRule,
-  [`${CREATE_QUESTION}_SET_QUESTION`]        : setQuestion,
-  [`${CREATE_QUESTION}_ADD_NEW_ANSWER`]      : addNewAnswer,
-  [`${CREATE_QUESTION}_REMOVE_ANSWER`]       : removeAnswer,
-  [`${CREATE_QUESTION}_SET_FULL_QUESTION`]   : setFullQuestion,
-  [`${CREATE_QUESTION}_SET_COND_QUESTION`]   : setFullQuestionForCondition
+  [`${CREATE_QUESTION}_UPDATE`]               : createQuestionUpdate,
+  [`${CREATE_QUESTION}_ADD_RULE`]             : createQuestionRules,
+  [`${CREATE_QUESTION}_CHANGE_TYPE`]          : changeType,
+  [`${CREATE_QUESTION}_ADD_DEF_GROUP_RULE`]   : addDefaultGroupRule,
+  [`${CREATE_QUESTION}_CHANGE_TO_ITEM_RULE`]  : changeToItemRule,
+  [`${CREATE_QUESTION}_DELETE_ITEM`]          : deleteRule,
+  [`${CREATE_QUESTION}_SET_QUESTION`]         : setQuestion,
+  [`${CREATE_QUESTION}_ADD_NEW_ANSWER`]       : addNewAnswer,
+  [`${CREATE_QUESTION}_REMOVE_ANSWER`]        : removeAnswer,
+  [`${CREATE_QUESTION}_SET_FULL_QUESTION`]    : setFullQuestion,
+  [`${CREATE_QUESTION}_SET_COND_QUESTION`]    : setFullQuestionForCondition,
+  [`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`] : setFullQuestionForPackage
 });

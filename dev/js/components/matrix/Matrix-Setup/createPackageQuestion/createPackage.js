@@ -8,6 +8,7 @@ import { diagnosisQuestionCreate,
   clearCreateQuestion,
   findUniqueKey,
   updateQuestionCreate,
+  getPackagenById,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -43,6 +44,12 @@ class CreatePackageComponent extends Component {
   constructor(props) {
     super(props);
     updateCrateQuestionFields(this.state.questionType, 'page');
+  }
+
+  componentWillMount() {
+    if (this.props.routeParams.id) {
+      getPackagenById('exercises', 'packages', this.props.routeParams.id);
+    }
   }
 
   componentWillUnmount() { clearCreateQuestion(); }
@@ -86,21 +93,17 @@ class CreatePackageComponent extends Component {
 
 
   done = (value) => {
-    const { bodyAreas, questionKey, questionTitle, package_levels, therapyContinuity, packageType } = value;
+    debugger;
+    const { bodyAreas, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
+
     const result = {
-      key           : questionKey,
-      body_area     : bodyAreas.key || bodyAreas.value || bodyAreas.label,
-      title         : questionTitle,
-      type          : packageType,
-//      therapy       : therapyContinuity,
-      package_levels: [
-        {
-          "level" : "0",
-          "therapy_continuity" : 1,
-          "exercise_ids":[3,4,5,6,7,8,9]
-        }
-      ]
+      key      : questionKey,
+      body_area: bodyAreas.key || bodyAreas.value,
+      title    : questionTitle,
+      type     : packageType,
+      package_levels : packageLevels
     };
+
 
     !this.props.routeParams.id ?
       diagnosisQuestionCreate('exercises', 'packages', result)
