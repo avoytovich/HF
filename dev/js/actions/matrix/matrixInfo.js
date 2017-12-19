@@ -44,6 +44,7 @@ export const dispatchTableInfo = ({data}, path) => {
 };
 
 export const getListByPost = (domenKey, apiKey, _query) => {
+  _query.orderBy === 'title' && delete _query.orderBy;
   const finalQuery = { ..._query, page: +_query.current_page + 1, limit: _query.per_page };
   return Api.post(`${domen[domenKey]}${api[apiKey]}`, finalQuery)
     .then(res => {
