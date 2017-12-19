@@ -92,7 +92,9 @@ export default(state = _initialState(), action = TABLE) => {
     case `${TABLE}_UPDATE`:
       const {data, meta:{pagination}, path } = action.payload;
       const sortOptional = getSortParams(state, path, pagination);
-      return set(state, path, {data, pagination, sortOptional});
+      const finalState = set(state, path, {data, pagination, sortOptional});
+      console.log(finalState);
+      return finalState;
 
     case `${TABLE}_UPDATE_FIELDS`:
       const { orderBy, sortedBy, search, path: pathLink } = action.payload;

@@ -18,20 +18,11 @@ class Clinics extends Component {
     deleteOpen: false
   };
 
-  // componentDidMount() {
-  //   const currentPath = PAGE[this.props.path];
-  //   console.log(currentPath);
-  //   browserHistory.push({
-  //     pathname: currentPath,
-  //     query: { per_page: 20, current_page: 0, customer_type: 'organization' }
-  //   });
-  // }
 
   create = (id) => id ?
     browserHistory.push(`/diagnosis-create`) :
     browserHistory.push(`/diagnosis-create/${id}`);
 
-  deleteItems = (items = []) => {};
 
   onRowClick = (selected = []) => this.setState({selected});
 

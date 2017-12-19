@@ -47,6 +47,7 @@ class AssetsList extends Component {
       .then(res => this._toggleDeleteModal())
       .catch(err => console.log(err))
   };
+
   _tableCellPropsFunc = (row, col) => {
     if (col.key === 'name_real') {
       return {
