@@ -25,7 +25,7 @@ class InComponent extends Component {
     this.setState({...onMultipleAsyncChange(value, edit, this.props)});
 
   render() {
-    const { key, value } = this.props.itemState[0];
+    const { key, value } = this.props.itemState;
     const selectValue    = getMultipleAnswerValue(this.state.answers, value);
 
     return <div className="rule-types">

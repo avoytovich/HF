@@ -21,7 +21,7 @@ class ConditionsComponent extends Component {
     onConditionAsyncChange(value, edit, this.props);
 
   render() {
-    const { key, op, value } = this.props.itemState[0];
+    const { key, op, value } = this.props.itemState;
 
     return <div className="rule-types">
       <div className="main-select">

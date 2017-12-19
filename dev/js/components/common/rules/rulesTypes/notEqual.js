@@ -25,7 +25,7 @@ class NotEqualComponent extends Component {
     this.setState({...onSingleAsyncChange(value, edit, this.props)});
 
   render() {
-    const { key, op, value } = this.props.itemState[0],
+    const { key, op, value } = this.props.itemState,
           selectValue        = getAnswerValue(this.state.answers, value);
 
     return <div className="rule-types">

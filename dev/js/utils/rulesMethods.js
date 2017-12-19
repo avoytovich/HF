@@ -57,14 +57,16 @@ export const onConditionAsyncChange = (value, edit, props) => {
 export const onMultipleAsyncChange = (value, edit, props) => {
   const { path, pathType, itemState } = props;
 
-  if (!value || (Array.isArray(value) && !value.length))
-      return  setQuestion(path, pathType, '', 'key');
+  if (!value || (Array.isArray(value) && !value.length)) {
+    return  setQuestion(path, pathType, '', 'key');
+  }
 
-  const { subtype, type, values, min, max} = value.answer,
-        answers = getAnswersList(values),
-        _value = edit ? itemState[0].value :  ['A'];
+  const { subtype, type, values, min, max} = value.answer;
+  const answers = getAnswersList(values);
+  const _value = edit ? itemState.value :  ['A'];
 
   setQuestion(path, pathType, { key: value.value, value: _value });
+
   return { type: 'list', answers }
 };
 
@@ -127,7 +129,11 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
           return Object.assign({}, item, { label: item.question.en, value: item.key })
         });
 
-        !input.length && key && onChangeCallBack(_data[0], true);
+        debugger;
+
+        !input.length &&
+        key &&
+        onChangeCallBack(_data[0], true);
 
         return {
           options: _data,
