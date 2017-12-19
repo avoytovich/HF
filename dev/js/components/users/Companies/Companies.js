@@ -20,11 +20,11 @@ class Companies extends Component {
   };
 
   _tableCellPropsFunc = (row, col) => {
-    if (col.key === 'name_real') {
+    if (col.key === 'name') {
       return {
         onClick: (e) => {
-          console.log(row);
           e.stopPropagation();
+          browserHistory.push(`/clinic/${row.id}/profile`);
         }
       }
     }
@@ -35,15 +35,9 @@ class Companies extends Component {
     browserHistory.push(`/diagnosis-create`) :
     browserHistory.push(`/diagnosis-create/${id}`);
 
-  deleteItems = (items = []) => {};
+  onRowClick = (selected = []) => this.setState({ selected });
 
-  onRowClick = (selected) => {
-    console.log(selected);
-    //selected = []) => this.setState({selected}
-    browserHistory.push(`/clinic/${selected[0].id}/profile`);
-  }
-
-  onSelectAllClick = (selected) => this.setState({selected});
+  onSelectAllClick = (selected) => this.setState({ selected });
 
 
   updateModal = (key, value) => {
@@ -90,7 +84,6 @@ class Companies extends Component {
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
-          CellContent={() => <ModeEdit className="assets-edit-icon" />}
           tableCellPropsFunc={this._tableCellPropsFunc}
         />
 
