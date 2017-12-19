@@ -11,7 +11,7 @@ import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/dele
 
 import { PAGE } from '../../../config';
 
-class Companies extends Component {
+class ClinicsUsers extends Component {
   state = {
     selected: [],
     deactivateOpen: false,
@@ -47,13 +47,13 @@ class Companies extends Component {
   render() {
     const { tableHeader } = USERS_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
-    console.log('users', this.props)
+    const querySelector = {...this.props.location.query,...{customer_type: 'clinic'}};
     return (
       <div id="diagnosis-component">
 
         <DeleteComponent
           location={this.props.location}
-          path="users"
+          path="clinicsUsers"
           domen="users"
           typeKey="deleteOpen"
           list={selected}
@@ -86,15 +86,15 @@ class Companies extends Component {
 
         <TableComponent
           location={this.props.location}
-          path="users"
+          path="clinicsUsers"
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
+          query= {querySelector}
         />
-
       </div>
     )
   }
@@ -104,4 +104,4 @@ const mapStateToProps = state => ({
   store: state.tables.diagnosis
 });
 
-export default  connect(mapStateToProps)(Companies);
+export default  connect(mapStateToProps)(ClinicsUsers);

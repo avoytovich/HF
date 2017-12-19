@@ -177,3 +177,12 @@ export const CLINICS_TAB = {
   ]
 };
 
+export const USERS_TAB = {
+  key: 'conditions',
+  title: 'Conditions',
+  tableHeader: [
+    { title: 'ID Number',          key: 'user_id',          className: 'left'},
+    { title: 'Status', key: 'billing_info', className: 'center'  },
+    { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
+  ]
+};
