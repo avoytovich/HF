@@ -61,6 +61,10 @@ const initialState = {
       changes: []
     },
     {
+      name: 'companyAll',
+      changes: []
+    },
+    {
       name: 'assets',
       changes: []
     }

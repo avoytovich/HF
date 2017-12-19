@@ -52,7 +52,7 @@ export const getListByPost = (domenKey, apiKey, _query) => {
         payload: {
           data,
           meta,
-          path: 'userAll'
+          path: apiKey
         }
       })
     });

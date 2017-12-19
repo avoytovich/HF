@@ -53,7 +53,7 @@ class TableComponent extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.location !== nextProps.location &&
         nextProps.location.query) {
-      this.getList(this.props, nextProps.location.query);
+      this.getList(this.props, {...nextProps.location.query});
     }
   }
 
@@ -196,6 +196,7 @@ class TableComponent extends Component {
     const currentPath = PAGE[this.props.path];
     const { per_page } = this.props.store.pagination;
 
+    console.log(e, nextPage)
     browserHistory.push({
       pathname: currentPath,
       query: {

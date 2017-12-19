@@ -1,7 +1,7 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
 import isEmpty                  from 'lodash/isEmpty';
-import { SEL_TAB }              from '../../../utils/constants/pageContent';
+import { COMPANIES_TAB }        from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
@@ -34,8 +34,8 @@ class Companies extends Component {
   deleteItems = (items = []) => {};
 
   onRowClick = (selected) => {
-    console.log(selected)
-    // selected = []) => this.setState({selected}
+    console.log(selected);
+    //selected = []) => this.setState({selected}
     browserHistory.push(`/clinic/${selected[0].user_id}/profile`);
   }
 
@@ -49,9 +49,10 @@ class Companies extends Component {
   };
 
   render() {
-    const { tableHeader } = SEL_TAB;
+    const { tableHeader } = COMPANIES_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
-
+    const querySelector = {...this.props.location.query,...{type: 'organization'}};
+    console.log(querySelector)
     return (
       <div id="diagnosis-component">
 
@@ -63,7 +64,7 @@ class Companies extends Component {
           deactivateOpen={deleteOpen}
           open={this.updateModal}
           itemKey="title"
-          query={this.props.location.query}
+          query= {querySelector}
         />
 
         <TableControls
@@ -88,13 +89,14 @@ class Companies extends Component {
         </TableControls>
 
         <TableComponent
-          path="userAll"
+          path="companyAll"
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
+          query= {querySelector}
         />
 
       </div>
