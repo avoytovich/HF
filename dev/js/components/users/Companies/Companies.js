@@ -52,20 +52,8 @@ class Companies extends Component {
     const { tableHeader } = COMPANIES_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
     const querySelector = {...this.props.location.query,...{type: 'organization'}};
-    console.log(querySelector)
     return (
       <div id="diagnosis-component">
-
-        <DeleteComponent
-          path="companies"
-          domen="users"
-          typeKey="deleteOpen"
-          list={selected}
-          deactivateOpen={deleteOpen}
-          open={this.updateModal}
-          itemKey="title"
-          query= {querySelector}
-        />
 
         <TableControls
           path="companies"
@@ -89,7 +77,8 @@ class Companies extends Component {
         </TableControls>
 
         <TableComponent
-          path="companyAll"
+          location={this.props.location}
+          path="companies"
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }

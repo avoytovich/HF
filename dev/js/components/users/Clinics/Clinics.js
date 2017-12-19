@@ -75,7 +75,8 @@ class Clinics extends Component {
         </TableControls>
 
         <TableComponent
-          path="userAll"
+          location={this.props.location}
+          path="clinics"
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }

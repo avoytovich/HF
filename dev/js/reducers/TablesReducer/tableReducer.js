@@ -61,7 +61,11 @@ const initialState = {
       changes: []
     },
     {
-      name: 'companyAll',
+      name: 'companies',
+      changes: []
+    },
+    {
+      name: 'clinics',
       changes: []
     },
     {
@@ -93,7 +97,6 @@ export default(state = _initialState(), action = TABLE) => {
       const {data, meta:{pagination}, path } = action.payload;
       const sortOptional = getSortParams(state, path, pagination);
       const finalState = set(state, path, {data, pagination, sortOptional});
-      console.log(finalState);
       return finalState;
 
     case `${TABLE}_UPDATE_FIELDS`:

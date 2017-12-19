@@ -65,7 +65,7 @@ class TableComponent extends Component {
     const currentQuery = this.props.location.query;
     const currentPath = PAGE[this.props.path];
     const query = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
-
+    console.log(currentPath);
     browserHistory.push({
       pathname: currentPath,
       query   : { ...query }

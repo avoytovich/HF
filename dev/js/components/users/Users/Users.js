@@ -84,6 +84,7 @@ class Companies extends Component {
         </TableControls>
 
         <TableComponent
+          location={this.props.location}
           path="userAll"
           domen="users"
           reqType="POST"

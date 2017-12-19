@@ -104,11 +104,11 @@ const router = (
 
         <IndexRedirect to={PAGE.companies}/>
 
-        <Route path={PAGE.companies}         component={(props) => <Companies  {...props}/>} />
-        <Route path={PAGE.clinics}           component={(props) => <Clinics  {...props}/>} />
-        <Route path={PAGE.users}             component={(props) => <Users  {...props}/>} />
-        <Route path={PAGE.assets}            component={(props) => <AssetsList {...props} />} />
-        <Route path={PAGE.clinicProfile}     component={(props) => <Profile {...props} />} />
+        <Route path={PAGE.companies}         component={Companies} />
+        <Route path={PAGE.clinics}           component={Clinics} />
+        <Route path={PAGE.users}             component={Users} />
+        <Route path={PAGE.assets}            component={AssetsList} />
+        <Route path={PAGE.clinicProfile}     component={Profile} />
         <Route path={PAGE.matrixSetup}       component={ MatrixComponent }>
 
           <IndexRedirect to="diagnosis"/>
@@ -144,16 +144,8 @@ const router = (
         <Route path='packages-create/:id'    component={(props) => <CreatePackageComponent {...props}/>} />
         <Route path='packages-create-new'    component={(props) => <CreatePackageComponent {...props}/>} />
 
-        {/*<Redirect from="*" to="organizations"/>*/}
-
-        {/*<Route path={'/login'}  component={Login} />*/}
-
       </Route>
-
-
     </Router>
-
-
     </PersistGate>
     <NotificationsSystem theme={theme}/>
   </div>
