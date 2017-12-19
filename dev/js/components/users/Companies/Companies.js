@@ -40,7 +40,7 @@ class Companies extends Component {
   onRowClick = (selected) => {
     console.log(selected);
     //selected = []) => this.setState({selected}
-    browserHistory.push(`/clinic/${selected[0].user_id}/profile`);
+    browserHistory.push(`/clinic/${selected[0].id}/profile`);
   }
 
   onSelectAllClick = (selected) => this.setState({selected});
