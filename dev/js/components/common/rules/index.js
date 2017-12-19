@@ -1,8 +1,7 @@
 import RulesQuestionComponent from './rulesQuestion';
 import RulesBlockComponent    from './rulesBlock';
 import RulesItemComponent     from './rulesItem';
-import QuestionVariety        from './QuestionVariety'
-
+import QuestionVariety        from './QuestionVariety';
 
 export {
   RulesQuestionComponent,

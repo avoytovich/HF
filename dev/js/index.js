@@ -27,10 +27,10 @@ import Login                          from './components/auth/Login/Login';
 import SignUp                         from './components/auth/SignUp/SignUp';
 import ResetPassword                  from './components/auth/ResetPassword/ResetPassword';
 import ForgotPassword                 from './components/auth/ForgotPassword/ForgotPassword';
-import Companies                      from './components/users/companies/Companies';
-import Clinics                        from './components/users/clinics/Clinics';
+import Companies                      from './components/users/Companies/Companies';
+import Clinics                        from './components/users/Clinics/Clinics';
 import Profile                        from './components/users/Profile/Profile';
-import Users                          from './components/users/users/Users';
+import Users                          from './components/users/Users/Users';
 import AssetsList                     from './components/assets/AssetsList/AssetsList';
 import Upload                         from './components/assets/Upload/Upload';
 import {
