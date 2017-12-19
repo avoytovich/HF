@@ -8,6 +8,7 @@ import TableControls            from '../../common/TypicalListPage/TableControls
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
+import ModeEdit                 from 'material-ui-icons/ModeEdit';
 
 import { PAGE } from '../../../config';
 
@@ -18,14 +19,17 @@ class Companies extends Component {
     deleteOpen: false
   };
 
-  // componentDidMount() {
-  //   const currentPath = PAGE[this.props.path];
-  //   console.log(currentPath);
-  //   browserHistory.push({
-  //     pathname: currentPath,
-  //     query: { per_page: 20, current_page: 0, customer_type: 'organization' }
-  //   });
-  // }
+  _tableCellPropsFunc = (row, col) => {
+    if (col.key === 'name_real') {
+      return {
+        onClick: (e) => {
+          console.log(row);
+          e.stopPropagation();
+        }
+      }
+    }
+    return {};
+  };
 
   create = (id) => id ?
     browserHistory.push(`/diagnosis-create`) :
@@ -86,6 +90,8 @@ class Companies extends Component {
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
+          CellContent={() => <ModeEdit className="assets-edit-icon" />}
+          tableCellPropsFunc={this._tableCellPropsFunc}
         />
 
       </div>
