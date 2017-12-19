@@ -8,6 +8,7 @@ import TableControls            from '../../common/TypicalListPage/TableControls
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
+import ModeEdit                 from 'material-ui-icons/ModeEdit';
 
 import { PAGE } from '../../../config';
 
@@ -18,28 +19,25 @@ class Companies extends Component {
     deleteOpen: false
   };
 
-  // componentDidMount() {
-  //   const currentPath = PAGE[this.props.path];
-  //   console.log(currentPath);
-  //   browserHistory.push({
-  //     pathname: currentPath,
-  //     query: { per_page: 20, current_page: 0, customer_type: 'organization' }
-  //   });
-  // }
+  _tableCellPropsFunc = (row, col) => {
+    if (col.key === 'name') {
+      return {
+        onClick: (e) => {
+          e.stopPropagation();
+          browserHistory.push(`/clinic/${row.id}/profile`);
+        }
+      }
+    }
+    return {};
+  };
 
   create = (id) => id ?
     browserHistory.push(`/diagnosis-create`) :
     browserHistory.push(`/diagnosis-create/${id}`);
 
-  deleteItems = (items = []) => {};
+  onRowClick = (selected = []) => this.setState({ selected });
 
-  onRowClick = (selected) => {
-    console.log(selected);
-    //selected = []) => this.setState({selected}
-    browserHistory.push(`/clinic/${selected[0].id}/profile`);
-  }
-
-  onSelectAllClick = (selected) => this.setState({selected});
+  onSelectAllClick = (selected) => this.setState({ selected });
 
 
   updateModal = (key, value) => {
@@ -86,6 +84,7 @@ class Companies extends Component {
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
+          tableCellPropsFunc={this._tableCellPropsFunc}
         />
 
       </div>

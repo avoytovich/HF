@@ -97,12 +97,8 @@ const router = (
       <Route path={PAGE.login}      component={Login} />
       <Route path={PAGE.passReset}  component={ResetPassword} />
       <Route path={PAGE.passForgot} component={ForgotPassword} />
-      <Route
-        path={'/'}
-        component={Main}
-        onEnter={onAllEnter}
-        onChange={onAllEnter}
-      >
+
+      <Route path={'/'} component={Main} onEnter={onAllEnter} onChange={onAllEnter}>
 
         <IndexRedirect to={PAGE.companies}/>
 

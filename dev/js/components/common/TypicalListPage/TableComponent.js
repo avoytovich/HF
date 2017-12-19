@@ -65,7 +65,6 @@ class TableComponent extends Component {
     const currentQuery = this.props.location.query;
     const currentPath = PAGE[this.props.path];
     const query = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
-    console.log(currentPath);
     browserHistory.push({
       pathname: currentPath,
       query   : { ...query }
@@ -196,7 +195,6 @@ class TableComponent extends Component {
     const currentPath = PAGE[this.props.path];
     const { per_page } = this.props.store.pagination;
 
-    console.log(e, nextPage)
     browserHistory.push({
       pathname: currentPath,
       query: {
