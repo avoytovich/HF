@@ -48,8 +48,9 @@ import {
   CreateConditionComponent,
   CreateTreatmentsComponent,
   CreateEvaluationComponent,
-  CreatePackageComponent
+  CreatePackageComponent,
  }                                    from './components/matrix/Matrix-Setup';
+import PackageLevelComponent          from './components/matrix/Matrix-Setup/createPackageQuestion/packageLevel'
 
 import { PAGE }                       from './config';
 import { onAllEnter }                 from './utils';
@@ -141,8 +142,13 @@ const router = (
         <Route path='evaluations-create/:id' component={(props) => <CreateEvaluationComponent {...props}/>} />
         <Route path='evaluations-create-new' component={(props) => <CreateEvaluationComponent {...props}/>} />
 
-        <Route path='packages-create/:id'    component={(props) => <CreatePackageComponent {...props}/>} />
-        <Route path='packages-create-new'    component={(props) => <CreatePackageComponent {...props}/>} />
+        <Route path='packages-create/:packageId'    component={(props) => <CreatePackageComponent {...props}/>}>
+          <Route path='level/:levelId'              component={(props) => <PackageLevelComponent {...props}/>}/>
+        </Route>
+
+        <Route path='packages-create-new'    component={(props) => <CreatePackageComponent {...props}/>}>
+          <Route path='level/:levelId'       component={(props) => <PackageLevelComponent {...props}/>}/>
+        </Route>
 
         {/*<Redirect from="*" to="organizations"/>*/}
 

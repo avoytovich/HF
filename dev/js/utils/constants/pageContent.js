@@ -1,4 +1,5 @@
-const TIME_FORMAT = 'DD MMM YYYY';
+const TIME_FORMAT      = 'DD MMM YYYY';
+const TIME_FORMAT_DOTS = 'DD.MM.YYYY';
 
 export const COMPANIES_PAGE = {
   key:         'organizations',
@@ -86,7 +87,6 @@ export const CONDITIONS_TAB = {
     { title: 'Name',       key: 'title',      className: 'left'                                    },
     { title: 'Body Areas', key: 'area',       className: 'center'                                  },
     { title: 'Key',        key: 'key',        className: 'left'                                    },
-    { title: 'Created by', key: 'created_by', className: 'left'                                    },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
   ]
@@ -99,7 +99,6 @@ export const TREATMENTS_TAB = {
     { title: 'Name',       key: 'title',      className: 'left'                                    },
     { title: 'Body Areas', key: 'area',       className: 'center'                                  },
     { title: 'Key',        key: 'key',        className: 'left'                                    },
-    { title: 'Created by', key: 'created_by', className: 'left'                                    },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
   ]
@@ -112,7 +111,6 @@ export const PACKAGES_TAB = {
     { title: 'Name',       key: 'title',      className: 'left'                                    },
     { title: 'Body Areas', key: 'body_area',  className: 'center'                                  },
     { title: 'Key',        key: 'key',        className: 'left'                                    },
-    { title: 'Created by', key: 'created_by', className: 'left'                                    },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
   ]
@@ -125,7 +123,6 @@ export const EXERCISES_TAB = {
     { title: 'Name',       key: 'title',      className: 'left'                                    },
     { title: 'Body Areas', key: 'body_area',  className: 'center'                                  },
     { title: 'Key',        key: 'key',        className: 'left'                                    },
-    { title: 'Created by', key: 'created_by', className: 'left'                                    },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
   ]
@@ -148,11 +145,11 @@ export const ASSETS_TAB = {
   key: 'assets',
   title: 'Assets',
   tableHeader: [
-    { title: 'Title',         key: 'name_real',        className: 'left assets-title-cell' },
-    { title: 'Extension',     key: 'extension_origin', className: 'center' },
-    { title: 'Type',          key: 'type',             className: 'left' },
+    { title: 'Title',         key: 'name_real',        className: 'left assets-title-cell'                    },
+    { title: 'Extension',     key: 'extension_origin', className: 'center'                                    },
+    { title: 'Type',          key: 'type',             className: 'left'                                      },
     { title: 'Upload Date',   key: 'updated_at',       className: 'left', type: 'time',   format: TIME_FORMAT },
-    { title: 'Size',          key: 'size',             className: 'left'},
+    { title: 'Size',          key: 'size',             className: 'left'                                      },
   ]
 };
 

@@ -225,3 +225,18 @@ export const getQuestionsByStep = (domenKey, apiKey, body) => {
   return Api.post(`${domenPath}${apiPath}`, body).then(({data}) => data.data);
 };
 
+
+export const getPackageLevel = (domenKey, apiKey, list) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+
+  return Api.post(`${domenPath}${apiPath}`, {ids: list}).then(({data}) =>
+    store.dispatch({type:`${CREATE_QUESTION}_UPDATE`,
+      payload:{
+        data: data.data,
+        path: 'exercise_ids',
+      }
+    })
+  );
+};
+

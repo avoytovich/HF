@@ -47,8 +47,9 @@ class CreatePackageComponent extends Component {
   }
 
   componentWillMount() {
-    if (this.props.routeParams.id) {
-      getPackagenById('exercises', 'packages', this.props.routeParams.id);
+    if (this.props.params.packageId) {
+      getPackagenById('exercises', 'packages', this.props.params.packageId).then(({packageLevels}) =>
+        browserHistory.push(`/packages-create/${this.props.routeParams.packageId}/level/0`))
     }
   }
 
@@ -93,7 +94,6 @@ class CreatePackageComponent extends Component {
 
 
   done = (value) => {
-    debugger;
     const { bodyAreas, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
 
     const result = {
@@ -116,7 +116,10 @@ class CreatePackageComponent extends Component {
 
   cancel = () => browserHistory.push(`/matrix-setup/packages`);
 
-  handleTabChange = (event, tab) => this.setState({ tab });
+  handleTabChange = (event, tab) => {
+    this.setState({ tab });
+    browserHistory.push(`/packages-create/${this.props.routeParams.id}/level/${tab}`);
+  };
 
   render() {
     const {
@@ -126,12 +129,13 @@ class CreatePackageComponent extends Component {
         bodyAreas,
         questionKey,
         packageType,
-        therapyContinuity,
+        packageLevels
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
       },
     } = this.props;
+
 
     return (
       <div id="create-question">
@@ -152,14 +156,22 @@ class CreatePackageComponent extends Component {
 
           </div>
         </div>
+
         <Grid container className="margin-remove">
 
           <Grid item
                 md={6}
                 sm={12}
                 className="create-question-body">
-
             <div className="main-question">
+
+              <Grid container>
+                <Grid item xs={12}>
+                  <Typography type="title">
+                    Package
+                  </Typography>
+                </Grid>
+              </Grid>
 
               {/*Title and Body Area*/}
               <Grid container className="row-item">
@@ -232,29 +244,29 @@ class CreatePackageComponent extends Component {
                   </SELECT>
                 </Grid>
                 <Grid item md={6} sm={12} >
-                  <Typography
-                    type="caption"
-                    gutterBottom
-                    className="custom-select-title">
-                    Therapy continuity
-                  </Typography>
-                  <SELECT
-                    value={therapyContinuity}
-                    onChange={(event) =>  updateCrateQuestionFields(event.target.value, 'therapyContinuity')}
-                    className="MuiFormControlDEFAULT"
-                  >
-                    {THERAPY.map((item, index) => (
-                      <MenuItem
-                        key={item.value}
-                        value={item.value}
-                        style={{
-                          fontWeight: PACKAGE_TYPE.indexOf(item.value) !== -1 ? '500' : '400',
-                        }}
-                      >
-                        {item.label}
-                      </MenuItem>
-                    ))}
-                  </SELECT>
+                  {/*<Typography*/}
+                    {/*type="caption"*/}
+                    {/*gutterBottom*/}
+                    {/*className="custom-select-title">*/}
+                    {/*Therapy continuity*/}
+                  {/*</Typography>*/}
+                  {/*<SELECT*/}
+                    {/*value={therapyContinuity}*/}
+                    {/*onChange={(event) =>  updateCrateQuestionFields(event.target.value, 'therapyContinuity')}*/}
+                    {/*className="MuiFormControlDEFAULT"*/}
+                  {/*>*/}
+                    {/*{THERAPY.map((item, index) => (*/}
+                      {/*<MenuItem*/}
+                        {/*key={item.value}*/}
+                        {/*value={item.value}*/}
+                        {/*style={{*/}
+                          {/*fontWeight: PACKAGE_TYPE.indexOf(item.value) !== -1 ? '500' : '400',*/}
+                        {/*}}*/}
+                      {/*>*/}
+                        {/*{item.label}*/}
+                      {/*</MenuItem>*/}
+                    {/*))}*/}
+                  {/*</SELECT>*/}
                 </Grid>
               </Grid>
 
@@ -267,11 +279,11 @@ class CreatePackageComponent extends Component {
                 sm={12}
                 className="rules">
 
-            <Grid container className="row-item package-level-header">
+            <Grid container className="row-item package-level-header margin-remove">
               <Grid item xs={6} className="package-level-header-item-left">
                   <Typography
                     type="title">
-                    Exercises
+                    Levels
                   </Typography>
               </Grid>
               <Grid item xs={6} className="package-level-header-item-right">
@@ -288,9 +300,9 @@ class CreatePackageComponent extends Component {
               scrollable
               fullWidth
             >
-              <Tab label="Level 1" />
-
+              {packageLevels.map((item, index) => <Tab key={index} label={`Level ${item.level}`}/>)}
             </Tabs>
+            {!!packageLevels && !!packageLevels.length && this.props.children}
           </Grid>
 
         </Grid>

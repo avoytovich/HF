@@ -33,7 +33,6 @@ class MatchComponent extends Component {
           opValue            = getSymbolValue(op),
           selectValue        = getAnswerValue(this.state.answers, value);
 
-    debugger;
 
     return <div className="rule-types">
       <div className="main-select">

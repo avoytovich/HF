@@ -38,6 +38,8 @@ const initialState = {
   page: null,
   packageType: 'symptomatic',
   therapyContinuity: '1',
+  packageLevels: [],
+  exercise_ids: [],
 };
 
 const createQuestionUpdate = (state, action) => {
