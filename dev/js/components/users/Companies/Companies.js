@@ -13,6 +13,7 @@ import CreateUser from '../CreateUser/CreateUser';
 class Companies extends Component {
   state = {
     selected: [],
+    deleteOpen:false,
     showCreateModal: false,
   };
 
