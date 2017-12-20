@@ -1,46 +1,52 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import isEmpty                  from 'lodash/isEmpty';
-import { SEL_TAB }              from '../../../utils/constants/pageContent';
+import { COMPANIES_TAB }        from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
-import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
-
+import Modal                    from '../../common/Modal/Modal';
 import { PAGE } from '../../../config';
+import CreateUser from '../CreateUser/CreateUser';
 
 class Companies extends Component {
   state = {
     selected: [],
-    deactivateOpen: false,
-    deleteOpen: false
+    deleteOpen:false,
+    showCreateModal: false,
   };
 
-  // componentDidMount() {
-  //   const currentPath = PAGE[this.props.path];
-  //   console.log(currentPath);
-  //   browserHistory.push({
-  //     pathname: currentPath,
-  //     query: { per_page: 20, current_page: 0, customer_type: 'organization' }
-  //   });
-  // }
-
-  create = (id) => id ?
-    browserHistory.push(`/diagnosis-create`) :
-    browserHistory.push(`/diagnosis-create/${id}`);
-
-  deleteItems = (items = []) => {};
-
-  onRowClick = (selected) => {
-    console.log(selected)
-    // selected = []) => this.setState({selected}
-    browserHistory.push(`/clinic/${selected[0].user_id}/profile`);
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.showCreateModal && nextState.showCreateModal) {
+      return false
+    }
+    return true;
   }
 
-  onSelectAllClick = (selected) => this.setState({selected});
+  _tableCellPropsFunc = (row, col) => {
+    if (col.key === 'name') {
+      return {
+        onClick: (e) => {
+          e.stopPropagation();
+          browserHistory.push(`/clinic/${row.id}/profile`);
+        }
+      }
+    }
+    return {};
+  };
 
+  _createUser =()=>{
+    this.props.createUsersReducers.type = 'organization';
+    console.log('createUsersReducers',this.props.createUsersReducers);
+    this.setState({ showCreateModal: false })
+  };
+
+  onRowClick = (selected = []) => this.setState({ selected });
+
+  onSelectAllClick = (selected) => this.setState({ selected });
+
+  createEntity = () => this.setState({ showCreateModal: !this.state.showCreateModal });
 
   updateModal = (key, value) => {
     this.setState({ [key]: value });
@@ -49,36 +55,16 @@ class Companies extends Component {
   };
 
   render() {
-    const { tableHeader } = SEL_TAB;
-    const { selected, deactivateOpen, deleteOpen } = this.state;
-
+    const { tableHeader } = COMPANIES_TAB;
+    const { selected, deleteOpen, showCreateModal } = this.state;
+    const querySelector = {...this.props.location.query,...{type: 'organization'}};
     return (
       <div id="diagnosis-component">
-
-        <DeleteComponent
-          path="companies"
-          domen="users"
-          typeKey="deleteOpen"
-          list={selected}
-          deactivateOpen={deleteOpen}
-          open={this.updateModal}
-          itemKey="title"
-          query={this.props.location.query}
-        />
 
         <TableControls
           path="companies"
           selected={selected}
-          createItem={this.create}>
-
-          {/*<Button*/}
-          {/*disabled={selected.length > 1}*/}
-          {/*onClick={() => this.create(selected[0])}*/}
-          {/*raised dense>*/}
-          {/*<Edit />*/}
-          {/*Edit*/}
-          {/*</Button>*/}
-
+          createItem={this.createEntity}>
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>
             <Delete />
@@ -88,13 +74,25 @@ class Companies extends Component {
         </TableControls>
 
         <TableComponent
-          path="userAll"
+          location={this.props.location}
+          path="companies"
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
+          query= {querySelector}
+          tableCellPropsFunc={this._tableCellPropsFunc}
+        />
+
+        <Modal
+          itemName="name_real"
+          open={showCreateModal}
+          title='Create Company'
+          toggleModal={this.createEntity}
+          CustomContent={() => <CreateUser userType = 'organization' />}
+          onConfirmClick={this._createUser}
         />
 
       </div>
@@ -103,6 +101,7 @@ class Companies extends Component {
 }
 
 const mapStateToProps = state => ({
+  createUsersReducers: state.createUsersReducers,
   store: state.tables.diagnosis
 });
 

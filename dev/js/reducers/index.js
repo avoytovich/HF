@@ -9,6 +9,7 @@ import * as authReducers          from './authReducers';
 import * as assetsReducer          from './assetsReducer';
 import * as matrixReducers        from './matrixReducers';
 import * as tableReducers         from './TablesReducer'
+import * as createUsersReducers         from './createUsersReducers'
 const config = {
   key: 'root',
   whitelist: ['userReducer', 'authReducer'], // for those we need to be saved (only these will be saved)
@@ -21,6 +22,7 @@ const rootReducer = persistCombineReducers(config, {
   profileReducer,
   ...authReducers,
   ...assetsReducer,
+  ...createUsersReducers,
   ...matrixReducers.default,
   ...tableReducers.default,
   routing: routerReducer

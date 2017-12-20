@@ -57,11 +57,31 @@ const initialState = {
       ]
     },
     {
-      name: 'userAll',
+      name: 'users',
+      changes: []
+    },
+    {
+      name: 'companies',
+      changes: []
+    },
+    {
+      name: 'clinics',
       changes: []
     },
     {
       name: 'assets',
+      changes: []
+    },
+    {
+      name: 'simpleUsers',
+      changes: []
+    },
+    {
+      name: 'organizationsUsers',
+      changes: []
+    },
+    {
+      name: 'clinicsUsers',
       changes: []
     }
   ]
@@ -88,7 +108,8 @@ export default(state = _initialState(), action = TABLE) => {
     case `${TABLE}_UPDATE`:
       const {data, meta:{pagination}, path } = action.payload;
       const sortOptional = getSortParams(state, path, pagination);
-      return set(state, path, {data, pagination, sortOptional});
+      const finalState = set(state, path, {data, pagination, sortOptional});
+      return finalState;
 
     case `${TABLE}_UPDATE_FIELDS`:
       const { orderBy, sortedBy, search, path: pathLink } = action.payload;
