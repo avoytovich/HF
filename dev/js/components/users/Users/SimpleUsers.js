@@ -1,6 +1,5 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import isEmpty                  from 'lodash/isEmpty';
 import { USERS_TAB }              from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
@@ -18,20 +17,9 @@ class SimpleUsers extends Component {
     deleteOpen: false
   };
 
-  // componentDidMount() {
-  //   const currentPath = PAGE[this.props.path];
-  //   console.log(currentPath);
-  //   browserHistory.push({
-  //     pathname: currentPath,
-  //     query: { per_page: 20, current_page: 0, customer_type: 'organization' }
-  //   });
-  // }
-
   create = (id) => id ?
     browserHistory.push(`/diagnosis-create`) :
     browserHistory.push(`/diagnosis-create/${id}`);
-
-  deleteItems = (items = []) => {};
 
   onRowClick = (selected = []) => this.setState({selected});
 
@@ -67,14 +55,6 @@ class SimpleUsers extends Component {
           path="users"
           selected={selected}
           createItem={this.create}>
-
-          {/*<Button*/}
-          {/*disabled={selected.length > 1}*/}
-          {/*onClick={() => this.create(selected[0])}*/}
-          {/*raised dense>*/}
-          {/*<Edit />*/}
-          {/*Edit*/}
-          {/*</Button>*/}
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>

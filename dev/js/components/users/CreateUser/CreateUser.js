@@ -7,11 +7,14 @@ import Input from '../../common/Input/Input';
 class CreateUser extends Component {
 
   render() {
-    const {constr} = this.props;
+    const {createUsersReducers} = this.props;
     console.log(this.props)
     return (
       <div>
-        <Input id="emailclddr" type="text" reducer={{typepe:'ghd'}} placeholder='Enter email'/>
+        <Input id="email" reducer={createUsersReducers} placeholder='Enter email'/>
+        <Input id="name" reducer={createUsersReducers} placeholder='name'/>
+        <Input id="entryFee" reducer={createUsersReducers} placeholder='entryFee'/>
+        <Input id="tariff_id" reducer={createUsersReducers} placeholder='tariff_id'/>
       </div>
     )
   }

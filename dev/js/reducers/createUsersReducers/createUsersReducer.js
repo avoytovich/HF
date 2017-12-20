@@ -1,7 +1,8 @@
 import { createReducer } from '../../utils';
-// import { AUTH } from '../../actions';
+import { CREATE_USERS } from '../../actions';
 
 const initialState = {
+  actionType: CREATE_USERS,
   errors: {},
   name: '',
   type: '',
@@ -15,4 +16,4 @@ const initialState = {
   active:false,
 };
 
-export const createUsersReducers = createReducer(initialState);
+export const createUsersReducers = createReducer(initialState, CREATE_USERS);

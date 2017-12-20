@@ -14,29 +14,12 @@ import { PAGE } from '../../../config';
 class OrganizationsUsers extends Component {
   state = {
     selected: [],
-    deactivateOpen: false,
     deleteOpen: false
   };
-
-  // componentDidMount() {
-  //   const currentPath = PAGE[this.props.path];
-  //   console.log(currentPath);
-  //   browserHistory.push({
-  //     pathname: currentPath,
-  //     query: { per_page: 20, current_page: 0, customer_type: 'organization' }
-  //   });
-  // }
-
-  create = (id) => id ?
-    browserHistory.push(`/diagnosis-create`) :
-    browserHistory.push(`/diagnosis-create/${id}`);
-
-  deleteItems = (items = []) => {};
 
   onRowClick = (selected = []) => this.setState({selected});
 
   onSelectAllClick = (selected) => this.setState({selected});
-
 
   updateModal = (key, value) => {
     this.setState({ [key]: value });
@@ -46,7 +29,7 @@ class OrganizationsUsers extends Component {
 
   render() {
     const { tableHeader } = COMPANIES_USERS_TAB;
-    const { selected, deactivateOpen, deleteOpen } = this.state;
+    const { selected,  deleteOpen } = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'organization'}};
     return (
       <div id="diagnosis-component">
@@ -67,14 +50,6 @@ class OrganizationsUsers extends Component {
           path="users"
           selected={selected}
           createItem={this.create}>
-
-          {/*<Button*/}
-          {/*disabled={selected.length > 1}*/}
-          {/*onClick={() => this.create(selected[0])}*/}
-          {/*raised dense>*/}
-          {/*<Edit />*/}
-          {/*Edit*/}
-          {/*</Button>*/}
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>
