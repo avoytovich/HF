@@ -1,7 +1,7 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
 import isEmpty                  from 'lodash/isEmpty';
-import { USERS_TAB }              from '../../../utils/constants/pageContent';
+import { CLINICS_USERS_TAB }              from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
@@ -45,7 +45,7 @@ class ClinicsUsers extends Component {
   };
 
   render() {
-    const { tableHeader } = USERS_TAB;
+    const { tableHeader } = CLINICS_USERS_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'clinic'}};
     return (
