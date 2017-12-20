@@ -30,7 +30,9 @@ import ForgotPassword                 from './components/auth/ForgotPassword/For
 import Companies                      from './components/users/Companies/Companies';
 import Clinics                        from './components/users/Clinics/Clinics';
 import Profile                        from './components/users/Profile/Profile';
-import Users                          from './components/users/Users/Users';
+import SimpleUsers                          from './components/users/Users/SimpleUsers';
+import OrganizationsUsers                          from './components/users/Users/OrganizationsUsers';
+import ClinicsUsers                          from './components/users/Users/ClinicsUsers';
 import AssetsList                     from './components/assets/AssetsList/AssetsList';
 import TestsList                     from './components/testing/TestsList/TestsList';
 import {
@@ -102,7 +104,9 @@ const router = (
 
         <Route path={PAGE.companies}         component={Companies} />
         <Route path={PAGE.clinics}           component={Clinics} />
-        <Route path={PAGE.users}             component={Users} />
+        <Route path={PAGE.simpleUsers}       component={SimpleUsers} />
+        <Route path={PAGE.organizationsUsers}             component={OrganizationsUsers} />
+        <Route path={PAGE.clinicsUsers}             component={ClinicsUsers} />
         <Route path={PAGE.assets}            component={AssetsList} />
         <Route path={PAGE.clinicProfile}     component={Profile} />
         <Route path={PAGE.test}              component={TestsList} />

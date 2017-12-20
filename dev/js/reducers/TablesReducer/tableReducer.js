@@ -57,7 +57,7 @@ const initialState = {
       ]
     },
     {
-      name: 'userAll',
+      name: 'users',
       changes: []
     },
     {
@@ -70,6 +70,18 @@ const initialState = {
     },
     {
       name: 'assets',
+      changes: []
+    },
+    {
+      name: 'simpleUsers',
+      changes: []
+    },
+    {
+      name: 'organizationsUsers',
+      changes: []
+    },
+    {
+      name: 'clinicsUsers',
       changes: []
     },
     {

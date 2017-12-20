@@ -4,6 +4,7 @@ import set                 from 'lodash/set';
 import get                 from 'lodash/get';
 import isEmpty             from 'lodash/isEmpty';
 import * as dotProp        from 'dot-prop-immutable';
+import { checkIfBlockType } from '../../utils/matrix'
 
 const initialState = {
   actionType    : CREATE_QUESTION,
@@ -70,11 +71,9 @@ const changeToItemRule = (state, action) => {
 
 const createQuestionRules = (state, action) => {
   const {path, type, body} = action.payload;
-  const rules = get(state, path);
-  const template = {
-    [type] : body
-  };
-  return Object.assign({}, set(state, path, rules.concat(template)));
+  const isBlock = checkIfBlockType(type);
+  const template = isBlock ? { [type] : [body] } : { [type] : body };
+  return dotProp.set(state, path, val => val.concat(template));
 };
 
 const changeType = (state, action) => {
@@ -115,11 +114,9 @@ const setQuestion = (state, action) => {
     state,
     `${path}.${type}`,
     (value) => {
-      const _value = value[0];
-      const result = property ?
-        Object.assign({}, _value, {[property]: item}):
-        Object.assign({}, _value, item);
-      return [result]
+      return property ?
+        Object.assign({}, value, {[property]: item}):
+        Object.assign({}, value, item);
     }
   );
 };
@@ -152,7 +149,6 @@ const setFullQuestion = (state, action) => {
   const { body: { area, title, question, key, step, answer, rule }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
-
     const _body = {
       bodyAreas: { key: area, label:area, title: area },
       questionTitle: title,
@@ -160,7 +156,7 @@ const setFullQuestion = (state, action) => {
       sequence: step,
       questionKey: key,
       answerType: _type,
-      rules: rule,
+      rules: Array.isArray(rule) ? rule : [ rule ],
       [_type]: parseAnswers(answer)
 //      sequenceType: null,
     };
@@ -173,10 +169,10 @@ const setFullQuestionForCondition = (state, action) => {
     bodyAreas: { key: area, label:area, title: area },
     questionTitle: title,
     questionKey: key,
-    rules: rule,
+    rules: Array.isArray(rule) ? rule : [ rule ],
   };
   return Object.assign({}, state, _body);
-}
+};
 
 
 const parseAnswers= (answer) => {

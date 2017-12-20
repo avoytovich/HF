@@ -61,17 +61,17 @@ class MainNavigation extends Component {
           </ListItem>
           <Collapse component="li" in={this.state.open} timeout="auto" unmountOnExit>
             <List className="collapsed-nav-item">
-              <Link to={PAGE.users} activeClassName='active-route' className="nav-menu-list-item">
+              <Link to={PAGE.simpleUsers} activeClassName='active-route' className="nav-menu-list-item">
                 <ListItem button className={classes.nested}>
                   <ListItemText inset primary="Heal Users" />
                 </ListItem>
               </Link>
-              <Link to={PAGE.users} activeClassName='active-route' className="nav-menu-list-item">
+              <Link to={PAGE.organizationsUsers} activeClassName='active-route' className="nav-menu-list-item">
                 <ListItem button className={classes.nested}>
                   <ListItemText inset primary="Heal Work Users" />
                 </ListItem>
               </Link>
-              <Link to={PAGE.users} activeClassName='active-route' className="nav-menu-list-item">
+              <Link to={PAGE.clinicsUsers} activeClassName='active-route' className="nav-menu-list-item">
                 <ListItem button className={classes.nested}>
                   <ListItemText inset primary="Heal Clinic Users" />
                 </ListItem>

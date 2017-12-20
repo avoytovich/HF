@@ -4,7 +4,6 @@ import { Async }              from 'react-select';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
 import Select                 from 'material-ui/Select';
-import { QuestionVariety }    from '../index'
 import {
   onAnswerChange,
   getAnswerValue,
@@ -22,7 +21,7 @@ class ConditionsComponent extends Component {
     onConditionAsyncChange(value, edit, this.props);
 
   render() {
-    const { key, op, value } = this.props.itemState[0];
+    const { key, op, value } = this.props.itemState;
 
     return <div className="rule-types">
       <div className="main-select">
