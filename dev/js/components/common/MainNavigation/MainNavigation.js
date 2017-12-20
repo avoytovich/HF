@@ -14,6 +14,7 @@ import InsertDriveFile from 'material-ui-icons/InsertDriveFile'; // assets
 import LocalHospital from 'material-ui-icons/LocalHospital'; // Clinics
 import SettingsApplications from 'material-ui-icons/SettingsApplications'; // matrix
 import Chat from 'material-ui-icons/Chat'; // matrix
+import Accessibility from 'material-ui-icons/Accessibility'; // matrix
 
 import { PAGE } from '../../../config';
 
@@ -91,6 +92,14 @@ class MainNavigation extends Component {
                 <SettingsApplications className="nav-icon" />
               </ListItemIcon>
               <ListItemText inset primary='Matrix'/>
+            </ListItem>
+          </Link>
+          <Link to={PAGE.test} activeClassName='active-route' className="nav-menu-list-item">
+            <ListItem button>
+              <ListItemIcon>
+                <Accessibility className="nav-icon" />
+              </ListItemIcon>
+              <ListItemText inset primary='Testing'/>
             </ListItem>
           </Link>
           <Link to={PAGE.chat} activeClassName='active-route' className="nav-menu-list-item">

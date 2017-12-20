@@ -40,6 +40,7 @@ export const api = {
   findConditionsByAre : '/matrix/conditions/get/area',
   questionsByStep     : '/matrix/questions/get/area',
   getConditionById    : '/matrix/conditions',
+  test    : '/diagnostics/get/last',
 };
 
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`
@@ -59,6 +60,7 @@ export const PAGE = {
   assetsEdit : '/assets/edit',
   clinicProfile: '/clinic/:id/profile',
   matrixSetup: '/matrix-setup',
+  testing    : '/testing',
   chat       : '/chat',
   diagnosis  : '/matrix-setup/diagnosis',
   conditions : '/matrix-setup/conditions',
@@ -68,4 +70,5 @@ export const PAGE = {
   packages        : '/matrix-setup/packages',
   exercises       : '/matrix-setup/exercises',
   diagnosisCreate : '/diagnosis-create',
+  test : '/test',
 };

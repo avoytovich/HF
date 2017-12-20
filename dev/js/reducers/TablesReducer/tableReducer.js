@@ -71,7 +71,11 @@ const initialState = {
     {
       name: 'assets',
       changes: []
-    }
+    },
+    {
+      name: 'test',
+      changes: []
+    },
   ]
 };
 

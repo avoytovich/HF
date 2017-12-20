@@ -32,7 +32,7 @@ import Clinics                        from './components/users/Clinics/Clinics';
 import Profile                        from './components/users/Profile/Profile';
 import Users                          from './components/users/Users/Users';
 import AssetsList                     from './components/assets/AssetsList/AssetsList';
-import Upload                         from './components/assets/Upload/Upload';
+import TestsList                     from './components/testing/TestsList/TestsList';
 import {
    MatrixComponent,
    DiagnosisComponent,
@@ -105,6 +105,7 @@ const router = (
         <Route path={PAGE.users}             component={Users} />
         <Route path={PAGE.assets}            component={AssetsList} />
         <Route path={PAGE.clinicProfile}     component={Profile} />
+        <Route path={PAGE.test}              component={TestsList} />
         <Route path={PAGE.matrixSetup}       component={ MatrixComponent }>
 
           <IndexRedirect to="diagnosis"/>
