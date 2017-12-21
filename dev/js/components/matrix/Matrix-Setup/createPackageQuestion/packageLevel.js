@@ -21,6 +21,7 @@ import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
 import PackageExercises             from './packageExercises';
+import { CircularProgress }         from 'material-ui/Progress';
 
 export const THERAPY = [
   { value: '1',  label: 'Daily'},
@@ -30,21 +31,17 @@ export const THERAPY = [
   { value: 'ME', label: 'Morning and evening'},
 ];
 class PackageLevelComponent extends Component {
-
+  state = { loading: true };
   componentDidMount() {
     const {
-      params: {
-        packageId,
-        levelId
-      },
-      createDiagnosisQuestion: {
-        packageLevels
-      }
+      packageId,
+      level                   : { id, exercise_ids },
+      createDiagnosisQuestion : { packageLevels }
     } = this.props;
 
     if (packageId) {
-      const { id, exercise_ids } = packageLevels[levelId];
-      getPackageLevel('exercises', 'getExercises', exercise_ids)
+      getPackageLevel('exercises', 'getExercises', exercise_ids).then(el =>
+        this.setState({loading: false}));
     }
   }
 
@@ -125,13 +122,14 @@ class PackageLevelComponent extends Component {
       </Grid>
 
       <Grid container className="package-level-exercises">
-        <Grid item xs={12} >
+        <Grid item xs={12} style={{display: 'flex', flexDirection: 'row'}}>
           <Typography type="title">
             Exercises
           </Typography>
+          {this.state.loading && <CircularProgress size={20}/>}
         </Grid>
 
-        {exercise_ids.map((item, index) =>
+        {!this.state.loading && exercise_ids.map((item, index) =>
           <Grid item xs={12} key={index}>
             <PackageExercises exercises={item}/>
           </Grid>)}

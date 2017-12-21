@@ -19,7 +19,7 @@ import Input                        from '../../../common/Input/Input';
 import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
-
+import PackageLevelComponent        from './packageLevel'
 
 export const THERAPY = [
   { value: '1',  label: 'Daily'},
@@ -48,8 +48,8 @@ class CreatePackageComponent extends Component {
 
   componentWillMount() {
     if (this.props.params.packageId) {
-      getPackagenById('exercises', 'packages', this.props.params.packageId).then(({packageLevels}) =>
-        browserHistory.push(`/packages-create/${this.props.routeParams.packageId}/level/0`))
+      getPackagenById('exercises', 'packages', this.props.params.packageId).then(() =>
+        browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${0}`))
     }
   }
 
@@ -118,7 +118,7 @@ class CreatePackageComponent extends Component {
 
   handleTabChange = (event, tab) => {
     this.setState({ tab });
-    browserHistory.push(`/packages-create/${this.props.routeParams.id}/level/${tab}`);
+    browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${tab}`);
   };
 
   render() {
@@ -134,6 +134,9 @@ class CreatePackageComponent extends Component {
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
       },
+      params: {
+        packageId
+      }
     } = this.props;
 
 
@@ -302,7 +305,17 @@ class CreatePackageComponent extends Component {
             >
               {packageLevels.map((item, index) => <Tab key={index} label={`Level ${item.level}`}/>)}
             </Tabs>
-            {!!packageLevels && !!packageLevels.length && this.props.children}
+              {packageLevels.map((level, index) =>
+                  <div className="tab-item"
+                       key={index}>
+                    {
+                      +this.state.tab === index &&
+                      <PackageLevelComponent
+                        packageId={packageId}
+                        level={level}/>
+                    }
+                  </div>
+                )}
           </Grid>
 
         </Grid>

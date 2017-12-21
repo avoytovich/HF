@@ -148,7 +148,7 @@ export const getPackagenById = (domenKey, apiKey, id) => {
             payload: { body: {...data }}
           }
         );
-        return data;
+        return data.packageLevels;
       }
     }
   );

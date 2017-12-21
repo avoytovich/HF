@@ -142,13 +142,8 @@ const router = (
         <Route path='evaluations-create/:id' component={(props) => <CreateEvaluationComponent {...props}/>} />
         <Route path='evaluations-create-new' component={(props) => <CreateEvaluationComponent {...props}/>} />
 
-        <Route path='packages-create/:packageId'    component={(props) => <CreatePackageComponent {...props}/>}>
-          <Route path='level/:levelId'              component={(props) => <PackageLevelComponent {...props}/>}/>
-        </Route>
-
-        <Route path='packages-create-new'    component={(props) => <CreatePackageComponent {...props}/>}>
-          <Route path='level/:levelId'       component={(props) => <PackageLevelComponent {...props}/>}/>
-        </Route>
+        <Route path='packages-create/:packageId' component={(props) => <CreatePackageComponent {...props}/>}/>
+        <Route path='packages-create-new'        component={(props) => <CreatePackageComponent {...props}/>}/>
 
         {/*<Redirect from="*" to="organizations"/>*/}
 
