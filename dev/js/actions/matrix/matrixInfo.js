@@ -6,17 +6,12 @@ import { TABLE,
 import { store }      from '../../index'
 import qs             from 'query-string';
 
-const getList = (domenPath, apiPath, query) => {
-  return query ?
-    Api.get(`${domenPath}${apiPath}?${query}`) :
-    Api.get(`${domenPath}${apiPath}`);
-};
-
-export const getMatrixInfo = ( domenKey, apiKey, query, path) => {
+export const getMatrixInfo = (domenKey, apiKey, query, path, url) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey],
         querySt   = qs.stringify(query);
-  return getList(domenPath, apiPath, querySt)
+  const finalUrl  = url ? url : `${domenPath}${apiPath}${querySt ? '?' + querySt : ''}`;
+  return Api.get(finalUrl)
           .then((res) => dispatchTableInfo(res, path));
 //  return getInfo(domenPath, apiPath, querySt)
 //          .then((res) => {
@@ -25,14 +20,14 @@ export const getMatrixInfo = ( domenKey, apiKey, query, path) => {
 //  })
 };
 
-export const updateTableFields = (query, path) => {
-  return store.dispatch({type:`${TABLE}_UPDATE_FIELDS`,
-    payload:{
-      ...query,
-      path
-    }
-  });
-};
+// export const updateTableFields = (query, path) => {
+//   return store.dispatch({type:`${TABLE}_UPDATE_FIELDS`,
+//     payload:{
+//       ...query,
+//       path
+//     }
+//   });
+// };
 
 export const dispatchTableInfo = ({data}, path) => {
  return store.dispatch({type:`${TABLE}_UPDATE`,
@@ -43,10 +38,12 @@ export const dispatchTableInfo = ({data}, path) => {
   });
 };
 
-export const getListByPost = (domenKey, apiKey, _query) => {
+export const getListByPost = (domenKey, apiKey, _query, url) => {
   _query.orderBy === 'title' && delete _query.orderBy;
   const finalQuery = { ..._query, page: +_query.current_page + 1, limit: _query.per_page };
-  return Api.post(`${domen[domenKey]}${api[apiKey]}`, finalQuery)
+  const finalUrl   = url ? url : `${domen[domenKey]}${api[apiKey]}`;
+
+  return Api.post(finalUrl, finalQuery)
     .then(res => {
       const { data, meta } = res.data;
       return store.dispatch({

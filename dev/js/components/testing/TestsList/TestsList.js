@@ -6,8 +6,13 @@ import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
+import qs             from 'query-string';
 
-import { PAGE } from '../../../config';
+import {
+  PAGE,
+  domen,
+  api
+} from '../../../config';
 
 class TestsList extends Component {
   state = {
@@ -26,12 +31,19 @@ class TestsList extends Component {
 
   render() {
     const { tableHeader } = SEL_TAB;
-    const { selected, deactivateOpen, deleteOpen } = this.state;
+    const {
+      selected,
+      deleteOpen,
+    } = this.state;
     const {
       userReducer: {
         user_id,
       },
+      location: {
+        query,
+      },
     } = this.props;
+    const url = `${domen['diagnostics']}${api['test']}/${user_id}?${qs.stringify(query)}`;
     return (
       <div id="diagnosis-component">
 
@@ -54,7 +66,8 @@ class TestsList extends Component {
         <TableComponent
           location={this.props.location}
           path="test"
-          queryParams={{ userId: user_id }}
+          reqType="POST"
+          url={url}
           domen="diagnostics"
           tableHeader={ tableHeader }
           selected={selected}
@@ -68,7 +81,8 @@ class TestsList extends Component {
 }
 
 const mapStateToProps = state => ({
-  store: state.tables.diagnosis
+  store: state.tables.diagnosis,
+  userReducer: state.userReducer,
 });
 
 export default  connect(mapStateToProps)(TestsList);
