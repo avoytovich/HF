@@ -36,10 +36,12 @@ class PackageLevelComponent extends Component {
     const {
       packageId,
       level                   : { id, exercise_ids },
-      createDiagnosisQuestion : { packageLevels }
+      createDiagnosisQuestion : { packageLevels },
+      index
     } = this.props;
 
     if (packageId) {
+      debugger;
       getPackageLevel('exercises', 'getExercises', exercise_ids).then(el =>
         this.setState({loading: false}));
     }
@@ -59,7 +61,10 @@ class PackageLevelComponent extends Component {
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
       },
+      index,
     } = this.props;
+
+    const therapy_continuity = packageLevels[index].therapy_continuity;
 
     return <div>
       <Grid container className="row-item">
@@ -68,41 +73,48 @@ class PackageLevelComponent extends Component {
             VAS, %
           </Typography>
           <Input
-            id='questionTitle'
-            value={questionTitle}
+            id={`packageLevels[${index}].level_up_origin.vas`}
+            type='number'
+            max="100"
+            min="1"
             reducer={ createDiagnosisQuestion }
             placeholder={ L_CREATE_QUESTION.enterTitle }
           />
         </Grid>
+
         <Grid item xs={2}>
           <Typography type="caption">
             VAS, min
           </Typography>
           <Input
-            id='questionTitle'
-            value={questionTitle}
+            id={`packageLevels[${index}].level_up_origin.vas_min`}
+            type='number'
+            max="100"
+            min="1"
             reducer={ createDiagnosisQuestion }
             placeholder={ L_CREATE_QUESTION.enterTitle }
           />
         </Grid>
+
         <Grid item xs={2}>
           <Typography type="caption">
             Sessions
           </Typography>
           <Input
-            id='questionTitle'
-            value={questionTitle}
-            reducer={ createDiagnosisQuestion }
-            placeholder={ L_CREATE_QUESTION.enterTitle }
+            id={`packageLevels[${index}].level_up_origin.sessions`}
+            type='number'
+            min="1"
+            reducer={this.props.createDiagnosisQuestion}
           />
         </Grid>
-        <Grid item xs={3}>
+
+        <Grid item xs={5}>
           <Typography type="caption" style={{marginBottom: '16px'}}>
               Therapy continuity
           </Typography>
           <SELECT
-            value={''}
-            onChange={(event) =>  updateCrateQuestionFields(event.target.value, 'therapyContinuity')}
+            value={therapy_continuity}
+            onChange={(event) =>  updateCrateQuestionFields(event.target.value, `packageLevels[${index}].therapy_continuity`)}
             className="MuiFormControlDEFAULT"
             label="Therapy continuity"
             >

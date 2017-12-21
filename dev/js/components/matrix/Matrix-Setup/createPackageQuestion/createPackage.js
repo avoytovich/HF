@@ -34,6 +34,17 @@ export const PACKAGE_TYPE = [
   {value: 'therapeutic', label: 'Therapeutic'}
 ];
 
+export const DEFAULT_LEVEL = {
+  level             : 1,
+  level_up_origin   : {
+    vas     : '1',
+    vas_min : '1',
+    sessions: '1'
+  },
+  therapy_continuity: '1',
+  exercise_ids      : [],
+};
+
 class CreatePackageComponent extends Component {
   state = {
     questionType    : 'packages',
@@ -50,6 +61,9 @@ class CreatePackageComponent extends Component {
     if (this.props.params.packageId) {
       getPackagenById('exercises', 'packages', this.props.params.packageId).then(() =>
         browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${0}`))
+    }
+    else {
+      updateCrateQuestionFields([DEFAULT_LEVEL], 'packageLevels');
     }
   }
 
@@ -119,6 +133,11 @@ class CreatePackageComponent extends Component {
   handleTabChange = (event, tab) => {
     this.setState({ tab });
     browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${tab}`);
+  };
+
+  addNewLevel = (oldList) => {
+    const newList = oldList.concat({...DEFAULT_LEVEL, level: oldList.length + 1});
+    updateCrateQuestionFields(newList, 'packageLevels');
   };
 
   render() {
@@ -290,7 +309,7 @@ class CreatePackageComponent extends Component {
                   </Typography>
               </Grid>
               <Grid item xs={6} className="package-level-header-item-right">
-                <Button color="primary" onClick={() => {}}>
+                <Button color="primary" onClick={() => this.addNewLevel(packageLevels)}>
                   + ADD LEVEL
                 </Button>
               </Grid>
@@ -312,7 +331,9 @@ class CreatePackageComponent extends Component {
                       +this.state.tab === index &&
                       <PackageLevelComponent
                         packageId={packageId}
-                        level={level}/>
+                        index={index}
+                        level={level}
+                      />
                     }
                   </div>
                 )}
