@@ -64,7 +64,6 @@ export const PAGE = {
   assetsEdit        : '/assets/edit',
   clinicProfile     : '/clinic/:id/profile',
   matrixSetup       : '/matrix-setup',
-  testing           : '/testing',
   chat              : '/chat',
   diagnosis         : '/matrix-setup/diagnosis',
   conditions        : '/matrix-setup/conditions',
@@ -75,4 +74,5 @@ export const PAGE = {
   exercises         : '/matrix-setup/exercises',
   diagnosisCreate   : '/diagnosis-create',
   test              : '/test',
+  testNew           : '/test/new',
 };

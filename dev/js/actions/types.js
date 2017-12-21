@@ -7,4 +7,16 @@ export const AUTH            = "AUTH";
 export const TABLE           = "TABLE";
 export const CREATE_QUESTION = 'CREATE_QUESTION';
 export const PROFILE         = "PROFILE";
-export const CREATE_USERS            = "CREATE_USERS";
+export const CREATE_USERS    = "CREATE_USERS";
+
+export const T = {
+  USER            : "USER",
+  ASSETS          : "ASSETS",
+  ASSETS_DELETE   : "ASSETS_DELETE",
+  AUTH            : "AUTH",
+  TABLE           : "TABLE",
+  CREATE_QUESTION : 'CREATE_QUESTION',
+  PROFILE         : "PROFILE",
+  CREATE_USERS    : "CREATE_USERS",
+  TESTING         : "TESTING",
+};

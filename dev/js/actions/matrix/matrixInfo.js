@@ -13,21 +13,7 @@ export const getMatrixInfo = (domenKey, apiKey, query, path, url) => {
   const finalUrl  = url ? url : `${domenPath}${apiPath}${querySt ? '?' + querySt : ''}`;
   return Api.get(finalUrl)
           .then((res) => dispatchTableInfo(res, path));
-//  return getInfo(domenPath, apiPath, querySt)
-//          .then((res) => {
-//    dispatchTableInfo(res, path);
-//    updateTableFields(query, `${path}.sortOptional`);
-//  })
 };
-
-// export const updateTableFields = (query, path) => {
-//   return store.dispatch({type:`${TABLE}_UPDATE_FIELDS`,
-//     payload:{
-//       ...query,
-//       path
-//     }
-//   });
-// };
 
 export const dispatchTableInfo = ({data}, path) => {
  return store.dispatch({type:`${TABLE}_UPDATE`,

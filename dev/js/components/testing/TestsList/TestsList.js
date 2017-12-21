@@ -50,7 +50,10 @@ class TestsList extends Component {
         <TableControls
           path="test"
           selected={selected}
-          createItem={this.create}>
+          createItem={() => browserHistory.push(PAGE.testNew)}
+          createButtonText='New'
+          CreateButtonIcon={() => <div/>}
+        >
 
           <Button
             raised
