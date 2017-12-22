@@ -11,9 +11,12 @@ import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 
 import Input from '../../common/Input/Input';
+import { diagnosConsts } from './consts'
 // import Switch from '../../common/Switch/Switch';
+import Select from '../../common/Select/Select';
 import {
   createAssetsPreValidate,
+  T,
 } from '../../../actions';
 import { PAGE } from '../../../config';
 
@@ -80,16 +83,130 @@ class TestNew extends Component {
             </div>
           </Grid>
 
-          <Grid item xs={5}>
-            <div className="testing-inner-container border-right">
+          <Grid item xs={4}>
+            <div className="testing-inner-container-long border-right">
               <p className="testing-inner-sub-header">
                 Profile
               </p>
+              <Select
+                options={diagnosConsts.languages}
+                id='language'
+                style={{ width: "100%" }}
+                name={T.TESTING}
+                reducer={testingReducer}
+                onChange={({ target: { value, id, name }, target }) => console.log(value, id, name, target)}
+                label='Language of questions'
+              />
+              <Select
+                options={diagnosConsts.measurements}
+                id='measurement'
+                style={{ width: "100%" }}
+                name={T.TESTING}
+                reducer={testingReducer}
+                onChange={({ target: { value, id, name }, target }) => console.log(value, id, name, target)}
+                label='Measurements'
+              />
+              <Select
+                options={diagnosConsts.sex}
+                id='sex'
+                style={{ width: "100%" }}
+                name={T.TESTING}
+                reducer={testingReducer}
+                onChange={({ target: { value, id, name }, target }) => console.log(value, id, name, target)}
+                label='Sex'
+              />
+
+              <Grid container spacing={24}>
+
+                <Grid item xs={6}>
+                  <Input
+                    style={{ width: '100%'}}
+                    id='age'
+                    reducer={testingReducer}
+                    label='Your age'
+                  />
+                </Grid>
+
+                <Grid item xs={6}/>
+
+                <Grid item xs={6}>
+                  <Input
+                    style={{ width: '100%'}}
+                    id='weight'
+                    reducer={testingReducer}
+                    label='Weight (kg)'
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Input
+                    style={{ width: '100%'}}
+                    id='height'
+                    reducer={testingReducer}
+                    label='Your height (cm)'
+                  />
+                </Grid>
+              </Grid>
+
             </div>
           </Grid>
 
-          <Grid item xs={7}>
+          <Grid item xs={4}>
+            <div className="testing-inner-container-long">
+              <p className="testing-inner-sub-header">
+                Body Areas
+              </p>
+              <Grid container spacing={24}>
 
+                <Grid item xs={6}>
+                  <Select
+                    options={diagnosConsts.sex}
+                    id='body_areas'
+                    style={{ width: "100%" }}
+                    name={T.TESTING}
+                    reducer={testingReducer}
+                    onChange={({ target: { value, id, name }, target }) => console.log(value, id, name, target)}
+                    label='Sex'
+                  />
+                  <Input
+                    select
+                    currencies={[]}
+                    style={{ width: '100%'}}
+                    id='title'
+                    reducer={testingReducer}
+                    label='Body Areas'
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Input
+                    type="range"
+                    style={{ width: '100%'}}
+                    id='title'
+                    reducer={testingReducer}
+                    label=' '
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Select
+                    options={[]}
+                    style={{ width: '100%'}}
+                    id='title'
+                    reducer={testingReducer}
+                    label='Title'
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Input
+                    type="range"
+                    style={{ width: '100%'}}
+                    id='title'
+                    reducer={testingReducer}
+                    label=' '
+                  />
+                </Grid>
+              </Grid>
+            </div>
           </Grid>
         </Grid>
 

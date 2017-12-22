@@ -81,7 +81,7 @@ class Input extends Component {
           onChange={onCustomChange || onChange}
           label={label}
           placeholder={placeholder}
-          className={classes.textField}
+          className={[classes.textField]}
           style={style}
           margin="normal"
           {...omit(props, ['dispatch'])}
