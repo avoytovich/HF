@@ -2,7 +2,7 @@
   display: flex
   flex-direction: row
   width: 560px
-  height: 72px
+  min-height: 72px
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26)
   margin-bottom: 30px
   .nav-block,
@@ -14,10 +14,13 @@
     width: calc(100% - 64px)
     .wrap
       padding: 10px 20px
+      .text
+        overflow: hidden
+        text-overflow: ellipsis
   .nav-block
     background-color: $primary-blue
     width: 64px
-    height: 72px
+    min-height: 72px
     position: relative
     align-items: center
     button

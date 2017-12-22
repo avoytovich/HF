@@ -4,7 +4,7 @@ import { Async }              from 'react-select';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
 import Select                 from 'material-ui/Select';
-import { QuestionVariety }    from '../index'
+import QuestionVariety        from '../questionVariety';
 import {
   getMultipleAnswerValue,
   onMultipleAsyncChange,
@@ -25,7 +25,7 @@ class InComponent extends Component {
     this.setState({...onMultipleAsyncChange(value, edit, this.props)});
 
   render() {
-    const { key, value } = this.props.itemState[0];
+    const { key, value } = this.props.itemState;
     const selectValue    = getMultipleAnswerValue(this.state.answers, value);
 
     return <div className="rule-types">

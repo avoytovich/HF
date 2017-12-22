@@ -83,7 +83,11 @@ const initialState = {
     {
       name: 'clinicsUsers',
       changes: []
-    }
+    },
+    {
+      name: 'test',
+      changes: []
+    },
   ]
 };
 

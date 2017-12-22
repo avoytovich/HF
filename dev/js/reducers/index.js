@@ -4,12 +4,13 @@ import storage                    from 'redux-persist/es/storage' // default: lo
 import notifierReducer            from './commonReducers/notifierReducer';
 import commonReducer              from './commonReducers/commonReducer';
 import userReducer                from './userReducer/userReducer';
-import profileReducer                from './profileReducer/profileReducer';
+import profileReducer             from './profileReducer/profileReducer';
 import * as authReducers          from './authReducers';
-import * as assetsReducer          from './assetsReducer';
+import * as assetsReducer         from './assetsReducer';
 import * as matrixReducers        from './matrixReducers';
 import * as tableReducers         from './TablesReducer'
-import * as createUsersReducers         from './createUsersReducers'
+import * as createUsersReducers   from './createUsersReducers'
+import * as testingReducer        from './testingReducer'
 const config = {
   key: 'root',
   whitelist: ['userReducer', 'authReducer'], // for those we need to be saved (only these will be saved)
@@ -25,6 +26,7 @@ const rootReducer = persistCombineReducers(config, {
   ...createUsersReducers,
   ...matrixReducers.default,
   ...tableReducers.default,
+  ...testingReducer,
   routing: routerReducer
 });
 

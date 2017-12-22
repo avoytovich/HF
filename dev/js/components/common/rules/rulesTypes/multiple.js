@@ -4,7 +4,7 @@ import { Async }              from 'react-select';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
 import Select                 from 'material-ui/Select';
-import { QuestionVariety }    from '../index'
+import QuestionVariety        from '../questionVariety';
 import {
   onMultipleAsyncChange,
   getMultipleAnswerValue,
@@ -21,13 +21,14 @@ class MultipleComponent extends Component {
     max    : 0,
   };
 
-  onAsyncChange = (value, edit) =>
+  onAsyncChange = (value, edit) => {
+    debugger;
     this.setState({...onMultipleAsyncChange(value, edit, this.props)});
+  }
 
   render() {
-    const { key, value } = this.props.itemState[0],
-          selectValue    = getMultipleAnswerValue(this.state.answers, value);
-
+    const { key, value } = this.props.itemState,
+            selectValue    = getMultipleAnswerValue(this.state.answers, value);
     return <div className="rule-types">
       <div className="main-select">
 
@@ -40,7 +41,7 @@ class MultipleComponent extends Component {
             getOptions(input, key, this.onAsyncChange, this.props, 'diagnostics', 'multiple')}
           onChange={this.onAsyncChange}
           className="ansyc-select"
-          value={key}
+          value={'q_pain_loc'}
         />
       </div>
 

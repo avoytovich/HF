@@ -61,12 +61,15 @@ class Input extends Component {
           {...omit(props, ['dispatch'])}
         >
           {
-            currencies.map((option, index) =>
-            (<option key={index}
-                     selected={option.value === value}
-                     value={option.value}>
-              {option.label}
-            </option>))
+            currencies.map((option, index) => (
+              <option
+                key={index}
+                selected={option.value === value}
+                value={option.value}
+              >
+                {option.label}
+              </option>
+            ))
           }
         </TextField>
         :

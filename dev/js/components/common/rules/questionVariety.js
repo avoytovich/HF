@@ -55,8 +55,7 @@ class QuestionVariety extends Component {
       </div>
     )
   }
-};
-
+}
 
 const mapStateToProps = (state, props) => ({
   store : state.createDiagnosisQuestion,

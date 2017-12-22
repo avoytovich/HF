@@ -42,6 +42,7 @@ class RulesQuestionComponent extends Component {
   };
 
   render() {
+    const { rules, question } =  this.props.store;
     return (
       <div className="rule-question">
         <div className="nav-block">
@@ -53,6 +54,7 @@ class RulesQuestionComponent extends Component {
                 fab
                 color="accent"
                 aria-label="add"
+                disabled={rules.length > 0}
               >
                 <AddIcon />
               </Button>
@@ -83,7 +85,7 @@ class RulesQuestionComponent extends Component {
               </Typography>
             </div>
             <div className="text">
-              {this.props.state.question.en}
+              {question.en}
             </div>
           </div>
         </div>
@@ -93,7 +95,7 @@ class RulesQuestionComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  state: state.createDiagnosisQuestion
+  store: state.createDiagnosisQuestion
 });
 
 export default connect(mapStateToProps)(RulesQuestionComponent);

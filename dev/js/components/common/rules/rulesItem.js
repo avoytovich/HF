@@ -39,7 +39,7 @@ class RulesItemComponent extends Component {
     changeTypeOfRule(path, item, type);
 
     if (findType(type) === 'block') {
-      addDefaultGroupRule(type, path, [{ [ DEFAULT_ITEM_TYPE || 'match' ]: [ DEF_ITEM ] }]);
+      addDefaultGroupRule(type, path, [{ [ DEFAULT_ITEM_TYPE || 'match' ]:  DEF_ITEM }]);
     }
   };
 

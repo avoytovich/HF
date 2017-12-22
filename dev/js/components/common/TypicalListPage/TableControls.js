@@ -24,9 +24,7 @@ class TableControls extends Component {
 
   handleChange = (event, value) => {};
 
-  mainClass = (selected) => {
-    return `page-navigation ${selected.length ? 'active-navigation' : 'enable-navigation'}`
-  };
+  mainClass = (selected) => `page-navigation ${selected.length ? 'active-navigation' : 'enable-navigation'}`;
 
   render() {
     const {

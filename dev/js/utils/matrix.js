@@ -7,7 +7,7 @@ export const GROUP_TYPES = [
   { key: 'notEqual', type: 'item',  subType: 'single' },
   { key: 'in',       type: 'item',  subType: 'list'   },
   { key: 'multiple', type: 'item',  subType: 'list'   },
-  { key: 'true',     type: 'item',  subType: 'list'   }
+  { key: 'true',     type: 'item',  subType: 'single' }
 ];
 
 export const TYPES = [
@@ -21,17 +21,9 @@ export const TYPES = [
   { label: 'Multiple',   value: 'multiple', subType: 'multiple' }
 ];
 
-export const TYPES_OPTIONAL = [
-  { label: 'And',        value: 'and'                            },
-  { label: 'Not',        value: 'not'                            },
-  { label: 'Or',         value: 'or'                             },
-  { label: 'Match',      value: 'match',     subType: 'single'   },
-  { label: 'Equal',      value: 'equal',     subType: 'single'   },
-  { label: 'Not Equal',  value: 'notEqual',  subType: 'single'   },
-  { label: 'In',         value: 'in',        subType: 'single'   },
-  { label: 'Multiple',   value: 'multiple',  subType: 'multiple' },
-  { label: 'Condition',  value: 'true',      subType: 'single'   }
-];
+export const TYPES_OPTIONAL = TYPES.concat(
+  { label: 'Condition',  value: 'true', subType: 'single' }
+);
 
 export const DEF_ITEM = {
   key: '',
@@ -79,6 +71,14 @@ export const checkType = (rules) => {
       return { label: 'rule', key: 'key'  };
   }
 };
+
+export const checkIfBlockType = (type) =>
+  GROUP_TYPES.reduce((result, item) => {
+    if(item.type === 'block') {
+      return true;
+    }
+    return result;
+  }, false);
 
 export const genCharArray = () => {
   const charA = 'a', charZ = 'z';
