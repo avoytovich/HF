@@ -153,6 +153,7 @@ class PackageLevelComponent extends Component {
           <PackageExercisesModal
             level={index}
             open={this.state.chooseExercises}
+            isSelected={exercise_ids || []}
             handleRequestClose={(value) => this.openChooseExercises(value)}/>}
         </Grid>
       </Grid>

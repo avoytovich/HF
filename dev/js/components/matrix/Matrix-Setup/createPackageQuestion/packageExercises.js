@@ -11,7 +11,7 @@ import {
 import { connect }                from 'react-redux';
 import { bindActionCreators }     from 'redux';
 import Grid                       from 'material-ui/Grid';
-
+import { get }                      from 'lodash';
 
 class PackageExercises extends Component  {
     state = { list: [] };
@@ -35,7 +35,9 @@ class PackageExercises extends Component  {
     }
 
     handleDelete = (ID) =>  {
-      console.log('Delete exercises with ID', ID);
+      const packageLevels = this.props.createDiagnosisQuestion.packageLevels;
+      const filtered = get(packageLevels, `[${this.props.level}].exercise_ids`).filter(el =>  el != ID);
+      updateCrateQuestionFields(filtered, `packageLevels[${this.props.level}].exercise_ids`)
     };
 
     render() {

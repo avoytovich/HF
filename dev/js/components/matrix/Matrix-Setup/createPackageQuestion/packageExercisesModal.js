@@ -32,11 +32,12 @@ class PackageExercisesModal extends Component {
   };
 
   componentDidMount() {
+    this.setState({selected:this.props.isSelected});
     getExercises('exercises', 'exercises').then(list => this.setState({list}));
   }
 
   onSelect = (event, value) => {
-    const filtered = this.state.selected.filter(item => item !== value);
+    const filtered = this.state.selected.filter(item => +item !== +value);
     const selected = filtered.length < this.state.selected.length ? filtered : filtered.concat(value);
 
     this.setState({selected});
