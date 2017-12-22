@@ -13,3 +13,4 @@ export CreateConditionComponent  from './createConditionsQuestion/createConditio
 export CreateTreatmentsComponent from './createTreatmentsQuestion/createTreatmentsQuestion';
 export CreateEvaluationComponent from './createEvaluationQuestion/createEvaluation';
 export CreatePackageComponent    from './createPackageQuestion/createPackage';
+export CreateExerciseComponent   from './createExercise/createExercise';

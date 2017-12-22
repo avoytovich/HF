@@ -39,12 +39,14 @@ const initialState = {
   packageType: 'symptomatic',
   therapyContinuity: '1',
   packageLevels: [],
+  exercise: {}
 };
 
 const createQuestionUpdate = (state, action) => {
   switch (action.type) {
     case `${CREATE_QUESTION}_UPDATE`:
       const {data, path } = action.payload;
+      debugger;
       const res =  set(state, path, data);
       return Object.assign({}, res);
     default:

@@ -252,5 +252,24 @@ export const getExercises = (domenKey, apiKey, text) => {
     `${domenPath}${apiPath}?search=${text}` :
     `${domenPath}${apiPath}`;
   return Api.get(url).then(({data}) => data.data);
-}
+};
+
+
+export const getExerciseById =  (domenKey, apiKey, id) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
+      if (res) {
+        const { data } = res.data;
+        store.dispatch(
+          {
+            type:`${CREATE_QUESTION}_UPDATE`,
+            payload: {data, path: 'exercise'}
+          }
+        );
+        return data;
+      }
+    }
+  );
+};
 
