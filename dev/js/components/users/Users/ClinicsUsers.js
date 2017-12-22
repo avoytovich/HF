@@ -1,6 +1,6 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { CLINICS_TAB }              from '../../../utils/constants/pageContent';
+import { CLINICS_USERS_TAB }              from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
@@ -10,22 +10,10 @@ import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/dele
 
 import { PAGE } from '../../../config';
 
-class Clinics extends Component {
+class ClinicsUsers extends Component {
   state = {
     selected: [],
     deleteOpen: false
-  };
-
-  _tableCellPropsFunc = (row, col) => {
-    if (col.key === 'name') {
-      return {
-        onClick: (e) => {
-          e.stopPropagation();
-          browserHistory.push(`/clinic/${row.id}/profile`);
-        }
-      }
-    }
-    return {};
   };
 
   onRowClick = (selected = []) => this.setState({selected});
@@ -40,14 +28,15 @@ class Clinics extends Component {
   };
 
   render() {
-    const { tableHeader } = CLINICS_TAB;
+    const { tableHeader } = CLINICS_USERS_TAB;
     const { selected, deleteOpen } = this.state;
-    const querySelector = {...this.props.location.query,...{type: 'clinic'}};
+    const querySelector = {...this.props.location.query,...{customer_type: 'clinic'}};
     return (
       <div id="diagnosis-component">
 
         <DeleteComponent
-          path="companies"
+          location={this.props.location}
+          path="clinicsUsers"
           domen="users"
           typeKey="deleteOpen"
           list={selected}
@@ -58,7 +47,7 @@ class Clinics extends Component {
         />
 
         <TableControls
-          path="companies"
+          path="users"
           selected={selected}
           createItem={this.create}>
 
@@ -72,7 +61,7 @@ class Clinics extends Component {
 
         <TableComponent
           location={this.props.location}
-          path="clinics"
+          path="clinicsUsers"
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }
@@ -80,9 +69,7 @@ class Clinics extends Component {
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
-          tableCellPropsFunc={this._tableCellPropsFunc}
         />
-
       </div>
     )
   }
@@ -92,4 +79,4 @@ const mapStateToProps = state => ({
   store: state.tables.diagnosis
 });
 
-export default  connect(mapStateToProps)(Clinics);
+export default  connect(mapStateToProps)(ClinicsUsers);

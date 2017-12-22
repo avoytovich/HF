@@ -30,7 +30,9 @@ import ForgotPassword                 from './components/auth/ForgotPassword/For
 import Companies                      from './components/users/Companies/Companies';
 import Clinics                        from './components/users/Clinics/Clinics';
 import Profile                        from './components/users/Profile/Profile';
-import Users                          from './components/users/Users/Users';
+import SimpleUsers                          from './components/users/Users/SimpleUsers';
+import OrganizationsUsers                          from './components/users/Users/OrganizationsUsers';
+import ClinicsUsers                          from './components/users/Users/ClinicsUsers';
 import AssetsList                     from './components/assets/AssetsList/AssetsList';
 import Upload                         from './components/assets/Upload/Upload';
 import {
@@ -96,20 +98,18 @@ const router = (
       <Route path={PAGE.login}      component={Login} />
       <Route path={PAGE.passReset}  component={ResetPassword} />
       <Route path={PAGE.passForgot} component={ForgotPassword} />
-      <Route
-        path={'/'}
-        component={Main}
-        onEnter={onAllEnter}
-        onChange={onAllEnter}
-      >
+
+      <Route path={'/'} component={Main} onEnter={onAllEnter} onChange={onAllEnter}>
 
         <IndexRedirect to={PAGE.companies}/>
 
-        <Route path={PAGE.companies}         component={(props) => <Companies  {...props}/>} />
-        <Route path={PAGE.clinics}           component={(props) => <Clinics  {...props}/>} />
-        <Route path={PAGE.users}             component={(props) => <Users  {...props}/>} />
-        <Route path={PAGE.assets}            component={(props) => <AssetsList {...props} />} />
-        <Route path={PAGE.clinicProfile}     component={(props) => <Profile {...props} />} />
+        <Route path={PAGE.companies}         component={Companies} />
+        <Route path={PAGE.clinics}           component={Clinics} />
+        <Route path={PAGE.simpleUsers}       component={SimpleUsers} />
+        <Route path={PAGE.organizationsUsers}             component={OrganizationsUsers} />
+        <Route path={PAGE.clinicsUsers}             component={ClinicsUsers} />
+        <Route path={PAGE.assets}            component={AssetsList} />
+        <Route path={PAGE.clinicProfile}     component={Profile} />
         <Route path={PAGE.matrixSetup}       component={ MatrixComponent }>
 
           <IndexRedirect to="diagnosis"/>
@@ -145,16 +145,8 @@ const router = (
         <Route path='packages-create/:packageId' component={(props) => <CreatePackageComponent {...props}/>}/>
         <Route path='packages-create-new'        component={(props) => <CreatePackageComponent {...props}/>}/>
 
-        {/*<Redirect from="*" to="organizations"/>*/}
-
-        {/*<Route path={'/login'}  component={Login} />*/}
-
       </Route>
-
-
     </Router>
-
-
     </PersistGate>
     <NotificationsSystem theme={theme}/>
   </div>

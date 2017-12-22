@@ -1,7 +1,6 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import isEmpty                  from 'lodash/isEmpty';
-import { SEL_TAB }              from '../../../utils/constants/pageContent';
+import { USERS_TAB }              from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
@@ -11,27 +10,16 @@ import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/dele
 
 import { PAGE } from '../../../config';
 
-class Companies extends Component {
+class SimpleUsers extends Component {
   state = {
     selected: [],
     deactivateOpen: false,
     deleteOpen: false
   };
 
-  // componentDidMount() {
-  //   const currentPath = PAGE[this.props.path];
-  //   console.log(currentPath);
-  //   browserHistory.push({
-  //     pathname: currentPath,
-  //     query: { per_page: 20, current_page: 0, customer_type: 'organization' }
-  //   });
-  // }
-
   create = (id) => id ?
     browserHistory.push(`/diagnosis-create`) :
     browserHistory.push(`/diagnosis-create/${id}`);
-
-  deleteItems = (items = []) => {};
 
   onRowClick = (selected = []) => this.setState({selected});
 
@@ -45,14 +33,15 @@ class Companies extends Component {
   };
 
   render() {
-    const { tableHeader } = SEL_TAB;
+    const { tableHeader } = USERS_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
-
+    const querySelector = {...this.props.location.query,...{customer_type: 'simple'}};
     return (
       <div id="diagnosis-component">
 
         <DeleteComponent
-          path="companies"
+          location={this.props.location}
+          path="simpleUsers"
           domen="users"
           typeKey="deleteOpen"
           list={selected}
@@ -63,17 +52,9 @@ class Companies extends Component {
         />
 
         <TableControls
-          path="companies"
+          path="users"
           selected={selected}
           createItem={this.create}>
-
-          {/*<Button*/}
-          {/*disabled={selected.length > 1}*/}
-          {/*onClick={() => this.create(selected[0])}*/}
-          {/*raised dense>*/}
-          {/*<Edit />*/}
-          {/*Edit*/}
-          {/*</Button>*/}
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>
@@ -84,13 +65,15 @@ class Companies extends Component {
         </TableControls>
 
         <TableComponent
-          path="userAll"
+          location={this.props.location}
+          path="simpleUsers"
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
+          query= {querySelector}
         />
 
       </div>
@@ -102,4 +85,4 @@ const mapStateToProps = state => ({
   store: state.tables.diagnosis
 });
 
-export default  connect(mapStateToProps)(Companies);
+export default  connect(mapStateToProps)(SimpleUsers);

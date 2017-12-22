@@ -53,7 +53,7 @@ class TableComponent extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.location !== nextProps.location &&
         nextProps.location.query) {
-      this.getList(this.props, nextProps.location.query);
+      this.getList(this.props, {...nextProps.location.query, ...nextProps.query});
     }
   }
 
@@ -65,7 +65,6 @@ class TableComponent extends Component {
     const currentQuery = this.props.location.query;
     const currentPath = PAGE[this.props.path];
     const query = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
-
     browserHistory.push({
       pathname: currentPath,
       query   : { ...query }
