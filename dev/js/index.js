@@ -77,6 +77,7 @@ const router = (
 
           <IndexRedirect to="diagnosis"/>
 
+          <Route path='body-area'           component={(props) => <C.BodyAreaComponent {...props}/>} />
           <Route path='diagnosis'           component={(props) => <C.DiagnosisComponent  {...props}/>}/>
           <Route path='conditions'          component={(props) => <C.ConditionsComponent {...props}/>} />
           <Route path='treatments'          component={(props) => <C.TreatmentsComponent {...props}/>} />
@@ -91,6 +92,9 @@ const router = (
         </Route>
 
         {/* Temporary path Todo: Change routes to react-router-dom ?*/}
+        <Route path='body-area-create/:id'   component={(props) => <C.CreateBodyAreaComponent {...props}/>} />
+        <Route path='body-area-create-new'   component={(props) => <C.CreateBodyAreaComponent {...props}/>} />
+
         <Route path='diagnosis-create/:id'   component={(props) => <C.CreateQuestionComponent {...props}/>} />
         <Route path='diagnosis-create-new'   component={(props) => <C.CreateQuestionComponent {...props}/>} />
 

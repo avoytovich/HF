@@ -139,7 +139,6 @@ export const getTreatmentById = (domenKey, apiKey, id) => {
   });
 };
 
-
 export const findArea = (domenKey, apiKey) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
