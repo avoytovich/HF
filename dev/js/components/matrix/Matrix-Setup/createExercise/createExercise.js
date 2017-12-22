@@ -48,21 +48,25 @@ class CreateExerciseComponent extends Component {
 
 
   done = (value) => {
-    const { bodyAreas, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
-
+    const { id, title, comments, text, instruction, information, name } = value;
+    debugger;
     const result = {
-      key      : questionKey,
-      body_area: bodyAreas.key || bodyAreas.value,
-      title    : questionTitle,
-      type     : packageType,
-      package_levels : packageLevels
+      id,
+      package_level_id :1,
+      title,
+      comments,
+      text,
+      information,
+      instruction,
+      name,
+      file_ids: [19]
     };
 
     !this.props.routeParams.id ?
-      diagnosisQuestionCreate('exercises', 'packages', result)
+      diagnosisQuestionCreate('exercises', 'exercises', result)
       .then(() => browserHistory.push(`/matrix-setup/exercises`)) :
 
-      diagnosisQuestionCreate('exercises', 'packages', result, this.props.routeParams.packageId)
+      diagnosisQuestionCreate('exercises', 'exercises', result, this.props.routeParams.packageId)
       .then(() => browserHistory.push(`/matrix-setup/exercises`))
 
   };
@@ -81,7 +85,8 @@ class CreateExerciseComponent extends Component {
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        packageLevels
+        packageLevels,
+        exerciseState
       },
 
       commonReducer: {
@@ -106,7 +111,7 @@ class CreateExerciseComponent extends Component {
 
             <Button raised
                     dense
-                    onClick={() => this.done(createDiagnosisQuestion)}
+                    onClick={() => this.done(this.props.exerciseState)}
                     color="primary">
               Save
             </Button>
