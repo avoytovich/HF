@@ -99,7 +99,9 @@ export const diagnosisQuestionCreate = (domenKey, apiKey, body, id) => {
 export const updateQuestionCreate = (domenKey, apiKey, body, id) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
-  return Api.put(`${domenPath}${apiPath}/${id}`, body);
+  return id ?
+    Api.put(`${domenPath}${apiPath}/${id}`, body) :
+    Api.put(`${domenPath}${apiPath}`, body);
 };
 
 

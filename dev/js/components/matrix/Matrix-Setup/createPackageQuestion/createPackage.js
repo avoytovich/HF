@@ -116,14 +116,15 @@ class CreatePackageComponent extends Component {
       body_area: bodyAreas.key || bodyAreas.value,
       title    : questionTitle,
       type     : packageType,
-      package_levels : packageLevels
+      package_levels : packageLevels,
     };
+
 
     !this.props.routeParams.packageId ?
       diagnosisQuestionCreate('exercises', 'packages', result)
       .then(() => browserHistory.push(`/matrix-setup/packages`)) :
 
-      diagnosisQuestionCreate('exercises', 'packages', result, this.props.routeParams.packageId)
+      updateQuestionCreate('exercises', 'packages', {...result, id: this.props.routeParams.packageId})
       .then(() => browserHistory.push(`/matrix-setup/packages`))
 
   };
