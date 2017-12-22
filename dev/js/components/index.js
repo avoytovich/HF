@@ -14,6 +14,7 @@ import TestsList                from '../components/testing/TestsList/TestsList'
 import TestNew                  from '../components/testing/TestNew/TestNew';
 import {
   MatrixComponent,
+  BodyAreaComponent,
   DiagnosisComponent,
   ConditionsComponent,
   TreatmentsComponent,
@@ -27,7 +28,8 @@ import {
   CreateConditionComponent,
   CreateTreatmentsComponent,
   CreateEvaluationComponent,
-  CreatePackageComponent
+  CreatePackageComponent,
+  CreateBodyAreaComponent
 }                                 from '../components/matrix/Matrix-Setup';
 
 export const C = {
@@ -46,6 +48,7 @@ export const C = {
   TestsList,
   TestNew,
   MatrixComponent,
+  BodyAreaComponent,
   DiagnosisComponent,
   ConditionsComponent,
   TreatmentsComponent,
@@ -59,5 +62,6 @@ export const C = {
   CreateConditionComponent,
   CreateTreatmentsComponent,
   CreateEvaluationComponent,
-  CreatePackageComponent
+  CreatePackageComponent,
+  CreateBodyAreaComponent
 };

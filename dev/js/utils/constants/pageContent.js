@@ -79,6 +79,17 @@ export const DIAGNOSIS_TAB = {
   ]
 };
 
+export const BODY_AREA_TAB = {
+  key: 'areas',
+  title: 'bodyArea',
+  tableHeader: [
+    { title: 'Key',                 key: 'key',       className: 'left'                                        },
+    { title: 'Body Areas',           key: 'title',        className: 'center'                                      },
+    { title: 'Created',              key: 'created_at',  className: 'left',   type: 'time',   format: TIME_FORMAT },
+    { title: 'Updated',              key: 'updated_at',  className: 'left',   type: 'time',   format: TIME_FORMAT }
+  ]
+};
+
 export const CONDITIONS_TAB = {
   key: 'conditions',
   title: 'Conditions',

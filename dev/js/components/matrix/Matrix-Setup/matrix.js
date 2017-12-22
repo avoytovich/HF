@@ -8,6 +8,7 @@ import { withStyles } from 'material-ui/styles';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
 const TABS = [
+  { label: 'Body area',     url: 'body-area' },
   { label: 'Diagnosis',     url: 'diagnosis' },
   { label: 'Conditions',    url: 'conditions' },
   { label: 'Treatments',    url: 'treatments' },
@@ -55,6 +56,7 @@ class MatrixComponent extends Component {
 
   handleChange = (event, value) => {
     this.setState({ value });
+    console.log(value)
   };
 
   render() {
