@@ -120,9 +120,8 @@ export const EXERCISES_TAB = {
   key: 'conditions',
   title: 'Conditions',
   tableHeader: [
-    { title: 'Name',       key: 'title.en',   className: 'left'                                    },
-    { title: 'Body Areas', key: 'body_area',  className: 'center'                                  },
-    { title: 'Key',        key: 'key',        className: 'left'                                    },
+    { title: 'Name',       key: 'name',       className: 'left'                                    },
+    { title: 'Key',        key: 'packages',   className: 'left'                                    },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
   ]
