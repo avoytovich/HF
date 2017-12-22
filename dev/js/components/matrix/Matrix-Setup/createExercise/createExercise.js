@@ -22,7 +22,12 @@ import Tabs, { Tab }                from 'material-ui/Tabs';
 
 
 class CreateExerciseComponent extends Component {
-  state = {};
+  state = {
+    titleLang: 'en',
+    informationLang: 'en',
+    instructionLang: 'en'
+
+  };
 
   constructor(props) {
     super(props);
@@ -69,16 +74,16 @@ class CreateExerciseComponent extends Component {
 //    browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${tab}`);
   };
 
+
+  handleQuestionLangChange = (event, value, type) => this.setState({ [type]: value });
+
   render() {
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle,
-        bodyAreas,
-        questionKey,
-        packageType,
         packageLevels
       },
+
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
       },
@@ -87,6 +92,7 @@ class CreateExerciseComponent extends Component {
       }
     } = this.props;
 
+    const {name, comments, title, information, instruction} = this.props.exerciseState;
 
     return (
       <div id="create-question">
@@ -119,14 +125,155 @@ class CreateExerciseComponent extends Component {
               <Grid container>
                 <Grid item xs={12}>
                   <Typography type="title">
-                    Package
+                    Exercise
                   </Typography>
                 </Grid>
               </Grid>
 
+              <Grid container className="row-item">
+                <Grid item xs={12}>
+                  <Input
+                    id='exercise.name'
+                    value={name}
+                    reducer={createDiagnosisQuestion}
+                    label={ 'Notes' }
+                    placeholder={ 'Notes' }
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid container className="row-item">
+                <Grid item xs={12}>
+                  <Input
+                    id='exercise.comments'
+                    value={comments}
+                    reducer={createDiagnosisQuestion}
+                    label={ 'Comments' }
+                    placeholder={ 'Comments' }
+                    multiline={true}
+                    rows="5"
+                    cols="60"
+                  />
+                </Grid>
+              </Grid>
+
+              {/* Question !!! */}
+              <Grid container className="row-item">
+                <Grid item xs={12}>
+                  {this.state.titleLang === 'en' ?
+                    <Input
+                      id='exercise.title.en'
+                      value={title && title.en}
+                      reducer={createDiagnosisQuestion}
+                      label={ 'Title' }
+                      placeholder={ 'Title' }
+                    /> :
+                    <Input
+                      id='exercise.title.swe'
+                      value={title && title.swe}
+                      reducer={createDiagnosisQuestion}
+                      label={ 'Title' }
+                      placeholder={ 'Title' }
+                    />
+                  }
+                </Grid>
+                <Tabs
+                  value={this.state.titleLang}
+                  onChange={(event, value) => this.handleQuestionLangChange(event, value, 'titleLang')}
+                  indicatorColor="primary"
+                  className="tab-lang"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="English" value="en" />
+                  <Tab label="Sweden"  value="swe" />
+                </Tabs>
+              </Grid>
+
+              <Typography type="title" style={{marginTop: '40px'}}>
+                Exercise Information
+              </Typography>
 
 
+              <Grid container className="row-item">
+                <Grid item xs={12}>
+                  {this.state.informationLang === 'en' ?
+                    <Input
+                      id='exercise.information.en'
+                      value={information && information.en}
+                      reducer={createDiagnosisQuestion}
+                      label={ 'Information' }
+                      placeholder={ 'Information' }
+                      multiline={true}
+                      rows="5"
+                      cols="60"
+                    /> :
+                    <Input
+                      id='exercise.information.swe'
+                      value={information && information.swe}
+                      reducer={createDiagnosisQuestion}
+                      label={'Information' }
+                      placeholder={ 'Information' }
+                      multiline={true}
+                      rows="5"
+                      cols="60"
+                    />
+                  }
+                </Grid>
+                <Tabs
+                  value={this.state.informationLang}
+                  onChange={(event, value) => this.handleQuestionLangChange(event, value, 'informationLang')}
+                  indicatorColor="primary"
+                  className="tab-lang"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="English" value="en" />
+                  <Tab label="Sweden"  value="swe" />
+                </Tabs>
+              </Grid>
 
+              <Typography type="title"  style={{marginTop: '40px'}}>
+                Exercise Instruction
+              </Typography>
+
+              <Grid container className="row-item">
+                <Grid item xs={12}>
+                  {this.state.instructionLang === 'en' ?
+                    <Input
+                      id='exercise.instruction.en'
+                      value={instruction && instruction.en}
+                      reducer={createDiagnosisQuestion}
+                      label={ 'Instruction' }
+                      placeholder={ 'Instruction' }
+                      multiline={true}
+                      rows="5"
+                      cols="60"
+                    /> :
+                    <Input
+                      id='exercise.instruction.swe'
+                      value={instruction && instruction.swe}
+                      reducer={createDiagnosisQuestion}
+                      label={'Instruction' }
+                      placeholder={ 'Instruction' }
+                      multiline={true}
+                      rows="5"
+                      cols="60"
+                    />
+                  }
+                </Grid>
+                <Tabs
+                  value={this.state.instructionLang}
+                  onChange={(event, value) => this.handleQuestionLangChange(event, value, 'instructionLang')}
+                  indicatorColor="primary"
+                  className="tab-lang"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="English" value="en" />
+                  <Tab label="Sweden"  value="swe" />
+                </Tabs>
+              </Grid>
 
 
 
@@ -141,6 +288,7 @@ class CreateExerciseComponent extends Component {
 }
 const mapStateToProps = state => ({
   createDiagnosisQuestion: state.createDiagnosisQuestion,
+  exerciseState          : state.createDiagnosisQuestion.exercise,
   commonReducer          : state.commonReducer,
 });
 
