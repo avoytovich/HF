@@ -114,16 +114,16 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
       return Promise.resolve({ options: [] });
 
     default:
-      const { type, area, step } = props;
+      const { type, area, step, state: { page }  } = props;
 
       const body = {
         type: _type || type,
         area: area || null,
-        step: step || null,
         answerType
       };
-
-      return findByArea(questionType, 'findByAre', body, input || key).then(res => {
+      const noSteps = page === 'condition' || page === 'treatment';
+      const _body = noSteps ? body : {...body, step: step || null};
+      return findByArea(questionType, 'findByAre', _body, input || key).then(res => {
         const { data } = res.data;
         const _data = data.map(item => {
           return Object.assign({}, item, { label: item.question.en, value: item.key })
