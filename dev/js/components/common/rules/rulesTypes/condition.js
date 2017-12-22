@@ -26,7 +26,7 @@ class ConditionsComponent extends Component {
     return <div className="rule-types">
       <div className="main-select">
         <div className="title">
-          <div className="simple-question-variety">Question</div>
+          <div className="simple-question-variety">Condition</div>
         </div>
 
         <Async

@@ -57,13 +57,13 @@ class DiagnosisRulesComponent extends Component {
 
   render() {
     const { rules } = this.props.createDiagnosisQuestion;
-    const {type, step, area, URL, page} = this.props;
+    const {type, step, area, URL, page, showTitle} = this.props;
     return (
       <div className="rules-block">
 
         <div className="vertical-line"></div>
 
-        <RulesQuestionComponent page={page}/>
+        <RulesQuestionComponent page={page} showTitle={showTitle} />
 
         <div className="items">
           {rules.map((item, index) => {

@@ -78,7 +78,7 @@ class CreateConditionComponent extends Component {
   done = (value) => {
     const { bodyAreas, questionKey, questionTitle, rules } = value;
     const result = {
-      rule  : rules,
+      rule  : rules[0],
       key   : questionKey,
       area  : bodyAreas.key  || bodyAreas.value || bodyAreas.label,
       title : questionTitle
@@ -129,7 +129,7 @@ class CreateConditionComponent extends Component {
 
           </div>
         </div>
-        <Grid container className="margin-remove">
+        <Grid container className="margin-remove" style={{height: '100%'}}>
 
           <Grid item
                 md={6}
@@ -195,6 +195,7 @@ class CreateConditionComponent extends Component {
               type="diagnostic"
               area={bodyAreas}
               step={sequence}
+              showTitle={true}
             />
 
           </Grid>

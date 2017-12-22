@@ -15,3 +15,4 @@ export CreateTreatmentsComponent from './createTreatmentsQuestion/createTreatmen
 export CreateEvaluationComponent from './createEvaluationQuestion/createEvaluation';
 export CreatePackageComponent    from './createPackageQuestion/createPackage';
 export CreateBodyAreaComponent   from './createBodyArea/createBodyArea';
+export CreateExerciseComponent   from './createExercise/createExercise';

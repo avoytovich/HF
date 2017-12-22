@@ -110,6 +110,9 @@ const router = (
         <Route path='packages-create/:id'    component={(props) => <C.CreatePackageComponent {...props}/>} />
         <Route path='packages-create-new'    component={(props) => <C.CreatePackageComponent {...props}/>} />
 
+        <Route path='exercise-create/:id' component={(props) => <CreateExerciseComponent {...props}/>}/>
+        <Route path='exercise-create-new' component={(props) => <CreateExerciseComponent {...props}/>}/>
+
       </Route>
     </Router>
     </PersistGate>
