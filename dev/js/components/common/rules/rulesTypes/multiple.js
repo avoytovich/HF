@@ -22,7 +22,6 @@ class MultipleComponent extends Component {
   };
 
   onAsyncChange = (value, edit) => {
-    debugger;
     this.setState({...onMultipleAsyncChange(value, edit, this.props)});
   }
 

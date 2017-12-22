@@ -18,16 +18,19 @@ class PackagesComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/packages-create-new`) :
-    browserHistory.push(`/packages-create/${id}`);
-
+    browserHistory.push(`/packages-create/${id}`) :
+    browserHistory.push(`/packages-create-new`);
 
   onRowClick = (selected = []) => this.setState({selected});
 
   onSelectAllClick = (selected) => this.setState({selected});
 
+  updateModal = (key, value) => {
+    this.setState({ [key]: value });
 
-  updateModal = (key, value) => this.setState({ [key]: value });
+    if (!value) this.setState({ selected: [] });
+  }
+
   render() {
     const { tableHeader } = PACKAGES_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
@@ -50,7 +53,7 @@ class PackagesComponent extends Component {
         <TableControls
           path="packages"
           selected={selected}
-          createItem={this.create}>
+          createItem={() => this.create()}>
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>
@@ -66,6 +69,7 @@ class PackagesComponent extends Component {
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
+          onEdit={this.create}
           onSelectAllClick={this.onSelectAllClick}
         />
 

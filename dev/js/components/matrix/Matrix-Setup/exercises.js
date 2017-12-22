@@ -19,8 +19,9 @@ class ExercisesComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/exercises-create-new`) :
-    browserHistory.push(`/exercises-create/${id}`);
+    browserHistory.push(`/exercise-create/${id}`) :
+    browserHistory.push(`/exercise-create-new`);
+
 
 
   onRowClick = (selected = []) => this.setState({selected});
@@ -28,7 +29,11 @@ class ExercisesComponent extends Component {
   onSelectAllClick = (selected) => this.setState({selected});
 
 
-  updateModal = (key, value) => this.setState({ [key]: value });
+  updateModal = (key, value) => {
+    this.setState({ [key]: value });
+
+    if (!value) this.setState({ selected: [] });
+  }
   render() {
     const { tableHeader } = EXERCISES_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;
@@ -60,6 +65,7 @@ class ExercisesComponent extends Component {
 
         <TableControls
           path="exercises"
+          createItem={() => this.create()}
           selected={selected}>
 
           <Button raised dense
@@ -82,6 +88,7 @@ class ExercisesComponent extends Component {
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
+          onEdit={(id) => this.create(id)}
           onSelectAllClick={this.onSelectAllClick}
         />
 
