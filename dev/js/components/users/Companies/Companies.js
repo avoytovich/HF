@@ -10,6 +10,7 @@ import Modal                    from '../../common/Modal/Modal';
 import { PAGE } from '../../../config';
 import CreateUser from '../CreateUser/CreateUser';
 
+
 class Companies extends Component {
   state = {
     selected: [],
@@ -87,12 +88,11 @@ class Companies extends Component {
         />
 
         <Modal
-          itemName="name_real"
+          fullScreen
           open={showCreateModal}
-          title='Create Company'
+          showControls={false}
           toggleModal={this.createEntity}
-          CustomContent={() => <CreateUser userType = 'organization' />}
-          onConfirmClick={this._createUser}
+          CustomContent={() => <CreateUser userType = 'organization' toggleModal={this.createEntity} headerTitle='Create Company'/>}
         />
 
       </div>

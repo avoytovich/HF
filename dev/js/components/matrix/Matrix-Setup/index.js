@@ -1,4 +1,5 @@
 export MatrixComponent          from './matrix';
+export BodyAreaComponent        from './bodyArea';
 export DiagnosisComponent       from './diagnosis';
 export CreateQuestionComponent  from './createDiagnosisQuestion/createQuestion'
 export ConditionsComponent      from './conditions';
@@ -13,3 +14,4 @@ export CreateConditionComponent  from './createConditionsQuestion/createConditio
 export CreateTreatmentsComponent from './createTreatmentsQuestion/createTreatmentsQuestion';
 export CreateEvaluationComponent from './createEvaluationQuestion/createEvaluation';
 export CreatePackageComponent    from './createPackageQuestion/createPackage';
+export CreateBodyAreaComponent   from './createBodyArea/createBodyArea';
