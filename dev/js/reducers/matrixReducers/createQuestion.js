@@ -39,7 +39,6 @@ const initialState = {
   packageType: 'symptomatic',
   therapyContinuity: '1',
   packageLevels: [],
-  exercise_ids: [],
 };
 
 const createQuestionUpdate = (state, action) => {

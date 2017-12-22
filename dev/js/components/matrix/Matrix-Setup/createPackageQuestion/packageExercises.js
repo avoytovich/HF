@@ -4,37 +4,83 @@ import * as moment           from 'moment';
 import { TIME_FORMAT_DOTS }  from '../../../../utils/constants/pageContent';
 import Typography            from 'material-ui/Typography';
 import IconButton            from 'material-ui/IconButton';
+import {
+  updateCrateQuestionFields,
+  getPackageLevel
+}                             from '../../../../actions';
+import { connect }                from 'react-redux';
+import { bindActionCreators }     from 'redux';
+import Grid                       from 'material-ui/Grid';
 
-export default ({exercises}) => {
-  const { id, title, created_at } = exercises;
-  const created = moment.unix(created_at).format(TIME_FORMAT_DOTS);
 
-  const handleDelete = (ID) =>  {
-    console.log('Delete exercises with ID', ID);
-  };
+class PackageExercises extends Component  {
+    state = { list: [] };
+    componentDidMount() {
+      this.props.exercises.length &&
+      getPackageLevel('exercises', 'getExercises', this.props.exercises, this.props.level)
+        .then(({data}) => {
+          this.setState({list: data})
+        });
+    }
 
-  return <div className="package-level-exercises-item">
+    componentWillReceiveProps(nextProps) {
+      if (this.props.exercises.length !== nextProps.exercises.length) {
+        nextProps.exercises.length ?
+          getPackageLevel('exercises', 'getExercises', nextProps.exercises, nextProps.level)
+            .then(({data}) => {
+              this.setState({list: data})
+            }) :
+          this.setState({list: []});
+      }
+    }
 
-    <div className="exercises-information">
+    handleDelete = (ID) =>  {
+      console.log('Delete exercises with ID', ID);
+    };
 
-      <Typography type="subheading" className="title">
-        { title.en }
-      </Typography>
+    render() {
+      return (
+        <Grid item xs={12} className="package-level-exercises-list">
+          {this.state.list.map((item, index) => {
+           const { id, title, created_at } = item;
+           const created = moment.unix(created_at).format(TIME_FORMAT_DOTS);
 
-      <Typography type="body2">
-        Created { created }
-      </Typography>
+           return <div key={index} className="package-level-exercises-item">
 
-    </div>
+             <div className="exercises-information">
 
-    <div className="delete-icon">
+               <Typography type="subheading" className="title">
+                 { title.en }
+               </Typography>
 
-      <IconButton aria-label="Delete">
+               <Typography type="body2">
+                 Created { created }
+               </Typography>
 
-        <Delete onClick={() => handleDelete(id)} />
+             </div>
 
-      </IconButton>
-    </div>
+             <div className="delete-icon">
 
-  </div>
+               <IconButton aria-label="Delete">
+
+                 <Delete onClick={() => this.handleDelete(id)} />
+
+               </IconButton>
+             </div>
+           </div>
+         })}
+        </Grid>
+      );
+  }
 }
+
+const mapStateToProps = state => ({
+  createDiagnosisQuestion: state.createDiagnosisQuestion,
+  commonReducer          : state.commonReducer,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PackageExercises);

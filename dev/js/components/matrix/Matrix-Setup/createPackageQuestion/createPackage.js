@@ -63,7 +63,8 @@ class CreatePackageComponent extends Component {
         browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${0}`))
     }
     else {
-      updateCrateQuestionFields([DEFAULT_LEVEL], 'packageLevels');
+      const newOne = Object.assign({}, DEFAULT_LEVEL);
+      updateCrateQuestionFields([newOne], 'packageLevels');
     }
   }
 
@@ -118,12 +119,11 @@ class CreatePackageComponent extends Component {
       package_levels : packageLevels
     };
 
-
-    !this.props.routeParams.id ?
+    !this.props.routeParams.packageId ?
       diagnosisQuestionCreate('exercises', 'packages', result)
       .then(() => browserHistory.push(`/matrix-setup/packages`)) :
 
-      updateQuestionCreate('exercises', 'packages', result, this.props.routeParams.id)
+      diagnosisQuestionCreate('exercises', 'packages', result, this.props.routeParams.packageId)
       .then(() => browserHistory.push(`/matrix-setup/packages`))
 
   };
@@ -132,11 +132,20 @@ class CreatePackageComponent extends Component {
 
   handleTabChange = (event, tab) => {
     this.setState({ tab });
-    browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${tab}`);
+//    browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${tab}`);
   };
 
   addNewLevel = (oldList) => {
-    const newList = oldList.concat({...DEFAULT_LEVEL, level: oldList.length + 1});
+    const newList = oldList.concat({
+      level: oldList.length + 1,
+        level_up_origin   : {
+        vas     : '1',
+        vas_min : '1',
+        sessions: '1'
+      },
+      therapy_continuity: '1',
+      exercise_ids      : [],
+    });
     updateCrateQuestionFields(newList, 'packageLevels');
   };
 

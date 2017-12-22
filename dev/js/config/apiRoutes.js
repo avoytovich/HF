@@ -38,7 +38,7 @@ export const api = {
   findConditionsByAre : '/matrix/conditions/get/area',
   questionsByStep     : '/matrix/questions/get/area',
   getConditionById    : '/matrix/conditions',
-  getExercises        : '/exercises/ids'
+  getExercises        : '/exercises/ids',
 };
 
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`

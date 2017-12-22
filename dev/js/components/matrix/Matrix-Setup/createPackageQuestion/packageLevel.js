@@ -9,7 +9,6 @@ import { diagnosisQuestionCreate,
   findUniqueKey,
   updateQuestionCreate,
   getPackagenById,
-  getPackageLevel
 }                                   from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -22,6 +21,7 @@ import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
 import PackageExercises             from './packageExercises';
 import { CircularProgress }         from 'material-ui/Progress';
+import PackageExercisesModal        from './packageExercisesModal';
 
 export const THERAPY = [
   { value: '1',  label: 'Daily'},
@@ -31,7 +31,9 @@ export const THERAPY = [
   { value: 'ME', label: 'Morning and evening'},
 ];
 class PackageLevelComponent extends Component {
-  state = { loading: true };
+  state = { loading: true, chooseExercises: false };
+
+
   componentDidMount() {
     const {
       packageId,
@@ -39,13 +41,9 @@ class PackageLevelComponent extends Component {
       createDiagnosisQuestion : { packageLevels },
       index
     } = this.props;
-
-    if (packageId) {
-      debugger;
-      getPackageLevel('exercises', 'getExercises', exercise_ids).then(el =>
-        this.setState({loading: false}));
-    }
   }
+
+  openChooseExercises = (chooseExercises) => this.setState({ chooseExercises });
 
   render() {
     const {
@@ -56,7 +54,7 @@ class PackageLevelComponent extends Component {
         questionKey,
         packageType,
         packageLevels,
-        exercise_ids
+
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
@@ -65,6 +63,7 @@ class PackageLevelComponent extends Component {
     } = this.props;
 
     const therapy_continuity = packageLevels[index].therapy_continuity;
+    const exercise_ids       = packageLevels[index].exercise_ids;
 
     return <div>
       <Grid container className="row-item">
@@ -114,7 +113,8 @@ class PackageLevelComponent extends Component {
           </Typography>
           <SELECT
             value={therapy_continuity}
-            onChange={(event) =>  updateCrateQuestionFields(event.target.value, `packageLevels[${index}].therapy_continuity`)}
+            onChange={(event) =>
+              updateCrateQuestionFields(event.target.value, `packageLevels[${index}].therapy_continuity`)}
             className="MuiFormControlDEFAULT"
             label="Therapy continuity"
             >
@@ -138,18 +138,22 @@ class PackageLevelComponent extends Component {
           <Typography type="title">
             Exercises
           </Typography>
-          {this.state.loading && <CircularProgress size={20}/>}
+          {/*{this.state.loading && <CircularProgress size={20}/>}*/}
         </Grid>
 
-        {!this.state.loading && exercise_ids.map((item, index) =>
-          <Grid item xs={12} key={index}>
-            <PackageExercises exercises={item}/>
-          </Grid>)}
+
+        <PackageExercises exercises={exercise_ids} level={index}/>
 
         <Grid item xs={12}>
-          <Button color="primary">
+          <Button color="primary" onClick={() => this.openChooseExercises(true)}>
             OPEN EXERCISES
           </Button>
+
+          {this.state.chooseExercises &&
+          <PackageExercisesModal
+            level={index}
+            open={this.state.chooseExercises}
+            handleRequestClose={(value) => this.openChooseExercises(value)}/>}
         </Grid>
       </Grid>
     </div>
