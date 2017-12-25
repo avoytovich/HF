@@ -19,6 +19,10 @@ import Input                        from '../../../common/Input/Input';
 import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
+import * as moment from "moment";
+import { TIME_FORMAT_DOTS }  from '../../../../utils/constants/pageContent';
+import IconButton            from 'material-ui/IconButton';
+import Delete                from 'material-ui-icons/Delete';
 
 
 class CreateExerciseComponent extends Component {
@@ -283,6 +287,68 @@ class CreateExerciseComponent extends Component {
 
 
             </div>
+          </Grid>
+
+          <Grid item
+                md={6}
+                sm={12}
+                className="create-question-body">
+            <div className="main-question">
+
+              <Grid container>
+                <Grid item xs={12}>
+                  <Typography type="title">
+                    Assets
+                  </Typography>
+                </Grid>
+              </Grid>
+
+
+              <Grid item xs={12} className="package-level-exercises">
+                {[1,2,3,4].map((item, index) => {
+                  const { id, title, created_at } = item;
+                  const created = moment.unix(created_at).format(TIME_FORMAT_DOTS);
+
+                  return <div key={index} className="package-level-exercises-item">
+
+                    <div className="exercises-information">
+
+                      <Typography type="subheading" className="title">
+                        { title || 'title' }
+                      </Typography>
+
+                      <Typography type="body2">
+                        Created { created }
+                      </Typography>
+
+                    </div>
+
+                    <div className="delete-icon">
+
+                      <IconButton aria-label="Delete">
+
+                        <Delete onClick={() => this.handleDelete(id)} />
+
+                      </IconButton>
+                    </div>
+                  </div>
+                })}
+              </Grid>
+
+
+              <Grid container>
+                <Grid item xs={12}>
+                  <Button color="primary" onClick={() => {}}>
+                    OPEN RESOURCES
+                  </Button>
+                </Grid>
+              </Grid>
+
+
+
+
+            </div>
+
           </Grid>
 
 
