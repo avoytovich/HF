@@ -27,6 +27,7 @@ export const api = {
   evaluations       : '/matrix/evaluations',
   conditions        : '/matrix/conditions',
   treatments        : '/matrix/treatments',
+  areas             : '/matrix/areas',
   passForgot        : '/auth/password/forgot/web',
   passReset         : '/auth/password/update',
   findArea          : '/matrix/areas/get/all',

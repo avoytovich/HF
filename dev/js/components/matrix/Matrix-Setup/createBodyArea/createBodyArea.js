@@ -6,19 +6,14 @@ import { browserHistory }           from 'react-router'
 import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
-  findUniqueKey,
   updateQuestionCreate,
-  findArea}                        from '../../../../actions';
+  getTreatmentById}                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
 import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
-import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../common/Input/Input';
-import TextArea                       from 'material-ui/TextField';
-import Menu, { MenuItem }           from 'material-ui/Menu';
-import Tabs, { Tab }                from 'material-ui/Tabs';
-import { find, get }                     from 'lodash'
+import { find, get }                from 'lodash'
 
 
 class CreateBodyAreaComponent extends Component {
@@ -33,7 +28,14 @@ class CreateBodyAreaComponent extends Component {
     updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
+  componentWillMount() {
+    if (this.props.routeParams.id) {
+      getTreatmentById('diagnostics', 'areas', this.props.routeParams.id);
+    }
+  }
+
   componentWillUnmount() { clearCreateQuestion(); }
+
 
   // componentDidMount(){
   //   let newArray = get(this.props, 'bodyArea.data');
@@ -66,12 +68,6 @@ class CreateBodyAreaComponent extends Component {
       updateQuestionCreate('diagnostics', 'bodyArea', result, this.props.routeParams.id)
         .then(() => browserHistory.push(`/matrix-setup/body-area`,this.props.routeParams.id))
 
-      // diagnosisQuestionCreate('exercises', 'packages', result)
-      // .then(() => browserHistory.push(`/matrix-setup/packages`)) :
-      //
-      // updateQuestionCreate('exercises', 'packages', result, this.props.routeParams.id)
-      // .then(() => browserHistory.push(`/matrix-setup/packages`))
-
   };
 
   cancel = () => browserHistory.push(`/matrix-setup/body-area`);
@@ -92,7 +88,7 @@ class CreateBodyAreaComponent extends Component {
     return (
       <div id="create-question">
         <div className="page-sub-header">
-          <span>Create Package</span>
+          <span>Create Body Area</span>
           <div className="nav-buttons">
 
             <Button onClick={this.cancel}>
@@ -153,7 +149,6 @@ class CreateBodyAreaComponent extends Component {
                     reducer={createDiagnosisQuestion}
                     label={ 'Description' }
                     placeholder={ 'Description'}
-                    error={!!this.state.keyIsUniqueError}
                   />
                 </Grid>
               </Grid>
