@@ -97,21 +97,21 @@ class TestNew extends Component {
               </p>
               <Select
                 options={diagnosConsts.languages}
-                id='q_lang'
+                id='q_lang.value'
                 style={{ width: "100%" }}
                 reducer={testingReducer}
                 label='Language of questions'
               />
               <Select
                 options={diagnosConsts.measurements}
-                id='q_metric'
+                id='q_metric.value'
                 style={{ width: "100%" }}
                 reducer={testingReducer}
                 label='Measurements'
               />
               <Select
                 options={diagnosConsts.sex}
-                id='sex'
+                id='q_sex.value'
                 style={{ width: "100%" }}
                 reducer={testingReducer}
                 label='Sex'
@@ -123,7 +123,7 @@ class TestNew extends Component {
                   <Input
                     type="number"
                     style={{ width: '100%'}}
-                    id='q_age'
+                    id='q_age.value'
                     reducer={testingReducer}
                     label='Your age'
                   />
@@ -135,7 +135,7 @@ class TestNew extends Component {
                   <Input
                     type="number"
                     style={{ width: '100%'}}
-                    id='q_weight'
+                    id='q_weight.value'
                     reducer={testingReducer}
                     label='Weight (kg)'
                   />
@@ -144,7 +144,7 @@ class TestNew extends Component {
                   <Input
                     type="number"
                     style={{ width: '100%'}}
-                    id='q_height'
+                    id='q_height.value'
                     reducer={testingReducer}
                     label='Your height (cm)'
                   />
