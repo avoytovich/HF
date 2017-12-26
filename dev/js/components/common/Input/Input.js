@@ -64,7 +64,6 @@ class Input extends Component {
             currencies.map((option, index) => (
               <option
                 key={index}
-                selected={option.value === value}
                 value={option.value}
               >
                 {option.label}

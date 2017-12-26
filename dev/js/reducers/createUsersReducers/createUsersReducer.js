@@ -32,20 +32,20 @@ const initialState = {
     address: "",
     region: "",
     country: "",
-    stripe_token: "",
-    card: {
-      number: "",
-      exp_month: "",
-      exp_year: "",
-      cvc: ""
-    }
+    // stripe_token: "",
+    // card: {
+    //   number: "",
+    //   exp_month: "",
+    //   exp_year: "",
+    //   cvc: ""
+    // }
   },
   legal_info: {
     vat: "",
     reg_num: ""
   },
   additional_info: {
-    employees_number: "",
+    // employees_number: "",
     industry: ""
   },
   active: false

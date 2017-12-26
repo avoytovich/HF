@@ -70,6 +70,7 @@ const router = (
         <Route path={PAGE.clinicsUsers}       component={C.ClinicsUsers} />
         <Route path={PAGE.assets}             component={C.AssetsList} />
         <Route path={PAGE.clinicProfile}      component={C.Profile} />
+        <Route path={PAGE.companyProfile}      component={C.Profile} />
         <Route path={PAGE.test}               component={C.TestsList} />
         <Route path={PAGE.testNew}            component={C.TestNew} />
 

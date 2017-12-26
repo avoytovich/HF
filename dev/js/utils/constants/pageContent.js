@@ -172,8 +172,8 @@ export const COMPANIES_TAB = {
   title: 'Conditions',
   tableHeader: [
     { title: 'Company Name',   key: 'name',          className: 'left assets-title-cell'},
-    { title: 'Contact Person', key: 'billing_info',  className: 'center'  },
-    { title: 'Users',          key: 'name',          className: 'left'},
+    { title: 'Contact Person', key: 'contact_info.contacts[0].name',          className: 'center'  },
+    { title: 'Users',          key: 'users',         className: 'left'},
     { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };

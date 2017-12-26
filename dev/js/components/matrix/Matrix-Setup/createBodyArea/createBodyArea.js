@@ -1,13 +1,12 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import DiagnosisRulesComponent      from '.././createDiagnosisQuestion/diagnosisRules';
 import { browserHistory }           from 'react-router'
 import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
   updateQuestionCreate,
-  getTreatmentById}                        from '../../../../actions';
+  getTreatmentById}                 from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
 import Grid                         from 'material-ui/Grid';
@@ -36,23 +35,6 @@ class CreateBodyAreaComponent extends Component {
 
   componentWillUnmount() { clearCreateQuestion(); }
 
-
-  // componentDidMount(){
-  //   let newArray = get(this.props, 'bodyArea.data');
-  //   let id = this.props.routeParams.id;
-  //   if(id && newArray) {
-  //     let myData = find(newArray, function(el) { return el.id == id})
-  //     console.log(myData);
-  //     this.setState({
-  //       createDiagnosisQuestion:{
-  //         questionKey : myData.key,
-  //         questionTitle :myData.title,
-  //         questionDescription : myData.description,
-  //       }
-  //     })
-  //   }
-  // }
-  //
   done = (value) => {
     const { bodyAreas, questionKey, questionTitle, questionDescription } = value;
     const result = {

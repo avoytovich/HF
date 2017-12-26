@@ -2,23 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
-import omit from 'lodash/omit'
-
+import { userCreate }     from '../../../actions';
 // UI
+import{ get } from 'lodash';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Close from 'material-ui-icons/Close';
 
-import {
-  createAssetsPreValidate,
-} from '../../../actions';
-import { PAGE } from '../../../config';
-
 class HeaderAssets extends Component {
+
   _onSubmit = () => {
     console.log('om submit', this.props.createUsersReducers)
-
-    this.props.toggleModal()
+    const result = {...this.props.createUsersReducers, ...{type: this.props.userType,tariff_id:3, entryFee: 1112,
+      email: get(this.props.createUsersReducers,'contact_info.contacts[0].email')}};
+    delete result.errors;
+    console.log(result);
+    userCreate('users', 'customers', result)
+      .then(() => this.props.toggleModal())
+      browserHistory.push(this.props.backButton)
   };
 
   render() {
