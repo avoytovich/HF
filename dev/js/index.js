@@ -43,82 +43,82 @@ const onBeforeLift = () => {
 };
 
 const router = (
-  <Provider store={store}>
-    <div>
-    <PersistGate
-      loading={null}
-      onBeforeLift={onBeforeLift}
-      persistor={persistor}
-    >
-    <Router
-      history={history}
-      onUpdate={() => window.scrollTo(0, 0)}
-    >
-      <Route path={PAGE.signup}     component={C.SignUp} />
-      <Route path={PAGE.login}      component={C.Login} />
-      <Route path={PAGE.passReset}  component={C.ResetPassword} />
-      <Route path={PAGE.passForgot} component={C.ForgotPassword} />
+  <PersistGate
+    loading={null}
+    onBeforeLift={onBeforeLift}
+    persistor={persistor}
+  >
+    <Provider store={store}>
+      <div>
+        <Router
+          history={history}
+          onUpdate={() => window.scrollTo(0, 0)}
+        >
+          <Route path={PAGE.signup} component={C.SignUp}/>
+          <Route path={PAGE.login} component={C.Login}/>
+          <Route path={PAGE.passReset} component={C.ResetPassword}/>
+          <Route path={PAGE.passForgot} component={C.ForgotPassword}/>
 
-      <Route path={'/'} component={C.Main} onEnter={onAllEnter} onChange={onAllEnter}>
+          <Route path={'/'} component={C.Main} onEnter={onAllEnter} onChange={onAllEnter}>
 
-        <IndexRedirect to={PAGE.companies}/>
+            <IndexRedirect to={PAGE.companies}/>
 
-        <Route path={PAGE.companies}          component={C.Companies} />
-        <Route path={PAGE.clinics}            component={C.Clinics} />
-        <Route path={PAGE.simpleUsers}        component={C.SimpleUsers} />
-        <Route path={PAGE.organizationsUsers} component={C.OrganizationsUsers} />
-        <Route path={PAGE.clinicsUsers}       component={C.ClinicsUsers} />
-        <Route path={PAGE.assets}             component={C.AssetsList} />
-        <Route path={PAGE.clinicProfile}      component={C.Profile} />
-        <Route path={PAGE.test}               component={C.TestsList} />
-        <Route path={PAGE.testNew}            component={C.TestNew} />
+            <Route path={PAGE.companies} component={C.Companies}/>
+            <Route path={PAGE.clinics} component={C.Clinics}/>
+            <Route path={PAGE.simpleUsers} component={C.SimpleUsers}/>
+            <Route path={PAGE.organizationsUsers} component={C.OrganizationsUsers}/>
+            <Route path={PAGE.clinicsUsers} component={C.ClinicsUsers}/>
+            <Route path={PAGE.assets} component={C.AssetsList}/>
+            <Route path={PAGE.clinicProfile} component={C.Profile}/>
+            <Route path={PAGE.test} component={C.TestsList}/>
+            <Route path={PAGE.testNew} component={C.TestNew}/>
 
-        <Route path={PAGE.matrixSetup}       component={ C.MatrixComponent }>
+            <Route path={PAGE.matrixSetup} component={ C.MatrixComponent }>
 
-          <IndexRedirect to="diagnosis"/>
+              <IndexRedirect to="diagnosis"/>
 
-          <Route path='body-area'           component={(props) => <C.BodyAreaComponent {...props}/>} />
-          <Route path='diagnosis'           component={(props) => <C.DiagnosisComponent  {...props}/>}/>
-          <Route path='conditions'          component={(props) => <C.ConditionsComponent {...props}/>} />
-          <Route path='treatments'          component={(props) => <C.TreatmentsComponent {...props}/>} />
-          <Route path='packages'            component={(props) => <C.PackagesComponent   {...props}/>} />
-          <Route path='evaluations'         component={(props) => <C.EvaluationComponent {...props} />} />
-          <Route path='exercises'           component={(props) => <C.ExercisesComponent  {...props}/>} />
+              <Route path='body-area' component={(props) => <C.BodyAreaComponent {...props}/>}/>
+              <Route path='diagnosis' component={(props) => <C.DiagnosisComponent  {...props}/>}/>
+              <Route path='conditions' component={(props) => <C.ConditionsComponent {...props}/>}/>
+              <Route path='treatments' component={(props) => <C.TreatmentsComponent {...props}/>}/>
+              <Route path='packages' component={(props) => <C.PackagesComponent   {...props}/>}/>
+              <Route path='evaluations' component={(props) => <C.EvaluationComponent {...props} />}/>
+              <Route path='exercises' component={(props) => <C.ExercisesComponent  {...props}/>}/>
 
-          {/*<Route path='tests'               component={ TestsComponent } />*/}
-          {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
-          {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
-          <Redirect from="*" to="diagnosis"/>
-        </Route>
+              {/*<Route path='tests'               component={ TestsComponent } />*/}
+              {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
+              {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
+              <Redirect from="*" to="diagnosis"/>
+            </Route>
 
-        {/* Temporary path Todo: Change routes to react-router-dom ?*/}
-        <Route path='body-area-create/:id'   component={(props) => <C.CreateBodyAreaComponent {...props}/>} />
-        <Route path='body-area-create-new'   component={(props) => <C.CreateBodyAreaComponent {...props}/>} />
+            {/* Temporary path Todo: Change routes to react-router-dom ?*/}
+            <Route path='body-area-create/:id' component={(props) => <C.CreateBodyAreaComponent {...props}/>}/>
+            <Route path='body-area-create-new' component={(props) => <C.CreateBodyAreaComponent {...props}/>}/>
 
-        <Route path='diagnosis-create/:id'   component={(props) => <C.CreateQuestionComponent {...props}/>} />
-        <Route path='diagnosis-create-new'   component={(props) => <C.CreateQuestionComponent {...props}/>} />
+            <Route path='diagnosis-create/:id' component={(props) => <C.CreateQuestionComponent {...props}/>}/>
+            <Route path='diagnosis-create-new' component={(props) => <C.CreateQuestionComponent {...props}/>}/>
 
-        <Route path='conditions-create/:id'  component={(props) => <C.CreateConditionComponent {...props}/>} />
-        <Route path='conditions-create-new'  component={(props) => <C.CreateConditionComponent {...props}/>} />
+            <Route path='conditions-create/:id' component={(props) => <C.CreateConditionComponent {...props}/>}/>
+            <Route path='conditions-create-new' component={(props) => <C.CreateConditionComponent {...props}/>}/>
 
-        <Route path='treatments-create/:id'  component={(props) => <C.CreateTreatmentsComponent {...props}/>} />
-        <Route path='treatments-create-new'  component={(props) => <C.CreateTreatmentsComponent {...props}/>} />
+            <Route path='treatments-create/:id' component={(props) => <C.CreateTreatmentsComponent {...props}/>}/>
+            <Route path='treatments-create-new' component={(props) => <C.CreateTreatmentsComponent {...props}/>}/>
 
-        <Route path='evaluations-create/:id' component={(props) => <C.CreateEvaluationComponent {...props}/>} />
-        <Route path='evaluations-create-new' component={(props) => <C.CreateEvaluationComponent {...props}/>} />
+            <Route path='evaluations-create/:id' component={(props) => <C.CreateEvaluationComponent {...props}/>}/>
+            <Route path='evaluations-create-new' component={(props) => <C.CreateEvaluationComponent {...props}/>}/>
 
-        <Route path='packages-create/:id'    component={(props) => <C.CreatePackageComponent {...props}/>} />
-        <Route path='packages-create-new'    component={(props) => <C.CreatePackageComponent {...props}/>} />
+            <Route path='packages-create/:id' component={(props) => <C.CreatePackageComponent {...props}/>}/>
+            <Route path='packages-create-new' component={(props) => <C.CreatePackageComponent {...props}/>}/>
 
-        <Route path='exercise-create/:id' component={(props) => <CreateExerciseComponent {...props}/>}/>
-        <Route path='exercise-create-new' component={(props) => <CreateExerciseComponent {...props}/>}/>
+            <Route path='exercise-create/:id' component={(props) => <CreateExerciseComponent {...props}/>}/>
+            <Route path='exercise-create-new' component={(props) => <CreateExerciseComponent {...props}/>}/>
 
-      </Route>
-    </Router>
-    </PersistGate>
-    <NotificationsSystem theme={theme}/>
-  </div>
-  </Provider>
+          </Route>
+        </Router>
+        <NotificationsSystem theme={theme}/>
+      </div>
+    </Provider>
+  </PersistGate>
 );
 
 render(router, document.getElementById('root'));

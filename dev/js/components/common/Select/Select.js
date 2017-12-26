@@ -1,14 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
+import omit from 'lodash/omit';
+import get from 'lodash/get';
+
+import { onChange } from '../../../actions'
 
 const styles = theme => ({
   formControl: {
     width: "100%",
+    marginTop: 28,
+    marginBottom: 20,
   },
   textField: {
     width: 300,
@@ -16,38 +24,66 @@ const styles = theme => ({
 });
 
 class SimpleSelect extends React.Component {
-  _renderOptions = (options, i) => {
-    return options.map(op => {
-      return <MenuItem style={this.props.style} key={i} value={op.value}>{op.label}</MenuItem>
+  _renderOptions = (options) => {
+    return options.map((op, i) => {
+      return (
+        <MenuItem
+          key={i}
+          style={this.props.style}
+          value={op.value}
+        >
+          {op.label}
+        </MenuItem>
+      )
     })
   }
 
   render() {
     const {
+      reducer,
+      reducer: {
+        errors,
+        actionType,
+      },
       options = [],
-      value = '',
-      name = '',
-      id = '',
-      onChange = (e) => console.log(e),
+      id,
+      onChange,
       classes,
       style = {},
-      label
+      onChangeCustom,
+      label,
+      ...props
     } = this.props;
+    const value         = get(reducer, id, '');
+    const error         = get(errors, id, false);
+    const onChangeFinal = onChangeCustom || onChange;
     return (
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor={id}>{label}</InputLabel>
         <Select
           value={value}
-          name={name}
-          id={id}
-          onChange={onChange}
-          input={<Input style={[classes.textField, style]} name={name} id={id}/>}
+          name={actionType}
+          onChange={({ target: { name, value, }}) => onChangeFinal({ target: { name, value, id }})}
+          input={<Input style={[classes.textField, style]} id={id} />}
+          {...omit(props, ['dispatch', 'onChange'])}
         >
           {this._renderOptions(options)}
         </Select>
+        {
+          error && <FormHelperText>{ error }</FormHelperText>
+        }
       </FormControl>
     )
   }
-};
+}
 
-export default withStyles(styles)(SimpleSelect);
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  onChange,
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SimpleSelect));

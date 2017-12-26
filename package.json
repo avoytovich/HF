@@ -29,7 +29,6 @@
     "material-ui": "^1.0.0-beta.21",
     "material-ui-codemod": "^1.0.0-beta.11",
     "material-ui-icons": "^1.0.0-beta.17",
-    "material-ui-slider-label": "git+https://github.com/tariqwest/material-ui-slider-label.git",
     "materialui-pagination": "0.0.6",
     "moment": "2.18.1",
     "node-sass": "4.5.2",

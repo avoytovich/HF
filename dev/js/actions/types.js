@@ -10,13 +10,14 @@ export const PROFILE         = "PROFILE";
 export const CREATE_USERS    = "CREATE_USERS";
 
 export const T = {
-  USER            : "USER",
-  ASSETS          : "ASSETS",
-  ASSETS_DELETE   : "ASSETS_DELETE",
-  AUTH            : "AUTH",
-  TABLE           : "TABLE",
-  CREATE_QUESTION : 'CREATE_QUESTION',
-  PROFILE         : "PROFILE",
-  CREATE_USERS    : "CREATE_USERS",
-  TESTING         : "TESTING",
+  USER                  : "USER",
+  ASSETS                : "ASSETS",
+  ASSETS_DELETE         : "ASSETS_DELETE",
+  AUTH                  : "AUTH",
+  TABLE                 : "TABLE",
+  CREATE_QUESTION       : 'CREATE_QUESTION',
+  PROFILE               : "PROFILE",
+  CREATE_USERS          : "CREATE_USERS",
+  TESTING               : "TESTING",
+  TESTING_BODY_AREAS_IDS: "TESTING_BODY_AREAS_IDS",
 };

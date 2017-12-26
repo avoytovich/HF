@@ -11,32 +11,39 @@ import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 
 import Input from '../../common/Input/Input';
-import { diagnosConsts } from './consts'
+import { diagnosConsts } from '../consts'
 // import Switch from '../../common/Switch/Switch';
 import Select from '../../common/Select/Select';
+import BodyAreaItem from '../BodyAreaItem/BodyAreaItem';
 import {
-  createAssetsPreValidate,
-  T,
+  getBodyAreasWired,
 } from '../../../actions';
 import { PAGE } from '../../../config';
 
 class TestNew extends Component {
-  _createAssets = (files = []) => {
-    if (files.length) {
-      files = files.map(file => {
-        file.name_origin = file.name_real;
-        return omit(file, ['progress'])
-      });
-      createAssetsPreValidate({ tmp_files: files })
-        .then(res => res && this.props.toggleModal())
-    }
-  };
+  componentWillMount() {
+    getBodyAreasWired();
+  }
+
+  _renderBodyAreasItem = (items = []) => {
+    return items.map(({ title, id }) => {
+      return (
+        <BodyAreaItem
+          key={id + title}
+          reducer={this.props.testingReducer}
+          title={title}
+          id={id}
+        />
+      )
+    })
+  }
 
   render() {
     const {
       testingReducer,
       testingReducer: {
-
+        bodyAreas,
+        bodyAreasIds,
       }
     } = this.props;
     return (
@@ -72,7 +79,7 @@ class TestNew extends Component {
           </Toolbar>
         </AppBar>
 
-        <Grid container spacing={0}>
+        <Grid container spacing={0} className="border-bottom">
           <Grid item xs={12}>
             <div className="testing-inner-container border-bottom">
               <Input
@@ -90,29 +97,23 @@ class TestNew extends Component {
               </p>
               <Select
                 options={diagnosConsts.languages}
-                id='language'
+                id='q_lang'
                 style={{ width: "100%" }}
-                name={T.TESTING}
                 reducer={testingReducer}
-                onChange={({ target: { value, id, name }, target }) => console.log(value, id, name, target)}
                 label='Language of questions'
               />
               <Select
                 options={diagnosConsts.measurements}
-                id='measurement'
+                id='q_metric'
                 style={{ width: "100%" }}
-                name={T.TESTING}
                 reducer={testingReducer}
-                onChange={({ target: { value, id, name }, target }) => console.log(value, id, name, target)}
                 label='Measurements'
               />
               <Select
                 options={diagnosConsts.sex}
                 id='sex'
                 style={{ width: "100%" }}
-                name={T.TESTING}
                 reducer={testingReducer}
-                onChange={({ target: { value, id, name }, target }) => console.log(value, id, name, target)}
                 label='Sex'
               />
 
@@ -120,8 +121,9 @@ class TestNew extends Component {
 
                 <Grid item xs={6}>
                   <Input
+                    type="number"
                     style={{ width: '100%'}}
-                    id='age'
+                    id='q_age'
                     reducer={testingReducer}
                     label='Your age'
                   />
@@ -131,16 +133,18 @@ class TestNew extends Component {
 
                 <Grid item xs={6}>
                   <Input
+                    type="number"
                     style={{ width: '100%'}}
-                    id='weight'
+                    id='q_weight'
                     reducer={testingReducer}
                     label='Weight (kg)'
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <Input
+                    type="number"
                     style={{ width: '100%'}}
-                    id='height'
+                    id='q_height'
                     reducer={testingReducer}
                     label='Your height (cm)'
                   />
@@ -157,60 +161,23 @@ class TestNew extends Component {
               </p>
               <Grid container spacing={24}>
 
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                   <Select
-                    options={diagnosConsts.sex}
-                    id='body_areas'
+                    multiple
+                    options={bodyAreas}
+                    id='bodyAreasIds'
                     style={{ width: "100%" }}
-                    name={T.TESTING}
-                    reducer={testingReducer}
-                    onChange={({ target: { value, id, name }, target }) => console.log(value, id, name, target)}
-                    label='Sex'
-                  />
-                  <Input
-                    select
-                    currencies={[]}
-                    style={{ width: '100%'}}
-                    id='title'
                     reducer={testingReducer}
                     label='Body Areas'
                   />
                 </Grid>
-
-                <Grid item xs={6}>
-                  <Input
-                    type="range"
-                    style={{ width: '100%'}}
-                    id='title'
-                    reducer={testingReducer}
-                    label=' '
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <Select
-                    options={[]}
-                    style={{ width: '100%'}}
-                    id='title'
-                    reducer={testingReducer}
-                    label='Title'
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Input
-                    type="range"
-                    style={{ width: '100%'}}
-                    id='title'
-                    reducer={testingReducer}
-                    label=' '
-                  />
-                </Grid>
               </Grid>
+
+              { this._renderBodyAreasItem(bodyAreasIds) }
+
             </div>
           </Grid>
         </Grid>
-
-
       </div>
     )
   }
