@@ -57,7 +57,7 @@ class CreateExerciseComponent extends Component {
     const result = {
       title,
       comments,
-      text: '',
+      text: 'error',
       information,
       instruction,
       name,
@@ -255,7 +255,6 @@ class CreateExerciseComponent extends Component {
 
               <Grid container className="row-item">
                 <Grid item xs={12}>
-                  {this.state.instructionLang}
                   {this.state.instructionLang === 'en' ?
                     <Input
                       id='exercise.instruction.en'

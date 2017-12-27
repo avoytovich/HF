@@ -24,7 +24,9 @@ class ExercisesComponent extends Component {
 
 
 
-  onRowClick = (selected = []) => this.setState({selected});
+  onRowClick = (selected = []) => {
+    this.setState({selected});
+  };
 
   onSelectAllClick = (selected) => this.setState({selected});
 
@@ -41,25 +43,16 @@ class ExercisesComponent extends Component {
     return (
       <div id="packages-component">
 
-        <DeactivateComponent
-          path="exercises"
-          domen="exercises"
-          typeKey="deactivateOpen"
-          list={selected}
-          deactivateOpen={deactivateOpen}
-          open={this.updateModal}
-          itemKey="title"
-          query={this.props.location.query}
-        />
 
         <DeleteComponent
           path="exercises"
+          pathReq="exercises"
           domen="exercises"
           typeKey="deleteOpen"
           list={selected}
           deactivateOpen={deleteOpen}
           open={this.updateModal}
-          itemKey="title"
+          itemKey="title.en"
           query={this.props.location.query}
         />
 
@@ -72,12 +65,6 @@ class ExercisesComponent extends Component {
                   onClick={() => this.updateModal('deleteOpen', true)}>
             <Delete />
             Delete
-          </Button>
-
-          <Button raised dense
-                  onClick={() => this.updateModal('deactivateOpen', true)}>
-            <NotInterested />
-            Deactivate
           </Button>
 
         </TableControls>
