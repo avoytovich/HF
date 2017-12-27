@@ -12,7 +12,7 @@ const TABS = [
   { label: 'Conditions',    url: 'conditions' },
   { label: 'Treatments',    url: 'treatments' },
   { label: 'Packages',      url: 'packages' },
-  { label: 'Evaluation',    url: 'evaluations' },
+//  { label: 'Evaluation',    url: 'evaluations' },
   { label: 'Exercises',     url: 'exercises' },
 //  { label: 'Meta Controls', url: 'meta-controls' },
 //  { label: 'Achievements',  url: 'achievements' },

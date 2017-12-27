@@ -55,7 +55,7 @@ class ExercisesAssetsModal extends Component {
   };
 
   handleChange = (e) =>
-    getExercises('exercises', 'exercises', e.target.value)
+    getExercises('exercises', 'assets', e.target.value)
     .then(list => this.setState({list}));
 
   Transition = (props) => <Slide direction="up" {...props} />;

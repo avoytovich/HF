@@ -53,15 +53,15 @@ class CreateExerciseComponent extends Component {
 
 
   done = (value) => {
-    const { id, title, comments, text, instruction, information, name } = value;
+    const { id, title, comments, text, instruction, information, name, files } = value;
     const result = {
       title,
       comments,
-      text,
+      text: '',
       information,
       instruction,
       name,
-      file_ids: [19]
+      file_ids: files ? files.data.map(el => el && el.id) : []
     };
 
     !this.props.routeParams.id ?
@@ -258,7 +258,7 @@ class CreateExerciseComponent extends Component {
                   {this.state.instructionLang === 'en' ?
                     <Input
                       id='exercise.instruction.en'
-                      value={instruction && instruction.en}
+                      value={instruction ?  instruction.en : ''}
                       reducer={createDiagnosisQuestion}
                       label={ 'Instruction' }
                       placeholder={ 'Instruction' }
@@ -268,7 +268,7 @@ class CreateExerciseComponent extends Component {
                     /> :
                     <Input
                       id='exercise.instruction.swe'
-                      value={instruction && instruction.swe}
+                      value={instruction ? instruction.swe : ''}
                       reducer={createDiagnosisQuestion}
                       label={'Instruction' }
                       placeholder={ 'Instruction' }

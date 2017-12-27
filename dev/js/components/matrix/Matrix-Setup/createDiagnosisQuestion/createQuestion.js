@@ -15,7 +15,7 @@ import { diagnosisQuestionCreate,
   getQuestionById,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
-import { AsyncCreatable }           from 'react-select';
+import { Async }                    from 'react-select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
 import AddIcon                      from 'material-ui-icons/Add';
@@ -80,7 +80,7 @@ class CreateQuestionComponent extends Component {
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.title }));
       return {
-        options: _data,
+        options: [{ label: 'All', value: null, id: null }].concat(_data),
         // CAREFUL! Only set this to true when there are no more options,
         // or more specific queries will not be sent to the server.
         complete: true
@@ -361,7 +361,7 @@ class CreateQuestionComponent extends Component {
                     className="custom-select-title">
                     Body Areas
                   </Typography>
-                  <AsyncCreatable
+                  <Async
                       name='body-areas'
                       id='body-areas'
                       loadOptions={this.getOptions}

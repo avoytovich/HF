@@ -48,7 +48,7 @@ class CreateTreatmentsComponent extends Component {
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.title }));
       return {
-        options: _data,
+        options: [{ label: 'All', value: null, id: null }].concat(_data),
         complete: true
       }
     });
@@ -56,7 +56,7 @@ class CreateTreatmentsComponent extends Component {
 
   getPackageOptions = (input) => {
     const area = this.props.createDiagnosisQuestion.bodyAreas;
-    const _area = area.key || area.value || area.title;
+    const _area = area ? area.id : null;
     return findPackage('exercises', 'getPackageByArea', input, _area).then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
@@ -115,7 +115,7 @@ class CreateTreatmentsComponent extends Component {
     const result = {
       rule   : rules[0],
       key    : questionKey,
-      area   : bodyAreas.key || bodyAreas.value || bodyAreas.label,
+      area   : bodyAreas ? bodyAreas.id : null,
       title  : questionTitle,
       package: treatmentsPackage.value,
       level  : treatmentsLevels,
