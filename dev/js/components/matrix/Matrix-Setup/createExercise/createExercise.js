@@ -89,7 +89,6 @@ class CreateExerciseComponent extends Component {
 
   handleDelete = (ID) =>  {
     const filtered = get(this.props.exerciseState, `files.data`).filter(el =>  el && el.id != ID);
-    debugger
     updateCrateQuestionFields(filtered, `exercise.files.data`)
   };
 

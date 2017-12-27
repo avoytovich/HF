@@ -4,7 +4,7 @@ import set                 from 'lodash/set';
 import get                 from 'lodash/get';
 import isEmpty             from 'lodash/isEmpty';
 import * as dotProp        from 'dot-prop-immutable';
-import { checkIfBlockType } from '../../utils/matrix'
+import { findType }        from '../../utils/matrix'
 
 const initialState = {
   actionType    : CREATE_QUESTION,
@@ -73,8 +73,9 @@ const changeToItemRule = (state, action) => {
 
 const createQuestionRules = (state, action) => {
   const {path, type, body} = action.payload;
-  const isBlock = checkIfBlockType(type);
+  const isBlock = findType(type) === 'block';
   const template = isBlock ? { [type] : [body] } : { [type] : body };
+
   return dotProp.set(state, path, val => val.concat(template));
 };
 
