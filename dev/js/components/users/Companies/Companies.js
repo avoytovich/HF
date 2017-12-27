@@ -10,6 +10,7 @@ import Modal                    from '../../common/Modal/Modal';
 import { PAGE } from '../../../config';
 import CreateUser from '../CreateUser/CreateUser';
 
+
 class Companies extends Component {
   state = {
     selected: [],
@@ -29,17 +30,11 @@ class Companies extends Component {
       return {
         onClick: (e) => {
           e.stopPropagation();
-          browserHistory.push(`/clinic/${row.id}/profile`);
+          browserHistory.push(`/company/${row.id}/profile`);
         }
       }
     }
     return {};
-  };
-
-  _createUser =()=>{
-    this.props.createUsersReducers.type = 'organization';
-    console.log('createUsersReducers',this.props.createUsersReducers);
-    this.setState({ showCreateModal: false })
   };
 
   onRowClick = (selected = []) => this.setState({ selected });
@@ -57,7 +52,7 @@ class Companies extends Component {
   render() {
     const { tableHeader } = COMPANIES_TAB;
     const { selected, deleteOpen, showCreateModal } = this.state;
-    const querySelector = {...this.props.location.query,...{type: 'organization'}};
+    const querySelector = {...this.props.location.query,...{type: 'organization', back :'companies'}};
     return (
       <div id="diagnosis-component">
 
@@ -87,12 +82,11 @@ class Companies extends Component {
         />
 
         <Modal
-          itemName="name_real"
+          fullScreen
           open={showCreateModal}
-          title='Create Company'
+          showControls={false}
           toggleModal={this.createEntity}
-          CustomContent={() => <CreateUser userType = 'organization' />}
-          onConfirmClick={this._createUser}
+          CustomContent={() => <CreateUser backButton = '/companies' userType = 'organization' toggleModal={this.createEntity} headerTitle='Create Company'/>}
         />
 
       </div>

@@ -55,18 +55,21 @@ class Input extends Component {
           className={classes.textField}
           style={style}
           margin="normal"
+          helperText={error}
           SelectProps={{
             native: true,
           }}
           {...omit(props, ['dispatch'])}
         >
           {
-            currencies.map((option, index) =>
-            (<option key={index}
-                     selected={option.value === value}
-                     value={option.value}>
-              {option.label}
-            </option>))
+            currencies.map((option, index) => (
+              <option
+                key={index}
+                value={option.value}
+              >
+                {option.label}
+              </option>
+            ))
           }
         </TextField>
         :
@@ -78,14 +81,12 @@ class Input extends Component {
           onChange={onCustomChange || onChange}
           label={label}
           placeholder={placeholder}
-          className={classes.textField}
+          className={[classes.textField]}
           style={style}
           margin="normal"
+          helperText={error}
           {...omit(props, ['dispatch'])}
         />
-      }
-      {
-        error && <FormHelperText>{ error }</FormHelperText>
       }
     </FormControl>
     );
