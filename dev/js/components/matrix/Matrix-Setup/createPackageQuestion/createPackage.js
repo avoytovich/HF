@@ -114,6 +114,7 @@ class CreatePackageComponent extends Component {
     const result = {
       key      : questionKey,
       body_area: bodyAreas ? bodyAreas.id : null,
+      area_id  :  bodyAreas ? bodyAreas.id : null,
       title    : questionTitle,
       type     : packageType,
       package_levels : packageLevels,

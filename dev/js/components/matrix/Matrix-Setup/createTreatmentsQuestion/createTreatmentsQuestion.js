@@ -12,7 +12,7 @@ import { diagnosisQuestionCreate,
   updateQuestionCreate,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
-import { AsyncCreatable, Async }    from 'react-select';
+import { Async }                    from 'react-select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
@@ -56,7 +56,7 @@ class CreateTreatmentsComponent extends Component {
 
   getPackageOptions = (input) => {
     const area = this.props.createDiagnosisQuestion.bodyAreas;
-    const _area = area ? area.id : null;
+    const _area = area ? `${area.id}` : null;
     return findPackage('exercises', 'getPackageByArea', input, _area).then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
@@ -194,7 +194,7 @@ class CreateTreatmentsComponent extends Component {
                     className="custom-select-title">
                     Body Areas
                   </Typography>
-                  <AsyncCreatable
+                  <Async
                     name='body-areas'
                     id='body-areas'
                     loadOptions={this.getAreaOptions}
