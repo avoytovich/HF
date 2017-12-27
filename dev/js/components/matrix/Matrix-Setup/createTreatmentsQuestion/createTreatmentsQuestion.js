@@ -56,7 +56,7 @@ class CreateTreatmentsComponent extends Component {
 
   getPackageOptions = (input) => {
     const area = this.props.createDiagnosisQuestion.bodyAreas;
-    const _area = area ? `${area.id}` : null;
+    const _area = area ? area.id : null;
     return findPackage('exercises', 'getPackageByArea', input, _area).then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
@@ -115,7 +115,7 @@ class CreateTreatmentsComponent extends Component {
     const result = {
       rule   : rules[0],
       key    : questionKey,
-      area   : bodyAreas ? bodyAreas.id : null,
+      area_id: bodyAreas ? bodyAreas.id : null,
       title  : questionTitle,
       package: treatmentsPackage.value,
       level  : treatmentsLevels,
