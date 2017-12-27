@@ -20,6 +20,7 @@ import BodyAreaItem from '../BodyAreaItem/BodyAreaItem';
 import {
   getBodyAreasWired,
   createTestWired,
+  dispatchUserPayloadWired,
 } from '../../../actions';
 import {
   PAGE,
@@ -172,25 +173,26 @@ class TestNew extends Component {
           </Grid>
 
         </Grid>
-        <Grid container spacing={0}>
-          <Grid item xs={5}>
-            <div className="testing-inner-container-long">
-              <p className="testing-inner-sub-header">
-                Conditions & Treatment
-              </p>
-            </div>
+        {/*<Grid container spacing={0}>*/}
+          {/*<Grid item xs={5}>*/}
+            {/*<div className="testing-inner-container-long">*/}
+              {/*<p className="testing-inner-sub-header">*/}
+                {/*Conditions & Treatment*/}
+              {/*</p>*/}
 
-            <RadioButton/>
-          </Grid>
 
-          <Grid item xs={5}>
-            <div className="testing-inner-container-long">
-              <p className="testing-inner-sub-header">
-                Questions
-              </p>
-            </div>
-          </Grid>
-        </Grid>
+              {/*<RadioButton/>*/}
+            {/*</div>*/}
+          {/*</Grid>*/}
+
+          {/*<Grid item xs={5}>*/}
+            {/*<div className="testing-inner-container-long">*/}
+              {/*<p className="testing-inner-sub-header">*/}
+                {/*Questions*/}
+              {/*</p>*/}
+            {/*</div>*/}
+          {/*</Grid>*/}
+        {/*</Grid>*/}
       </div>
     )
   }
