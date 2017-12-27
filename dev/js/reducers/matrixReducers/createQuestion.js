@@ -39,7 +39,11 @@ const initialState = {
   packageType: 'symptomatic',
   therapyContinuity: '1',
   packageLevels: [],
-  exercise: {}
+  exercise: {
+    instruction: { swe: '', en: '' },
+    title: { swe: '', en: '' },
+    information: { swe: '', en: '' },
+  }
 };
 
 const createQuestionUpdate = (state, action) => {

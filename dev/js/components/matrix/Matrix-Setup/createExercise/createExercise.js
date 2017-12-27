@@ -255,10 +255,11 @@ class CreateExerciseComponent extends Component {
 
               <Grid container className="row-item">
                 <Grid item xs={12}>
+                  {this.state.instructionLang}
                   {this.state.instructionLang === 'en' ?
                     <Input
                       id='exercise.instruction.en'
-                      value={instruction ?  instruction.en : ''}
+                      value={!!instruction ?  instruction.en : ''}
                       reducer={createDiagnosisQuestion}
                       label={ 'Instruction' }
                       placeholder={ 'Instruction' }
@@ -268,7 +269,7 @@ class CreateExerciseComponent extends Component {
                     /> :
                     <Input
                       id='exercise.instruction.swe'
-                      value={instruction ? instruction.swe : ''}
+                      value={!!instruction ? instruction.swe : ''}
                       reducer={createDiagnosisQuestion}
                       label={'Instruction' }
                       placeholder={ 'Instruction' }
