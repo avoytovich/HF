@@ -25,8 +25,6 @@ class Main extends Component {
     )
   }
 }
-{/*<MuiThemeProvider theme={context.theme} sheetsManager={context.sheetsManager}>*/}
-{/* </MuiThemeProvider>*/}
 
 const mapStateToProps = state => ({
   commonReducer: state.commonReducer

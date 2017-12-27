@@ -75,12 +75,13 @@ class TableComponent extends Component {
    * @param reqType
    * @param domen: {string}     - custom api to microservice
    * @param path: {string}      - variable with location for curent page
+   * @param url: {string}      - variable with location for curent page
    * @param _query: {object}  - count of items per pa
    */
-  getList = ({ reqType, domen, path }, _query) => {
+  getList = ({ reqType, domen, path, url }, _query) => {
     switch (reqType) {
       case 'POST':
-        getListByPost(domen, path, _query);
+        getListByPost(domen, path, _query, url);
         break;
 
       default:
@@ -92,7 +93,7 @@ class TableComponent extends Component {
           page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
 
         };
-        getMatrixInfo(domen, path, query, path)
+        getMatrixInfo(domen, path, query, path, url)
     }
   };
 
@@ -342,7 +343,8 @@ TableComponent.defaultProps = {
   data              : [],
   tableCellPropsFunc: () => ({}),
   CellContent       : () => null,
-  rowsPerPageOptions: [ 5, 10, 25 ] // The per page may not be greater than 50.
+  rowsPerPageOptions: [ 5, 10, 25 ], // The per page may not be greater than 50.
+  url: ''
 };
 
 TableComponent.propTypes = {
@@ -368,6 +370,7 @@ TableComponent.propTypes = {
   tableCellPropsFunc: PropTypes.func,
   CellContent: PropTypes.func,
   rowsPerPageOptions: PropTypes.arrayOf( PropTypes.number ),
+  url: PropTypes.string,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({

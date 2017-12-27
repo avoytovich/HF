@@ -15,3 +15,11 @@ export const getProfileWired = (id) => getProfile(id)
   .then(response => {
     dispatchProfilePayloadWired(get(response,'data.data', {}));
   });
+
+export const getUsersForCustomer = (id,body) => Api.post(`${domen.users}/users/customer/${id}`,body);
+
+export const getUsersForCustomerWired = (id,body) => getUsersForCustomer(id,body)
+  .then(response => {
+   console.log('done')
+  });
+

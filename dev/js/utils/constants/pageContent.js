@@ -80,6 +80,17 @@ export const DIAGNOSIS_TAB = {
   ]
 };
 
+export const BODY_AREA_TAB = {
+  key: 'areas',
+  title: 'bodyArea',
+  tableHeader: [
+    { title: 'Key',                 key: 'key',       className: 'left'                                        },
+    { title: 'Body Areas',           key: 'title',        className: 'center'                                      },
+    { title: 'Created',              key: 'created_at',  className: 'left',   type: 'time',   format: TIME_FORMAT },
+    { title: 'Updated',              key: 'updated_at',  className: 'left',   type: 'time',   format: TIME_FORMAT }
+  ]
+};
+
 export const CONDITIONS_TAB = {
   key: 'conditions',
   title: 'Conditions',
@@ -157,8 +168,8 @@ export const COMPANIES_TAB = {
   title: 'Conditions',
   tableHeader: [
     { title: 'Company Name',   key: 'name',          className: 'left assets-title-cell'},
-    { title: 'Contact Person', key: 'billing_info',  className: 'center'  },
-    { title: 'Users',          key: 'name',          className: 'left'},
+    { title: 'Contact Person', key: 'contact_info.contacts[0].name',          className: 'center'  },
+    { title: 'Users',          key: 'users',         className: 'left'},
     { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };

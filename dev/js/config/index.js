@@ -6,6 +6,7 @@ import {
 } from './apiRoutes'
 import lang from './lang'
 import { configureStore } from './store'
+import { pickKeys } from './pickKeys'
 
 export {
   assets,
@@ -14,4 +15,5 @@ export {
   domen,
   lang,
   configureStore,
+  pickKeys,
 };
