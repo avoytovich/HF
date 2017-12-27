@@ -8,7 +8,7 @@ import { findType }        from '../../utils/matrix'
 
 const initialState = {
   actionType    : CREATE_QUESTION,
-  bodyAreas     : '',
+  area          : '',
   questionTitle : '',
   question: {
     en: '',
@@ -153,11 +153,11 @@ const removeAnswer = (state, action) => {
 };
 
 const setFullQuestion = (state, action) => {
-  const { body: { area, title, question, key, step, answer, rule }} = action.payload;
+  const { body: { area_id, title, question, key, step, answer, rule }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
-    const _body = {
-      bodyAreas: { key: area, label:area, title: area },
+  const _body = {
+      area: { value: area_id, label:area_id },
       questionTitle: title,
       question,
       sequence: step,

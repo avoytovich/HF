@@ -118,7 +118,7 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
 
       const body = {
         type: _type || type,
-        area: area || null,
+        area_id: area || null,
         answerType
       };
       const noSteps = page === 'condition' || page === 'treatment';

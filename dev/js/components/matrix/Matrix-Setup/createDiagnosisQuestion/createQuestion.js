@@ -78,9 +78,10 @@ class CreateQuestionComponent extends Component {
     return findArea('diagnostics', 'findArea').then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
-        Object.assign({}, item, { label: item.title }));
+        Object.assign({}, item, { label: item.title, value: item.id }));
+//      debugger;
       return {
-        options: [{ label: 'All', value: null, id: null }].concat(_data),
+        options: [{ label: 'All', value: null, id: 0 }].concat(_data),
         // CAREFUL! Only set this to true when there are no more options,
         // or more specific queries will not be sent to the server.
         complete: true
@@ -88,7 +89,9 @@ class CreateQuestionComponent extends Component {
     });
   };
 
-  onAreasChange = (value) => updateCrateQuestionFields(value, 'bodyAreas');
+  onAreasChange = (value) => {
+    updateCrateQuestionFields(value, 'area');
+  };
 
   handleQuestionLangChange = (event, value) => this.setState({ questionLang: value });
 
@@ -158,12 +161,12 @@ class CreateQuestionComponent extends Component {
   };
 
   done = (value) => {
-    const { sequenceType, questionKey, sequence, bodyAreas, question, answerType, questionTitle, rules } = value;
+    const { sequenceType, questionKey, sequence, area_id, question, answerType, questionTitle, rules } = value;
     const result = {
       type : 'diagnostic',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
-      area : bodyAreas.id,
+      area_id : area_id,
       title: questionTitle,
       question: {
         en: question.en,
@@ -297,7 +300,8 @@ class CreateQuestionComponent extends Component {
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle, bodyAreas,
+        questionTitle,
+        area,
         question,
         questionKey,
         sequence,
@@ -367,7 +371,7 @@ class CreateQuestionComponent extends Component {
                       loadOptions={this.getOptions}
                       onChange={this.onAreasChange}
                       placeholder={'Select body area'}
-                      value={bodyAreas}/>
+                      value={area}/>
                 </Grid>
               </Grid>
 
@@ -543,7 +547,7 @@ class CreateQuestionComponent extends Component {
             <DiagnosisRulesComponent
               type="diagnostic"
               page="diagnostic"
-              area={bodyAreas}
+              area={area}
               step={sequence}
             />
 
