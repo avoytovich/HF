@@ -72,17 +72,21 @@ export const deleteItem = (domenKey, apiKey, ids) => {
 };
 
 
-export const diagnosisQuestionCreate = (domenKey, apiKey, body) => {
+export const diagnosisQuestionCreate = (domenKey, apiKey, body, id) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
-  return Api.post(`${domenPath}${apiPath}`, body);
+  return id ? Api.post(`${domenPath}${apiPath}/${id}`, body):
+              Api.post(`${domenPath}${apiPath}`, body);
 };
 
 export const updateQuestionCreate = (domenKey, apiKey, body, id) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
-  return Api.put(`${domenPath}${apiPath}/${id}`, body);
+  return id ?
+    Api.put(`${domenPath}${apiPath}/${id}`, body) :
+    Api.put(`${domenPath}${apiPath}`, body);
 };
+
 
 export const getQuestionById = (domenKey, apiKey, id) => {
   const domenPath = domen[domenKey],
@@ -116,6 +120,24 @@ export const getConditionById = (domenKey, apiKey, id) => {
           }
         );
         return data;
+      }
+    }
+  );
+};
+
+export const getPackagenById = (domenKey, apiKey, id) => {
+  const domenPath = domen[domenKey],
+    apiPath   = api[apiKey];
+  return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
+      if (res) {
+        const { data } = res.data;
+        store.dispatch(
+          {
+            type:`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`,
+            payload: { body: {...data }}
+          }
+        );
+        return data.packageLevels;
       }
     }
   );
@@ -189,5 +211,49 @@ export const getQuestionsByStep = (domenKey, apiKey, body) => {
         apiPath   = api[apiKey];
 
   return Api.post(`${domenPath}${apiPath}`, body).then(({data}) => data.data);
+};
+
+
+export const getPackageLevel = (domenKey, apiKey, list, level) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+
+  return Api.post(`${domenPath}${apiPath}`, {ids: list}).then(({data}) => data);
+//    store.dispatch({type:`${CREATE_QUESTION}_UPDATE`,
+//      payload:{
+//        data: data.data,
+//        path: `packageLevels[${level}].exercise_ids`,
+//      }
+//    })
+//  );
+};
+
+export const getExercises = (domenKey, apiKey, text) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+
+  const url = text ?
+    `${domenPath}${apiPath}?search=${text}` :
+    `${domenPath}${apiPath}`;
+  return Api.get(url).then(({data}) => data.data);
+};
+
+
+export const getExerciseById =  (domenKey, apiKey, id) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
+      if (res) {
+        const { data } = res.data;
+        store.dispatch(
+          {
+            type:`${CREATE_QUESTION}_UPDATE`,
+            payload: {data, path: 'exercise'}
+          }
+        );
+        return data;
+      }
+    }
+  );
 };
 

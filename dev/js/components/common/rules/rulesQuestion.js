@@ -32,7 +32,7 @@ class RulesQuestionComponent extends Component {
   handleRequestClose = () => this.setState({ open: false });
 
   onSelected = (item) => {
-    const body = findType(item.value) === 'block' ? [ { 'match': [ DEF_ITEM ] } ] : [ DEF_ITEM ];
+    const body = findType(item.value) === 'block' ?  { 'match': DEF_ITEM } : DEF_ITEM;
     addRules({
       type: item.value,
       path: 'rules',
@@ -42,7 +42,8 @@ class RulesQuestionComponent extends Component {
   };
 
   render() {
-    const { rules, question } =  this.props.store;
+    const { rules, question, questionTitle } =  this.props.store;
+    const { showTitle } = this.props;
     return (
       <div className="rule-question">
         <div className="nav-block">
@@ -81,11 +82,11 @@ class RulesQuestionComponent extends Component {
           <div className="wrap">
             <div className="title">
               <Typography type="caption" gutterBottom>
-                Question
+                { showTitle ? 'Condition' : 'Question' }
               </Typography>
             </div>
             <div className="text">
-              {question.en}
+              {showTitle ? questionTitle : question.en}
             </div>
           </div>
         </div>

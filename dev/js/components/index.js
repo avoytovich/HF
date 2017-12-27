@@ -65,5 +65,5 @@ export const C = {
   CreateTreatmentsComponent,
   CreateEvaluationComponent,
   CreatePackageComponent,
-  CreateBodyAreaComponent
+  CreateBodyAreaComponent,
 };

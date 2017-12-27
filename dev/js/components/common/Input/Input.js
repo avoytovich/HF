@@ -55,6 +55,7 @@ class Input extends Component {
           className={classes.textField}
           style={style}
           margin="normal"
+          helperText={error}
           SelectProps={{
             native: true,
           }}
@@ -80,14 +81,12 @@ class Input extends Component {
           onChange={onCustomChange || onChange}
           label={label}
           placeholder={placeholder}
-          className={classes.textField}
+          className={[classes.textField]}
           style={style}
           margin="normal"
+          helperText={error}
           {...omit(props, ['dispatch'])}
         />
-      }
-      {
-        error && <FormHelperText>{ error }</FormHelperText>
       }
     </FormControl>
     );

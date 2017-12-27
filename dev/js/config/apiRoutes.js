@@ -11,9 +11,6 @@ export const domen = {
 };
 
 export const api = {
-  login             : '/auth/login',
-  userOwn           : '/users/my',
-  organizationsUsers: '/users/get/all',
   simpleUsers       : '/users/get/all',
   clinicsUsers      : '/users/get/all',
   companiesOwnUsers : '/users/customer',
@@ -44,16 +41,25 @@ export const api = {
   generate          : '/dev/exercises/files/url/generate',
   assets            : '/files',
   evaluation        : '/matrix/evaluation',
-  findConditionsByAre : '/matrix/conditions/get/area',
+  login              : '/auth/login',
+  userOwn            : '/users/my',
+  organizationsUsers : '/users/get/all',
+  userAll            : '/users/get/all',
+  findConditionsByAre: '/matrix/conditions/get/area',
   questionsByStep   : '/matrix/questions/get/area',
   getConditionById  : '/matrix/conditions',
   test              : '/diagnostics/all/user',
+  getExercises      : '/exercises/ids',
+  diagnostics       : '/diagnostics',
 };
 
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`
 export const assets = 'http://localhost:3030/assets';
 
 export const PAGE = {
+  bodyArea          : '/matrix-setup/body-area',
+  test              : '/test',
+  testNew           : '/test/new',
   home              : '/',
   login             : '/login',
   signup            : '/signup',
@@ -61,9 +67,7 @@ export const PAGE = {
   passForgot        : '/pass-forgot',
   companies         : '/companies',
   clinics           : '/clinics',
-  simpleUsers       : '/users-simple',
-  organizationsUsers: '/users-organizations',
-  clinicsUsers      : '/users-clinics',
+  users             : '/users',
   assets            : '/assets',
   assetsUpload      : '/assets/upload',
   assetsEdit        : '/assets/edit',
@@ -77,11 +81,11 @@ export const PAGE = {
   conditions        : '/matrix-setup/conditions',
   treatments        : '/matrix-setup/treatments',
   evaluation        : '/matrix-setup/evaluation',
+  simpleUsers       : '/users-simple',
+  organizationsUsers: '/users-organizations',
+  clinicsUsers      : '/users-clinics',
   evaluations       : '/matrix-setup/evaluations',
-  bodyArea          : '/matrix-setup/body-area',
   packages          : '/matrix-setup/packages',
   exercises         : '/matrix-setup/exercises',
   diagnosisCreate   : '/diagnosis-create',
-  test              : '/test',
-  testNew           : '/test/new',
 };

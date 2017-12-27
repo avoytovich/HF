@@ -28,7 +28,11 @@ class ConditionsComponent extends Component {
   onSelectAllClick = (selected) => this.setState({selected});
 
 
-  updateModal = (key, value) => this.setState({ [key]: value });
+  updateModal = (key, value) => {
+    this.setState({ [key]: value });
+
+    if (!value) this.setState({ selected: [] });
+  }
   render() {
     const { tableHeader } = CONDITIONS_TAB;
     const { selected, deactivateOpen, deleteOpen } = this.state;

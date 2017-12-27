@@ -173,7 +173,7 @@ class CreateEvaluationComponent extends Component {
         type: answerType,
         values: this.getAnswer(answerType, value)
       },
-      rule: rules
+      rule: rules[0]
     };
 
     !this.props.routeParams.id ?
