@@ -37,7 +37,7 @@ export const onSingleAsyncChange = (value, edit, props) => {
       {
         key: value.value,
         op: '==',
-        value: 'A'
+        value: '1'
       };
 
     setQuestion(path, pathType, _value);
@@ -63,7 +63,7 @@ export const onMultipleAsyncChange = (value, edit, props) => {
 
   const { subtype, type, values, min, max} = value.answer;
   const answers = getAnswersList(values);
-  const _value = edit ? itemState.value :  ['A'];
+  const _value = edit ? itemState.value :  ['1'];
 
   setQuestion(path, pathType, { key: value.value, value: _value });
 
@@ -89,7 +89,7 @@ export const getAnswerValue = (list, value) =>
     if (item && !value) return item.label;
 
     return value === item.label ? item.label : result;
-  }, 'A' );
+  }, '1' );
 
 
 export const getMultipleAnswerValue = (list, value) =>

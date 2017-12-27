@@ -54,6 +54,8 @@ class RulesBlockComponent extends Component {
       path: `${path}.${type}`,
       body
     });
+
+
     this.handleRequestClose();
   };
 

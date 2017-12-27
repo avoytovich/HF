@@ -12,7 +12,7 @@ import { diagnosisQuestionCreate,
   updateQuestionCreate,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
-import { AsyncCreatable, Async }    from 'react-select';
+import { Async }                    from 'react-select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
@@ -48,7 +48,7 @@ class CreateTreatmentsComponent extends Component {
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.title }));
       return {
-        options: _data,
+        options: [{ label: 'All', value: null, id: null }].concat(_data),
         complete: true
       }
     });
@@ -56,8 +56,8 @@ class CreateTreatmentsComponent extends Component {
 
   getPackageOptions = (input) => {
     const area = this.props.createDiagnosisQuestion.bodyAreas;
-    const _area = area.key || area.value || area.title;
-    return findPackage('diagnostics', 'getPackageByArea', input, _area).then(res => {
+    const _area = area ? `${area.id}` : null;
+    return findPackage('exercises', 'getPackageByArea', input, _area).then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.title }));
@@ -115,7 +115,7 @@ class CreateTreatmentsComponent extends Component {
     const result = {
       rule   : rules[0],
       key    : questionKey,
-      area   : bodyAreas.key || bodyAreas.value || bodyAreas.label,
+      area   : bodyAreas ? bodyAreas.id : null,
       title  : questionTitle,
       package: treatmentsPackage.value,
       level  : treatmentsLevels,
@@ -194,7 +194,7 @@ class CreateTreatmentsComponent extends Component {
                     className="custom-select-title">
                     Body Areas
                   </Typography>
-                  <AsyncCreatable
+                  <Async
                     name='body-areas'
                     id='body-areas'
                     loadOptions={this.getAreaOptions}

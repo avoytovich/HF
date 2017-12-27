@@ -23,7 +23,7 @@ class MultipleComponent extends Component {
 
   onAsyncChange = (value, edit) => {
     this.setState({...onMultipleAsyncChange(value, edit, this.props)});
-  }
+  };
 
   render() {
     const { key, value } = this.props.itemState,

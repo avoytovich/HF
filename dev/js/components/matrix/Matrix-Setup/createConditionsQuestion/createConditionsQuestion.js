@@ -11,7 +11,7 @@ import { diagnosisQuestionCreate,
   updateQuestionCreate,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
-import { AsyncCreatable }           from 'react-select';
+import { Async }                    from 'react-select';
 import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
 import Typography                   from 'material-ui/Typography';
@@ -43,7 +43,7 @@ class CreateConditionComponent extends Component {
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.title }));
       return {
-        options: _data,
+        options: [{ label: 'All', value: null, id: null }].concat(_data),
         // CAREFUL! Only set this to true when there are no more options,
         // or more specific queries will not be sent to the server.
         complete: true
@@ -80,7 +80,7 @@ class CreateConditionComponent extends Component {
     const result = {
       rule  : rules[0],
       key   : questionKey,
-      area  : bodyAreas.key  || bodyAreas.value || bodyAreas.label,
+      area  : bodyAreas ? bodyAreas.id : null,
       title : questionTitle
     };
 
@@ -156,7 +156,7 @@ class CreateConditionComponent extends Component {
                     className="custom-select-title">
                     Body Areas
                   </Typography>
-                  <AsyncCreatable
+                  <Async
                     name='body-areas'
                     id='body-areas'
                     loadOptions={this.getOptions}
