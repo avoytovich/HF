@@ -92,16 +92,15 @@ class CreateUser extends Component {
           {contacts :  array}
       }
     });
-    console.log(this.state)
   }
 
   render() {
-    console.log(this.state);
     const {createUsersReducers} = this.props;
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div className="upload-container">
-        <Header toggleModal={this.props.toggleModal} headerTitle={this.props.headerTitle}/>
+        <Header toggleModal={this.props.toggleModal} headerTitle={this.props.headerTitle} backButton={this.props.backButton}
+                userType={this.props.userType}/>
         <div className="create-user-main-container">
           <div className="create-user-container">
             <div className="create-user-input-container">
@@ -113,7 +112,7 @@ class CreateUser extends Component {
               <Input id="contact_info.region" reducer={createUsersReducers} label='Region' placeholder='Region'/>
               <Input id="contact_info.country" reducer={createUsersReducers} label='Country' placeholder='Country'/>
               <Input id="additional_info.industry" reducer={createUsersReducers} label='Industry'
-                 select={industryArray[0]}    currencies={industryArray}/>
+                 select  currencies={industryArray}/>
             </div>
             <div className="create-user-input-container">
               <h3 className="create-user-title">Billing Address</h3>

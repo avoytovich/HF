@@ -5,6 +5,7 @@ import ResetPassword            from '../components/auth/ResetPassword/ResetPass
 import ForgotPassword           from '../components/auth/ForgotPassword/ForgotPassword';
 import Companies                from '../components/users/Companies/Companies';
 import Clinics                  from '../components/users/Clinics/Clinics';
+import ClinicOwnUsers           from '../components/users/Clinics/ClinicsUsers';
 import Profile                  from '../components/users/Profile/Profile';
 import SimpleUsers              from '../components/users/Users/SimpleUsers';
 import OrganizationsUsers       from '../components/users/Users/OrganizationsUsers';
@@ -40,6 +41,7 @@ export const C = {
   ForgotPassword,
   Companies,
   Clinics,
+  ClinicOwnUsers,
   Profile,
   SimpleUsers,
   OrganizationsUsers,

@@ -63,15 +63,18 @@ const router = (
 
             <IndexRedirect to={PAGE.companies}/>
 
-            <Route path={PAGE.companies} component={C.Companies}/>
-            <Route path={PAGE.clinics} component={C.Clinics}/>
-            <Route path={PAGE.simpleUsers} component={C.SimpleUsers}/>
-            <Route path={PAGE.organizationsUsers} component={C.OrganizationsUsers}/>
-            <Route path={PAGE.clinicsUsers} component={C.ClinicsUsers}/>
-            <Route path={PAGE.assets} component={C.AssetsList}/>
-            <Route path={PAGE.clinicProfile} component={C.Profile}/>
-            <Route path={PAGE.test} component={C.TestsList}/>
-            <Route path={PAGE.testNew} component={C.TestNew}/>
+        <Route path={PAGE.companies}          component={C.Companies} />
+        <Route path={PAGE.clinics}            component={C.Clinics} />
+        <Route path={PAGE.simpleUsers}        component={C.SimpleUsers} />
+        <Route path={PAGE.organizationsUsers} component={C.OrganizationsUsers} />
+        <Route path={PAGE.clinicsUsers}       component={C.ClinicsUsers} />
+        <Route path={PAGE.assets}             component={C.AssetsList} />
+        <Route path={PAGE.clinicProfile}      component={C.Profile} />
+        <Route path={PAGE.companyProfile}      component={C.Profile} />
+        <Route path={PAGE.clinicOwnUsers}      component={C.clinicOwnUsers} />
+        <Route path={PAGE.companyOwnUsers}      component={C.Profile} />
+        <Route path={PAGE.test}               component={C.TestsList} />
+        <Route path={PAGE.testNew}            component={C.TestNew} />
 
             <Route path={PAGE.matrixSetup} component={ C.MatrixComponent }>
 
