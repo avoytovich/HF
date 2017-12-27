@@ -7,6 +7,7 @@ import Dialog, {
 import Slide                  from 'material-ui/transitions/Slide';
 import Button                 from 'material-ui/Button';
 import { connect }            from 'react-redux';
+import { get }                from 'lodash';
 import { bindActionCreators } from 'redux';
 import { deleteItem,
          getMatrixInfo }      from '../../../../actions';
@@ -26,7 +27,6 @@ class DeleteComponent extends Component {
 
   render() {
     const { list, deactivateOpen, open, typeKey, itemKey } = this.props;
-
     return  <Dialog
       open={deactivateOpen}
       transition={this.transition}
@@ -38,7 +38,7 @@ class DeleteComponent extends Component {
       <DialogContent>
         {list.map((item, index) =>
           <DialogContentText key={index}>
-            {index + 1}. {item[itemKey]}
+            {index + 1}. {get(item, itemKey)}
           </DialogContentText>)}
       </DialogContent>
 

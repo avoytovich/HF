@@ -72,13 +72,16 @@ export const checkType = (rules) => {
   }
 };
 
-export const checkIfBlockType = (type) =>
-  GROUP_TYPES.reduce((result, item) => {
-    if(item.type === 'block') {
-      return true;
-    }
-    return result;
-  }, false);
+//export const checkIfBlockType = (type) => {
+//  debugger;
+//  return GROUP_TYPES.reduce((result, item) => {
+//    debugger;
+//    if (item.type === 'block') {
+//      return true;
+//    }
+//    return result;
+//  }, false);
+//}
 
 export const genCharArray = () => {
   const charA = 'a', charZ = 'z';
