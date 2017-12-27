@@ -10,9 +10,7 @@ import CommentIcon              from 'material-ui-icons/Comment';
 import { PAGE } from '../../../config';
 
 import {
-  getProfileWired,
-  getUsersForCustomerWired
-} from '../../../actions'
+  getProfileWired } from '../../../actions'
 
 const styles = theme => ({
   root:{
@@ -46,12 +44,18 @@ class Profile extends Component {
 
   componentWillMount (){
     getProfileWired(this.props.params.id);
-    console.log(this);
   }
 
   _getUsers = ()=>{
-    getUsersForCustomerWired(this.props.params.id,{});
-    browserHistory.push(this.props.params.id+'/users');
+    const currentId = this.props.params.id;
+
+    if(get(this.props,'profileReducer.type')==='organization'){
+      browserHistory.push(`/company/${currentId}/users`);
+    }
+    else if(get(this.props,'profileReducer.type')==='clinic'){
+      browserHistory.push(`/clinic/${currentId}/users`);
+    }
+
   }
 
   _renderItem =(el, index, profileReducer)=>{
@@ -68,15 +72,12 @@ class Profile extends Component {
   };
 
   _returnFunc = () => {
-    console.log(this.props)
     if(get(this.props,'profileReducer.type')==='organization'){
       browserHistory.push('companies');
     }
     else if(get(this.props,'profileReducer.type')==='clinic'){
       browserHistory.push('clinics');
     }
-
-
   };
 
   _renderContact = (el, index)=>{
@@ -88,7 +89,7 @@ class Profile extends Component {
           Name
         </div>
         <div className = 'profile-paper-data-info'>
-          {el.name + el.surname}
+          {el.name +' '+ el.surname}
           <CommentIcon />
         </div>
       </div>

@@ -1,30 +1,36 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { CLINICS_TAB }              from '../../../utils/constants/pageContent';
+import { USERS_TAB }             from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
+import { get, map }             from 'lodash'
 
-import { PAGE } from '../../../config';
+import {
+  PAGE,
+  domen,
+  api
+} from '../../../config';
 
-class Clinics extends Component {
+
+class CompanyOwnUsers extends Component {
   state = {
     selected: [],
     deleteOpen: false
   };
 
   _tableCellPropsFunc = (row, col) => {
-    if (col.key === 'name') {
-      return {
-        onClick: (e) => {
-          e.stopPropagation();
-          browserHistory.push(`/clinic/${row.id}/profile`);
-        }
-      }
-    }
+    // if (col.key === 'name') {
+    //   return {
+    //     onClick: (e) => {
+    //       e.stopPropagation();
+    //       browserHistory.push(`/clinic/${row.id}/profile`);
+    //     }
+    //   }
+    // }
     return {};
   };
 
@@ -39,15 +45,34 @@ class Clinics extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
+  _returnFunc = (param) => {
+    if(param==='companies'){
+      browserHistory.push('companies');
+    }
+    else {
+      browserHistory.push(`/company/${this.props.params.id}/profile`)
+    }
+  };
+
   render() {
-    const { tableHeader } = CLINICS_TAB;
+    const { tableHeader } = USERS_TAB;
     const { selected, deleteOpen } = this.state;
-    const querySelector = {...this.props.location.query,...{type: 'clinic'}};
+    const { profileReducer } = this.props;
+    console.log(this.props)
+    const querySelector = {...this.props.location.query,...{type: 'organization'}};
+    const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
+    console.log(url)
     return (
       <div id="diagnosis-component">
 
+        <div className="company-sub-header">
+          <span onClick={()=>this._returnFunc('companies')}> Companies </span>
+          <span> > </span>
+          <span onClick={()=>this._returnFunc('profile')}> {get(profileReducer,'name')}</span>
+        </div>
+
         <DeleteComponent
-          path="companies"
+          path="clinicsOwnUsers"
           domen="users"
           typeKey="deleteOpen"
           list={selected}
@@ -58,7 +83,7 @@ class Clinics extends Component {
         />
 
         <TableControls
-          path="companies"
+          path="companyOwnUsers"
           selected={selected}
           createItem={this.create}
           createButtonText="Add">
@@ -72,8 +97,9 @@ class Clinics extends Component {
         </TableControls>
 
         <TableComponent
+          url={url}
           location={this.props.location}
-          path="clinics"
+          path="companyOwnUsers"
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }
@@ -90,7 +116,8 @@ class Clinics extends Component {
 }
 
 const mapStateToProps = state => ({
-  store: state.tables.diagnosis
+  store: state.tables.companyOwnUsers,
+  profileReducer: state.profileReducer
 });
 
-export default  connect(mapStateToProps)(Clinics);
+export default  connect(mapStateToProps)(CompanyOwnUsers);

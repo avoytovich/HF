@@ -59,7 +59,8 @@ class Companies extends Component {
         <TableControls
           path="companies"
           selected={selected}
-          createItem={this.createEntity}>
+          createItem={this.createEntity}
+          createButtonText="Add">
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>
             <Delete />
