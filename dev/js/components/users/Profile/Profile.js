@@ -11,6 +11,7 @@ import { PAGE } from '../../../config';
 
 import {
   getProfileWired,
+  getUsersForCustomerWired
 } from '../../../actions'
 
 const styles = theme => ({
@@ -45,6 +46,12 @@ class Profile extends Component {
 
   componentWillMount (){
     getProfileWired(this.props.params.id);
+    console.log(this);
+  }
+
+  _getUsers = ()=>{
+    getUsersForCustomerWired(this.props.params.id,{});
+    browserHistory.push(this.props.params.id+'/users');
   }
 
   _renderItem =(el, index, profileReducer)=>{
@@ -62,7 +69,14 @@ class Profile extends Component {
 
   _returnFunc = () => {
     console.log(this.props)
-    browserHistory.push(get(this.props,'routes[0].indexRoute.to'));
+    if(get(this.props,'profileReducer.type')==='organization'){
+      browserHistory.push('companies');
+    }
+    else if(get(this.props,'profileReducer.type')==='clinic'){
+      browserHistory.push('clinics');
+    }
+
+
   };
 
   _renderContact = (el, index)=>{
@@ -108,7 +122,7 @@ class Profile extends Component {
 
     return (
     <div className="profile-main-container">
-      <div className="profile-sub-header" onClick={this._returnFunc}> Companies <span>{get(profileReducer,'name')} Profile</span></div>
+      <div className="profile-sub-header" onClick={this._returnFunc}>{get(this.props,'profileReducer.type')==='clinic'?'Clinics ':'Companies ' }<span>{get(profileReducer,'name')} Profile</span></div>
       <Grid className={classes.root}
             container
             alignItems='top'
@@ -126,7 +140,7 @@ class Profile extends Component {
               <div className = 'profile-paper-sub-header'>Company Users</div>
               <div className = 'profile-paper-data-container'>
                 <div className = 'profile-paper-data'>
-                  <div className="users-count"> {get(profileReducer,'users') + (get(profileReducer,'users') > 1 ? ' Users':' User')}</div>
+                  <div className="users-count" onClick={this._getUsers}> {get(profileReducer,'users') + (get(profileReducer,'users') > 1 ? ' Users':' User')}</div>
                 </div>
               </div>
               <div className="profile-paper-hr"></div>
