@@ -63,7 +63,7 @@ class SimpleSelect extends React.Component {
         <Select
           value={value}
           name={actionType}
-          onChange={({ target: { name, value, }}) => onChangeFinal({ target: { name, value, id }})}
+          onChange={({ target: { value, }}) => onChangeFinal({ target: { name: actionType, value, id }})}
           input={<Input style={[classes.textField, style]} id={id} />}
           {...omit(props, ['dispatch', 'onChange'])}
         >

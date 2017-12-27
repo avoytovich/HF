@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 import omit from 'lodash/omit'
+import pick from 'lodash/pick'
 import Grid from 'material-ui/Grid';
 
 // UI
@@ -14,28 +15,30 @@ import Input from '../../common/Input/Input';
 import { diagnosConsts } from '../consts'
 // import Switch from '../../common/Switch/Switch';
 import Select from '../../common/Select/Select';
+import RadioButton from '../../common/RadioButton/RadioButton';
 import BodyAreaItem from '../BodyAreaItem/BodyAreaItem';
 import {
   getBodyAreasWired,
+  createTestWired,
 } from '../../../actions';
-import { PAGE } from '../../../config';
+import {
+  PAGE,
+  pickKeys,
+} from '../../../config';
 
 class TestNew extends Component {
   componentWillMount() {
     getBodyAreasWired();
   }
 
-  _renderBodyAreasItem = (items = []) => {
-    return items.map(({ title, id }) => {
-      return (
-        <BodyAreaItem
-          key={id + title}
-          reducer={this.props.testingReducer}
-          title={title}
-          id={id}
-        />
-      )
-    })
+  _prepareData = (data) => {
+    let prepData = pick(data, pickKeys.testing);
+    prepData.user_id = this.props.userReducer.user_id;
+    return prepData;
+  };
+
+  _renderIncomingQuestions = () => {
+
   }
 
   render() {
@@ -44,6 +47,8 @@ class TestNew extends Component {
       testingReducer: {
         bodyAreas,
         bodyAreasIds,
+        q_age,
+        q_sex,
       }
     } = this.props;
     return (
@@ -70,7 +75,7 @@ class TestNew extends Component {
               <Button
                 raised
                 dense
-                onClick={() => {}}
+                onClick={() => createTestWired(this._prepareData(testingReducer))}
                 color="primary"
               >
                 Next
@@ -90,7 +95,7 @@ class TestNew extends Component {
             </div>
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <div className="testing-inner-container-long border-right">
               <p className="testing-inner-sub-header">
                 Profile
@@ -116,7 +121,20 @@ class TestNew extends Component {
                 reducer={testingReducer}
                 label='Sex'
               />
-
+              {
+                q_age.value <= 49 && q_age.value >= 15 && q_sex.value === 2 &&
+                <Select
+                  options={diagnosConsts.pregnant}
+                  id='q_pregnant.value'
+                  style={{ width: "100%" }}
+                  reducer={testingReducer}
+                  label='Are you pregnant?'
+                />
+              }
+            </div>
+          </Grid>
+          <Grid item xs={5}>
+            <div className="testing-inner-container-long">
               <Grid container spacing={24}>
 
                 <Grid item xs={6}>
@@ -150,31 +168,26 @@ class TestNew extends Component {
                   />
                 </Grid>
               </Grid>
-
             </div>
           </Grid>
 
-          <Grid item xs={4}>
+        </Grid>
+        <Grid container spacing={0}>
+          <Grid item xs={5}>
             <div className="testing-inner-container-long">
               <p className="testing-inner-sub-header">
-                Body Areas
+                Conditions & Treatment
               </p>
-              <Grid container spacing={24}>
+            </div>
 
-                <Grid item xs={12}>
-                  <Select
-                    multiple
-                    options={bodyAreas}
-                    id='bodyAreasIds'
-                    style={{ width: "100%" }}
-                    reducer={testingReducer}
-                    label='Body Areas'
-                  />
-                </Grid>
-              </Grid>
+            <RadioButton/>
+          </Grid>
 
-              { this._renderBodyAreasItem(bodyAreasIds) }
-
+          <Grid item xs={5}>
+            <div className="testing-inner-container-long">
+              <p className="testing-inner-sub-header">
+                Questions
+              </p>
             </div>
           </Grid>
         </Grid>
@@ -190,6 +203,7 @@ TestNew.propTypes = {
 
 const mapStateToProps = state => ({
   testingReducer: state.testingReducer,
+  userReducer: state.userReducer,
 });
 
 export default connect(mapStateToProps)(TestNew);
