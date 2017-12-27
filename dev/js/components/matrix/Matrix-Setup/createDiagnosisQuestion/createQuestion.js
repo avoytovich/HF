@@ -139,11 +139,11 @@ class CreateQuestionComponent extends Component {
       };
     }
     else {
-      const letters = genCharArray();
+      //const letters = genCharArray();
       const correctValue = obj[type];
       return Object.keys(correctValue).reduce((result, item, index) => {
         if (item) {
-          const key = letters[index];
+          const key = index + 1; //letters[index];
           const value = correctValue[item];
           return Object.assign({}, result, {[key]:value})
         }
@@ -163,7 +163,7 @@ class CreateQuestionComponent extends Component {
       type : 'diagnostic',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
-      area : bodyAreas.key || bodyAreas.value || bodyAreas.label,
+      area : bodyAreas.id,
       title: questionTitle,
       question: {
         en: question.en,

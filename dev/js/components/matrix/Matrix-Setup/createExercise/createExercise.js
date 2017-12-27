@@ -23,14 +23,15 @@ import * as moment from "moment";
 import { TIME_FORMAT_DOTS }  from '../../../../utils/constants/pageContent';
 import IconButton            from 'material-ui/IconButton';
 import Delete                from 'material-ui-icons/Delete';
-
+import ExercisesAssetsModal from './exercisesAssetsModal';
+import { get }                      from 'lodash';
 
 class CreateExerciseComponent extends Component {
   state = {
     titleLang: 'en',
     informationLang: 'en',
-    instructionLang: 'en'
-
+    instructionLang: 'en',
+    chooseFiles: false
   };
 
   constructor(props) {
@@ -53,10 +54,7 @@ class CreateExerciseComponent extends Component {
 
   done = (value) => {
     const { id, title, comments, text, instruction, information, name } = value;
-    debugger;
     const result = {
-      id,
-      package_level_id :1,
       title,
       comments,
       text,
@@ -70,7 +68,7 @@ class CreateExerciseComponent extends Component {
       diagnosisQuestionCreate('exercises', 'exercises', result)
       .then(() => browserHistory.push(`/matrix-setup/exercises`)) :
 
-      diagnosisQuestionCreate('exercises', 'exercises', result, this.props.routeParams.packageId)
+      updateQuestionCreate('exercises', 'exercises', {...result, id: id}, id)
       .then(() => browserHistory.push(`/matrix-setup/exercises`))
 
   };
@@ -84,6 +82,16 @@ class CreateExerciseComponent extends Component {
 
 
   handleQuestionLangChange = (event, value, type) => this.setState({ [type]: value });
+
+
+  openChooseFiles = (chooseFiles) => this.setState({chooseFiles});
+
+
+  handleDelete = (ID) =>  {
+    const filtered = get(this.props.exerciseState, `files.data`).filter(el =>  el && el.id != ID);
+    debugger
+    updateCrateQuestionFields(filtered, `exercise.files.data`)
+  };
 
   render() {
     const {
@@ -101,7 +109,7 @@ class CreateExerciseComponent extends Component {
       }
     } = this.props;
 
-    const {name, comments, title, information, instruction} = this.props.exerciseState;
+    const {name, comments, title, information, instruction, files} = this.props.exerciseState;
 
     return (
       <div id="create-question">
@@ -305,20 +313,20 @@ class CreateExerciseComponent extends Component {
 
 
               <Grid item xs={12} className="package-level-exercises">
-                {[1,2,3,4].map((item, index) => {
+                {files && files.data.map((item, index) => {
                   const { id, title, created_at } = item;
-                  const created = moment.unix(created_at).format(TIME_FORMAT_DOTS);
+                  const created = moment.unix(created_at).format('DD.MM.YYYY');
 
                   return <div key={index} className="package-level-exercises-item">
 
                     <div className="exercises-information">
 
                       <Typography type="subheading" className="title">
-                        { title || 'title' }
+                        {item.name_origin || item.name_real || 'Title'}
                       </Typography>
 
                       <Typography type="body2">
-                        Created { created }
+                        Uploaded { created }
                       </Typography>
 
                     </div>
@@ -338,15 +346,19 @@ class CreateExerciseComponent extends Component {
 
               <Grid container>
                 <Grid item xs={12}>
-                  <Button color="primary" onClick={() => {}}>
+                  <Button color="primary" onClick={() => this.openChooseFiles(true)}>
                     OPEN RESOURCES
                   </Button>
+
+
+
+                  {this.state.chooseFiles &&
+                  <ExercisesAssetsModal
+                    open={this.state.chooseFiles}
+                    isSelected={(files && files.data) || []}
+                    handleRequestClose={(value) => this.openChooseFiles(value)}/>}
                 </Grid>
               </Grid>
-
-
-
-
             </div>
 
           </Grid>

@@ -22,9 +22,11 @@ import Radio                      from 'material-ui/Radio';
 import Button                     from 'material-ui/Button';
 import TextField                  from 'material-ui/TextField';
 import Checkbox                   from 'material-ui/Checkbox';
+import moment from "moment";
+import { TIME_FORMAT }            from '../../../../utils/constants';
 
 
-class PackageExercisesModal extends Component {
+class ExercisesAssetsModal extends Component {
   state = {
     list : [],
     isOpen: null,
@@ -32,8 +34,10 @@ class PackageExercisesModal extends Component {
   };
 
   componentDidMount() {
-    this.setState({selected:this.props.isSelected});
-    getExercises('exercises', 'exercises').then(list => this.setState({list}));
+    const selected = this.props.isSelected.map(el => el && el.id);
+    getExercises('exercises', 'assets').then(list => {
+      this.setState({list, selected})
+    });
   }
 
   onSelect = (event, value) => {
@@ -44,7 +48,9 @@ class PackageExercisesModal extends Component {
   };
 
   save = (selected) => {
-    updateCrateQuestionFields(selected, `packageLevels[${this.props.level}].exercise_ids`);
+    const _list = this.state.list.filter(item =>
+      this.state.selected.some(selectedId => `${item.id}` === `${selectedId}`));
+    updateCrateQuestionFields(_list, `exercise.files.data`);
     this.props.handleRequestClose(false);
   };
 
@@ -93,8 +99,11 @@ class PackageExercisesModal extends Component {
         </Grid>
 
         <List>
-          {list.map((item, index) =>
-            (<ListItem key={index}
+          {list.map((item, index) => {
+              const { id, title, created_at } = item;
+              const created = moment.unix(created_at).format('DD MM YYYY');
+
+            return <ListItem key={index}
                        className={`choose-sequence-item`}>
 
               <Grid container  className="choose-sequence-item-header">
@@ -105,24 +114,29 @@ class PackageExercisesModal extends Component {
                     checked={selected.some(el => item.id === +el)}
                     value={`${item.id}`}
                   />
+                  <div style={{display: 'flex', flexDirection: 'column'}}>
+                    <Typography type="subheading">
+                      {item.name_origin || item.name_real || 'Title'}
+                    </Typography>
 
-                  <Typography type="title" color="inherit" className="title">
-                    {item.title.en || item.name.en || 'Title'}
-                  </Typography>
+                    <Typography type="caption" >
+                      Uploaded { created }
+                    </Typography>
+                  </div>
+
                 </Grid>
               </Grid>
 
-            </ListItem>)
-          )}
+            </ListItem>})}
         </List>
 
       </Dialog>
     );
   }
-};
+}
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapDispatchToProps)(PackageExercisesModal);
+export default connect(mapDispatchToProps)(ExercisesAssetsModal);

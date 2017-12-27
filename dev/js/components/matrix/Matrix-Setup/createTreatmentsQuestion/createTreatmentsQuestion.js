@@ -57,7 +57,7 @@ class CreateTreatmentsComponent extends Component {
   getPackageOptions = (input) => {
     const area = this.props.createDiagnosisQuestion.bodyAreas;
     const _area = area.key || area.value || area.title;
-    return findPackage('diagnostics', 'getPackageByArea', input, _area).then(res => {
+    return findPackage('exercises', 'getPackageByArea', input, _area).then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.title }));
