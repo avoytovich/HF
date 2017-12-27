@@ -72,7 +72,7 @@ export const DIAGNOSIS_TAB = {
   tableHeader: [
     { title: 'Name',                 key: 'title',       className: 'left'                                        },
     { title: 'Specific Description', key: 'description', className: 'left'                                        },
-    { title: 'Body Areas',           key: 'area',        className: 'center'                                      },
+    { title: 'Body Areas',           key: 'area_id',     className: 'center'                                      },
     { title: 'Key',                  key: 'key',         className: 'left'                                        },
     { title: 'Sequence',             key: 'step',        className: 'center', type: 'number', format: ''          },
     { title: 'Created',              key: 'created_at',  className: 'left',   type: 'time',   format: TIME_FORMAT },
