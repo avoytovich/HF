@@ -13,6 +13,7 @@ import ClinicsUsers             from '../components/users/Users/ClinicsUsers';
 import AssetsList               from '../components/assets/AssetsList/AssetsList';
 import TestsList                from '../components/testing/TestsList/TestsList';
 import TestNew                  from '../components/testing/TestNew/TestNew';
+import Modal                  from '../components/common/Modal/Modal';
 import {
   MatrixComponent,
   BodyAreaComponent,
@@ -66,4 +67,5 @@ export const C = {
   CreateEvaluationComponent,
   CreatePackageComponent,
   CreateBodyAreaComponent,
+  Modal,
 };

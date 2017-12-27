@@ -1,6 +1,6 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { SEL_TAB }              from '../../../utils/constants/pageContent';
+import { TEST_TAB }              from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
@@ -13,27 +13,48 @@ import {
   domen,
   api
 } from '../../../config';
+import { C } from '../../index'
+import {
+  deleteTestWired,
+  getListByPost,
+} from '../../../actions';
 
 class TestsList extends Component {
   state = {
     selected: [],
+    showDeleteModal: false,
   };
 
-  onRowClick = (selected = []) => this.setState({ selected });
-
-  onSelectAllClick = (selected) => this.setState({ selected });
-
-  updateModal = (key, value) => {
-    this.setState({ [key]: value });
-
-    if (!value) this.setState({ selected: [] });
+  _deleteItems = (items = []) => {
+    const {
+      current_page,
+      per_page
+    } = this.props.location.query;
+    const promises = items.map(item => deleteTestWired(item.id));
+    const query = { per_page, page: current_page};
+    return Promise.all(promises)
+      .then(res => getListByPost('diagnostics', 'diagnostics', query))
+      .then(res => this.setState({ selected: [] }))
+      .then(res => this._toggleDeleteModal())
+      .catch(err => {
+        this.setState({ selected: [] });
+        this._toggleDeleteModal();
+        console.log(err);
+      })
   };
+
+  _toggleDeleteModal = () => this.setState({ showDeleteModal: !this.state.showDeleteModal });
+
+  _onRowClick = (selected = []) => this.setState({ selected });
+
+  _onSelectAllClick = (selected) => this.setState({ selected });
 
   render() {
-    const { tableHeader } = SEL_TAB;
+    const { tableHeader } = TEST_TAB;
     const {
-      selected,
+      showDeleteModal,
       deleteOpen,
+      selected,
     } = this.state;
     const {
       userReducer: {
@@ -58,7 +79,7 @@ class TestsList extends Component {
           <Button
             raised
             dense
-            onClick={() => this.updateModal('deleteOpen', true)}
+            onClick={() => this._toggleDeleteModal()}
           >
             <Delete />
             Delete
@@ -74,8 +95,17 @@ class TestsList extends Component {
           domen="diagnostics"
           tableHeader={ tableHeader }
           selected={selected}
-          onRowClick={this.onRowClick}
-          onSelectAllClick={this.onSelectAllClick}
+          onRowClick={this._onRowClick}
+          onSelectAllClick={this._onSelectAllClick}
+        />
+
+        <C.Modal
+          itemName="title"
+          open={showDeleteModal}
+          title='Delete Packages'
+          toggleModal={this._toggleDeleteModal}
+          items={selected}
+          onConfirmClick={() => this._deleteItems(selected)}
         />
 
       </div>

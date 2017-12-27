@@ -215,3 +215,14 @@ export const CLINICS_USERS_TAB = {
     { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
+
+export const TEST_TAB = {
+  key: 'conditions',
+  title: 'Conditions',
+  tableHeader: [
+    { title: 'Title',         key: 'title',         className: 'left'                                    },
+    { title: 'Package',       key: 'type',          className: 'center'                                  },
+    { title: 'Body Areas',    key: 'properties_temp',          className: 'center'                                  },
+    { title: 'Date',          key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT },
+  ]
+};

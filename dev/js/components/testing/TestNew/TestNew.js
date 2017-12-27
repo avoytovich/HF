@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
+import pickBy from 'lodash/pickBy'
+import omitBy from 'lodash/omitBy'
 import Grid from 'material-ui/Grid';
 
 // UI
@@ -34,7 +36,9 @@ class TestNew extends Component {
 
   _prepareData = (data) => {
     let prepData = pick(data, pickKeys.testing);
+    prepData.answers = pickBy(prepData, el => el.value);
     prepData.user_id = this.props.userReducer.user_id;
+    prepData.type = 'diagnostic';
     return prepData;
   };
 
@@ -65,7 +69,7 @@ class TestNew extends Component {
 
             <div className="testing-header-control-container">
               {/*<Switch*/}
-                {/*label='Deactivated'*/}
+              {/*label='Deactivated'*/}
               {/*/>*/}
               <p
                 className="testing-header-cancel"
@@ -95,12 +99,15 @@ class TestNew extends Component {
               />
             </div>
           </Grid>
-
-          <Grid item xs={5}>
-            <div className="testing-inner-container-long border-right">
+          <Grid item xs={12}>
               <p className="testing-inner-sub-header">
                 Profile
               </p>
+          </Grid>
+
+          <Grid item xs={5}>
+            <div className="testing-inner-container-long">
+
               <Select
                 options={diagnosConsts.languages}
                 id='q_lang.value'
@@ -141,7 +148,7 @@ class TestNew extends Component {
                 <Grid item xs={6}>
                   <Input
                     type="number"
-                    style={{ width: '100%'}}
+                    style={{ width: '100%' }}
                     id='q_age.value'
                     reducer={testingReducer}
                     label='Your age'
@@ -153,7 +160,7 @@ class TestNew extends Component {
                 <Grid item xs={6}>
                   <Input
                     type="number"
-                    style={{ width: '100%'}}
+                    style={{ width: '100%' }}
                     id='q_weight.value'
                     reducer={testingReducer}
                     label='Weight (kg)'
@@ -162,7 +169,7 @@ class TestNew extends Component {
                 <Grid item xs={6}>
                   <Input
                     type="number"
-                    style={{ width: '100%'}}
+                    style={{ width: '100%' }}
                     id='q_height.value'
                     reducer={testingReducer}
                     label='Your height (cm)'
@@ -174,24 +181,24 @@ class TestNew extends Component {
 
         </Grid>
         {/*<Grid container spacing={0}>*/}
-          {/*<Grid item xs={5}>*/}
-            {/*<div className="testing-inner-container-long">*/}
-              {/*<p className="testing-inner-sub-header">*/}
-                {/*Conditions & Treatment*/}
-              {/*</p>*/}
+        {/*<Grid item xs={5}>*/}
+        {/*<div className="testing-inner-container-long">*/}
+        {/*<p className="testing-inner-sub-header">*/}
+        {/*Conditions & Treatment*/}
+        {/*</p>*/}
 
 
-              {/*<RadioButton/>*/}
-            {/*</div>*/}
-          {/*</Grid>*/}
+        {/*<RadioButton/>*/}
+        {/*</div>*/}
+        {/*</Grid>*/}
 
-          {/*<Grid item xs={5}>*/}
-            {/*<div className="testing-inner-container-long">*/}
-              {/*<p className="testing-inner-sub-header">*/}
-                {/*Questions*/}
-              {/*</p>*/}
-            {/*</div>*/}
-          {/*</Grid>*/}
+        {/*<Grid item xs={5}>*/}
+        {/*<div className="testing-inner-container-long">*/}
+        {/*<p className="testing-inner-sub-header">*/}
+        {/*Questions*/}
+        {/*</p>*/}
+        {/*</div>*/}
+        {/*</Grid>*/}
         {/*</Grid>*/}
       </div>
     )

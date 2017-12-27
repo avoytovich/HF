@@ -41,7 +41,7 @@ export const getListByPost = (domenKey, apiKey, _query, url) => {
         }
       })
     });
-}
+};
 
 export const clearCreateQuestion = () =>
   store.dispatch({type:`${CREATE_QUESTION}_CLEAR`});
