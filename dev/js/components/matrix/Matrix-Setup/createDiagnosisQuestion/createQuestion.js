@@ -176,7 +176,7 @@ class CreateQuestionComponent extends Component {
       type : 'diagnostic',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
-      area_id : area.value,
+      area_id : area.value || 0,
       title: questionTitle,
       question: {
         en: question.en,

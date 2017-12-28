@@ -96,7 +96,7 @@ export const CONDITIONS_TAB = {
   title: 'Conditions',
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                    },
-    { title: 'Body Areas', key: 'area',       className: 'center'                                  },
+    { title: 'Body Areas', key: 'area_id',    className: 'center'                                  },
     { title: 'Key',        key: 'key',        className: 'left'                                    },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
@@ -108,7 +108,7 @@ export const TREATMENTS_TAB = {
   title: 'Conditions',
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                    },
-    { title: 'Body Areas', key: 'area',       className: 'center'                                  },
+    { title: 'Body Areas', key: 'area_id',    className: 'center'                                  },
     { title: 'Key',        key: 'key',        className: 'left'                                    },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
@@ -120,7 +120,7 @@ export const PACKAGES_TAB = {
   title: 'Conditions',
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                    },
-    { title: 'Body Areas', key: 'body_area',  className: 'center'                                  },
+    { title: 'Body Areas', key: 'area_id',    className: 'center'                                  },
     { title: 'Key',        key: 'key',        className: 'left'                                    },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
