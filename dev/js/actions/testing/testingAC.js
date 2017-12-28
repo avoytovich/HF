@@ -13,7 +13,13 @@ export const dispatchTestingPayloadWired = payload =>
 
 export const dispatchBodyAreasIdsWired = payload =>
   store.dispatch({
-    type: T.TESTING_BODY_AREAS_IDS,
+    type: T.TESTING_BODY_AREAS,
+    payload,
+  });
+
+export const dispatchAddQuestionsWired = payload =>
+  store.dispatch({
+    type: T.TESTING_ADD_QUESTIONS,
     payload,
   });
 
