@@ -32,22 +32,17 @@ import {
 } from '../../../config';
 
 class TestNew extends Component {
-  componentWillMount() {
-    this.props.dispatch({ type: T.TESTING + '_CLEAR' });
-    getBodyAreasWired();
-  }
-
   _prepareData = (data) => {
     let prepData = pick(data, pickKeys.testing);
     prepData.answers = pickBy(prepData, el => el.value);
     prepData.user_id = this.props.userReducer.user_id;
-    prepData.type = 'diagnostic';
+    prepData.type    = 'diagnostic';
     return prepData;
   };
 
   _renderIncomingQuestions = () => {
 
-  }
+  };
 
   render() {
     const {
@@ -103,9 +98,11 @@ class TestNew extends Component {
             </div>
           </Grid>
           <Grid item xs={12}>
+            <div className="testing-inner-container-long">
               <p className="testing-inner-sub-header">
                 Profile
               </p>
+            </div>
           </Grid>
 
           <Grid item xs={5}>

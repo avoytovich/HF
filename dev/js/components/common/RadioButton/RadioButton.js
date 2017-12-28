@@ -24,18 +24,11 @@ const styles = theme => ({
 });
 
 class RadioButtonsGroup extends React.Component {
-  state = {
-    value: '',
-  };
-
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-
   _renderItems = (items) => {
     return items.map(({ label, value }, i) => {
       return (
         <FormControlLabel
+          key={i}
           value={value}
           label={label}
           control={<Radio />}
@@ -73,7 +66,6 @@ class RadioButtonsGroup extends React.Component {
             className={classes.group}
             value={value}
             name={actionType}
-            helperText={error}
             onChange={(e, value) => onChangeFinal({ target: { name: actionType, value, id }})}
             {...omit(props, ['dispatch', 'onChange'])}
           >
