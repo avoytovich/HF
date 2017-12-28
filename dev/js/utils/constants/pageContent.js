@@ -178,8 +178,9 @@ export const CLINICS_TAB = {
   key: 'conditions',
   title: 'Conditions',
   tableHeader: [
-    { title: 'ID Number',          key: 'name',         className: 'left assets-title-cell'},
-    { title: 'Status', key: 'billing_info', className: 'center'  },
+    { title: 'Clinic Name',    key: 'name',          className: 'left assets-title-cell'},
+    { title: 'Contact Person', key: 'contact_info.contacts[0].name',          className: 'center'  },
+    { title: 'Users',          key: 'users',         className: 'left'},
     { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
@@ -213,5 +214,16 @@ export const CLINICS_USERS_TAB = {
     { title: 'Clinic', key: 'billing_info', className: 'center'  },
     { title: 'Status', key: 'billing_info', className: 'center'  },
     { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
+  ]
+};
+
+export const TEST_TAB = {
+  key: 'conditions',
+  title: 'Conditions',
+  tableHeader: [
+    { title: 'Title',         key: 'title',         className: 'left'                                    },
+    { title: 'Package',       key: 'type',          className: 'center'                                  },
+    { title: 'Body Areas',    key: 'properties_temp',          className: 'center'                                  },
+    { title: 'Date',          key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT },
   ]
 };

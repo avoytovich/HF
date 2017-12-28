@@ -1,12 +1,13 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { CLINICS_TAB }              from '../../../utils/constants/pageContent';
+import { USERS_TAB }             from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
+import { get, map }             from 'lodash'
 
 import {
   PAGE,
@@ -44,60 +45,77 @@ class ClinicOwnUsers extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
+  _returnFunc = (param) => {
+    if(param==='clinic'){
+      browserHistory.push('clinics');
+    }
+    else {
+      browserHistory.push(`/clinic/${this.props.params.id}/profile`)
+    }
+  };
+
   render() {
-    console.log('here')
-    // const { tableHeader } = CLINICS_TAB;
+    const { tableHeader } = USERS_TAB;
     const { selected, deleteOpen } = this.state;
-    const querySelector = {...this.props.location.query,...{type: 'clinic'}};
-    // const url = `${domen['users']}${api['clinicsOwnUsers']}/${user_id}?${qs.stringify(this.props.location.query)}`;
+    const { profileReducer } = this.props;
+    const querySelector = {...this.props.location.query,...{type: 'clinic', store:{}}};
+    const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
     return (
-      <div>UsERS</div>
-      // <div id="diagnosis-component">
-      //
-      //   <DeleteComponent
-      //     path="companies"
-      //     domen="users"
-      //     typeKey="deleteOpen"
-      //     list={selected}
-      //     deactivateOpen={deleteOpen}
-      //     open={this.updateModal}
-      //     itemKey="title"
-      //     query={this.props.location.query}
-      //   />
-      //
-      //   <TableControls
-      //     path="companies"
-      //     selected={selected}
-      //     createItem={this.create}>
-      //
-      //     <Button raised dense
-      //             onClick={() => this.updateModal('deleteOpen', true)}>
-      //       <Delete />
-      //       Delete
-      //     </Button>
-      //
-      //   </TableControls>
-      //
-      //   <TableComponent
-      //     location={this.props.location}
-      //     path="users"
-      //     domen="clinicsOwnUsers"
-      //     reqType="POST"
-      //     tableHeader={ tableHeader }
-      //     selected={selected}
-      //     onRowClick={this.onRowClick}
-      //     onSelectAllClick={this.onSelectAllClick}
-      //     query= {querySelector}
-      //     tableCellPropsFunc={this._tableCellPropsFunc}
-      //   />
-      //
-      // </div>
+      <div id="diagnosis-component">
+
+        <div className="company-sub-header">
+          <span onClick={()=>this._returnFunc('clinic')}> Companies </span>
+          <span> > </span>
+          <span onClick={()=>this._returnFunc('profile')}> {get(profileReducer,'name')}</span>
+        </div>
+
+        <DeleteComponent
+          path="clinicsOwnUsers"
+          domen="users"
+          typeKey="deleteOpen"
+          list={selected}
+          deactivateOpen={deleteOpen}
+          open={this.updateModal}
+          itemKey="title"
+          query={this.props.location.query}
+        />
+
+        <TableControls
+          path="clinicOwnUsers"
+          selected={selected}
+          createItem={this.create}
+          createButtonText="Add">
+
+          <Button raised dense
+                  onClick={() => this.updateModal('deleteOpen', true)}>
+            <Delete />
+            Delete
+          </Button>
+
+        </TableControls>
+
+        <TableComponent
+          url={url}
+          location={this.props.location}
+          path="clinicOwnUsers"
+          domen="users"
+          reqType="POST"
+          tableHeader={ tableHeader }
+          selected={selected}
+          onRowClick={this.onRowClick}
+          onSelectAllClick={this.onSelectAllClick}
+          query= {querySelector}
+          tableCellPropsFunc={this._tableCellPropsFunc}
+        />
+
+      </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  store: state.tables.users
+  store: state.tables.clinicOwnUsers,
+  profileReducer: state.profileReducer
 });
 
 export default  connect(mapStateToProps)(ClinicOwnUsers);
