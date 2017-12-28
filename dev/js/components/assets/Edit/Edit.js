@@ -73,6 +73,7 @@ class Edit extends Component {
     return (
       <div className="upload-container">
         <HeaderAssets
+          type={this.props.type}
           headerTitle={tmp_files[0].name_real}
           toggleModal={toggleModal}
         />
