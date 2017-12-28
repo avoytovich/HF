@@ -10,6 +10,12 @@ import Modal                    from '../../common/Modal/Modal';
 import { PAGE } from '../../../config';
 import CreateUser from '../CreateUser/CreateUser';
 
+const userInfo = {
+  headerTitle:'Create Company',
+  backButton : '/companies',
+  userType : 'organization',
+  tarrifId : '3',
+}
 
 class Companies extends Component {
   state = {
@@ -87,7 +93,7 @@ class Companies extends Component {
           open={showCreateModal}
           showControls={false}
           toggleModal={this.createEntity}
-          CustomContent={() => <CreateUser backButton = '/companies' userType = 'organization' toggleModal={this.createEntity} headerTitle='Create Company'/>}
+          CustomContent={() => <CreateUser userInfo={userInfo} toggleModal={this.createEntity}/>}
         />
 
       </div>

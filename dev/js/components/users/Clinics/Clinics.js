@@ -1,20 +1,36 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { CLINICS_TAB }              from '../../../utils/constants/pageContent';
+import { CLINICS_TAB }          from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
-
+import Modal                    from '../../common/Modal/Modal';
+import CreateUser               from '../CreateUser/CreateUser';
 import { PAGE } from '../../../config';
+
+const userInfo = {
+  headerTitle:'Create Clinic',
+  backButton : '/clinics',
+  userType : 'clinic',
+  tarrifId : '2',
+}
 
 class Clinics extends Component {
   state = {
     selected: [],
-    deleteOpen: false
+    deleteOpen: false,
+    showCreateModal: false,
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.showCreateModal && nextState.showCreateModal) {
+      return false
+    }
+    return true;
+  }
 
   _tableCellPropsFunc = (row, col) => {
     if (col.key === 'name') {
@@ -32,6 +48,7 @@ class Clinics extends Component {
 
   onSelectAllClick = (selected) => this.setState({selected});
 
+  createEntity = () => this.setState({ showCreateModal: !this.state.showCreateModal });
 
   updateModal = (key, value) => {
     this.setState({ [key]: value });
@@ -41,7 +58,7 @@ class Clinics extends Component {
 
   render() {
     const { tableHeader } = CLINICS_TAB;
-    const { selected, deleteOpen } = this.state;
+    const { selected, deleteOpen, showCreateModal } = this.state;
     const querySelector = {...this.props.location.query,...{type: 'clinic'}};
     return (
       <div id="diagnosis-component">
@@ -58,9 +75,9 @@ class Clinics extends Component {
         />
 
         <TableControls
-          path="companies"
+          path="clinics"
           selected={selected}
-          createItem={this.create}
+          createItem={this.createEntity}
           createButtonText="Add">
 
           <Button raised dense
@@ -82,6 +99,14 @@ class Clinics extends Component {
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
           tableCellPropsFunc={this._tableCellPropsFunc}
+        />
+
+        <Modal
+          fullScreen
+          open={showCreateModal}
+          showControls={false}
+          toggleModal={this.createEntity}
+          CustomContent={() => <CreateUser userInfo={userInfo} toggleModal={this.createEntity} />}
         />
 
       </div>
