@@ -95,7 +95,7 @@ export const getAnswerValue = (list, value) =>
 export const getMultipleAnswerValue = (list, value) =>
     list.reduce((result, item) => {
       if (item && !value) return item.label;
-      return value.some(el => el === item.label) ? result.concat(item.label) : result;
+      return value.some(el => `${el}` === item.label) ? result.concat(item.label) : result;
     }, []);
 
 export const  getAnswersList = (values) =>

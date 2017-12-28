@@ -28,6 +28,7 @@ class MultipleComponent extends Component {
   render() {
     const { key, value } = this.props.itemState,
             selectValue    = getMultipleAnswerValue(this.state.answers, value);
+
     return <div className="rule-types">
       <div className="main-select">
 
@@ -40,7 +41,7 @@ class MultipleComponent extends Component {
             getOptions(input, key, this.onAsyncChange, this.props, 'diagnostics', 'multiple')}
           onChange={this.onAsyncChange}
           className="ansyc-select"
-          value={'q_pain_loc'}
+          value={key}
         />
       </div>
 

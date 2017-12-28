@@ -161,12 +161,12 @@ class CreateQuestionComponent extends Component {
   };
 
   done = (value) => {
-    const { sequenceType, questionKey, sequence, area_id, question, answerType, questionTitle, rules } = value;
+    const { sequenceType, questionKey, sequence, area, question, answerType, questionTitle, rules } = value;
     const result = {
       type : 'diagnostic',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
-      area_id : area_id,
+      area_id : area.value,
       title: questionTitle,
       question: {
         en: question.en,
@@ -178,6 +178,7 @@ class CreateQuestionComponent extends Component {
       },
       rule: rules[0]
     };
+    debugger;
 
     !this.props.routeParams.id ?
       diagnosisQuestionCreate('diagnostics', 'createQuestion', result)
