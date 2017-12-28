@@ -99,8 +99,7 @@ class CreateUser extends Component {
     console.log(this.props);
     return (
       <div className="upload-container">
-        <Header toggleModal={this.props.toggleModal} headerTitle={this.props.headerTitle} backButton={this.props.backButton}
-                userType={this.props.userType}/>
+        <Header toggleModal={this.props.toggleModal} userInfo={this.props.userInfo}/>
         <div className="create-user-main-container">
           <div className="create-user-container">
             <div className="create-user-input-container">

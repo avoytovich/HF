@@ -63,7 +63,7 @@ class TableComponent extends Component {
    */
   setDefaultQuery = (pathname, pagination) => {
     const currentQuery = this.props.location.query;
-    const currentPath = PAGE[this.props.path];
+    const currentPath = this.props.location.pathname;
     const query = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
     browserHistory.push({
       pathname: currentPath,

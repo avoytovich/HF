@@ -71,8 +71,8 @@ const router = (
         <Route path={PAGE.assets}             component={C.AssetsList} />
         <Route path={PAGE.clinicProfile}      component={C.Profile} />
         <Route path={PAGE.companyProfile}      component={C.Profile} />
-        <Route path={PAGE.clinicOwnUsers}      component={C.clinicOwnUsers} />
-        <Route path={PAGE.companyOwnUsers}      component={C.Profile} />
+        <Route path={PAGE.clinicOwnUsers}      component={C.ClinicOwnUsers} />
+        <Route path={PAGE.companyOwnUsers}      component={C.CompanyOwnUsers} />
         <Route path={PAGE.test}               component={C.TestsList} />
         <Route path={PAGE.testNew}            component={C.TestNew} />
 

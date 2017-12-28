@@ -13,7 +13,8 @@ class HeaderAssets extends Component {
 
   _onSubmit = () => {
     console.log('om submit', this.props.createUsersReducers)
-    const result = {...this.props.createUsersReducers, ...{type: this.props.userType,tariff_id:3, entryFee: 1112,
+    const result = {...this.props.createUsersReducers, ...{type: this.props.userInfo.userType,
+      tariff_id: this.props.userInfo.tarrifId, entryFee: 100,
       email: get(this.props.createUsersReducers,'contact_info.contacts[0].email')}};
     delete result.errors;
     console.log(result);
@@ -23,9 +24,7 @@ class HeaderAssets extends Component {
   };
 
   render() {
-    const {
-      headerTitle,
-    } = this.props;
+    const headerTitle = this.props.userInfo.headerTitle;
     return (
       <AppBar
         position="static"
