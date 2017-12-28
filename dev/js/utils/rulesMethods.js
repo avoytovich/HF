@@ -1,12 +1,12 @@
 import { setQuestion, findByArea, findConditionsByArea }      from '../actions';
 
 export const SYMBOLS = [
-  {value: '>',   label: '>'},
-  {value: '<',   label: '<'},
-  {value: '>=',  label: '>='},
-  {value: '<=',  label: '<='},
-  {value: '!=',  label: '!='},
-  {value: '==',  label: '=='}
+  { value: '>',  label: '>'  },
+  { value: '<',  label: '<'  },
+  { value: '>=', label: '>=' },
+  { value: '<=', label: '<=' },
+  { value: '!=', label: '!=' },
+  { value: '=',  label: '='  }
 ];
 
 
@@ -23,7 +23,7 @@ export const onSingleAsyncChange = (value, edit, props) => {
       itemState :
       {
         key: value.key,
-        op: '==',
+        op: '=',
         value: min
       };
 
@@ -36,7 +36,7 @@ export const onSingleAsyncChange = (value, edit, props) => {
       itemState :
       {
         key: value.value,
-        op: '==',
+        op: '=',
         value: '1'
       };
 
@@ -95,7 +95,7 @@ export const getAnswerValue = (list, value) =>
 export const getMultipleAnswerValue = (list, value) =>
     list.reduce((result, item) => {
       if (item && !value) return item.label;
-      return value.some(el => el === item.label) ? result.concat(item.label) : result;
+      return value.some(el => `${el}` === item.label) ? result.concat(item.label) : result;
     }, []);
 
 export const  getAnswersList = (values) =>
@@ -118,7 +118,7 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
 
       const body = {
         type: _type || type,
-        area: area || null,
+        area_id: area || null,
         answerType
       };
       const noSteps = page === 'condition' || page === 'treatment';

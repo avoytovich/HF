@@ -50,7 +50,7 @@ class ExercisesAssetsModal extends Component {
   save = (selected) => {
     const _list = this.state.list.filter(item =>
       this.state.selected.some(selectedId => `${item.id}` === `${selectedId}`));
-    updateCrateQuestionFields(_list, `exercise.files.data`);
+    updateCrateQuestionFields(_list, this.props.path || `exercise.files.data`);
     this.props.handleRequestClose(false);
   };
 

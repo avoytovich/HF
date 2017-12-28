@@ -47,9 +47,8 @@ class RulesItemComponent extends Component {
 
   checkTypes = () => {
     const { reqType, area, step, type, path } = this.props;
-
     const _props = {
-      area: area ? area.key || area.value || area.title : null,
+      area: area ? area.value : 0,
       type: reqType,
       step: step,
       path,

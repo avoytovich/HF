@@ -58,9 +58,9 @@ class CreatePackageComponent extends Component {
   }
 
   componentWillMount() {
-    if (this.props.params.packageId) {
-      getPackagenById('exercises', 'packages', this.props.params.packageId).then(() =>
-        browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${0}`))
+    if (this.props.params.id) {
+      getPackagenById('exercises', 'packages', this.props.params.id).then(() =>
+        browserHistory.push(`/packages-create/${this.props.routeParams.id}?level=${0}`))
     }
     else {
       const newOne = Object.assign({}, DEFAULT_LEVEL);
@@ -76,7 +76,7 @@ class CreatePackageComponent extends Component {
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.title }));
       return {
-        options: [{ label: 'All', value: null, id: null }].concat(_data),
+        options: [{ label: 'All', value: null, id: 0 }].concat(_data),
         // CAREFUL! Only set this to true when there are no more options,
         // or more specific queries will not be sent to the server.
         complete: true
@@ -109,12 +109,11 @@ class CreatePackageComponent extends Component {
 
 
   done = (value) => {
-    const { bodyAreas, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
+    const { area, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
 
     const result = {
       key      : questionKey,
-      body_area: bodyAreas ? bodyAreas.id : null,
-      area_id  :  bodyAreas ? bodyAreas.id : null,
+      area_id  : area ? area.id : 0,
       title    : questionTitle,
       type     : packageType,
       package_levels : packageLevels,

@@ -32,11 +32,11 @@ class RulesQuestionComponent extends Component {
   handleRequestClose = () => this.setState({ open: false });
 
   onSelected = (item) => {
-    const body = findType(item.value) === 'block' ?  { 'match': DEF_ITEM } : DEF_ITEM;
+    const body = findType(item.value) === 'block' ?  { 'match':  {...DEF_ITEM, op: '='}  } : DEF_ITEM;
     addRules({
       type: item.value,
       path: 'rules',
-      body
+      body: item.value === 'match' ? {...body, op: '='} : body
     });
     this.handleRequestClose();
   };

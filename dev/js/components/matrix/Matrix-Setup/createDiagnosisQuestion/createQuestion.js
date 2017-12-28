@@ -29,6 +29,10 @@ import { FormControlLabel,
          FormGroup }                from 'material-ui/Form';
 import MUISelect                    from 'material-ui/Select';
 import ChooseSequence               from './chooseSequence';
+import MUIInput, { InputLabel }     from 'material-ui/Input';
+import DiagnosisAssets              from './diagnosisAssets';
+import { get }                      from 'lodash'
+
 
 class CreateQuestionComponent extends Component {
   state = {
@@ -45,6 +49,10 @@ class CreateQuestionComponent extends Component {
       {label: 'Single',   value: 'single'},
       {label: 'Range',    value: 'range'},
       {label: 'Multiple', value: 'multiple'},
+    ],
+    content_type_list : [
+      {label: 'Question',        value: 'question'},
+      {label: 'Functional test', value: 'functionalTest'},
     ],
     questionLang    : 'en',
     answerLang      : ['en', 'en'],
@@ -78,9 +86,9 @@ class CreateQuestionComponent extends Component {
     return findArea('diagnostics', 'findArea').then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
-        Object.assign({}, item, { label: item.title }));
+        Object.assign({}, item, { label: item.title, value: item.id }));
       return {
-        options: [{ label: 'All', value: null, id: null }].concat(_data),
+        options: [{ label: 'All', value: null, id: 0 }].concat(_data),
         // CAREFUL! Only set this to true when there are no more options,
         // or more specific queries will not be sent to the server.
         complete: true
@@ -88,7 +96,9 @@ class CreateQuestionComponent extends Component {
     });
   };
 
-  onAreasChange = (value) => updateCrateQuestionFields(value, 'bodyAreas');
+  onAreasChange = (value) => {
+    updateCrateQuestionFields(value, 'area');
+  };
 
   handleQuestionLangChange = (event, value) => this.setState({ questionLang: value });
 
@@ -158,12 +168,15 @@ class CreateQuestionComponent extends Component {
   };
 
   done = (value) => {
-    const { sequenceType, questionKey, sequence, bodyAreas, question, answerType, questionTitle, rules } = value;
+    const {
+      sequenceType, questionKey, sequence, area, question, answerType,
+      questionTitle, rules, content_type, diagnostic_assets
+    } = value;
     const result = {
       type : 'diagnostic',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
-      area : bodyAreas.id,
+      area_id : area.value || 0,
       title: questionTitle,
       question: {
         en: question.en,
@@ -173,7 +186,9 @@ class CreateQuestionComponent extends Component {
         type: answerType,
         values: this.getAnswer(answerType, value)
       },
-      rule: rules[0]
+      rule: rules[0],
+      content_type,
+      test_file_id: get(diagnostic_assets, '0.id') || null
     };
 
     !this.props.routeParams.id ?
@@ -297,12 +312,14 @@ class CreateQuestionComponent extends Component {
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle, bodyAreas,
+        questionTitle,
+        area,
         question,
         questionKey,
         sequence,
         sequenceType,
         answerType,
+        content_type,
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
@@ -342,6 +359,40 @@ class CreateQuestionComponent extends Component {
                 </Typography>
               </Grid>
 
+              <Grid container className="row-item">
+                <Grid item sm={6} style={{display: 'flex', flexDirection: 'column'}}>
+                  <Typography
+                    type="caption"
+                    gutterBottom
+                    className="custom-select-title">
+                    Question type
+                  </Typography>
+                  <MUISelect
+                    value={content_type}
+                    onChange={e => updateCrateQuestionFields(e.target.value, 'content_type')}
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          width: 400,
+                        },
+                      },
+                    }}
+                  >
+                    {this.state.content_type_list.map((item, index) => (
+                      <MenuItem
+                        key={item.value}
+                        value={item.value}
+                        style={{
+                          fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
+                        }}
+                      >
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </MUISelect>
+                </Grid>
+              </Grid>
+
 
               {/*Title and Body Area*/}
               <Grid container className="row-item">
@@ -367,7 +418,7 @@ class CreateQuestionComponent extends Component {
                       loadOptions={this.getOptions}
                       onChange={this.onAreasChange}
                       placeholder={'Select body area'}
-                      value={bodyAreas}/>
+                      value={area}/>
                 </Grid>
               </Grid>
 
@@ -540,10 +591,13 @@ class CreateQuestionComponent extends Component {
                 sm={12}
                 className="rules">
 
+
+            {content_type === "functionalTest" && <DiagnosisAssets/>}
+
             <DiagnosisRulesComponent
               type="diagnostic"
               page="diagnostic"
-              area={bodyAreas}
+              area={area}
               step={sequence}
             />
 

@@ -27,7 +27,6 @@ export const TYPES_OPTIONAL = TYPES.concat(
 
 export const DEF_ITEM = {
   key: '',
-  op: '',
   value: []
 };
 

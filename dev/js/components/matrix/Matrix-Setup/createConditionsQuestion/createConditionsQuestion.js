@@ -43,7 +43,7 @@ class CreateConditionComponent extends Component {
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.title }));
       return {
-        options: [{ label: 'All', value: null, id: null }].concat(_data),
+        options: [{ label: 'All', value: null, id: 0 }].concat(_data),
         // CAREFUL! Only set this to true when there are no more options,
         // or more specific queries will not be sent to the server.
         complete: true
@@ -76,11 +76,11 @@ class CreateConditionComponent extends Component {
 
 
   done = (value) => {
-    const { bodyAreas, questionKey, questionTitle, rules } = value;
+    const { area, questionKey, questionTitle, rules } = value;
     const result = {
       rule  : rules[0],
       key   : questionKey,
-      area  : bodyAreas ? bodyAreas.id : null,
+      area  : area ? area.id : null,
       title : questionTitle
     };
 
@@ -101,7 +101,7 @@ class CreateConditionComponent extends Component {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
         questionTitle,
-        bodyAreas,
+        area,
         questionKey,
         sequence
       },
@@ -162,7 +162,7 @@ class CreateConditionComponent extends Component {
                     loadOptions={this.getOptions}
                     onChange={this.onAreasChange}
                     placeholder={'Select body area'}
-                    value={bodyAreas}/>
+                    value={area}/>
                 </Grid>
               </Grid>
 
@@ -193,7 +193,7 @@ class CreateConditionComponent extends Component {
             <DiagnosisRulesComponent
               page="conditions"
               type="diagnostic"
-              area={bodyAreas}
+              area={area}
               step={sequence}
               showTitle={true}
             />
