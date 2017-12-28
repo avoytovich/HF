@@ -11,6 +11,9 @@ import {
 import { PAGE } from '../../../config';
 
 class BodyAreas extends Component {
+  componentWillMount() {
+    getBodyAreasWired();
+  }
 
   _renderBodyAreasItem = (items = []) => {
     return items.map(({ title, id }) => {
@@ -36,10 +39,9 @@ class BodyAreas extends Component {
     return (
       <div>
 
-        <Grid container spacing={0} className="border-bottom">
+        <Grid container spacing={0}>
 
           <Grid item xs={12}>
-            <div className="testing-inner-container-long">
               <p className="testing-inner-sub-header">
                 Body Areas
               </p>
@@ -59,7 +61,6 @@ class BodyAreas extends Component {
 
               { this._renderBodyAreasItem(bodyAreasIds) }
 
-            </div>
           </Grid>
         </Grid>
       </div>

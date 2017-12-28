@@ -14,16 +14,18 @@ import {
 import Checkbox from 'material-ui/Checkbox';
 
 import { onChange } from '../../../actions'
+import Input from '../../common/Input/Input'
 
-class CheckBox extends Component {
-  _renderCheckBoxes = items => {
+class Range extends Component {
+  _renderRangees = items => {
     return items.map(({ label, value }, i) => {
       return (
         <FormControlLabel
           control={
             <Checkbox
               checked={false}
-              onChange={() => {}}
+              onChange={() => {
+              }}
               value="gilad"
             />
           }
@@ -47,6 +49,7 @@ class CheckBox extends Component {
       style = {},
       onChangeCustom,
       label = 'Label',
+      range = { max: 100, min: 0 },
       ...props
     } = this.props;
 
@@ -55,17 +58,27 @@ class CheckBox extends Component {
     const onChangeFinal = onChangeCustom || onChange;
 
     return (
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Assign responsibility</FormLabel>
-        <FormGroup>
-          { this._renderCheckBoxes(items)}
-        </FormGroup>
-      </FormControl>
+      <div className="margin-range">
+        <FormControl component="fieldset">
+          <FormLabel component="legend">{label}</FormLabel>
+          <Input
+            type="range"
+            style={{ width: '100%' }}
+            underline="none"
+            id={`vas_pain_level_area_${id}`}
+            reducer={reducer}
+            label={label}
+            placeholder=" "
+            max={range.max}
+            min={range.min}
+          />
+        </FormControl>
+      </div>
     );
   }
 }
 
-CheckBox.propTypes = {
+Range.propTypes = {
   id: PropTypes.string.isRequired,
   reducer: PropTypes.object.isRequired,
   value: PropTypes.bool,
@@ -83,4 +96,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckBox);
+export default connect(mapStateToProps, mapDispatchToProps)(Range);

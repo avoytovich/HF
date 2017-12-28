@@ -1,42 +1,65 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import each from 'lodash/each';
 import { bindActionCreators } from 'redux';
 import Grid from 'material-ui/Grid';
 
 import RadioButton from '../../common/RadioButton/RadioButton';
 import CheckBox from '../../common/CheckBox/CheckBox';
+import Range from '../../common/Range/Range';
+import BodyAreas from '../../testing/BodyAreas/BodyAreas';
 
 class DynamicQuestions extends Component {
-  _pickQuestion = ({ type, subtype, ...props }, i) => {
+  _pickQuestion = ({ answer: { type, subtype, values }, question, key, content_type }, i) => {
     switch (type) {
       case 'single':
-        console.log({ type, subtype, ...props });
+        let items = [];
+        each(values, (val, prop) => items.push({ label: val.en,  value: prop }));
         return (
           <RadioButton
-            items={[]}
+            items={items}
             reducer={this.props.testingReducer}
-            id='id'
-            label="lable"
+            id={key}
+            label={question.en}
           />
         );
 
       case 'multiple':
-        console.log({ type, subtype, ...props });
-        return <span key={i} >list</span>;
+        if (content_type === 'vas') {
+          return <BodyAreas />;
+        }
+        let itemsMultiple = [];
+        each(values, (val, prop) => itemsMultiple.push({ label: val.en,  value: prop }));
+        return (
+          <CheckBox
+            items={itemsMultiple}
+            reducer={this.props.testingReducer}
+            id={key}
+            label={question.en}
+          />
+        )
 
       case 'range':
-        console.log({ type, subtype, ...props });
-        return <span key={i} >range</span>;
+        console.log('range: ', { type, subtype, values, question, key });
+        return (
+          <Range
+            items={itemsMultiple}
+            reducer={this.props.testingReducer}
+            id={key}
+            label={question.en}
+            range={values}
+          />
+        );
 
       default:
-        return console.log('default: ', { type, subtype, props });
+        console.log('default: ', { type, subtype });
     }
   };
 
   _renderQuestions = (questions) => {
     return questions.map((que, i) => {
-      return this._pickQuestion(que.answer, i)
+      return this._pickQuestion(que, i)
     })
   };
 

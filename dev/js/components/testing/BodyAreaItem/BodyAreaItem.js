@@ -54,14 +54,6 @@ class BodyAreaItem extends Component {
   }
 }
 
-`q_lang: '',
-  q_metric: '',
-  q_age: '',
-  q_sex: '',
-  q_weight: '',
-  q_height: '',
-  q_pregnant: '',`;
-
 BodyAreaItem.propTypes = {
   toggleModal: PropTypes.func,
   headerTitle: PropTypes.string
