@@ -8,6 +8,7 @@ import { findType }        from '../../utils/matrix'
 
 const initialState = {
   actionType    : CREATE_QUESTION,
+  content_type  : 'question', // 'question', 'functionalTest', 'vas'
   area          : '',
   questionTitle : '',
   question: {
@@ -43,7 +44,8 @@ const initialState = {
     instruction: { swe: '', en: '' },
     title: { swe: '', en: '' },
     information: { swe: '', en: '' },
-  }
+  },
+  diagnostic_assets: []
 };
 
 const createQuestionUpdate = (state, action) => {
