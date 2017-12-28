@@ -1,12 +1,12 @@
 import { setQuestion, findByArea, findConditionsByArea }      from '../actions';
 
 export const SYMBOLS = [
-  {value: '>',   label: '>'},
-  {value: '<',   label: '<'},
-  {value: '>=',  label: '>='},
-  {value: '<=',  label: '<='},
-  {value: '!=',  label: '!='},
-  {value: '==',  label: '=='}
+  { value: '>',  label: '>'  },
+  { value: '<',  label: '<'  },
+  { value: '>=', label: '>=' },
+  { value: '<=', label: '<=' },
+  { value: '!=', label: '!=' },
+  { value: '=',  label: '='  }
 ];
 
 
@@ -23,7 +23,7 @@ export const onSingleAsyncChange = (value, edit, props) => {
       itemState :
       {
         key: value.key,
-        op: '==',
+        op: '=',
         value: min
       };
 
@@ -36,7 +36,7 @@ export const onSingleAsyncChange = (value, edit, props) => {
       itemState :
       {
         key: value.value,
-        op: '==',
+        op: '=',
         value: '1'
       };
 

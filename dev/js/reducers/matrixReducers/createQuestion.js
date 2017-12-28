@@ -153,11 +153,15 @@ const removeAnswer = (state, action) => {
 };
 
 const setFullQuestion = (state, action) => {
-  const { body: { area_id, title, question, key, step, answer, rule }} = action.payload;
+  const { body: { area_id, area, title, question, key, step, answer, rule }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
   const _body = {
-      area: { value: area_id, label:area_id },
+      area: {
+        value: area.id,
+        label: area.title,
+        key: area.key
+      },
       questionTitle: title,
       question,
       sequence: step,
