@@ -48,11 +48,11 @@ class RulesBlockComponent extends Component {
   handleRequestClose = () => this.setState({ open: false });
 
   onSelected = (item, path, type) => {
-    const body = findType(item.value) === 'block' ? { 'match':  DEF_ITEM  } :  DEF_ITEM ;
+    const body = findType(item.value) === 'block' ? { 'match':  {...DEF_ITEM, op: '='}  } :  DEF_ITEM ;
     addRules({
       type: item.value,
       path: `${path}.${type}`,
-      body
+      body: item.value === 'match' ? {...body, op: '='} : body
     });
 
 

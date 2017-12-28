@@ -32,7 +32,8 @@ import {
   CreateTreatmentsComponent,
   CreateEvaluationComponent,
   CreatePackageComponent,
-  CreateBodyAreaComponent
+  CreateBodyAreaComponent,
+  CreateExerciseComponent
 }                                 from '../components/matrix/Matrix-Setup';
 
 export const C = {
@@ -70,4 +71,5 @@ export const C = {
   CreatePackageComponent,
   CreateBodyAreaComponent,
   Modal,
+  CreateExerciseComponent,
 };

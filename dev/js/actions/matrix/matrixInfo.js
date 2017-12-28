@@ -125,13 +125,13 @@ export const getConditionById = (domenKey, apiKey, id) => {
   );
 };
 
-export const getPackagenById = (domenKey, apiKey, id) => {
+export const getPackagenById = (domenKey, apiKey, id, do_not_set) => {
   const domenPath = domen[domenKey],
-    apiPath   = api[apiKey];
+        apiPath   = api[apiKey];
   return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
       if (res) {
         const { data } = res.data;
-        store.dispatch(
+        !do_not_set && store.dispatch(
           {
             type:`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`,
             payload: { body: {...data }}
@@ -139,6 +139,7 @@ export const getPackagenById = (domenKey, apiKey, id) => {
         );
         return data.packageLevels;
       }
+
     }
   );
 };
@@ -170,7 +171,7 @@ export const findArea = (domenKey, apiKey) => {
 export const findPackage = (domenKey, apiKey, input, area) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
-  const body = { body_area: area, title: input };
+  const body = { area_id: area || null, title: input };
 
   return Api.post(`${domenPath}${apiPath}`, body, {showErrNotif: false});
 };

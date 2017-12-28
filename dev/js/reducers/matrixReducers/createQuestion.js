@@ -8,7 +8,8 @@ import { findType }        from '../../utils/matrix'
 
 const initialState = {
   actionType    : CREATE_QUESTION,
-  bodyAreas     : '',
+  content_type  : 'question', // 'question', 'functionalTest', 'vas'
+  area          : '',
   questionTitle : '',
   question: {
     en: '',
@@ -43,7 +44,8 @@ const initialState = {
     instruction: { swe: '', en: '' },
     title: { swe: '', en: '' },
     information: { swe: '', en: '' },
-  }
+  },
+  diagnostic_assets: []
 };
 
 const createQuestionUpdate = (state, action) => {
@@ -153,11 +155,15 @@ const removeAnswer = (state, action) => {
 };
 
 const setFullQuestion = (state, action) => {
-  const { body: { area, title, question, key, step, answer, rule }} = action.payload;
+  const { body: { area_id, area, title, question, key, step, answer, rule }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
-    const _body = {
-      bodyAreas: { key: area, label:area, title: area },
+  const _body = {
+      area: {
+        value: area.id,
+        label: area.title,
+        key: area.key
+      },
       questionTitle: title,
       question,
       sequence: step,
@@ -171,21 +177,27 @@ const setFullQuestion = (state, action) => {
 };
 
 const setFullQuestionForCondition = (state, action) => {
-  const { body: { area, title, key, rule }} = action.payload;
+  const { body, body: { area, title, key, rule, package_level_id}} = action.payload;
   const _body = {
-    bodyAreas: { key: area, label:area, title: area },
+    area: { key: area.key, label: area.title, value: area.id },
     questionTitle: title,
     questionKey: key,
     rules: Array.isArray(rule) ? rule : [ rule ],
   };
-  return Object.assign({}, state, _body);
+  const res = body.package ?
+    {..._body,
+      treatmentsLevels: { label: body.package.package_id, value:  body.package.package_id},
+      treatmentsPackage:{ label: package_level_id, value: package_level_id}} : _body;
+  return Object.assign({}, state, res);
 };
 
 
 const setFullQuestionForPackage = (state, action) => {
-  const { body: { body_area, title, key, packageLevels }} = action.payload;
+  const { body: { area_id, area, title, key, packageLevels }} = action.payload;
   const _body = {
-    bodyAreas: { key: body_area, label:body_area, title: body_area },
+    area: area ?
+      { key: area.key, label:area.title, title: area.id }:
+      {key: area_id, label: area_id, title: area_id},
     questionTitle: title,
     questionKey: key,
     packageLevels: packageLevels.data

@@ -10,6 +10,7 @@ import { diagnosisQuestionCreate,
   findPackage,
   getTreatmentById,
   updateQuestionCreate,
+  getPackagenById,
   findArea }                        from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { Async }                    from 'react-select';
@@ -48,7 +49,7 @@ class CreateTreatmentsComponent extends Component {
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.title }));
       return {
-        options: [{ label: 'All', value: null, id: null }].concat(_data),
+        options: [{ label: 'All', value: null, id: 0 }].concat(_data),
         complete: true
       }
     });
@@ -56,7 +57,7 @@ class CreateTreatmentsComponent extends Component {
 
   getPackageOptions = (input) => {
     const area = this.props.createDiagnosisQuestion.bodyAreas;
-    const _area = area ? `${area.id}` : null;
+    const _area = area ? area.id : null;
     return findPackage('exercises', 'getPackageByArea', input, _area).then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
@@ -72,16 +73,11 @@ class CreateTreatmentsComponent extends Component {
   onAreasChange = (value) => updateCrateQuestionFields(value, 'bodyAreas');
 
   onPackageChange = (value) => {
-    const levels = [
-      { value: 1 },
-      { value: 2 },
-      { value: 3 },
-      { value: 4 },
-      { value: 5 },
-      { value: 6 }
-    ];
-    this.setState({treatmentsLevels: levels});
     updateCrateQuestionFields(value, 'treatmentsPackage');
+    getPackagenById('exercises', 'packages', value.id, true).then(({data}) => {
+      const levels = data.map(el => el && {label: el.level, value: el.id, id: el.id});
+      this.setState({treatmentsLevels: levels});
+    });
   };
 
   addNewAnswer = (value) => {
@@ -111,13 +107,13 @@ class CreateTreatmentsComponent extends Component {
   };
 
   done = (value) => {
-    const { bodyAreas, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
+    const { area, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
     const result = {
       rule   : rules[0],
       key    : questionKey,
-      area   : bodyAreas ? bodyAreas.id : null,
+      area_id: area ? area.value : 0,
       title  : questionTitle,
-      package: treatmentsPackage.value,
+      package: treatmentsPackage.id,
       level  : treatmentsLevels,
     };
 
@@ -125,7 +121,7 @@ class CreateTreatmentsComponent extends Component {
       diagnosisQuestionCreate('diagnostics', 'treatments', result)
       .then(() => browserHistory.push(`/matrix-setup/treatments`)) :
 
-      updateQuestionCreate('diagnostics', 'conditions', result, this.props.routeParams.id)
+      updateQuestionCreate('diagnostics', 'treatments', result, this.props.routeParams.id)
       .then(() => browserHistory.push(`/matrix-setup/treatments`))
   };
 
@@ -138,7 +134,7 @@ class CreateTreatmentsComponent extends Component {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
         questionTitle,
-        bodyAreas,
+        area,
         questionKey,
         treatmentsLevels,
         treatmentsPackage
@@ -200,7 +196,7 @@ class CreateTreatmentsComponent extends Component {
                     loadOptions={this.getAreaOptions}
                     onChange={this.onAreasChange}
                     placeholder={'Select body area'}
-                    value={bodyAreas}/>
+                    value={area}/>
                 </Grid>
               </Grid>
 
@@ -266,7 +262,7 @@ class CreateTreatmentsComponent extends Component {
                           fontWeight: this.state.treatmentsLevels.indexOf(item.value) !== -1 ? '500' : '400',
                         }}
                       >
-                        {item.value}
+                        {item.label}
                       </MenuItem>
                     ))}
                   </Select>
@@ -284,7 +280,7 @@ class CreateTreatmentsComponent extends Component {
             <DiagnosisRulesComponent
               page="treatments"
               type="diagnostic"
-              area={bodyAreas}
+              area={area}
               step={null}
             />
 
