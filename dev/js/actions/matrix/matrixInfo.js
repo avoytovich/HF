@@ -12,14 +12,15 @@ export const getMatrixInfo = (domenKey, apiKey, query, path, url) => {
         querySt   = qs.stringify(query);
   const finalUrl  = url ? url : `${domenPath}${apiPath}${querySt ? '?' + querySt : ''}`;
   return Api.get(finalUrl)
-          .then((res) => dispatchTableInfo(res, path));
+          .then((res) => dispatchTableInfo(res, path, query));
 };
 
-export const dispatchTableInfo = ({data}, path) => {
+export const dispatchTableInfo = ({data}, path, query) => {
  return store.dispatch({type:`${TABLE}_UPDATE`,
     payload:{
       ...data,
-      path
+      path,
+      query
     }
   });
 };
