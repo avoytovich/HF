@@ -51,7 +51,7 @@ class CreateConditionComponent extends Component {
     });
   };
 
-  onAreasChange = (value) => updateCrateQuestionFields(value, 'bodyAreas');
+  onAreasChange = (value) => updateCrateQuestionFields(value, 'area');
 
   addNewAnswer = (value) => {
     const inState = this.state.answerLang;
