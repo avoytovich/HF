@@ -94,6 +94,14 @@ const initialState = {
       name: 'test',
       changes: []
     },
+    {
+      name: 'clinicOwnUsers',
+      changes: []
+    },
+    {
+      name: 'companyOwnUsers',
+      changes: []
+    },
   ]
 };
 

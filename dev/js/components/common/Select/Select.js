@@ -15,8 +15,8 @@ import { onChange } from '../../../actions'
 const styles = theme => ({
   formControl: {
     width: "100%",
-    marginTop: 28,
-    marginBottom: 20,
+    marginTop: 16,
+    marginBottom: 32,
   },
   textField: {
     width: 300,
