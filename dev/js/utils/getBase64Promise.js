@@ -3,6 +3,7 @@ export const getBase64Promise = (file) => new Promise((resolve, reject) => {
   reader.readAsDataURL(file);
   reader.onload = function () {
     console.log('success');
+    console.log(reader.result);
     resolve(reader);
   };
   reader.onerror = function (error) {
@@ -10,3 +11,4 @@ export const getBase64Promise = (file) => new Promise((resolve, reject) => {
     reject(error);
   };
 });
+

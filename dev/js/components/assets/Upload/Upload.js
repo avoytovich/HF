@@ -30,6 +30,7 @@ class Upload extends Component {
             .then(reader => {
               uploadAssets(
                 res.data.url,
+                // reader.result,
                 reader.result.split(',').pop(),
                 progress => dispatchAssetsPayload({ [`tmp_files[${i}].progress`]: progress }),
                 file.type
