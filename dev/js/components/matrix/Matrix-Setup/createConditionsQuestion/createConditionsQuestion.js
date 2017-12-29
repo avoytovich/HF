@@ -77,6 +77,7 @@ class CreateConditionComponent extends Component {
 
   done = (value) => {
     const { area, questionKey, questionTitle, rules } = value;
+    debugger;
     const result = {
       rule  : rules[0],
       key   : questionKey,
