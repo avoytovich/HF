@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes            from 'prop-types';
 import { connect }          from 'react-redux';
+import { debounce, get }    from 'lodash';
+import { PAGE }             from '../../../config';
+import { browserHistory }   from 'react-router';
 
 //UI
 import Grid                      from 'material-ui/Grid';
@@ -22,7 +25,21 @@ const styles = theme => ({
 
 class TableControls extends Component {
 
-  handleChange = (event, value) => {};
+  componentWillMount() {
+    this.handleChange = debounce(this.handleChange, 1000, {leading:false, trailing:true})
+  }
+
+  handleChange = (search) => {
+    const currentPath = PAGE[this.props.path];
+    const { current_page, per_page} = this.props.store.pagination;
+    const { sortedBy, orderBy }  = this.props.store.sortOptional;
+    const query = { orderBy, sortedBy, per_page, current_page: current_page - 1 };
+
+    browserHistory.push({
+      pathname: currentPath,
+      query: search ? { ...query, search } : query
+    });
+  };
 
   mainClass = (selected) => `page-navigation ${selected.length ? 'active-navigation' : 'enable-navigation'}`;
 
@@ -59,7 +76,7 @@ class TableControls extends Component {
                 <Input
                   id="search"
                   className={classes.formControl}
-                  onChange={this.handleChange}
+                  onChange={event => this.handleChange(event.target.value)}
                   placeholder='Search'
                   startAdornment={
                     <InputAdornment position="start">
@@ -83,7 +100,7 @@ class TableControls extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  store: state[ownProps.path]
+  store: get(state, `tables.${ownProps.path}`)
 });
 
 TableControls.defaultProps = {

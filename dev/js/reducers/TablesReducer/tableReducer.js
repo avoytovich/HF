@@ -120,7 +120,7 @@ export default(state = _initialState(), action = TABLE) => {
       const sortOptional = {
         sortedBy: query.sortedBy,
         orderBy : query.orderBy,
-        search  : query.orderBy
+        search  : query.search
       };
       return set(state, path, {data, pagination, sortOptional});
 

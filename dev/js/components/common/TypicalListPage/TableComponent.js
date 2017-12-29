@@ -17,9 +17,9 @@ import {
 import get                    from 'lodash/get';
 import isEmpty                from 'lodash/isEmpty'
 import moment                 from 'moment';
-import { browserHistory }     from 'react-router'
-import { PAGE }               from '../../../config'
-import { withRouter }         from 'react-router'
+import { browserHistory }     from 'react-router';
+import { PAGE }               from '../../../config';
+import { withRouter }         from 'react-router';
 
 
 
@@ -65,9 +65,10 @@ class TableComponent extends Component {
     const currentQuery = this.props.location.query;
     const currentPath = PAGE[this.props.path];
     const query = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
+
     browserHistory.push({
       pathname: currentPath,
-      query   : { ...query }
+      query
     });
   };
 
@@ -85,15 +86,15 @@ class TableComponent extends Component {
         break;
 
       default:
-        const {per_page, current_page, sortedBy, orderBy} = _query;
+        const {per_page, current_page, sortedBy, orderBy, search} = _query;
         const query = {
           sortedBy,
           orderBy,
           per_page,
           page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
-
         };
-        getMatrixInfo(domen, path, query, path, url)
+        const newQuery = search ? {...query, search} : query;
+        getMatrixInfo(domen, path, newQuery, path, url)
     }
   };
 
@@ -212,12 +213,15 @@ class TableComponent extends Component {
   handleChangeRowsPerPage = (event) => {
     const currentPath = PAGE[this.props.path];
     const { current_page } = this.props.store.pagination;
+    const { sortedBy, orderBy, search }  = this.props.store.sortOptional;
 
     browserHistory.push({
       pathname: currentPath,
       query: {
-        per_page: event.target.value,
-        current_page: 0
+        per_page     : event.target.value,
+        current_page : 0,
+        sortedBy,
+        orderBy
       }
     });
   };
@@ -257,6 +261,7 @@ class TableComponent extends Component {
         },
       }
     } = this.props;
+
     return (
       <Table className="table-template">
 

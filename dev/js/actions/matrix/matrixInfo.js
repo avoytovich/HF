@@ -38,11 +38,12 @@ export const getListByPost = (domenKey, apiKey, _query, url) => {
         payload: {
           data,
           meta,
-          path: apiKey
+          path: apiKey,
+          query: _query
         }
       })
     });
-}
+};
 
 export const clearCreateQuestion = () =>
   store.dispatch({type:`${CREATE_QUESTION}_CLEAR`});
