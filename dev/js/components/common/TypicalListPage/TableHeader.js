@@ -45,13 +45,13 @@ class EnhancedTableHead extends Component {
             />
           </TableCell>
 
-          {columnTitleList.map((column, index) =>
-            <TableCell className={column.className}
+          {columnTitleList.map((column, index) => {
+            const sortKey = column.sortKey || column.key;
+            return <TableCell className={column.className}
                        key={index}
                        padding="dense">
-
               <TableSortLabel
-                active={orderBy === column.key}
+                active={orderBy === sortKey}
                 direction={sortedBy}
 
                 onClick={this.createSortHandler(column.key)}
@@ -59,7 +59,8 @@ class EnhancedTableHead extends Component {
                 {column.title}
               </TableSortLabel>
 
-            </TableCell>)}
+            </TableCell>
+          })}
 
         </TableRow>
       </TableHead>
@@ -77,6 +78,7 @@ EnhancedTableHead.propTypes = {
     PropTypes.shape({
       title   : PropTypes.string.isRequired,
       key     : PropTypes.string.isRequired,
+      sortKey : PropTypes.string,
       tooltip : PropTypes.string
     }).isRequired
   ),

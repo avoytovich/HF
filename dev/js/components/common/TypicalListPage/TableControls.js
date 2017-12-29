@@ -26,7 +26,7 @@ const styles = theme => ({
 class TableControls extends Component {
 
   componentWillMount() {
-    this.handleChange = debounce(this.handleChange, 1000, {leading:false, trailing:true})
+    this.handleChange = debounce(this.handleChange, 500, {leading:false, trailing:true})
   }
 
   handleChange = (search) => {
