@@ -81,7 +81,6 @@ class CreateQuestionComponent extends Component {
     }
   }
 
-
   getOptions = (input) => {
     return findArea('diagnostics', 'findArea').then(res => {
       const { data } = res.data;
@@ -162,6 +161,20 @@ class CreateQuestionComponent extends Component {
     }
   };
 
+  getAnswerType = (type) => {
+    switch(type) {
+      case 'single':
+        return {type: 'single', subtype: 'list'};
+      case 'range':
+        return {type: 'single', subtype: 'range'};
+      case 'multiple':
+        return {type: 'multiple', subtype: 'list'};
+      default:
+        console.log('Wrong type');
+        return {type: 'single', subtype: 'list'};
+    }
+  };
+
   changeAnswerType = (event) => {
     const value = event.target.value;
     updateCrateQuestionFields(value, 'answerType');
@@ -172,6 +185,7 @@ class CreateQuestionComponent extends Component {
       sequenceType, questionKey, sequence, area, question, answerType,
       questionTitle, rules, content_type, diagnostic_assets
     } = value;
+    const {type, subtype} = this.getAnswerType(answerType);
     const result = {
       type : 'diagnostic',
       key  : questionKey,
@@ -183,7 +197,7 @@ class CreateQuestionComponent extends Component {
         swe: question.swe
       },
       answer: {
-        type: answerType,
+        type, subtype,
         values: this.getAnswer(answerType, value)
       },
       rule: rules[0],

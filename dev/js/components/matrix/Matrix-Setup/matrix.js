@@ -54,10 +54,7 @@ class MatrixComponent extends Component {
   };
 
 
-  handleChange = (event, value) => {
-    this.setState({ value });
-    console.log(value)
-  };
+  handleChange = (event, value) => this.setState({ value });
 
   render() {
     return (
