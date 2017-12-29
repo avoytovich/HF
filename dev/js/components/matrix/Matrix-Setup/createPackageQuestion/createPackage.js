@@ -74,12 +74,13 @@ class CreatePackageComponent extends Component {
     return findArea('diagnostics', 'findArea').then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
-        Object.assign({}, item, { label: item.title }));
+        Object.assign({}, { label: item.title, value: item.id, id: item.id}));
+      debugger
       return {
-        options: [{ label: 'All', value: null, id: 0 }].concat(_data),
+        options: [{ label: 'All', value: null, id: null }].concat(_data),
         // CAREFUL! Only set this to true when there are no more options,
         // or more specific queries will not be sent to the server.
-        complete: true
+//        complete: true
       }
     });
   };
@@ -228,6 +229,7 @@ class CreatePackageComponent extends Component {
                     id='body-areas'
                     loadOptions={this.getOptions}
                     onChange={this.onAreasChange}
+                    multi
                     placeholder={'Select body area'}
                     value={bodyAreas}/>
                 </Grid>
