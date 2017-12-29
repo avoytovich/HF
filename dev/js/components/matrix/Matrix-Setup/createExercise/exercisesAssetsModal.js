@@ -35,7 +35,7 @@ class ExercisesAssetsModal extends Component {
 
   componentDidMount() {
     const selected = this.props.isSelected.map(el => el && el.id);
-    getExercises('exercises', 'assets').then(list => {
+    getExercises(this.props.domen || 'exercises', 'assets').then(list => {
       this.setState({list, selected})
     });
   }

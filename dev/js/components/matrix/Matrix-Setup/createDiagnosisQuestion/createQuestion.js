@@ -192,10 +192,7 @@ class CreateQuestionComponent extends Component {
       step : this.getSequenceTypeResult(sequenceType, sequence),
       area_id : area.value || 0,
       title: questionTitle,
-      question: {
-        en: question.en,
-        swe: question.swe
-      },
+      question: { ...question },
       answer: {
         type, subtype,
         values: this.getAnswer(answerType, value)

@@ -94,6 +94,7 @@ class DiagnosisAssets extends Component {
               open={this.state.chooseFiles}
               isSelected={diagnostic_assets || []}
               path="diagnostic_assets"
+              domen="diagnostics"
               handleRequestClose={(value) => this.openChooseFiles(value)}/>}
           </Grid>
         </Grid>

@@ -155,7 +155,7 @@ const removeAnswer = (state, action) => {
 };
 
 const setFullQuestion = (state, action) => {
-  const { body: { area_id, area, title, question, key, step, answer, rule }} = action.payload;
+  const { body: { area_id, area, title, question, key, step, answer, rule, content_type, test_file }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
   const _body = {
@@ -166,12 +166,14 @@ const setFullQuestion = (state, action) => {
       },
       questionTitle: title,
       question,
+      content_type,
       sequence: step,
       questionKey: key,
       answerType: _type,
       rules: Array.isArray(rule) ? rule : [ rule ],
-      [_type]: parseAnswers(answer)
+      [_type]: parseAnswers(answer),
 //      sequenceType: null,
+      diagnostic_assets: test_file ? [test_file] : []
     };
   return Object.assign({}, state, _body);
 };
