@@ -1,8 +1,18 @@
 import React, { Component }         from 'react';
-import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import DiagnosisRulesComponent      from './diagnosisRules';
+import { bindActionCreators }       from 'redux';
 import { browserHistory }           from 'react-router'
+
+
+// Components
+import {
+  ChooseSequence,
+  DiagnosisAssets,
+  DiagnosisRulesComponent
+}                                   from '../../../../common';
+import DiagnosisTypeQuestion        from './diagnosisTypeQuestion';
+
+
 import { genCharArray }             from '../../../../../utils';
 import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
@@ -15,7 +25,7 @@ import { diagnosisQuestionCreate,
   getQuestionById,
   findArea }                        from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
-import { Async }                    from 'react-select';
+//import { Async }                    from 'react-select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
 import AddIcon                      from 'material-ui-icons/Add';
@@ -28,11 +38,10 @@ import Input                        from '../../../../common/Input/Input';
 import { FormControlLabel,
          FormGroup }                from 'material-ui/Form';
 import MUISelect                    from 'material-ui/Select';
-import ChooseSequence               from './chooseSequence';
 import MUIInput, { InputLabel }     from 'material-ui/Input';
-import DiagnosisAssets              from './diagnosisAssets';
 import { get }                      from 'lodash'
-import VAS_Question                  from './diagnosisVASQuestion'
+import DiagnosisTypeVAS              from './diagnosisTypeVAS';
+
 
 class CreateQuestionComponent extends Component {
   state = {
@@ -180,7 +189,7 @@ class CreateQuestionComponent extends Component {
     updateCrateQuestionFields(value, 'answerType');
   };
 
-  done = (value) => {
+  submit = (value) => {
     const {
       sequenceType, questionKey, sequence, area, question, answerType,
       questionTitle, rules, content_type, diagnostic_assets
@@ -339,8 +348,12 @@ class CreateQuestionComponent extends Component {
 
     return (
       <div id="create-question">
+
         <div className="page-sub-header">
-          <span>Create Diagnosis Question</span>
+          <span>
+            Create Diagnosis Question
+          </span>
+
           <div className="nav-buttons">
 
             <Button onClick={this.cancel}>
@@ -349,278 +362,20 @@ class CreateQuestionComponent extends Component {
 
             <Button raised
                     dense
-                    onClick={() => this.done(createDiagnosisQuestion)}
+                    onClick={() => this.submit(createDiagnosisQuestion)}
                     color="primary">
               Save
             </Button>
 
           </div>
         </div>
-        {content_type !== 'vas' ?
-          <Grid container className="margin-remove">
 
-            <Grid item
-                  md={6}
-                  sm={12}
-                  className="create-question-body">
-
-              <div className="main-question">
-                <Grid className="title">
-                  <Typography type="title" gutterBottom>
-                    Question
-                  </Typography>
-                </Grid>
-
-                <Grid container className="row-item">
-                  <Grid item sm={6} style={{display: 'flex', flexDirection: 'column'}}>
-                    <Typography
-                      type="caption"
-                      gutterBottom
-                      className="custom-select-title">
-                      Question type
-                    </Typography>
-                    <MUISelect
-                      value={content_type}
-                      onChange={e => updateCrateQuestionFields(e.target.value, 'content_type')}
-                      MenuProps={{
-                        PaperProps: {
-                          style: {
-                            width: 400,
-                          },
-                        },
-                      }}
-                    >
-                      {this.state.content_type_list.map((item, index) => (
-                        <MenuItem
-                          key={item.value}
-                          value={item.value}
-                          style={{
-                            fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
-                          }}
-                        >
-                          {item.label}
-                        </MenuItem>
-                      ))}
-                    </MUISelect>
-                  </Grid>
-                </Grid>
-
-
-                {/*Title and Body Area*/}
-                <Grid container className="row-item">
-                  <Grid item md={6} sm={12}>
-                    <Input
-                      id='questionTitle'
-                      value={questionTitle}
-                      reducer={ createDiagnosisQuestion }
-                      label={ L_CREATE_QUESTION.questionTitle }
-                      placeholder={ L_CREATE_QUESTION.enterTitle }
-                    />
-                  </Grid>
-                  <Grid item md={6} sm={12} >
-                    <Typography
-                      type="caption"
-                      gutterBottom
-                      className="custom-select-title">
-                      Body Areas
-                    </Typography>
-                    <Async
-                        name='body-areas'
-                        id='body-areas'
-                        loadOptions={this.getOptions}
-                        onChange={this.onAreasChange}
-                        placeholder={'Select body area'}
-                        value={area}/>
-                  </Grid>
-                </Grid>
-
-
-                {/* Question !!! */}
-                <Grid container className="row-item">
-                  <Grid item xs={12}>
-                    {this.state.questionLang === 'en' ?
-                      <Input
-                        id='question.en'
-                        value={question.en}
-                        reducer={createDiagnosisQuestion}
-                        label={ L_CREATE_QUESTION.question }
-                        placeholder={ L_CREATE_QUESTION.enterQuestion }
-                        multiline={true}
-                        rows="5"
-                        cols="60"
-                      /> :
-                      <Input
-                        id='question.swe'
-                        value={question.swe}
-                        reducer={createDiagnosisQuestion}
-                        label={ L_CREATE_QUESTION.question }
-                        placeholder={ L_CREATE_QUESTION.enterQuestion }
-                        multiline={true}
-                        rows="5"
-                        cols="60"
-                      />
-                    }
-                  </Grid>
-                  <Tabs
-                    value={this.state.questionLang}
-                    onChange={this.handleQuestionLangChange}
-                    indicatorColor="primary"
-                    className="tab-lang"
-                    textColor="primary"
-                    centered
-                  >
-                    <Tab label="English" value="en" />
-                    <Tab label="Sweden"  value="swe" />
-                  </Tabs>
-                </Grid>
-
-
-                {/* Question Key */}
-                <Grid container className="row-item">
-                  <Grid item xs={12}>
-                    <Input
-                      id='questionKey'
-                      value={questionKey}
-                      reducer={createDiagnosisQuestion}
-                      label={ L_CREATE_QUESTION.questionKey }
-                      placeholder={ L_CREATE_QUESTION.enterQuestionKey }
-                      error={!!this.state.keyIsUniqueError}
-                      onCustomChange={this.checkIfQuestionKeyValid}
-                    />
-                  </Grid>
-                </Grid>
-
-
-                {/* Sequence */}
-                <Grid container  className="row-item">
-                  <Grid item lg={3} className="sequence-type">
-                    <MUISelect
-                      value={sequenceType}
-                      onChange={this.handleSequenceTypeChange}
-                      MenuProps={{
-                        PaperProps: {
-                          style: {
-                            width: 400,
-                          },
-                        },
-                      }}
-                    >
-                      {this.state.sequenceTypeList.map((item, index) => (
-                        <MenuItem
-                          key={item.value}
-                          value={item.value}
-                          style={{
-                            fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
-                          }}
-                        >
-                          {item.label}
-                        </MenuItem>
-                      ))}
-                    </MUISelect>
-                  </Grid>
-
-                  <Grid item xs={2}
-                        className="sequence-wrap">
-                    <Typography
-                      type="caption"
-                      gutterBottom>
-                      Sequence
-                    </Typography>
-
-                    <div className="sequence" >
-                      <MUISelect
-                        value={sequence}
-                        onChange={({target}) => updateCrateQuestionFields(target.value, 'sequence')}
-                        MenuProps={{
-                          PaperProps: {
-                            style: {
-                              width: 400,
-                            },
-                          },
-                        }}
-                      >
-                        {this.state.sequenceList.map((item, index) => (
-                          <MenuItem
-                            key={item.step}
-                            value={item.step}
-                            style={{
-                              fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
-                            }}
-                          >
-                            {item.step}
-                          </MenuItem>
-                        ))}
-                      </MUISelect>
-                    </div>
-                  </Grid>
-                  <Typography color="primary"
-                              className="open-sequence"
-                              onClick={() => this.openChooseSequence(true)}>
-                    OPEN SEQUENCE
-                  </Typography>
-                </Grid>
-
-                {this.state.chooseSequence &&
-                  <ChooseSequence
-                      open={this.state.chooseSequence}
-                      list={this.state.sequenceList}
-                      defaultStep={sequence}
-                      handleRequestClose={(value) => this.openChooseSequence(value)}/>}
-
-                <Grid className="title answer">
-                  <Typography type="title"
-                              gutterBottom>
-                    Answers
-                  </Typography>
-                </Grid>
-
-                <FormGroup>
-                  <Grid container className="row-item">
-                    {this.state.answerType.map((item, index) =>
-                      (<Grid item xs={4} key={index}>
-                        <FormControlLabel
-                          control={<Radio
-                            checked={answerType === item.value}
-                            onChange={this.changeAnswerType}
-                            value={item.value}
-                            aria-label={item.value}
-                          />}
-                          label={item.label} />
-                        </Grid>)
-                    )}
-                  </Grid>
-                </FormGroup>
-
-                <Grid container className="row-item">
-                  {this.answers(answerType)}
-                </Grid>
-
-              </div>
-            </Grid>
-
-            <Grid item
-                  md={6}
-                  sm={12}
-                  className="rules">
-
-
-              {content_type === "functionalTest" && <DiagnosisAssets/>}
-
-              <DiagnosisRulesComponent
-                type="diagnostic"
-                page="diagnostic"
-                area={area}
-                step={sequence}
-              />
-
-            </Grid>
-
-          </Grid>
-
-          :
-
-          <VAS_Question/>
+        {
+          content_type === 'vas' ?
+            <DiagnosisTypeVAS/> :
+            <DiagnosisTypeQuestion sequenceList={this.state.sequenceList}/>
         }
+
       </div>
     )
   }

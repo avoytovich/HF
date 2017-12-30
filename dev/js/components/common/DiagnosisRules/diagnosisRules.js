@@ -4,8 +4,8 @@ import {
   RulesQuestionComponent,
   RulesBlockComponent,
   RulesItemComponent
-}                            from '../../../../common/rules';
-import { mathType }          from '../../../../../utils/matrix';
+}                            from '../rules';
+import { mathType }          from '../../../utils/matrix';
 
 class DiagnosisRulesComponent extends Component {
   state = {

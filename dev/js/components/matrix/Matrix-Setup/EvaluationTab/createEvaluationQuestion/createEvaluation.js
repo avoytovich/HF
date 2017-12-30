@@ -1,7 +1,7 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import DiagnosisRulesComponent      from '../../DiagnosisTab/createDiagnosisQuestion/diagnosisRules';
+import { DiagnosisRulesComponent }  from '../../../../common';
 import { browserHistory }           from 'react-router'
 import { genCharArray }             from '../../../../../utils';
 import { diagnosisQuestionCreate,
@@ -28,7 +28,7 @@ import Input                        from '../../../../common/Input/Input';
 import { FormControlLabel,
   FormGroup }                       from 'material-ui/Form';
 import MUISelect                    from 'material-ui/Select';
-import ChooseSequence               from '../../DiagnosisTab/createDiagnosisQuestion/chooseSequence';
+import ChooseSequence               from '../../../../common/ChooseSequenceModal/chooseSequence';
 
 class CreateEvaluationComponent extends Component {
   state = {

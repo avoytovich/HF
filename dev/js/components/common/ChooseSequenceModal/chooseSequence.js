@@ -16,7 +16,7 @@ import ExpandMore                 from 'material-ui-icons/ExpandMore';
 import {
   updateCrateQuestionFields,
   getQuestionsByStep,
-}                                 from '../../../../../actions';
+}                                 from '../../../actions';
 import Radio                      from 'material-ui/Radio';
 import Button                     from 'material-ui/Button';
 

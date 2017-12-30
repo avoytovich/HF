@@ -8,17 +8,17 @@ import { diagnosisQuestionCreate,
   findUniqueKey,
   updateQuestionCreate,
   getExerciseById,
-  findArea }                        from '../../../../../actions';
-import { onChange }                 from '../../../../../actions/common';
+  findArea }                        from '../../../actions';
+import { onChange }                 from '../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
 import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
 import Typography                   from 'material-ui/Typography';
 import * as moment                  from "moment";
-import { TIME_FORMAT_DOTS }         from '../../../../../utils/constants/pageContent';
+import { TIME_FORMAT_DOTS }         from '../../../utils/constants/pageContent';
 import IconButton                   from 'material-ui/IconButton';
 import Delete                       from 'material-ui-icons/Delete';
-import ExercisesAssetsModal         from '../../ExercisesTab/createExercise/exercisesAssetsModal';
+import ExercisesAssetsModal         from '../../matrix/Matrix-Setup/ExercisesTab/createExercise/exercisesAssetsModal';
 import { get }                      from 'lodash';
 
 
