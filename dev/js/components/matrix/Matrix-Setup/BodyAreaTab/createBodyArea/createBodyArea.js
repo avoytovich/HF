@@ -14,7 +14,6 @@ import Button                       from 'material-ui/Button';
 import Input                        from '../../../../common/Input/Input';
 import { find, get }                from 'lodash'
 
-
 class CreateBodyAreaComponent extends Component {
   state = {
     questionType    : 'packages',

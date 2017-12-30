@@ -4,7 +4,7 @@
 // diagnostics 18.194.211.206
 
 export const domen = {
-  users      : 'http://18.195.77.253',
+  users      : 'http://54.93.77.193',//'http://18.195.77.253',
   exercises  : 'http://18.195.76.169',
   diagnostics: 'http://18.194.211.206',
   s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com',
