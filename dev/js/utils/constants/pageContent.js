@@ -93,7 +93,7 @@ export const BODY_AREA_TAB = {
 
 export const CONDITIONS_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                    },
     { title: 'Body Areas', key: 'area_id',    className: 'center'                                  },
@@ -105,7 +105,7 @@ export const CONDITIONS_TAB = {
 
 export const TREATMENTS_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                    },
     { title: 'Body Areas', key: 'area_id',    className: 'center'                                  },
@@ -117,7 +117,7 @@ export const TREATMENTS_TAB = {
 
 export const PACKAGES_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                    },
     { title: 'Body Areas', key: 'area_id',    className: 'center'                                  },
@@ -129,7 +129,7 @@ export const PACKAGES_TAB = {
 
 export const EXERCISES_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Name',       key: 'name',       className: 'left'                                    },
 //    { title: 'Key',        key: 'packages',   className: 'left'                                    },
@@ -140,7 +140,7 @@ export const EXERCISES_TAB = {
 
 export const SEL_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Name',          key: 'name',          className: 'left'                                    },
     { title: 'Customer Name', key: 'customer_name', className: 'center'                                  },
@@ -165,7 +165,7 @@ export const ASSETS_TAB = {
 
 export const COMPANIES_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Company Name',   key: 'name',          className: 'left assets-title-cell'},
     { title: 'Contact Person', key: 'contact_info.contacts[0].name',       className: 'center'  },
@@ -176,7 +176,7 @@ export const COMPANIES_TAB = {
 
 export const CLINICS_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Clinic Name',    key: 'name',          className: 'left assets-title-cell'},
     { title: 'Contact Person', key: 'contact_info.contacts[0].name',          className: 'center'  },
@@ -187,7 +187,7 @@ export const CLINICS_TAB = {
 
 export const USERS_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Status', key: 'billing_info', className: 'center'  },
@@ -197,7 +197,7 @@ export const USERS_TAB = {
 
 export const COMPANIES_USERS_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Company', key: 'billing_info', className: 'center'  },
@@ -208,7 +208,7 @@ export const COMPANIES_USERS_TAB = {
 
 export const CLINICS_USERS_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Clinic', key: 'billing_info', className: 'center'  },
@@ -219,7 +219,7 @@ export const CLINICS_USERS_TAB = {
 
 export const TEST_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Title',         key: 'title',         className: 'left'                                    },
     { title: 'Package',       key: 'type',          className: 'center'                                  },

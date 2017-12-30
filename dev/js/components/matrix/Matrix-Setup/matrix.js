@@ -8,16 +8,13 @@ import { withStyles } from 'material-ui/styles';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
 const TABS = [
-  { label: 'Body area',     url: 'body-area' },
-  { label: 'Diagnosis',     url: 'diagnosis' },
-  { label: 'Conditions',    url: 'conditions' },
-  { label: 'Treatments',    url: 'treatments' },
-  { label: 'Packages',      url: 'packages' },
-//  { label: 'Evaluation',    url: 'evaluations' },
-  { label: 'Exercises',     url: 'exercises' },
-//  { label: 'Meta Controls', url: 'meta-controls' },
-//  { label: 'Achievements',  url: 'achievements' },
-//  { label: 'Tests',         url: 'tests' },
+  { label: 'Body area',  url: 'body-area'   },
+  { label: 'Diagnosis',  url: 'diagnosis'   },
+  { label: 'Conditions', url: 'conditions'  },
+  { label: 'Treatments', url: 'treatments'  },
+  { label: 'Packages',   url: 'packages'    },
+  { label: 'Level Up',   url: 'evaluations' },
+  { label: 'Exercises',  url: 'exercises'   }
 ];
 
 const styles = theme => ({
