@@ -1,18 +1,36 @@
-export MatrixComponent          from './matrix';
-export BodyAreaComponent        from './BodyAreaTab/bodyArea';
-export DiagnosisComponent       from './DiagnosisTab/diagnosis';
-export CreateQuestionComponent  from './DiagnosisTab/createDiagnosisQuestion/createQuestion'
-export ConditionsComponent      from './ConditionsTab/conditions';
-export TreatmentsComponent      from './TreatmentsTab/treatments';
-export EvaluationComponent      from './EvaluationTab/evaluation'
-export PackagesComponent        from './PackagesTab/packages';
-export ExercisesComponent       from './ExercisesTab/exercises';
-//export AchievementsComponent    from './achievements'
-//export MetaControlsComponent    from './metaControls'
-//export TestsComponent           from './tests'
-export CreateConditionComponent  from './ConditionsTab/createConditionsQuestion/createConditionsQuestion';
-export CreateTreatmentsComponent from './TreatmentsTab/createTreatmentsQuestion/createTreatmentsQuestion';
-export CreateEvaluationComponent from './EvaluationTab/createEvaluationQuestion/createEvaluation';
-export CreatePackageComponent    from './PackagesTab/createPackageQuestion/createPackage';
-export CreateBodyAreaComponent   from './BodyAreaTab/createBodyArea/createBodyArea';
-export CreateExerciseComponent   from './ExercisesTab/createExercise/createExercise';
+export {
+  BodyAreaComponent,
+  CreateBodyAreaComponent
+}                               from './BodyAreaTab';
+export {
+  ConditionsComponent,
+  CreateConditionComponent
+}                               from './ConditionsTab';
+export {
+  DiagnosisComponent,
+  CreateQuestionComponent
+}                               from './DiagnosisTab';
+
+export {
+  EvaluationComponent,
+  CreateEvaluationComponent
+}                                from './EvaluationTab'
+
+export {
+  ExercisesComponent,
+  CreateExerciseComponent
+}                                 from './ExercisesTab';
+
+export {
+  PackagesComponent,
+  CreatePackageComponent
+
+}                                 from './PackagesTab';
+
+export {
+  TreatmentsComponent,
+  CreateTreatmentsComponent
+}                                 from './TreatmentsTab';
+
+export MatrixComponent            from './matrix';
+

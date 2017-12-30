@@ -10,7 +10,7 @@ import NotInterested            from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from '../matrix-crud/deactivateModal'
 import DeleteComponent          from '../matrix-crud/deleteModal';
 
-class ConditionsComponent extends Component {
+class TreatmentsComponent extends Component {
   state = {
     selected: [],
     deactivateOpen: false,
@@ -98,4 +98,4 @@ const mapStateToProps = state => ({
   commonReducer: state.commonReducer
 });
 
-export default  connect(mapStateToProps)(ConditionsComponent);
+export default  connect(mapStateToProps)(TreatmentsComponent);

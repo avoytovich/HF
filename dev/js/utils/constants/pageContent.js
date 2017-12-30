@@ -71,7 +71,7 @@ export const DIAGNOSIS_TAB = {
   title: 'Diagnosis',
   tableHeader: [
     { title: 'Name',                 key: 'title',       className: 'left'                                        },
-    { title: 'Specific Description', key: 'description', className: 'left'                                        },
+//    { title: 'Specific Description', key: 'description', className: 'left'                                        },
     { title: 'Body Areas',           key: 'title',       className: 'center', sortKey: 'matrix_body_areas.title'  },
     { title: 'Key',                  key: 'key',         className: 'left'                                        },
     { title: 'Sequence',             key: 'step',        className: 'center', type: 'number', format: ''          },
