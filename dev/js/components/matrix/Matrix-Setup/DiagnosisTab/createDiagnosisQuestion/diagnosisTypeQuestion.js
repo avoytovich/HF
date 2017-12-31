@@ -24,9 +24,10 @@ import Input                        from '../../../../common/Input/Input';
 import {
   ChooseSequence,
   DiagnosisAssets,
-  DiagnosisRulesComponent
+  DiagnosisRulesComponent,
+  AsyncAreaSelect
 }                                   from '../../../../common';
-
+import SequenceBlock                from './sequenceBlock';
 // UI
 import Grid                         from 'material-ui/Grid';
 import Typography                   from 'material-ui/Typography';
@@ -40,16 +41,14 @@ import Radio                        from 'material-ui/Radio';
 import AddIcon                      from 'material-ui-icons/Add';
 import Clear                        from 'material-ui-icons/Clear';
 
+
+
+
+
 class DiagnosisTypeQuestion extends Component {
   state = {
     questionType    : 'diagnosis',
     answer          : [1,2,3],
-    sequenceTypeList: [
-      {label: 'Normal', value: 'normal'},
-      {label: 'After',  value: 'after'},
-      {label: 'Before', value: 'before'},
-
-    ],
     selectedValue   : 'single',
     answerType      : [
       {label: 'Single',   value: 'single'},
@@ -284,28 +283,20 @@ class DiagnosisTypeQuestion extends Component {
                 id='questionTitle'
                 value={questionTitle}
                 reducer={ createDiagnosisQuestion }
-                label={ 'ddd' }
-                placeholder={ 'ddd' }
+                label={ 'Title' }
               />
             </Grid>
             <Grid item md={6} sm={12} >
-              <Typography
-                type="caption"
-                gutterBottom
-                className="custom-select-title">
-                Body Areas
-              </Typography>
-              <Async
-                name='body-areas'
-                id='body-areas'
-                loadOptions={this.getOptions}
-                onChange={this.onAreasChange}
-                placeholder={'Select body area'}
-                value={area}/>
+
+              <AsyncAreaSelect
+                domain="diagnostics"
+                path="findArea"
+                valuePath="area"
+                idKey="create_diagnostic_question"
+              />
+
             </Grid>
           </Grid>
-
-
 
           {/* Question !!! */}
           <Grid container className="row-item">
@@ -315,8 +306,7 @@ class DiagnosisTypeQuestion extends Component {
                   id='question.en'
                   value={question.en}
                   reducer={createDiagnosisQuestion}
-                  label={ 'ddd' }
-                  placeholder={ 'dddd' }
+                  label={ 'Question' }
                   multiline={true}
                   rows="5"
                   cols="60"
@@ -325,8 +315,7 @@ class DiagnosisTypeQuestion extends Component {
                   id='question.swe'
                   value={question.swe}
                   reducer={createDiagnosisQuestion}
-                  label={ 'fff' }
-                  placeholder={ 'ffff' }
+                  label={ 'Question' }
                   multiline={true}
                   rows="5"
                   cols="60"
@@ -364,67 +353,11 @@ class DiagnosisTypeQuestion extends Component {
 
 
           {/* Sequence */}
-          <Grid container  className="row-item">
-            <Grid item lg={3} className="sequence-type">
-              <MUISelect
-                value={sequenceType}
-                onChange={this.handleSequenceTypeChange}
-                MenuProps={{PaperProps: {style: {width: 400}}}}
-              >
-                {sequenceTypeList.map((item, index) => (
-                  <MenuItem
-                    key={item.value}
-                    value={item.value}
-                    style={{
-                      fontWeight: this.state.answer.indexOf(item.value) !== -1 ? '500' : '400',
-                    }}
-                  >
-                    {item.label}
-                  </MenuItem>
-                ))}
-              </MUISelect>
-            </Grid>
-
-            <Grid item xs={2}
-                  className="sequence-wrap">
-              <Typography
-                type="caption"
-                gutterBottom>
-                Sequence
-              </Typography>
-
-              <div className="sequence" >
-                <MUISelect
-                  value={sequence}
-                  onChange={({target}) => updateCrateQuestionFields(target.value, 'sequence')}
-                  MenuProps={{
-                    PaperProps: {style: {width: 400}}}}
-                >
-                  {sequenceList.map((item, index) => (
-                    <MenuItem
-                      key={item.step}
-                      value={item.step}
-                      style={{fontWeight: answer.indexOf(item.value) !== -1 ? '500' : '400'}}
-                    >
-                      {item.step}
-                    </MenuItem>
-                  ))}
-                </MUISelect>
-              </div>
-            </Grid>
-            <Typography color="primary"
-                        className="open-sequence"
-                        onClick={() => this.openChooseSequence(true)}>
-              OPEN SEQUENCE
-            </Typography>
-          </Grid>
-
-          { chooseSequence &&
-              <ChooseSequence
-                open={chooseSequence}
-                list={sequenceList}
-                defaultStep={sequence}
-                handleRequestClose={(value) => this.openChooseSequence(value)}/>}
+          <SequenceBlock
+            value={sequence}
+            list={sequenceList}
+            type={sequenceType}
+          />
 
           <Grid className="title answer">
             <Typography type="title"
@@ -482,10 +415,8 @@ class DiagnosisTypeQuestion extends Component {
 }
 
 
-const mapStateToProps = state => ({
-  createDiagnosisQuestion: state.createDiagnosisQuestion,
-  commonReducer          : state.commonReducer,
-});
+const mapStateToProps = state =>
+  ({createDiagnosisQuestion: state.createDiagnosisQuestion});
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   onChange,
