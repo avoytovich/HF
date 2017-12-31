@@ -227,3 +227,9 @@ export const TEST_TAB = {
     { title: 'Date',          key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT },
   ]
 };
+
+
+export const CONTENT_TYPE_LIST = [
+  {label: 'Question',        value: 'question'},
+  {label: 'Functional test', value: 'functionalTest'},
+];

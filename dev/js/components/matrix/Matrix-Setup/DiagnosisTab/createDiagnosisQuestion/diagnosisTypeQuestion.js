@@ -24,11 +24,7 @@ import Typography                   from 'material-ui/Typography';
 import MUISelect                    from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import { Async }                    from 'react-select';
-
-const  CONTENT_TYPE_LIST = [
-    {label: 'Question',        value: 'question'},
-    {label: 'Functional test', value: 'functionalTest'},
-];
+import { CONTENT_TYPE_LIST }        from '../../../../../utils'
 
 class DiagnosisTypeQuestion extends Component {
   state = {
@@ -137,6 +133,7 @@ class DiagnosisTypeQuestion extends Component {
               Answers
             </Typography>
           </Grid>
+
           <DiagnosticAnswers
             answerType={answerType}
             typePath="answerType"

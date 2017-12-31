@@ -42,7 +42,6 @@ class CreateQuestionComponent extends Component {
     clearCreateQuestion();
 
     updateCrateQuestionFields(this.state.questionType, 'page');
-    //this.getSequenceQuestionList();
   }
 
   componentWillMount() {
@@ -56,11 +55,6 @@ class CreateQuestionComponent extends Component {
       });
     }
   }
-
-  handleSequenceTypeChange = (event) => {
-    const sequenceType = event.target.value;
-    updateCrateQuestionFields(sequenceType, 'sequenceType');
-  };
 
   getAnswer = (type, obj) => {
     if (type === 'range') {
@@ -135,12 +129,12 @@ class CreateQuestionComponent extends Component {
 
   cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
 
-//  getSequenceQuestionList = () =>
-//    getSequenceList('diagnostics', 'sequenceList')
-//    .then(({data}) => this.setState({sequenceList: data.data}));
-
   render() {
-    const { createDiagnosisQuestion, createDiagnosisQuestion: { content_type } } = this.props;
+    const {
+      createDiagnosisQuestion,
+      createDiagnosisQuestion: { content_type, questionKey },
+      routeParams: { id }
+    } = this.props;
     return (
       <div id="create-question">
         <div className="page-sub-header">
@@ -161,10 +155,12 @@ class CreateQuestionComponent extends Component {
             </Button>
           </div>
         </div>
-        {
+        { id && !questionKey ?
+          'Loading.....' :
           content_type === 'vas' ?
             <DiagnosisTypeVAS/> :
             <DiagnosisTypeQuestion sequenceList={this.state.sequenceList}/>
+
         }
       </div>
     )
