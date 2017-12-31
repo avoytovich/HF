@@ -38,7 +38,7 @@ const packageTab = {
 const exerciseTab = {
   exercise: {
     instruction: { swe: '', en: '' },
-    title: { swe: '', en: '' },
+    title      : { swe: '', en: '' },
     information: { swe: '', en: '' },
   },
 };

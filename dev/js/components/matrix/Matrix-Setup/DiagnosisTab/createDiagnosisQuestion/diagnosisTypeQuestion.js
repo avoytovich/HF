@@ -22,19 +22,16 @@ import {
   AsyncAreaSelect
 }                                   from '../../../../common';
 import SequenceBlock                from './sequenceBlock';
-import DiagnosticQuestion           from './diagnosticQuestion'
+import DiagnosticQuestion           from './diagnosticQuestion';
+import DiagnosticAnswers            from './diagnosticAnswers';
+
 // UI
 import Grid                         from 'material-ui/Grid';
 import Typography                   from 'material-ui/Typography';
 import MUISelect                    from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import { Async }                    from 'react-select';
-import Tabs, { Tab }                from 'material-ui/Tabs';
-import { FormControlLabel,
-  FormGroup }                from 'material-ui/Form';
-import Radio                        from 'material-ui/Radio';
-import AddIcon                      from 'material-ui-icons/Add';
-import Clear                        from 'material-ui-icons/Clear';
+
 
 
 
@@ -71,122 +68,6 @@ class DiagnosisTypeQuestion extends Component {
     }
   };
 
-  handleAnswerLangChange = (value, index) => {
-    const state = this.state.answerLang;
-    const _value = state.map((el, i) => {
-      if (i === index) return value;
-
-      return el ;
-    });
-    this.setState({ answerLang: _value });
-  };
-
-  addNewAnswer = (value) => {
-    const inState = this.state.answerLang;
-    this.setState({ answerLang: inState.concat('en')});
-    addNewAnswer(value);
-  };
-
-  answers = (type) => {
-    const { single, multiple } = this.props.createDiagnosisQuestion;
-
-    switch (type) {
-      case 'single':
-        return <div className="answer-wrap">
-          <ol type="A" style={{width: '100%'}}>
-            {single.map((answer, index) => (
-              <li  key={index} className="row-item">
-                <div className="answer-item">
-                  <Input
-                    id={`single[${index}][${this.state.answerLang[index]}]`}
-                    reducer={this.props.createDiagnosisQuestion}
-                    className="MuiFormControl-CUSTOM"
-                  />
-                  <Clear onClick={() => removeAnswer(type, index)}/>
-                </div>
-                <Tabs
-                  value={this.state.answerLang[index] || 'en'}
-                  onChange={(event, value) => this.handleAnswerLangChange(value, index)}
-                  indicatorColor="primary"
-                  className="tab-lang answer"
-                  textColor="primary"
-                  centered
-                >
-                  <Tab label="English" value="en"/>
-                  <Tab label="Sweden"  value="swe" />
-                </Tabs>
-              </li>))}
-          </ol>
-          <div className="add-answer"
-               onClick={() => this.addNewAnswer('single')}>
-            <AddIcon /> ADD ANSWER
-          </div>
-        </div>;
-
-      case 'range':
-        return <div className="answer-wrap range">
-
-          <Typography type="title" gutterBottom>
-            From
-          </Typography>
-
-          <Input
-            id='range.from'
-            type='number'
-            reducer={this.props.createDiagnosisQuestion}
-          />
-
-          <Typography type="title" gutterBottom className="range-to">
-            To
-          </Typography>
-
-          <Input
-            id='range.to'
-            type='number'
-            reducer={this.props.createDiagnosisQuestion}
-          />
-
-        </div>;
-
-      default:
-        return <div className="answer-wrap">
-          <ol type="A" style={{width: '100%'}}>
-            {multiple.map((answer, index) => (
-              <li  key={index} className="row-item">
-
-                <div className="answer-item">
-                  <Input
-                    id={`multiple[${index}].${this.state.answerLang[index]}`}
-                    reducer={this.props.createDiagnosisQuestion}
-                  />
-                  <Clear onClick={() => removeAnswer(type, index)}/>
-                </div>
-
-                <Tabs
-                  value={this.state.answerLang[index] || 'en'}
-                  onChange={(event, value) => this.handleAnswerLangChange(value, index)}
-                  indicatorColor="primary"
-                  className="tab-lang answer"
-                  textColor="primary"
-                  centered
-                >
-                  <Tab label="English" value="en"/>
-                  <Tab label="Sweden"  value="swe" />
-                </Tabs>
-              </li>))}
-          </ol>
-          <div className="add-answer"
-               onClick={() => this.addNewAnswer('multiple')}>
-            <AddIcon /> ADD ANSWER
-          </div>
-        </div>;
-    }
-  };
-
-  changeAnswerType = (event) => {
-    const value = event.target.value;
-    updateCrateQuestionFields(value, 'answerType');
-  };
 
   render() {
 
@@ -303,29 +184,10 @@ class DiagnosisTypeQuestion extends Component {
             </Typography>
           </Grid>
 
-
-          <FormGroup>
-            <Grid container className="row-item">
-              {this.state.answerType.map((item, index) =>
-                (<Grid item xs={4} key={index}>
-                  <FormControlLabel
-                    control={<Radio
-                      checked={answerType === item.value}
-                      onChange={this.changeAnswerType}
-                      value={item.value}
-                      aria-label={item.value}
-                    />}
-                    label={item.label} />
-                </Grid>)
-              )}
-            </Grid>
-          </FormGroup>
-
-          <Grid container className="row-item">
-            {this.answers(answerType)}
-          </Grid>
-
-
+          <DiagnosticAnswers
+            answerType={answerType}
+            typePath="answerType"
+          />
 
         </div>
       </Grid>
