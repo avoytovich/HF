@@ -5,8 +5,8 @@ import { browserHistory }           from 'react-router'
 
 // Components
 import DiagnosisTypeQuestion        from './diagnosisTypeQuestion';
-import DiagnosisTypeVAS              from './diagnosisTypeVAS';
-
+import DiagnosisTypeVAS             from './diagnosisTypeVAS';
+import MatrixPreLoader              from '../../matrixPreloader';
 import {
   diagnosisQuestionCreate,
   updateCrateQuestionFields,
@@ -17,6 +17,7 @@ import {
 }                                   from '../../../../../actions';
 import Button                       from 'material-ui/Button';
 import { get }                      from 'lodash'
+
 
 class CreateQuestionComponent extends Component {
   state = {
@@ -154,11 +155,19 @@ class CreateQuestionComponent extends Component {
             </Button>
           </div>
         </div>
+
+
+
+
+
         { id && !questionKey ?
-          'Loading.....' :
-          content_type === 'vas' ?
-            <DiagnosisTypeVAS/> :
-            <DiagnosisTypeQuestion sequenceList={this.state.sequenceList}/>
+          <MatrixPreLoader
+            left="1"
+            right="2"
+          />
+          : content_type === 'vas' ?
+              <DiagnosisTypeVAS      sequenceList={this.state.sequenceList}/> :
+              <DiagnosisTypeQuestion sequenceList={this.state.sequenceList}/>
 
         }
       </div>

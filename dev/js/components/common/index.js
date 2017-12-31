@@ -5,6 +5,7 @@ import Input                   from './Input/Input';
 import AsyncAreaSelect         from './AsyncAreaSelect/AsyncAreaSelect';
 import UniqueKey               from './UniqueKey/UniqueKey';
 import BlockDivider            from './BlockDivider/BlockDivider';
+import ContentPreLoader        from './PreLoaders/ContentPreLoader'
 
 export {
   ChooseSequence,
@@ -13,5 +14,6 @@ export {
   Input,
   AsyncAreaSelect,
   UniqueKey,
-  BlockDivider
+  BlockDivider,
+  ContentPreLoader
 };

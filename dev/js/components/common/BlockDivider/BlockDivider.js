@@ -12,7 +12,7 @@ class BlockDivider extends Component{
   changeClass = (size) => this.setState({reSize: !size ? 're_size' : ''});
 
   render() {
-    const { children, title } = this.props;
+    const { children, title, hideNavigation } = this.props;
     const { reSize } = this.state;
     return <div className={`block_divider ${reSize}` }>
       {
@@ -20,15 +20,21 @@ class BlockDivider extends Component{
           if (i === 0) {
             return (
               <div className="left"  key={i}>
-                <KeyboardArrowLeft
-                  className="arrow-left"
-                  style={{...STYLES}}
-                  onClick={() => this.changeClass(reSize)}
-                />
-                <KeyboardArrowRight
-                  className="arrow-right"
-                  style={{...STYLES}}
-                  onClick={() => this.changeClass(reSize)}/>
+                {
+                  !hideNavigation &&
+                  <KeyboardArrowLeft
+                    className="arrow-left"
+                    style={{...STYLES}}
+                    onClick={() => this.changeClass(reSize)}
+                  />
+                }
+                {
+                  !hideNavigation &&
+                  <KeyboardArrowRight
+                    className="arrow-right"
+                    style={{...STYLES}}
+                    onClick={() => this.changeClass(reSize)}/>
+                }
 
                 <div className="vertical_title">
                   {title}
