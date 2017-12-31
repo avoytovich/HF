@@ -18,7 +18,6 @@ import {
 import Button                       from 'material-ui/Button';
 import { get }                      from 'lodash'
 
-
 class CreateQuestionComponent extends Component {
   state = {
     questionType    : 'diagnosis',

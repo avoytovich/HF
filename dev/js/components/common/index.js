@@ -4,6 +4,7 @@ import DiagnosisRulesComponent from './DiagnosisRules/diagnosisRules';
 import Input                   from './Input/Input';
 import AsyncAreaSelect         from './AsyncAreaSelect/AsyncAreaSelect';
 import UniqueKey               from './UniqueKey/UniqueKey';
+import BlockDivider            from './BlockDivider/BlockDivider';
 
 export {
   ChooseSequence,
@@ -12,4 +13,5 @@ export {
   Input,
   AsyncAreaSelect,
   UniqueKey,
+  BlockDivider
 };

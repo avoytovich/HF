@@ -61,13 +61,12 @@ UniqueKey.defaultProps = {
 UniqueKey.propTypes = {
   path        : PropTypes.string.isRequired,
   domain      : PropTypes.string.isRequired,
-//  valuePath   : PropTypes.string.isRequired,
-  questionKey:PropTypes.string.isRequired,
-  id         : PropTypes.string.isRequired,
-  reducer    : PropTypes.string.isRequired,
+  questionKey : PropTypes.string.isRequired,
+  id          : PropTypes.string.isRequired,
+  reducer     : PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({store: state});
-const mapDispatchToProps = dispatch => bindActionCreators({onChange, dispatch,}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({onChange, dispatch}, dispatch);
 
 export default  connect(mapStateToProps, mapDispatchToProps)(UniqueKey);

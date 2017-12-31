@@ -1,39 +1,26 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import { browserHistory }           from 'react-router'
-import { diagnosisQuestionCreate,
-  updateCrateQuestionFields,
-  clearCreateQuestion,
-  findUniqueKey,
-  updateQuestionCreate,
-  getExerciseById,
-  findArea }                        from '../../../../../actions';
+import { get }                      from 'lodash';
+import { CONTENT_TYPE_LIST }        from '../../../../../utils';
+// Actions
+import {
+  updateCrateQuestionFields
+}                                   from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
+// Components
+import { UniqueKey, Input }         from '../../../../common';
+import SequenceBlock                from './sequenceBlock';
+import DiagnosticQuestion           from './diagnosticQuestion';
+// UI
 import Grid                         from 'material-ui/Grid';
 import Typography                   from 'material-ui/Typography';
-import IconButton                   from 'material-ui/IconButton';
-import Delete                       from 'material-ui-icons/Delete';
-import ExercisesAssetsModal         from '../../ExercisesTab/createExercise/exercisesAssetsModal';
-import { get }                      from 'lodash';
-import { CONTENT_TYPE_LIST }        from '../../../../../utils'
 import MUISelect                    from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
-import { Input }                    from '../../../../common';
-import TextField                    from 'material-ui/TextField';
 import MUIInput, { InputLabel }     from 'material-ui/Input';
 import { FormControl }              from 'material-ui/Form';
-import DiagnosticQuestion           from './diagnosticQuestion';
-import { UniqueKey }                from '../../../../common';
-import SequenceBlock                from './sequenceBlock';
 
 class diagnosisVASQuestion extends Component {
-  state = {
-    questionType    : 'diagnosis',
-    selectedValue   : 'single',
-    keyIsUniqueError: '',
-  };
-
   list = CONTENT_TYPE_LIST.concat([{label: 'VAS', value: 'vas'}]);
 
   render() {

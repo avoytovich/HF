@@ -13,7 +13,8 @@ import {
   DiagnosisAssets,
   DiagnosisRulesComponent,
   AsyncAreaSelect,
-  UniqueKey
+  UniqueKey,
+  BlockDivider
 }                                   from '../../../../common';
 import SequenceBlock                from './sequenceBlock';
 import DiagnosticQuestion           from './diagnosticQuestion';
@@ -33,6 +34,7 @@ class DiagnosisTypeQuestion extends Component {
     keyIsUniqueError: '',
   };
 
+
   render() {
     const {
       sequenceList,
@@ -42,111 +44,103 @@ class DiagnosisTypeQuestion extends Component {
       }
     } = this.props;
 
-    return <Grid container className="margin-remove">
-      <Grid item
-            md={6}
-            sm={12}
-            className="create-question-body">
-        <div className="main-question">
+    return <BlockDivider title="Question">
 
-          <Grid className="title">
-            <Typography type="title" gutterBottom>
-              Question
+      <div className="main-question" style={{width: '100%'}}>
+
+        <Grid className="title">
+          <Typography type="title" gutterBottom>
+            Question
+          </Typography>
+        </Grid>
+
+        <Grid container className="row-item">
+          <Grid item sm={6} style={{display: 'flex', flexDirection: 'column'}}>
+            <Typography
+              type="caption"
+              gutterBottom
+              className="custom-select-title">
+              Question type
             </Typography>
+
+            <MUISelect
+              value={content_type}
+              onChange={e => updateCrateQuestionFields(e.target.value, 'content_type')}
+              MenuProps={{ PaperProps: { style: { width: 400 }}}}
+            >
+              {CONTENT_TYPE_LIST.map((item, index) => (
+                <MenuItem
+                  key={ item.value }
+                  value={ item.value }>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </MUISelect>
           </Grid>
+        </Grid>
 
-          <Grid container className="row-item">
-            <Grid item sm={6} style={{display: 'flex', flexDirection: 'column'}}>
-              <Typography
-                type="caption"
-                gutterBottom
-                className="custom-select-title">
-                Question type
-              </Typography>
-
-              <MUISelect
-                value={content_type}
-                onChange={e => updateCrateQuestionFields(e.target.value, 'content_type')}
-                MenuProps={{ PaperProps: { style: { width: 400 }}}}
-              >
-                {CONTENT_TYPE_LIST.map((item, index) => (
-                  <MenuItem
-                    key={ item.value }
-                    value={ item.value }>
-                    {item.label}
-                  </MenuItem>
-                ))}
-              </MUISelect>
-            </Grid>
+        {/*Title and Body Area*/}
+        <Grid container className="row-item">
+          <Grid item md={6} sm={12}>
+            <Input
+              id='questionTitle'
+              value={questionTitle}
+              reducer={ createDiagnosisQuestion }
+              label={ 'Title' }
+            />
           </Grid>
-
-          {/*Title and Body Area*/}
-          <Grid container className="row-item">
-            <Grid item md={6} sm={12}>
-              <Input
-                id='questionTitle'
-                value={questionTitle}
-                reducer={ createDiagnosisQuestion }
-                label={ 'Title' }
-              />
-            </Grid>
-            <Grid item md={6} sm={12} >
-              <AsyncAreaSelect
-                domain="diagnostics"
-                path="findArea"
-                valuePath="area"
-                idKey="create_diagnostic_question"
-              />
-            </Grid>
+          <Grid item md={6} sm={12} >
+            <AsyncAreaSelect
+              domain="diagnostics"
+              path="findArea"
+              valuePath="area"
+              idKey="create_diagnostic_question"
+            />
           </Grid>
+        </Grid>
 
-          {/* Question !!! */}
-          <DiagnosticQuestion
-            id="question"
-            question={question}
-          />
+        {/* Question !!! */}
+        <DiagnosticQuestion
+          id="question"
+          question={question}
+        />
 
-          {/* Question Key */}
-          <UniqueKey
-            domain="diagnostics"
-            path="findByKey"
-            questionKey={questionKey}
-            id="questionKey"
-            reducer="createDiagnosisQuestion"
-          />
+        {/* Question Key */}
+        <UniqueKey
+          domain="diagnostics"
+          path="findByKey"
+          questionKey={questionKey}
+          id="questionKey"
+          reducer="createDiagnosisQuestion"
+        />
 
-          {/* Sequence */}
-          <SequenceBlock
-            domain="diagnostics"
-            path="sequenceList"
-            value={sequence}
-            valuePath="sequence"
-            typePath="sequenceType"
-            type={sequenceType}
-            list={sequenceList}
-          />
+        {/* Sequence */}
+        <SequenceBlock
+          domain="diagnostics"
+          path="sequenceList"
+          value={sequence}
+          valuePath="sequence"
+          typePath="sequenceType"
+          type={sequenceType}
+          list={sequenceList}
+        />
 
-          {/* Answers */}
-          <Grid className="title answer">
-            <Typography type="title"
-                        gutterBottom>
-              Answers
-            </Typography>
-          </Grid>
+        {/* Answers */}
+        <Grid className="title answer">
+          <Typography type="title"
+                      gutterBottom>
+            Answers
+          </Typography>
+        </Grid>
 
-          <DiagnosticAnswers
-            answerType={answerType}
-            typePath="answerType"
-          />
-        </div>
-      </Grid>
+        <DiagnosticAnswers
+          answerType={answerType}
+          typePath="answerType"
+        />
+      </div>
 
-      <Grid item
-            md={6}
-            sm={12}
-            className="rules">
-
-        {content_type === "functionalTest" && <DiagnosisAssets/>}
+      <div className="rules">
+        { content_type === "functionalTest" && <DiagnosisAssets/> }
 
         <DiagnosisRulesComponent
           type="diagnostic"
@@ -154,8 +148,9 @@ class DiagnosisTypeQuestion extends Component {
           area={area}
           step={sequence}
         />
-      </Grid>
-    </Grid>
+      </div>
+
+    </BlockDivider>
   }
 }
 
