@@ -76,10 +76,12 @@ html, body
   .right
     display: flex
     width: 50%
-    padding: 10px 20px 30px 20px
+    .rules
+      width: 100%
 
   .left
     border-right: 1px solid #e0e0e0
+    padding: 10px 20px 30px 20px
 
   .left_block
     width: 100%
@@ -91,7 +93,7 @@ html, body
   .arrow-left
     position: absolute
     top: 5px
-    right: calc(50% + 50px)
+    right: calc(50% + 15px)
     cursor: pointer
 
   &.re_size
@@ -120,3 +122,7 @@ html, body
       top: 10px
       left: 15px
       cursor: pointer
+    .rules
+      padding-right: 20px!important
+    .rules-block
+      margin-right: 0
