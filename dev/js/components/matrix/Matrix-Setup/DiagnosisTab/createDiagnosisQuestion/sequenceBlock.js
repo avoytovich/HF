@@ -18,6 +18,8 @@ import Typography                     from 'material-ui/Typography';
 import MUISelect                      from 'material-ui/Select';
 import Menu, { MenuItem }             from 'material-ui/Menu';
 
+
+
 const SEQUENCE_TYPE_LIST = [
     {label: 'Normal', value: 'normal'},
     {label: 'After',  value: 'after'},
@@ -40,6 +42,7 @@ class SequenceBlock extends Component {
 
     const { type, value, valuePath, typePath } = this.props;
     const { chooseSequence, list } = this.state;
+
     return  <Grid container  className="row-item">
       <Grid item lg={3} className="sequence-type">
         <MUISelect
@@ -109,7 +112,10 @@ SequenceBlock.propTypes = {
   domain      : PropTypes.string.isRequired,
   valuePath   : PropTypes.string.isRequired,
   typePath    : PropTypes.string.isRequired,
-  value       : PropTypes.string.isRequired,
+  value       :  PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   type        : PropTypes.string.isRequired,
   className   : PropTypes.string
 };
