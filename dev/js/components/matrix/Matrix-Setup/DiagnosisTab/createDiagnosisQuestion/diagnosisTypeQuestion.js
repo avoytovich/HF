@@ -9,25 +9,20 @@ import { get }                      from 'lodash';
 
 // Actions
 import {
-  diagnosisQuestionCreate,
   updateCrateQuestionFields,
-  clearCreateQuestion,
   findUniqueKey,
-  updateQuestionCreate,
-  getExerciseById,
-  findArea,
   addNewAnswer,
   removeAnswer
 }                                   from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
 import Input                        from '../../../../common/Input/Input';
 import {
-  ChooseSequence,
   DiagnosisAssets,
   DiagnosisRulesComponent,
   AsyncAreaSelect
 }                                   from '../../../../common';
 import SequenceBlock                from './sequenceBlock';
+import DiagnosticQuestion           from './diagnosticQuestion'
 // UI
 import Grid                         from 'material-ui/Grid';
 import Typography                   from 'material-ui/Typography';
@@ -40,8 +35,6 @@ import { FormControlLabel,
 import Radio                        from 'material-ui/Radio';
 import AddIcon                      from 'material-ui-icons/Add';
 import Clear                        from 'material-ui-icons/Clear';
-
-
 
 
 
@@ -59,33 +52,9 @@ class DiagnosisTypeQuestion extends Component {
       {label: 'Question',        value: 'question'},
       {label: 'Functional test', value: 'functionalTest'},
     ],
-    questionLang    : 'en',
     answerLang      : ['en', 'en'],
     keyIsUniqueError: '',
-    chooseSequence  : false,
   };
-
-
-
-  getOptions = (input) => {
-    return findArea('diagnostics', 'findArea').then(res => {
-      const { data } = res.data;
-      const _data = data.map(item =>
-        Object.assign({}, item, { label: item.title, value: item.id }));
-      return {
-        options: [{ label: 'All', value: null, id: 0 }].concat(_data),
-        // CAREFUL! Only set this to true when there are no more options,
-        // or more specific queries will not be sent to the server.
-        complete: true
-      }
-    });
-  };
-
-  onAreasChange = (value) => {
-    updateCrateQuestionFields(value, 'area');
-  };
-
-  handleQuestionLangChange = (event, value) => this.setState({ questionLang: value });
 
   checkIfQuestionKeyValid = (event, value) => {
     this.props.onChange(event, value);
@@ -101,8 +70,6 @@ class DiagnosisTypeQuestion extends Component {
       });
     }
   };
-
-  openChooseSequence = (chooseSequence) => this.setState({ chooseSequence });
 
   handleAnswerLangChange = (value, index) => {
     const state = this.state.answerLang;
@@ -231,9 +198,7 @@ class DiagnosisTypeQuestion extends Component {
       }
     } = this.props;
 
-    const {
-      content_type_list, questionLang, keyIsUniqueError, sequenceTypeList, answer, chooseSequence
-    } = this.state;
+    const { content_type_list, keyIsUniqueError } = this.state;
 
 
     return <Grid container className="margin-remove">
@@ -299,42 +264,10 @@ class DiagnosisTypeQuestion extends Component {
           </Grid>
 
           {/* Question !!! */}
-          <Grid container className="row-item">
-            <Grid item xs={12}>
-              {this.state.questionLang === 'en' ?
-                <Input
-                  id='question.en'
-                  value={question.en}
-                  reducer={createDiagnosisQuestion}
-                  label={ 'Question' }
-                  multiline={true}
-                  rows="5"
-                  cols="60"
-                /> :
-                <Input
-                  id='question.swe'
-                  value={question.swe}
-                  reducer={createDiagnosisQuestion}
-                  label={ 'Question' }
-                  multiline={true}
-                  rows="5"
-                  cols="60"
-                />
-              }
-            </Grid>
-            <Tabs
-              value={questionLang}
-              onChange={this.handleQuestionLangChange}
-              indicatorColor="primary"
-              className="tab-lang"
-              textColor="primary"
-              centered
-            >
-              <Tab label="English" value="en" />
-              <Tab label="Sweden"  value="swe" />
-            </Tabs>
-          </Grid>
-
+          <DiagnosticQuestion
+            id="question"
+            question={question}
+          />
 
           {/* Question Key */}
           <Grid container className="row-item">
@@ -354,9 +287,13 @@ class DiagnosisTypeQuestion extends Component {
 
           {/* Sequence */}
           <SequenceBlock
+            domain="diagnostics"
+            path="sequenceList"
             value={sequence}
-            list={sequenceList}
+            valuePath="sequence"
+            typePath="sequenceType"
             type={sequenceType}
+            list={sequenceList}
           />
 
           <Grid className="title answer">

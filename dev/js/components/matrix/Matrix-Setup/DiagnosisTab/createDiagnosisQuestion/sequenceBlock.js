@@ -3,10 +3,13 @@ import { connect }                    from 'react-redux';
 import { bindActionCreators }         from 'redux';
 import PropTypes                      from 'prop-types';
 
+//Actions
 import {
   updateCrateQuestionFields,
   getSequenceList
 }                                     from '../../../../../actions';
+
+//Components
 import { ChooseSequence }             from '../../../../common';
 
 // UI
@@ -22,10 +25,12 @@ const SEQUENCE_TYPE_LIST = [
 ];
 
 class SequenceBlock extends Component {
+
   state = { chooseSequence  : false, list: [] };
 
   componentWillMount() {
-    getSequenceList('diagnostics', 'sequenceList')
+    const {path, domain} = this.props;
+    getSequenceList(domain, path)
       .then(({data}) => this.setState({list: data.data}));
   }
 
@@ -33,14 +38,13 @@ class SequenceBlock extends Component {
 
   render() {
 
-    const { type, value } = this.props;
+    const { type, value, valuePath, typePath } = this.props;
     const { chooseSequence, list } = this.state;
-
     return  <Grid container  className="row-item">
       <Grid item lg={3} className="sequence-type">
         <MUISelect
           value={type}
-          onChange={event => updateCrateQuestionFields(event.target.value, 'sequenceType')}
+          onChange={event => updateCrateQuestionFields(event.target.value, typePath)}
           MenuProps={{PaperProps: {style: {width: 400}}}}
         >
           {SEQUENCE_TYPE_LIST.map((item, index) => (
@@ -61,11 +65,10 @@ class SequenceBlock extends Component {
           gutterBottom>
           Sequence
         </Typography>
-
         <div className="sequence" >
           <MUISelect
             value={value}
-            onChange={({target}) => updateCrateQuestionFields(target.value, 'sequence')}
+            onChange={({target}) => updateCrateQuestionFields(target.value, valuePath)}
             MenuProps={{PaperProps: {style: {width: 400}}}}
           >
             {list.map((item, index) => (
@@ -94,6 +97,22 @@ class SequenceBlock extends Component {
     </Grid>
   }
 }
+
+SequenceBlock.defaultProps = {
+  className : '',
+  value     : '1',
+  type      : 'normal'
+};
+
+SequenceBlock.propTypes = {
+  path        : PropTypes.string.isRequired,
+  domain      : PropTypes.string.isRequired,
+  valuePath   : PropTypes.string.isRequired,
+  typePath    : PropTypes.string.isRequired,
+  value       : PropTypes.string.isRequired,
+  type        : PropTypes.string.isRequired,
+  className   : PropTypes.string
+};
 
 const mapStateToProps    = state => ({store: state.createDiagnosisQuestion});
 const mapDispatchToProps = dispatch => bindActionCreators({dispatch}, dispatch);
