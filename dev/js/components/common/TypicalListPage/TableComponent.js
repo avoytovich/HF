@@ -239,6 +239,9 @@ class TableComponent extends Component {
     switch (type) {
       case 'time':
        return moment.unix(value).format(format);
+
+      case 'length':
+        return value ? value.length : 0;
       default:
         return value;
     }
@@ -298,7 +301,8 @@ class TableComponent extends Component {
                   aria-checked={isSelected}
                   onClick={() => this.onRowSelection(event, row, selected)}
                 >
-                  <TableCell padding="checkbox">
+                  <TableCell padding="checkbox"
+                             className="td-checkbox">
                     <Checkbox checked={isSelected}
                               onClick={event => this.handleClick(event, row, selected)}/>
                   </TableCell>

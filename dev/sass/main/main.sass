@@ -74,14 +74,17 @@ html, body
 
   .left,
   .right
-    display: flex
-    width: 50%
+    max-width: 50%
+    flex-basis: 50%
+
     .rules
-      width: 100%
+      flex: 1
 
   .left
     border-right: 1px solid #e0e0e0
-    padding: 10px 20px 30px 20px
+    //padding: 10px 20px 30px 20px
+    min-width: 50%
+    max-width: 50%
 
   .left_block
     width: 100%
@@ -100,12 +103,17 @@ html, body
     .left
       padding: 0
       width: 60px
+      min-width: 60px
+      flex-basis: auto
 
     .left_block,
     .arrow-left
       display: none
     .right
       width: calc(100% - 60px)
+      max-width: calc(100% - 60px)
+      flex-basis: auto
+
 
     .vertical_title
       display: block

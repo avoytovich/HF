@@ -12,14 +12,15 @@ class BlockDivider extends Component{
   changeClass = (size) => this.setState({reSize: !size ? 're_size' : ''});
 
   render() {
-    const { children, title, hideNavigation } = this.props;
+    const { children, title, hideNavigation, rightClassName, leftClassName } = this.props;
     const { reSize } = this.state;
     return <div className={`block_divider ${reSize}` }>
       {
         children.map((child, i) => {
           if (i === 0) {
             return (
-              <div className="left"  key={i}>
+              <div className={`left ${leftClassName || ''}`} key={i}>
+                <div style={{padding: "10px 20px 30px 20px"}}>
                 {
                   !hideNavigation &&
                   <KeyboardArrowLeft
@@ -42,12 +43,13 @@ class BlockDivider extends Component{
                 <div className="left_block">
                   {child}
                 </div>
+                </div>
               </div>
             )
           }
           else {
             return (
-              <div className="right" key={i}>
+              <div className={`right ${rightClassName || ''}`} key={i}>
                 {child}
               </div>
             );

@@ -134,7 +134,7 @@ export const EXERCISES_TAB = {
   title: 'ExerciseTab',
   tableHeader: [
     { title: 'Name',       key: 'name',       className: 'left'                                    },
-//    { title: 'Key',        key: 'packages',   className: 'left'                                    },
+    { title: 'Packages',   key: 'packages',   className: 'center', type: 'length'                  },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
   ]

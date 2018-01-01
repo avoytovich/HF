@@ -1,17 +1,21 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import DiagnosisRulesComponent      from '../../../../common/DiagnosisRules/diagnosisRules';
 import { browserHistory }           from 'react-router'
-import { diagnosisQuestionCreate,
+import {
   updateCrateQuestionFields,
   clearCreateQuestion,
   findUniqueKey,
-  updateQuestionCreate,
   getPackagenById,
   findArea }                        from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
-import { Async }                    from 'react-select';
+import {
+  BlockDivider,
+  AsyncAreaSelect,
+  UniqueKey
+}                                   from '../../../../common';
+
+
 import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
 import Typography                   from 'material-ui/Typography';
@@ -19,7 +23,11 @@ import Input                        from '../../../../common/Input/Input';
 import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
-import PackageLevelComponent        from './packageLevel'
+import PackageLevelComponent        from './packageLevel';
+import { submitTabs }               from '../../../../../utils/matrix';
+import MatrixPreLoader              from '../../matrixPreloader';
+
+
 
 export const THERAPY = [
   { value: '1',  label: 'Daily'},
@@ -54,6 +62,7 @@ class CreatePackageComponent extends Component {
 
   constructor(props) {
     super(props);
+    clearCreateQuestion();
     updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
@@ -68,65 +77,26 @@ class CreatePackageComponent extends Component {
     }
   }
 
-  componentWillUnmount() { clearCreateQuestion(); }
-
-  getOptions = (input) => {
-    return findArea('diagnostics', 'findArea').then(res => {
-      const { data } = res.data;
-      const _data = data.map(item =>
-        Object.assign({}, { label: item.title, value: item.id, id: item.id}));
-      return {
-        options: [{ label: 'All', value: null, id: null }].concat(_data),
-        // CAREFUL! Only set this to true when there are no more options,
-        // or more specific queries will not be sent to the server.
-//        complete: true
-      }
-    });
-  };
-
-  onAreasChange = (value) => updateCrateQuestionFields(value, 'bodyAreas');
-
-  addNewAnswer = (value) => {
-    const inState = this.state.answerLang;
-    this.setState({ answerLang: inState.concat('en')});
-    addNewAnswer(value);
-  };
-
-  checkIfQuestionKeyValid = (event, value) => {
-    this.props.onChange(event, value);
-
-    if (event.target.value.length > 3) {
-      findUniqueKey('diagnostics', 'findCondByKey', event.target.value).then(res => {
-        if (res) {
-          this.setState({keyIsUniqueError: 'Key is not Unique'});
-        }
-        else if (!res && this.state.keyIsUniqueError){
-          this.setState({keyIsUniqueError: ''});
-        }
-      });
-    }
-  };
-
-
   done = (value) => {
     const { area, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
 
     const result = {
       key      : questionKey,
-      area_id  : area ? area.id : 0,
+      area_id  : area ? area.value : null,
       title    : questionTitle,
       type     : packageType,
       package_levels : packageLevels,
     };
 
+    debugger;
 
-    !this.props.routeParams.packageId ?
-      diagnosisQuestionCreate('exercises', 'packages', result)
-      .then(() => browserHistory.push(`/matrix-setup/packages`)) :
-
-      updateQuestionCreate('exercises', 'packages', {...result, id: this.props.routeParams.packageId})
-      .then(() => browserHistory.push(`/matrix-setup/packages`))
-
+    submitTabs(
+      'exercises',
+      'packages',
+      result,
+      '/matrix-setup/packages',
+      this.props.routeParams.id
+    );
   };
 
   cancel = () => browserHistory.push(`/matrix-setup/packages`);
@@ -189,135 +159,112 @@ class CreatePackageComponent extends Component {
           </div>
         </div>
 
-        <Grid container className="margin-remove">
+        {/*rightClassName="package-tabs-wrapper"*/}
+        <BlockDivider title="Package" >
+          <div className="main-question" style={{width:'100%'}}>
 
-          <Grid item
-                md={6}
-                sm={12}
-                className="create-question-body">
-            <div className="main-question">
-
-              <Grid container>
-                <Grid item xs={12}>
-                  <Typography type="title">
-                    Package
-                  </Typography>
-                </Grid>
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography type="title">
+                  Package
+                </Typography>
               </Grid>
+            </Grid>
 
-              {/*Title and Body Area*/}
-              <Grid container className="row-item">
-                <Grid item md={6} sm={12}>
-                  <Input
-                    id='questionTitle'
-                    value={questionTitle}
-                    reducer={ createDiagnosisQuestion }
-                    label={ L_CREATE_QUESTION.questionTitle }
-                    placeholder={ L_CREATE_QUESTION.enterTitle }
-                  />
-                </Grid>
-                <Grid item md={6} sm={12} >
-                  <Typography
-                    type="caption"
-                    gutterBottom
-                    className="custom-select-title">
-                    Body Areas
-                  </Typography>
-                  <Async
-                    name='body-areas'
-                    id='body-areas'
-                    loadOptions={this.getOptions}
-                    onChange={this.onAreasChange}
-                    multi
-                    placeholder={'Select body area'}
-                    value={bodyAreas}/>
-                </Grid>
+            {/*Title and Body Area*/}
+            <Grid container className="row-item">
+              <Grid item md={6} sm={12}>
+                <Input
+                  id='questionTitle'
+                  value={questionTitle}
+                  reducer={ createDiagnosisQuestion }
+                  label={ L_CREATE_QUESTION.questionTitle }
+                  placeholder={ L_CREATE_QUESTION.enterTitle }
+                />
               </Grid>
-
-              {/* Question Key */}
-              <Grid container className="row-item">
-                <Grid item xs={12}>
-                  <Input
-                    id='questionKey'
-                    value={questionKey}
-                    reducer={createDiagnosisQuestion}
-                    label={ 'Package Key' }
-                    placeholder={ L_CREATE_QUESTION.enterQuestionKey }
-                    error={!!this.state.keyIsUniqueError}
-                    onCustomChange={this.checkIfQuestionKeyValid}
-                  />
-                </Grid>
+              <Grid item md={6} sm={12} >
+                <AsyncAreaSelect
+                  domain="diagnostics"
+                  path="findArea"
+                  valuePath="area"
+                  idKey="create_packages_question"
+                />
               </Grid>
+            </Grid>
 
+            {/* Question Key */}
+            <UniqueKey
+              domain="diagnostics"
+              path="findByKey"
+              questionKey={questionKey}
+              label="Package Key"
+              id="questionKey"
+              reducer="createDiagnosisQuestion"
+            />
 
-              <Grid container className="row-item">
-                <Grid item md={6} sm={12}>
-                  <Typography
-                    type="caption"
-                    gutterBottom
-                    className="custom-select-title">
-                    Type
-                  </Typography>
-                  <SELECT
-                    value={packageType}
-                    onChange={(event) => updateCrateQuestionFields(event.target.value, 'packageType')}
-                    className="MuiFormControlDEFAULT"
-                  >
-                    {PACKAGE_TYPE.map((item, index) => (
-                      <MenuItem
-                        key={item.value}
-                        value={item.value}
-                        style={{
-                          fontWeight: PACKAGE_TYPE.indexOf(item.value) !== -1 ? '500' : '400',
-                        }}
-                      >
-                        {item.label}
-                      </MenuItem>
-                    ))}
-                  </SELECT>
-                </Grid>
-                <Grid item md={6} sm={12} >
-                  {/*<Typography*/}
-                    {/*type="caption"*/}
-                    {/*gutterBottom*/}
-                    {/*className="custom-select-title">*/}
-                    {/*Therapy continuity*/}
-                  {/*</Typography>*/}
-                  {/*<SELECT*/}
-                    {/*value={therapyContinuity}*/}
-                    {/*onChange={(event) =>  updateCrateQuestionFields(event.target.value, 'therapyContinuity')}*/}
-                    {/*className="MuiFormControlDEFAULT"*/}
-                  {/*>*/}
-                    {/*{THERAPY.map((item, index) => (*/}
-                      {/*<MenuItem*/}
-                        {/*key={item.value}*/}
-                        {/*value={item.value}*/}
-                        {/*style={{*/}
-                          {/*fontWeight: PACKAGE_TYPE.indexOf(item.value) !== -1 ? '500' : '400',*/}
-                        {/*}}*/}
-                      {/*>*/}
-                        {/*{item.label}*/}
-                      {/*</MenuItem>*/}
-                    {/*))}*/}
-                  {/*</SELECT>*/}
-                </Grid>
+            <Grid container className="row-item">
+              <Grid item md={6} sm={12}>
+                <Typography
+                  type="caption"
+                  gutterBottom
+                  className="custom-select-title">
+                  Type
+                </Typography>
+                <SELECT
+                  value={packageType}
+                  onChange={(event) => updateCrateQuestionFields(event.target.value, 'packageType')}
+                  className="MuiFormControlDEFAULT"
+                >
+                  {PACKAGE_TYPE.map((item, index) => (
+                    <MenuItem
+                      key={item.value}
+                      value={item.value}
+                      style={{
+                        fontWeight: PACKAGE_TYPE.indexOf(item.value) !== -1 ? '500' : '400',
+                      }}
+                    >
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </SELECT>
               </Grid>
+              <Grid item md={6} sm={12} >
+                {/*<Typography*/}
+                {/*type="caption"*/}
+                {/*gutterBottom*/}
+                {/*className="custom-select-title">*/}
+                {/*Therapy continuity*/}
+                {/*</Typography>*/}
+                {/*<SELECT*/}
+                {/*value={therapyContinuity}*/}
+                {/*onChange={(event) =>  updateCrateQuestionFields(event.target.value, 'therapyContinuity')}*/}
+                {/*className="MuiFormControlDEFAULT"*/}
+                {/*>*/}
+                {/*{THERAPY.map((item, index) => (*/}
+                {/*<MenuItem*/}
+                {/*key={item.value}*/}
+                {/*value={item.value}*/}
+                {/*style={{*/}
+                {/*fontWeight: PACKAGE_TYPE.indexOf(item.value) !== -1 ? '500' : '400',*/}
+                {/*}}*/}
+                {/*>*/}
+                {/*{item.label}*/}
+                {/*</MenuItem>*/}
+                {/*))}*/}
+                {/*</SELECT>*/}
+              </Grid>
+            </Grid>
+          </div>
 
-
-            </div>
-          </Grid>
-
-          <Grid item
-                md={6}
-                sm={12}
-                className="rules">
-
-            <Grid container className="row-item package-level-header margin-remove">
+          <div className="page-tabs">
+            {/*className="row-item package-level-header margin-remove"*/}
+            {/*className="package-level-header-item-left"*/}
+            <Grid container className="package-level-header">
               <Grid item xs={6} className="package-level-header-item-left">
-                  <Typography
-                    type="title">
-                    Levels
-                  </Typography>
+                <Typography
+                  type="title">
+                  Levels
+                </Typography>
               </Grid>
               <Grid item xs={6} className="package-level-header-item-right">
                 <Button color="primary" onClick={() => this.addNewLevel(packageLevels)}>
@@ -325,32 +272,37 @@ class CreatePackageComponent extends Component {
                 </Button>
               </Grid>
             </Grid>
-            <Tabs
-              value={this.state.tab}
-              onChange={this.handleTabChange}
-              indicatorColor="primary"
-              textColor="primary"
-              scrollable
-              fullWidth
-            >
-              {packageLevels.map((item, index) => <Tab key={index} label={`Level ${item.level}`}/>)}
-            </Tabs>
-              {packageLevels.map((level, index) =>
-                  <div className="tab-item"
-                       key={index}>
-                    {
-                      +this.state.tab === index &&
-                      <PackageLevelComponent
-                        packageId={packageId}
-                        index={index}
-                        level={level}
-                      />
-                    }
-                  </div>
-                )}
-          </Grid>
 
-        </Grid>
+            <div>
+              <Tabs
+                value={this.state.tab}
+                onChange={this.handleTabChange}
+                indicatorColor="primary"
+                textColor="primary"
+                scrollable
+                fullWidth
+              >
+                {packageLevels.map((item, index) =>
+                  <Tab key={index} label={`Level ${item.level}`}/>)}
+              </Tabs>
+            </div>
+
+            {packageLevels.map((level, index) =>
+              <div className="tab-item"
+                   key={index}>
+                {
+                  +this.state.tab === index &&
+                  <PackageLevelComponent
+                    packageId={packageId}
+                    index={index}
+                    level={level}
+                  />
+                }
+              </div>
+            )}
+
+          </div>
+        </BlockDivider>
       </div>
     )
   }

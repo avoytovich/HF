@@ -36,7 +36,8 @@ class EnhancedTableHead extends Component {
       <TableHead>
         <TableRow>
 
-          <TableCell padding="checkbox">
+          <TableCell padding="checkbox"
+                     className="td-checkbox">
             <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}

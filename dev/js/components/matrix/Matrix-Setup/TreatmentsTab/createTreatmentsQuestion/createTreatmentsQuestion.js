@@ -215,13 +215,7 @@ class CreateTreatmentsComponent extends Component {
                     value={treatmentsLevels}
                     onChange={this.handleLevelsChange}
                     disabled={!this.state.treatmentsLevels.length}
-                    MenuProps={{
-                      PaperProps:{
-                        style:{
-                          width:400,
-                        },
-                      },
-                    }}
+                    MenuProps={{PaperProps:{style:{width: 400}}}}
                   >
                     {this.state.treatmentsLevels.map((item, index) => (
                       <MenuItem
@@ -245,6 +239,7 @@ class CreateTreatmentsComponent extends Component {
                 type="diagnostic"
                 area={area}
                 step={null}
+                showTitle={true}
               />
             </div>
           </BlockDivider>
@@ -256,12 +251,8 @@ class CreateTreatmentsComponent extends Component {
 }
 const mapStateToProps = state => ({
   createDiagnosisQuestion: state.createDiagnosisQuestion,
-  commonReducer          : state.commonReducer,
+  commonReducer          : state.commonReducer
 });
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  onChange,
-  dispatch,
-}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({dispatch}, dispatch);
 
 export default  connect(mapStateToProps, mapDispatchToProps)(CreateTreatmentsComponent);

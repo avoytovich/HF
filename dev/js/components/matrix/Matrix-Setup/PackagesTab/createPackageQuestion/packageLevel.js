@@ -106,7 +106,7 @@ class PackageLevelComponent extends Component {
           />
         </Grid>
 
-        <Grid item xs={5}>
+        <Grid item xs={6}>
           <Typography type="caption" style={{marginBottom: '16px'}}>
               Therapy continuity
           </Typography>
