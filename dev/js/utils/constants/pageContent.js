@@ -1,5 +1,5 @@
-const TIME_FORMAT      = 'DD MMM YYYY';
-const TIME_FORMAT_DOTS = 'DD.MM.YYYY';
+export const TIME_FORMAT      = 'DD MMM YYYY';
+export const TIME_FORMAT_DOTS = 'DD.MM.YYYY';
 
 export const COMPANIES_PAGE = {
   key:         'organizations',

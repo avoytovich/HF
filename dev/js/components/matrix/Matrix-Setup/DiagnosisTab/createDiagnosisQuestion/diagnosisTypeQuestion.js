@@ -10,7 +10,7 @@ import {
 // Components
 import { Input }                    from '../../../../common';
 import {
-  DiagnosisAssets,
+  AssetsList,
   DiagnosisRulesComponent,
   AsyncAreaSelect,
   UniqueKey,
@@ -40,7 +40,8 @@ class DiagnosisTypeQuestion extends Component {
       sequenceList,
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle, area, question, questionKey, sequence, sequenceType, answerType, content_type
+        questionTitle, area, question, questionKey, sequence, sequenceType, answerType, content_type,
+        diagnostic_assets
       }
     } = this.props;
 
@@ -140,11 +141,18 @@ class DiagnosisTypeQuestion extends Component {
       </div>
 
       <div className="rules">
-
         {
           content_type === "functionalTest"
           &&
-          <DiagnosisAssets/>
+          <AssetsList
+            list={ diagnostic_assets }
+            path="diagnostic_assets"
+            domain="diagnostics"
+            valuePath="diagnostic_assets"
+            multiSelect={false}
+            listValue={false}
+
+          />
         }
 
         <DiagnosisRulesComponent

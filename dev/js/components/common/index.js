@@ -1,19 +1,21 @@
 import ChooseSequence          from './ChooseSequenceModal/chooseSequence';
-import DiagnosisAssets         from './DiagnosisAssets/diagnosisAssets';
+import AssetsList              from './AssetsList/AssetsList';
 import DiagnosisRulesComponent from './DiagnosisRules/diagnosisRules';
 import Input                   from './Input/Input';
 import AsyncAreaSelect         from './AsyncAreaSelect/AsyncAreaSelect';
 import UniqueKey               from './UniqueKey/UniqueKey';
 import BlockDivider            from './BlockDivider/BlockDivider';
 import ContentPreLoader        from './PreLoaders/ContentPreLoader'
+import AssetsModal             from './AssetsModal/AssetsModal';
 
 export {
   ChooseSequence,
-  DiagnosisAssets,
+  AssetsList,
   DiagnosisRulesComponent,
   Input,
   AsyncAreaSelect,
   UniqueKey,
   BlockDivider,
-  ContentPreLoader
+  ContentPreLoader,
+  AssetsModal
 };

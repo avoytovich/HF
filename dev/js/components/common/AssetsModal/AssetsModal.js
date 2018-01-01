@@ -26,7 +26,7 @@ import moment from "moment";
 import { TIME_FORMAT }            from '../../../../../utils/constants';
 
 
-class ExercisesAssetsModal extends Component {
+class AssetsModal extends Component {
   state = {
     list : [],
     isOpen: null,
@@ -100,11 +100,11 @@ class ExercisesAssetsModal extends Component {
 
         <List>
           {list.map((item, index) => {
-              const { id, title, created_at } = item;
-              const created = moment.unix(created_at).format('DD MM YYYY');
+            const { id, title, created_at } = item;
+            const created = moment.unix(created_at).format('DD MM YYYY');
 
             return <ListItem key={index}
-                       className={`choose-sequence-item`}>
+                             className={`choose-sequence-item`}>
 
               <Grid container  className="choose-sequence-item-header">
                 <Grid item xs={12}
@@ -139,4 +139,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapDispatchToProps)(ExercisesAssetsModal);
+export default connect(mapDispatchToProps)(AssetsModal);

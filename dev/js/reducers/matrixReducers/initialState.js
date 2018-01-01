@@ -18,7 +18,7 @@ const diagnosticTab = {
     { en: '', swe: ''}
   ],
   range   : { from: 0, to: 100 },
-  diagnostic_assets: [],
+  diagnostic_assets: '',
   rules: [],
 };
 
