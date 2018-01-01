@@ -185,7 +185,9 @@ const parseAnswers= (answer) => {
   }
 };
 
-export default createReducer(InitialState, CREATE_QUESTION, {
+const clearAll = () => InitialState;
+
+export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
   [`${CREATE_QUESTION}_UPDATE`]               : createQuestionUpdate,
   [`${CREATE_QUESTION}_ADD_RULE`]             : createQuestionRules,
   [`${CREATE_QUESTION}_CHANGE_TYPE`]          : changeType,
@@ -197,5 +199,7 @@ export default createReducer(InitialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_REMOVE_ANSWER`]        : removeAnswer,
   [`${CREATE_QUESTION}_SET_FULL_QUESTION`]    : setFullQuestion,
   [`${CREATE_QUESTION}_SET_COND_QUESTION`]    : setFullQuestionForCondition,
-  [`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`] : setFullQuestionForPackage
+  [`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`] : setFullQuestionForPackage,
+  [`${CREATE_QUESTION}_CLEAR_STATE`]          : clearAll,
+
 });

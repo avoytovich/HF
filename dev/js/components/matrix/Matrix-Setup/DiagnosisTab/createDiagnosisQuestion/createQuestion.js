@@ -17,6 +17,7 @@ import {
 }                                   from '../../../../../actions';
 import Button                       from 'material-ui/Button';
 import { get }                      from 'lodash'
+import { submitTabs }               from '../../../../../utils/matrix';
 
 
 class CreateQuestionComponent extends Component {
@@ -39,8 +40,6 @@ class CreateQuestionComponent extends Component {
 
   constructor(props) {
     super(props);
-    clearCreateQuestion();
-
     updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
@@ -91,41 +90,53 @@ class CreateQuestionComponent extends Component {
     }
   };
 
+  getSequenceTypeResult = (sequenceType, sequence) =>
+    sequenceType === 'after' ?
+      sequence + 0.5 : sequenceType === 'before' ?
+        sequence - 0.5 : sequence;
+
   submit = (value) => {
     const {
-      sequenceType, questionKey, sequence, area, question, answerType,
-      questionTitle, rules, content_type, diagnostic_assets
+      sequenceType, questionKey, sequence, question, questionTitle, content_type
     } = value;
-    const {type, subtype} = this.getAnswerType(answerType);
+
+    const optional = content_type !== 'vas' ?
+        this.configureQuestionResult(value, content_type === 'functionalTest') : {};
+
     const result = {
       type : 'diagnostic',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
-      area_id : area.value || 0,
       title: questionTitle,
       question: { ...question },
+      content_type,
+      ...optional,
+    };
+
+    submitTabs(
+      'diagnostics',
+      'createQuestion',
+      result,
+      '/matrix-setup/diagnosis',
+      this.props.routeParams.id
+    );
+  };
+
+
+  configureQuestionResult = (value, optional) => {
+    const { area, answerType, rules, diagnostic_assets } = value,
+          { type, subtype } = this.getAnswerType(answerType),
+          moreProps = optional ? { test_file_id: get(diagnostic_assets, 'id') || null } : {};
+    return {
+      area_id : area.value || null,
       answer: {
         type, subtype,
         values: this.getAnswer(answerType, value)
       },
       rule: rules[0],
-      content_type,
-      test_file_id: get(diagnostic_assets, '0.id') || null
+      ...moreProps
     };
-
-    !this.props.routeParams.id ?
-      diagnosisQuestionCreate('diagnostics', 'createQuestion', result)
-      .then(() => browserHistory.push(`/matrix-setup/diagnosis`)) :
-
-      updateQuestionCreate('diagnostics', 'createQuestion', result, this.props.routeParams.id)
-      .then(() => browserHistory.push(`/matrix-setup/diagnosis`))
-
   };
-
-  getSequenceTypeResult = (sequenceType, sequence) =>
-    sequenceType === 'after' ?
-      sequence + 0.5 : sequenceType === 'before' ?
-        sequence - 0.5 : sequence;
 
   cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
 
@@ -155,9 +166,6 @@ class CreateQuestionComponent extends Component {
             </Button>
           </div>
         </div>
-
-
-
 
 
         { id && !questionKey ?

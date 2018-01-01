@@ -45,7 +45,7 @@ export const getListByPost = (domenKey, apiKey, _query, url) => {
 };
 
 export const clearCreateQuestion = () =>
-  store.dispatch({type:`${CREATE_QUESTION}_CLEAR`});
+  store.dispatch({type:`${CREATE_QUESTION}_CLEAR_STATE`});
 
 export const updateCrateQuestionFields = (data, path) => {
   return store.dispatch({type:`${CREATE_QUESTION}_UPDATE`,
