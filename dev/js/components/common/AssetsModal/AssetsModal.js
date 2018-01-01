@@ -1,6 +1,19 @@
 import React, { Component }       from 'react';
 import { connect }                from 'react-redux';
 import { bindActionCreators }     from 'redux';
+import PropTypes              from 'prop-types';
+import moment                     from 'moment';
+import {
+  TIME_FORMAT_DOTS,
+  ASSETS_ITEM
+}                                 from '../../../utils/constants';
+// Action
+import {
+  updateCrateQuestionFields,
+  getExercises,
+}                                 from '../../../actions';
+//UI
+import { withStyles }             from 'material-ui/styles';
 import Dialog                     from 'material-ui/Dialog';
 import Slide                      from 'material-ui/transitions/Slide';
 import List, { ListItem }         from 'material-ui/List';
@@ -9,59 +22,59 @@ import Toolbar                    from 'material-ui/Toolbar';
 import IconButton                 from 'material-ui/IconButton';
 import Typography                 from 'material-ui/Typography';
 import CloseIcon                  from 'material-ui-icons/Close';
-import Collapse                   from 'material-ui/transitions/Collapse';
 import Grid                       from 'material-ui/Grid';
-import ExpandLess                 from 'material-ui-icons/ExpandLess';
-import ExpandMore                 from 'material-ui-icons/ExpandMore';
-import {
-  updateCrateQuestionFields,
-  getQuestionsByStep,
-  getExercises,
-}                                 from '../../../../../actions';
-import Radio                      from 'material-ui/Radio';
 import Button                     from 'material-ui/Button';
-import TextField                  from 'material-ui/TextField';
 import Checkbox                   from 'material-ui/Checkbox';
-import moment from "moment";
-import { TIME_FORMAT }            from '../../../../../utils/constants';
+import Input, { InputAdornment }  from 'material-ui/Input';
+import SearchIcon                 from 'material-ui-icons/Search';
 
+const styles = theme => ({
+  formControl: {
+    margin: theme.spacing.unit,
+    display: 'flex',
+    alignItems: 'center'
+  },
+});
 
 class AssetsModal extends Component {
-  state = {
-    list : [],
-    isOpen: null,
-    selected: [],
-  };
+  state = { list : [], isOpen: null, selected: [] };
 
   componentDidMount() {
     const selected = this.props.isSelected.map(el => el && el.id);
-    getExercises(this.props.domain || 'exercises', 'assets').then(list => {
-      this.setState({list, selected})
-    });
+
+    getExercises(this.props.domain, this.props.path)
+      .then(list => this.setState({list, selected}));
   }
 
-  onSelect = (event, value) => {
-    const filtered = this.state.selected.filter(item => +item !== +value);
-    const selected = filtered.length < this.state.selected.length ? filtered : filtered.concat(value);
+  onSelect = (event, selected, value) => {
+    const filtered = selected.filter(item => +item !== +value);
 
-    this.setState({selected});
+    const list =
+      filtered.length < selected.length ?
+        filtered : filtered.concat(value);
+
+    this.setState({selected: list});
   };
 
-  save = (selected) => {
-    const _list = this.state.list.filter(item =>
-      this.state.selected.some(selectedId => `${item.id}` === `${selectedId}`));
-    updateCrateQuestionFields(_list, this.props.path || `exercise.files.data`);
+  save = (selected, listValue) => {
+    const list = this.state.list.filter(item =>
+      selected.some(selectedId => `${item.id}` === `${selectedId}`));
+
+    const _list = listValue ? list : list[0] || '';
+
+    updateCrateQuestionFields(_list, this.props.valuePath);
+
     this.props.handleRequestClose(false);
   };
 
   handleChange = (e) =>
-    getExercises('exercises', 'assets', e.target.value)
+    getExercises(this.props.domain, this.props.path, e.target.value)
     .then(list => this.setState({list}));
 
   Transition = (props) => <Slide direction="up" {...props} />;
 
   render() {
-    const { open, handleRequestClose } = this.props;
+    const { classes, open, handleRequestClose, title, multiSelect, listValue } = this.props;
     const { selected, list } = this.state;
 
     return (
@@ -81,11 +94,11 @@ class AssetsModal extends Component {
               </IconButton>
 
               <Typography type="title" color="inherit">
-                Sequence of Diagnosis Questions
+                { title }
               </Typography>
             </div>
 
-            <Button color="contrast" onClick={() => this.save(selected)}>
+            <Button color="contrast" onClick={() => this.save(selected, listValue)}>
               Save
             </Button>
 
@@ -93,15 +106,31 @@ class AssetsModal extends Component {
         </AppBar>
 
         <Grid container style={{marginTop: '60px', marginLeft: '30px'}}>
-          <Grid item xs={12} >
-            <TextField id="time" type="text"  onChange={this.handleChange}/>
+          <Grid item sm={3} xs={12} >
+            <Input
+              className={classes.formControl}
+              id="assets_search"
+              onChange={this.handleChange}
+              placeholder='Search'
+              startAdornment={
+                <InputAdornment position="start">
+                  <SearchIcon color="grey"/>
+                </InputAdornment>
+              }
+            />
+
+
           </Grid>
         </Grid>
 
         <List>
           {list.map((item, index) => {
-            const { id, title, created_at } = item;
-            const created = moment.unix(created_at).format('DD MM YYYY');
+            const { id, name, created_at } = item,
+                  created = moment.unix(created_at).format(TIME_FORMAT_DOTS),
+                  checked = selected.some(el => id === +el),
+                  disabled = !!selected.length && !multiSelect && !checked;
+
+            {/*debugger;*/}
 
             return <ListItem key={index}
                              className={`choose-sequence-item`}>
@@ -109,14 +138,15 @@ class AssetsModal extends Component {
               <Grid container  className="choose-sequence-item-header">
                 <Grid item xs={12}
                       className="choose-sequence-item-title"
-                      onClick={(event) => this.onSelect(event, `${item.id}`)}>
+                      onClick={(event) => this.onSelect(event, selected, `${id}`)}>
                   <Checkbox
-                    checked={selected.some(el => item.id === +el)}
-                    value={`${item.id}`}
+                    checked={checked}
+                    value={`${id}`}
+                    disabled={disabled}
                   />
                   <div style={{display: 'flex', flexDirection: 'column'}}>
                     <Typography type="subheading">
-                      {item.name_origin || item.name_real || 'Title'}
+                      {name || 'Title'}
                     </Typography>
 
                     <Typography type="caption" >
@@ -135,8 +165,27 @@ class AssetsModal extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  dispatch,
-}, dispatch);
+AssetsModal.defaultProps = {
+  title       : 'Sequence of Diagnosis Questions',
+  isSelected  : [],
+  multiSelect : true,
+  listValue   : true,
+  domain      : 'exercises',
+  path        : 'assets',
+  valuePath   : 'exercise.files.data',
+};
 
-export default connect(mapDispatchToProps)(AssetsModal);
+AssetsModal.propTypes = {
+  open        : PropTypes.bool.isRequired,
+  path        : PropTypes.string.isRequired,
+  domain      : PropTypes.string.isRequired,
+  isSelected  : PropTypes.PropTypes.arrayOf(ASSETS_ITEM),
+  multiSelect : PropTypes.bool,
+  listValue   : PropTypes.bool,
+  title       : PropTypes.string,
+};
+
+
+const mapDispatchToProps = dispatch => bindActionCreators({dispatch}, dispatch);
+
+export default connect(mapDispatchToProps)(withStyles(styles)(AssetsModal));

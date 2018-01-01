@@ -19,7 +19,7 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 });
 

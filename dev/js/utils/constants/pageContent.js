@@ -1,3 +1,5 @@
+import PropTypes              from 'prop-types';
+
 export const TIME_FORMAT      = 'DD MMM YYYY';
 export const TIME_FORMAT_DOTS = 'DD.MM.YYYY';
 
@@ -233,3 +235,15 @@ export const CONTENT_TYPE_LIST = [
   {label: 'Question',        value: 'question'},
   {label: 'Functional test', value: 'functionalTest'},
 ];
+
+
+export const ASSETS_ITEM  = PropTypes.PropTypes.shape({
+  name          : PropTypes.string.isRequired,
+  created_at    : PropTypes.number.isRequired,
+  extension     : PropTypes.string,
+  function_type : PropTypes.string,
+  id            : PropTypes.number,
+  path          : PropTypes.string,
+  type          : PropTypes.string,
+  updated_at    : PropTypes.number,
+}).isRequired;

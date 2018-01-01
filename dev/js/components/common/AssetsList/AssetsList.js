@@ -4,7 +4,10 @@ import { connect }            from 'react-redux';
 import PropTypes              from 'prop-types';
 import { get }                from 'lodash';
 import * as moment            from 'moment';
-import { TIME_FORMAT_DOTS }   from '../../../utils/constants/pageContent';
+import {
+  TIME_FORMAT_DOTS,
+  ASSETS_ITEM
+}                             from '../../../utils/constants';
 //Actions
 import {
   updateCrateQuestionFields,
@@ -93,8 +96,10 @@ class AssetsList extends Component {
               open={ chooseFiles }
               isSelected={ _list }
               path={ path }
+              valuePath={ valuePath }
               domain={ domain }
               multiSelect={ multiSelect }
+              listValue={ listValue }
               handleRequestClose={(value) => this.openChooseFiles(value)}/>}
           </Grid>
         </Grid>
@@ -112,24 +117,15 @@ AssetsList.defaultProps = {
 AssetsList.propTypes = {
   path        : PropTypes.string.isRequired,
   domain      : PropTypes.string.isRequired,
-  valuePath : PropTypes.string.isRequired,
-  list      : PropTypes.PropTypes.arrayOf(
-    PropTypes.PropTypes.shape({
-      name          : PropTypes.string.isRequired,
-      created_at    : PropTypes.number.isRequired,
-      extension     : PropTypes.string,
-      function_type : PropTypes.string,
-      id            : PropTypes.number,
-      path          : PropTypes.string,
-      type          : PropTypes.string,
-      updated_at    : PropTypes.number,
-    }).isRequired,
-  ),
+  valuePath   : PropTypes.string.isRequired,
+  list        : PropTypes.oneOfType([
+    ASSETS_ITEM,
+    PropTypes.PropTypes.arrayOf(ASSETS_ITEM)
+  ]).isRequired,
   title       : PropTypes.string,
   multiSelect : PropTypes.bool,
-  listValue   : PropTypes.bool,
+  listValue   : PropTypes.bool
 };
-
 
 const mapStateToProps = state => ({store: state});
 const mapDispatchToProps = dispatch => bindActionCreators({dispatch}, dispatch);

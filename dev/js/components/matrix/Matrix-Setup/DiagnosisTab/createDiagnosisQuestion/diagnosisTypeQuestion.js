@@ -146,7 +146,7 @@ class DiagnosisTypeQuestion extends Component {
           &&
           <AssetsList
             list={ diagnostic_assets }
-            path="diagnostic_assets"
+            path="assets"
             domain="diagnostics"
             valuePath="diagnostic_assets"
             multiSelect={false}
