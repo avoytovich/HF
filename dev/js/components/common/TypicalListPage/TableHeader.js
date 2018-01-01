@@ -54,7 +54,7 @@ class EnhancedTableHead extends Component {
                 active={orderBy === sortKey}
                 direction={sortedBy}
 
-                onClick={this.createSortHandler(column.key)}
+                onClick={this.createSortHandler(sortKey)}
               >
                 {column.title}
               </TableSortLabel>

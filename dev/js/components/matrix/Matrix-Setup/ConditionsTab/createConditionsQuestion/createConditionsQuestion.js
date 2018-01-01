@@ -1,21 +1,30 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import { DiagnosisRulesComponent }  from '../../../../common';
-import { browserHistory }           from 'react-router'
-import { diagnosisQuestionCreate,
+import { browserHistory }           from 'react-router';
+import { submitTabs }               from '../../../../../utils/matrix';
+//Actions
+import {
   updateCrateQuestionFields,
   clearCreateQuestion,
   findUniqueKey,
   getConditionById,
-  updateQuestionCreate,
   findArea }                        from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
-import { Async }                    from 'react-select';
+//Components
+import {
+  DiagnosisRulesComponent,
+  BlockDivider,
+  AsyncAreaSelect,
+  UniqueKey
+}                                   from '../../../../common';
+import MatrixPreLoader              from '../../matrixPreloader';
+//UI
 import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
 import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../../common/Input/Input';
+
 
 class CreateConditionComponent extends Component {
   state = {
@@ -77,20 +86,21 @@ class CreateConditionComponent extends Component {
 
   done = (value) => {
     const { area, questionKey, questionTitle, rules } = value;
-    debugger;
+
     const result = {
       rule  : rules[0],
       key   : questionKey,
-      area  : area ? area.id : null,
+      area  : area ? area.value : null,
       title : questionTitle
     };
 
-    !this.props.routeParams.id ?
-      diagnosisQuestionCreate('diagnostics', 'conditions', result)
-      .then(() => browserHistory.push(`/matrix-setup/conditions`)) :
-
-      updateQuestionCreate('diagnostics', 'conditions', result, this.props.routeParams.id)
-      .then(() => browserHistory.push(`/matrix-setup/conditions`))
+    submitTabs(
+      'diagnostics',
+      'conditions',
+      result,
+      '/matrix-setup/conditions',
+      this.props.routeParams.id
+    );
   };
 
 
@@ -106,6 +116,7 @@ class CreateConditionComponent extends Component {
         questionKey,
         sequence
       },
+      routeParams: { id },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
       },
@@ -130,67 +141,54 @@ class CreateConditionComponent extends Component {
 
           </div>
         </div>
-        <Grid container className="margin-remove" style={{height: '100%'}}>
 
-          <Grid item
-                md={6}
-                sm={12}
-                className="create-question-body">
+        {  id && !questionKey ?
+          <MatrixPreLoader
+            left="3"
+            right="2"
+          />
+          :
+          <BlockDivider title="Condition">
+          <div className="main-question" style={{width: '100%'}}>
 
-            <div className="main-question">
+            <Grid className="title">
+              <Typography type="title" gutterBottom>
+                Condition
+              </Typography>
+            </Grid>
 
-              {/*Title and Body Area*/}
-              <Grid container className="row-item">
-                <Grid item md={6} sm={12}>
-                  <Input
-                    id='questionTitle'
-                    value={questionTitle}
-                    reducer={ createDiagnosisQuestion }
-                    label={ L_CREATE_QUESTION.questionTitle }
-                    placeholder={ L_CREATE_QUESTION.enterTitle }
-                  />
-                </Grid>
-                <Grid item md={6} sm={12} >
-                  <Typography
-                    type="caption"
-                    gutterBottom
-                    className="custom-select-title">
-                    Body Areas
-                  </Typography>
-                  <Async
-                    name='body-areas'
-                    id='body-areas'
-                    loadOptions={this.getOptions}
-                    onChange={this.onAreasChange}
-                    placeholder={'Select body area'}
-                    value={area}/>
-                </Grid>
+            {/*Title and Body Area*/}
+            <Grid container className="row-item">
+              <Grid item md={6} sm={12}>
+                <Input
+                  id='questionTitle'
+                  value={questionTitle}
+                  reducer={ createDiagnosisQuestion }
+                  label={ L_CREATE_QUESTION.questionTitle }
+                  placeholder={ L_CREATE_QUESTION.enterTitle }
+                />
               </Grid>
-
-              {/* Question Key */}
-              <Grid container className="row-item">
-                <Grid item xs={12}>
-                  <Input
-                    id='questionKey'
-                    value={questionKey}
-                    reducer={createDiagnosisQuestion}
-                    label={ 'Condition Key' }
-                    placeholder={ L_CREATE_QUESTION.enterQuestionKey }
-                    error={!!this.state.keyIsUniqueError}
-                    onCustomChange={this.checkIfQuestionKeyValid}
-                  />
-                </Grid>
+              <Grid item md={6} sm={12} >
+                <AsyncAreaSelect
+                  domain="diagnostics"
+                  path="findArea"
+                  valuePath="area"
+                  idKey="create_condition_question"
+                />
               </Grid>
+            </Grid>
 
+            {/* Question Key */}
+            <UniqueKey
+              domain="diagnostics"
+              path="findByKey"
+              questionKey={questionKey}
+              id="questionKey"
+              reducer="createDiagnosisQuestion"
+            />
+          </div>
 
-            </div>
-          </Grid>
-
-          <Grid item
-                md={6}
-                sm={12}
-                className="rules">
-
+          <div className="rules">
             <DiagnosisRulesComponent
               page="conditions"
               type="diagnostic"
@@ -198,10 +196,9 @@ class CreateConditionComponent extends Component {
               step={sequence}
               showTitle={true}
             />
-
-          </Grid>
-
-        </Grid>
+          </div>
+        </BlockDivider>
+        }
       </div>
     )
   }

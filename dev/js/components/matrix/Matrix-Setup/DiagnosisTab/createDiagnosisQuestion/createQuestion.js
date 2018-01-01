@@ -8,11 +8,7 @@ import DiagnosisTypeQuestion        from './diagnosisTypeQuestion';
 import DiagnosisTypeVAS             from './diagnosisTypeVAS';
 import MatrixPreLoader              from '../../matrixPreloader';
 import {
-  diagnosisQuestionCreate,
   updateCrateQuestionFields,
-  clearCreateQuestion,
-  getSequenceList,
-  updateQuestionCreate,
   getQuestionById
 }                                   from '../../../../../actions';
 import Button                       from 'material-ui/Button';
@@ -40,6 +36,7 @@ class CreateQuestionComponent extends Component {
 
   constructor(props) {
     super(props);
+
     updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
@@ -127,6 +124,7 @@ class CreateQuestionComponent extends Component {
     const { area, answerType, rules, diagnostic_assets } = value,
           { type, subtype } = this.getAnswerType(answerType),
           moreProps = optional ? { test_file_id: get(diagnostic_assets, 'id') || null } : {};
+
     return {
       area_id : area.value || null,
       answer: {

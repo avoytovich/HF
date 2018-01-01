@@ -75,7 +75,6 @@ class CreatePackageComponent extends Component {
       const { data } = res.data;
       const _data = data.map(item =>
         Object.assign({}, { label: item.title, value: item.id, id: item.id}));
-      debugger
       return {
         options: [{ label: 'All', value: null, id: null }].concat(_data),
         // CAREFUL! Only set this to true when there are no more options,
