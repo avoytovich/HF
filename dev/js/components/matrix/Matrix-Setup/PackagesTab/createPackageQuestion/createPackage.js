@@ -135,7 +135,8 @@ class CreatePackageComponent extends Component {
       },
       params: {
         packageId
-      }
+      },
+      routeParams: { id },
     } = this.props;
 
 
@@ -158,9 +159,13 @@ class CreatePackageComponent extends Component {
 
           </div>
         </div>
-
-        {/*rightClassName="package-tabs-wrapper"*/}
-        <BlockDivider title="Package" >
+        { id && !questionKey ?
+          <MatrixPreLoader
+            left="5"
+            right="4"
+          />
+          :
+          <BlockDivider title="Package" >
           <div className="main-question" style={{width:'100%'}}>
 
             <Grid container>
@@ -228,37 +233,10 @@ class CreatePackageComponent extends Component {
                   ))}
                 </SELECT>
               </Grid>
-              <Grid item md={6} sm={12} >
-                {/*<Typography*/}
-                {/*type="caption"*/}
-                {/*gutterBottom*/}
-                {/*className="custom-select-title">*/}
-                {/*Therapy continuity*/}
-                {/*</Typography>*/}
-                {/*<SELECT*/}
-                {/*value={therapyContinuity}*/}
-                {/*onChange={(event) =>  updateCrateQuestionFields(event.target.value, 'therapyContinuity')}*/}
-                {/*className="MuiFormControlDEFAULT"*/}
-                {/*>*/}
-                {/*{THERAPY.map((item, index) => (*/}
-                {/*<MenuItem*/}
-                {/*key={item.value}*/}
-                {/*value={item.value}*/}
-                {/*style={{*/}
-                {/*fontWeight: PACKAGE_TYPE.indexOf(item.value) !== -1 ? '500' : '400',*/}
-                {/*}}*/}
-                {/*>*/}
-                {/*{item.label}*/}
-                {/*</MenuItem>*/}
-                {/*))}*/}
-                {/*</SELECT>*/}
-              </Grid>
             </Grid>
           </div>
 
           <div className="page-tabs">
-            {/*className="row-item package-level-header margin-remove"*/}
-            {/*className="package-level-header-item-left"*/}
             <Grid container className="package-level-header">
               <Grid item xs={6} className="package-level-header-item-left">
                 <Typography
@@ -302,7 +280,7 @@ class CreatePackageComponent extends Component {
             )}
 
           </div>
-        </BlockDivider>
+        </BlockDivider>}
       </div>
     )
   }

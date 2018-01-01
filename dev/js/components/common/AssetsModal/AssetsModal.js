@@ -166,7 +166,7 @@ class AssetsModal extends Component {
 }
 
 AssetsModal.defaultProps = {
-  title       : 'Sequence of Diagnosis Questions',
+  title       : 'Assets',
   isSelected  : [],
   multiSelect : true,
   listValue   : true,

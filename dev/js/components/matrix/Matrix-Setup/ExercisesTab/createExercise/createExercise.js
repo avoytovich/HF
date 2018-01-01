@@ -1,30 +1,31 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import DiagnosisRulesComponent      from '../../../../common/DiagnosisRules/diagnosisRules';
 import { browserHistory }           from 'react-router'
 import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
-  findUniqueKey,
   updateQuestionCreate,
   getExerciseById,
-  findArea }                        from '../../../../../actions';
+}                                   from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
 import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
 import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../../common/Input/Input';
-import SELECT                       from 'material-ui/Select';
-import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
 import * as moment from "moment";
 import { TIME_FORMAT_DOTS }  from '../../../../../utils/constants/pageContent';
-import IconButton            from 'material-ui/IconButton';
-import Delete                from 'material-ui-icons/Delete';
-import ExercisesAssetsModal from './exercisesAssetsModal';
+import IconButton                   from 'material-ui/IconButton';
+import Delete                       from 'material-ui-icons/Delete';
+import ExercisesAssetsModal         from './exercisesAssetsModal';
 import { get }                      from 'lodash';
+import {
+  BlockDivider, AssetsModal
+}                                   from '../../../../common';
+import MatrixPreLoader              from '../../matrixPreloader';
+
 
 class CreateExerciseComponent extends Component {
   state = {
@@ -103,12 +104,10 @@ class CreateExerciseComponent extends Component {
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
       },
-      params: {
-        packageId
-      }
+      routeParams: { id },
     } = this.props;
 
-    const {name, comments, title, information, instruction, files} = this.props.exerciseState;
+    const { name, comments, title, information, instruction, files } = this.props.exerciseState;
 
     return (
       <div id="create-question">
@@ -130,12 +129,14 @@ class CreateExerciseComponent extends Component {
           </div>
         </div>
 
-        <Grid container className="margin-remove">
+        {  id && (!title || !name) ?
+          <MatrixPreLoader
+            left="4"
+            right="2"
+          />
+          :
+          <BlockDivider title="Exercise">
 
-          <Grid item
-                md={6}
-                sm={12}
-                className="create-question-body">
             <div className="main-question">
 
               <Grid container>
@@ -209,7 +210,6 @@ class CreateExerciseComponent extends Component {
               <Typography type="title" style={{marginTop: '40px'}}>
                 Exercise Information
               </Typography>
-
 
               <Grid container className="row-item">
                 <Grid item xs={12}>
@@ -291,16 +291,9 @@ class CreateExerciseComponent extends Component {
                 </Tabs>
               </Grid>
 
-
-
             </div>
-          </Grid>
 
-          <Grid item
-                md={6}
-                sm={12}
-                className="create-question-body">
-            <div className="main-question">
+            <div className="page-tabs">
 
               <Grid container>
                 <Grid item xs={12}>
@@ -309,7 +302,6 @@ class CreateExerciseComponent extends Component {
                   </Typography>
                 </Grid>
               </Grid>
-
 
               <Grid item xs={12} className="package-level-exercises">
                 {files && files.data.map((item, index) => {
@@ -321,7 +313,7 @@ class CreateExerciseComponent extends Component {
                     <div className="exercises-information">
 
                       <Typography type="subheading" className="title">
-                        {item.name_origin || item.name_real || 'Title'}
+                        {item.name  || 'Title'}
                       </Typography>
 
                       <Typography type="body2">
@@ -342,28 +334,27 @@ class CreateExerciseComponent extends Component {
                 })}
               </Grid>
 
-
               <Grid container>
                 <Grid item xs={12}>
                   <Button color="primary" onClick={() => this.openChooseFiles(true)}>
                     OPEN RESOURCES
                   </Button>
 
-
-
                   {this.state.chooseFiles &&
-                  <ExercisesAssetsModal
-                    open={this.state.chooseFiles}
-                    isSelected={(files && files.data) || []}
-                    handleRequestClose={(value) => this.openChooseFiles(value)}/>}
+                    <AssetsModal
+                      open={ this.state.chooseFiles }
+                      isSelected={ (files && files.data) || [] }
+                      handleRequestClose={(value) => this.openChooseFiles(value)}
+                      path="assets"
+                      valuePath="exercise.files.data"
+                      domain="exercises"
+                    />}
                 </Grid>
               </Grid>
             </div>
 
-          </Grid>
-
-
-        </Grid>
+          </BlockDivider>
+        }
       </div>
     )
   }
