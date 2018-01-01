@@ -1,17 +1,20 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import { DiagnosisRulesComponent }  from '../../../../common';
+import {
+  DiagnosisRulesComponent,
+  BlockDivider,
+  AsyncAreaSelect,
+  UniqueKey
+}                                   from '../../../../common';
 import { browserHistory }           from 'react-router'
-import { diagnosisQuestionCreate,
+import {
   updateCrateQuestionFields,
   clearCreateQuestion,
-  findUniqueKey,
   findPackage,
   getTreatmentById,
-  updateQuestionCreate,
   getPackagenById,
-  findArea }                        from '../../../../../actions';
+}                                   from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
 import { Async }                    from 'react-select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
@@ -20,6 +23,8 @@ import Button                       from 'material-ui/Button';
 import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../../common/Input/Input';
 import Select                       from 'material-ui/Select';
+import { submitTabs }               from '../../../../../utils/matrix';
+import MatrixPreLoader              from '../../matrixPreloader';
 
 class CreateTreatmentsComponent extends Component {
   state = {
@@ -30,6 +35,7 @@ class CreateTreatmentsComponent extends Component {
 
   constructor(props) {
     super(props);
+    clearCreateQuestion();
     updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
@@ -39,21 +45,6 @@ class CreateTreatmentsComponent extends Component {
     }
   }
 
-  componentWillUnmount() {
-    clearCreateQuestion();
-  }
-
-  getAreaOptions = (input) => {
-    return findArea('diagnostics', 'findArea').then(res => {
-      const { data } = res.data;
-      const _data = data.map(item =>
-        Object.assign({}, item, { label: item.title }));
-      return {
-        options: [{ label: 'All', value: null, id: 0 }].concat(_data),
-        complete: true
-      }
-    });
-  };
 
   getPackageOptions = (input) => {
     const area = this.props.createDiagnosisQuestion.bodyAreas;
@@ -69,9 +60,6 @@ class CreateTreatmentsComponent extends Component {
     });
   };
 
-
-  onAreasChange = (value) => updateCrateQuestionFields(value, 'bodyAreas');
-
   onPackageChange = (value) => {
     updateCrateQuestionFields(value, 'treatmentsPackage');
     getPackagenById('exercises', 'packages', value.id, true).then(({data}) => {
@@ -86,21 +74,6 @@ class CreateTreatmentsComponent extends Component {
     addNewAnswer(value);
   };
 
-  checkIfQuestionKeyValid = (event, value) => {
-    this.props.onChange(event, value);
-
-    if (event.target.value.length > 3) {
-      findUniqueKey('diagnostics', 'findCondByKey', event.target.value).then(res => {
-        if (res) {
-          this.setState({keyIsUniqueError: 'Key is not Unique'});
-        }
-        else if (!res && this.state.keyIsUniqueError){
-          this.setState({keyIsUniqueError: ''});
-        }
-      });
-    }
-  };
-
   handleLevelsChange = (event) => {
     const sequenceType = event.target.value;
     updateCrateQuestionFields(sequenceType, 'treatmentsLevels');
@@ -111,23 +84,22 @@ class CreateTreatmentsComponent extends Component {
     const result = {
       rule   : rules[0],
       key    : questionKey,
-      area_id: area ? area.value : 0,
+      area_id: area ? area.value : null,
       title  : questionTitle,
       package: treatmentsPackage.id,
       level  : treatmentsLevels,
     };
 
-    !this.props.routeParams.id ?
-      diagnosisQuestionCreate('diagnostics', 'treatments', result)
-      .then(() => browserHistory.push(`/matrix-setup/treatments`)) :
-
-      updateQuestionCreate('diagnostics', 'treatments', result, this.props.routeParams.id)
-      .then(() => browserHistory.push(`/matrix-setup/treatments`))
+    submitTabs(
+      'diagnostics',
+      'treatments',
+      result,
+      '/matrix-setup/treatments',
+      this.props.routeParams.id
+    );
   };
 
-
   cancel = () => browserHistory.push(`/matrix-setup/treatments`);
-
 
   render() {
     const {
@@ -139,6 +111,7 @@ class CreateTreatmentsComponent extends Component {
         treatmentsLevels,
         treatmentsPackage
       },
+      routeParams: { id },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
       },
@@ -163,14 +136,21 @@ class CreateTreatmentsComponent extends Component {
 
           </div>
         </div>
-        <Grid container className="margin-remove create-question-body-wrap">
 
-          <Grid item
-                md={6}
-                sm={12}
-                className="create-question-body">
+        {  id && !questionKey ?
+          <MatrixPreLoader
+            left="4"
+            right="2"
+          />
+          :
+          <BlockDivider title="Treatment">
+            <div className="main-question" style={{width:'100%'}}>
 
-            <div className="main-question">
+              <Grid className="title">
+                <Typography type="title" gutterBottom>
+                  Treatment
+                </Typography>
+              </Grid>
 
               {/*Title and Body Area*/}
               <Grid container className="row-item">
@@ -183,42 +163,29 @@ class CreateTreatmentsComponent extends Component {
                     placeholder={ L_CREATE_QUESTION.enterTitle }
                   />
                 </Grid>
-                <Grid item md={6} sm={12} >
-                  <Typography
-                    type="caption"
-                    gutterBottom
-                    className="custom-select-title">
-                    Body Areas
-                  </Typography>
-                  <Async
-                    name='body-areas'
-                    id='body-areas'
-                    loadOptions={this.getAreaOptions}
-                    onChange={this.onAreasChange}
-                    placeholder={'Select body area'}
-                    value={area}/>
-                </Grid>
-              </Grid>
-
-              {/* Question Key */}
-              <Grid container className="row-item">
-                <Grid item xs={12}>
-                  <Input
-                    id='questionKey'
-                    value={questionKey}
-                    reducer={createDiagnosisQuestion}
-                    label={ L_CREATE_QUESTION.questionKey }
-                    placeholder={ L_CREATE_QUESTION.enterQuestionKey }
-                    error={!!this.state.keyIsUniqueError}
-                    onCustomChange={this.checkIfQuestionKeyValid}
+                <Grid item md={6} sm={12}>
+                  <AsyncAreaSelect
+                    domain="diagnostics"
+                    path="findArea"
+                    valuePath="area"
+                    idKey="create_treatment_question"
                   />
                 </Grid>
               </Grid>
 
+              {/* Question Key */}
+              <UniqueKey
+                domain="diagnostics"
+                path="findByKey"
+                questionKey={questionKey}
+                id="questionKey"
+                reducer="createDiagnosisQuestion"
+              />
+
 
               {/*Package and Start level*/}
               <Grid container className="row-item">
-                <Grid item md={6} sm={12} >
+                <Grid item md={6} sm={12}>
                   <Typography
                     type="caption"
                     gutterBottom
@@ -231,15 +198,17 @@ class CreateTreatmentsComponent extends Component {
                     loadOptions={this.getPackageOptions}
                     onChange={this.onPackageChange}
                     placeholder={'Select package'}
-                    value={treatmentsPackage}/>
+                    value={treatmentsPackage}
+                    clearable={false}
+                  />
                 </Grid>
                 <Grid item md={6} sm={12}>
                   <Typography
                     type="caption"
                     gutterBottom
                     className="custom-select-title"
-                    style={{marginBottom: '8px'}}
-                    >
+                    style={{marginBottom:'8px'}}
+                  >
                     Start from level
                   </Typography>
                   <Select
@@ -247,9 +216,9 @@ class CreateTreatmentsComponent extends Component {
                     onChange={this.handleLevelsChange}
                     disabled={!this.state.treatmentsLevels.length}
                     MenuProps={{
-                      PaperProps: {
-                        style: {
-                          width: 400,
+                      PaperProps:{
+                        style:{
+                          width:400,
                         },
                       },
                     }}
@@ -259,7 +228,7 @@ class CreateTreatmentsComponent extends Component {
                         key={item.value}
                         value={item.value}
                         style={{
-                          fontWeight: this.state.treatmentsLevels.indexOf(item.value) !== -1 ? '500' : '400',
+                          fontWeight:this.state.treatmentsLevels.indexOf(item.value) !== -1 ? '500' : '400',
                         }}
                       >
                         {item.label}
@@ -270,23 +239,17 @@ class CreateTreatmentsComponent extends Component {
               </Grid>
 
             </div>
-          </Grid>
+            <div className="rules">
+              <DiagnosisRulesComponent
+                page="treatments"
+                type="diagnostic"
+                area={area}
+                step={null}
+              />
+            </div>
+          </BlockDivider>
+        }
 
-          <Grid item
-                md={6}
-                sm={12}
-                className="rules">
-
-            <DiagnosisRulesComponent
-              page="treatments"
-              type="diagnostic"
-              area={area}
-              step={null}
-            />
-
-          </Grid>
-
-        </Grid>
       </div>
     )
   }

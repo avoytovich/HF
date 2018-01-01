@@ -7,10 +7,8 @@ import { submitTabs }               from '../../../../../utils/matrix';
 import {
   updateCrateQuestionFields,
   clearCreateQuestion,
-  findUniqueKey,
   getConditionById,
-  findArea }                        from '../../../../../actions';
-import { onChange }                 from '../../../../../actions/common';
+}                                   from '../../../../../actions';
 //Components
 import {
   DiagnosisRulesComponent,
@@ -27,10 +25,7 @@ import Input                        from '../../../../common/Input/Input';
 
 
 class CreateConditionComponent extends Component {
-  state = {
-    questionType    : 'condition',
-    keyIsUniqueError: '',
-  };
+  state = { questionType    : 'condition' };
 
   constructor(props) {
     super(props);
@@ -38,51 +33,11 @@ class CreateConditionComponent extends Component {
     updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
-
   componentWillMount() {
     if (this.props.routeParams.id) {
       getConditionById('diagnostics', 'getConditionById', this.props.routeParams.id);
     }
   }
-
-
-  getOptions = (input) => {
-    return findArea('diagnostics', 'findArea').then(res => {
-      const { data } = res.data;
-      const _data = data.map(item =>
-        Object.assign({}, item, { label: item.title }));
-      return {
-        options: [{ label: 'All', value: null, id: 0 }].concat(_data),
-        // CAREFUL! Only set this to true when there are no more options,
-        // or more specific queries will not be sent to the server.
-        complete: true
-      }
-    });
-  };
-
-  onAreasChange = (value) => updateCrateQuestionFields(value, 'area');
-
-  addNewAnswer = (value) => {
-    const inState = this.state.answerLang;
-    this.setState({ answerLang: inState.concat('en')});
-    addNewAnswer(value);
-  };
-
-  checkIfQuestionKeyValid = (event, value) => {
-    this.props.onChange(event, value);
-    
-    if (event.target.value.length > 3) {
-      findUniqueKey('diagnostics', 'findCondByKey', event.target.value).then(res => {
-        if (res) {
-          this.setState({keyIsUniqueError: 'Key is not Unique'});
-        }
-        else if (!res && this.state.keyIsUniqueError){
-          this.setState({keyIsUniqueError: ''});
-        }
-      });
-    }
-  };
-
 
   done = (value) => {
     const { area, questionKey, questionTitle, rules } = value;
@@ -103,9 +58,7 @@ class CreateConditionComponent extends Component {
     );
   };
 
-
   cancel = () => browserHistory.push(`/matrix-setup/conditions`);
-
 
   render() {
     const {
@@ -203,14 +156,11 @@ class CreateConditionComponent extends Component {
     )
   }
 }
-const mapStateToProps = state => ({
+
+const mapStateToProps   = state => ({
   createDiagnosisQuestion: state.createDiagnosisQuestion,
   commonReducer          : state.commonReducer,
 });
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  onChange,
-  dispatch,
-}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({dispatch}, dispatch);
 
 export default  connect(mapStateToProps, mapDispatchToProps)(CreateConditionComponent);

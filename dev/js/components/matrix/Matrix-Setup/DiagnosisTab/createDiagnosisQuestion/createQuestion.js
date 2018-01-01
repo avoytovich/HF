@@ -9,7 +9,8 @@ import DiagnosisTypeVAS             from './diagnosisTypeVAS';
 import MatrixPreLoader              from '../../matrixPreloader';
 import {
   updateCrateQuestionFields,
-  getQuestionById
+  getQuestionById,
+  clearCreateQuestion
 }                                   from '../../../../../actions';
 import Button                       from 'material-ui/Button';
 import { get }                      from 'lodash'
@@ -36,7 +37,7 @@ class CreateQuestionComponent extends Component {
 
   constructor(props) {
     super(props);
-
+    clearCreateQuestion();
     updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
