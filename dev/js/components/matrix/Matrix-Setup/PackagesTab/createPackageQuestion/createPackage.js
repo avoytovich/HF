@@ -88,8 +88,6 @@ class CreatePackageComponent extends Component {
       package_levels : packageLevels,
     };
 
-    debugger;
-
     submitTabs(
       'exercises',
       'packages',

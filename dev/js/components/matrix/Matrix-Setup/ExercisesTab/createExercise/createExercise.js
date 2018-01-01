@@ -15,20 +15,18 @@ import Button                       from 'material-ui/Button';
 import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../../common/Input/Input';
 import Tabs, { Tab }                from 'material-ui/Tabs';
-import * as moment from "moment";
-import { TIME_FORMAT_DOTS }  from '../../../../../utils/constants/pageContent';
-import IconButton                   from 'material-ui/IconButton';
-import Delete                       from 'material-ui-icons/Delete';
-import ExercisesAssetsModal         from './exercisesAssetsModal';
 import { get }                      from 'lodash';
 import {
-  BlockDivider, AssetsModal
+  BlockDivider,
+  AssetsList
 }                                   from '../../../../common';
 import MatrixPreLoader              from '../../matrixPreloader';
+import { submitTabs }               from '../../../../../utils/matrix';
 
 
 class CreateExerciseComponent extends Component {
   state = {
+    questionType: 'exercise',
     titleLang: 'en',
     informationLang: 'en',
     instructionLang: 'en',
@@ -37,7 +35,8 @@ class CreateExerciseComponent extends Component {
 
   constructor(props) {
     super(props);
-//    updateCrateQuestionFields(this.state.questionType, 'page');
+    clearCreateQuestion();
+    updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
   componentWillMount() {
@@ -65,12 +64,20 @@ class CreateExerciseComponent extends Component {
       file_ids: files ? files.data.map(el => el && el.id) : []
     };
 
-    !this.props.routeParams.id ?
-      diagnosisQuestionCreate('exercises', 'exercises', result)
-      .then(() => browserHistory.push(`/matrix-setup/exercises`)) :
+    submitTabs(
+      'exercises',
+      'exercises',
+      result,
+      '/matrix-setup/exercises',
+      this.props.routeParams.id
+    );
 
-      updateQuestionCreate('exercises', 'exercises', {...result, id: id}, id)
-      .then(() => browserHistory.push(`/matrix-setup/exercises`))
+//    !this.props.routeParams.id ?
+//      diagnosisQuestionCreate('exercises', 'exercises', result)
+//      .then(() => browserHistory.push(`/matrix-setup/exercises`)) :
+//
+//      updateQuestionCreate('exercises', 'exercises', {...result, id: id}, id)
+//      .then(() => browserHistory.push(`/matrix-setup/exercises`))
 
   };
 
@@ -108,7 +115,6 @@ class CreateExerciseComponent extends Component {
     } = this.props;
 
     const { name, comments, title, information, instruction, files } = this.props.exerciseState;
-
     return (
       <div id="create-question">
         <div className="page-sub-header">
@@ -129,9 +135,9 @@ class CreateExerciseComponent extends Component {
           </div>
         </div>
 
-        {  id && (!title || !name) ?
+        {  id && !files ?
           <MatrixPreLoader
-            left="4"
+            left="1"
             right="2"
           />
           :
@@ -293,65 +299,13 @@ class CreateExerciseComponent extends Component {
 
             </div>
 
-            <div className="page-tabs">
 
-              <Grid container>
-                <Grid item xs={12}>
-                  <Typography type="title">
-                    Assets
-                  </Typography>
-                </Grid>
-              </Grid>
-
-              <Grid item xs={12} className="package-level-exercises">
-                {files && files.data.map((item, index) => {
-                  const { id, title, created_at } = item;
-                  const created = moment.unix(created_at).format('DD.MM.YYYY');
-
-                  return <div key={index} className="package-level-exercises-item">
-
-                    <div className="exercises-information">
-
-                      <Typography type="subheading" className="title">
-                        {item.name  || 'Title'}
-                      </Typography>
-
-                      <Typography type="body2">
-                        Uploaded { created }
-                      </Typography>
-
-                    </div>
-
-                    <div className="delete-icon">
-
-                      <IconButton aria-label="Delete">
-
-                        <Delete onClick={() => this.handleDelete(id)} />
-
-                      </IconButton>
-                    </div>
-                  </div>
-                })}
-              </Grid>
-
-              <Grid container>
-                <Grid item xs={12}>
-                  <Button color="primary" onClick={() => this.openChooseFiles(true)}>
-                    OPEN RESOURCES
-                  </Button>
-
-                  {this.state.chooseFiles &&
-                    <AssetsModal
-                      open={ this.state.chooseFiles }
-                      isSelected={ (files && files.data) || [] }
-                      handleRequestClose={(value) => this.openChooseFiles(value)}
-                      path="assets"
-                      valuePath="exercise.files.data"
-                      domain="exercises"
-                    />}
-                </Grid>
-              </Grid>
-            </div>
+            <AssetsList
+              list={ files ? files.data : []}
+              path="assets"
+              domain="exercises"
+              valuePath="exercise.files.data"
+            />
 
           </BlockDivider>
         }

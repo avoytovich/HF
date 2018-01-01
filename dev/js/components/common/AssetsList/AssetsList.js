@@ -111,7 +111,8 @@ class AssetsList extends Component {
 AssetsList.defaultProps = {
   title       : 'Assets',
   list        : [],
-  multiSelect : true
+  multiSelect : true,
+  listValue   : true
 };
 
 AssetsList.propTypes = {
