@@ -131,7 +131,7 @@ const setFullQuestion = (state, action) => {
       rules: Array.isArray(rule) ? rule : [ rule ],
       [_type]: parseAnswers(answer),
 //      sequenceType: null,
-      diagnostic_assets: test_file ? [test_file] : []
+      diagnostic_assets: test_file ||  []
     };
   return Object.assign({}, state, _body);
 };

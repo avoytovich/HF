@@ -140,7 +140,12 @@ class DiagnosisTypeQuestion extends Component {
       </div>
 
       <div className="rules">
-        { content_type === "functionalTest" && <DiagnosisAssets/> }
+
+        {
+          content_type === "functionalTest"
+          &&
+          <DiagnosisAssets/>
+        }
 
         <DiagnosisRulesComponent
           type="diagnostic"

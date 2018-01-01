@@ -38,7 +38,7 @@ class DiagnosisAssets extends Component {
   render() {
     const { diagnostic_assets } = this.props.store;
 
-    return<div className="main-question">
+    return<div className="assets-list">
 
         <Grid container>
           <Grid item xs={12}>
