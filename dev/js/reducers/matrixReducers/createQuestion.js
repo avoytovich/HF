@@ -117,11 +117,7 @@ const setFullQuestion = (state, action) => {
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
   const _body = {
-      area: {
-        value: area.id,
-        label: area.title,
-        key: area.key
-      },
+      area: configArea(area_id, area),
       questionTitle: title,
       question,
       content_type,
@@ -137,9 +133,9 @@ const setFullQuestion = (state, action) => {
 };
 
 const setFullQuestionForCondition = (state, action) => {
-  const { body, body: { area, title, key, rule, package_level_id}} = action.payload;
+  const { body, body: { area_id, area, title, key, rule, package_level_id}} = action.payload;
   const _body = {
-    area: { key: area.key, label: area.title, value: area.id },
+    area: configArea(area_id, area),
     questionTitle: title,
     questionKey: key,
     rules: Array.isArray(rule) ? rule : [ rule ],
@@ -154,15 +150,15 @@ const setFullQuestionForCondition = (state, action) => {
 const setFullQuestionForPackage = (state, action) => {
   const { body: { area_id, area, title, key, packageLevels }} = action.payload;
   const _body = {
-    area: area ?
-      { key: area.key, label:area.title, title: area.id }:
-      {key: area_id, label: area_id, title: area_id},
+    area: configArea(area_id, area),
     questionTitle: title,
     questionKey: key,
     packageLevels: packageLevels.data
   };
   return Object.assign({}, state, _body);
 };
+
+const clearAll = () => InitialState;
 
 const parseAnswers= (answer) => {
   if (answer.type === 'range') {
@@ -185,7 +181,11 @@ const parseAnswers= (answer) => {
   }
 };
 
-const clearAll = () => InitialState;
+const configArea = (id, area) => {
+  if (id) return { value: area.id, label: area.title, key: area.key };
+
+  return { value: null, label: 'All', key: null };
+};
 
 export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
   [`${CREATE_QUESTION}_UPDATE`]               : createQuestionUpdate,

@@ -2,23 +2,18 @@ import React, { Component }           from 'react';
 import { connect }                    from 'react-redux';
 import { bindActionCreators }         from 'redux';
 import PropTypes                      from 'prop-types';
-
 //Actions
 import {
   updateCrateQuestionFields,
   getSequenceList
 }                                     from '../../../../../actions';
-
 //Components
 import { ChooseSequence }             from '../../../../common';
-
 // UI
 import Grid                           from 'material-ui/Grid';
 import Typography                     from 'material-ui/Typography';
 import MUISelect                      from 'material-ui/Select';
 import Menu, { MenuItem }             from 'material-ui/Menu';
-
-
 
 const SEQUENCE_TYPE_LIST = [
     {label: 'Normal', value: 'normal'},
@@ -30,10 +25,13 @@ class SequenceBlock extends Component {
 
   state = { chooseSequence  : false, list: [] };
 
-  componentWillMount() {
+  componentDidMount() {
     const {path, domain} = this.props;
     getSequenceList(domain, path)
-      .then(({data}) => this.setState({list: data.data}));
+      .then(({data}) => {
+//        updateCrateQuestionFields(data.data, 'sequenceBlock');
+        this.setState({list: data.data})
+      });
   }
 
   openChooseSequence = (chooseSequence) => this.setState({ chooseSequence });
@@ -42,6 +40,7 @@ class SequenceBlock extends Component {
 
     const { type, value, valuePath, typePath } = this.props;
     const { chooseSequence, list } = this.state;
+//    const sequenceBlock = this.props.store.sequenceBlock || []; // Todo: Need to refactor it;
 
     return  <Grid container  className="row-item">
       <Grid item lg={3} className="sequence-type">

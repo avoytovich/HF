@@ -53,6 +53,9 @@ class CreateTreatmentsComponent extends Component {
       const { data } = res.data;
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.title }));
+
+      debugger;
+
       return {
         options: _data,
         complete: true
@@ -192,6 +195,7 @@ class CreateTreatmentsComponent extends Component {
                     className="custom-select-title">
                     Package
                   </Typography>
+
                   <Async
                     name='package'
                     id='package'

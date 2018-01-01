@@ -242,6 +242,10 @@ class TableComponent extends Component {
 
       case 'length':
         return value ? value.length : 0;
+
+      case 'area':
+        return value === '-' ? 'All' : value;
+
       default:
         return value;
     }

@@ -139,13 +139,19 @@ html, body
 
 @keyframes placeHolderShimmer
   0%
-    background-position: -468px 0
+    background-position: 100% 0
+
+  25%
+    background-position: -200% 0
 
   50%
-    background-position: 468px 0
+    background-position: 100% 0
+
+  75%
+    background-position: -200% 0
 
   100%
-    background-position: -468px 0
+    background-position: 100% 0
 
 
 .content_pre_loader
@@ -155,7 +161,7 @@ html, body
   height: 100%
 
   .animated-background
-    animation-duration: 2.5s
+    animation-duration: 4s
     animation-fill-mode: forwards
     animation-iteration-count: infinite
     animation-name: placeHolderShimmer
@@ -188,7 +194,7 @@ html, body
     position: relative
     z-index: 1
     width: 100%
-    height: 36px
+    height: 24px
     //margin-right: 16px
 
 
