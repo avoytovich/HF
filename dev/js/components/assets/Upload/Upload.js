@@ -28,16 +28,17 @@ class Upload extends Component {
         getS3Link(file.name.split('.').pop())
           .then((res) => getBase64Promise(file)
             .then(reader => {
+              console.log(reader)
               uploadAssets(
                 res.data.url,
-                // reader.result,
-                reader.result.split(',').pop(),
+                // reader.binary,
+                // reader.result.split(',').pop(),
+                reader.result,
                 progress => dispatchAssetsPayload({ [`tmp_files[${i}].progress`]: progress }),
                 file.type
               );
               let linkLong = res.data.url.split('?').shift();
               let link     = linkLong.substr(linkLong.indexOf('temp'));
-              console.log(linkLong);
               dispatchAssetsPayload({ [`tmp_files[${i}].link`]: link});
             }));
       })
