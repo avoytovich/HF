@@ -29,9 +29,9 @@ class Input extends Component {
       label = '',
       placeholder = '',
       reducer,
-      select,
       style,
-      currencies,
+      min,
+      max,
       reducer: {
         actionType,
         errors,
@@ -42,52 +42,22 @@ class Input extends Component {
     const error = get(errors, id, false);
     return (
     <FormControl className={classes.formControl} error={!!error}>
-      {select ?
-        <TextField
-          select
-          error={!!error}
-          id={id}
-          name={actionType}
-          value={value}
-          onChange={onCustomChange || onChange}
-          label={label}
-          placeholder={placeholder}
-          className={classes.textField}
-          style={style}
-          margin="normal"
-          helperText={error}
-          SelectProps={{
-            native: true,
-          }}
-          {...omit(props, ['dispatch'])}
-        >
-          {
-            currencies.map((option, index) => (
-              <option
-                key={index}
-                value={option.value}
-              >
-                {option.label}
-              </option>
-            ))
-          }
-        </TextField>
-        :
-        <TextField
-          error={!!error}
-          id={id}
-          name={actionType}
-          value={value}
-          onChange={onCustomChange || onChange}
-          label={label}
-          placeholder={placeholder}
-          className={[classes.textField]}
-          style={style}
-          margin="normal"
-          helperText={error}
-          {...omit(props, ['dispatch'])}
-        />
-      }
+      <TextField
+        error={!!error}
+        id={id}
+        name={actionType}
+        value={value}
+        onChange={onCustomChange || onChange}
+        label={label}
+        placeholder={placeholder}
+        className={[classes.textField]}
+        style={style}
+        margin="normal"
+        helperText={error}
+        min={min}
+        max={max}
+        {...omit(props, ['dispatch'])}
+      />
     </FormControl>
     );
   }
