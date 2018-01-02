@@ -30,7 +30,7 @@ class DynamicQuestions extends Component {
           return <BodyAreas />;
         }
         let itemsMultiple = [];
-        each(values, (val, prop) => itemsMultiple.push({ label: val.en,  value: prop }));
+        each(values, (val, answerId) => itemsMultiple.push({ label: val.en,  answerId }));
         return (
           <CheckBox
             items={itemsMultiple}
@@ -38,10 +38,9 @@ class DynamicQuestions extends Component {
             id={key}
             label={question.en}
           />
-        )
+        );
 
       case 'range':
-        console.log('range: ', { type, subtype, values, question, key });
         return (
           <Range
             items={itemsMultiple}

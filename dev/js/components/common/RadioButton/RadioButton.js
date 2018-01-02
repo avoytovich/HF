@@ -29,6 +29,7 @@ class RadioButtonsGroup extends React.Component {
       return (
         <FormControlLabel
           key={i}
+
           value={value}
           label={label}
           control={<Radio />}
