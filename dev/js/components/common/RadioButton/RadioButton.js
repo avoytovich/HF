@@ -1,8 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import omit from 'lodash/omit';
+import get from 'lodash/get';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
+
+import { onChange } from '../../../actions';
 
 const styles = theme => ({
   root: {
@@ -18,31 +24,52 @@ const styles = theme => ({
 });
 
 class RadioButtonsGroup extends React.Component {
-  state = {
-    value: '',
-  };
-
-  handleChange = (event, value) => {
-    this.setState({ value });
+  _renderItems = (items) => {
+    return items.map(({ label, value }, i) => {
+      return (
+        <FormControlLabel
+          key={i}
+          value={value}
+          label={label}
+          control={<Radio />}
+        />
+      )
+    })
   };
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      items = [],
+      reducer,
+      reducer: {
+        errors,
+        actionType,
+      },
+      id,
+      onChange,
+      style = {},
+      onChangeCustom,
+      label = 'Label',
+      ...props
+    } = this.props;
 
+    const value         = get(reducer, id, '');
+    const error         = get(errors, id, false);
+    const onChangeFinal = onChangeCustom || onChange;
     return (
       <div className={classes.root}>
         <FormControl component="fieldset" required className={classes.formControl}>
-          <FormLabel component="legend">Gender</FormLabel>
+          <FormLabel component="legend">{label}</FormLabel>
           <RadioGroup
             aria-label="gender"
-            name="gender1"
             className={classes.group}
-            value={this.state.value}
-            onChange={this.handleChange}
+            value={value}
+            name={actionType}
+            onChange={(e, value) => onChangeFinal({ target: { name: actionType, value, id }})}
+            {...omit(props, ['dispatch', 'onChange'])}
           >
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
-            <FormControlLabel value="female" control={<Radio />} label="Female" />
-            <FormControlLabel value="other" control={<Radio />} label="Other" />
+            { this._renderItems(items)}
           </RadioGroup>
         </FormControl>
       </div>
@@ -52,6 +79,19 @@ class RadioButtonsGroup extends React.Component {
 
 RadioButtonsGroup.propTypes = {
   classes: PropTypes.object.isRequired,
+  items: PropTypes.array,
+  reducer: PropTypes.object,
+  id: PropTypes.string,
+  label: PropTypes.string,
 };
 
-export default withStyles(styles)(RadioButtonsGroup);
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  onChange,
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(RadioButtonsGroup));

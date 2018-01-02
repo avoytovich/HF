@@ -27,13 +27,17 @@ class TestsList extends Component {
 
   _deleteItems = (items = []) => {
     const {
-      current_page,
-      per_page
-    } = this.props.location.query;
+      userReducer: {
+        user_id,
+      },
+      location: {
+        query,
+      },
+    } = this.props;
+    const url      = `${domen['diagnostics']}${api['test']}/${user_id}?${qs.stringify(query)}`;
     const promises = items.map(item => deleteTestWired(item.id));
-    const query = { per_page, page: current_page};
     return Promise.all(promises)
-      .then(res => getListByPost('diagnostics', 'diagnostics', query))
+      .then(res => getListByPost('diagnostics', 'test', query, url))
       .then(res => this.setState({ selected: [] }))
       .then(res => this._toggleDeleteModal())
       .catch(err => {

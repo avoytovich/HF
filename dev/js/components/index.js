@@ -16,7 +16,7 @@ import AssetsDiagnosticsList    from '../components/assets/AssetsDiagnosticsList
 import AssetsComponent          from '../components/assets/assets';
 import TestsList                from '../components/testing/TestsList/TestsList';
 import TestNew                  from '../components/testing/TestNew/TestNew';
-import Modal                  from '../components/common/Modal/Modal';
+import Modal                    from '../components/common/Modal/Modal';
 import {
   MatrixComponent,
   BodyAreaComponent,
@@ -26,9 +26,6 @@ import {
   EvaluationComponent,
   PackagesComponent,
   ExercisesComponent,
-//   MetaControlsComponent,
-//   AchievementsComponent,
-//   TestsComponent,
   CreateQuestionComponent,
   CreateConditionComponent,
   CreateTreatmentsComponent,
@@ -65,9 +62,6 @@ export const C = {
   EvaluationComponent,
   PackagesComponent,
   ExercisesComponent,
-//   MetaControlsComponent,
-//   AchievementsComponent,
-//   TestsComponent,
   CreateQuestionComponent,
   CreateConditionComponent,
   CreateTreatmentsComponent,

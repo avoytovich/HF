@@ -18,11 +18,13 @@ import { diagnosConsts } from '../consts'
 // import Switch from '../../common/Switch/Switch';
 import Select from '../../common/Select/Select';
 import RadioButton from '../../common/RadioButton/RadioButton';
+import DynamicQuestions from '../DynamicQuestions/DynamicQuestions';
 import BodyAreaItem from '../BodyAreaItem/BodyAreaItem';
 import {
   getBodyAreasWired,
   createTestWired,
   dispatchUserPayloadWired,
+  T,
 } from '../../../actions';
 import {
   PAGE,
@@ -30,21 +32,17 @@ import {
 } from '../../../config';
 
 class TestNew extends Component {
-  componentWillMount() {
-    getBodyAreasWired();
-  }
-
   _prepareData = (data) => {
     let prepData = pick(data, pickKeys.testing);
     prepData.answers = pickBy(prepData, el => el.value);
     prepData.user_id = this.props.userReducer.user_id;
-    prepData.type = 'diagnostic';
+    prepData.type    = 'diagnostic';
     return prepData;
   };
 
   _renderIncomingQuestions = () => {
 
-  }
+  };
 
   render() {
     const {
@@ -100,9 +98,11 @@ class TestNew extends Component {
             </div>
           </Grid>
           <Grid item xs={12}>
+            <div className="testing-inner-container-long">
               <p className="testing-inner-sub-header">
                 Profile
               </p>
+            </div>
           </Grid>
 
           <Grid item xs={5}>
@@ -180,26 +180,9 @@ class TestNew extends Component {
           </Grid>
 
         </Grid>
-        {/*<Grid container spacing={0}>*/}
-        {/*<Grid item xs={5}>*/}
-        {/*<div className="testing-inner-container-long">*/}
-        {/*<p className="testing-inner-sub-header">*/}
-        {/*Conditions & Treatment*/}
-        {/*</p>*/}
 
+        <DynamicQuestions />
 
-        {/*<RadioButton/>*/}
-        {/*</div>*/}
-        {/*</Grid>*/}
-
-        {/*<Grid item xs={5}>*/}
-        {/*<div className="testing-inner-container-long">*/}
-        {/*<p className="testing-inner-sub-header">*/}
-        {/*Questions*/}
-        {/*</p>*/}
-        {/*</div>*/}
-        {/*</Grid>*/}
-        {/*</Grid>*/}
       </div>
     )
   }

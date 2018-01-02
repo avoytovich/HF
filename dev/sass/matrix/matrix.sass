@@ -41,7 +41,7 @@
       border-right: 2px solid $primary-grey
 
   .main-question
-    padding: 20px 20px 40px 10px
+    //padding: 20px 20px 40px 10px
 
     .title
       display: flex
@@ -110,6 +110,7 @@
     color: $primary-blue
     padding-left: 20px
     cursor: pointer
+    margin-top: 30px
     svg
       padding-right: 10px
   .answer-item
@@ -178,6 +179,10 @@
       white-space: pre-wrap
       transition: height .3s
 
+
+.page-tabs
+  padding: 5px 20px 30px 20px
+
 .package-level-header
   display: flex
   flex-direction: row
@@ -189,8 +194,14 @@
   .package-level-header-item-right
     justify-content: flex-end
 
+
+.assets-list
+  padding: 10px 20px
+
 .package-level-exercises
-  margin-top: 40px!important
+  margin-top: 35px!important
+  margin-bottom: 25px!important
+
   .package-level-exercises-item
     display: flex
     flex-direction: row
@@ -203,3 +214,14 @@
     .title
       font-weight: bold
       margin-bottom: 5px
+
+.matrix_pre_loaders
+  display: flex
+  flex-direction: row
+  height: 100%
+  .item:first-child
+    border-right: 1px solid #eeee
+
+  .item
+    width: 50%
+

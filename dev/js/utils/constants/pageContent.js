@@ -1,5 +1,7 @@
-const TIME_FORMAT      = 'DD MMM YYYY';
-const TIME_FORMAT_DOTS = 'DD.MM.YYYY';
+import PropTypes              from 'prop-types';
+
+export const TIME_FORMAT      = 'DD MMM YYYY';
+export const TIME_FORMAT_DOTS = 'DD.MM.YYYY';
 
 export const COMPANIES_PAGE = {
   key:         'organizations',
@@ -70,13 +72,18 @@ export const DIAGNOSIS_TAB = {
   key: 'diagnosis',
   title: 'Diagnosis',
   tableHeader: [
-    { title: 'Name',                 key: 'title',       className: 'left'                                        },
-    { title: 'Specific Description', key: 'description', className: 'left'                                        },
-    { title: 'Body Areas',           key: 'area_id',     className: 'center'                                      },
-    { title: 'Key',                  key: 'key',         className: 'left'                                        },
-    { title: 'Sequence',             key: 'step',        className: 'center', type: 'number', format: ''          },
-    { title: 'Created',              key: 'created_at',  className: 'left',   type: 'time',   format: TIME_FORMAT },
-    { title: 'Last Edited',          key: 'updated_at',  className: 'left',   type: 'time',   format: TIME_FORMAT }
+    { title: 'Name', key: 'title', className: 'left' },
+    {
+      title: 'Body Areas',
+      key: 'area.title',
+      className: 'center',
+      type: 'area',
+      sortKey: 'matrix_body_areas.title'
+    },
+    { title: 'Key',         key: 'key',         className: 'left'                                        },
+    { title: 'Sequence',    key: 'step',        className: 'center', type: 'number', format: ''          },
+    { title: 'Created',     key: 'created_at',  className: 'left',   type: 'time',   format: TIME_FORMAT },
+    { title: 'Last Edited', key: 'updated_at',  className: 'left',   type: 'time',   format: TIME_FORMAT }
   ]
 };
 
@@ -84,55 +91,73 @@ export const BODY_AREA_TAB = {
   key: 'areas',
   title: 'bodyArea',
   tableHeader: [
-    { title: 'Key',                 key: 'key',       className: 'left'                                        },
-    { title: 'Body Areas',           key: 'title',        className: 'center'                                      },
-    { title: 'Created',              key: 'created_at',  className: 'left',   type: 'time',   format: TIME_FORMAT },
-    { title: 'Updated',              key: 'updated_at',  className: 'left',   type: 'time',   format: TIME_FORMAT }
+    { title: 'Key',        key: 'key',         className: 'left'                                        },
+    { title: 'Body Areas', key: 'title',       className: 'center'                                      },
+    { title: 'Created',    key: 'created_at',  className: 'left',   type: 'time', format: TIME_FORMAT },
+    { title: 'Updated',    key: 'updated_at',  className: 'left',   type: 'time', format: TIME_FORMAT }
   ]
 };
 
 export const CONDITIONS_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
-    { title: 'Name',       key: 'title',      className: 'left'                                    },
-    { title: 'Body Areas', key: 'area_id',    className: 'center'                                  },
-    { title: 'Key',        key: 'key',        className: 'left'                                    },
-    { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
-    { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
+    { title: 'Name',       key: 'title',      className: 'left'                                        },
+    {
+      title: 'Body Areas',
+      key: 'area.title',
+      className: 'center',
+      type: 'area',
+      sortKey: 'matrix_body_areas.title'
+    },
+    { title: 'Key',        key: 'key',        className: 'left'                                        },
+    { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT     },
+    { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT     }
   ]
 };
 
 export const TREATMENTS_TAB = {
-  key: 'conditions',
-  title: 'Conditions',
+  key: 'treatments',
+  title: 'TreatmentsTab',
   tableHeader: [
-    { title: 'Name',       key: 'title',      className: 'left'                                    },
-    { title: 'Body Areas', key: 'area_id',    className: 'center'                                  },
-    { title: 'Key',        key: 'key',        className: 'left'                                    },
-    { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
-    { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
+    { title: 'Name',       key: 'title',      className: 'left'                                       },
+    {
+      title: 'Body Areas',
+      key: 'area.title',
+      className: 'center',
+      type: 'area',
+      sortKey: 'matrix_body_areas.title'
+    },
+    { title: 'Key',        key: 'key',        className: 'left'                                       },
+    { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT    },
+    { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT    }
   ]
 };
 
 export const PACKAGES_TAB = {
-  key: 'conditions',
-  title: 'Conditions',
+  key: 'packages',
+  title: 'PackagesTab',
   tableHeader: [
-    { title: 'Name',       key: 'title',      className: 'left'                                    },
-    { title: 'Body Areas', key: 'area_id',    className: 'center'                                  },
-    { title: 'Key',        key: 'key',        className: 'left'                                    },
-    { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
-    { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
+    { title: 'Name',       key: 'title',      className: 'left'                                       },
+    {
+      title: 'Body Areas',
+      key: 'area.title',
+      className: 'center',
+      type: 'area',
+      sortKey: 'matrix_body_areas.title'
+    },
+    { title: 'Key',        key: 'key',        className: 'left'                                       },
+    { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT    },
+    { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT    }
   ]
 };
 
 export const EXERCISES_TAB = {
-  key: 'conditions',
-  title: 'Conditions',
+  key: 'exercise',
+  title: 'ExerciseTab',
   tableHeader: [
     { title: 'Name',       key: 'name',       className: 'left'                                    },
-//    { title: 'Key',        key: 'packages',   className: 'left'                                    },
+    { title: 'Packages',   key: 'packages',   className: 'center', type: 'length'                  },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
   ]
@@ -140,7 +165,7 @@ export const EXERCISES_TAB = {
 
 export const SEL_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Name',          key: 'name',          className: 'left'                                    },
     { title: 'Customer Name', key: 'customer_name', className: 'center'                                  },
@@ -165,10 +190,10 @@ export const ASSETS_TAB = {
 
 export const COMPANIES_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Company Name',   key: 'name',          className: 'left assets-title-cell'},
-    { title: 'Contact Person', key: 'contact_info.contacts[0].name',          className: 'center'  },
+    { title: 'Contact Person', key: 'contact_info.contacts[0].name',       className: 'center'  },
     { title: 'Users',          key: 'users',         className: 'left'},
     { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
@@ -176,7 +201,7 @@ export const COMPANIES_TAB = {
 
 export const CLINICS_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Clinic Name',    key: 'name',          className: 'left assets-title-cell'},
     { title: 'Contact Person', key: 'contact_info.contacts[0].name',          className: 'center'  },
@@ -187,7 +212,7 @@ export const CLINICS_TAB = {
 
 export const USERS_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Status', key: 'billing_info', className: 'center'  },
@@ -197,7 +222,7 @@ export const USERS_TAB = {
 
 export const COMPANIES_USERS_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Company', key: 'billing_info', className: 'center'  },
@@ -208,7 +233,7 @@ export const COMPANIES_USERS_TAB = {
 
 export const CLINICS_USERS_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Clinic', key: 'billing_info', className: 'center'  },
@@ -219,7 +244,7 @@ export const CLINICS_USERS_TAB = {
 
 export const TEST_TAB = {
   key: 'conditions',
-  title: 'Conditions',
+  title: 'ConditionsTab',
   tableHeader: [
     { title: 'Title',         key: 'title',         className: 'left'                                    },
     { title: 'Package',       key: 'type',          className: 'center'                                  },
@@ -227,3 +252,21 @@ export const TEST_TAB = {
     { title: 'Date',          key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT },
   ]
 };
+
+
+export const CONTENT_TYPE_LIST = [
+  {label: 'Question',        value: 'question'},
+  {label: 'Functional test', value: 'functionalTest'},
+];
+
+
+export const ASSETS_ITEM  = PropTypes.PropTypes.shape({
+  name          : PropTypes.string.isRequired,
+  created_at    : PropTypes.number.isRequired,
+  extension     : PropTypes.string,
+  function_type : PropTypes.string,
+  id            : PropTypes.number,
+  path          : PropTypes.string,
+  type          : PropTypes.string,
+  updated_at    : PropTypes.number,
+}).isRequired;
