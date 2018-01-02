@@ -58,16 +58,14 @@ class CompanyOwnUsers extends Component {
     const { tableHeader } = USERS_TAB;
     const { selected, deleteOpen } = this.state;
     const { profileReducer } = this.props;
-    console.log(this.props)
     const querySelector = {...this.props.location.query,...{type: 'organization'}};
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
-    console.log(url)
     return (
       <div id="diagnosis-component">
 
         <div className="company-sub-header">
           <span onClick={()=>this._returnFunc('companies')}> Companies </span>
-          <span> > </span>
+          <span><img className="arrow-right-icon" src="../../../../assets/images/common/arrow-right.png"/></span>
           <span onClick={()=>this._returnFunc('profile')}> {get(profileReducer,'name')}</span>
         </div>
 

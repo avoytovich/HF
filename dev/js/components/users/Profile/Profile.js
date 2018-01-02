@@ -123,7 +123,11 @@ class Profile extends Component {
 
     return (
     <div className="profile-main-container">
-      <div className="profile-sub-header" onClick={this._returnFunc}>{get(this.props,'profileReducer.type')==='clinic'?'Clinics ':'Companies ' }<span>{get(profileReducer,'name')} Profile</span></div>
+      <div className="profile-sub-header">
+        <span className="profile-total" onClick={this._returnFunc}> {get(this.props,'profileReducer.type')==='clinic'?'Clinics ':'Companies ' }</span>
+        <img className="arrow-right-icon" src="../../../../assets/images/common/arrow-right.png"/>
+        <span className="profile-name">{get(profileReducer,'name')} Profile</span>
+      </div>
       <Grid className={classes.root}
             container
             alignItems='top'

@@ -65,8 +65,8 @@ class ClinicOwnUsers extends Component {
 
         <div className="company-sub-header">
           <span onClick={()=>this._returnFunc('clinic')}> Companies </span>
-          <span> > </span>
-          <span onClick={()=>this._returnFunc('profile')}> {get(profileReducer,'name')}</span>
+          <span><img className="arrow-right-icon" src="../../../../assets/images/common/arrow-right.png"/></span>
+          <span  onClick={()=>this._returnFunc('profile')}> {get(profileReducer,'name')}</span>
         </div>
 
         <DeleteComponent
