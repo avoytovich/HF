@@ -80,8 +80,10 @@
   "scripts": {
     "dev": "webpack",
     "start": "node devServer.js",
-    "build-dev": "NODE_ENV=dev webpack -p --progress --config webpack.config.dev.js",
-    "build-prod": "NODE_ENV=production webpack -p --progress --config webpack.config.prod.js"
+    "clean": "npm cache verify",
+    "clean-prod": "npm cache clean",
+    "build-dev" : "npm run clean-prod && NODE_ENV=dev webpack -p --progress --config webpack.config.dev.js",
+    "build-prod": "npm run clean-prod && NODE_ENV=production webpack -p --progress --config webpack.config.prod.js"
   },
   "author": "",
   "license": "ISC"
