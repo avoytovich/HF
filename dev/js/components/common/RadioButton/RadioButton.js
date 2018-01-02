@@ -8,7 +8,10 @@ import { withStyles } from 'material-ui/styles';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
 
-import { onChange } from '../../../actions';
+import {
+  onChange,
+  dispatchTestingPayloadWired,
+} from '../../../actions';
 
 const styles = theme => ({
   root: {
@@ -29,7 +32,6 @@ class RadioButtonsGroup extends React.Component {
       return (
         <FormControlLabel
           key={i}
-
           value={value}
           label={label}
           control={<Radio />}
@@ -55,8 +57,7 @@ class RadioButtonsGroup extends React.Component {
       ...props
     } = this.props;
 
-    const value         = get(reducer, id, '');
-    const error         = get(errors, id, false);
+    const value         = get(reducer, `${id}.value`, '');
     const onChangeFinal = onChangeCustom || onChange;
     return (
       <div className={classes.root}>
@@ -67,7 +68,10 @@ class RadioButtonsGroup extends React.Component {
             className={classes.group}
             value={value}
             name={actionType}
-            onChange={(e, value) => onChangeFinal({ target: { name: actionType, value, id }})}
+            onChange={(e, value) => {
+              onChangeFinal({ target: { name: actionType, value, id: `${id}.value` }});
+              dispatchTestingPayloadWired({ [`${id}.type`]: 'single' })
+            }}
             {...omit(props, ['dispatch', 'onChange'])}
           >
             { this._renderItems(items)}

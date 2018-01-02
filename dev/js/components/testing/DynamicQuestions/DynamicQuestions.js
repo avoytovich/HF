@@ -12,14 +12,15 @@ import BodyAreas from '../../testing/BodyAreas/BodyAreas';
 
 class DynamicQuestions extends Component {
   _pickQuestion = ({ answer: { type, subtype, values }, question, key, content_type }, i) => {
+    const { testingReducer } = this.props;
     switch (type) {
       case 'single':
         let items = [];
-        each(values, (val, prop) => items.push({ label: val.en,  value: prop }));
+        each(values, (val, answerId) => items.push({ label: val.en,  value: answerId }));
         return (
           <RadioButton
             items={items}
-            reducer={this.props.testingReducer}
+            reducer={testingReducer}
             id={key}
             label={question.en}
           />
@@ -34,7 +35,7 @@ class DynamicQuestions extends Component {
         return (
           <CheckBox
             items={itemsMultiple}
-            reducer={this.props.testingReducer}
+            reducer={testingReducer}
             id={key}
             label={question.en}
           />
@@ -43,8 +44,7 @@ class DynamicQuestions extends Component {
       case 'range':
         return (
           <Range
-            items={itemsMultiple}
-            reducer={this.props.testingReducer}
+            reducer={testingReducer}
             id={key}
             label={question.en}
             range={values}
@@ -52,7 +52,7 @@ class DynamicQuestions extends Component {
         );
 
       default:
-        console.log('default: ', { type, subtype });
+        console.log('default fired: ', { type, subtype });
     }
   };
 
