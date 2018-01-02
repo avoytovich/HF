@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import {
@@ -17,9 +15,6 @@ class Range extends Component {
   render() {
     const {
       reducer,
-      reducer: {
-       actionType,
-      },
       id,
       label = 'Label',
       range: {
@@ -36,7 +31,7 @@ class Range extends Component {
             <Input
               type="range"
               onCustomChange={({ target: { value }}) => {
-                const valueWithinRange = Math.ceil((value / 100) * (max - min)) + +min;
+                const valueWithinRange = Math.ceil((value / 100) * (+max - +min)) + +min;
                 dispatchTestingPayloadWired({
                   [`${id}.type`]       : 'single',
                   [`${id}.value`]      : valueWithinRange,
@@ -46,8 +41,6 @@ class Range extends Component {
               style={{ width: '100%' }}
               id={`${id}.valueOrigin`}
               reducer={reducer}
-              min={min}
-              max={max}
             />
             <span className="range-input-value-indicator"> { value } </span>
           </div>
@@ -60,18 +53,7 @@ class Range extends Component {
 Range.propTypes = {
   id: PropTypes.string.isRequired,
   reducer: PropTypes.object.isRequired,
-  value: PropTypes.bool,
-  classes: PropTypes.object,
-  onChange: PropTypes.func,
   label: PropTypes.string,
-  placeholder: PropTypes.string,
-  onCustomChange: PropTypes.func,
 };
 
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  dispatch,
-}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Range);
+export default Range;
