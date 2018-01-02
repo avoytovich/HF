@@ -4,12 +4,13 @@ import { browserHistory }       from 'react-router'
 import Paper                    from 'material-ui/Paper';
 import Grid                     from 'material-ui/Grid';
 import { withStyles }           from 'material-ui/styles';
-import { get, map }                  from 'lodash'
+import { get, map }             from 'lodash'
 import CommentIcon              from 'material-ui-icons/Comment';
-
+import Modal                    from '../../common/Modal/Modal';
+import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
 import { PAGE } from '../../../config';
-
 import {
+  userCreate,
   getProfileWired } from '../../../actions'
 
 const styles = theme => ({
@@ -41,6 +42,17 @@ const billingAddress = [
 ];
 
 class Profile extends Component {
+
+  state = {
+    showCreateUserModal: false,
+  };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.showCreateUserModal && nextState.showCreateUserModal) {
+      return false
+    }
+    return true;
+  }
 
   componentWillMount (){
     getProfileWired(this.props.params.id);
@@ -110,12 +122,29 @@ class Profile extends Component {
         </div>
       </div>
     </div>
-    <div className="profile-paper-hr"></div>
+    <div className="profile-paper-hr"/>
     </div>
     )
   };
+  _addUsers=()=>{
+    console.log('add users');
+    this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
+  };
+
+  _createSimpleUser =() =>{
+    const result = {
+      customer_id: this.props.params.id,
+      email: this.props.createSimpleUsersReducers.email};
+    console.log(result);
+    userCreate('users', 'createSimpleUser', result)
+      .then(this.setState({showCreateUserModal:false}))
+    getProfileWired(this.props.params.id);
+  }
+
+  _toggleCloseModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
   render() {
+    const {showCreateUserModal} = this.state;
     const {
       classes,
       profileReducer
@@ -126,7 +155,7 @@ class Profile extends Component {
       <div className="profile-sub-header">
         <span className="profile-total" onClick={this._returnFunc}> {get(this.props,'profileReducer.type')==='clinic'?'Clinics ':'Companies ' }</span>
         <img className="arrow-right-icon" src="../../../../assets/images/common/arrow-right.png"/>
-        <span className="profile-name">{get(profileReducer,'name')} Profile</span>
+        <span className="profile-name">{get(profileReducer,'name')} Profile </span>
       </div>
       <Grid className={classes.root}
             container
@@ -141,14 +170,15 @@ class Profile extends Component {
               <div className = 'profile-paper-data-container'>
                 {map(mainInformation, (el,index) => this._renderItem(el,index,profileReducer))}
               </div>
-              <div className="profile-paper-hr"></div>
+              <div className="profile-paper-hr"/>
               <div className = 'profile-paper-sub-header'>Company Users</div>
               <div className = 'profile-paper-data-container'>
                 <div className = 'profile-paper-data'>
                   <div className="users-count" onClick={this._getUsers}> {get(profileReducer,'users') + (get(profileReducer,'users') > 1 ? ' Users':' User')}</div>
+                  <div className="add-user" onClick = {this._addUsers}><span>+</span> ADD USER</div>
                 </div>
               </div>
-              <div className="profile-paper-hr"></div>
+              <div className="profile-paper-hr"/>
               <div className = 'profile-paper-sub-header'>Billing Address</div>
               <div className = 'profile-paper-data-container'>
                 {map(billingAddress, (el,index) => this._renderItem(el,index,profileReducer))}
@@ -165,6 +195,15 @@ class Profile extends Component {
           </Paper>
         </Grid>
       </Grid>
+
+      <Modal
+        itemName="name_real"
+        open={showCreateUserModal}
+        title='Add user'
+        toggleModal={this._toggleCloseModal}
+        onConfirmClick={() => this._createSimpleUser()}
+        CustomContent={() => <CreateSimpleUser/>}
+      />
     </div>
 
     )
@@ -173,6 +212,7 @@ class Profile extends Component {
 
 const mapStateToProps = state => ({
   profileReducer: state.profileReducer,
+  createSimpleUsersReducers: state.createSimpleUsersReducers
 });
 
 export default  connect(mapStateToProps)(withStyles(styles)(Profile));

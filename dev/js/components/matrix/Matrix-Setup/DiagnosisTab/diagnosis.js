@@ -7,7 +7,7 @@ import TableControls            from '../../../common/TypicalListPage/TableContr
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
 import NotInterested            from 'material-ui-icons/NotInterested';
-import DeactivateComponent      from '../matrix-crud/deactivateModal'
+import DeactivateComponent      from '../../../common/Modal/deactivateModal'
 import DeleteComponent          from '../matrix-crud/deleteModal';
 import Done                     from 'material-ui-icons/Done';
 
