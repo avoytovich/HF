@@ -21,8 +21,7 @@ import {
 class CheckBox extends Component {
   _onChange = (id, answerId, i) => (event, checked) => {
     if (checked) {
-      dispatchTestingPayloadWired({ [`${id}.type`]: 'multiple' });
-      dispatchAddMultOptionWired(`${id}.value`, answerId);
+      dispatchAddMultOptionWired(`${id}.value`, answerId, id);
     } else {
       dispatchDeleteMultOptionWired(`${id}.value`, answerId)
     }

@@ -2,23 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Grid from 'material-ui/Grid';
+import each from 'lodash/each';
 
-import Select from '../../common/Select/Select';
-import BodyAreaItem from '../BodyAreaItem/BodyAreaItem';
-import {
-  getBodyAreasWired,
-} from '../../../actions';
+import { C } from '../../../components';
+import {} from '../../../actions';
 import { PAGE } from '../../../config';
 
 class BodyAreas extends Component {
-  componentWillMount() {
-    getBodyAreasWired();
-  }
-
   _renderBodyAreasItem = (items = []) => {
     return items.map(({ title, id }) => {
       return (
-        <BodyAreaItem
+        <C.BodyAreaItem
           key={id + title}
           reducer={this.props.testingReducer}
           title={title}
@@ -30,17 +24,15 @@ class BodyAreas extends Component {
 
   render() {
     const {
+      areas,
       testingReducer,
       testingReducer: {
-        bodyAreas,
-        bodyAreasIds,
+        bodyAreasPicked,
       }
     } = this.props;
     return (
       <div>
-
         <Grid container spacing={0}>
-
           <Grid item xs={12}>
               <p className="testing-inner-sub-header">
                 Body Areas
@@ -48,10 +40,10 @@ class BodyAreas extends Component {
               <Grid container spacing={24}>
 
                 <Grid item xs={12}>
-                  <Select
+                  <C.Select
                     multiple
-                    options={bodyAreas}
-                    id='bodyAreasIds'
+                    options={areas}
+                    id='bodyAreasPicked'
                     style={{ width: "100%" }}
                     reducer={testingReducer}
                     label='Body Areas'
@@ -59,7 +51,7 @@ class BodyAreas extends Component {
                 </Grid>
               </Grid>
 
-              { this._renderBodyAreasItem(bodyAreasIds) }
+              { this._renderBodyAreasItem(bodyAreasPicked) }
 
           </Grid>
         </Grid>

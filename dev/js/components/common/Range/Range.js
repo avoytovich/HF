@@ -24,28 +24,26 @@ class Range extends Component {
     } = this.props;
     const value = get(reducer, `${id}.value`, 0);
     return (
-      <div className="margin-range">
-        <FormControl component="fieldset">
-          <FormLabel component="legend">{label}</FormLabel>
-          <div className="range-input-wrapper">
-            <Input
-              type="range"
-              onCustomChange={({ target: { value }}) => {
-                const valueWithinRange = Math.ceil((value / 100) * (+max - +min)) + +min;
-                dispatchTestingPayloadWired({
-                  [`${id}.type`]       : 'single',
-                  [`${id}.value`]      : valueWithinRange,
-                  [`${id}.valueOrigin`]: value,
-                })
-              }}
-              style={{ width: '100%' }}
-              id={`${id}.valueOrigin`}
-              reducer={reducer}
-            />
-            <span className="range-input-value-indicator"> { value } </span>
-          </div>
-        </FormControl>
-      </div>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">{label}</FormLabel>
+        <div className="range-input-wrapper">
+          <Input
+            type="range"
+            onCustomChange={({ target: { value }}) => {
+              const valueWithinRange = Math.ceil((value / 100) * (+max - +min)) + +min;
+              dispatchTestingPayloadWired({
+                [`${id}.type`]       : 'single',
+                [`${id}.value`]      : valueWithinRange,
+                [`${id}.valueOrigin`]: value,
+              })
+            }}
+            style={{ width: '100%' }}
+            id={`${id}.valueOrigin`}
+            reducer={reducer}
+          />
+          <span className="range-input-value-indicator"> { value } </span>
+        </div>
+      </FormControl>
     );
   }
 }
@@ -55,5 +53,9 @@ Range.propTypes = {
   reducer: PropTypes.object.isRequired,
   label: PropTypes.string,
 };
+
+Range.defaultProps = {
+  range: { min: 0, max: 100 },
+}
 
 export default Range;

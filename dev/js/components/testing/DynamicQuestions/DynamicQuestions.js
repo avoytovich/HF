@@ -5,10 +5,7 @@ import each from 'lodash/each';
 import { bindActionCreators } from 'redux';
 import Grid from 'material-ui/Grid';
 
-import RadioButton from '../../common/RadioButton/RadioButton';
-import CheckBox from '../../common/CheckBox/CheckBox';
-import Range from '../../common/Range/Range';
-import BodyAreas from '../../testing/BodyAreas/BodyAreas';
+import { C } from '../../../components'
 
 class DynamicQuestions extends Component {
   _pickQuestion = ({ answer: { type, subtype, values }, question, key, content_type }, i) => {
@@ -16,9 +13,9 @@ class DynamicQuestions extends Component {
     switch (type) {
       case 'single':
         let items = [];
-        each(values, (val, answerId) => items.push({ label: val.en,  value: answerId }));
+        each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
         return (
-          <RadioButton
+          <C.RadioButton
             items={items}
             reducer={testingReducer}
             id={key}
@@ -28,27 +25,39 @@ class DynamicQuestions extends Component {
 
       case 'multiple':
         if (content_type === 'vas') {
-          return <BodyAreas />;
+          const bodyAreas = [];
+          each(values, (val, answerId) => bodyAreas.push({
+            label: val.en,
+            value: { id: answerId, title: val.en },
+          }));
+          return (
+            <C.BodyAreas
+              areas={bodyAreas}
+            />
+          );
+        } else {
+          let itemsMultiple = [];
+          each(values, (val, answerId) => itemsMultiple.push({ label: val.en, answerId }));
+          return (
+            <C.CheckBox
+              items={itemsMultiple}
+              reducer={testingReducer}
+              id={key}
+              label={question.en}
+            />
+          );
         }
-        let itemsMultiple = [];
-        each(values, (val, answerId) => itemsMultiple.push({ label: val.en,  answerId }));
-        return (
-          <CheckBox
-            items={itemsMultiple}
-            reducer={testingReducer}
-            id={key}
-            label={question.en}
-          />
-        );
 
       case 'range':
         return (
-          <Range
-            reducer={testingReducer}
-            id={key}
-            label={question.en}
-            range={values}
-          />
+          <div className="margin-range">
+            <C.Range
+              reducer={testingReducer}
+              id={key}
+              label={question.en}
+              range={values}
+            />
+          </div>
         );
 
       default:
@@ -64,7 +73,6 @@ class DynamicQuestions extends Component {
 
   render() {
     const {
-      testingReducer,
       testingReducer: {
         questions,
       }

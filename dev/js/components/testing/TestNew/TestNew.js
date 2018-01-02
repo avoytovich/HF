@@ -49,7 +49,7 @@ class TestNew extends Component {
       testingReducer,
       testingReducer: {
         bodyAreas,
-        bodyAreasIds,
+        bodyAreasPicked,
         q_age,
         q_sex,
       }

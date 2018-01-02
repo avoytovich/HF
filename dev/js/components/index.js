@@ -10,31 +10,14 @@ import Profile                  from '../components/users/Profile/Profile';
 import SimpleUsers              from '../components/users/Users/SimpleUsers';
 import OrganizationsUsers       from '../components/users/Users/OrganizationsUsers';
 import ClinicsUsers             from '../components/users/Users/ClinicsUsers';
-import CompanyOwnUsers             from '../components/users/Companies/CompanyUsers';
+import CompanyOwnUsers          from '../components/users/Companies/CompanyUsers';
 import AssetsList               from '../components/assets/AssetsList/AssetsList';
 import TestsList                from '../components/testing/TestsList/TestsList';
 import TestNew                  from '../components/testing/TestNew/TestNew';
-import Modal                  from '../components/common/Modal/Modal';
-import {
-  MatrixComponent,
-  BodyAreaComponent,
-  DiagnosisComponent,
-  ConditionsComponent,
-  TreatmentsComponent,
-  EvaluationComponent,
-  PackagesComponent,
-  ExercisesComponent,
-//   MetaControlsComponent,
-//   AchievementsComponent,
-//   TestsComponent,
-  CreateQuestionComponent,
-  CreateConditionComponent,
-  CreateTreatmentsComponent,
-  CreateEvaluationComponent,
-  CreatePackageComponent,
-  CreateBodyAreaComponent,
-  CreateExerciseComponent
-}                                 from '../components/matrix/Matrix-Setup';
+
+import * as commonComponents    from './common';
+import * as testingComponents   from './testing';
+import * as matrixComponents    from '../components/matrix/Matrix-Setup';
 
 export const C = {
   Main,
@@ -53,23 +36,7 @@ export const C = {
   AssetsList,
   TestsList,
   TestNew,
-  MatrixComponent,
-  BodyAreaComponent,
-  DiagnosisComponent,
-  ConditionsComponent,
-  TreatmentsComponent,
-  EvaluationComponent,
-  PackagesComponent,
-  ExercisesComponent,
-//   MetaControlsComponent,
-//   AchievementsComponent,
-//   TestsComponent,
-  CreateQuestionComponent,
-  CreateConditionComponent,
-  CreateTreatmentsComponent,
-  CreateEvaluationComponent,
-  CreatePackageComponent,
-  CreateBodyAreaComponent,
-  Modal,
-  CreateExerciseComponent,
+  ...matrixComponents,
+  ...commonComponents,
+  ...testingComponents,
 };

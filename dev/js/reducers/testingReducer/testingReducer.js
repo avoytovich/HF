@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import each from 'lodash/each';
 import set from 'lodash/set';
 import remove from 'lodash/remove';
 
@@ -9,7 +10,7 @@ const initialState = {
   actionType: T.TESTING,
   errors: {},
   bodyAreas: [],
-  bodyAreasIds: [],
+  bodyAreasPicked: [],
   type: 'diagnostic',
   step: 0,
   title: '',
@@ -25,11 +26,14 @@ const initialState = {
 };
 
 const testingBodyAres = (state, action) => {
-  let bodyAreas = action.payload.map(({ title, id }) => ({
-    label: title,
-    value: { id, title },
-  }));
-  return { ...state, bodyAreas }
+  let bodyAreas = [];
+  each(action.payload, (val, answerId) => {
+    bodyAreas.push({
+      label: val.en,
+      value: { id: answerId, title: val.en },
+    });
+  });
+  return { ...state, bodyAreas };
 };
 
 const testingAddQuestions = (state, action) => {
@@ -42,10 +46,11 @@ const testingAddMultOption = (state, action) => {
   const {
     path,
     answerId,
+    id,
   } = action.payload;
   let multiQAnswers = get(state, path, []);
   multiQAnswers.push(answerId);
-  return set({...state}, path, multiQAnswers);
+  return { ...set({...state}, path, multiQAnswers), [id]: 'multiple' };
 };
 
 const testingDeleteMultOption = (state, action) => {

@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router'
 import Grid from 'material-ui/Grid';
 import get from 'lodash/get';
 
-import Input from '../../common/Input/Input';
 import { diagnosConsts } from '../consts'
-// import Switch from '../../common/Switch/Switch';
-import Select from '../../common/Select/Select';
+import { C } from '../../../components';
 
 class BodyAreaItem extends Component {
 
@@ -21,34 +18,24 @@ class BodyAreaItem extends Component {
     const value = get(reducer, `vas_pain_level_area_${id}`, 0);
     return (
       <Grid container spacing={24}>
-        <Grid item xs={6}>
-          <Select
-            options={diagnosConsts.painType}
-            id={`vas_pain_type_area_${id}`}
-            style={{ width: "100%" }}
-            reducer={reducer}
-            label={`Pain type (${title})`}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <div style={{ display: 'flex', alignItems: 'flex-end', marginTop: '12px'  }}>
-            <div style={{ display: 'flex', flex: 1, marginRight: '10px'}}>
-              <Input
-                type="range"
-                style={{ width: '100%' }}
-                underline="none"
-                id={`vas_pain_level_area_${id}`}
+          <Grid item xs={6}>
+            <C.Select
+              options={diagnosConsts.painType}
+              id={`vas_pain_type_area_${id}`}
+              style={{ width: "100%" }}
+              reducer={reducer}
+              label={`Pain type (${title})`}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <div style={{ display: 'inline-flex', alignSelf: 'flex-end'  }}>
+              <C.Range
                 reducer={reducer}
-                label={`VAS (${title})`}
-                placeholder=" "
+                id={id}
+                label={title}
               />
             </div>
-            <span style={{ display: 'inline-block', marginBottom: '8px', borderBottom: '1px solid #0000006b'}}>
-              { value }
-            </span>
-          </div>
-
-        </Grid>
+          </Grid>
       </Grid>
     )
   }

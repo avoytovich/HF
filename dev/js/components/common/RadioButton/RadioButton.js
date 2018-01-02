@@ -34,7 +34,7 @@ class RadioButtonsGroup extends React.Component {
           key={i}
           value={value}
           label={label}
-          control={<Radio />}
+          control={<Radio key={i} />}
         />
       )
     })

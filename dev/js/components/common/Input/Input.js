@@ -30,8 +30,6 @@ class Input extends Component {
       placeholder = '',
       reducer,
       style,
-      min,
-      max,
       reducer: {
         actionType,
         errors,
@@ -54,8 +52,6 @@ class Input extends Component {
         style={style}
         margin="normal"
         helperText={error}
-        min={min}
-        max={max}
         {...omit(props, ['dispatch'])}
       />
     </FormControl>
