@@ -124,10 +124,13 @@ export default(state = _initialState(), action = TABLE) => {
   switch (action.type) {
 
     case `${TABLE}_UPDATE`:
-      const {data, meta:{pagination}, path } = action.payload;
-      const sortOptional = getSortParams(state, path, pagination);
-      const finalState = set(state, path, {data, pagination, sortOptional});
-      return finalState;
+      const {data, meta:{pagination}, path, query} = action.payload;
+      const sortOptional = {
+        sortedBy: query.sortedBy,
+        orderBy : query.orderBy,
+        search  : query.search
+      };
+      return set(state, path, {data, pagination, sortOptional});
 
     case `${TABLE}_UPDATE_FIELDS`:
       const { orderBy, sortedBy, search, path: pathLink } = action.payload;
@@ -136,16 +139,4 @@ export default(state = _initialState(), action = TABLE) => {
     default:
       return state;
   }
-};
-
-export const getSortParams = (state, path, pagination) => {
-  const { next }        = pagination.links;
-  const old             = dotProp.get(state, `${path}.sortOptional`);
-  const queryStartIndex = next && next.indexOf('?');
-
-  if ( queryStartIndex >= 0 ) {
-    const { sortedBy, orderBy, search } = qs.parse(next.slice(queryStartIndex));
-    return Object.assign({}, old, {sortedBy, orderBy, search});
-  }
-  return old;
 };

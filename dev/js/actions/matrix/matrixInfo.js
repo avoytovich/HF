@@ -12,20 +12,20 @@ export const getMatrixInfo = (domenKey, apiKey, query, path, url) => {
         querySt   = qs.stringify(query);
   const finalUrl  = url ? url : `${domenPath}${apiPath}${querySt ? '?' + querySt : ''}`;
   return Api.get(finalUrl)
-          .then((res) => dispatchTableInfo(res, path));
+          .then((res) => dispatchTableInfo(res, path, query));
 };
 
-export const dispatchTableInfo = ({data}, path) => {
+export const dispatchTableInfo = ({data}, path, query) => {
  return store.dispatch({type:`${TABLE}_UPDATE`,
     payload:{
       ...data,
-      path
+      path,
+      query
     }
   });
 };
 
 export const getListByPost = (domenKey, apiKey, _query, url) => {
-  console.log(_query);
   _query.orderBy === 'title' && delete _query.orderBy;
   const finalQuery = { ..._query, page: +_query.current_page + 1, limit: _query.per_page };
   const finalUrl   = url ? url : `${domen[domenKey]}${api[apiKey]}`;
@@ -37,14 +37,15 @@ export const getListByPost = (domenKey, apiKey, _query, url) => {
         payload: {
           data,
           meta,
-          path: apiKey
+          path: apiKey,
+          query: _query
         }
       })
     });
 };
 
 export const clearCreateQuestion = () =>
-  store.dispatch({type:`${CREATE_QUESTION}_CLEAR`});
+  store.dispatch({type:`${CREATE_QUESTION}_CLEAR_STATE`});
 
 export const updateCrateQuestionFields = (data, path) => {
   return store.dispatch({type:`${CREATE_QUESTION}_UPDATE`,

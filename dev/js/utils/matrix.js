@@ -1,3 +1,10 @@
+import {
+  diagnosisQuestionCreate,
+  updateQuestionCreate,
+  clearCreateQuestion
+}                                   from '../actions';
+import { browserHistory }           from 'react-router';
+
 export const GROUP_TYPES = [
   { key: 'and',      type: 'block'                    },
   { key: 'or' ,      type: 'block'                    },
@@ -108,4 +115,20 @@ export const checkQuestionType = (page) => {
     default:
       return TYPES;
   }
+};
+
+
+export const submitTabs = (domain, path, result, url,id) => {
+  !id ?
+    diagnosisQuestionCreate(domain, path, result)
+      .then(() => {
+        browserHistory.push(url);
+        clearCreateQuestion();
+      })
+    :
+    updateQuestionCreate(domain, path, result, id)
+      .then(() => {
+        browserHistory.push(url);
+        clearCreateQuestion();
+      })
 };

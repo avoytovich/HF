@@ -5,48 +5,7 @@ import get                 from 'lodash/get';
 import isEmpty             from 'lodash/isEmpty';
 import * as dotProp        from 'dot-prop-immutable';
 import { findType }        from '../../utils/matrix'
-
-const initialState = {
-  actionType    : CREATE_QUESTION,
-  content_type  : 'question', // 'question', 'functionalTest', 'vas'
-  area          : '',
-  questionTitle : '',
-  question: {
-    en: '',
-    swe: ''
-  },
-  questionKey   : '',
-  sequence      : 1,
-  sequenceType  : 'normal',
-  answerType    : 'single',
-  single  : [
-      { en: '', swe: ''},
-      { en: '', swe: ''}
-    ],
-  multiple: [
-      { en: '', swe: ''},
-      { en: '', swe: ''}
-    ],
-  range   : {
-      from: 0,
-      to: 100
-    },
-
-  rules: [],
-  treatmentsLevels: '',
-  treatmentsPackage: '',
-  errors: {},
-  page: null,
-  packageType: 'symptomatic',
-  therapyContinuity: '1',
-  packageLevels: [],
-  exercise: {
-    instruction: { swe: '', en: '' },
-    title: { swe: '', en: '' },
-    information: { swe: '', en: '' },
-  },
-  diagnostic_assets: []
-};
+import InitialState        from './initialState'
 
 const createQuestionUpdate = (state, action) => {
   switch (action.type) {
@@ -93,7 +52,6 @@ const changeType = (state, action) => {
     return Object.assign({}, value, {[newProp]: propsBody});
   });
 };
-
 
 const recDelete = (state, path) => {
   const _path  = path.split('.').slice(0, -1);
@@ -155,31 +113,29 @@ const removeAnswer = (state, action) => {
 };
 
 const setFullQuestion = (state, action) => {
-  const { body: { area_id, area, title, question, key, step, answer, rule }} = action.payload;
+  const { body: { area_id, area, title, question, key, step, answer, rule, content_type, test_file }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
   const _body = {
-      area: {
-        value: area.id,
-        label: area.title,
-        key: area.key
-      },
+      area: configArea(area_id, area),
       questionTitle: title,
       question,
+      content_type,
       sequence: step,
       questionKey: key,
       answerType: _type,
       rules: Array.isArray(rule) ? rule : [ rule ],
-      [_type]: parseAnswers(answer)
+      [_type]: parseAnswers(answer),
 //      sequenceType: null,
+      diagnostic_assets: test_file ||  []
     };
   return Object.assign({}, state, _body);
 };
 
 const setFullQuestionForCondition = (state, action) => {
-  const { body, body: { area, title, key, rule, package_level_id}} = action.payload;
+  const { body, body: { area_id, area, title, key, rule, package_level_id}} = action.payload;
   const _body = {
-    area: { key: area.key, label: area.title, value: area.id },
+    area: configArea(area_id, area),
     questionTitle: title,
     questionKey: key,
     rules: Array.isArray(rule) ? rule : [ rule ],
@@ -191,13 +147,10 @@ const setFullQuestionForCondition = (state, action) => {
   return Object.assign({}, state, res);
 };
 
-
 const setFullQuestionForPackage = (state, action) => {
   const { body: { area_id, area, title, key, packageLevels }} = action.payload;
   const _body = {
-    area: area ?
-      { key: area.key, label:area.title, title: area.id }:
-      {key: area_id, label: area_id, title: area_id},
+    area: configArea(area_id, area),
     questionTitle: title,
     questionKey: key,
     packageLevels: packageLevels.data
@@ -205,6 +158,7 @@ const setFullQuestionForPackage = (state, action) => {
   return Object.assign({}, state, _body);
 };
 
+const clearAll = () => InitialState;
 
 const parseAnswers= (answer) => {
   if (answer.type === 'range') {
@@ -226,7 +180,14 @@ const parseAnswers= (answer) => {
     return Object.keys(list).map(item => list[item]);
   }
 };
-export default createReducer(initialState, CREATE_QUESTION, {
+
+const configArea = (id, area) => {
+  if (id) return { value: area.id, label: area.title, key: area.key };
+
+  return { value: null, label: 'All', key: null };
+};
+
+export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
   [`${CREATE_QUESTION}_UPDATE`]               : createQuestionUpdate,
   [`${CREATE_QUESTION}_ADD_RULE`]             : createQuestionRules,
   [`${CREATE_QUESTION}_CHANGE_TYPE`]          : changeType,
@@ -238,5 +199,7 @@ export default createReducer(initialState, CREATE_QUESTION, {
   [`${CREATE_QUESTION}_REMOVE_ANSWER`]        : removeAnswer,
   [`${CREATE_QUESTION}_SET_FULL_QUESTION`]    : setFullQuestion,
   [`${CREATE_QUESTION}_SET_COND_QUESTION`]    : setFullQuestionForCondition,
-  [`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`] : setFullQuestionForPackage
+  [`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`] : setFullQuestionForPackage,
+  [`${CREATE_QUESTION}_CLEAR_STATE`]          : clearAll,
+
 });
