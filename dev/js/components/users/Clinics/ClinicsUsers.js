@@ -6,6 +6,7 @@ import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
+import ArrowRight              from 'material-ui-icons/KeyboardArrowRight';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
 import { get, map }             from 'lodash'
 
@@ -65,7 +66,7 @@ class ClinicOwnUsers extends Component {
 
         <div className="company-sub-header">
           <span onClick={()=>this._returnFunc('clinic')}> Companies </span>
-          <span><img className="arrow-right-icon" src="../../../../assets/images/common/arrow-right.png"/></span>
+          <ArrowRight className="arrow-right-icon" />
           <span  onClick={()=>this._returnFunc('profile')}> {get(profileReducer,'name')}</span>
         </div>
 

@@ -21,7 +21,6 @@ class HeaderAssets extends Component {
         file.name = file.name_real;
         return omit(file, ['progress'])
       });
-      console.log(files);
       createAssetsPreValidate({ tmp_files: files }, this.props.type)
         .then(res => res && this.props.toggleModal())
     }

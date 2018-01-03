@@ -1,12 +1,12 @@
 import { createReducer } from '../../utils';
-import { CREATE_SIMPLE_USERS } from '../../actions';
+import { T } from '../../actions';
 
 const initialState = {
-  actionType: CREATE_SIMPLE_USERS,
+  actionType: T.CREATE_SIMPLE_USERS,
   errors: {},
   email: "",
   customer_id: '',
   active: false
 };
 
-export const createSimpleUsersReducers = createReducer(initialState, CREATE_SIMPLE_USERS);
+export const createSimpleUsersReducers = createReducer(initialState, T.CREATE_SIMPLE_USERS);
