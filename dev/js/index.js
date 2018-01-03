@@ -68,7 +68,13 @@ const router = (
         <Route path={PAGE.simpleUsers}        component={C.SimpleUsers} />
         <Route path={PAGE.organizationsUsers} component={C.OrganizationsUsers} />
         <Route path={PAGE.clinicsUsers}       component={C.ClinicsUsers} />
-        <Route path={PAGE.assets}             component={C.AssetsList} />
+
+            <Route path={PAGE.assets}             component={C.AssetsComponent} >
+                <IndexRedirect to={PAGE.assetsDiagnostics}/>
+                <Route path={PAGE.assetsExercises} component={(props) => <C.AssetsList {...props}/>}/>
+                <Route path={PAGE.assetsDiagnostics } component={(props) => <C.AssetsDiagnosticsList {...props}/>}/>
+            </Route>
+
         <Route path={PAGE.clinicProfile}      component={C.Profile} />
         <Route path={PAGE.companyProfile}      component={C.Profile} />
         <Route path={PAGE.clinicOwnUsers}      component={C.ClinicOwnUsers} />
@@ -78,7 +84,7 @@ const router = (
 
             <Route path={PAGE.matrixSetup} component={ C.MatrixComponent }>
 
-              <IndexRedirect to="diagnosis"/>
+              <IndexRedirect to="body-area"/>
 
               <Route path='body-area' component={(props) => <C.BodyAreaComponent {...props}/>}/>
               <Route path='diagnosis' component={(props) => <C.DiagnosisComponent  {...props}/>}/>

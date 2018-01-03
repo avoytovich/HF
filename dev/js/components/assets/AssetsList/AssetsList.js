@@ -126,7 +126,7 @@ class AssetsList extends Component {
           open={showUploadModal}
           showControls={false}
           toggleModal={this._toggleUpdateModal}
-          CustomContent={() => <Upload toggleModal={this._toggleUpdateModal} />}
+          CustomContent={() => <Upload type="exercises" toggleModal={this._toggleUpdateModal} />}
         />
 
         <Modal
@@ -134,7 +134,7 @@ class AssetsList extends Component {
           open={showEditModal}
           showControls={false}
           toggleModal={this._toggleEditModal}
-          CustomContent={() => <Edit toggleModal={this._toggleEditModal} />}
+          CustomContent={() => <Edit type="exercises" toggleModal={this._toggleEditModal} />}
         />
 
       </div>

@@ -17,9 +17,9 @@ import {
 import get                    from 'lodash/get';
 import isEmpty                from 'lodash/isEmpty'
 import moment                 from 'moment';
-import { browserHistory }     from 'react-router'
-import { PAGE }               from '../../../config'
-import { withRouter }         from 'react-router'
+import { browserHistory }     from 'react-router';
+import { PAGE }               from '../../../config';
+import { withRouter }         from 'react-router';
 
 
 
@@ -65,9 +65,10 @@ class TableComponent extends Component {
     const currentQuery = this.props.location.query;
     const currentPath = this.props.location.pathname;
     const query = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
+
     browserHistory.push({
       pathname: currentPath,
-      query   : { ...query }
+      query
     });
   };
 
@@ -85,15 +86,15 @@ class TableComponent extends Component {
         break;
 
       default:
-        const {per_page, current_page, sortedBy, orderBy} = _query;
+        const {per_page, current_page, sortedBy, orderBy, search} = _query;
         const query = {
           sortedBy,
           orderBy,
           per_page,
           page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
-
         };
-        getMatrixInfo(domen, path, query, path, url)
+        const newQuery = search ? {...query, search} : query;
+        getMatrixInfo(domen, path, newQuery, path, url)
     }
   };
 
@@ -149,7 +150,7 @@ class TableComponent extends Component {
    */
   matchItems(selected, id) {
     return selected.reduce((result, item, index) => {
-      return item && (item.id || item.customer_id) === id ? index : result;
+      return item && (item.id || item.user_id || item.customer_id) === id ? index : result;
     }, -1)
   };
 
@@ -160,8 +161,8 @@ class TableComponent extends Component {
    * @param selected
    */
   handleClick = (event, checked, selected) => {
-    let { id, deActive, customer_id } = checked;
-    id = id || customer_id;
+    let { id, deActive, user_id, customer_id } = checked;
+    id = id || user_id || customer_id;
     event && event.preventDefault();
     event && event.stopPropagation();
 
@@ -178,7 +179,7 @@ class TableComponent extends Component {
         break;
 
       case isIn >= 0:
-        result = selected.filter(item => item && (item.id || item.customer_id) !== id );
+        result = selected.filter(item => item && (item.id || item.user_id || item.customer_id) !== id );
         break;
 
       default:
@@ -212,12 +213,15 @@ class TableComponent extends Component {
   handleChangeRowsPerPage = (event) => {
     const currentPath = PAGE[this.props.path];
     const { current_page } = this.props.store.pagination;
+    const { sortedBy, orderBy, search }  = this.props.store.sortOptional;
 
     browserHistory.push({
       pathname: currentPath,
       query: {
-        per_page: event.target.value,
-        current_page: 0
+        per_page     : event.target.value,
+        current_page : 0,
+        sortedBy,
+        orderBy
       }
     });
   };
@@ -235,6 +239,13 @@ class TableComponent extends Component {
     switch (type) {
       case 'time':
        return moment.unix(value).format(format);
+
+      case 'length':
+        return value ? value.length : 0;
+
+      case 'area':
+        return value === '-' ? 'All' : value;
+
       default:
         return value;
     }
@@ -257,6 +268,7 @@ class TableComponent extends Component {
         },
       }
     } = this.props;
+
     return (
       <Table className="table-template">
 
@@ -272,12 +284,15 @@ class TableComponent extends Component {
         <TableBody>
           {
             data.map(row => {
-              const id         = row.id || row.customer_id;
+              const id         = row.id || row.user_id || row.customer_id;
               const isSelected = this.matchItems(selected, id) !== -1; // !row.deActive &&
               let isEnabled;
               if (row.hasOwnProperty('enabled')) {
                 isEnabled  = row.enabled ? 'active' : 'de-active';
-              } else if (row.hasOwnProperty('customer_active')){
+              }
+              else if (row.hasOwnProperty('activated_at')){
+                isEnabled  = row.activated_at && !row.deactivated_at ? 'active' : 'de-active';
+              }else if (row.hasOwnProperty('customer_active')){
                 isEnabled  = row.customer_active ? 'active' : 'de-active';
               } else {
                 isEnabled  = 'active';
@@ -293,7 +308,8 @@ class TableComponent extends Component {
                   aria-checked={isSelected}
                   onClick={() => this.onRowSelection(event, row, selected)}
                 >
-                  <TableCell padding="checkbox">
+                  <TableCell padding="checkbox"
+                             className="td-checkbox">
                     <Checkbox checked={isSelected}
                               onClick={event => this.handleClick(event, row, selected)}/>
                   </TableCell>
