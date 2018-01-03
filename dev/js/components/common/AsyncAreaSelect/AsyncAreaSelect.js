@@ -4,49 +4,87 @@ import { bindActionCreators }       from 'redux';
 import PropTypes                    from 'prop-types';
 import Typography                   from 'material-ui/Typography';
 import { Async }                    from 'react-select';
+import Select                       from 'material-ui/Select';
+import { MenuItem }                 from 'material-ui/Menu';
+import { withStyles }               from 'material-ui/styles';
+import { FormControl }              from 'material-ui/Form';
+import Input, { InputLabel }        from 'material-ui/Input';
+
 import {
   findArea,
   updateCrateQuestionFields
 }                                   from '../../../actions';
 
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+    maxWidth: 300,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    marginTop: '5px'
+  },
+});
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+
+
 class AsyncAreaSelect extends Component{
-  getOptions = (domain, path) => {
-    return findArea(domain, path).then(res => {
+  componentDidMount() {
+    const { domain, path } = this.props;
+    findArea(domain, path).then(res => {
       const { data } = res.data;
       const _data = data.map(item => Object.assign({}, item, { label: item.title, value: item.id }));
-
-      return {
-        options: [{ label: 'All', value: null, id: null }].concat(_data),
-        // CAREFUL! Only set this to true when there are no more options,
-        // or more specific queries will not be sent to the server.
-        complete: true
-      }
+      updateCrateQuestionFields(_data, 'areas');
     });
-  };
+  }
 
   render() {
     const {
-      domain, path, idKey, valuePath, placeholder, className, label, labelClass,
-      store: { area }
+      valuePath, placeholder, className, label, labelClass, store, classes,
+      store: { areas }
     } = this.props;
 
-    return <div>
-      <Typography
-        type="caption"
-        gutterBottom
-        className={`custom-select-title ${labelClass}`}>
-        { label }
-      </Typography>
-      <Async
-        name={`body-areas_${idKey}`}
-        id={`body-areas_${idKey}`}
-        className={className}
-        loadOptions={() => this.getOptions(domain, path)}
-        onChange={value => updateCrateQuestionFields(value, valuePath)}
-        placeholder={placeholder}
-        value={area}
-        clearable={false}
-      />
+    const areaIds = store[valuePath];
+
+    return<div className={classes.container}>
+      <FormControl className={classes.formControl}>
+        <Typography
+          type="caption"
+          gutterBottom
+          className={`custom-select-title ${labelClass}`}>
+          { label }
+        </Typography>
+        <Select
+          multiple
+          value={areaIds}
+          className="async-area-select"
+          placeholder={ placeholder }
+          MenuProps={{
+            PaperProps: {
+              style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 200,
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+          },
+            },
+          }}
+          onChange={event => updateCrateQuestionFields(event.target.value, valuePath)}>
+          {areas.map(item => (
+            <MenuItem
+              key={item.id} value={item.value}>
+              {item.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </div>
   }
 }
@@ -72,4 +110,4 @@ AsyncAreaSelect.propTypes = {
 const mapStateToProps    = state => ({store: state.createDiagnosisQuestion});
 const mapDispatchToProps = dispatch => bindActionCreators({dispatch}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(AsyncAreaSelect);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AsyncAreaSelect));

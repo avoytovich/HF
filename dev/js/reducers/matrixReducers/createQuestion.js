@@ -113,11 +113,11 @@ const removeAnswer = (state, action) => {
 };
 
 const setFullQuestion = (state, action) => {
-  const { body: { area_id, area, title, question, key, step, answer, rule, content_type, test_file }} = action.payload;
+  const { body: { areas, title, question, key, step, answer, rule, content_type, test_file }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
   const _body = {
-      area: configArea(area_id, area),
+      areaIds: configArea(areas),
       questionTitle: title,
       question,
       content_type,
@@ -133,9 +133,9 @@ const setFullQuestion = (state, action) => {
 };
 
 const setFullQuestionForCondition = (state, action) => {
-  const { body, body: { area_id, area, title, key, rule, package_level_id}} = action.payload;
+  const { body, body: { areas, title, key, rule, package_level_id}} = action.payload;
   const _body = {
-    area: configArea(area_id, area),
+    areaIds: configArea(areas),
     questionTitle: title,
     questionKey: key,
     rules: Array.isArray(rule) ? rule : [ rule ],
@@ -148,9 +148,9 @@ const setFullQuestionForCondition = (state, action) => {
 };
 
 const setFullQuestionForPackage = (state, action) => {
-  const { body: { area_id, area, title, key, packageLevels }} = action.payload;
+  const { body: {areas, title, key, packageLevels }} = action.payload;
   const _body = {
-    area: configArea(area_id, area),
+    areaIds: configArea(areas),
     questionTitle: title,
     questionKey: key,
     packageLevels: packageLevels.data
@@ -181,10 +181,11 @@ const parseAnswers= (answer) => {
   }
 };
 
-const configArea = (id, area) => {
-  if (id) return { value: area.id, label: area.title, key: area.key };
-
-  return { value: null, label: 'All', key: null };
+const configArea = (areas) => {
+  return areas.map(el => el && el.id);
+//  if (id) return { value: area.id, label: area.title, key: area.key };
+//
+//  return { value: null, label: 'All', key: null };
 };
 
 export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
