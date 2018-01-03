@@ -78,11 +78,11 @@ class CreatePackageComponent extends Component {
   }
 
   done = (value) => {
-    const { area, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
+    const { areaIDs, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
 
     const result = {
       key      : questionKey,
-      area_id  : area ? area.value : null,
+      areaIDs  : areaIDs || [],
       title    : questionTitle,
       type     : packageType,
       package_levels : packageLevels,
