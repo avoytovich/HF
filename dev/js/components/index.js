@@ -16,24 +16,10 @@ import AssetsDiagnosticsList    from '../components/assets/AssetsDiagnosticsList
 import AssetsComponent          from './assets/Assets';
 import TestsList                from '../components/testing/TestsList/TestsList';
 import TestNew                  from '../components/testing/TestNew/TestNew';
-import Modal                    from '../components/common/Modal/Modal';
-import {
-  MatrixComponent,
-  BodyAreaComponent,
-  DiagnosisComponent,
-  ConditionsComponent,
-  TreatmentsComponent,
-  EvaluationComponent,
-  PackagesComponent,
-  ExercisesComponent,
-  CreateQuestionComponent,
-  CreateConditionComponent,
-  CreateTreatmentsComponent,
-  CreateEvaluationComponent,
-  CreatePackageComponent,
-  CreateBodyAreaComponent,
-  CreateExerciseComponent
-}                                 from '../components/matrix/Matrix-Setup';
+
+import * as commonComponents    from './common';
+import * as testingComponents   from './testing';
+import * as matrixComponents    from '../components/matrix/Matrix-Setup';
 
 export const C = {
   Main,
@@ -54,20 +40,7 @@ export const C = {
   AssetsDiagnosticsList,
   TestsList,
   TestNew,
-  MatrixComponent,
-  BodyAreaComponent,
-  DiagnosisComponent,
-  ConditionsComponent,
-  TreatmentsComponent,
-  EvaluationComponent,
-  PackagesComponent,
-  ExercisesComponent,
-  CreateQuestionComponent,
-  CreateConditionComponent,
-  CreateTreatmentsComponent,
-  CreateEvaluationComponent,
-  CreatePackageComponent,
-  CreateBodyAreaComponent,
-  Modal,
-  CreateExerciseComponent,
+  ...matrixComponents,
+  ...commonComponents,
+  ...testingComponents,
 };

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import omit from 'lodash/omit';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
 import {
   FormLabel,
   FormControl,
@@ -13,18 +11,38 @@ import {
 } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 
-import { onChange } from '../../../actions'
+import {
+  onChange,
+  dispatchTestingPayloadWired,
+  dispatchDeleteMultOptionWired,
+  dispatchAddMultOptionWired,
+} from '../../../actions';
 
 class CheckBox extends Component {
+  _onChange = (id, answerId, i) => (event, checked) => {
+    if (checked) {
+      dispatchAddMultOptionWired(`${id}.value`, answerId, id);
+    } else {
+      dispatchDeleteMultOptionWired(`${id}.value`, answerId)
+    }
+  };
+
   _renderCheckBoxes = items => {
-    return items.map(({ label, value }, i) => {
+    return items.map(({ label, answerId }, i) => {
+      const {
+        reducer,
+        id,
+        onChangeCustom,
+      }                   = this.props;
+      const value         = get(reducer, `${id}.value[${i}]`);
+      const onChangeFinal = onChangeCustom || this._onChange;
       return (
         <FormControlLabel
+          key={i}
           control={
             <Checkbox
-              checked={false}
-              onChange={() => {}}
-              value="gilad"
+              checked={value}
+              onChange={onChangeFinal(id, answerId, i)}
             />
           }
           label={label}
@@ -35,24 +53,8 @@ class CheckBox extends Component {
 
   render() {
     const {
-      classes,
       items = [],
-      reducer,
-      reducer: {
-        errors,
-        actionType,
-      },
-      id,
-      onChange,
-      style = {},
-      onChangeCustom,
-      label = 'Label',
-      ...props
     } = this.props;
-
-    const value = get(reducer, id, '');
-    const error = get(errors, id, false);
-    const onChangeFinal = onChangeCustom || onChange;
 
     return (
       <FormControl component="fieldset">
