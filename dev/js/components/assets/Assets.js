@@ -8,13 +8,8 @@ import { withStyles } from 'material-ui/styles';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
 const TABS = [
-  { label: 'Pain area',  url: 'body-area'   },
-  { label: 'Diagnosis',  url: 'diagnosis'   },
-  { label: 'Conditions', url: 'conditions'  },
-  { label: 'Treatments', url: 'treatments'  },
-  { label: 'Packages',   url: 'packages'    },
-  { label: 'Level Up',   url: 'evaluations' },
-  { label: 'Exercises',  url: 'exercises'   }
+  { label: 'Diagnostic',     url: 'assets-diagnostics' },
+  { label: 'Exercises',     url: 'assets-exercises' }
 ];
 
 const styles = theme => ({
@@ -26,7 +21,7 @@ const styles = theme => ({
 });
 
 
-class MatrixComponent extends Component {
+class Assets extends Component {
   state = {
     value: 0
   };
@@ -51,7 +46,10 @@ class MatrixComponent extends Component {
   };
 
 
-  handleChange = (event, value) => this.setState({ value });
+  handleChange = (event, value) => {
+    this.setState({ value });
+    console.log(value)
+  };
 
   render() {
     return (
@@ -83,4 +81,4 @@ const mapStateToProps = state => ({
   commonReducer: state.commonReducer
 });
 
-export default  connect(mapStateToProps)(MatrixComponent);
+export default  connect(mapStateToProps)(Assets);

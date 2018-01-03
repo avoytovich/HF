@@ -9,6 +9,10 @@ import Delete                   from 'material-ui-icons/Delete';
 import Modal                    from '../../common/Modal/Modal';
 import { PAGE } from '../../../config';
 import CreateUser from '../CreateUser/CreateUser';
+import DeactivateComponent      from '../../common/Modal/DeactivateModal'
+// import DeleteComponent          from '../../../matrix-crud/deleteModal';
+import { activateCustomer,
+  getMatrixInfo }      from '../../../actions';
 
 const userInfo = {
   headerTitle:'Create Company',
@@ -20,7 +24,8 @@ const userInfo = {
 class Companies extends Component {
   state = {
     selected: [],
-    deleteOpen:false,
+    showDeleteModal:false,
+    showActivateModal:false,
     showCreateModal: false,
   };
 
@@ -49,29 +54,62 @@ class Companies extends Component {
 
   createEntity = () => this.setState({ showCreateModal: !this.state.showCreateModal });
 
+  _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
   updateModal = (key, value) => {
+    console.log(key, value)
     this.setState({ [key]: value });
 
     if (!value) this.setState({ selected: [] });
   };
 
+  _activateItems=(selected)=>{
+    console.log(selected)
+    activateCustomer('users', 'customers', selected)
+      .then(() => console.log('sussecc'))
+    this.setState({ showActivateModal: !this.state.showActivateModal, selected: [], })
+        // getMatrixInfo(domen, path, this.props.query, path)
+        //   .then(() => this.props.open(this.props.typeKey, false)))
+  }
+
+
   render() {
     const { tableHeader } = COMPANIES_TAB;
-    const { selected, deleteOpen, showCreateModal } = this.state;
+    const { selected, showActivateModal, showCreateModal } = this.state;
     const querySelector = {...this.props.location.query,...{type: 'organization', back :'companies'}};
     return (
       <div id="diagnosis-component">
+
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="users"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Activate this Companies"
+          deactivateOpen={showActivateModal}
+          open={this._toggleActivateModal}
+          itemKey="name"
+          query={this.props.location.query}
+          onSubmit={this._activateItems}
+          onSubmitTitle = "Activate"
+        />
 
         <TableControls
           path="companies"
           selected={selected}
           createItem={this.createEntity}
           createButtonText="Add">
+          {/*<Button raised dense*/}
+                  {/*onClick={() => this.updateModal('showDeleteModal', true)}>*/}
+            {/*<Delete />*/}
+            {/*Delete*/}
+          {/*</Button>*/}
+
           <Button raised dense
-                  onClick={() => this.updateModal('deleteOpen', true)}>
-            <Delete />
-            Delete
+                  onClick={() => this.updateModal('showActivateModal', true)}>
+            Activate
           </Button>
+
 
         </TableControls>
 
@@ -95,6 +133,7 @@ class Companies extends Component {
           toggleModal={this.createEntity}
           CustomContent={() => <CreateUser userInfo={userInfo} toggleModal={this.createEntity}/>}
         />
+
 
       </div>
     )

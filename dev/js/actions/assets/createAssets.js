@@ -15,9 +15,9 @@ import {
   PAGE,
 } from '../../config';
 
-export const createAssets = data => Api.post(`${domen.exercises}${api.assets}`, data);
+export const createAssets = (data, key) => Api.post(`${domen[key]}${api.assets}`, data);
 
-export const createAssetsWired = data => createAssets(data)
+export const createAssetsWired = (data,key) => createAssets(data,key)
   .catch(err => {
     let errors = {};
     let errorsReceived = get(err, 'response.data', {});
@@ -25,10 +25,10 @@ export const createAssetsWired = data => createAssets(data)
     dispatchAssetsPayloadWired({ errors });
   });
 
-export const createAssetsPreValidate= data => {
+export const createAssetsPreValidate = (data, key) => {
   const { errors, isValid } = validAssets(data);
   if (isValid) {
-    return createAssetsWired(data);
+    return createAssetsWired(data, key);
   }
   dispatchAssetsPayloadWired({ errors });
   return false;

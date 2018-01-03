@@ -20,7 +20,7 @@ class Upload extends Component {
       type: type.split('/').shift() === 'image' ? 'image' : 'video',
       title: '',
       description: '',
-      name_real: name.split('.').shift()
+      name_real: name.split('.').shift(),
     }));
     dispatchAssetsPayload({ tmp_files });
     if (acceptedF.length) {
@@ -28,15 +28,18 @@ class Upload extends Component {
         getS3Link(file.name.split('.').pop())
           .then((res) => getBase64Promise(file)
             .then(reader => {
+              console.log(reader)
               uploadAssets(
                 res.data.url,
-                reader.result.split(',').pop(),
+                // reader.binary,
+                // reader.result.split(',').pop(),
+                reader.result,
                 progress => dispatchAssetsPayload({ [`tmp_files[${i}].progress`]: progress }),
                 file.type
               );
               let linkLong = res.data.url.split('?').shift();
               let link     = linkLong.substr(linkLong.indexOf('temp'));
-              dispatchAssetsPayload({ [`tmp_files[${i}]link`]: link });
+              dispatchAssetsPayload({ [`tmp_files[${i}].link`]: link});
             }));
       })
     }
@@ -71,7 +74,7 @@ class Upload extends Component {
     } = this.props;
     return (
       <div className="upload-container">
-        <HeaderAssets toggleModal={toggleModal} />
+        <HeaderAssets type={this.props.type} toggleModal={toggleModal} />
         { this._renderFiles(tmp_files) }
       </div>
     )
