@@ -46,9 +46,9 @@ const exerciseTab = {
 export  default {
   actionType    : CREATE_QUESTION,
   errors: {},
-
-  page: null,
-  area          : { label: 'All', value: null, id: null },
+  page          : null,
+  areas         : [],
+  areaIds       : [],
 
   ...diagnosticTab,
   ...conditionTab,

@@ -40,12 +40,12 @@ class CreateConditionComponent extends Component {
   }
 
   done = (value) => {
-    const { area, questionKey, questionTitle, rules } = value;
+    const { areaIds, questionKey, questionTitle, rules } = value;
 
     const result = {
+      areaIds,
       rule  : rules[0],
       key   : questionKey,
-      area  : area ? area.value : null,
       title : questionTitle
     };
 
@@ -65,9 +65,9 @@ class CreateConditionComponent extends Component {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
         questionTitle,
-        area,
         questionKey,
-        sequence
+        sequence,
+        areaIds
       },
       routeParams: { id },
       commonReducer: {
@@ -125,7 +125,7 @@ class CreateConditionComponent extends Component {
                 <AsyncAreaSelect
                   domain="diagnostics"
                   path="findArea"
-                  valuePath="area"
+                  valuePath="areaIds"
                   idKey="create_condition_question"
                 />
               </Grid>
@@ -145,7 +145,7 @@ class CreateConditionComponent extends Component {
             <DiagnosisRulesComponent
               page="conditions"
               type="diagnostic"
-              area={area}
+              area={areaIds}
               step={sequence}
               showTitle={true}
             />

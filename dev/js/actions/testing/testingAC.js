@@ -23,3 +23,15 @@ export const dispatchAddQuestionsWired = payload =>
     payload,
   });
 
+export const dispatchAddMultOptionWired = (path, answerId, id) =>
+  store.dispatch({
+    type: T.TESTING_ADD_MULT_OPTION,
+    payload: { path, answerId, id },
+  });
+
+export const dispatchDeleteMultOptionWired = (path, answerId) =>
+  store.dispatch({
+    type: T.TESTING_DELETE_MULT_OPTION,
+    payload: { path, answerId },
+  });
+
