@@ -16,6 +16,7 @@ class DynamicQuestions extends Component {
         each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
         return (
           <C.RadioButton
+            key={i}
             items={items}
             reducer={testingReducer}
             id={key}
@@ -32,6 +33,7 @@ class DynamicQuestions extends Component {
           }));
           return (
             <C.BodyAreas
+              key={i}
               areas={bodyAreas}
             />
           );
@@ -40,6 +42,7 @@ class DynamicQuestions extends Component {
           each(values, (val, answerId) => itemsMultiple.push({ label: val.en, answerId }));
           return (
             <C.CheckBox
+              key={i}
               items={itemsMultiple}
               reducer={testingReducer}
               id={key}
@@ -52,6 +55,7 @@ class DynamicQuestions extends Component {
         return (
           <div className="margin-range">
             <C.Range
+              key={i}
               reducer={testingReducer}
               id={key}
               label={question.en}
