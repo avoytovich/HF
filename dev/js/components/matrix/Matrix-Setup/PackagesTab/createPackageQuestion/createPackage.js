@@ -82,11 +82,14 @@ class CreatePackageComponent extends Component {
 
     const result = {
       key      : questionKey,
-      areaIDs  : areaIDs || [],
+      area_id  : null,
       title    : questionTitle,
       type     : packageType,
       package_levels : packageLevels,
+//      id:  this.props.routeParams.id
     };
+
+    debugger;
 
     submitTabs(
       'exercises',
@@ -186,12 +189,12 @@ class CreatePackageComponent extends Component {
                 />
               </Grid>
               <Grid item md={6} sm={12} >
-                <AsyncAreaSelect
-                  domain="diagnostics"
-                  path="findArea"
-                  valuePath="area"
-                  idKey="create_packages_question"
-                />
+                {/*<AsyncAreaSelect*/}
+                  {/*domain="diagnostics"*/}
+                  {/*path="findArea"*/}
+                  {/*valuePath="area"*/}
+                  {/*idKey="create_packages_question"*/}
+                {/*/>*/}
               </Grid>
             </Grid>
 

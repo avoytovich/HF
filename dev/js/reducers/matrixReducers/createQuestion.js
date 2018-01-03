@@ -150,7 +150,7 @@ const setFullQuestionForCondition = (state, action) => {
 const setFullQuestionForPackage = (state, action) => {
   const { body: {areas, title, key, packageLevels }} = action.payload;
   const _body = {
-    areaIds: configArea(areas),
+//    areaIds: configArea(areas),
     questionTitle: title,
     questionKey: key,
     packageLevels: packageLevels.data
