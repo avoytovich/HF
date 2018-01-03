@@ -150,7 +150,7 @@ class TableComponent extends Component {
    */
   matchItems(selected, id) {
     return selected.reduce((result, item, index) => {
-      return item && (item.id || item.customer_id) === id ? index : result;
+      return item && (item.id || item.user_id || item.customer_id) === id ? index : result;
     }, -1)
   };
 
@@ -161,8 +161,8 @@ class TableComponent extends Component {
    * @param selected
    */
   handleClick = (event, checked, selected) => {
-    let { id, deActive, customer_id } = checked;
-    id = id || customer_id;
+    let { id, deActive, user_id, customer_id } = checked;
+    id = id || user_id || customer_id;
     event && event.preventDefault();
     event && event.stopPropagation();
 
@@ -179,7 +179,7 @@ class TableComponent extends Component {
         break;
 
       case isIn >= 0:
-        result = selected.filter(item => item && (item.id || item.customer_id) !== id );
+        result = selected.filter(item => item && (item.id || item.user_id || item.customer_id) !== id );
         break;
 
       default:
@@ -284,7 +284,7 @@ class TableComponent extends Component {
         <TableBody>
           {
             data.map(row => {
-              const id         = row.id || row.customer_id;
+              const id         = row.id || row.user_id || row.customer_id;
               const isSelected = this.matchItems(selected, id) !== -1; // !row.deActive &&
               let isEnabled;
               if (row.hasOwnProperty('enabled')) {
