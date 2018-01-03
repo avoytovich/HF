@@ -4,7 +4,7 @@ if (process.env.NODE_ENV === 'production') {
     users      : 'http://54.93.77.193',
     exercises  : 'http://54.93.228.195',
     diagnostics: 'http://35.156.163.53',
-    s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com',
+    s3         : 'https://uk6yk108kj.execute-api.eu-central-1.amazonaws.com/prod/diagnostics/files/url/generate',
   };
 } else {
   domen = {

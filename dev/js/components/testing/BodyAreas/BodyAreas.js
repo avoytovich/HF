@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Grid from 'material-ui/Grid';
-import each from 'lodash/each';
 
 import { C } from '../../../components';
-import {} from '../../../actions';
-import { PAGE } from '../../../config';
 
 class BodyAreas extends Component {
   _renderBodyAreasItem = (items = []) => {
