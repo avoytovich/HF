@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Input from '../../common/Input/Input';
 import Header from './CreateUserHeader';
 import{ map } from 'lodash';
 import DeleteIcon  from 'material-ui-icons/Delete';
 import Select from '../../common/Select/Select';
+import {dispatchCreateUserPayloadWired} from '../../../actions'
 
 const industryArray = [
   {label:'Accommodations',value:'Accommodations'},
@@ -65,6 +64,10 @@ const industryArray = [
 
 class CreateUser extends Component {
 
+  componentWillMount() {
+    dispatchCreateUserPayloadWired(this.props.userData);
+}
+
   _deleteContact = (index, array)=>{
     console.log(index, array)
     const removed = array.splice(index,1);
@@ -75,7 +78,6 @@ class CreateUser extends Component {
           {contacts :  array}
       }
     });
-    console.log(this.state)
   }
 
   _addContact = (array)=>{
@@ -86,7 +88,6 @@ class CreateUser extends Component {
         email: "",
         phone: ""
     })
-    console.log(array);
     this.setState({
       createUsersReducers:{
         contact_info:
@@ -96,11 +97,11 @@ class CreateUser extends Component {
   }
 
   render() {
-    const {createUsersReducers} = this.props;
-    console.log(this.props);
+    const createUsersReducers = {...this.props.createUsersReducers, ...this.props.userData};
+    //const {createUsersReducers} = this.props;
     return (
       <div className="upload-container">
-        <Header toggleModal={this.props.toggleModal} userInfo={this.props.userInfo}/>
+        <Header toggleModal={this.props.toggleModal} userData = {this.props.userData} userInfo={this.props.userInfo}/>
         <div className="create-user-main-container">
           <div className="create-user-container">
             <div className="create-user-input-container">

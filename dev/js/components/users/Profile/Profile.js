@@ -11,6 +11,7 @@ import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
 import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
 import EditIcon                 from 'material-ui-icons/Edit';
 import Button                   from 'material-ui/Button';
+import CreateUser from '../CreateUser/CreateUser';
 import { PAGE } from '../../../config';
 import {
   userCreate,
@@ -32,6 +33,13 @@ const styles = theme => ({
 
 });
 
+const userInfo = {
+  backButton : '/',
+  userType : 'organization',
+  tarrifId : '3',
+  actionType : 'edit',
+}
+
 const mainInformation = [
   {title:'Company / Entity Name', path: 'name'},
   {title:'EU VAT nr.', path: 'legal_info.vat'},
@@ -52,6 +60,7 @@ class Profile extends Component {
 
   state = {
     showCreateUserModal: false,
+    showEditProfileModal: false,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -152,10 +161,21 @@ class Profile extends Component {
 
   _openEditModal = () => {
     console.log('edit Profile');
+    this.setState({ showEditProfileModal: !this.state.showEditProfileModal })
   }
 
   render() {
-    const {showCreateUserModal} = this.state;
+
+    // const userInfo = {
+    //   headerTitle:'Edit'+ get(this.props,'profileReducer.type')==='clinic'?'Clinic ':'Company ',
+    //   backButton : get(this.props,'profileReducer.type')==='clinic'?'/clinics ':'/companies ',
+    //   userType : get(this.props,'profileReducer.type')==='clinic'?'clinic ':'organization ',
+    //   tarrifId : get(this.props,'profileReducer.type')==='clinic'? 2:3,
+    //   actionType : 'edit',
+    // }
+
+    console.log(this.props)
+    const {showCreateUserModal, showEditProfileModal} = this.state;
     const {
       classes,
       profileReducer
@@ -218,6 +238,15 @@ class Profile extends Component {
         onConfirmClick={() => this._createSimpleUser()}
         CustomContent={() => <CreateSimpleUser/>}
       />
+
+      <Modal
+        fullScreen
+        open={showEditProfileModal}
+        showControls={false}
+        toggleModal={this._openEditModal}
+        CustomContent={() => <CreateUser userInfo={userInfo} userData = {profileReducer} toggleModal={this._openEditModal}/>}
+      />
+
     </div>
 
     )

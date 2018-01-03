@@ -20,6 +20,7 @@ const userInfo = {
   backButton : '/clinics',
   userType : 'clinic',
   tarrifId : '2',
+  actionType : 'create',
 }
 
 class Clinics extends Component {

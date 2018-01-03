@@ -19,6 +19,7 @@ const userInfo = {
   backButton : '/companies',
   userType : 'organization',
   tarrifId : '3',
+  actionType : 'create',
 }
 
 class Companies extends Component {
