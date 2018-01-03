@@ -6,8 +6,12 @@ import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
+import ArrowRight              from 'material-ui-icons/KeyboardArrowRight';
 import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
-import { get, map }             from 'lodash'
+import { get, map }             from 'lodash';
+import Modal                    from '../../common/Modal/Modal';
+import CreateSimpleUser from '../CreateUser/CreateSimpleUser';
+import { userCreate }     from '../../../actions';
 
 import {
   PAGE,
@@ -15,12 +19,26 @@ import {
   api
 } from '../../../config';
 
-
+const userInfo = {
+  headerTitle:'Create Company',
+  backButton : '/companies',
+  userType : 'organization',
+  tarrifId : '3',
+}
 class CompanyOwnUsers extends Component {
   state = {
     selected: [],
-    deleteOpen: false
+    deleteOpen: false,
+    showCreateUserModal: false,
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.showCreateUserModal && nextState.showCreateUserModal) {
+      return false
+    }
+    return true;
+  }
+
 
   _tableCellPropsFunc = (row, col) => {
     // if (col.key === 'name') {
@@ -40,10 +58,13 @@ class CompanyOwnUsers extends Component {
 
 
   updateModal = (key, value) => {
+    console.log(key, value)
     this.setState({ [key]: value });
 
     if (!value) this.setState({ selected: [] });
   };
+
+  _toggleDeleteModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
   _returnFunc = (param) => {
     if(param==='companies'){
@@ -54,20 +75,28 @@ class CompanyOwnUsers extends Component {
     }
   };
 
+  _createSimpleUser =() =>{
+    const result = {
+      customer_id: this.props.params.id,
+      email: this.props.createSimpleUsersReducers.email};
+    console.log(result);
+    userCreate('users', 'createSimpleUser', result)
+      .then(this.setState({showCreateUserModal:false}))
+    browserHistory.push(`/company/${this.props.params.id}/users`)
+  }
+
   render() {
     const { tableHeader } = USERS_TAB;
-    const { selected, deleteOpen } = this.state;
+    const { selected, deleteOpen, showCreateUserModal} = this.state;
     const { profileReducer } = this.props;
-    console.log(this.props)
     const querySelector = {...this.props.location.query,...{type: 'organization'}};
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
-    console.log(url)
     return (
       <div id="diagnosis-component">
 
         <div className="company-sub-header">
           <span onClick={()=>this._returnFunc('companies')}> Companies </span>
-          <span> > </span>
+          <ArrowRight className="arrow-right-icon" />
           <span onClick={()=>this._returnFunc('profile')}> {get(profileReducer,'name')}</span>
         </div>
 
@@ -85,7 +114,7 @@ class CompanyOwnUsers extends Component {
         <TableControls
           path="companyOwnUsers"
           selected={selected}
-          createItem={this.create}
+          createItem={() => this.updateModal('showCreateUserModal', true)}
           createButtonText="Add">
 
           <Button raised dense
@@ -110,6 +139,16 @@ class CompanyOwnUsers extends Component {
           tableCellPropsFunc={this._tableCellPropsFunc}
         />
 
+        <Modal
+          itemName="name_real"
+          open={showCreateUserModal}
+          title='Add user'
+          toggleModal={this._toggleDeleteModal}
+          onConfirmClick={() => this._createSimpleUser()}
+          CustomContent={() => <CreateSimpleUser />}
+        />
+
+
       </div>
     )
   }
@@ -117,7 +156,8 @@ class CompanyOwnUsers extends Component {
 
 const mapStateToProps = state => ({
   store: state.tables.companyOwnUsers,
-  profileReducer: state.profileReducer
+  profileReducer: state.profileReducer,
+  createSimpleUsersReducers: state.createSimpleUsersReducers,
 });
 
 export default  connect(mapStateToProps)(CompanyOwnUsers);

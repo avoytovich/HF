@@ -18,10 +18,10 @@ class HeaderAssets extends Component {
   _createAssets = (files = []) => {
     if (files.length) {
       files = files.map(file => {
-        file.name_origin = file.name_real;
+        file.name = file.name_real;
         return omit(file, ['progress'])
       });
-      createAssetsPreValidate({ tmp_files: files })
+      createAssetsPreValidate({ tmp_files: files }, this.props.type)
         .then(res => res && this.props.toggleModal())
     }
   };

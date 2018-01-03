@@ -6,6 +6,7 @@ import Input from '../../common/Input/Input';
 import Header from './CreateUserHeader';
 import{ map } from 'lodash';
 import DeleteIcon  from 'material-ui-icons/Delete';
+import Select from '../../common/Select/Select';
 
 const industryArray = [
   {label:'Accommodations',value:'Accommodations'},
@@ -110,8 +111,13 @@ class CreateUser extends Component {
               <Input id="contact_info.address" reducer={createUsersReducers} label='Address' placeholder='Address'/>
               <Input id="contact_info.region" reducer={createUsersReducers} label='Region' placeholder='Region'/>
               <Input id="contact_info.country" reducer={createUsersReducers} label='Country' placeholder='Country'/>
-              <Input id="additional_info.industry" reducer={createUsersReducers} label='Industry'
-                 select  currencies={industryArray}/>
+              <Select
+                options={industryArray}
+                id='additional_info.industry'
+                style={{ width: "100%" }}
+                reducer={createUsersReducers}
+                label='Industry'
+              />
             </div>
             <div className="create-user-input-container">
               <h3 className="create-user-title">Billing Address</h3>

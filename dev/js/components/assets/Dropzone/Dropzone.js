@@ -13,7 +13,6 @@ class Dropzone extends Component {
         className="dropzone"
         activeClassName="dropzone-active"
         onDrop={onDrop}
-        maxSize={100000000}
       >
         <div>
           <p className="upload-instruction-wrapper">

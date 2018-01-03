@@ -1,14 +1,19 @@
-// TODO
-// Users 18.195.77.253
-// exercises 18.195.76.169
-// diagnostics 18.194.211.206
-
-export const domen = {
-  users      : 'http://18.195.77.253',
-  exercises  : 'http://18.195.76.169',
-  diagnostics: 'http://18.194.211.206',
-  s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com',
-};
+export let domen;
+if (process.env.NODE_ENV === 'production') {
+  domen = {
+    users      : 'http://54.93.77.193',
+    exercises  : 'http://54.93.228.195',
+    diagnostics: 'http://35.156.163.53',
+    s3         : 'https://uk6yk108kj.execute-api.eu-central-1.amazonaws.com/prod/diagnostics/files/url/generate',
+  };
+} else {
+  domen = {
+    users      : 'http://18.195.77.253',
+    exercises  : 'http://18.195.76.169',
+    diagnostics: 'http://18.194.211.206',
+    s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com',
+  };
+}
 
 export const api = {
   simpleUsers       : '/users/get/all',
@@ -18,6 +23,7 @@ export const api = {
   companies         : '/customers/get/all',
   clinics           : '/customers/get/all',
   customers         : '/customers',
+  createSimpleUser  : '/users/customer',
   userProfile       : '/users/',
   logout            : '/auth/logout',
   packages          : '/packages',
@@ -40,6 +46,8 @@ export const api = {
   treatmentsFindArea: '/matrix/treatments/find/area',
   generate          : '/dev/exercises/files/url/generate',
   assets            : '/files',
+  assetsExercises   : '/files',
+  assetsDiagnostics : '/files',
   evaluation        : '/matrix/evaluation',
   login              : '/auth/login',
   userOwn            : '/users/my',
@@ -69,6 +77,8 @@ export const PAGE = {
   clinics           : '/clinics',
   users             : '/users',
   assets            : '/assets',
+  assetsExercises   : '/assets/assets-exercises',
+  assetsDiagnostics : '/assets/assets-diagnostics',
   assetsUpload      : '/assets/upload',
   assetsEdit        : '/assets/edit',
   clinicProfile     : '/clinic/:id/profile',
