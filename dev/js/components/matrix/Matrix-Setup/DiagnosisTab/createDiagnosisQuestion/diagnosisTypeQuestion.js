@@ -40,7 +40,7 @@ class DiagnosisTypeQuestion extends Component {
       sequenceList,
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle, area, question, questionKey, sequence, sequenceType, answerType, content_type,
+        questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type,
         diagnostic_assets
       }
     } = this.props;
@@ -94,7 +94,7 @@ class DiagnosisTypeQuestion extends Component {
             <AsyncAreaSelect
               domain="diagnostics"
               path="findArea"
-              valuePath="area"
+              valuePath="areaIds"
               idKey="create_diagnostic_question"
             />
           </Grid>
@@ -158,7 +158,7 @@ class DiagnosisTypeQuestion extends Component {
         <DiagnosisRulesComponent
           type="diagnostic"
           page="diagnostic"
-          area={area}
+          area={areaIds}
           step={sequence}
         />
       </div>

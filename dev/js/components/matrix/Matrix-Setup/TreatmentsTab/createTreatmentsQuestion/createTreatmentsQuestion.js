@@ -80,11 +80,11 @@ class CreateTreatmentsComponent extends Component {
   };
 
   done = (value) => {
-    const { area, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
+    const { areaIds, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
     const result = {
+      areaIds,
       rule   : rules[0],
       key    : questionKey,
-      area_id: area ? area.value : null,
       title  : questionTitle,
       package: treatmentsPackage.id,
       level  : treatmentsLevels,
@@ -106,7 +106,7 @@ class CreateTreatmentsComponent extends Component {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
         questionTitle,
-        area,
+        areaIds,
         questionKey,
         treatmentsLevels,
         treatmentsPackage
@@ -167,7 +167,7 @@ class CreateTreatmentsComponent extends Component {
                   <AsyncAreaSelect
                     domain="diagnostics"
                     path="findArea"
-                    valuePath="area"
+                    valuePath="areaIds"
                     idKey="create_treatment_question"
                   />
                 </Grid>
@@ -238,7 +238,7 @@ class CreateTreatmentsComponent extends Component {
               <DiagnosisRulesComponent
                 page="treatments"
                 type="diagnostic"
-                area={area}
+                area={areaIds}
                 step={null}
                 showTitle={true}
               />
