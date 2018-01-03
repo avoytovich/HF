@@ -289,7 +289,10 @@ class TableComponent extends Component {
               let isEnabled;
               if (row.hasOwnProperty('enabled')) {
                 isEnabled  = row.enabled ? 'active' : 'de-active';
-              } else if (row.hasOwnProperty('customer_active')){
+              }
+              else if (row.hasOwnProperty('activated_at')){
+                isEnabled  = row.activated_at && !row.deactivated_at ? 'active' : 'de-active';
+              }else if (row.hasOwnProperty('customer_active')){
                 isEnabled  = row.customer_active ? 'active' : 'de-active';
               } else {
                 isEnabled  = 'active';

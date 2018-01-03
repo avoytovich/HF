@@ -10,7 +10,7 @@ import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/dele
 import Modal                    from '../../common/Modal/Modal';
 import CreateUser               from '../CreateUser/CreateUser';
 import { PAGE } from '../../../config';
-import DeactivateComponent      from '../../common/Modal/deactivateModal'
+import DeactivateComponent      from '../../common/Modal/DeactivateModal'
 // import DeleteComponent          from '../../../matrix-crud/deleteModal';
 import { activateCustomer,
   getMatrixInfo }      from '../../../actions';

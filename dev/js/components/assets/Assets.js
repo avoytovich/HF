@@ -21,7 +21,7 @@ const styles = theme => ({
 });
 
 
-class AssetsComponent extends Component {
+class Assets extends Component {
   state = {
     value: 0
   };
@@ -81,4 +81,4 @@ const mapStateToProps = state => ({
   commonReducer: state.commonReducer
 });
 
-export default  connect(mapStateToProps)(AssetsComponent);
+export default  connect(mapStateToProps)(Assets);

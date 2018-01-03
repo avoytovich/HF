@@ -12,7 +12,7 @@ import { deactivateItem,
          getMatrixInfo }      from '../../../actions';
 
 
-class DeactivateComponent extends Component {
+class DeactivateModal extends Component {
 
   deactivate = ({list, path, pathReq, domen}) => {
     deactivateItem(domen, pathReq, list)
@@ -58,4 +58,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapDispatchToProps)(DeactivateComponent)
+export default connect(mapDispatchToProps)(DeactivateModal)

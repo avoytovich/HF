@@ -8,7 +8,9 @@ import { get, map }             from 'lodash'
 import CommentIcon              from 'material-ui-icons/Comment';
 import Modal                    from '../../common/Modal/Modal';
 import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
-import ArrowRight              from 'material-ui-icons/KeyboardArrowRight';
+import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
+import EditIcon                 from 'material-ui-icons/Edit';
+import Button                   from 'material-ui/Button';
 import { PAGE } from '../../../config';
 import {
   userCreate,
@@ -17,6 +19,10 @@ import {
 const styles = theme => ({
   root:{
     height:'100%',
+  },
+  button: {
+    margin: theme.spacing.unit,
+    float : 'right',
   },
   paper:{
     margin: '10px',
@@ -144,6 +150,10 @@ class Profile extends Component {
 
   _toggleCloseModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
+  _openEditModal = () => {
+    console.log('edit Profile');
+  }
+
   render() {
     const {showCreateUserModal} = this.state;
     const {
@@ -157,6 +167,9 @@ class Profile extends Component {
         <span className="profile-total" onClick={this._returnFunc}> {get(this.props,'profileReducer.type')==='clinic'?'Clinics ':'Companies ' }</span>
         <ArrowRight className="arrow-right-icon" />
         <span className="profile-name">{get(profileReducer,'name')} Profile </span>
+        <Button raised className={classes.button} onClick={this._openEditModal}>
+          <EditIcon /> Edit
+        </Button>
       </div>
       <Grid className={classes.root}
             container

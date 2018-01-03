@@ -9,7 +9,7 @@ import Delete                   from 'material-ui-icons/Delete';
 import Modal                    from '../../common/Modal/Modal';
 import { PAGE } from '../../../config';
 import CreateUser from '../CreateUser/CreateUser';
-import DeactivateComponent      from '../../common/Modal/deactivateModal'
+import DeactivateComponent      from '../../common/Modal/DeactivateModal'
 // import DeleteComponent          from '../../../matrix-crud/deleteModal';
 import { activateCustomer,
   getMatrixInfo }      from '../../../actions';

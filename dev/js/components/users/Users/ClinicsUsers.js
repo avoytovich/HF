@@ -5,7 +5,7 @@ import { TableComponent }       from '../../../components/common/TypicalListPage
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
-import DeactivateComponent      from '../../common/Modal/deactivateModal'
+import DeactivateComponent      from '../../common/Modal/DeactivateModal'
 // import DeleteComponent          from '../../../matrix-crud/deleteModal';
 import { activateUser,
   getMatrixInfo }      from '../../../actions';

@@ -13,7 +13,7 @@ import ClinicsUsers             from '../components/users/Users/ClinicsUsers';
 import CompanyOwnUsers          from '../components/users/Companies/CompanyUsers';
 import AssetsList               from '../components/assets/AssetsList/AssetsList';
 import AssetsDiagnosticsList    from '../components/assets/AssetsDiagnosticsList/AssetsDiagnosticsList';
-import AssetsComponent          from '../components/assets/assets';
+import AssetsComponent          from './assets/Assets';
 import TestsList                from '../components/testing/TestsList/TestsList';
 import TestNew                  from '../components/testing/TestNew/TestNew';
 import Modal                    from '../components/common/Modal/Modal';
