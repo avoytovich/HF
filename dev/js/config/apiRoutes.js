@@ -42,7 +42,7 @@ export const api = {
   generate          : '/dev/exercises/files/url/generate',
   assets            : '/files',
   assetsExercises   : '/files',
-  assetsDiagnostics   : '/files',
+  assetsDiagnostics : '/files',
   evaluation        : '/matrix/evaluation',
   login              : '/auth/login',
   userOwn            : '/users/my',

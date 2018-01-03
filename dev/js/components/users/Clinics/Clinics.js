@@ -10,6 +10,10 @@ import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/dele
 import Modal                    from '../../common/Modal/Modal';
 import CreateUser               from '../CreateUser/CreateUser';
 import { PAGE } from '../../../config';
+import DeactivateComponent      from '../../common/Modal/deactivateModal'
+// import DeleteComponent          from '../../../matrix-crud/deleteModal';
+import { activateCustomer,
+  getMatrixInfo }      from '../../../actions';
 
 const userInfo = {
   headerTitle:'Create Clinic',
@@ -23,6 +27,7 @@ class Clinics extends Component {
     selected: [],
     deleteOpen: false,
     showCreateModal: false,
+    showActivateModal:false,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -56,22 +61,43 @@ class Clinics extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
+  _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
+  updateModal = (key, value) => {
+    console.log(key, value)
+    this.setState({ [key]: value });
+
+    if (!value) this.setState({ selected: [] });
+  };
+
+  _activateItems=(selected)=>{
+    console.log(selected)
+    activateCustomer('users', 'userProfile', selected)
+      .then(() => console.log('sussecc'))
+    this.setState({ showActivateModal: !this.state.showActivateModal, selected: [], })
+    // getMatrixInfo(domen, path, this.props.query, path)
+    //   .then(() => this.props.open(this.props.typeKey, false)))
+  }
+
   render() {
     const { tableHeader } = CLINICS_TAB;
-    const { selected, deleteOpen, showCreateModal } = this.state;
+    const { selected, showActivateModal, showCreateModal } = this.state;
     const querySelector = {...this.props.location.query,...{type: 'clinic'}};
     return (
       <div id="diagnosis-component">
 
-        <DeleteComponent
-          path="companies"
-          domen="users"
-          typeKey="deleteOpen"
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="users"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
           list={selected}
-          deactivateOpen={deleteOpen}
-          open={this.updateModal}
-          itemKey="title"
+          title="Activate this Companies"
+          deactivateOpen={showActivateModal}
+          open={this._toggleActivateModal}
+          itemKey="name"
           query={this.props.location.query}
+          onSubmit={this._activateItems}
+          onSubmitTitle = "Activate"
         />
 
         <TableControls
@@ -80,10 +106,14 @@ class Clinics extends Component {
           createItem={this.createEntity}
           createButtonText="Add">
 
+          {/*<Button raised dense*/}
+                  {/*onClick={() => this.updateModal('deleteOpen', true)}>*/}
+            {/*<Delete />*/}
+            {/*Delete*/}
+          {/*</Button>*/}
           <Button raised dense
-                  onClick={() => this.updateModal('deleteOpen', true)}>
-            <Delete />
-            Delete
+                  onClick={() => this.updateModal('showActivateModal', true)}>
+            Activate
           </Button>
 
         </TableControls>

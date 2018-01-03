@@ -25,7 +25,6 @@ class DeactivateComponent extends Component {
   transition = (props) => <Slide direction="up" {...props} />;
 
   render() {
-    console.log(this.props)
     const { list, deactivateOpen, open, typeKey, itemKey } = this.props;
     return  <Dialog
       open={deactivateOpen}
@@ -47,7 +46,7 @@ class DeactivateComponent extends Component {
           Cancel
         </Button>
         <Button onClick={() => (this.props.onSubmit ? this.props.onSubmit(this.props.list) : this.deactivate(this.props))} color="primary">
-          Deactivate
+          {this.props.onSubmitTitle || "Deactivate"}
         </Button>
       </DialogActions>
 

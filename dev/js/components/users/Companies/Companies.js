@@ -11,7 +11,7 @@ import { PAGE } from '../../../config';
 import CreateUser from '../CreateUser/CreateUser';
 import DeactivateComponent      from '../../common/Modal/deactivateModal'
 // import DeleteComponent          from '../../../matrix-crud/deleteModal';
-import { activateItem,
+import { activateCustomer,
   getMatrixInfo }      from '../../../actions';
 
 const userInfo = {
@@ -54,8 +54,6 @@ class Companies extends Component {
 
   createEntity = () => this.setState({ showCreateModal: !this.state.showCreateModal });
 
-  _toggleDeleteModal = () => this.setState({ showDeleteModal: !this.state.showDeleteModal });
-
   _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
   updateModal = (key, value) => {
     console.log(key, value)
@@ -66,8 +64,9 @@ class Companies extends Component {
 
   _activateItems=(selected)=>{
     console.log(selected)
-    activateItem('users', 'customers', selected)
+    activateCustomer('users', 'customers', selected)
       .then(() => console.log('sussecc'))
+    this.setState({ showActivateModal: !this.state.showActivateModal, selected: [], })
         // getMatrixInfo(domen, path, this.props.query, path)
         //   .then(() => this.props.open(this.props.typeKey, false)))
   }
@@ -92,6 +91,7 @@ class Companies extends Component {
           itemKey="name"
           query={this.props.location.query}
           onSubmit={this._activateItems}
+          onSubmitTitle = "Activate"
         />
 
         <TableControls
