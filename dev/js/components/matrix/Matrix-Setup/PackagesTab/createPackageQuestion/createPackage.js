@@ -89,7 +89,6 @@ class CreatePackageComponent extends Component {
 //      id:  this.props.routeParams.id
     };
 
-    debugger;
 
     submitTabs(
       'exercises',
