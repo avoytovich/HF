@@ -12,7 +12,6 @@ import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
 import EditIcon                 from 'material-ui-icons/Edit';
 import Button                   from 'material-ui/Button';
 import CreateUser from '../CreateUser/CreateUser';
-import { PAGE } from '../../../config';
 import {
   userCreate,
   getProfileWired } from '../../../actions'

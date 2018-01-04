@@ -69,7 +69,7 @@ class CreateUser extends Component {
       return
     }
     dispatchCreateUserPayloadWired(this.props.userData);
-}
+  }
 
   _deleteContact = (index, array)=>{
     const removed = array.splice(index,1);
@@ -97,7 +97,7 @@ class CreateUser extends Component {
   }
 
   render() {
-    const createUsersReducers = {...this.props.createUsersReducers, ...this.props.userData};
+    const createUsersReducers = { ...this.props.userData, ...this.props.createUsersReducers};
     return (
       <div className="upload-container">
         <Header toggleModal={this.props.toggleModal} userData = {this.props.userData} userInfo={this.props.userInfo}/>
