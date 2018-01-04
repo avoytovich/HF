@@ -140,10 +140,15 @@ const setFullQuestionForCondition = (state, action) => {
     questionKey: key,
     rules: Array.isArray(rule) ? rule : [ rule ],
   };
+
   const res = body.package ?
     {..._body,
-      treatmentsLevels: { label: body.package.package_id, value:  body.package.package_id},
-      treatmentsPackage:{ label: package_level_id, value: package_level_id}} : _body;
+      treatmentsLevels: body.package.package_level_id,
+      treatmentsPackage:{
+        label: body.package.package_id,
+        value: body.package.package_id
+      }
+    } : _body;
   return Object.assign({}, state, res);
 };
 

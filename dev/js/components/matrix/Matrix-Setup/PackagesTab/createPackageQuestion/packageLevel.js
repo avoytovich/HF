@@ -71,7 +71,7 @@ class PackageLevelComponent extends Component {
             VAS, %
           </Typography>
           <Input
-            id={`packageLevels[${index}].level_up_origin.vas`}
+            id={`packageLevels[${index}].level_up_properties.vas`}
             type='number'
             max="100"
             min="1"
@@ -85,7 +85,7 @@ class PackageLevelComponent extends Component {
             VAS, min
           </Typography>
           <Input
-            id={`packageLevels[${index}].level_up_origin.vas_min`}
+            id={`packageLevels[${index}].level_up_properties.vas_min`}
             type='number'
             max="100"
             min="1"
@@ -99,7 +99,7 @@ class PackageLevelComponent extends Component {
             Sessions
           </Typography>
           <Input
-            id={`packageLevels[${index}].level_up_origin.sessions`}
+            id={`packageLevels[${index}].level_up_properties.sessions`}
             type='number'
             min="1"
             reducer={this.props.createDiagnosisQuestion}

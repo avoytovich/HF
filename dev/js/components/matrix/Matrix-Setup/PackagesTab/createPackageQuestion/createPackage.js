@@ -43,8 +43,8 @@ export const PACKAGE_TYPE = [
 ];
 
 export const DEFAULT_LEVEL = {
-  level             : 1,
-  level_up_origin   : {
+  level               : 1,
+  level_up_properties : {
     vas     : '1',
     vas_min : '1',
     sessions: '1'
@@ -89,6 +89,8 @@ class CreatePackageComponent extends Component {
 //      id:  this.props.routeParams.id
     };
 
+    debugger;
+
 
     submitTabs(
       'exercises',
@@ -109,7 +111,7 @@ class CreatePackageComponent extends Component {
   addNewLevel = (oldList) => {
     const newList = oldList.concat({
       level: oldList.length + 1,
-        level_up_origin   : {
+      level_up_properties   : {
         vas     : '1',
         vas_min : '1',
         sessions: '1'
