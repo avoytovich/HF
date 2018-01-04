@@ -33,13 +33,6 @@ const styles = theme => ({
 
 });
 
-const userInfo = {
-  backButton : '/',
-  userType : 'organization',
-  tarrifId : '3',
-  actionType : 'edit',
-}
-
 const mainInformation = [
   {title:'Company / Entity Name', path: 'name'},
   {title:'EU VAT nr.', path: 'legal_info.vat'},
@@ -244,7 +237,7 @@ class Profile extends Component {
         open={showEditProfileModal}
         showControls={false}
         toggleModal={this._openEditModal}
-        CustomContent={() => <CreateUser userInfo={userInfo} userData = {profileReducer} toggleModal={this._openEditModal}/>}
+        CustomContent={() => <CreateUser userData = {profileReducer} toggleModal={this._openEditModal}/>}
       />
 
     </div>

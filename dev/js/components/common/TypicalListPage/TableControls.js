@@ -86,12 +86,14 @@ class TableControls extends Component {
                 />
               </FormControl>
             </Grid>
-            <Grid item md={4} sm={4} xs={12}>
+            {createItem?
+              (<Grid item md={4} sm={4} xs={12}>
               <Button raised dense onClick={createItem} color="primary">
-                { CreateButtonIcon ? <CreateButtonIcon /> : <Add /> }
-                { createButtonText || 'Create' }
-              </Button>
-            </Grid>
+                  { CreateButtonIcon ? <CreateButtonIcon /> : <Add /> }
+                  { createButtonText || 'Create' }
+                </Button>
+
+            </Grid>):''}
           </Grid>
         </Grid>
       </Grid>

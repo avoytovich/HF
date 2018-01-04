@@ -15,7 +15,7 @@ export const userCreate = (domenKey, apiKey, body) => {
 export const userUpdate = (domenKey, apiKey, customer_id,  body) => {
   const domenPath = domen[domenKey],
     apiPath   = api[apiKey];
-  return Api.put(`${domenPath}${apiPath}/${customer_id}`, body);
+  return Api.put(`${domenPath}${apiPath}${customer_id}`, body);
 };
 
 export const dispatchCreateUserPayload = payload => dispatch =>

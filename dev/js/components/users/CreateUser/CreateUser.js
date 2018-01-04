@@ -65,6 +65,10 @@ const industryArray = [
 class CreateUser extends Component {
 
   componentWillMount() {
+    console.log(this.props);
+    if(this.props.userInfo){
+      return
+    }
     dispatchCreateUserPayloadWired(this.props.userData);
 }
 
@@ -97,6 +101,7 @@ class CreateUser extends Component {
   }
 
   render() {
+    console.log('CreateUser');
     const createUsersReducers = {...this.props.createUsersReducers, ...this.props.userData};
     //const {createUsersReducers} = this.props;
     return (

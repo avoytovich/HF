@@ -5,10 +5,15 @@ import { TableComponent }       from '../../../components/common/TypicalListPage
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
-import Delete                   from 'material-ui-icons/Delete';
 import ArrowRight              from 'material-ui-icons/KeyboardArrowRight';
-import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
-import { get, map }             from 'lodash'
+import { get, map }             from 'lodash';
+import Modal                    from '../../common/Modal/Modal';
+import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
+import { userCreate }           from '../../../actions';
+
+import DeactivateComponent      from '../../common/Modal/DeactivateModal';
+import { activateUser,
+  getMatrixInfo }      from '../../../actions';
 
 import {
   PAGE,
@@ -20,18 +25,18 @@ import {
 class ClinicOwnUsers extends Component {
   state = {
     selected: [],
-    deleteOpen: false
+    showCreateUserModal: false,
+    showActivateModal:false,
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.showCreateUserModal && nextState.showCreateUserModal) {
+      return false
+    }
+    return true;
+  }
+
   _tableCellPropsFunc = (row, col) => {
-    // if (col.key === 'name') {
-    //   return {
-    //     onClick: (e) => {
-    //       e.stopPropagation();
-    //       browserHistory.push(`/clinic/${row.id}/profile`);
-    //     }
-    //   }
-    // }
     return {};
   };
 
@@ -46,6 +51,10 @@ class ClinicOwnUsers extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
+  createEntity = () => {
+    this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
+  }
+
   _returnFunc = (param) => {
     if(param==='clinic'){
       browserHistory.push('clinics');
@@ -55,9 +64,32 @@ class ClinicOwnUsers extends Component {
     }
   };
 
+  _toggleDeleteModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
+
+  _createSimpleUser =() =>{
+    const result = {
+      customer_id: this.props.params.id,
+      email: this.props.createSimpleUsersReducers.email};
+    console.log(result);
+    userCreate('users', 'createSimpleUser', result)
+      .then(this.setState({showCreateUserModal:false}))
+    browserHistory.push(`/company/${this.props.params.id}/users`)
+  };
+
+  _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
+
+  _activateItems=(selected)=>{
+    console.log(selected);
+    activateUser('users', 'userProfile', selected)
+      .then(() => console.log('sussecc'))
+    this.setState({ showActivateModal: !this.state.showActivateModal,selected: [],})
+    // getMatrixInfo(domen, path, this.props.query, path)
+    //   .then(() => this.props.open(this.props.typeKey, false)))
+  }
+
   render() {
     const { tableHeader } = USERS_TAB;
-    const { selected, deleteOpen } = this.state;
+    const { selected, showActivateModal, showCreateUserModal} = this.state;
     const { profileReducer } = this.props;
     const querySelector = {...this.props.location.query,...{type: 'clinic', store:{}}};
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
@@ -65,32 +97,35 @@ class ClinicOwnUsers extends Component {
       <div id="diagnosis-component">
 
         <div className="company-sub-header">
-          <span onClick={()=>this._returnFunc('clinic')}> Companies </span>
+          <span onClick={()=>this._returnFunc('clinic')}> Clinics </span>
           <ArrowRight className="arrow-right-icon" />
           <span  onClick={()=>this._returnFunc('profile')}> {get(profileReducer,'name')}</span>
         </div>
 
-        <DeleteComponent
-          path="clinicsOwnUsers"
-          domen="users"
-          typeKey="deleteOpen"
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="users"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
           list={selected}
-          deactivateOpen={deleteOpen}
-          open={this.updateModal}
-          itemKey="title"
+          title="Activate this Users"
+          deactivateOpen={showActivateModal}
+          open={this._toggleActivateModal}
+          itemKey="user_id"
           query={this.props.location.query}
+          onSubmit={this._activateItems}
+          onSubmitTitle = "Activate"
         />
 
         <TableControls
           path="clinicOwnUsers"
           selected={selected}
-          createItem={this.create}
+          createItem={this.createEntity}
           createButtonText="Add">
 
           <Button raised dense
-                  onClick={() => this.updateModal('deleteOpen', true)}>
-            <Delete />
-            Delete
+                  onClick={() => this.updateModal('showActivateModal', true)}>
+            Activate
           </Button>
 
         </TableControls>
@@ -109,6 +144,15 @@ class ClinicOwnUsers extends Component {
           tableCellPropsFunc={this._tableCellPropsFunc}
         />
 
+        <Modal
+          itemName="name_real"
+          open={showCreateUserModal}
+          title='Add user'
+          toggleModal={this._toggleDeleteModal}
+          onConfirmClick={() => this._createSimpleUser()}
+          CustomContent={() => <CreateSimpleUser />}
+        />
+
       </div>
     )
   }
@@ -116,7 +160,8 @@ class ClinicOwnUsers extends Component {
 
 const mapStateToProps = state => ({
   store: state.tables.clinicOwnUsers,
-  profileReducer: state.profileReducer
+  profileReducer: state.profileReducer,
+  createSimpleUsersReducers: state.createSimpleUsersReducers,
 });
 
 export default  connect(mapStateToProps)(ClinicOwnUsers);

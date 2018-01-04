@@ -71,7 +71,7 @@ const router = (
 
             <Route path={PAGE.assets}             component={C.AssetsComponent} >
                 <IndexRedirect to={PAGE.assetsDiagnostics}/>
-                <Route path={PAGE.assetsExercises} component={(props) => <C.AssetsList {...props}/>}/>
+                <Route path={PAGE.assetsExercises} component={(props) => <C.AssetsExercisesList {...props}/>}/>
                 <Route path={PAGE.assetsDiagnostics } component={(props) => <C.AssetsDiagnosticsList {...props}/>}/>
             </Route>
 

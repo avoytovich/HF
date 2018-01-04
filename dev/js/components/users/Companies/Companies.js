@@ -5,12 +5,10 @@ import { TableComponent }       from '../../../components/common/TypicalListPage
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
-import Delete                   from 'material-ui-icons/Delete';
 import Modal                    from '../../common/Modal/Modal';
 import { PAGE } from '../../../config';
 import CreateUser from '../CreateUser/CreateUser';
-import DeactivateComponent      from '../../common/Modal/DeactivateModal'
-// import DeleteComponent          from '../../../matrix-crud/deleteModal';
+import DeactivateComponent      from '../../common/Modal/DeactivateModal';
 import { activateCustomer,
   getMatrixInfo }      from '../../../actions';
 
@@ -100,17 +98,11 @@ class Companies extends Component {
           selected={selected}
           createItem={this.createEntity}
           createButtonText="Add">
-          {/*<Button raised dense*/}
-                  {/*onClick={() => this.updateModal('showDeleteModal', true)}>*/}
-            {/*<Delete />*/}
-            {/*Delete*/}
-          {/*</Button>*/}
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
             Activate
           </Button>
-
 
         </TableControls>
 

@@ -14,7 +14,11 @@ class HeaderAssets extends Component {
   _onSubmit = () => {
     console.log('om submit', this.props);
     let userType,tariff_id;
-    if(get(this.props,'profileReducer.type')==='clinic'){
+    if (this.props.userInfo){
+      userType = this.props.userInfo.userType;
+      tariff_id = this.props.userInfo.tarrifId
+    }
+    else if(get(this.props,'profileReducer.type')==='clinic'){
        userType = 'clinic';
        tariff_id = 2
     }
@@ -26,19 +30,19 @@ class HeaderAssets extends Component {
       tariff_id: tariff_id, entryFee: 100,
       email: get(this.props.createUsersReducers,'contact_info.contacts[0].email')}};
 
-    if(this.props.userInfo.actionType ==='create'){
+    if(get(this.props,'userInfo.actionType') ==='create'){
       userCreate('users', 'customers', result)
         .then(() => this.props.toggleModal())
       browserHistory.push(this.props.backButton)
     }
-    else if (this.props.userInfo.actionType ==='edit'){
+    else {
       userUpdate('users', 'customers', this.props.userData.id,  result)
         .then(() => this.props.toggleModal())
     }
   };
 
   render() {
-    const headerTitle = this.props.userInfo.headerTitle;
+    const headerTitle = get(this.props,'userInfo.headerTitle');
     return (
       <AppBar
         position="static"

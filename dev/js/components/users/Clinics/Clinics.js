@@ -63,16 +63,11 @@ class Clinics extends Component {
   };
 
   _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
-  updateModal = (key, value) => {
-    console.log(key, value)
-    this.setState({ [key]: value });
 
-    if (!value) this.setState({ selected: [] });
-  };
 
   _activateItems=(selected)=>{
     console.log(selected)
-    activateCustomer('users', 'userProfile', selected)
+    activateCustomer('users', 'customers', selected)
       .then(() => console.log('sussecc'))
     this.setState({ showActivateModal: !this.state.showActivateModal, selected: [], })
     // getMatrixInfo(domen, path, this.props.query, path)

@@ -1,25 +1,40 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import isEmpty                  from 'lodash/isEmpty';
 import { COMPANIES_USERS_TAB }              from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
-import Delete                   from 'material-ui-icons/Delete';
-import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
 
-import { PAGE } from '../../../config';
+import DeactivateComponent      from '../../common/Modal/DeactivateModal';
+import { activateUser,
+  getMatrixInfo }      from '../../../actions';
+
+import {
+  PAGE,
+  domen,
+  api
+} from '../../../config';
+
 
 class OrganizationsUsers extends Component {
   state = {
     selected: [],
-    deleteOpen: false
+    showCreateUserModal: false,
+    showActivateModal:false,
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.showCreateUserModal && nextState.showCreateUserModal) {
+      return false
+    }
+    return true;
+  }
 
   onRowClick = (selected = []) => this.setState({selected});
 
   onSelectAllClick = (selected) => this.setState({selected});
+
 
   updateModal = (key, value) => {
     this.setState({ [key]: value });
@@ -27,34 +42,45 @@ class OrganizationsUsers extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
+  _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
+
+  _activateItems=(selected)=>{
+    console.log(selected);
+    activateUser('users', 'userProfile', selected)
+      .then(() => console.log('sussecc'))
+    this.setState({ showActivateModal: !this.state.showActivateModal,selected: [],})
+    // getMatrixInfo(domen, path, this.props.query, path)
+    //   .then(() => this.props.open(this.props.typeKey, false)))
+  }
   render() {
     const { tableHeader } = COMPANIES_USERS_TAB;
-    const { selected,  deleteOpen } = this.state;
+    const { selected, showActivateModal, showCreateUserModal} = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'organization'}};
     return (
       <div id="diagnosis-component">
 
-        <DeleteComponent
-          location={this.props.location}
-          path="organizationUsers"
-          domen="users"
-          typeKey="deleteOpen"
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="users"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
           list={selected}
-          deactivateOpen={deleteOpen}
-          open={this.updateModal}
-          itemKey="title"
+          title="Activate this Users"
+          deactivateOpen={showActivateModal}
+          open={this._toggleActivateModal}
+          itemKey="customer_name"
           query={this.props.location.query}
+          onSubmit={this._activateItems}
+          onSubmitTitle = "Activate"
         />
 
         <TableControls
           path="users"
-          selected={selected}
-          createItem={this.create}>
+          selected={selected}>
 
           <Button raised dense
-                  onClick={() => this.updateModal('deleteOpen', true)}>
-            <Delete />
-            Delete
+                  onClick={() => this.updateModal('showActivateModal', true)}>
+            Activate
           </Button>
 
         </TableControls>

@@ -6,11 +6,8 @@ import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal'
-// import DeleteComponent          from '../../../matrix-crud/deleteModal';
 import { activateUser,
   getMatrixInfo }      from '../../../actions';
-
-import { PAGE } from '../../../config';
 
 class ClinicsUsers extends Component {
   state = {
@@ -31,12 +28,6 @@ class ClinicsUsers extends Component {
   };
 
   _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
-  updateModal = (key, value) => {
-    console.log(key, value)
-    this.setState({ [key]: value });
-
-    if (!value) this.setState({ selected: [] });
-  };
 
   _activateItems=(selected)=>{
     console.log(selected)
@@ -77,11 +68,6 @@ class ClinicsUsers extends Component {
           createButtonText="Add"
         >
 
-          {/*<Button raised dense*/}
-                  {/*onClick={() => this.updateModal('deleteOpen', true)}>*/}
-            {/*<Delete />*/}
-            {/*Delete*/}
-          {/*</Button>*/}
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
             Activate
@@ -100,6 +86,7 @@ class ClinicsUsers extends Component {
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
         />
+
       </div>
     )
   }
