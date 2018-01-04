@@ -102,11 +102,6 @@ class Clinics extends Component {
           createItem={this.createEntity}
           createButtonText="Add">
 
-          {/*<Button raised dense*/}
-                  {/*onClick={() => this.updateModal('deleteOpen', true)}>*/}
-            {/*<Delete />*/}
-            {/*Delete*/}
-          {/*</Button>*/}
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
             Activate

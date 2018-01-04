@@ -5,23 +5,15 @@ import { TableComponent }       from '../../../components/common/TypicalListPage
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
-
 import DeactivateComponent      from '../../common/Modal/DeactivateModal';
-import { activateUser,
-  getMatrixInfo }      from '../../../actions';
-
-import {
-  PAGE,
-  domen,
-  api
-} from '../../../config';
+import { activateUser }         from '../../../actions';
 
 
 class OrganizationsUsers extends Component {
   state = {
     selected: [],
-    showCreateUserModal: false,
     showActivateModal:false,
+    showDeactivateModal:false,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -42,19 +34,24 @@ class OrganizationsUsers extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
-  _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
+  _toggleActivateModal = (data) => {
+    console.log(data)
+    data==='activate'?(this.setState({ showActivateModal: !this.state.showActivateModal })):
+      (this.setState({ showDeactivateModal: !this.state.showDeactivateModal }))
+  };
 
-  _activateItems=(selected)=>{
+  _activateItems = (selected, action) => {
+    console.log(selected, action)
     console.log(selected);
-    activateUser('users', 'userProfile', selected)
-      .then(() => console.log('sussecc'))
-    this.setState({ showActivateModal: !this.state.showActivateModal,selected: [],})
-    // getMatrixInfo(domen, path, this.props.query, path)
-    //   .then(() => this.props.open(this.props.typeKey, false)))
-  }
+    activateUser('users', 'userProfile', selected, action)
+      .then(() => browserHistory.push(`/users-organizations`))
+    this._toggleActivateModal(action);
+    this.setState({ selected: []})
+
+  };
   render() {
     const { tableHeader } = COMPANIES_USERS_TAB;
-    const { selected, showActivateModal, showCreateUserModal} = this.state;
+    const { selected, showActivateModal, showDeactivateModal} = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'organization'}};
     return (
       <div id="diagnosis-component">
@@ -67,11 +64,25 @@ class OrganizationsUsers extends Component {
           list={selected}
           title="Activate this Users"
           deactivateOpen={showActivateModal}
-          open={this._toggleActivateModal}
-          itemKey="customer_name"
+          open={()=>this._toggleActivateModal('activate')}
+          itemKey="user_id"
           query={this.props.location.query}
-          onSubmit={this._activateItems}
+          onSubmit={()=>this._activateItems(selected, 'activate')}
           onSubmitTitle = "Activate"
+        />
+
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="users"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Deactivate this Users"
+          deactivateOpen={showDeactivateModal}
+          open={()=>this._toggleActivateModal('deactivate')}
+          itemKey="user_id"
+          query={this.props.location.query}
+          onSubmit={()=>this._activateItems(selected, 'deactivate')}
         />
 
         <TableControls
@@ -81,6 +92,11 @@ class OrganizationsUsers extends Component {
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
             Activate
+          </Button>
+
+          <Button raised dense
+                  onClick={() => this.updateModal('showDeactivateModal', true)}>
+            Deactivate
           </Button>
 
         </TableControls>

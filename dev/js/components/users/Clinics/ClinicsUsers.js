@@ -21,12 +21,12 @@ import {
   api
 } from '../../../config';
 
-
 class ClinicOwnUsers extends Component {
   state = {
     selected: [],
     showCreateUserModal: false,
     showActivateModal:false,
+    showDeactivateModal:false,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -73,23 +73,28 @@ class ClinicOwnUsers extends Component {
     console.log(result);
     userCreate('users', 'createSimpleUser', result)
       .then(this.setState({showCreateUserModal:false}))
-    browserHistory.push(`/company/${this.props.params.id}/users`)
+    browserHistory.push(`/clinic/${this.props.params.id}/users`)
   };
 
-  _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
+  _toggleActivateModal = (data) => {
+    console.log(data)
+    data==='activate'?(this.setState({ showActivateModal: !this.state.showActivateModal })):
+      (this.setState({ showDeactivateModal: !this.state.showDeactivateModal }))
+  };
 
-  _activateItems=(selected)=>{
+  _activateItems = (selected, action) => {
+    console.log(selected, action)
     console.log(selected);
-    activateUser('users', 'userProfile', selected)
-      .then(() => console.log('sussecc'))
-    this.setState({ showActivateModal: !this.state.showActivateModal,selected: [],})
-    // getMatrixInfo(domen, path, this.props.query, path)
-    //   .then(() => this.props.open(this.props.typeKey, false)))
+    activateUser('users', 'userProfile', selected, action)
+      .then(() => browserHistory.push(`/clinic/${this.props.params.id}/users`))
+    this._toggleActivateModal(action);
+    this.setState({ selected: []})
+
   }
 
   render() {
     const { tableHeader } = USERS_TAB;
-    const { selected, showActivateModal, showCreateUserModal} = this.state;
+    const { selected, showActivateModal, showCreateUserModal, showDeactivateModal} = this.state;
     const { profileReducer } = this.props;
     const querySelector = {...this.props.location.query,...{type: 'clinic', store:{}}};
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
@@ -110,11 +115,25 @@ class ClinicOwnUsers extends Component {
           list={selected}
           title="Activate this Users"
           deactivateOpen={showActivateModal}
-          open={this._toggleActivateModal}
+          open={()=>this._toggleActivateModal('activate')}
           itemKey="user_id"
           query={this.props.location.query}
-          onSubmit={this._activateItems}
+          onSubmit={()=>this._activateItems(selected, 'activate')}
           onSubmitTitle = "Activate"
+        />
+
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="users"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Deactivate this Users"
+          deactivateOpen={showDeactivateModal}
+          open={()=>this._toggleActivateModal('deactivate')}
+          itemKey="user_id"
+          query={this.props.location.query}
+          onSubmit={()=>this._activateItems(selected, 'deactivate')}
         />
 
         <TableControls
@@ -126,6 +145,10 @@ class ClinicOwnUsers extends Component {
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
             Activate
+          </Button>
+          <Button raised dense
+                  onClick={() => this.updateModal('showDeactivateModal', true)}>
+            Deactivate
           </Button>
 
         </TableControls>
