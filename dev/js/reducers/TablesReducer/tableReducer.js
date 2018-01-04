@@ -102,6 +102,11 @@ const initialState = {
       name: 'companyOwnUsers',
       changes: []
     },
+
+    {
+      name: 'assetsExercises',
+      changes: []
+    },
   ]
 };
 

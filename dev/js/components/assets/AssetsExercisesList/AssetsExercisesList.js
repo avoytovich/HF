@@ -23,7 +23,7 @@ import {
 } from '../../../actions';
 
 const domen = 'exercises';
-const path  = 'assets';
+const path  = 'assetsExercises';
 
 class AssetsList extends Component {
   state = {
@@ -49,7 +49,7 @@ class AssetsList extends Component {
   };
 
   _tableCellPropsFunc = (row, col) => {
-    if (col.key === 'name_real') {
+    if (col.key === 'name') {
       return {
         onClick: (e) => {
           console.log(row);
