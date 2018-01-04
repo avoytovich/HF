@@ -422,7 +422,7 @@ class CreateEvaluationComponent extends Component {
                     label={ L_CREATE_QUESTION.questionKey }
                     placeholder={ L_CREATE_QUESTION.enterQuestionKey }
                     error={!!this.state.keyIsUniqueError}
-                    onCustomChange={this.checkIfQuestionKeyValid}
+                    onChangeCustom={this.checkIfQuestionKeyValid}
                   />
                 </Grid>
               </Grid>

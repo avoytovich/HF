@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
-import omit from 'lodash/omit'
 import pick from 'lodash/pick'
 import pickBy from 'lodash/pickBy'
-import omitBy from 'lodash/omitBy'
 import Grid from 'material-ui/Grid';
 
 // UI
@@ -17,14 +15,9 @@ import Input from '../../common/Input/Input';
 import { diagnosConsts } from '../consts'
 // import Switch from '../../common/Switch/Switch';
 import Select from '../../common/Select/Select';
-import RadioButton from '../../common/RadioButton/RadioButton';
 import DynamicQuestions from '../DynamicQuestions/DynamicQuestions';
-import BodyAreaItem from '../BodyAreaItem/BodyAreaItem';
 import {
-  getBodyAreasWired,
   createTestWired,
-  dispatchUserPayloadWired,
-  T,
 } from '../../../actions';
 import {
   PAGE,
@@ -33,15 +26,11 @@ import {
 
 class TestNew extends Component {
   _prepareData = (data) => {
-    let prepData = pick(data, pickKeys.testing);
+    let prepData     = pick(data, pickKeys.testing);
     prepData.answers = pickBy(prepData, el => el.value);
     prepData.user_id = this.props.userReducer.user_id;
     prepData.type    = 'diagnostic';
     return prepData;
-  };
-
-  _renderIncomingQuestions = () => {
-
   };
 
   render() {

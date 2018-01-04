@@ -6,34 +6,55 @@ import { bindActionCreators } from 'redux';
 import Grid from 'material-ui/Grid';
 
 import { C } from '../../../components'
+import { dispatchTestingPayloadWired } from '../../../actions'
 
 class DynamicQuestions extends Component {
   _pickQuestion = ({ answer: { type, subtype, values }, question, key, content_type }, i) => {
     const { testingReducer } = this.props;
     switch (type) {
       case 'single':
-        let items = [];
-        each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
-        return (
-          <C.RadioButton
-            key={i}
-            items={items}
-            reducer={testingReducer}
-            id={key}
-            label={question.en}
-          />
-        );
+        if (subtype === 'list') {
+          let items = [];
+          each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
+          return (
+            <C.RadioButton
+              key={i}
+              items={items}
+              reducer={testingReducer}
+              id={key}
+              label={question.en}
+            />
+          );
+        } else {
+          const { min, max } = values;
+          return (
+            <div className="margin-range">
+              <C.Range
+                key={i}
+                reducer={testingReducer}
+                id={`${key}.value`}
+                label={question.en}
+                onChangeCustom={({ target: { value }}) => {
+                  const valueWithinRange = Math.ceil((value / 100) * (+max - +min)) + +min;
+                  dispatchTestingPayloadWired({
+                    [`${key}.type`]       : 'single',
+                    [`${key}.value`]      : valueWithinRange,
+                    [`${key}.valueOrigin`]: value,
+                  })
+                }}
+              />
+            </div>
+          );
+        }
 
       case 'multiple':
         if (content_type === 'vas') {
           const bodyAreas = [];
-          each(values, (val, answerId) => bodyAreas.push({
-            label: val.en,
-            value: { id: answerId, title: val.en },
-          }));
+          each(values, (val, value) => bodyAreas.push({ label: val.en, value }));
           return (
             <C.BodyAreas
               key={i}
+              id={key}
               areas={bodyAreas}
             />
           );
@@ -50,19 +71,6 @@ class DynamicQuestions extends Component {
             />
           );
         }
-
-      case 'range':
-        return (
-          <div className="margin-range">
-            <C.Range
-              key={i}
-              reducer={testingReducer}
-              id={key}
-              label={question.en}
-              range={values}
-            />
-          </div>
-        );
 
       default:
         console.log('default fired: ', { type, subtype });

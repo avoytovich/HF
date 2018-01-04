@@ -6,7 +6,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Radio, { RadioGroup } from 'material-ui/Radio';
-import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
+import {
+  FormLabel,
+  FormControl,
+  FormControlLabel,
+} from 'material-ui/Form';
 
 import {
   onChange,

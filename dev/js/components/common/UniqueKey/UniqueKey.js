@@ -45,7 +45,7 @@ class UniqueKey extends Component {
          reducer={store[reducer]}
          label={label}
          error={!!keyIsUniqueError}
-         onCustomChange={this.checkIfQuestionKeyValid}
+         onChangeCustom={this.checkIfQuestionKeyValid}
        />
      </Grid>
    </Grid>

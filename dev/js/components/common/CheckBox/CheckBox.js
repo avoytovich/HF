@@ -75,7 +75,7 @@ CheckBox.propTypes = {
   onChange: PropTypes.func,
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  onCustomChange: PropTypes.func,
+  onChangeCustom: PropTypes.func,
 };
 
 const mapStateToProps = state => ({});

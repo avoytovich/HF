@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Grid from 'material-ui/Grid';
 
 import { C } from '../../../components';
+import { dispatchTestingPayloadWired } from '../../../actions';
 
 class BodyAreas extends Component {
   _renderBodyAreasItem = (items = []) => {
-    return items.map(({ title, id }) => {
-      return (
-        <C.BodyAreaItem
-          key={id + title}
-          reducer={this.props.testingReducer}
-          title={title}
-          id={id}
-        />
-      )
+    return items.map(({ title, id }, i) => {
+      return !i ?
+        (
+          <C.BodyAreaItem
+            key={id}
+            reducer={this.props.testingReducer}
+            title={title}
+            id={id}
+          />
+        ) :
+        null;
     })
   };
 
   render() {
     const {
       areas,
+      id,
       testingReducer,
       testingReducer: {
         bodyAreasPicked,
@@ -31,24 +36,30 @@ class BodyAreas extends Component {
       <div>
         <Grid container spacing={0}>
           <Grid item xs={12}>
-              <p className="testing-inner-sub-header">
-                Body Areas
-              </p>
-              <Grid container spacing={24}>
+            <p className="testing-inner-sub-header">
+              Body Areas
+            </p>
+            <Grid container spacing={24}>
 
-                <Grid item xs={12}>
-                  <C.Select
-                    multiple
-                    options={areas}
-                    id='bodyAreasPicked'
-                    style={{ width: "100%" }}
-                    reducer={testingReducer}
-                    label='Body Areas'
-                  />
-                </Grid>
+              <Grid item xs={12}>
+                <C.Select
+                  multiple
+                  options={areas}
+                  onChangeCustom={({ target: { value } }) => {
+                    dispatchTestingPayloadWired({
+                      bodyAreasPicked: value,
+                      [id]: { type: 'multiple', value }
+                    });
+                  }}
+                  id='bodyAreasPicked'
+                  style={{ width: "100%" }}
+                  reducer={testingReducer}
+                  label='Body Areas'
+                />
               </Grid>
+            </Grid>
 
-              { this._renderBodyAreasItem(bodyAreasPicked) }
+            { this._renderBodyAreasItem(bodyAreasPicked) }
 
           </Grid>
         </Grid>
@@ -66,4 +77,8 @@ const mapStateToProps = state => ({
   testingReducer: state.testingReducer,
 });
 
-export default connect(mapStateToProps)(BodyAreas);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(BodyAreas);
