@@ -1,19 +1,20 @@
-export let domen;
-if (process.env.NODE_ENV === 'production') {
-  domen = {
-    users      : 'http://54.93.77.193',
-    exercises  : 'http://54.93.228.195',
-    diagnostics: 'http://35.156.163.53',
-    s3         : 'https://uk6yk108kj.execute-api.eu-central-1.amazonaws.com/prod/diagnostics/files/url/generate',
-  };
-} else {
-  domen = {
+// export let domen;
+// if (process.env.NODE_ENV === 'production') {
+//   domen = {
+//     users      : 'http://54.93.77.193',
+//     exercises  : 'http://54.93.228.195',
+//     diagnostics: 'http://35.156.163.53',
+//     s3         : 'https://uk6yk108kj.execute-api.eu-central-1.amazonaws.com/prod/diagnostics/files/url/generate',
+//   };
+// } else {
+  export let domen = {
     users      : 'http://18.195.77.253',
     exercises  : 'http://18.195.76.169',
     diagnostics: 'http://18.194.211.206',
     s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com',
   };
-}
+// }
+
 
 export const api = {
   simpleUsers       : '/users/get/all',
