@@ -73,6 +73,7 @@ class AssetsList extends Component {
   _toggleEditModal = () => this.setState({ showEditModal: !this.state.showEditModal });
 
   render() {
+    console.log(this.props);
     const { tableHeader } = ASSETS_TAB;
     const {
       selected,
@@ -102,6 +103,7 @@ class AssetsList extends Component {
         </TableControls>
 
         <TableComponent
+          location={this.props.location}
           path={path}
           domen={domen}
           tableHeader={ tableHeader }
@@ -110,6 +112,7 @@ class AssetsList extends Component {
           onSelectAllClick={this._onSelectAllClick}
           CellContent={() => <ModeEdit className="assets-edit-icon" />}
           tableCellPropsFunc={this._tableCellPropsFunc}
+          query={this.props.location.query}
         />
 
         <Modal

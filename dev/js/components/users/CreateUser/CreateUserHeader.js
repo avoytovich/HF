@@ -12,7 +12,6 @@ import Close from 'material-ui-icons/Close';
 class HeaderAssets extends Component {
 
   _onSubmit = () => {
-    console.log('om submit', this.props);
     let userType,tariff_id;
     if (this.props.userInfo){
       userType = this.props.userInfo.userType;

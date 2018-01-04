@@ -66,12 +66,9 @@ class Clinics extends Component {
 
 
   _activateItems=(selected)=>{
-    console.log(selected)
     activateCustomer('users', 'customers', selected)
-      .then(() => console.log('sussecc'))
+      .then(() => browserHistory.push(`/clinics`))
     this.setState({ showActivateModal: !this.state.showActivateModal, selected: [], })
-    // getMatrixInfo(domen, path, this.props.query, path)
-    //   .then(() => this.props.open(this.props.typeKey, false)))
   }
 
   render() {

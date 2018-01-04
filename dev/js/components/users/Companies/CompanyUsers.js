@@ -1,6 +1,6 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { USERS_TAB }             from '../../../utils/constants/pageContent';
+import { USERS_TAB }            from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
@@ -11,10 +11,10 @@ import { get, map }             from 'lodash';
 import Modal                    from '../../common/Modal/Modal';
 import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
 import { userCreate }           from '../../../actions';
-
+import ActivateIcon             from 'material-ui-icons/Check';
+import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal';
-import { activateUser,
-  getMatrixInfo }      from '../../../actions';
+import { activateUser}          from '../../../actions';
 
 import {
   PAGE,
@@ -47,7 +47,6 @@ class CompanyOwnUsers extends Component {
 
 
   updateModal = (key, value) => {
-    console.log(key, value)
     this.setState({ [key]: value });
 
     if (!value) this.setState({ selected: [] });
@@ -72,21 +71,17 @@ class CompanyOwnUsers extends Component {
     const result = {
       customer_id: this.props.params.id,
       email: this.props.createSimpleUsersReducers.email};
-    console.log(result);
     userCreate('users', 'createSimpleUser', result)
       .then(this.setState({showCreateUserModal:false}))
     browserHistory.push(`/company/${this.props.params.id}/users`)
   };
 
   _toggleActivateModal = (data) => {
-    console.log(data)
     data==='activate'?(this.setState({ showActivateModal: !this.state.showActivateModal })):
       (this.setState({ showDeactivateModal: !this.state.showDeactivateModal }))
   };
 
   _activateItems = (selected, action) => {
-    console.log(selected, action)
-    console.log(selected);
     activateUser('users', 'userProfile', selected, action)
       .then(() => browserHistory.push(`/clinic/${this.props.params.id}/users`))
     this._toggleActivateModal(action);
@@ -146,12 +141,12 @@ class CompanyOwnUsers extends Component {
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
-            Activate
+            <ActivateIcon/> Activate
           </Button>
 
           <Button raised dense
                   onClick={() => this.updateModal('showDeactivateModal', true)}>
-            Deactivate
+           <DeactivateIcon/> Deactivate
           </Button>
 
         </TableControls>

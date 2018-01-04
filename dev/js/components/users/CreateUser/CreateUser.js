@@ -65,7 +65,6 @@ const industryArray = [
 class CreateUser extends Component {
 
   componentWillMount() {
-    console.log(this.props);
     if(this.props.userInfo){
       return
     }
@@ -73,9 +72,7 @@ class CreateUser extends Component {
 }
 
   _deleteContact = (index, array)=>{
-    console.log(index, array)
     const removed = array.splice(index,1);
-    console.log('deleted', array, removed);
     this.setState({
       createUsersReducers:{
         contact_info:
@@ -85,7 +82,6 @@ class CreateUser extends Component {
   }
 
   _addContact = (array)=>{
-    console.log(array)
     array.push({
       name: "",
         surname: "",
@@ -101,9 +97,7 @@ class CreateUser extends Component {
   }
 
   render() {
-    console.log('CreateUser');
     const createUsersReducers = {...this.props.createUsersReducers, ...this.props.userData};
-    //const {createUsersReducers} = this.props;
     return (
       <div className="upload-container">
         <Header toggleModal={this.props.toggleModal} userData = {this.props.userData} userInfo={this.props.userInfo}/>

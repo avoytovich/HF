@@ -136,7 +136,6 @@ class Profile extends Component {
     )
   };
   _addUsers=()=>{
-    console.log('add users');
     this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
   };
 
@@ -144,7 +143,6 @@ class Profile extends Component {
     const result = {
       customer_id: this.props.params.id,
       email: this.props.createSimpleUsersReducers.email};
-    console.log(result);
     userCreate('users', 'createSimpleUser', result)
       .then(this.setState({showCreateUserModal:false}))
     getProfileWired(this.props.params.id);
@@ -153,21 +151,10 @@ class Profile extends Component {
   _toggleCloseModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
   _openEditModal = () => {
-    console.log('edit Profile');
     this.setState({ showEditProfileModal: !this.state.showEditProfileModal })
   }
 
   render() {
-
-    // const userInfo = {
-    //   headerTitle:'Edit'+ get(this.props,'profileReducer.type')==='clinic'?'Clinic ':'Company ',
-    //   backButton : get(this.props,'profileReducer.type')==='clinic'?'/clinics ':'/companies ',
-    //   userType : get(this.props,'profileReducer.type')==='clinic'?'clinic ':'organization ',
-    //   tarrifId : get(this.props,'profileReducer.type')==='clinic'? 2:3,
-    //   actionType : 'edit',
-    // }
-
-    console.log(this.props)
     const {showCreateUserModal, showEditProfileModal} = this.state;
     const {
       classes,

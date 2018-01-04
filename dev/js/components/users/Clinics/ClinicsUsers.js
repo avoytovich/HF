@@ -10,10 +10,10 @@ import { get, map }             from 'lodash';
 import Modal                    from '../../common/Modal/Modal';
 import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
 import { userCreate }           from '../../../actions';
-
+import ActivateIcon             from 'material-ui-icons/Check';
+import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal';
-import { activateUser,
-  getMatrixInfo }      from '../../../actions';
+import { activateUser }         from '../../../actions';
 
 import {
   PAGE,
@@ -70,21 +70,17 @@ class ClinicOwnUsers extends Component {
     const result = {
       customer_id: this.props.params.id,
       email: this.props.createSimpleUsersReducers.email};
-    console.log(result);
     userCreate('users', 'createSimpleUser', result)
       .then(this.setState({showCreateUserModal:false}))
     browserHistory.push(`/clinic/${this.props.params.id}/users`)
   };
 
   _toggleActivateModal = (data) => {
-    console.log(data)
     data==='activate'?(this.setState({ showActivateModal: !this.state.showActivateModal })):
       (this.setState({ showDeactivateModal: !this.state.showDeactivateModal }))
   };
 
   _activateItems = (selected, action) => {
-    console.log(selected, action)
-    console.log(selected);
     activateUser('users', 'userProfile', selected, action)
       .then(() => browserHistory.push(`/clinic/${this.props.params.id}/users`))
     this._toggleActivateModal(action);
@@ -144,11 +140,11 @@ class ClinicOwnUsers extends Component {
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
-            Activate
+            <ActivateIcon/>Activate
           </Button>
           <Button raised dense
                   onClick={() => this.updateModal('showDeactivateModal', true)}>
-            Deactivate
+          <DeactivateIcon/>  Deactivate
           </Button>
 
         </TableControls>

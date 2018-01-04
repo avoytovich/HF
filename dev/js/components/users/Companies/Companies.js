@@ -54,22 +54,18 @@ class Companies extends Component {
   createEntity = () => this.setState({ showCreateModal: !this.state.showCreateModal });
 
   _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
+
   updateModal = (key, value) => {
-    console.log(key, value)
     this.setState({ [key]: value });
 
     if (!value) this.setState({ selected: [] });
   };
 
   _activateItems=(selected)=>{
-    console.log(selected)
     activateCustomer('users', 'customers', selected)
-      .then(() => console.log('sussecc'))
+      .then(() => browserHistory.push(`/companies`))
     this.setState({ showActivateModal: !this.state.showActivateModal, selected: [], })
-        // getMatrixInfo(domen, path, this.props.query, path)
-        //   .then(() => this.props.open(this.props.typeKey, false)))
   }
-
 
   render() {
     const { tableHeader } = COMPANIES_TAB;

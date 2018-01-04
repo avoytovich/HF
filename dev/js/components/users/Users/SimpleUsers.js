@@ -7,6 +7,8 @@ import TableControls            from '../../common/TypicalListPage/TableControls
 import Button                   from 'material-ui/Button';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal'
 import { activateUser }         from '../../../actions';
+import ActivateIcon             from 'material-ui-icons/Check';
+import DeactivateIcon           from 'material-ui-icons/NotInterested';
 
 class SimpleUsers extends Component {
   state = {
@@ -32,7 +34,6 @@ class SimpleUsers extends Component {
   };
 
   _activateItems = (selected, action) => {
-    console.log(selected, action)
     activateUser('users', 'userProfile', selected, action)
       .then(() => browserHistory.push(`/users-simple`))
     this._toggleActivateModal(action);
@@ -83,11 +84,11 @@ class SimpleUsers extends Component {
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
-            Activate
+            <ActivateIcon/>Activate
           </Button>
           <Button raised dense
                   onClick={() => this.updateModal('showDeactivateModal', true)}>
-            Deactivate
+            <DeactivateIcon/> Deactivate
           </Button>
 
         </TableControls>
