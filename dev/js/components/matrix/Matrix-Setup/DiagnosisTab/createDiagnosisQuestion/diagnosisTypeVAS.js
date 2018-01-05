@@ -89,6 +89,7 @@ class diagnosisVASQuestion extends Component {
           path="findByKey"
           questionKey={questionKey}
           id="questionKey"
+          disabled={true}
           reducer="createDiagnosisQuestion"
         />
 

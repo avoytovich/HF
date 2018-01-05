@@ -60,7 +60,6 @@ class DiagnosticAnswers extends Component {
   answers = (type) => {
     const { store, store: { single, multiple } } = this.props;
     const { answerLang } = this.state;
-//    debugger;
 
     switch (type) {
       case 'single'  :

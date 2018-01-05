@@ -19,6 +19,7 @@ import {
 import SequenceBlock                from './sequenceBlock';
 import DiagnosticQuestion           from './diagnosticQuestion';
 import DiagnosticAnswers            from './diagnosticAnswers';
+import PackageLevelsList            from './PackageLevelsList'
 // UI
 import Grid                         from 'material-ui/Grid';
 import Typography                   from 'material-ui/Typography';
@@ -42,7 +43,8 @@ class DiagnosisTypeQuestion extends Component {
       createDiagnosisQuestion: {
         questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type,
         diagnostic_assets
-      }
+      },
+      page, reqType, packages
     } = this.props;
 
     return <BlockDivider title="Question">
@@ -138,6 +140,18 @@ class DiagnosisTypeQuestion extends Component {
           answerType={answerType}
           typePath="answerType"
         />
+
+        {/* Answers */}
+        <Grid className="title answer">
+          <Typography type="title"
+                      gutterBottom>
+            Packages & Levels
+          </Typography>
+        </Grid>
+
+
+        {/*Package and Start level*/}
+        { packages && <PackageLevelsList/>}
       </div>
 
       <div className="rules">
@@ -156,8 +170,8 @@ class DiagnosisTypeQuestion extends Component {
         }
 
         <DiagnosisRulesComponent
-          type="diagnostic"
-          page="diagnostic"
+          type={reqType || "diagnostic"}
+          page={page || 'diagnostic'}
           area={areaIds}
           step={sequence}
         />
