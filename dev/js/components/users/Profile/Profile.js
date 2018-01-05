@@ -11,7 +11,7 @@ import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
 import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
 import EditIcon                 from 'material-ui-icons/Edit';
 import Button                   from 'material-ui/Button';
-import { PAGE } from '../../../config';
+import CreateUser from '../CreateUser/CreateUser';
 import {
   userCreate,
   getProfileWired } from '../../../actions'
@@ -52,6 +52,7 @@ class Profile extends Component {
 
   state = {
     showCreateUserModal: false,
+    showEditProfileModal: false,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -134,7 +135,6 @@ class Profile extends Component {
     )
   };
   _addUsers=()=>{
-    console.log('add users');
     this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
   };
 
@@ -142,7 +142,6 @@ class Profile extends Component {
     const result = {
       customer_id: this.props.params.id,
       email: this.props.createSimpleUsersReducers.email};
-    console.log(result);
     userCreate('users', 'createSimpleUser', result)
       .then(this.setState({showCreateUserModal:false}))
     getProfileWired(this.props.params.id);
@@ -151,11 +150,11 @@ class Profile extends Component {
   _toggleCloseModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
   _openEditModal = () => {
-    console.log('edit Profile');
+    this.setState({ showEditProfileModal: !this.state.showEditProfileModal })
   }
 
   render() {
-    const {showCreateUserModal} = this.state;
+    const {showCreateUserModal, showEditProfileModal} = this.state;
     const {
       classes,
       profileReducer
@@ -218,6 +217,15 @@ class Profile extends Component {
         onConfirmClick={() => this._createSimpleUser()}
         CustomContent={() => <CreateSimpleUser/>}
       />
+
+      <Modal
+        fullScreen
+        open={showEditProfileModal}
+        showControls={false}
+        toggleModal={this._openEditModal}
+        CustomContent={() => <CreateUser userData = {profileReducer} toggleModal={this._openEditModal}/>}
+      />
+
     </div>
 
     )

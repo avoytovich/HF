@@ -11,20 +11,17 @@ import { browserHistory }           from 'react-router'
 import {
   updateCrateQuestionFields,
   clearCreateQuestion,
-  findPackage,
   getTreatmentById,
-  getPackagenById,
+  getPackagenById
 }                                   from '../../../../../actions';
-import { onChange }                 from '../../../../../actions/common';
 import { Async }                    from 'react-select';
-import Menu, { MenuItem }           from 'material-ui/Menu';
-import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
+import Grid                         from 'material-ui/Grid';
 import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../../common/Input/Input';
-import Select                       from 'material-ui/Select';
 import { submitTabs }               from '../../../../../utils/matrix';
 import MatrixPreLoader              from '../../matrixPreloader';
+import TreatmentPackageLevel        from './treatmentPackageLevel';
 
 class CreateTreatmentsComponent extends Component {
   state = {
@@ -41,61 +38,47 @@ class CreateTreatmentsComponent extends Component {
 
   componentWillMount() {
     if (this.props.routeParams.id) {
-      getTreatmentById('diagnostics', 'treatments', this.props.routeParams.id);
+      getTreatmentById('diagnostics', 'treatments', this.props.routeParams.id)
+        .then(res => {
+        const {package_id, package_level_id} = res.package;
+
+          getPackagenById('exercises', 'packages', package_id, true).then((_res) => {
+            const {data} = _res.packageLevels;
+            const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
+            updateCrateQuestionFields(levelsList, 'levelsList');
+            const {id, title} = _res;
+            const treatmentsPackage = {value: id, label: title, id};
+            updateCrateQuestionFields(treatmentsPackage, 'treatmentsPackage');
+
+          });
+        });
     }
   }
 
 
-  getPackageOptions = (input) => {
-    const area = this.props.createDiagnosisQuestion.bodyAreas;
-    const _area = area ? area.id : null;
-    return findPackage('exercises', 'getPackageByArea', input, _area).then(res => {
-      const { data } = res.data;
-      const _data = data.map(item =>
-        Object.assign({}, item, { label: item.title }));
-
-
-      return {
-        options: _data,
-        complete: true
-      }
-    });
-  };
-
-  onPackageChange = (value) => {
-    updateCrateQuestionFields(value, 'treatmentsPackage');
-    getPackagenById('exercises', 'packages', value.id, true).then(({data}) => {
-      const levels = data.map(el => el && {label: el.level, value: el.id, id: el.id});
-      this.setState({treatmentsLevels: levels});
-    });
-  };
-
-  addNewAnswer = (value) => {
-    const inState = this.state.answerLang;
-    this.setState({ answerLang: inState.concat('en')});
-    addNewAnswer(value);
-  };
-
-  handleLevelsChange = (event) => {
-    const sequenceType = event.target.value;
-    updateCrateQuestionFields(sequenceType, 'treatmentsLevels');
-  };
-
   done = (value) => {
-    const { area, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
+    const { areaIds, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
     const result = {
-      rule   : rules[0],
-      key    : questionKey,
-      area_id: area ? area.value : null,
-      title  : questionTitle,
-      package: treatmentsPackage.id,
-      level  : treatmentsLevels,
+      areaIds,
+      rule              : rules[0],
+      key               : questionKey,
+      title             : questionTitle,
+
+      package_level_id  : treatmentsLevels,
+      package_id        : treatmentsPackage.id,
+
+      package: {
+        package_id: treatmentsPackage.id,
+        package_level_id: treatmentsLevels
+      }
     };
+
+    const _result = this.props.routeParams.id ? Object.assign({}, result, {id: this.props.routeParams.id}) : result;
 
     submitTabs(
       'diagnostics',
       'treatments',
-      result,
+      _result,
       '/matrix-setup/treatments',
       this.props.routeParams.id
     );
@@ -108,10 +91,11 @@ class CreateTreatmentsComponent extends Component {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
         questionTitle,
-        area,
+        areaIds,
         questionKey,
         treatmentsLevels,
-        treatmentsPackage
+        treatmentsPackage,
+        levelsList
       },
       routeParams: { id },
       commonReducer: {
@@ -169,7 +153,7 @@ class CreateTreatmentsComponent extends Component {
                   <AsyncAreaSelect
                     domain="diagnostics"
                     path="findArea"
-                    valuePath="area"
+                    valuePath="areaIds"
                     idKey="create_treatment_question"
                   />
                 </Grid>
@@ -186,61 +170,19 @@ class CreateTreatmentsComponent extends Component {
 
 
               {/*Package and Start level*/}
-              <Grid container className="row-item">
-                <Grid item md={6} sm={12}>
-                  <Typography
-                    type="caption"
-                    gutterBottom
-                    className="custom-select-title">
-                    Package
-                  </Typography>
-
-                  <Async
-                    name='package'
-                    id='package'
-                    loadOptions={this.getPackageOptions}
-                    onChange={this.onPackageChange}
-                    placeholder={'Select package'}
-                    value={treatmentsPackage}
-                    clearable={false}
-                  />
-                </Grid>
-                <Grid item md={6} sm={12}>
-                  <Typography
-                    type="caption"
-                    gutterBottom
-                    className="custom-select-title"
-                    style={{marginBottom:'8px'}}
-                  >
-                    Start from level
-                  </Typography>
-                  <Select
-                    value={treatmentsLevels}
-                    onChange={this.handleLevelsChange}
-                    disabled={!this.state.treatmentsLevels.length}
-                    MenuProps={{PaperProps:{style:{width: 400}}}}
-                  >
-                    {this.state.treatmentsLevels.map((item, index) => (
-                      <MenuItem
-                        key={item.value}
-                        value={item.value}
-                        style={{
-                          fontWeight:this.state.treatmentsLevels.indexOf(item.value) !== -1 ? '500' : '400',
-                        }}
-                      >
-                        {item.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </Grid>
-              </Grid>
+              <TreatmentPackageLevel
+                packageItem={treatmentsPackage}
+                levelItem={treatmentsLevels}
+                area={areaIds}
+                levelsList={levelsList || []}
+              />
 
             </div>
             <div className="rules">
               <DiagnosisRulesComponent
                 page="treatments"
                 type="diagnostic"
-                area={area}
+                area={areaIds}
                 step={null}
                 showTitle={true}
               />

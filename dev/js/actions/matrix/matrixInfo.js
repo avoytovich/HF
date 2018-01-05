@@ -66,14 +66,14 @@ export const deactivateItem = (domenKey, apiKey, ids) => {
 export const activateCustomer = (domenKey, apiKey, ids) => {
   const domenPath = domen[domenKey],
     apiPath   = api[apiKey],
-    apiList   = ids.map(item => Api.post(`${domenPath}${apiPath}/${item.id}/activate`, {customer_id: item.id}));
+    apiList   = ids.map(item => Api.post(`${domenPath}${apiPath}${item.id}/activate`, {customer_id: item.id}));
   return Promise.all(apiList).then(res => res)
 };
 
-export const activateUser = (domenKey, apiKey, ids) => {
+export const activateUser = (domenKey, apiKey, ids, value) => {
   const domenPath = domen[domenKey],
     apiPath   = api[apiKey],
-    apiList   = ids.map(item => Api.post(`${domenPath}${apiPath}${item.user_id}/activate`, {user_id: item.id}));
+    apiList   = ids.map(item => Api.post(`${domenPath}${apiPath}${item.user_id}/${value}`, {user_id: item.id}));
   return Promise.all(apiList).then(res => res)
 };
 
@@ -151,7 +151,7 @@ export const getPackagenById = (domenKey, apiKey, id, do_not_set) => {
             payload: { body: {...data }}
           }
         );
-        return data.packageLevels;
+        return data;//.packageLevels;
       }
 
     }
@@ -176,6 +176,24 @@ export const getTreatmentById = (domenKey, apiKey, id) => {
   });
 };
 
+export const getBodyAreaById = (domenKey, apiKey, id) => {
+  const domenPath = domen[domenKey],
+    apiPath   = api[apiKey];
+  return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
+    if (res) {
+      const { data } = res.data;
+      const body = {...data};
+      store.dispatch(
+        {
+          type:`${CREATE_QUESTION}_SET_BODY_AREA`,
+          payload: { body }
+        }
+      );
+      return data;
+    }
+  });
+};
+
 export const findArea = (domenKey, apiKey) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
@@ -185,7 +203,7 @@ export const findArea = (domenKey, apiKey) => {
 export const findPackage = (domenKey, apiKey, input, area) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
-  const body = { area_id: area || null, title: input };
+  const body = { areaIds: area || [], title: input };
 
   return Api.post(`${domenPath}${apiPath}`, body, {showErrNotif: false});
 };

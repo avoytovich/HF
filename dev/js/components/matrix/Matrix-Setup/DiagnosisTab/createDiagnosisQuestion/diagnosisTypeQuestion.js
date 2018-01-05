@@ -19,6 +19,7 @@ import {
 import SequenceBlock                from './sequenceBlock';
 import DiagnosticQuestion           from './diagnosticQuestion';
 import DiagnosticAnswers            from './diagnosticAnswers';
+import PackageLevelsList            from '../../EvaluationTab/createEvaluationQuestion/PackageLevelsList'
 // UI
 import Grid                         from 'material-ui/Grid';
 import Typography                   from 'material-ui/Typography';
@@ -40,9 +41,10 @@ class DiagnosisTypeQuestion extends Component {
       sequenceList,
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle, area, question, questionKey, sequence, sequenceType, answerType, content_type,
+        questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type,
         diagnostic_assets
-      }
+      },
+      page, reqType, packages, packageLevels
     } = this.props;
 
     return <BlockDivider title="Question">
@@ -94,7 +96,7 @@ class DiagnosisTypeQuestion extends Component {
             <AsyncAreaSelect
               domain="diagnostics"
               path="findArea"
-              valuePath="area"
+              valuePath="areaIds"
               idKey="create_diagnostic_question"
             />
           </Grid>
@@ -138,6 +140,23 @@ class DiagnosisTypeQuestion extends Component {
           answerType={answerType}
           typePath="answerType"
         />
+
+
+
+
+        {/*Package and Start level*/}
+        { false && packages && <div style={{display: 'flex', flexDirection: 'column'}}>
+          {/* Answers */}
+          <Grid className="title answer">
+            <Typography type="title"
+                        gutterBottom>
+              Packages & Levels
+            </Typography>
+          </Grid>
+
+          <PackageLevelsList packageLevels={packageLevels || []}
+                             areaIds={areaIds}/>
+        </div>}
       </div>
 
       <div className="rules">
@@ -156,9 +175,9 @@ class DiagnosisTypeQuestion extends Component {
         }
 
         <DiagnosisRulesComponent
-          type="diagnostic"
-          page="diagnostic"
-          area={area}
+          type={reqType || "diagnostic"}
+          page={page || 'diagnostic'}
+          area={areaIds}
           step={sequence}
         />
       </div>

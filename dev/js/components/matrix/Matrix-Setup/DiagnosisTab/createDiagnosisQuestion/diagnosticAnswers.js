@@ -34,7 +34,12 @@ const ANSWER_TYPE = [
 ];
 
 class DiagnosticAnswers extends Component {
-  state = { answerLang: [ 'en', 'en' ] };
+  state = { answerLang: ['en', 'en'] };
+
+  componentDidMount() {
+    const answerLang = this.props.store.multiple.map(() => 'en');
+    this.setState({answerLang});
+  }
 
   addAnswer = (value) => {
     const inState = this.state.answerLang;
@@ -49,7 +54,7 @@ class DiagnosticAnswers extends Component {
 
       return el ;
     });
-    this.setState({ answerLang: _value });
+    this.setState({ answerLang: _value || 'en'});
   };
 
   answers = (type) => {
@@ -59,12 +64,13 @@ class DiagnosticAnswers extends Component {
     switch (type) {
       case 'single'  :
       case 'multiple':
-        const list = type === 'single' ? single : multiple;
 
+
+        const list = type === 'single' ? single : multiple;
         return <div className="answer-wrap">
           <ol style={{width: '100%'}}>
-            {list.map((answer, index) => (
-              <li  key={index} className="row-item">
+            {list.map((answer, index) => {
+              return <li  key={index} className="row-item">
                 <div className="answer-item">
                   <Input
                     id={`${type}[${index}][${answerLang[index]}]`}
@@ -84,7 +90,7 @@ class DiagnosticAnswers extends Component {
                   <Tab label="English" value="en"/>
                   <Tab label="Sweden"  value="swe" />
                 </Tabs>
-              </li>))}
+              </li>})}
           </ol>
           <div className="add-answer"
                onClick={() => this.addAnswer(type)}>

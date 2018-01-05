@@ -46,12 +46,13 @@ class RulesItemComponent extends Component {
   delete = (path, type) => deleteRules(path, type);
 
   checkTypes = () => {
-    const { reqType, area, step, type, path } = this.props;
+    const { reqType, area, step, type, path, page } = this.props;
     const _props = {
-      area: area ? area.value : 0,
+      areaIds: area || [],
       type: reqType,
       step: step,
-      path,
+      path, page,
+      reqType: page === 'evaluations' ? 'evaluations' : 'diagnostics',
       pathType: type
     };
 

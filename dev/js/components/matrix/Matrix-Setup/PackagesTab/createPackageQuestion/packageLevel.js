@@ -8,6 +8,7 @@ import { diagnosisQuestionCreate,
   findUniqueKey,
   updateQuestionCreate,
   getPackagenById,
+  deletePackageLevel
 }                                   from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -44,6 +45,11 @@ class PackageLevelComponent extends Component {
 
   openChooseExercises = (chooseExercises) => this.setState({ chooseExercises });
 
+  deleteLevel = ({id}, index) => {
+    deletePackageLevel(id, index);
+    this.props.changeTab();
+  };
+
   render() {
     const {
       createDiagnosisQuestion,
@@ -59,10 +65,10 @@ class PackageLevelComponent extends Component {
         currentLanguage: { L_CREATE_QUESTION },
       },
       index,
+      level,
+      therapy_continuity,
+      exercise_ids
     } = this.props;
-
-    const therapy_continuity = packageLevels[index].therapy_continuity;
-    const exercise_ids       = packageLevels[index].exercise_ids;
 
     return <div>
       <Grid container className="row-item">
@@ -71,7 +77,7 @@ class PackageLevelComponent extends Component {
             VAS, %
           </Typography>
           <Input
-            id={`packageLevels[${index}].level_up_origin.vas`}
+            id={`packageLevels[${index}].level_up_properties.vas`}
             type='number'
             max="100"
             min="1"
@@ -85,7 +91,7 @@ class PackageLevelComponent extends Component {
             VAS, min
           </Typography>
           <Input
-            id={`packageLevels[${index}].level_up_origin.vas_min`}
+            id={`packageLevels[${index}].level_up_properties.vas_min`}
             type='number'
             max="100"
             min="1"
@@ -99,7 +105,7 @@ class PackageLevelComponent extends Component {
             Sessions
           </Typography>
           <Input
-            id={`packageLevels[${index}].level_up_origin.sessions`}
+            id={`packageLevels[${index}].level_up_properties.sessions`}
             type='number'
             min="1"
             reducer={this.props.createDiagnosisQuestion}
@@ -143,9 +149,13 @@ class PackageLevelComponent extends Component {
 
         <PackageExercises exercises={exercise_ids} level={index}/>
 
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{display: 'flex', justifyContent: 'space-between'}}>
           <Button color="primary" onClick={() => this.openChooseExercises(true)}>
             OPEN EXERCISES
+          </Button>
+
+          <Button color="primary" onClick={() => this.deleteLevel(level, index)}>
+            DELETE LEVEL
           </Button>
 
           {this.state.chooseExercises &&

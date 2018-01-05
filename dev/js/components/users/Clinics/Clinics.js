@@ -20,6 +20,7 @@ const userInfo = {
   backButton : '/clinics',
   userType : 'clinic',
   tarrifId : '2',
+  actionType : 'create',
 }
 
 class Clinics extends Component {
@@ -62,20 +63,12 @@ class Clinics extends Component {
   };
 
   _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
-  updateModal = (key, value) => {
-    console.log(key, value)
-    this.setState({ [key]: value });
 
-    if (!value) this.setState({ selected: [] });
-  };
 
   _activateItems=(selected)=>{
-    console.log(selected)
-    activateCustomer('users', 'userProfile', selected)
-      .then(() => console.log('sussecc'))
+    activateCustomer('users', 'customers', selected)
+      .then(() => browserHistory.push(`/clinics`))
     this.setState({ showActivateModal: !this.state.showActivateModal, selected: [], })
-    // getMatrixInfo(domen, path, this.props.query, path)
-    //   .then(() => this.props.open(this.props.typeKey, false)))
   }
 
   render() {
@@ -91,7 +84,7 @@ class Clinics extends Component {
           domen="diagnostics"
           typeKey="deactivateOpen"
           list={selected}
-          title="Activate this Companies"
+          title="Activate this Clinics"
           deactivateOpen={showActivateModal}
           open={this._toggleActivateModal}
           itemKey="name"
@@ -106,11 +99,6 @@ class Clinics extends Component {
           createItem={this.createEntity}
           createButtonText="Add">
 
-          {/*<Button raised dense*/}
-                  {/*onClick={() => this.updateModal('deleteOpen', true)}>*/}
-            {/*<Delete />*/}
-            {/*Delete*/}
-          {/*</Button>*/}
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
             Activate

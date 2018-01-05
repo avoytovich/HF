@@ -22,17 +22,27 @@ const diagnosticTab = {
   rules: [],
 };
 
+const bodyAreaTab = {
+  description      : '',
+  key   : '',
+  title  : '',
+};
+
 const conditionTab = {};
 
 const treatmentTab = {
-  treatmentsLevels: '',
   treatmentsPackage: '',
+  treatmentsLevels: ''
 };
 
 const packageTab = {
   packageType: 'symptomatic',
   therapyContinuity: '1',
-  packageLevels: [],
+  packageLevels: []
+};
+
+const levelUp = {
+  packageLevels: []
 };
 
 const exerciseTab = {
@@ -46,13 +56,15 @@ const exerciseTab = {
 export  default {
   actionType    : CREATE_QUESTION,
   errors: {},
-
-  page: null,
-  area          : { label: 'All', value: null, id: null },
+  page          : null,
+  areas         : [],
+  areaIds       : [],
 
   ...diagnosticTab,
   ...conditionTab,
   ...treatmentTab,
   ...packageTab,
+  ...levelUp,
   ...exerciseTab,
+  ...bodyAreaTab,
 };

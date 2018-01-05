@@ -1,22 +1,20 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { CLINICS_USERS_TAB }              from '../../../utils/constants/pageContent';
+import { CLINICS_USERS_TAB }    from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal'
-// import DeleteComponent          from '../../../matrix-crud/deleteModal';
-import { activateUser,
-  getMatrixInfo }      from '../../../actions';
-
-import { PAGE } from '../../../config';
+import { activateUser }         from '../../../actions';
+import ActivateIcon             from 'material-ui-icons/Check';
+import DeactivateIcon           from 'material-ui-icons/NotInterested';
 
 class ClinicsUsers extends Component {
   state = {
     selected: [],
     showActivateModal:false,
-    deleteOpen: false
+    showDeactivateModal:false,
   };
 
   onRowClick = (selected = []) => this.setState({selected});
@@ -30,27 +28,23 @@ class ClinicsUsers extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
-  _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
-  updateModal = (key, value) => {
-    console.log(key, value)
-    this.setState({ [key]: value });
-
-    if (!value) this.setState({ selected: [] });
+  _toggleActivateModal = (data) => {
+    data==='activate'?(this.setState({ showActivateModal: !this.state.showActivateModal })):
+      (this.setState({ showDeactivateModal: !this.state.showDeactivateModal }))
   };
 
-  _activateItems=(selected)=>{
-    console.log(selected)
-    activateUser('users', 'userProfile', selected)
-      .then(() => console.log('sussecc'))
-    this.setState({ showActivateModal: !this.state.showActivateModal,selected: [],})
-    // getMatrixInfo(domen, path, this.props.query, path)
-    //   .then(() => this.props.open(this.props.typeKey, false)))
-  }
+  _activateItems = (selected, action) => {
+    activateUser('users', 'userProfile', selected, action)
+      .then(() => browserHistory.push(`/users-clinics`))
+    this._toggleActivateModal(action);
+    this.setState({ selected: []})
+
+  };
 
 
   render() {
     const { tableHeader } = CLINICS_USERS_TAB;
-    const { selected, showActivateModal } = this.state;
+    const { selected, showActivateModal,  showDeactivateModal} = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'clinic'}};
     return (
       <div id="diagnosis-component">
@@ -63,12 +57,27 @@ class ClinicsUsers extends Component {
           list={selected}
           title="Activate this Users"
           deactivateOpen={showActivateModal}
-          open={this._toggleActivateModal}
-          itemKey="customer_name"
+          open={()=>this._toggleActivateModal('activate')}
+          itemKey="user_id"
           query={this.props.location.query}
-          onSubmit={this._activateItems}
+          onSubmit={()=>this._activateItems(selected, 'activate')}
           onSubmitTitle = "Activate"
         />
+
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="users"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Deactivate this Users"
+          deactivateOpen={showDeactivateModal}
+          open={()=>this._toggleActivateModal('deactivate')}
+          itemKey="user_id"
+          query={this.props.location.query}
+          onSubmit={()=>this._activateItems(selected, 'deactivate')}
+        />
+
 
         <TableControls
           path="users"
@@ -77,14 +86,13 @@ class ClinicsUsers extends Component {
           createButtonText="Add"
         >
 
-          {/*<Button raised dense*/}
-                  {/*onClick={() => this.updateModal('deleteOpen', true)}>*/}
-            {/*<Delete />*/}
-            {/*Delete*/}
-          {/*</Button>*/}
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
-            Activate
+            <ActivateIcon/>Activate
+          </Button>
+          <Button raised dense
+                  onClick={() => this.updateModal('showDeactivateModal', true)}>
+           <DeactivateIcon/> Deactivate
           </Button>
 
         </TableControls>
@@ -100,6 +108,7 @@ class ClinicsUsers extends Component {
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
         />
+
       </div>
     )
   }

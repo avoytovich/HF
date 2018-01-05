@@ -122,12 +122,11 @@ class CreateQuestionComponent extends Component {
 
 
   configureQuestionResult = (value, optional) => {
-    const { area, answerType, rules, diagnostic_assets } = value,
+    const { areaIds, answerType, rules, diagnostic_assets } = value,
           { type, subtype } = this.getAnswerType(answerType),
           moreProps = optional ? { test_file_id: get(diagnostic_assets, 'id') || null } : {};
-
     return {
-      area_id : area.value || null,
+      areaIds : areaIds,
       answer: {
         type, subtype,
         values: this.getAnswer(answerType, value)

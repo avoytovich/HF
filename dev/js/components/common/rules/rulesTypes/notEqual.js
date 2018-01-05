@@ -63,6 +63,7 @@ class NotEqualComponent extends Component {
           >
             {this.state.answers.map((option, index) =>
               (<MenuItem key={index}
+                         clasName="CMuiInput"
                          value={option.label }>
                 {option.label}.{option.value}
               </MenuItem>))}

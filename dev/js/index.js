@@ -71,7 +71,7 @@ const router = (
 
             <Route path={PAGE.assets}             component={C.AssetsComponent} >
                 <IndexRedirect to={PAGE.assetsDiagnostics}/>
-                <Route path={PAGE.assetsExercises} component={(props) => <C.AssetsList {...props}/>}/>
+                <Route path={PAGE.assetsExercises} component={(props) => <C.AssetsExercisesList {...props}/>}/>
                 <Route path={PAGE.assetsDiagnostics } component={(props) => <C.AssetsDiagnosticsList {...props}/>}/>
             </Route>
 
@@ -91,7 +91,7 @@ const router = (
               <Route path='conditions' component={(props) => <C.ConditionsComponent {...props}/>}/>
               <Route path='treatments' component={(props) => <C.TreatmentsComponent {...props}/>}/>
               <Route path='packages' component={(props) => <C.PackagesComponent   {...props}/>}/>
-              <Route path='evaluations' component={(props) => <C.EvaluationComponent {...props} />}/>
+              <Route path='levelUps' component={(props) => <C.EvaluationComponent {...props} />}/>
               <Route path='exercises' component={(props) => <C.ExercisesComponent  {...props}/>}/>
 
               {/*<Route path='tests'               component={ TestsComponent } />*/}
@@ -113,8 +113,8 @@ const router = (
             <Route path='treatments-create/:id' component={(props) => <C.CreateTreatmentsComponent {...props}/>}/>
             <Route path='treatments-create-new' component={(props) => <C.CreateTreatmentsComponent {...props}/>}/>
 
-            <Route path='evaluations-create/:id' component={(props) => <C.CreateEvaluationComponent {...props}/>}/>
-            <Route path='evaluations-create-new' component={(props) => <C.CreateEvaluationComponent {...props}/>}/>
+            <Route path='level-up-create/:id' component={(props) => <C.CreateEvaluationComponent {...props}/>}/>
+            <Route path='level-up-create-new' component={(props) => <C.CreateEvaluationComponent {...props}/>}/>
 
             <Route path='packages-create/:id' component={(props) => <C.CreatePackageComponent {...props}/>}/>
             <Route path='packages-create-new' component={(props) => <C.CreatePackageComponent {...props}/>}/>

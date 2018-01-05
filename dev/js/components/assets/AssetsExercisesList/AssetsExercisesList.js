@@ -23,7 +23,7 @@ import {
 } from '../../../actions';
 
 const domen = 'exercises';
-const path  = 'assets';
+const path  = 'assetsExercises';
 
 class AssetsList extends Component {
   state = {
@@ -49,7 +49,7 @@ class AssetsList extends Component {
   };
 
   _tableCellPropsFunc = (row, col) => {
-    if (col.key === 'name_real') {
+    if (col.key === 'name') {
       return {
         onClick: (e) => {
           console.log(row);
@@ -73,6 +73,7 @@ class AssetsList extends Component {
   _toggleEditModal = () => this.setState({ showEditModal: !this.state.showEditModal });
 
   render() {
+    console.log(this.props);
     const { tableHeader } = ASSETS_TAB;
     const {
       selected,
@@ -102,6 +103,7 @@ class AssetsList extends Component {
         </TableControls>
 
         <TableComponent
+          location={this.props.location}
           path={path}
           domen={domen}
           tableHeader={ tableHeader }
@@ -110,6 +112,7 @@ class AssetsList extends Component {
           onSelectAllClick={this._onSelectAllClick}
           CellContent={() => <ModeEdit className="assets-edit-icon" />}
           tableCellPropsFunc={this._tableCellPropsFunc}
+          query={this.props.location.query}
         />
 
         <Modal
@@ -126,7 +129,7 @@ class AssetsList extends Component {
           open={showUploadModal}
           showControls={false}
           toggleModal={this._toggleUpdateModal}
-          CustomContent={() => <Upload type="exercises" toggleModal={this._toggleUpdateModal} />}
+          CustomContent={() => <Upload type="exercises" folder="generateExercises" toggleModal={this._toggleUpdateModal} />}
         />
 
         <Modal

@@ -8,12 +8,12 @@ import { withStyles } from 'material-ui/styles';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
 const TABS = [
-  { label: 'Pain area',  url: 'body-area'   },
+  { label: 'Pain areas',  url: 'body-area'   },
   { label: 'Diagnosis',  url: 'diagnosis'   },
   { label: 'Conditions', url: 'conditions'  },
   { label: 'Treatments', url: 'treatments'  },
   { label: 'Packages',   url: 'packages'    },
-  { label: 'Level Up',   url: 'evaluations' },
+  { label: 'Level Up',   url: 'levelUps'    },
   { label: 'Exercises',  url: 'exercises'   }
 ];
 

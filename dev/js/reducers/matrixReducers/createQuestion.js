@@ -113,11 +113,12 @@ const removeAnswer = (state, action) => {
 };
 
 const setFullQuestion = (state, action) => {
-  const { body: { area_id, area, title, question, key, step, answer, rule, content_type, test_file }} = action.payload;
+  const { body: { areas, title, question, key, step, answer, rule, content_type, test_file, packageLevels }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
+
   const _body = {
-      area: configArea(area_id, area),
+      areaIds: configArea(areas),
       questionTitle: title,
       question,
       content_type,
@@ -126,19 +127,39 @@ const setFullQuestion = (state, action) => {
       answerType: _type,
       rules: Array.isArray(rule) ? rule : [ rule ],
       [_type]: parseAnswers(answer),
-//      sequenceType: null,
-      diagnostic_assets: test_file ||  []
+      diagnostic_assets: test_file ||  [],
+      packageLevels: packageLevels || []
     };
   return Object.assign({}, state, _body);
 };
 
 const setFullQuestionForCondition = (state, action) => {
-  const { body, body: { area_id, area, title, key, rule, package_level_id}} = action.payload;
+  const { body, body: { areas, title, key, rule, package_level_id}} = action.payload;
   const _body = {
-    area: configArea(area_id, area),
+    areaIds: configArea(areas),
     questionTitle: title,
     questionKey: key,
     rules: Array.isArray(rule) ? rule : [ rule ],
+  };
+
+  const res = body.package ?
+    {..._body,
+      treatmentsLevels: body.package.package_level_id,
+      treatmentsPackage:{
+        label: body.package.package_id,
+        value: body.package.package_id
+      }
+    } : _body;
+  return Object.assign({}, state, res);
+};
+
+const setFullBodyAreaEdit = (state, action) => {
+  console.log(state, action)
+  const { body, body: {title, key, description}} = action.payload;
+  const _body = {
+    title: title,
+    key: key,
+    description: description,
   };
   const res = body.package ?
     {..._body,
@@ -148,9 +169,9 @@ const setFullQuestionForCondition = (state, action) => {
 };
 
 const setFullQuestionForPackage = (state, action) => {
-  const { body: { area_id, area, title, key, packageLevels }} = action.payload;
+  const { body: {areas, title, key, packageLevels }} = action.payload;
   const _body = {
-    area: configArea(area_id, area),
+    areaIds: configArea(areas.data),
     questionTitle: title,
     questionKey: key,
     packageLevels: packageLevels.data
@@ -181,10 +202,19 @@ const parseAnswers= (answer) => {
   }
 };
 
-const configArea = (id, area) => {
-  if (id) return { value: area.id, label: area.title, key: area.key };
+const configArea = (areas) => {
+  return areas.map(el => el && el.id);
+//  if (id) return { value: area.id, label: area.title, key: area.key };
+//
+//  return { value: null, label: 'All', key: null };
+};
 
-  return { value: null, label: 'All', key: null };
+const deletePackageLevel = (state, action) => {
+  const { id, index } = action.payload;
+  return dotProp.set(
+    state,
+    'packageLevels',
+    list => list.filter((item, i) =>  id ? item.id !== id : index !== i));
 };
 
 export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
@@ -201,5 +231,6 @@ export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
   [`${CREATE_QUESTION}_SET_COND_QUESTION`]    : setFullQuestionForCondition,
   [`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`] : setFullQuestionForPackage,
   [`${CREATE_QUESTION}_CLEAR_STATE`]          : clearAll,
-
+  [`${CREATE_QUESTION}_DELETE_PACKAGE_LEVEL`] : deletePackageLevel,
+  [`${CREATE_QUESTION}_SET_BODY_AREA`]        : setFullBodyAreaEdit,
 });

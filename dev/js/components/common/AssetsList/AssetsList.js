@@ -35,6 +35,7 @@ class AssetsList extends Component {
   };
 
   render() {
+    console.log('list')
     const { title, list, multiSelect, valuePath, path, domain, listValue } = this.props;
     const { chooseFiles } = this.state;
 

@@ -68,5 +68,13 @@ export const removeAnswer = (type, index) =>
     }
   );
 
+export const deletePackageLevel = (id, index) =>
+  store.dispatch(
+    {
+      type:`${CREATE_QUESTION}_DELETE_PACKAGE_LEVEL`,
+      payload: { id, index }
+    }
+  );
+
 
 

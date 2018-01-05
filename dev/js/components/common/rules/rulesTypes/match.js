@@ -67,6 +67,7 @@ class MatchComponent extends Component {
         >
           {SYMBOLS.map((option, index) =>
             (<MenuItem key={index}
+                       clasName="CMuiInput"
                        value={option.value}>
               {option.label}
             </MenuItem>))}
@@ -92,6 +93,7 @@ class MatchComponent extends Component {
           >
             {this.state.answers.map((option, index) =>
               (<MenuItem key={index}
+                         clasName="CMuiInput"
                          value={option.label }>
                 {option.label}.{option.value}
               </MenuItem>))}
