@@ -133,12 +133,12 @@ class CreateUser extends Component {
               return(
                 <div key={index} className="create-user-input-container">
                  <div className="delete-item-container">
-                   <Input id={'contact_info.contacts.'+index+'.name'} reducer={createUsersReducers} label='Name' placeholder='Name'/>
+                   <Input id={`contact_info.contacts[${index}].name`} reducer={createUsersReducers} label='Name' placeholder='Name'/>
                    <DeleteIcon onClick = {()=>this._deleteContact(index, createUsersReducers.contact_info.contacts)}/>
                  </div>
-                  <Input id={'contact_info.contacts.'+index+'.surname'} reducer={createUsersReducers} label='Surname' placeholder='Surname'/>
-                  <Input id={'contact_info.contacts.'+index+ '.email'} reducer={createUsersReducers} label='Email' placeholder='Email'/>
-                  <Input id={'contact_info.contacts.'+index+'.phone'} reducer={createUsersReducers} label='Phone' placeholder='Phone'/>
+                  <Input id={`contact_info.contacts[${index}].surname`} reducer={createUsersReducers} label='Surname' placeholder='Surname'/>
+                  <Input id={`contact_info.contacts[${index}].email`} reducer={createUsersReducers} label='Email' placeholder='Email'/>
+                  <Input id={`contact_info.contacts[${index}].phone`} reducer={createUsersReducers} label='Phone' placeholder='Phone'/>
                 </div>
               )
             })}

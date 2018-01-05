@@ -25,7 +25,7 @@ class Upload extends Component {
     dispatchAssetsPayload({ tmp_files });
     if (acceptedF.length) {
       acceptedF.map((file, i) => {
-        getS3Link(file.name.split('.').pop())
+        getS3Link(file.name.split('.').pop(), this.props.folder)
           .then((res) => getBase64Promise(file)
             .then(reader => {
               console.log(reader)

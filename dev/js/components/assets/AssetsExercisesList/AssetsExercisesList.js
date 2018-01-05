@@ -129,7 +129,7 @@ class AssetsList extends Component {
           open={showUploadModal}
           showControls={false}
           toggleModal={this._toggleUpdateModal}
-          CustomContent={() => <Upload type="exercises" toggleModal={this._toggleUpdateModal} />}
+          CustomContent={() => <Upload type="exercises" folder="generateExercises" toggleModal={this._toggleUpdateModal} />}
         />
 
         <Modal
