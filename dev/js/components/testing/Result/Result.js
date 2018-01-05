@@ -16,7 +16,7 @@ class Result extends Component {
       case 'condition':
         return <div>
           <p>{ condition.title }</p>
-          <p> PLease contact your doctor for further diagnostic.</p>
+          <p> Please contact your doctor for further diagnostic.</p>
         </div>;
 
       case 'question':
