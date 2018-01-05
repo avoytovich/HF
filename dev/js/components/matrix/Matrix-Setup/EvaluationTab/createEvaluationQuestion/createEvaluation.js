@@ -103,7 +103,7 @@ class CreateEvaluationComponent extends Component {
       this.configureQuestionResult(value, content_type === 'functionalTest') : {};
 
     const result = {
-      type : 'evaluations',
+      type : 'evaluation',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
       title: questionTitle,
@@ -115,7 +115,7 @@ class CreateEvaluationComponent extends Component {
 
     submitTabs(
       'diagnostics',
-      'evaluations',
+      'createQuestion',
       result,
       '/matrix-setup/evaluations',
       this.props.routeParams.id
@@ -134,13 +134,17 @@ class CreateEvaluationComponent extends Component {
         values: this.getAnswer(answerType, value)
       },
       rule: rules[0],
-      package_level_id  : 3,
-      package_id        : 23,
+      packages: [
+        {
+          package_level_id  : 3,
+          package_id        : 23,
 
-      package: {
-        package_id: 23,
-        package_level_id: 3,
-      },
+          package: {
+            package_id: 23,
+            package_level_id: 3,
+          },
+        }
+      ],
       ...moreProps
     };
   };
