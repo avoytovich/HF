@@ -127,6 +127,7 @@ class CreateUser extends Component {
             </div>
           </div>
 
+          <div className="create-user-container">
           <div className="create-user-contacts-container">
             <h3 className="create-user-title">Contact Persons</h3>
             {map(createUsersReducers.contact_info.contacts, (el,index) => {
@@ -143,6 +144,10 @@ class CreateUser extends Component {
               )
             })}
             <div className="add-contact-person" onClick = {()=>this._addContact(createUsersReducers.contact_info.contacts)}><span>+</span> ADD CONTACT PERSON </div>
+          </div>
+            <div className="create-user-contacts-container">
+              <h3 className="create-user-title"/>
+            </div>
           </div>
         </div>
       </div>
