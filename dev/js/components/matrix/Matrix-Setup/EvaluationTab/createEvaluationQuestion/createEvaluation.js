@@ -191,7 +191,6 @@ class CreateEvaluationComponent extends Component {
               page='evaluations'
               packages={true}
               sequenceList={this.state.sequenceList}/>
-
         }
       </div>
     )
