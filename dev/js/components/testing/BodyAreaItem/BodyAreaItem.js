@@ -21,18 +21,18 @@ class BodyAreaItem extends Component {
           <Grid item xs={6}>
             <C.Select
               options={diagnosConsts.painType}
-              id={`vas_pain_type_area_${id}`}
+              id='vas_pain_type_area_'
               style={{ width: "100%" }}
               reducer={reducer}
-              label={`Pain type (${title})`}
+              label='Pain type'
             />
           </Grid>
           <Grid item xs={6}>
             <div style={{ display: 'inline-flex', alignSelf: 'flex-end'  }}>
               <C.Range
                 reducer={reducer}
-                id={id}
-                label={title}
+                id='vas_pain_level_area_'
+                label='Pain Level'
               />
             </div>
           </Grid>

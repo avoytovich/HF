@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import {
@@ -6,9 +8,6 @@ import {
   FormControl,
 } from 'material-ui/Form';
 
-import {
-  dispatchTestingPayloadWired,
-} from '../../../actions'
 import Input from '../../common/Input/Input'
 
 class Range extends Component {
@@ -16,30 +15,22 @@ class Range extends Component {
     const {
       reducer,
       id,
-      label = 'Label',
-      range: {
-        max,
-        min,
-      },
+      label,
+      range,
+      onChangeCustom,
     } = this.props;
-    const value = get(reducer, `${id}.value`, 0);
+    const value = get(reducer, id, 0);
     return (
       <FormControl component="fieldset">
         <FormLabel component="legend">{label}</FormLabel>
         <div className="range-input-wrapper">
           <Input
             type="range"
-            onCustomChange={({ target: { value }}) => {
-              const valueWithinRange = Math.ceil((value / 100) * (+max - +min)) + +min;
-              dispatchTestingPayloadWired({
-                [`${id}.type`]       : 'single',
-                [`${id}.value`]      : valueWithinRange,
-                [`${id}.valueOrigin`]: value,
-              })
-            }}
             style={{ width: '100%' }}
-            id={`${id}.valueOrigin`}
+            id={id}
+            onChangeCustom={onChangeCustom}
             reducer={reducer}
+            {...range}
           />
           <span className="range-input-value-indicator"> { value } </span>
         </div>
@@ -52,10 +43,19 @@ Range.propTypes = {
   id: PropTypes.string.isRequired,
   reducer: PropTypes.object.isRequired,
   label: PropTypes.string,
+  onChangeCustom: PropTypes.func,
 };
 
 Range.defaultProps = {
   range: { min: 0, max: 100 },
-}
+  label: 'Label',
+};
 
-export default Range;
+const mapStateToProps = state => ({
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Range);

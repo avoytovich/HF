@@ -48,6 +48,8 @@ export const api = {
   getPackageByArea    : '/packages/get/area',
   treatmentsFindArea  : '/matrix/treatments/find/area',
   generate            : '/dev/exercises/files/url/generate',
+  generateExercises   : '/dev/exercises/files/url/generate',
+  generateDiagnostics : '/dev/diagnostics/files/url/generate',
   assets              : '/files',
   assetsExercises     : '/files',
   assetsDiagnostics   : '/files',
@@ -62,6 +64,7 @@ export const api = {
   test                : '/diagnostics/all/user',
   getExercises        : '/exercises/ids',
   diagnostics         : '/diagnostics',
+  checkQuestion       : '/diagnostics/session',
 };
 
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`

@@ -15,12 +15,12 @@ export const sex = [
 ];
 
 export const painType = [
-  { value: 'stabbing', label:  'Stabbing' },
-  { value: 'aching_dull', label:  'Aching or dull' },
-  { value: 'radiating', label:  'Radiating' },
-  { value: 'nagging', label:  'Nagging' },
-  { value: 'burning', label:  'Burning' },
-  { value: 'other',  label:  'Other' },
+  { value: 1, label: 'Stabbing' },
+  { value: 2, label: 'Aching or dull' },
+  { value: 3, label: 'Radiating' },
+  { value: 4, label: 'Nagging' },
+  { value: 5, label: 'Burning' },
+  { value: 6, label: 'Other' },
 ];
 
 const pregnant = [

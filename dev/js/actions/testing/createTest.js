@@ -6,7 +6,7 @@ import {
   validAssets,
 } from '../../utils';
 import {
-  dispatchAddQuestionsWired,
+  dispatchAddQuestionsAndCondWired,
 } from '../../actions';
 import {
   domen,
@@ -18,8 +18,12 @@ export const createTest = (data) => Api.post(`${domen.diagnostics}${api.diagnost
 
 export const createTestWired = (data) => createTest(data)
   .then(resp => {
-    const questions = get(resp, 'data.data.result.questions', []);
-    dispatchAddQuestionsWired(questions)
+    const questions     = get(resp, 'data.data.result.questions', []);
+    const conditions    = get(resp, 'data.data.result.conditions', {});
+    const step          = get(resp, 'data.data.step');
+    const id            = get(resp, 'data.data.id');
+    const result_status = get(resp, 'data.data.result_status');
+    dispatchAddQuestionsAndCondWired({ questions, conditions, step, id, result_status })
   })
   .catch(err => {
     console.log(err);
