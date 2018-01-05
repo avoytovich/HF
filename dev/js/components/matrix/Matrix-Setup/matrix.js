@@ -13,7 +13,7 @@ const TABS = [
   { label: 'Conditions', url: 'conditions'  },
   { label: 'Treatments', url: 'treatments'  },
   { label: 'Packages',   url: 'packages'    },
-  { label: 'Level Up',   url: 'evaluations' },
+  { label: 'Level Up',   url: 'levelUps'    },
   { label: 'Exercises',  url: 'exercises'   }
 ];
 

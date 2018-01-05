@@ -35,6 +35,10 @@ const packageTab = {
   packageLevels: []
 };
 
+const levelUp = {
+  packageLevels: []
+};
+
 const exerciseTab = {
   exercise: {
     instruction: { swe: '', en: '' },
@@ -54,5 +58,6 @@ export  default {
   ...conditionTab,
   ...treatmentTab,
   ...packageTab,
+  ...levelUp,
   ...exerciseTab,
 };
