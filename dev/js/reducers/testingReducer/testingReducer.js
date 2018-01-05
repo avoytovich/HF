@@ -44,6 +44,7 @@ const testingAddQuestionsAndCond = (state, action) => {
   let step          = action.payload.step;
   let id            = action.payload.id;
   let result_status = action.payload.result_status;
+  let condition     = action.payload.condition;
   each(action.payload.questions, (q, p) => q.step = step);
   each(action.payload.conditions, (c, p) => c.step = step);
   questions      = questions.concat(action.payload.questions);
@@ -53,7 +54,7 @@ const testingAddQuestionsAndCond = (state, action) => {
     }
   });
 
-  return { ...state, questions, conditions, step, testId: id, result_status };
+  return { ...state, questions, conditions, step, testId: id, result_status, condition };
 };
 
 const testingAddMultOption = (state, action) => {
