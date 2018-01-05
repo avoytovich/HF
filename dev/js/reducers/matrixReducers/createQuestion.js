@@ -230,6 +230,6 @@ export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
   [`${CREATE_QUESTION}_SET_COND_QUESTION`]    : setFullQuestionForCondition,
   [`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`] : setFullQuestionForPackage,
   [`${CREATE_QUESTION}_CLEAR_STATE`]          : clearAll,
-  [`${CREATE_QUESTION}_DELETE_PACKAGE_LEVEL`] : deletePackageLevel
+  [`${CREATE_QUESTION}_DELETE_PACKAGE_LEVEL`] : deletePackageLevel,
   [`${CREATE_QUESTION}_SET_BODY_AREA`]        : setFullBodyAreaEdit,
 });

@@ -64,7 +64,6 @@ class CreateBodyAreaComponent extends Component {
       }
     } = this.props;
 
-    console.log(this.props)
     return (
       <div id="create-question">
         <div className="page-sub-header">
