@@ -8,6 +8,7 @@ import { diagnosisQuestionCreate,
   findUniqueKey,
   updateQuestionCreate,
   getPackagenById,
+  deletePackageLevel
 }                                   from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -44,6 +45,11 @@ class PackageLevelComponent extends Component {
 
   openChooseExercises = (chooseExercises) => this.setState({ chooseExercises });
 
+  deleteLevel = ({id}, index) => {
+    deletePackageLevel(id, index);
+    this.props.changeTab();
+  };
+
   render() {
     const {
       createDiagnosisQuestion,
@@ -59,6 +65,7 @@ class PackageLevelComponent extends Component {
         currentLanguage: { L_CREATE_QUESTION },
       },
       index,
+      level
     } = this.props;
 
     const therapy_continuity = packageLevels[index].therapy_continuity;
@@ -143,9 +150,13 @@ class PackageLevelComponent extends Component {
 
         <PackageExercises exercises={exercise_ids} level={index}/>
 
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{display: 'flex', justifyContent: 'space-between'}}>
           <Button color="primary" onClick={() => this.openChooseExercises(true)}>
             OPEN EXERCISES
+          </Button>
+
+          <Button color="primary" onClick={() => this.deleteLevel(level, index)}>
+            DELETE LEVEL
           </Button>
 
           {this.state.chooseExercises &&

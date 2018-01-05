@@ -54,6 +54,8 @@ export const DEFAULT_LEVEL = {
 };
 
 class CreatePackageComponent extends Component {
+  levelList = [];
+
   state = {
     questionType    : 'packages',
     keyIsUniqueError: '',
@@ -68,8 +70,12 @@ class CreatePackageComponent extends Component {
 
   componentWillMount() {
     if (this.props.params.id) {
-      getPackagenById('exercises', 'packages', this.props.params.id).then(() =>
-        browserHistory.push(`/packages-create/${this.props.routeParams.id}?level=${0}`))
+      getPackagenById('exercises', 'packages', this.props.params.id).then(res => {
+//        browserHistory.push(`/packages-create/${this.props.routeParams.id}?level=${0}`)
+        const { packageLevels } = res;
+        this.levelList = packageLevels.data;
+      })
+
     }
     else {
       const newOne = Object.assign({}, DEFAULT_LEVEL);
@@ -78,19 +84,20 @@ class CreatePackageComponent extends Component {
   }
 
   done = (value) => {
-    const { areaIDs, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
+    const { areaIds, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
+
+    const _packageLevels = packageLevels.map((el, index) => {
+      const oldLevel = this.levelList[index];
+      return oldLevel && !el.id ? Object.assign({}, el, {id: oldLevel.id}) : el;
+    });
 
     const result = {
       key      : questionKey,
-      area_id  : null,
+      areaIds  : areaIds,
       title    : questionTitle,
       type     : packageType,
-      package_levels : packageLevels,
-//      id:  this.props.routeParams.id
+      package_levels : _packageLevels,
     };
-
-    debugger;
-
 
     submitTabs(
       'exercises',
@@ -107,6 +114,12 @@ class CreatePackageComponent extends Component {
     this.setState({ tab });
 //    browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${tab}`);
   };
+
+  changeLastSelectedIndex = () => {
+    const currentTab = +this.state.tab;
+    const nextTab = currentTab ? currentTab - 1 : currentTab;
+    this.setState({tab: `${nextTab}`});
+  }
 
   addNewLevel = (oldList) => {
     const newList = oldList.concat({
@@ -190,12 +203,12 @@ class CreatePackageComponent extends Component {
                 />
               </Grid>
               <Grid item md={6} sm={12} >
-                {/*<AsyncAreaSelect*/}
-                  {/*domain="diagnostics"*/}
-                  {/*path="findArea"*/}
-                  {/*valuePath="area"*/}
-                  {/*idKey="create_packages_question"*/}
-                {/*/>*/}
+                <AsyncAreaSelect
+                  domain="diagnostics"
+                  path="findArea"
+                  valuePath="areaIds"
+                  idKey="create_packages_question"
+                />
               </Grid>
             </Grid>
 
@@ -263,23 +276,24 @@ class CreatePackageComponent extends Component {
                 fullWidth
               >
                 {packageLevels.map((item, index) =>
-                  <Tab key={index} label={`Level ${item.level}`}/>)}
+                  <Tab key={index} label={`Level ${index + 1}`}/>)}
               </Tabs>
             </div>
 
-            {packageLevels.map((level, index) =>
-              <div className="tab-item"
-                   key={index}>
+            {packageLevels.map((level, index) => {
+              return <div className="tab-item"
+                          key={index}>
                 {
                   +this.state.tab === index &&
                   <PackageLevelComponent
                     packageId={packageId}
                     index={index}
                     level={level}
+                    changeTab={this.changeLastSelectedIndex}
                   />
                 }
               </div>
-            )}
+            })}
 
           </div>
         </BlockDivider>}

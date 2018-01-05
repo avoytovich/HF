@@ -155,7 +155,7 @@ const setFullQuestionForCondition = (state, action) => {
 const setFullQuestionForPackage = (state, action) => {
   const { body: {areas, title, key, packageLevels }} = action.payload;
   const _body = {
-//    areaIds: configArea(areas),
+    areaIds: configArea(areas.data),
     questionTitle: title,
     questionKey: key,
     packageLevels: packageLevels.data
@@ -193,6 +193,14 @@ const configArea = (areas) => {
 //  return { value: null, label: 'All', key: null };
 };
 
+const deletePackageLevel = (state, action) => {
+  const { id, index } = action.payload;
+  return dotProp.set(
+    state,
+    'packageLevels',
+    list => list.filter((item, i) =>  id ? item.id !== id : index !== i));
+};
+
 export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
   [`${CREATE_QUESTION}_UPDATE`]               : createQuestionUpdate,
   [`${CREATE_QUESTION}_ADD_RULE`]             : createQuestionRules,
@@ -207,5 +215,6 @@ export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
   [`${CREATE_QUESTION}_SET_COND_QUESTION`]    : setFullQuestionForCondition,
   [`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`] : setFullQuestionForPackage,
   [`${CREATE_QUESTION}_CLEAR_STATE`]          : clearAll,
+  [`${CREATE_QUESTION}_DELETE_PACKAGE_LEVEL`] : deletePackageLevel
 
 });
