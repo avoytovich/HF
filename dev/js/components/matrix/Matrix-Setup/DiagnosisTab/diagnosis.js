@@ -90,11 +90,11 @@ class DiagnosisComponent extends Component {
             Deactivate
           </Button>
 
-          <Button raised dense
-                  onClick={() => this.updateModal('deactivateOpen', true)}>
-            <NotInterested />
-            Deactivate
-          </Button>
+          {/*<Button raised dense*/}
+                  {/*onClick={() => this.updateModal('deactivateOpen', true)}>*/}
+            {/*<NotInterested />*/}
+            {/*Deactivate*/}
+          {/*</Button>*/}
 
         </TableControls>
 

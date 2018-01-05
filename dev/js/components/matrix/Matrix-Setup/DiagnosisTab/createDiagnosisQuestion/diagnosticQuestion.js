@@ -52,8 +52,8 @@ class DiagnosticQuestion extends Component{
         textColor="primary"
         centered
       >
-        <Tab label="English" value="en" />
-        <Tab label="Sweden"  value="swe" />
+        <Tab label="English" value="en"  className="dddd"/>
+        <Tab label="Sweden"  value="swe" className="dddd"/>
       </Tabs>
     </Grid>
   }
