@@ -11,7 +11,7 @@ import SimpleUsers              from '../components/users/Users/SimpleUsers';
 import OrganizationsUsers       from '../components/users/Users/OrganizationsUsers';
 import ClinicsUsers             from '../components/users/Users/ClinicsUsers';
 import CompanyOwnUsers          from '../components/users/Companies/CompanyUsers';
-import AssetsList               from '../components/assets/AssetsList/AssetsList';
+import AssetsExercisesList      from '../components/assets/AssetsExercisesList/AssetsExercisesList';
 import AssetsDiagnosticsList    from '../components/assets/AssetsDiagnosticsList/AssetsDiagnosticsList';
 import AssetsComponent          from './assets/Assets';
 import TestsList                from '../components/testing/TestsList/TestsList';
@@ -36,7 +36,7 @@ export const C = {
   OrganizationsUsers,
   ClinicsUsers,
   AssetsComponent,
-  AssetsList,
+  AssetsExercisesList,
   AssetsDiagnosticsList,
   TestsList,
   TestNew,

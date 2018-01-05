@@ -1,25 +1,33 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import isEmpty                  from 'lodash/isEmpty';
 import { COMPANIES_USERS_TAB }              from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
-import Delete                   from 'material-ui-icons/Delete';
-import DeleteComponent          from '../../matrix/Matrix-Setup/matrix-crud/deleteModal';
-
-import { PAGE } from '../../../config';
+import DeactivateComponent      from '../../common/Modal/DeactivateModal';
+import { activateUser }         from '../../../actions';
+import ActivateIcon             from 'material-ui-icons/Check';
+import DeactivateIcon           from 'material-ui-icons/NotInterested';
 
 class OrganizationsUsers extends Component {
   state = {
     selected: [],
-    deleteOpen: false
+    showActivateModal:false,
+    showDeactivateModal:false,
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.showCreateUserModal && nextState.showCreateUserModal) {
+      return false
+    }
+    return true;
+  }
 
   onRowClick = (selected = []) => this.setState({selected});
 
   onSelectAllClick = (selected) => this.setState({selected});
+
 
   updateModal = (key, value) => {
     this.setState({ [key]: value });
@@ -27,34 +35,66 @@ class OrganizationsUsers extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
+  _toggleActivateModal = (data) => {
+    data==='activate'?(this.setState({ showActivateModal: !this.state.showActivateModal })):
+      (this.setState({ showDeactivateModal: !this.state.showDeactivateModal }))
+  };
+
+  _activateItems = (selected, action) => {
+    activateUser('users', 'userProfile', selected, action)
+      .then(() => browserHistory.push(`/users-organizations`))
+    this._toggleActivateModal(action);
+    this.setState({ selected: []})
+
+  };
   render() {
     const { tableHeader } = COMPANIES_USERS_TAB;
-    const { selected,  deleteOpen } = this.state;
+    const { selected, showActivateModal, showDeactivateModal} = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'organization'}};
     return (
       <div id="diagnosis-component">
 
-        <DeleteComponent
-          location={this.props.location}
-          path="organizationUsers"
-          domen="users"
-          typeKey="deleteOpen"
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="users"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
           list={selected}
-          deactivateOpen={deleteOpen}
-          open={this.updateModal}
-          itemKey="title"
+          title="Activate this Users"
+          deactivateOpen={showActivateModal}
+          open={()=>this._toggleActivateModal('activate')}
+          itemKey="user_id"
           query={this.props.location.query}
+          onSubmit={()=>this._activateItems(selected, 'activate')}
+          onSubmitTitle = "Activate"
+        />
+
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="users"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Deactivate this Users"
+          deactivateOpen={showDeactivateModal}
+          open={()=>this._toggleActivateModal('deactivate')}
+          itemKey="user_id"
+          query={this.props.location.query}
+          onSubmit={()=>this._activateItems(selected, 'deactivate')}
         />
 
         <TableControls
           path="users"
-          selected={selected}
-          createItem={this.create}>
+          selected={selected}>
 
           <Button raised dense
-                  onClick={() => this.updateModal('deleteOpen', true)}>
-            <Delete />
-            Delete
+                  onClick={() => this.updateModal('showActivateModal', true)}>
+            <ActivateIcon/>Activate
+          </Button>
+
+          <Button raised dense
+                  onClick={() => this.updateModal('showDeactivateModal', true)}>
+            <DeactivateIcon/> Deactivate
           </Button>
 
         </TableControls>

@@ -23,7 +23,7 @@ export const api = {
   clinicsOwnUsers   : '/users/customer',
   companies         : '/customers/get/all',
   clinics           : '/customers/get/all',
-  customers         : '/customers',
+  customers         : '/customers/',
   createSimpleUser  : '/users/customer',
   userProfile       : '/users/',
   logout            : '/auth/logout',
