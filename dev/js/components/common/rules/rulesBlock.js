@@ -72,8 +72,7 @@ class RulesBlockComponent extends Component {
           margin="normal"
         >
           {checkQuestionType(this.props.page).map((option, index) =>
-            (<MenuItem key={index}
-                      value={option.value}>
+            (<MenuItem key={index} value={option.value} className="ddd">
               {option.label}
             </MenuItem>))}
         </TextField>
