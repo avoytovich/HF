@@ -13,7 +13,9 @@ class EnhancedTableHead extends Component {
   /**
    * @param property
    */
-  createSortHandler = property => event => {
+  createSortHandler =  (event, property, {type}) => {
+    if (type === 'stop') return;
+
     this.props.onRequestSort(event, property);
   };
 
@@ -55,7 +57,7 @@ class EnhancedTableHead extends Component {
                 active={orderBy === sortKey}
                 direction={sortedBy}
 
-                onClick={this.createSortHandler(sortKey)}
+                onClick={(event) => this.createSortHandler(event, sortKey, column)}
               >
                 {column.title}
               </TableSortLabel>

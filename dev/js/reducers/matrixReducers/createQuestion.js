@@ -113,9 +113,10 @@ const removeAnswer = (state, action) => {
 };
 
 const setFullQuestion = (state, action) => {
-  const { body: { areas, title, question, key, step, answer, rule, content_type, test_file }} = action.payload;
+  const { body: { areas, title, question, key, step, answer, rule, content_type, test_file, packageLevels }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
+
   const _body = {
       areaIds: configArea(areas),
       questionTitle: title,
@@ -126,8 +127,8 @@ const setFullQuestion = (state, action) => {
       answerType: _type,
       rules: Array.isArray(rule) ? rule : [ rule ],
       [_type]: parseAnswers(answer),
-//      sequenceType: null,
-      diagnostic_assets: test_file ||  []
+      diagnostic_assets: test_file ||  [],
+      packageLevels: packageLevels || []
     };
   return Object.assign({}, state, _body);
 };

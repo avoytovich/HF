@@ -13,15 +13,29 @@ import Select                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 
 
-class TreatmentPackageLevel extends Component {
-  state = { levelsList: []};
+class PLComponent extends Component {
+  state = { levelsList: [] };
+
+  componentWillMount() {
+    const id = this.props.packageItem;
+    getPackagenById('exercises', 'packages', id, true).then((_res) => {
+      const {data} = _res.packageLevels;
+      const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
+      this.setState({levelsList});
+//      updateCrateQuestionFields(levelsList, 'levelsList');
+      const {id, title} = _res;
+      const treatmentsPackage = {value: id, label: title, id};
+      updateCrateQuestionFields(treatmentsPackage, `packageLevels[${this.props.index}]`);
+
+    });
+  }
 
   getPackageOptions = (input) => {
     const { area } = this.props;
     return findPackage('exercises', 'getPackageByArea', input, area).then(res => {
       const { data } = res.data;
       const _data = data.map(item =>
-        Object.assign({}, item, { label: item.title, value: item.id, id: item.id }));
+        Object.assign({}, { label: item.title, value: item.id, id: item.id }));
       return {
         options: _data,
         complete: true
@@ -29,8 +43,8 @@ class TreatmentPackageLevel extends Component {
     });
   };
 
-  onPackageChange = (value) => {
-    updateCrateQuestionFields(value, 'treatmentsPackage');
+  onPackageChange = (value, index) => {
+//    updateCrateQuestionFields(value, 'treatmentsPackage');
 
     if (value.id) {
       getPackagenById('exercises', 'packages', value.id, true).then((_res) => {
@@ -53,7 +67,10 @@ class TreatmentPackageLevel extends Component {
   };
 
   render() {
-    const { packageItem, levelItem, levelsList } = this.props;
+    const { packageItem, levelItem, levelsList, index } = this.props;
+
+    console.log('packageItem', packageItem);
+
     return <Grid container className="row-item">
       <Grid item sm={6} xs={12}>
         <Typography
@@ -67,7 +84,7 @@ class TreatmentPackageLevel extends Component {
           name='package'
           id='package'
           loadOptions={this.getPackageOptions}
-          onChange={this.onPackageChange}
+          onChange={value => this.onPackageChange(value, index)}
           placeholder={'Select package'}
           value={packageItem}
           ignoreCase ={false}
@@ -87,11 +104,11 @@ class TreatmentPackageLevel extends Component {
         <Select
           value={levelItem}
           onChange={this.handleLevelsChange}
-          disabled={!levelsList.length}
+          disabled={!this.state.levelsList.length}
           style={{width: '100%'}}
           MenuProps={{PaperProps:{style:{width: 400}}}}
         >
-          {levelsList.map((item, index) => (
+          {this.state.levelsList.map((item, index) => (
             <MenuItem
               key={item.value}
               value={item.value}
@@ -108,4 +125,4 @@ class TreatmentPackageLevel extends Component {
   }
 }
 
-export default TreatmentPackageLevel;
+export default PLComponent;

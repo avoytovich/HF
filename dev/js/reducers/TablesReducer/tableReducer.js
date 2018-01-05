@@ -39,7 +39,7 @@ const initialState = {
       ]
     },
     {
-      name: 'evaluations',
+      name: 'levelUps',
       changes: [
         { path: 'sortOptional.orderBy', value: 'title' }
       ]
