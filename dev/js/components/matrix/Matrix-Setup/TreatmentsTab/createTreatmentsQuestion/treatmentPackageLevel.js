@@ -14,7 +14,7 @@ import Menu, { MenuItem }           from 'material-ui/Menu';
 
 
 class TreatmentPackageLevel extends Component {
-  state = { levelsList: []};
+  state = { levelsList: [] };
 
   getPackageOptions = (input) => {
     const { area } = this.props;

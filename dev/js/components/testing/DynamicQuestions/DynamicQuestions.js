@@ -151,6 +151,7 @@ class DynamicQuestions extends Component {
         conditions,
         step,
         result_status,
+        condition = { title: 'Condition Fired' },
       }
     } = this.props;
     return questions.length ?
@@ -186,6 +187,7 @@ class DynamicQuestions extends Component {
                   <Grid item xs={5}>
 
                     <C.Result
+                      condition={condition}
                       result={result_status}
                       label={result_status}
                     />

@@ -17,9 +17,10 @@ export const checkQuestionWired = (testId, data) => checkQuestion(testId, data)
   .then(resp => {
     const questions     = get(resp, 'data.data.result.questions', []);
     const conditions    = get(resp, 'data.data.result.conditions', {});
+    const condition    = get(resp, 'data.data.result.condition', null);
     const step          = get(resp, 'data.data.step');
     const id            = get(resp, 'data.data.id');
     const result_status = get(resp, 'data.data.result_status');
-    dispatchAddQuestionsAndCondWired({ questions, conditions, step, id, result_status });
+    dispatchAddQuestionsAndCondWired({ questions, conditions, step, id, result_status, condition });
   })
   .catch(err => console.log(err));

@@ -11,10 +11,13 @@ import { dispatchTestingPayloadWired } from '../../../actions'
 
 class Result extends Component {
   _pickText = (result) => {
-    debugger
+    const { condition } = this.props;
     switch (result) {
       case 'condition':
-        return 'Condition fired';
+        return <div>
+          <p>{ condition.title }</p>
+          <p> Please contact your doctor for further diagnostic.</p>
+        </div>;
 
       case 'question':
         return 'Questions in the queue are missing - please check the rules';
@@ -29,17 +32,16 @@ class Result extends Component {
       result,
       label,
     } = this.props;
-    console.log(this._pickText(result));
     return (
       <div className="testing-inner-container-long">
         <h4>Results</h4>
+        <h3>
+          <AddAlert style={{ color: result === 'treatment' ? 'green' : 'red' }}/>
+        </h3>
         <C.Paper
           label={label}
           conditionText={this._pickText(result)}
         />
-        <h3>
-          <AddAlert style={{ color: result === 'treatment' ? 'green' : 'red' }}/>
-        </h3>
       </div>
     );
   }
