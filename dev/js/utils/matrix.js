@@ -79,9 +79,7 @@ export const checkType = (rules) => {
 };
 
 //export const checkIfBlockType = (type) => {
-//  debugger;
 //  return GROUP_TYPES.reduce((result, item) => {
-//    debugger;
 //    if (item.type === 'block') {
 //      return true;
 //    }

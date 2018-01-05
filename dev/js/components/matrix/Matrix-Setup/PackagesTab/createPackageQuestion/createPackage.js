@@ -43,8 +43,8 @@ export const PACKAGE_TYPE = [
 ];
 
 export const DEFAULT_LEVEL = {
-  level             : 1,
-  level_up_origin   : {
+  level               : 1,
+  level_up_properties : {
     vas     : '1',
     vas_min : '1',
     sessions: '1'
@@ -54,6 +54,8 @@ export const DEFAULT_LEVEL = {
 };
 
 class CreatePackageComponent extends Component {
+  levelList = [];
+
   state = {
     questionType    : 'packages',
     keyIsUniqueError: '',
@@ -68,8 +70,12 @@ class CreatePackageComponent extends Component {
 
   componentWillMount() {
     if (this.props.params.id) {
-      getPackagenById('exercises', 'packages', this.props.params.id).then(() =>
-        browserHistory.push(`/packages-create/${this.props.routeParams.id}?level=${0}`))
+      getPackagenById('exercises', 'packages', this.props.params.id).then(res => {
+//        browserHistory.push(`/packages-create/${this.props.routeParams.id}?level=${0}`)
+        const { packageLevels } = res;
+        this.levelList = packageLevels.data;
+      })
+
     }
     else {
       const newOne = Object.assign({}, DEFAULT_LEVEL);
@@ -78,14 +84,19 @@ class CreatePackageComponent extends Component {
   }
 
   done = (value) => {
-    const { areaIDs, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
+    const { areaIds, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
+
+    const _packageLevels = packageLevels.map((el, index) => {
+      const oldLevel = this.levelList[index];
+      return oldLevel && !el.id ? Object.assign({}, el, {id: oldLevel.id}) : el;
+    });
 
     const result = {
       key      : questionKey,
-      areaIDs  : areaIDs || [],
+      areaIds  : areaIds,
       title    : questionTitle,
       type     : packageType,
-      package_levels : packageLevels,
+      package_levels : _packageLevels,
     };
 
     submitTabs(
@@ -104,10 +115,16 @@ class CreatePackageComponent extends Component {
 //    browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${tab}`);
   };
 
+  changeLastSelectedIndex = () => {
+    const currentTab = +this.state.tab;
+    const nextTab = currentTab ? currentTab - 1 : currentTab;
+    this.setState({tab: `${nextTab}`});
+  };
+
   addNewLevel = (oldList) => {
     const newList = oldList.concat({
       level: oldList.length + 1,
-        level_up_origin   : {
+      level_up_properties   : {
         vas     : '1',
         vas_min : '1',
         sessions: '1'
@@ -189,7 +206,7 @@ class CreatePackageComponent extends Component {
                 <AsyncAreaSelect
                   domain="diagnostics"
                   path="findArea"
-                  valuePath="area"
+                  valuePath="areaIds"
                   idKey="create_packages_question"
                 />
               </Grid>
@@ -259,23 +276,27 @@ class CreatePackageComponent extends Component {
                 fullWidth
               >
                 {packageLevels.map((item, index) =>
-                  <Tab key={index} label={`Level ${item.level}`}/>)}
+                  <Tab key={index} label={`Level ${index + 1}`}/>)}
               </Tabs>
             </div>
 
-            {packageLevels.map((level, index) =>
-              <div className="tab-item"
-                   key={index}>
+            {packageLevels.map((level, index) => {
+              const { therapy_continuity, exercise_ids} = level;
+              return <div className="tab-item"
+                          key={index}>
                 {
                   +this.state.tab === index &&
                   <PackageLevelComponent
                     packageId={packageId}
                     index={index}
                     level={level}
+                    therapy_continuity={therapy_continuity}
+                    exercise_ids={exercise_ids}
+                    changeTab={this.changeLastSelectedIndex}
                   />
                 }
               </div>
-            )}
+            })}
 
           </div>
         </BlockDivider>}

@@ -133,7 +133,6 @@ const setFullQuestion = (state, action) => {
 };
 
 const setFullQuestionForCondition = (state, action) => {
-  console.log(state, action)
   const { body, body: { areas, title, key, rule, package_level_id}} = action.payload;
   const _body = {
     areaIds: configArea(areas),
@@ -141,10 +140,15 @@ const setFullQuestionForCondition = (state, action) => {
     questionKey: key,
     rules: Array.isArray(rule) ? rule : [ rule ],
   };
+
   const res = body.package ?
     {..._body,
-      treatmentsLevels: { label: body.package.package_id, value:  body.package.package_id},
-      treatmentsPackage:{ label: package_level_id, value: package_level_id}} : _body;
+      treatmentsLevels: body.package.package_level_id,
+      treatmentsPackage:{
+        label: body.package.package_id,
+        value: body.package.package_id
+      }
+    } : _body;
   return Object.assign({}, state, res);
 };
 
@@ -166,7 +170,7 @@ const setFullBodyAreaEdit = (state, action) => {
 const setFullQuestionForPackage = (state, action) => {
   const { body: {areas, title, key, packageLevels }} = action.payload;
   const _body = {
-    areaIds: configArea(areas),
+    areaIds: configArea(areas.data),
     questionTitle: title,
     questionKey: key,
     packageLevels: packageLevels.data
@@ -198,10 +202,18 @@ const parseAnswers= (answer) => {
 };
 
 const configArea = (areas) => {
-  return areas.map(el => el && get(el,'id'));
- // if (id) return { value: area.id, label: area.title, key: area.key };
+  return areas.map(el => el && el.id);
+//  if (id) return { value: area.id, label: area.title, key: area.key };
+//
+//  return { value: null, label: 'All', key: null };
+};
 
- // return { value: null, label: 'All', key: null };
+const deletePackageLevel = (state, action) => {
+  const { id, index } = action.payload;
+  return dotProp.set(
+    state,
+    'packageLevels',
+    list => list.filter((item, i) =>  id ? item.id !== id : index !== i));
 };
 
 export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
@@ -218,5 +230,6 @@ export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
   [`${CREATE_QUESTION}_SET_COND_QUESTION`]    : setFullQuestionForCondition,
   [`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`] : setFullQuestionForPackage,
   [`${CREATE_QUESTION}_CLEAR_STATE`]          : clearAll,
+  [`${CREATE_QUESTION}_DELETE_PACKAGE_LEVEL`] : deletePackageLevel
   [`${CREATE_QUESTION}_SET_BODY_AREA`]        : setFullBodyAreaEdit,
 });

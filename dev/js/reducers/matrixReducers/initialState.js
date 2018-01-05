@@ -31,14 +31,14 @@ const bodyAreaTab = {
 const conditionTab = {};
 
 const treatmentTab = {
-  treatmentsLevels: '',
   treatmentsPackage: '',
+  treatmentsLevels: ''
 };
 
 const packageTab = {
   packageType: 'symptomatic',
   therapyContinuity: '1',
-  packageLevels: [],
+  packageLevels: []
 };
 
 const exerciseTab = {
