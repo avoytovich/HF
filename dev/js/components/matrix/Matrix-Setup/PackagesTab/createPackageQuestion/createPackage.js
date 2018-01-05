@@ -119,7 +119,7 @@ class CreatePackageComponent extends Component {
     const currentTab = +this.state.tab;
     const nextTab = currentTab ? currentTab - 1 : currentTab;
     this.setState({tab: `${nextTab}`});
-  }
+  };
 
   addNewLevel = (oldList) => {
     const newList = oldList.concat({
@@ -281,6 +281,7 @@ class CreatePackageComponent extends Component {
             </div>
 
             {packageLevels.map((level, index) => {
+              const { therapy_continuity, exercise_ids} = level;
               return <div className="tab-item"
                           key={index}>
                 {
@@ -289,6 +290,8 @@ class CreatePackageComponent extends Component {
                     packageId={packageId}
                     index={index}
                     level={level}
+                    therapy_continuity={therapy_continuity}
+                    exercise_ids={exercise_ids}
                     changeTab={this.changeLastSelectedIndex}
                   />
                 }

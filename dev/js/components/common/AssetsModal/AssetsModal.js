@@ -130,7 +130,6 @@ class AssetsModal extends Component {
                   checked = selected.some(el => id === +el),
                   disabled = !!selected.length && !multiSelect && !checked;
 
-            {/*debugger;*/}
 
             return <ListItem key={index}
                              className={`choose-sequence-item`}>

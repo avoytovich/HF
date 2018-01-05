@@ -65,11 +65,10 @@ class PackageLevelComponent extends Component {
         currentLanguage: { L_CREATE_QUESTION },
       },
       index,
-      level
+      level,
+      therapy_continuity,
+      exercise_ids
     } = this.props;
-
-    const therapy_continuity = packageLevels[index].therapy_continuity;
-    const exercise_ids       = packageLevels[index].exercise_ids;
 
     return <div>
       <Grid container className="row-item">
