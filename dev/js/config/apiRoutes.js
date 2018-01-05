@@ -17,6 +17,7 @@
 
 
 export const api = {
+
   simpleUsers         : '/users/get/all',
   clinicsUsers        : '/users/get/all',
   companiesOwnUsers   : '/users/customer',
