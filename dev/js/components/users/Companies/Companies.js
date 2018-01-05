@@ -5,12 +5,10 @@ import { TableComponent }       from '../../../components/common/TypicalListPage
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
-import Delete                   from 'material-ui-icons/Delete';
 import Modal                    from '../../common/Modal/Modal';
 import { PAGE } from '../../../config';
 import CreateUser from '../CreateUser/CreateUser';
-import DeactivateComponent      from '../../common/Modal/DeactivateModal'
-// import DeleteComponent          from '../../../matrix-crud/deleteModal';
+import DeactivateComponent      from '../../common/Modal/DeactivateModal';
 import { activateCustomer,
   getMatrixInfo }      from '../../../actions';
 
@@ -19,6 +17,7 @@ const userInfo = {
   backButton : '/companies',
   userType : 'organization',
   tarrifId : '3',
+  actionType : 'create',
 }
 
 class Companies extends Component {
@@ -55,22 +54,18 @@ class Companies extends Component {
   createEntity = () => this.setState({ showCreateModal: !this.state.showCreateModal });
 
   _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
+
   updateModal = (key, value) => {
-    console.log(key, value)
     this.setState({ [key]: value });
 
     if (!value) this.setState({ selected: [] });
   };
 
   _activateItems=(selected)=>{
-    console.log(selected)
     activateCustomer('users', 'customers', selected)
-      .then(() => console.log('sussecc'))
+      .then(() => browserHistory.push(`/companies`))
     this.setState({ showActivateModal: !this.state.showActivateModal, selected: [], })
-        // getMatrixInfo(domen, path, this.props.query, path)
-        //   .then(() => this.props.open(this.props.typeKey, false)))
   }
-
 
   render() {
     const { tableHeader } = COMPANIES_TAB;
@@ -99,17 +94,11 @@ class Companies extends Component {
           selected={selected}
           createItem={this.createEntity}
           createButtonText="Add">
-          {/*<Button raised dense*/}
-                  {/*onClick={() => this.updateModal('showDeleteModal', true)}>*/}
-            {/*<Delete />*/}
-            {/*Delete*/}
-          {/*</Button>*/}
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
             Activate
           </Button>
-
 
         </TableControls>
 
