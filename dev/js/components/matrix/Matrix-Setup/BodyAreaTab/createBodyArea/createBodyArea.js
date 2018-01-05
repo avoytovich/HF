@@ -6,7 +6,7 @@ import { diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
   updateQuestionCreate,
-  getTreatmentById}                 from '../../../../../actions';
+  getBodyAreaById}                 from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
 import Grid                         from 'material-ui/Grid';
@@ -28,18 +28,18 @@ class CreateBodyAreaComponent extends Component {
 
   componentWillMount() {
     if (this.props.routeParams.id) {
-      getTreatmentById('diagnostics', 'areas', this.props.routeParams.id);
+      getBodyAreaById('diagnostics', 'areas', this.props.routeParams.id);
     }
   }
 
   componentWillUnmount() { clearCreateQuestion(); }
 
   done = (value) => {
-    const { bodyAreas, questionKey, questionTitle, questionDescription } = value;
+    const { key, title, description } = value;
     const result = {
-      key           : questionKey,
-      title         : questionTitle,
-      description   : questionDescription,
+      key           : key,
+      title         : title,
+      description   : description,
     };
 
     !this.props.routeParams.id ?
@@ -58,12 +58,11 @@ class CreateBodyAreaComponent extends Component {
     let {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle,
-        questionKey,
-        questionDescription
+        title,
+        key,
+        description
       }
     } = this.props;
-
 
     console.log(this.props)
     return (
@@ -98,8 +97,8 @@ class CreateBodyAreaComponent extends Component {
               <Grid container className="row-item">
                 <Grid item md={12} sm={12}>
                   <Input
-                    id='questionTitle'
-                    value={questionTitle}
+                    id='title'
+                    value={title}
                     reducer={ createDiagnosisQuestion }
                     label={'Title' }
                     placeholder={'Title' }
@@ -111,8 +110,8 @@ class CreateBodyAreaComponent extends Component {
               <Grid container className="row-item">
                 <Grid item xs={12}>
                   <Input
-                    id='questionKey'
-                    value={questionKey}
+                    id='key'
+                    value={key}
                     reducer={createDiagnosisQuestion}
                     label={ 'Key' }
                     placeholder={ 'Key'}
@@ -125,8 +124,8 @@ class CreateBodyAreaComponent extends Component {
               <Grid container className="row-item">
                 <Grid item xs={12}>
                   <Input
-                    id='questionDescription'
-                    value={questionDescription}
+                    id='description'
+                    value={description}
                     reducer={createDiagnosisQuestion}
                     label={ 'Description' }
                     placeholder={ 'Description'}
@@ -146,7 +145,7 @@ class CreateBodyAreaComponent extends Component {
 const mapStateToProps = state => ({
   createDiagnosisQuestion: state.createDiagnosisQuestion,
   commonReducer          : state.commonReducer,
-  bodyArea                  : state.tables.bodyArea
+  bodyArea               : state.tables.bodyArea
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

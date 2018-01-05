@@ -133,12 +133,28 @@ const setFullQuestion = (state, action) => {
 };
 
 const setFullQuestionForCondition = (state, action) => {
+  console.log(state, action)
   const { body, body: { areas, title, key, rule, package_level_id}} = action.payload;
   const _body = {
     areaIds: configArea(areas),
     questionTitle: title,
     questionKey: key,
     rules: Array.isArray(rule) ? rule : [ rule ],
+  };
+  const res = body.package ?
+    {..._body,
+      treatmentsLevels: { label: body.package.package_id, value:  body.package.package_id},
+      treatmentsPackage:{ label: package_level_id, value: package_level_id}} : _body;
+  return Object.assign({}, state, res);
+};
+
+const setFullBodyAreaEdit = (state, action) => {
+  console.log(state, action)
+  const { body, body: {title, key, description}} = action.payload;
+  const _body = {
+    title: title,
+    key: key,
+    description: description,
   };
   const res = body.package ?
     {..._body,
@@ -182,10 +198,10 @@ const parseAnswers= (answer) => {
 };
 
 const configArea = (areas) => {
-  return areas.map(el => el && el.id);
-//  if (id) return { value: area.id, label: area.title, key: area.key };
-//
-//  return { value: null, label: 'All', key: null };
+  return areas.map(el => el && get(el,'id'));
+ // if (id) return { value: area.id, label: area.title, key: area.key };
+
+ // return { value: null, label: 'All', key: null };
 };
 
 export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
@@ -202,5 +218,5 @@ export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
   [`${CREATE_QUESTION}_SET_COND_QUESTION`]    : setFullQuestionForCondition,
   [`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`] : setFullQuestionForPackage,
   [`${CREATE_QUESTION}_CLEAR_STATE`]          : clearAll,
-
+  [`${CREATE_QUESTION}_SET_BODY_AREA`]        : setFullBodyAreaEdit,
 });

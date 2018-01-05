@@ -176,6 +176,24 @@ export const getTreatmentById = (domenKey, apiKey, id) => {
   });
 };
 
+export const getBodyAreaById = (domenKey, apiKey, id) => {
+  const domenPath = domen[domenKey],
+    apiPath   = api[apiKey];
+  return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
+    if (res) {
+      const { data } = res.data;
+      const body = {...data};
+      store.dispatch(
+        {
+          type:`${CREATE_QUESTION}_SET_BODY_AREA`,
+          payload: { body }
+        }
+      );
+      return data;
+    }
+  });
+};
+
 export const findArea = (domenKey, apiKey) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
