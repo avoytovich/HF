@@ -53,14 +53,9 @@ class TreatmentPackageLevel extends Component {
   };
 
   render() {
-
     const { packageItem, levelItem, levelsList } = this.props;
-    console.log('levelItem', levelItem);
-    console.log('levelsList', levelsList);
-//    const { levelsList } = this.state;
-
     return <Grid container className="row-item">
-      <Grid item md={6} sm={12}>
+      <Grid item sm={6} xs={12}>
         <Typography
           type="caption"
           gutterBottom
@@ -80,7 +75,7 @@ class TreatmentPackageLevel extends Component {
         />
       </Grid>
 
-      <Grid item md={6} sm={12}>
+      <Grid item sm={6} xs={12}>
         <Typography
           type="caption"
           gutterBottom
@@ -93,7 +88,8 @@ class TreatmentPackageLevel extends Component {
           value={levelItem}
           onChange={this.handleLevelsChange}
           disabled={!levelsList.length}
-          MenuProps={{PaperProps:{style:{width: 400}}}}
+          style={{width: '100%'}}
+          MenuProps={{PaperProps:{style:{width: 4000}}}}
         >
           {levelsList.map((item, index) => (
             <MenuItem
@@ -103,7 +99,7 @@ class TreatmentPackageLevel extends Component {
                 fontWeight: levelsList.indexOf(item.value) !== -1 ? '500' : '400',
               }}
             >
-              {item.label}
+              Level {item.label}
             </MenuItem>
           ))}
         </Select>
