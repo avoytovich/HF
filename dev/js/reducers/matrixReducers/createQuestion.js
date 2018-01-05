@@ -117,8 +117,6 @@ const setFullQuestion = (state, action) => {
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
 
-  debugger;
-
   const _body = {
       areaIds: configArea(areas),
       questionTitle: title,

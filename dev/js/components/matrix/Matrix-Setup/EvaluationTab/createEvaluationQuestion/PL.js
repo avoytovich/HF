@@ -18,12 +18,10 @@ class PLComponent extends Component {
 
   componentWillMount() {
     const id = this.props.packageItem;
-    debugger;
     getPackagenById('exercises', 'packages', id, true).then((_res) => {
       const {data} = _res.packageLevels;
       const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
       this.setState({levelsList});
-      debugger;
 //      updateCrateQuestionFields(levelsList, 'levelsList');
       const {id, title} = _res;
       const treatmentsPackage = {value: id, label: title, id};
@@ -35,7 +33,6 @@ class PLComponent extends Component {
   getPackageOptions = (input) => {
     const { area } = this.props;
     return findPackage('exercises', 'getPackageByArea', input, area).then(res => {
-      debugger;
       const { data } = res.data;
       const _data = data.map(item =>
         Object.assign({}, { label: item.title, value: item.id, id: item.id }));
@@ -48,8 +45,6 @@ class PLComponent extends Component {
 
   onPackageChange = (value, index) => {
 //    updateCrateQuestionFields(value, 'treatmentsPackage');
-
-    debugger;
 
     if (value.id) {
       getPackagenById('exercises', 'packages', value.id, true).then((_res) => {
