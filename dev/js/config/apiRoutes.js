@@ -18,7 +18,6 @@ if (process.env.NODE_ENV === 'production') {
 
 
 export const api = {
-
   simpleUsers         : '/users/get/all',
   clinicsUsers        : '/users/get/all',
   companiesOwnUsers   : '/users/customer',
