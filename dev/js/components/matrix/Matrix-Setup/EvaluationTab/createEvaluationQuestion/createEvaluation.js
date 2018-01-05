@@ -149,7 +149,7 @@ class CreateEvaluationComponent extends Component {
     };
   };
 
-  cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
+  cancel = () => browserHistory.push(`/matrix-setup/evaluations`);
 
   render() {
     const {

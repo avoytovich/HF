@@ -141,17 +141,21 @@ class DiagnosisTypeQuestion extends Component {
           typePath="answerType"
         />
 
-        {/* Answers */}
-        <Grid className="title answer">
-          <Typography type="title"
-                      gutterBottom>
-            Packages & Levels
-          </Typography>
-        </Grid>
+
 
 
         {/*Package and Start level*/}
-        { packages && <PackageLevelsList/>}
+        { packages && <div>
+          {/* Answers */}
+          <Grid className="title answer">
+            <Typography type="title"
+                        gutterBottom>
+              Packages & Levels
+            </Typography>
+            <PackageLevelsList/>
+          </Grid>
+        </div>}
+
       </div>
 
       <div className="rules">
