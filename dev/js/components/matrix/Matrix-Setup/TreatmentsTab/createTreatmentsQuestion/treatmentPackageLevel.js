@@ -89,7 +89,7 @@ class TreatmentPackageLevel extends Component {
           onChange={this.handleLevelsChange}
           disabled={!levelsList.length}
           style={{width: '100%'}}
-          MenuProps={{PaperProps:{style:{width: 4000}}}}
+          MenuProps={{PaperProps:{style:{width: 400}}}}
         >
           {levelsList.map((item, index) => (
             <MenuItem

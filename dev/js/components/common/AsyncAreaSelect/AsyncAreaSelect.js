@@ -66,6 +66,7 @@ class AsyncAreaSelect extends Component{
           value={areaIds}
           className="async-area-select"
           placeholder={ placeholder }
+          disabled={ !areas.length }
           MenuProps={{
             PaperProps: {
               style: {
