@@ -46,7 +46,7 @@ class UniqueKey extends Component {
          label={label}
          error={!!keyIsUniqueError}
          disabled={disabled}
-         onCustomChange={this.checkIfQuestionKeyValid}
+         onChangeCustom={this.checkIfQuestionKeyValid}
        />
      </Grid>
    </Grid>
