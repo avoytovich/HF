@@ -20,8 +20,9 @@ class EvaluationComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/evaluations-create-new`) :
-    browserHistory.push(`/evaluations-create/${id}`);
+    browserHistory.push(`/level-up-create/${id}`):
+    browserHistory.push(`/level-up-create-new`);
+
 
   deleteItems = (items = []) => {};
 
@@ -44,7 +45,7 @@ class EvaluationComponent extends Component {
       <div id="diagnosis-component">
 
         <DeactivateComponent
-          path="evaluations"
+          path="levelUps"
           domen="diagnostics"
           typeKey="deactivateOpen"
           list={selected}
@@ -55,7 +56,7 @@ class EvaluationComponent extends Component {
         />
 
         <DeleteComponent
-          path="evaluations"
+          path="levelUps"
           domen="diagnostics"
           typeKey="deleteOpen"
           list={selected}
@@ -68,7 +69,7 @@ class EvaluationComponent extends Component {
         <TableControls
           path="evaluations"
           selected={selected}
-          createItem={this.create}>
+          createItem={() => this.create()}>
 
           <Button raised dense
                   onClick={() => this.updateModal('deleteOpen', true)}>
@@ -91,11 +92,12 @@ class EvaluationComponent extends Component {
         </TableControls>
 
         <TableComponent
-          path="evaluations"
+          path="levelUps"
           domen="diagnostics"
           tableHeader={ tableHeader }
           selected={selected}
           onRowClick={this.onRowClick}
+          onEdit={(id) => this.create(id)}
           onSelectAllClick={this.onSelectAllClick}
         />
 

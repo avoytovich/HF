@@ -103,7 +103,7 @@ class CreateEvaluationComponent extends Component {
       this.configureQuestionResult(value, content_type === 'functionalTest') : {};
 
     const result = {
-      type : 'evaluation',
+      type : 'levelUp',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
       title: questionTitle,
@@ -117,7 +117,7 @@ class CreateEvaluationComponent extends Component {
       'diagnostics',
       'createQuestion',
       result,
-      '/matrix-setup/evaluations',
+      '/matrix-setup/levelUps',
       this.props.routeParams.id
     );
   };
@@ -134,27 +134,17 @@ class CreateEvaluationComponent extends Component {
         values: this.getAnswer(answerType, value)
       },
       rule: rules[0],
-      packages: [
-        {
-          package_level_id  : 3,
-          package_id        : 23,
-
-          package: {
-            package_id: 23,
-            package_level_id: 3,
-          },
-        }
-      ],
+      packageLevelIds: [24],
       ...moreProps
     };
   };
 
-  cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
+  cancel = () => browserHistory.push(`/matrix-setup/levelUps`);
 
   render() {
     const {
       createDiagnosisQuestion,
-      createDiagnosisQuestion: { content_type, questionKey },
+      createDiagnosisQuestion: { content_type, questionKey, packageLevels },
       routeParams: { id }
     } = this.props;
     return (
@@ -190,6 +180,7 @@ class CreateEvaluationComponent extends Component {
             <DiagnosisTypeQuestion
               page='evaluations'
               packages={true}
+              packageLevels={packageLevels || []}
               sequenceList={this.state.sequenceList}/>
         }
       </div>

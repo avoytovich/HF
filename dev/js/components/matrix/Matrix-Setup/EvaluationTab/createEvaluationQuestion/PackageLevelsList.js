@@ -3,7 +3,7 @@ import React, { Component }    from 'react';
 import { connect }             from 'react-redux';
 import { bindActionCreators }  from 'redux';
 import PropTypes               from 'prop-types';
-import TreatmentPackageLevel   from '../../TreatmentsTab/createTreatmentsQuestion/treatmentPackageLevel';
+import PLComponent              from './PL';
 import AddIcon                 from 'material-ui-icons/Add';
 import Clear                   from 'material-ui-icons/Clear';
 
@@ -20,19 +20,19 @@ class PackageLevelsList extends Component {
   };
 
   render() {
+    const { packageLevels, areaIds } = this.props;
     return <div>
-      {this.list.map((item, index) => {
-          const treatmentsPackage = '';
-          const treatmentsLevels = '';
+      {packageLevels && packageLevels.map((item, index) => {
+        const { package_id, id } = item;
           const levelsList = [];
-          const areaIds = [];
           return <div key={index}
                       style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
-            <TreatmentPackageLevel
-              packageItem={treatmentsPackage}
-              levelItem={treatmentsLevels}
+            <PLComponent
+              packageItem={package_id}
+              levelItem={id}
               area={areaIds || []}
               levelsList={levelsList || []}
+              index={index}
             />
             <Clear className="margin-bottom" style={{cursor: 'pointer'}}
                    onClick={() => this.removePackage(index)}/>
