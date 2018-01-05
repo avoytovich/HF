@@ -25,7 +25,7 @@ class Input extends Component {
       id,
       classes,
       onChange,
-      onCustomChange,
+      onChangeCustom,
       label = '',
       placeholder = '',
       reducer,
@@ -45,7 +45,7 @@ class Input extends Component {
         id={id}
         name={actionType}
         value={value}
-        onChange={onCustomChange || onChange}
+        onChange={onChangeCustom || onChange}
         label={label}
         placeholder={placeholder}
         className={classes.textField}
@@ -70,7 +70,7 @@ Input.propTypes = {
   onChange: PropTypes.func,
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  onCustomChange: PropTypes.func,
+  onChangeCustom: PropTypes.func,
   style: PropTypes.object,
 };
 

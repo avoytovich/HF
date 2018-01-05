@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import each from 'lodash/each';
 import set from 'lodash/set';
+import find from 'lodash/find';
 import remove from 'lodash/remove';
 
 import { createReducer } from '../../utils';
@@ -22,7 +23,8 @@ const initialState = {
   q_height: { value: '', type: 'single' },
   q_pregnant: { value: '', type: 'single' },
   //
-  questions: []
+  questions: [],
+  conditions: [],
 };
 
 const testingBodyAres = (state, action) => {
@@ -36,10 +38,22 @@ const testingBodyAres = (state, action) => {
   return { ...state, bodyAreas };
 };
 
-const testingAddQuestions = (state, action) => {
-  let questions = [...state.questions];
-  questions     = questions.concat(action.payload);
-  return { ...state, questions };
+const testingAddQuestionsAndCond = (state, action) => {
+  let questions     = [...state.questions];
+  let conditions    = [...state.conditions];
+  let step          = action.payload.step;
+  let id            = action.payload.id;
+  let result_status = action.payload.result_status;
+  each(action.payload.questions, (q, p) => q.step = step);
+  each(action.payload.conditions, (c, p) => c.step = step);
+  questions      = questions.concat(action.payload.questions);
+  each(action.payload.conditions, (val, prop) => {
+    if (!find(conditions, ({ key }) => key === prop)) {
+      conditions.push({ ...val, key: prop })
+    }
+  });
+
+  return { ...state, questions, conditions, step, testId: id, result_status };
 };
 
 const testingAddMultOption = (state, action) => {
@@ -65,7 +79,7 @@ const testingDeleteMultOption = (state, action) => {
 
 export const testingReducer = createReducer(initialState, T.TESTING, {
   [T.TESTING_BODY_AREAS]        : testingBodyAres,
-  [T.TESTING_ADD_QUESTIONS]     : testingAddQuestions,
+  [T.TESTING_ADD_QUESTIONS_AND_COND]     : testingAddQuestionsAndCond,
   [T.TESTING_ADD_MULT_OPTION]   : testingAddMultOption,
   [T.TESTING_DELETE_MULT_OPTION]: testingDeleteMultOption,
 });

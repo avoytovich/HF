@@ -17,9 +17,9 @@ export const dispatchBodyAreasIdsWired = payload =>
     payload,
   });
 
-export const dispatchAddQuestionsWired = payload =>
+export const dispatchAddQuestionsAndCondWired = payload =>
   store.dispatch({
-    type: T.TESTING_ADD_QUESTIONS,
+    type: T.TESTING_ADD_QUESTIONS_AND_COND,
     payload,
   });
 

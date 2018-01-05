@@ -3,19 +3,23 @@ import get from 'lodash/get';
 
 import {
   Api,
-  validAssets,
 } from '../../utils';
-import { dispatchBodyAreasIdsWired } from '../../actions';
+import { dispatchAddQuestionsAndCondWired } from '../../actions';
 import {
   domen,
   api,
-  PAGE,
 } from '../../config';
 
-export const getAssets = (data) => Api.post(`${domen.diagnostics}${api.diagnostics}`, data);
+export const checkQuestion = (testId, data) =>
+  Api.post(`${domen.diagnostics}${api.checkQuestion}/${testId}/check/step`, data);
 
-export const getAssetsWired = (data) => getAssets(data)
-  .then(resp => dispatchBodyAreasIdsWired(get(resp, 'data.data', [])))
-  .catch(err => {
-    console.log(err);
-  });
+export const checkQuestionWired = (testId, data) => checkQuestion(testId, data)
+  .then(resp => {
+    const questions     = get(resp, 'data.data.result.questions', []);
+    const conditions    = get(resp, 'data.data.result.conditions', {});
+    const step          = get(resp, 'data.data.step');
+    const id            = get(resp, 'data.data.id');
+    const result_status = get(resp, 'data.data.result_status');
+    dispatchAddQuestionsAndCondWired({ questions, conditions, step, id, result_status });
+  })
+  .catch(err => console.log(err));

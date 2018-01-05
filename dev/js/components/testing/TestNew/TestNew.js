@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
-import omit from 'lodash/omit'
 import pick from 'lodash/pick'
+import each from 'lodash/each'
 import pickBy from 'lodash/pickBy'
-import omitBy from 'lodash/omitBy'
 import Grid from 'material-ui/Grid';
 
 // UI
@@ -17,14 +16,10 @@ import Input from '../../common/Input/Input';
 import { diagnosConsts } from '../consts'
 // import Switch from '../../common/Switch/Switch';
 import Select from '../../common/Select/Select';
-import RadioButton from '../../common/RadioButton/RadioButton';
 import DynamicQuestions from '../DynamicQuestions/DynamicQuestions';
-import BodyAreaItem from '../BodyAreaItem/BodyAreaItem';
 import {
-  getBodyAreasWired,
   createTestWired,
-  dispatchUserPayloadWired,
-  T,
+  checkQuestionWired,
 } from '../../../actions';
 import {
   PAGE,
@@ -33,29 +28,55 @@ import {
 
 class TestNew extends Component {
   _prepareData = (data) => {
-    let prepData = pick(data, pickKeys.testing);
+    let prepData     = pick(data, pickKeys.testing);
     prepData.answers = pickBy(prepData, el => el.value);
     prepData.user_id = this.props.userReducer.user_id;
     prepData.type    = 'diagnostic';
     return prepData;
   };
 
-  _renderIncomingQuestions = () => {
+  _prepareDataForCheckQuestion = (data, step) => {
+    let currentQKeysToSend = data.questions.filter(q => q.step == step).map(q => q.key);
+    if (currentQKeysToSend.includes('vas_areas')) {
+      each(data.vas_areas.value, (val, prop) => {
+        data[`vas_pain_level_area_${val}`] = { value: data.vas_pain_level_area_, type: 'single' };
+        data[`vas_pain_type_area_${val}`] = { value: data.vas_pain_type_area_, type: 'single' };
+        currentQKeysToSend.push(`vas_pain_level_area_${val}`);
+        currentQKeysToSend.push(`vas_pain_type_area_${val}`);
+      });
+    }
+    return {
+      answers: pick(data, currentQKeysToSend),
+      step,
+    };
+  };
 
+  _finalSubmit = () => {
+    const {
+      testingReducer,
+      testingReducer: {
+        step,
+        testId,
+      }
+    } = this.props;
+   if (step > 0) {
+     let data = this._prepareDataForCheckQuestion(testingReducer, step);
+     checkQuestionWired(testId, data);
+   } else {
+     createTestWired(this._prepareData(testingReducer));
+   }
   };
 
   render() {
     const {
       testingReducer,
       testingReducer: {
-        bodyAreas,
-        bodyAreasPicked,
         q_age,
         q_sex,
       }
     } = this.props;
     return (
-      <div>
+      <div className="testing-container">
         <AppBar
           color="default"
           position="static"
@@ -78,7 +99,7 @@ class TestNew extends Component {
               <Button
                 raised
                 dense
-                onClick={() => createTestWired(this._prepareData(testingReducer))}
+                onClick={() => this._finalSubmit()}
                 color="primary"
               >
                 Next
