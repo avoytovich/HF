@@ -1,0 +1,66 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import each from 'lodash/each';
+import { bindActionCreators } from 'redux';
+import Grid from 'material-ui/Grid';
+import AddAlert from 'material-ui-icons/AddAlert';
+
+import { C } from '../../../components'
+import { dispatchTestingPayloadWired } from '../../../actions'
+
+class Result extends Component {
+  _pickText = (result) => {
+    debugger
+    switch (result) {
+      case 'condition':
+        return 'Condition fired';
+
+      case 'question':
+        return 'Questions in the queue are missing - please check the rules';
+
+      case 'treatment':
+        return 'Treatment fired';
+    }
+  };
+
+  render() {
+    const {
+      result,
+      label,
+    } = this.props;
+    console.log(this._pickText(result));
+    return (
+      <div className="testing-inner-container-long">
+        <h4>Results</h4>
+        <C.Paper
+          label={label}
+          conditionText={this._pickText(result)}
+        />
+        <h3>
+          <AddAlert style={{ color: result === 'treatment' ? 'green' : 'red' }}/>
+        </h3>
+      </div>
+    );
+  }
+}
+
+Result.propTypes = {
+  label: PropTypes.string,
+  result: PropTypes.string,
+};
+
+Result.defaultProps = {
+  label: 'Result',
+  result: 'result',
+};
+
+const mapStateToProps = state => ({
+  testingReducer: state.testingReducer,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Result);

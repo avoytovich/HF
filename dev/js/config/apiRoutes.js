@@ -59,6 +59,7 @@ export const api = {
   test              : '/diagnostics/all/user',
   getExercises      : '/exercises/ids',
   diagnostics       : '/diagnostics',
+  checkQuestion     : '/diagnostics/session',
 };
 
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`

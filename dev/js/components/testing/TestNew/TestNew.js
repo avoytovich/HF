@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 import pick from 'lodash/pick'
+import each from 'lodash/each'
 import pickBy from 'lodash/pickBy'
 import Grid from 'material-ui/Grid';
 
@@ -18,6 +19,7 @@ import Select from '../../common/Select/Select';
 import DynamicQuestions from '../DynamicQuestions/DynamicQuestions';
 import {
   createTestWired,
+  checkQuestionWired,
 } from '../../../actions';
 import {
   PAGE,
@@ -33,18 +35,48 @@ class TestNew extends Component {
     return prepData;
   };
 
+  _prepareDataForCheckQuestion = (data, step) => {
+    let currentQKeysToSend = data.questions.filter(q => q.step == step).map(q => q.key);
+    if (currentQKeysToSend.includes('vas_areas')) {
+      each(data.vas_areas.value, (val, prop) => {
+        data[`vas_pain_level_area_${val}`] = { value: data.vas_pain_level_area_, type: 'single' };
+        data[`vas_pain_type_area_${val}`] = { value: data.vas_pain_type_area_, type: 'single' };
+        currentQKeysToSend.push(`vas_pain_level_area_${val}`);
+        currentQKeysToSend.push(`vas_pain_type_area_${val}`);
+      });
+    }
+    return {
+      answers: pick(data, currentQKeysToSend),
+      step,
+    };
+  };
+
+  _finalSubmit = () => {
+    const {
+      testingReducer,
+      testingReducer: {
+        step,
+        testId,
+      }
+    } = this.props;
+   if (step > 0) {
+     let data = this._prepareDataForCheckQuestion(testingReducer, step);
+     checkQuestionWired(testId, data);
+   } else {
+     createTestWired(this._prepareData(testingReducer));
+   }
+  };
+
   render() {
     const {
       testingReducer,
       testingReducer: {
-        bodyAreas,
-        bodyAreasPicked,
         q_age,
         q_sex,
       }
     } = this.props;
     return (
-      <div>
+      <div className="testing-container">
         <AppBar
           color="default"
           position="static"
@@ -67,7 +99,7 @@ class TestNew extends Component {
               <Button
                 raised
                 dense
-                onClick={() => createTestWired(this._prepareData(testingReducer))}
+                onClick={() => this._finalSubmit()}
                 color="primary"
               >
                 Next

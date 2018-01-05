@@ -4,31 +4,74 @@ import { connect } from 'react-redux';
 import each from 'lodash/each';
 import { bindActionCreators } from 'redux';
 import Grid from 'material-ui/Grid';
+import InsertDriveFile from 'material-ui-icons/InsertDriveFile';
 
 import { C } from '../../../components'
 import { dispatchTestingPayloadWired } from '../../../actions'
 
 class DynamicQuestions extends Component {
-  _pickQuestion = ({ answer: { type, subtype, values }, question, key, content_type }, i) => {
+  _pickQuestion = (
+    {
+      answer: {
+        type,
+        subtype,
+        values
+      },
+      question,
+      key,
+      content_type,
+      description,
+      step,
+    },
+    i
+  ) => {
+
     const { testingReducer } = this.props;
     switch (type) {
       case 'single':
-        if (subtype === 'list') {
+        if (content_type === 'functionalTest') {
           let items = [];
           each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
           return (
-            <C.RadioButton
-              key={i}
-              items={items}
-              reducer={testingReducer}
-              id={key}
-              label={question.en}
-            />
+            <div key={i}>
+              <h5>Step #{ step }</h5>
+              <h4>Functional test</h4>
+              <div>
+                <InsertDriveFile className="testing-file-icon"/>
+              </div>
+              {
+                description &&
+                <p>{ description }</p>
+              }
+              <C.RadioButton
+                key={i}
+                items={items}
+                reducer={testingReducer}
+                id={key}
+                label={question.en}
+              />
+            </div>
+          );
+        } else if (subtype === 'list') {
+          let items = [];
+          each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
+          return (
+            <div key={i}>
+              <h5>Step #{ step }</h5>
+              <C.RadioButton
+                key={i}
+                items={items}
+                reducer={testingReducer}
+                id={key}
+                label={question.en}
+              />
+            </div>
           );
         } else {
           const { min, max } = values;
           return (
-            <div className="margin-range">
+            <div key={i} className="margin-range">
+              <h5>Step #{ step }</h5>
               <C.Range
                 key={i}
                 reducer={testingReducer}
@@ -52,23 +95,29 @@ class DynamicQuestions extends Component {
           const bodyAreas = [];
           each(values, (val, value) => bodyAreas.push({ label: val.en, value }));
           return (
-            <C.BodyAreas
-              key={i}
-              id={key}
-              areas={bodyAreas}
-            />
+            <div key={i}>
+              <h5>Step #{ step }</h5>
+              <C.BodyAreas
+                key={i}
+                id={key}
+                areas={bodyAreas}
+              />
+            </div>
           );
         } else {
           let itemsMultiple = [];
           each(values, (val, answerId) => itemsMultiple.push({ label: val.en, answerId }));
           return (
-            <C.CheckBox
-              key={i}
-              items={itemsMultiple}
-              reducer={testingReducer}
-              id={key}
-              label={question.en}
-            />
+            <div key={i}>
+              <h5>Step #{ step }</h5>
+              <C.CheckBox
+                key={i}
+                items={itemsMultiple}
+                reducer={testingReducer}
+                id={key}
+                label={question.en}
+              />
+            </div>
           );
         }
 
@@ -83,10 +132,25 @@ class DynamicQuestions extends Component {
     })
   };
 
+  _renderConditions = (conditions, step) => {
+    return conditions.map(({ title }, i) => {
+      return (
+        <C.Paper
+          key={i}
+          step={step}
+          conditionText={title}
+        />
+      )
+    })
+  };
+
   render() {
     const {
       testingReducer: {
         questions,
+        conditions,
+        step,
+        result_status,
       }
     } = this.props;
     return questions.length ?
@@ -95,22 +159,42 @@ class DynamicQuestions extends Component {
           <Grid container spacing={0}>
             <Grid item xs={5}>
               <div className="testing-inner-container-long">
-                <p className="testing-inner-sub-header">
+                <h2 className="testing-inner-sub-header">
                   Conditions & Treatment
-                </p>
+                </h2>
+
+                { this._renderConditions(conditions, step) }
+
               </div>
             </Grid>
 
             <Grid item xs={5}>
               <div className="testing-inner-container-long">
-                <p className="testing-inner-sub-header">
+                <h2 className="testing-inner-sub-header">
                   Questions
-                </p>
+                </h2>
 
                 { this._renderQuestions(questions) }
 
               </div>
             </Grid>
+
+            {
+              result_status &&
+              <div className="border-top" style={{ width: '100%' }} >
+                <Grid container spacing={0}>
+                  <Grid item xs={5}>
+
+                    <C.Result
+                      result={result_status}
+                      label={result_status}
+                    />
+
+                  </Grid>
+                </Grid>
+              </div>
+            }
+
           </Grid>
         </div>
       ) :

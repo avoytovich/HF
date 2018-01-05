@@ -54,7 +54,6 @@ class CreateTreatmentsComponent extends Component {
       const _data = data.map(item =>
         Object.assign({}, item, { label: item.title }));
 
-      debugger;
 
       return {
         options: _data,
