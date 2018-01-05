@@ -223,6 +223,13 @@
     display: flex
     flex: 1
     flex-direction: column
+    & > div > div > div > div:first-child
+      font-weight: bold
+      color: black!important
+      border-bottom: 1px solid grey
+      padding-bottom: 1px!important
+      margin: 0!important
+
     //[class*='MuiSelect-select']
       justify-content: center!important
   .answer-select
@@ -230,7 +237,9 @@
     flex: 2
     flex-direction: column
     margin-left: 10px
-  [class*='MuiSelect-select']
+    color: black!important
+    //[class*='MuiSelect-select']
+  input ~ div
     color: black!important
     border-bottom: 1px solid black
     padding-bottom: 1px!important

@@ -74,9 +74,11 @@
     margin-top: 7px
 
   .tab-lang
-    [class*='MuiTab-root'],
-    [clas*='MuiTabIndicator-root']
+    //[class*='MuiTab-root'],
+    //[class*='MuiTabIndicator-root']
+    [role^='tablist']:nth-child(2)
       min-width: 90px!important
+
 
   .tab-lang.answer
     width: 45%
