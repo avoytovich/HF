@@ -84,7 +84,7 @@ class Clinics extends Component {
           domen="diagnostics"
           typeKey="deactivateOpen"
           list={selected}
-          title="Activate this Companies"
+          title="Activate this Clinics"
           deactivateOpen={showActivateModal}
           open={this._toggleActivateModal}
           itemKey="name"

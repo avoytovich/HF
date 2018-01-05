@@ -22,6 +22,12 @@ const diagnosticTab = {
   rules: [],
 };
 
+const bodyAreaTab = {
+  description      : '',
+  key   : '',
+  title  : '',
+};
+
 const conditionTab = {};
 
 const treatmentTab = {
@@ -60,4 +66,5 @@ export  default {
   ...packageTab,
   ...levelUp,
   ...exerciseTab,
+  ...bodyAreaTab,
 };

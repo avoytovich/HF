@@ -48,6 +48,8 @@ export const api = {
   getPackageByArea    : '/packages/get/area',
   treatmentsFindArea  : '/matrix/treatments/find/area',
   generate            : '/dev/exercises/files/url/generate',
+  generateExercises   : '/dev/exercises/files/url/generate',
+  generateDiagnostics : '/dev/diagnostics/files/url/generate',
   assets              : '/files',
   assetsExercises     : '/files',
   assetsDiagnostics   : '/files',

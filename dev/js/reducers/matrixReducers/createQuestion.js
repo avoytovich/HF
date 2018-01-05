@@ -153,6 +153,21 @@ const setFullQuestionForCondition = (state, action) => {
   return Object.assign({}, state, res);
 };
 
+const setFullBodyAreaEdit = (state, action) => {
+  console.log(state, action)
+  const { body, body: {title, key, description}} = action.payload;
+  const _body = {
+    title: title,
+    key: key,
+    description: description,
+  };
+  const res = body.package ?
+    {..._body,
+      treatmentsLevels: { label: body.package.package_id, value:  body.package.package_id},
+      treatmentsPackage:{ label: package_level_id, value: package_level_id}} : _body;
+  return Object.assign({}, state, res);
+};
+
 const setFullQuestionForPackage = (state, action) => {
   const { body: {areas, title, key, packageLevels }} = action.payload;
   const _body = {
@@ -216,6 +231,6 @@ export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {
   [`${CREATE_QUESTION}_SET_COND_QUESTION`]    : setFullQuestionForCondition,
   [`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`] : setFullQuestionForPackage,
   [`${CREATE_QUESTION}_CLEAR_STATE`]          : clearAll,
-  [`${CREATE_QUESTION}_DELETE_PACKAGE_LEVEL`] : deletePackageLevel
-
+  [`${CREATE_QUESTION}_DELETE_PACKAGE_LEVEL`] : deletePackageLevel,
+  [`${CREATE_QUESTION}_SET_BODY_AREA`]        : setFullBodyAreaEdit,
 });

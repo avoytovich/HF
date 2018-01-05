@@ -127,22 +127,27 @@ class CreateUser extends Component {
             </div>
           </div>
 
+          <div className="create-user-container">
           <div className="create-user-contacts-container">
             <h3 className="create-user-title">Contact Persons</h3>
             {map(createUsersReducers.contact_info.contacts, (el,index) => {
               return(
                 <div key={index} className="create-user-input-container">
                  <div className="delete-item-container">
-                   <Input id={'contact_info.contacts.'+index+'.name'} reducer={createUsersReducers} label='Name' placeholder='Name'/>
+                   <Input id={`contact_info.contacts[${index}].name`} reducer={createUsersReducers} label='Name' placeholder='Name'/>
                    <DeleteIcon onClick = {()=>this._deleteContact(index, createUsersReducers.contact_info.contacts)}/>
                  </div>
-                  <Input id={'contact_info.contacts.'+index+'.surname'} reducer={createUsersReducers} label='Surname' placeholder='Surname'/>
-                  <Input id={'contact_info.contacts.'+index+ '.email'} reducer={createUsersReducers} label='Email' placeholder='Email'/>
-                  <Input id={'contact_info.contacts.'+index+'.phone'} reducer={createUsersReducers} label='Phone' placeholder='Phone'/>
+                  <Input id={`contact_info.contacts[${index}].surname`} reducer={createUsersReducers} label='Surname' placeholder='Surname'/>
+                  <Input id={`contact_info.contacts[${index}].email`} reducer={createUsersReducers} label='Email' placeholder='Email'/>
+                  <Input id={`contact_info.contacts[${index}].phone`} reducer={createUsersReducers} label='Phone' placeholder='Phone'/>
                 </div>
               )
             })}
             <div className="add-contact-person" onClick = {()=>this._addContact(createUsersReducers.contact_info.contacts)}><span>+</span> ADD CONTACT PERSON </div>
+          </div>
+            <div className="create-user-contacts-container">
+              <h3 className="create-user-title"/>
+            </div>
           </div>
         </div>
       </div>
