@@ -39,15 +39,17 @@ const testingBodyAres = (state, action) => {
 };
 
 const testingAddQuestionsAndCond = (state, action) => {
-  let questions     = [...state.questions];
-  let conditions    = [...state.conditions];
-  let step          = action.payload.step;
-  let id            = action.payload.id;
-  let result_status = action.payload.result_status;
-  let condition     = action.payload.condition;
+  let questions = [...state.questions];
+  let conditions = [...state.conditions];
+  let {
+    step,
+    id,
+    result_status,
+    condition,
+  } = action.payload;
   each(action.payload.questions, (q, p) => q.step = step);
   each(action.payload.conditions, (c, p) => c.step = step);
-  questions      = questions.concat(action.payload.questions);
+  questions = questions.concat(action.payload.questions);
   each(action.payload.conditions, (val, prop) => {
     if (!find(conditions, ({ key }) => key === prop)) {
       conditions.push({ ...val, key: prop })

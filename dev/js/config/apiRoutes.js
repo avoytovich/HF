@@ -1,5 +1,10 @@
 export let domen;
-if (process.env.NODE_ENV === 'production') {
+
+// form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`
+export let assets;
+
+if (process.env.NODE_ENV === 'production' && process.env.NODE_CUSTOM_MODE !== 'dev') {
+  assets = 'http://54.93.106.29/assets';
   domen = {
     users      : 'http://54.93.77.193',
     exercises  : 'http://54.93.228.195',
@@ -7,6 +12,7 @@ if (process.env.NODE_ENV === 'production') {
     s3         : 'https://uk6yk108kj.execute-api.eu-central-1.amazonaws.com/prod',
   };
 } else {
+  assets = 'http://localhost:3030/assets';
   domen = {
     users      : 'http://18.195.77.253',
     exercises  : 'http://18.195.76.169',
@@ -67,9 +73,6 @@ export const api = {
   diagnostics         : '/diagnostics',
   checkQuestion       : '/diagnostics/session',
 };
-
-// form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`
-export const assets = 'http://localhost:3030/assets';
 
 export const PAGE = {
   bodyArea          : '/matrix-setup/body-area',
