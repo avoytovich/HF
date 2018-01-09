@@ -138,7 +138,7 @@ export const PACKAGES_TAB = {
     { title: 'Name',       key: 'title',      className: 'left'                                       },
     {
       title: 'Body Areas',
-      key: 'areas',
+      key: 'areas.data',
       className: 'center',
       type: 'areas'
     },
