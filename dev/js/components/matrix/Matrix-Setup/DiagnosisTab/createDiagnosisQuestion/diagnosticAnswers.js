@@ -43,6 +43,7 @@ class DiagnosticAnswers extends Component {
       const answerLang = this.props.store[answerType].map(() => 'en');
       this.setState({answerLang});
     }
+
   }
 
   addAnswer = (value) => {
