@@ -143,6 +143,7 @@ class CreateTreatmentsComponent extends Component {
                 <Grid item md={6} sm={12}>
                   <Input
                     id='questionTitle'
+                    className="MUIControl"
                     value={questionTitle}
                     reducer={ createDiagnosisQuestion }
                     label={ L_CREATE_QUESTION.questionTitle }

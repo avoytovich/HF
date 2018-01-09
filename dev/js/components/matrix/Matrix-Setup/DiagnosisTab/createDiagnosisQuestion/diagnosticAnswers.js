@@ -80,7 +80,7 @@ class DiagnosticAnswers extends Component {
                   <Input
                     id={`${type}[${index}].${answerLang[index]}`}
                     reducer={store}
-                    className="MuiFormControl-CUSTOM"
+                    className="MUIControl"
                   />
                   <Clear onClick={() => removeAnswer(type, index)}/>
                 </div>
@@ -92,8 +92,8 @@ class DiagnosticAnswers extends Component {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="English" value="en"/>
-                  <Tab label="Sweden"  value="swe" />
+                  <Tab label="English" value="en" className="MUITab"/>
+                  <Tab label="Sweden"  value="swe" className="MUITab" />
                 </Tabs>
               </li>})}
           </ol>
@@ -112,6 +112,7 @@ class DiagnosticAnswers extends Component {
           <Input
             id='range.from'
             type='number'
+            className="MUIControl"
             reducer={store}
           />
 
@@ -122,6 +123,7 @@ class DiagnosticAnswers extends Component {
           <Input
             id='range.to'
             type='number'
+            className="MUIControl"
             reducer={store}
           />
         </div>;

@@ -84,12 +84,13 @@ class DiagnosisTypeQuestion extends Component {
 
         {/*Title and Body Area*/}
         <Grid container className="row-item">
-          <Grid item md={6} sm={12}>
+          <Grid item md={6} sm={12} >
             <Input
               id='questionTitle'
               value={questionTitle}
               reducer={ createDiagnosisQuestion }
               label={ 'Title' }
+              className="MUIControl"
             />
           </Grid>
           <Grid item md={6} sm={12} >

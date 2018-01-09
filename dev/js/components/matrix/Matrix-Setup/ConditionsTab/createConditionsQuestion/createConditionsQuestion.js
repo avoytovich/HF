@@ -116,6 +116,7 @@ class CreateConditionComponent extends Component {
                 <Input
                   id='questionTitle'
                   value={questionTitle}
+                  className="MUIControl"
                   reducer={ createDiagnosisQuestion }
                   label={ L_CREATE_QUESTION.questionTitle }
                   placeholder={ L_CREATE_QUESTION.enterTitle }
