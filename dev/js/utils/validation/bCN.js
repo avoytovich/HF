@@ -6,6 +6,6 @@
  *
  */
 export const bCN = (arrName, propName) => {
-  return `^(${arrName}(\\.|\\[[0-9]+\\]*)(${propName}|\\[${propName}+\\]))$`;
-  //return `^(${arrName}(\\.|\\[[0-9]+\\]*\\.)${propName})$`;
+//  return `^(${arrName}(\\.|\\[[0-9]+\\]*)(.${propName}|\\[${propName}+\\]))$`;
+  return `^(${arrName}(\\.|\\[[0-9]+\\]*\\.)${propName})$`;
 };

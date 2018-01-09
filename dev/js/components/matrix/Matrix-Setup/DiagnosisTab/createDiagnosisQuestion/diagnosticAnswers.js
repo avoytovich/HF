@@ -78,7 +78,7 @@ class DiagnosticAnswers extends Component {
               return <li  key={index} className="row-item">
                 <div className="answer-item">
                   <Input
-                    id={`${type}[${index}][${answerLang[index]}]`}
+                    id={`${type}[${index}].${answerLang[index]}`}
                     reducer={store}
                     className="MuiFormControl-CUSTOM"
                   />
