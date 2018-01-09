@@ -154,7 +154,6 @@ const setFullQuestionForCondition = (state, action) => {
 };
 
 const setFullBodyAreaEdit = (state, action) => {
-  console.log(state, action)
   const { body, body: {title, key, description}} = action.payload;
   const _body = {
     title: title,
@@ -174,7 +173,7 @@ const setFullQuestionForPackage = (state, action) => {
     areaIds: configArea(areas.data),
     questionTitle: title,
     questionKey: key,
-    packageLevels: packageLevels.data
+//    packageLevels: packageLevels.data
   };
   return Object.assign({}, state, _body);
 };

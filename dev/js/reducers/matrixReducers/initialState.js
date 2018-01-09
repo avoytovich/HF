@@ -32,11 +32,22 @@ const treatmentTab = {
 const packageTab = {
   packageType: 'symptomatic',
   therapyContinuity: '1',
-  packageLevels: []
+  packageLevels: [],
 };
 
 const levelUp = {
-  packageLevels: []
+  packageLevels: [
+    {
+      level: 1,
+      level_up_properties: {
+        vas: 1,
+        vas_min: 1,
+        sessions: 1
+      },
+      therapy_continuity: '1',
+      exercise_ids: []
+    }
+  ]
 };
 
 const exerciseTab = {

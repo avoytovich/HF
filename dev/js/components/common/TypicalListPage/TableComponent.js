@@ -20,6 +20,7 @@ import moment                 from 'moment';
 import { browserHistory }     from 'react-router';
 import { PAGE }               from '../../../config';
 import { withRouter }         from 'react-router';
+import Tooltip                from 'material-ui/Tooltip';
 
 
 
@@ -236,6 +237,7 @@ class TableComponent extends Component {
    */
   formatCellValue = (row, { key, type, format }) => {
     const value =  get(row, key, '-') || '-';
+
     switch (type) {
       case 'time':
        return moment.unix(value).format(format);
@@ -243,9 +245,17 @@ class TableComponent extends Component {
       case 'length':
         return value ? value.length : 0;
 
-      case 'area':
-        return value === '-' ? 'All' : value;
-
+      case 'areas':
+        if (value.length) {
+          const list = value.map(({title}) => title).join(', ');
+          const [ first ] = value;
+          return (
+            <Tooltip id="tooltip-top-start" title={list} label="Add" placement="top-start">
+              <span>{ value.length > 1 ? `${first.title}...` : first.title }</span>
+            </Tooltip>
+          );
+        }
+        return '-';
       default:
         return value;
     }

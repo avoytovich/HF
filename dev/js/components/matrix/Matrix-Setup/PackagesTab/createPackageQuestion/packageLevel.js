@@ -1,13 +1,8 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
-import { browserHistory }           from 'react-router'
-import { diagnosisQuestionCreate,
+import {
   updateCrateQuestionFields,
-  clearCreateQuestion,
-  findUniqueKey,
-  updateQuestionCreate,
-  getPackagenById,
   deletePackageLevel
 }                                   from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
@@ -18,7 +13,6 @@ import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../../common/Input/Input';
 import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
-import Tabs, { Tab }                from 'material-ui/Tabs';
 import PackageExercises             from './packageExercises';
 import { CircularProgress }         from 'material-ui/Progress';
 import PackageExercisesModal        from './packageExercisesModal';
@@ -81,6 +75,7 @@ class PackageLevelComponent extends Component {
             type='number'
             max="100"
             min="1"
+            className="MUIControl"
             reducer={ createDiagnosisQuestion }
             placeholder={ L_CREATE_QUESTION.enterTitle }
           />
@@ -95,6 +90,7 @@ class PackageLevelComponent extends Component {
             type='number'
             max="100"
             min="1"
+            className="MUIControl"
             reducer={ createDiagnosisQuestion }
             placeholder={ L_CREATE_QUESTION.enterTitle }
           />
@@ -108,6 +104,7 @@ class PackageLevelComponent extends Component {
             id={`packageLevels[${index}].level_up_properties.sessions`}
             type='number'
             min="1"
+            className="MUIControl"
             reducer={this.props.createDiagnosisQuestion}
           />
         </Grid>
@@ -154,7 +151,9 @@ class PackageLevelComponent extends Component {
             OPEN EXERCISES
           </Button>
 
-          <Button color="primary" onClick={() => this.deleteLevel(level, index)}>
+          <Button color="primary"
+                  disabled={packageLevels.length <= 1}
+                  onClick={() => this.deleteLevel(level, index)}>
             DELETE LEVEL
           </Button>
 
