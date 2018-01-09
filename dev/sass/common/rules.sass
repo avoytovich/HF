@@ -104,19 +104,19 @@
     margin: 0
     display: flex
     padding-top: 8px
-    //[class^='MuiInput']:before,
-    //[class^='MuiInput']:after,
+    [class^='MuiInput']:before,
+    [class^='MuiInput']:after,
     & > div:before,
     & > div:after
       display: none
-    //[class^='MuiSelect-select']
+    [class^='MuiSelect-select'],
     & > div > div > div
       padding: 0 12px 2px 0
       text-align: center
       color: white
       font-size: 12px
       font-weight: bold
-    //[class^='MuiSvgIcon']
+    [class^='MuiSvgIcon'],
     & > div > div > svg
       fill: white
       stroke: white
@@ -137,7 +137,7 @@
   background-color: white
   border-bottom: 1px solid $secondary-grey
 
-//[class*='MuiSelect-selectMenu-']
+[class*='MuiSelect-selectMenu-']
   white-space: inherit!important
   overflow: inherit!important
   line-height: inherit!important
@@ -230,7 +230,7 @@
       padding-bottom: 1px!important
       margin: 0!important
 
-    //[class*='MuiSelect-select']
+    [class*='MuiSelect-select']
       justify-content: center!important
   .answer-select
     display: flex
@@ -238,13 +238,13 @@
     flex-direction: column
     margin-left: 10px
     color: black!important
-    //[class*='MuiSelect-select']
+  [class*='MuiSelect-select'],
   input ~ div
     color: black!important
     border-bottom: 1px solid black
     padding-bottom: 1px!important
     margin: 0!important
-  //[class*='MuiSvgIcon'],
+  [class*='MuiSvgIcon'],
   svg
     fill: black
   .title
