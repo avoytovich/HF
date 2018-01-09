@@ -114,17 +114,14 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
       return Promise.resolve({ options: [] });
 
     default:
-      const { type, area, step, state: { page }, reqType } = props;
-
+      const { type, areaIds, step, state: { page }, reqType } = props;
       const body = {
         type: _type || type,
-        area_id: area || null,
+        areaIds: areaIds || [],
         answerType
       };
       const noSteps = page === 'condition' || page === 'treatment';
       const _body = noSteps ? body : {...body, step: step || null};
-
-//      const areaType = reqType === 'evaluations' ? 'findEvalByAre' : 'findByAre';
       return findByArea(questionType, 'findByAre', _body, input || key).then(res => {
         const { data } = res.data;
         const _data = data.map(item => {
@@ -154,11 +151,11 @@ export const getConditionOptions = (input, key, onChangeCallBack, props, questio
       return Promise.resolve({ options: [] });
 
     default:
-      const { type, area, step } = props;
+      const { type, areaIds, step } = props;
 
       const body = {
 //        type: _type || type,
-        area: area || null,
+        areaIds: areaIds || [],
 //        step: step || null,
 //        answerType
       };
