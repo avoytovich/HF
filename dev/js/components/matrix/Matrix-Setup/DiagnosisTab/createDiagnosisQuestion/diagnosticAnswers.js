@@ -37,8 +37,12 @@ class DiagnosticAnswers extends Component {
   state = { answerLang: ['en', 'en'] };
 
   componentDidMount() {
-    const answerLang = this.props.store.multiple.map(() => 'en');
-    this.setState({answerLang});
+    const { answerType } = this.props.store;
+    const answerList = this.props.store[answerType];
+    if (Array.isArray(answerList)) {
+      const answerLang = this.props.store[answerType].map(() => 'en');
+      this.setState({answerLang});
+    }
   }
 
   addAnswer = (value) => {
