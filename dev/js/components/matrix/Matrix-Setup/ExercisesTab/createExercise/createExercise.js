@@ -209,7 +209,7 @@ class CreateExerciseComponent extends Component {
                   centered
                 >
                   <Tab label="English" value="en" />
-                  <Tab label="Sweden"  value="swe" />
+                  <Tab label="Swedish"  value="swe" />
                 </Tabs>
               </Grid>
 
@@ -251,7 +251,7 @@ class CreateExerciseComponent extends Component {
                   centered
                 >
                   <Tab label="English" value="en" />
-                  <Tab label="Sweden"  value="swe" />
+                  <Tab label="Swedish"  value="swe" />
                 </Tabs>
               </Grid>
 
@@ -293,7 +293,7 @@ class CreateExerciseComponent extends Component {
                   centered
                 >
                   <Tab label="English" value="en" />
-                  <Tab label="Sweden"  value="swe" />
+                  <Tab label="Swedish"  value="swe" />
                 </Tabs>
               </Grid>
 

@@ -88,7 +88,7 @@ class DiagnosticAnswers extends Component {
                   centered
                 >
                   <Tab label="English" value="en"/>
-                  <Tab label="Sweden"  value="swe" />
+                  <Tab label="Swedish"  value="swe" />
                 </Tabs>
               </li>})}
           </ol>

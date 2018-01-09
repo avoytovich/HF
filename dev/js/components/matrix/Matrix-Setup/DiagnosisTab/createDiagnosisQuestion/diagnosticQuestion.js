@@ -53,7 +53,7 @@ class DiagnosticQuestion extends Component{
         centered
       >
         <Tab label="English" value="en"  className="dddd"/>
-        <Tab label="Sweden"  value="swe" className="dddd"/>
+        <Tab label="Swedish"  value="swe" className="dddd"/>
       </Tabs>
     </Grid>
   }
