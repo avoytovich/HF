@@ -61,7 +61,7 @@ class InComponent extends Component {
         >
           {this.state.answers.map((option, index) =>
             (<MenuItem key={index}
-                       clasName="CMuiInput"
+                       className="CMuiInput"
                        value={option.label }>
               {option.label}.{option.value}
             </MenuItem>))}

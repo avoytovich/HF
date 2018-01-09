@@ -20,12 +20,12 @@ const validator = (inputDataReceived, constraints) => {
   let inputDataFlat     = flattenObject(inputDataReceived);
   let errors            = {};
   let isValid;
-
   // iterate over input data object
   each(keys(inputDataFlat), dataKey => {
     // iterate over rules object
     each(keys(constraints), constraintKey => {
       // if rule object prop name contains regex symbol and matches input data prop-path name - do validation
+      debugger;
       if (constraintKey.match(/\^/) && dataKey.match(constraintKey)) {
         let tempDataObj         = { 't': inputDataFlat[dataKey] };
         let tempCheckRule       = { 't': constraints[constraintKey] };
