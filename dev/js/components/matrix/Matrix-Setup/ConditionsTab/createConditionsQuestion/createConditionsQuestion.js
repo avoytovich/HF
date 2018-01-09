@@ -44,7 +44,7 @@ class CreateConditionComponent extends Component {
 
     const result = {
       areaIds,
-      rule  : rules[0],
+      rule  : {and: rules},
       key   : questionKey,
       title : questionTitle
     };

@@ -134,7 +134,7 @@ class CreateQuestionComponent extends Component {
         type, subtype,
         values: this.getAnswer(answerType, value)
       },
-      rule: rules[0],
+      rule: {and: rules},
       ...moreProps
     };
   };

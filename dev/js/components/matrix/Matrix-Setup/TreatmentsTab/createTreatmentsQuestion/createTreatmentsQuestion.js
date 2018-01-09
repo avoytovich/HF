@@ -60,7 +60,7 @@ class CreateTreatmentsComponent extends Component {
     const { areaIds, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
     const result = {
       areaIds,
-      rule              : rules[0],
+      rule              : {and: rules},
       key               : questionKey,
       title             : questionTitle,
 

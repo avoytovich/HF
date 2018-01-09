@@ -133,7 +133,7 @@ class CreateEvaluationComponent extends Component {
         type, subtype,
         values: this.getAnswer(answerType, value)
       },
-      rule: rules[0],
+      rule: {and: rules},
       packageLevelIds: [24],
       ...moreProps
     };

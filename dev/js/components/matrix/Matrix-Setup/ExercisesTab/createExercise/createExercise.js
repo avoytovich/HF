@@ -300,8 +300,8 @@ class CreateExerciseComponent extends Component {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="English" value="en" className="MUITab"/>
-                  <Tab label="Sweden"  value="swe" className="MUITab"/>
+                  <Tab label="English" value="en"   className="MUITab"/>
+                  <Tab label="Sweden"  value="swe"  className="MUITab"/>
                 </Tabs>
               </Grid>
 
