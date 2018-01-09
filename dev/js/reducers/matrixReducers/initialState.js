@@ -9,14 +9,8 @@ const diagnosticTab = {
   sequence      : 1,
   sequenceType  : 'normal',
   answerType    : 'single',
-  single  : [
-    { en: '', swe: ''},
-    { en: '', swe: ''}
-  ],
-  multiple: [
-    { en: '', swe: ''},
-    { en: '', swe: ''}
-  ],
+  single  : [ { en: '', swe: ''} ],
+  multiple: [ { en: '', swe: ''} ],
   range   : { from: 0, to: 100 },
   diagnostic_assets: '',
   rules: [],

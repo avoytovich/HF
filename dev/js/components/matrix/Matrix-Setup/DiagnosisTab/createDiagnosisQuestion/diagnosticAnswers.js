@@ -34,7 +34,7 @@ const ANSWER_TYPE = [
 ];
 
 class DiagnosticAnswers extends Component {
-  state = { answerLang: ['en', 'en'] };
+  state = { answerLang: ['en'] };
 
   componentDidMount() {
     const { answerType } = this.props.store;
@@ -92,7 +92,7 @@ class DiagnosticAnswers extends Component {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="English" value="en" className="MUITab"/>
+                  <Tab label="English" value="en"  className="MUITab"/>
                   <Tab label="Sweden"  value="swe" className="MUITab" />
                 </Tabs>
               </li>})}

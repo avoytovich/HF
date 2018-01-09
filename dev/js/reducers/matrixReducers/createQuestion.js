@@ -103,7 +103,7 @@ const removeAnswer = (state, action) => {
     type,
     value => {
       const length = value.length;
-      if (length <= 2) {
+      if (length <= 1) {
         return value;
       }
       else {
