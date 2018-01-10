@@ -16,10 +16,8 @@
 
   .row-item
     margin-top: 15px
-    &  div
-      width: inherit
-    [class^="MuiFormControl"],
-    [class*="MuiFormControlDEFAULT"]
+    //[class^="MuiFormControl"],
+    .MUIControl
       width: 100%
 
   .page-sub-header
@@ -73,10 +71,10 @@
   .custom-select-title
     margin-top: 7px
 
-  .tab-lang
-    //[class*='MuiTab-root'],
+  .tab-lang,
+  .MUITab
+    min-width: 80px!important
     //[class*='MuiTabIndicator-root']
-    [role^='tablist']:nth-child(2)
       min-width: 90px!important
 
 

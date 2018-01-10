@@ -103,7 +103,7 @@ const removeAnswer = (state, action) => {
     type,
     value => {
       const length = value.length;
-      if (length <= 2) {
+      if (length <= 1) {
         return value;
       }
       else {
@@ -154,7 +154,6 @@ const setFullQuestionForCondition = (state, action) => {
 };
 
 const setFullBodyAreaEdit = (state, action) => {
-  console.log(state, action)
   const { body, body: {title, key, description}} = action.payload;
   const _body = {
     title: title,
@@ -174,7 +173,7 @@ const setFullQuestionForPackage = (state, action) => {
     areaIds: configArea(areas.data),
     questionTitle: title,
     questionKey: key,
-    packageLevels: packageLevels.data
+    packageLevels: configPackageLevel(packageLevels.data)
   };
   return Object.assign({}, state, _body);
 };
@@ -207,6 +206,25 @@ const configArea = (areas) => {
 //  if (id) return { value: area.id, label: area.title, key: area.key };
 //
 //  return { value: null, label: 'All', key: null };
+};
+
+const configPackageLevel = (data) => {
+  return data.reduce((result, el) => {
+    if (el) {
+      const { therapy_continuity, package_id, exercise_ids, id, level, level_up_properties } = el;
+      const properties = Array.isArray(level_up_properties) ?
+        { vas: 1, vas_min: 1, sessions: 1 }: level_up_properties;
+      return result.concat({
+        therapy_continuity,
+        package_id,
+        exercise_ids,
+        id,
+        level,
+        level_up_properties: properties
+      })
+    }
+    return result;
+  }, []);
 };
 
 const deletePackageLevel = (state, action) => {

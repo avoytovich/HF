@@ -55,7 +55,6 @@ class RulesQuestionComponent extends Component {
                 fab
                 color="accent"
                 aria-label="add"
-                disabled={rules.length > 0}
               >
                 <AddIcon />
               </Button>

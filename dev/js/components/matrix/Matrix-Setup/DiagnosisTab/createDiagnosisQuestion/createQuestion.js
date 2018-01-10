@@ -26,13 +26,14 @@ class CreateQuestionComponent extends Component {
       {label: 'Before', value: 'before'},
 
     ],
-    answerType      : [
-      {label: 'Single',   value: 'single'},
-      {label: 'Range',    value: 'range'},
-      {label: 'Multiple', value: 'multiple'},
-    ],
-    answerLang      : ['en', 'en'],
-    sequenceList    : []
+//    answerType      : [
+//      {label: 'Single',   value: 'single'},
+//      {label: 'Range',    value: 'range'},
+//      {label: 'Multiple', value: 'multiple'},
+//    ],
+//    answerLang      : ['en', 'en'],
+    sequenceList    : [],
+    loading: false
   };
 
   constructor(props) {
@@ -43,11 +44,13 @@ class CreateQuestionComponent extends Component {
 
   componentWillMount() {
     if (this.props.routeParams.id) {
+      this.setState({loading: true});
       getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
         if (answer.values) {
-          const keys = Object.keys(answer.values);
-          const answerLang = keys.map(() => 'en');
-          this.setState({answerLang})
+//          const keys = Object.keys(answer.values);
+//          const answerLang = keys.map(() => 'en');
+//          this.setState({answerLang})
+          this.setState({loading: false});
         }
       });
     }
@@ -131,7 +134,7 @@ class CreateQuestionComponent extends Component {
         type, subtype,
         values: this.getAnswer(answerType, value)
       },
-      rule: rules[0],
+      rule: {and: rules},
       ...moreProps
     };
   };
@@ -166,7 +169,7 @@ class CreateQuestionComponent extends Component {
         </div>
 
 
-        { id && !questionKey ?
+        { id && this.state.loading ?
           <MatrixPreLoader
             left="1"
             right="2"

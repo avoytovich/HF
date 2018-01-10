@@ -75,9 +75,9 @@ export const DIAGNOSIS_TAB = {
     { title: 'Name', key: 'title', className: 'left' },
     {
       title: 'Body Areas',
-      key: 'area.title',
+      key: 'areas',
       className: 'center',
-      type: 'stop'
+      type: 'areas'
     },
     { title: 'Key',         key: 'key',         className: 'left'                                        },
     { title: 'Sequence',    key: 'step',        className: 'center', type: 'number', format: ''          },
@@ -104,9 +104,9 @@ export const CONDITIONS_TAB = {
     { title: 'Name',       key: 'title',      className: 'left'                                        },
     {
       title: 'Body Areas',
-      key: 'area.title',
+      key: 'areas',
       className: 'center',
-      type: 'stop'
+      type: 'areas'
     },
     { title: 'Key',        key: 'key',        className: 'left'                                        },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT     },
@@ -121,9 +121,9 @@ export const TREATMENTS_TAB = {
     { title: 'Name',       key: 'title',      className: 'left'                                       },
     {
       title: 'Body Areas',
-      key: 'area.title',
+      key: 'areas',
       className: 'center',
-      type: 'stop'
+      type: 'areas'
     },
     { title: 'Key',        key: 'key',        className: 'left'                                       },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT    },
@@ -138,9 +138,9 @@ export const PACKAGES_TAB = {
     { title: 'Name',       key: 'title',      className: 'left'                                       },
     {
       title: 'Body Areas',
-      key: 'area.title',
+      key: 'areas.data',
       className: 'center',
-      type: 'stop'
+      type: 'areas'
     },
     { title: 'Key',        key: 'key',        className: 'left'                                       },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT    },
