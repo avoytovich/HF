@@ -148,7 +148,7 @@ class DiagnosisTypeQuestion extends Component {
 
 
         {/*Package and Start level*/}
-        { packages && <div style={{display: 'flex', flexDirection: 'column'}}>
+        { false && packages && <div style={{display: 'flex', flexDirection: 'column'}}>
           {/* Answers */}
           <Grid className="title answer">
             <Typography type="title"
