@@ -27,6 +27,7 @@ class DynamicQuestions extends Component {
   ) => {
 
     const { testingReducer } = this.props;
+
     switch (type) {
       case 'single':
         if (content_type === 'functionalTest') {
@@ -68,7 +69,7 @@ class DynamicQuestions extends Component {
             </div>
           );
         } else {
-          const { min, max } = values;
+          const { min = 0, max = 100 } = values;
           return (
             <div key={i} className="margin-range">
               <h5>Step #{ step }</h5>

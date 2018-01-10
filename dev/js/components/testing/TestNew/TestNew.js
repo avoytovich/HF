@@ -20,6 +20,7 @@ import DynamicQuestions from '../DynamicQuestions/DynamicQuestions';
 import {
   createTestWired,
   checkQuestionWired,
+  T,
 } from '../../../actions';
 import {
   PAGE,
@@ -27,6 +28,10 @@ import {
 } from '../../../config';
 
 class TestNew extends Component {
+  componentWillMount() {
+    this.props.dispatch({ type: `${T.TESTING}_CLEAR` });
+  };
+
   _prepareData = (data) => {
     let prepData     = pick(data, pickKeys.testing);
     prepData.answers = pickBy(prepData, el => el.value);
@@ -40,7 +45,7 @@ class TestNew extends Component {
     if (currentQKeysToSend.includes('vas_areas')) {
       each(data.vas_areas.value, (val, prop) => {
         data[`vas_pain_level_area_${val}`] = { value: data.vas_pain_level_area_, type: 'single' };
-        data[`vas_pain_type_area_${val}`] = { value: data.vas_pain_type_area_, type: 'single' };
+        data[`vas_pain_type_area_${val}`]  = { value: data.vas_pain_type_area_, type: 'single' };
         currentQKeysToSend.push(`vas_pain_level_area_${val}`);
         currentQKeysToSend.push(`vas_pain_type_area_${val}`);
       });
