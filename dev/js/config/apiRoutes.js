@@ -10,7 +10,17 @@ console.log(`
   ==========================
 `);
 
-if (process.env.NODE_ENV === 'production' && process.env.NODE_CUSTOM_MODE !== 'development') {
+console.log('check simple');
+
+if (process.env.NODE_CUSTOM_MODE === 'development') {
+  assets = 'http://18.194.17.252/assets';
+  domen = {
+    users      : 'http://18.195.77.253',
+    exercises  : 'http://18.195.76.169',
+    diagnostics: 'http://18.194.211.206',
+    s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com/dev',
+  };
+} else if (process.env.NODE_ENV === 'production') {
   assets = 'http://54.93.106.29/assets';
   domen = {
     users      : 'http://54.93.77.193',
@@ -27,7 +37,6 @@ if (process.env.NODE_ENV === 'production' && process.env.NODE_CUSTOM_MODE !== 'd
     s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com/dev',
   };
 }
-
 
 
 export const api = {
