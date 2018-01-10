@@ -125,7 +125,7 @@ const setFullQuestion = (state, action) => {
       sequence: step,
       questionKey: key,
       answerType: _type,
-      rules: Array.isArray(rule) ? rule: rule.and,
+      rules: Array.isArray(rule) ? rule: rule.and ? rule.and : [rule],
       [_type]: parseAnswers(answer),
       diagnostic_assets: test_file ||  [],
       packageLevels: packageLevels || []
@@ -139,7 +139,7 @@ const setFullQuestionForCondition = (state, action) => {
     areaIds: configArea(areas),
     questionTitle: title,
     questionKey: key,
-    rules: Array.isArray(rule) ? rule: rule.and,
+    rules: Array.isArray(rule) ? rule: rule.and ? rule.and : [rule],
   };
 
   const res = body.package ?
