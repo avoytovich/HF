@@ -34,11 +34,16 @@ const ANSWER_TYPE = [
 ];
 
 class DiagnosticAnswers extends Component {
-  state = { answerLang: ['en', 'en'] };
+  state = { answerLang: ['en'] };
 
   componentDidMount() {
-    const answerLang = this.props.store.multiple.map(() => 'en');
-    this.setState({answerLang});
+    const { answerType } = this.props.store;
+    const answerList = this.props.store[answerType];
+    if (Array.isArray(answerList)) {
+      const answerLang = this.props.store[answerType].map(() => 'en');
+      this.setState({answerLang});
+    }
+
   }
 
   addAnswer = (value) => {
@@ -73,9 +78,9 @@ class DiagnosticAnswers extends Component {
               return <li  key={index} className="row-item">
                 <div className="answer-item">
                   <Input
-                    id={`${type}[${index}][${answerLang[index]}]`}
+                    id={`${type}[${index}].${answerLang[index]}`}
                     reducer={store}
-                    className="MuiFormControl-CUSTOM"
+                    className="MUIControl"
                   />
                   <Clear onClick={() => removeAnswer(type, index)}/>
                 </div>
@@ -87,8 +92,8 @@ class DiagnosticAnswers extends Component {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="English" value="en"/>
-                  <Tab label="Swedish"  value="swe" />
+                  <Tab label="English" value="en"  className="MUITab"/>
+                  <Tab label="Sweden"  value="swe" className="MUITab" />
                 </Tabs>
               </li>})}
           </ol>
@@ -107,6 +112,7 @@ class DiagnosticAnswers extends Component {
           <Input
             id='range.from'
             type='number'
+            className="MUIControl"
             reducer={store}
           />
 
@@ -117,6 +123,7 @@ class DiagnosticAnswers extends Component {
           <Input
             id='range.to'
             type='number'
+            className="MUIControl"
             reducer={store}
           />
         </div>;

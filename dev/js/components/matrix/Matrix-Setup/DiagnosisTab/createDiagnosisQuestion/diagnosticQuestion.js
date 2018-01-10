@@ -30,6 +30,7 @@ class DiagnosticQuestion extends Component{
             reducer={store}
             label={ label }
             multiline={true}
+            className="MUIControl"
             rows="5"
             cols="60"
           /> :
@@ -39,6 +40,7 @@ class DiagnosticQuestion extends Component{
             reducer={store}
             label={ label }
             multiline={true}
+            className="MUIControl"
             rows="5"
             cols="60"
           />
@@ -52,9 +54,10 @@ class DiagnosticQuestion extends Component{
         textColor="primary"
         centered
       >
-        <Tab label="English" value="en"  className="dddd"/>
-        <Tab label="Swedish"  value="swe" className="dddd"/>
+        <Tab label="English" value="en"  className="MUITab"/>
+        <Tab label="Sweden"  value="swe" className="MUITab"/>
       </Tabs>
+
     </Grid>
   }
 }

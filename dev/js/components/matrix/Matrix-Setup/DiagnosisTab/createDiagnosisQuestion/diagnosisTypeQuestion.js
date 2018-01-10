@@ -44,8 +44,10 @@ class DiagnosisTypeQuestion extends Component {
         questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type,
         diagnostic_assets
       },
-      page, reqType, packages, packageLevels
+      page, reqType, packages, packageLevelsList
     } = this.props;
+
+    console.log('packageLevelsListpackageLevelsList', packageLevelsList);
 
     return <BlockDivider title="Question">
 
@@ -84,12 +86,13 @@ class DiagnosisTypeQuestion extends Component {
 
         {/*Title and Body Area*/}
         <Grid container className="row-item">
-          <Grid item md={6} sm={12}>
+          <Grid item md={6} sm={12} >
             <Input
               id='questionTitle'
               value={questionTitle}
               reducer={ createDiagnosisQuestion }
               label={ 'Title' }
+              className="MUIControl"
             />
           </Grid>
           <Grid item md={6} sm={12} >
@@ -154,7 +157,7 @@ class DiagnosisTypeQuestion extends Component {
             </Typography>
           </Grid>
 
-          <PackageLevelsList packageLevels={packageLevels || []}
+          <PackageLevelsList packageLevelsList={packageLevelsList}
                              areaIds={areaIds}/>
         </div>}
       </div>

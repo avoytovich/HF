@@ -60,7 +60,7 @@ class CreateTreatmentsComponent extends Component {
     const { areaIds, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
     const result = {
       areaIds,
-      rule              : rules[0],
+      rule              : {and: rules},
       key               : questionKey,
       title             : questionTitle,
 
@@ -143,6 +143,7 @@ class CreateTreatmentsComponent extends Component {
                 <Grid item md={6} sm={12}>
                   <Input
                     id='questionTitle'
+                    className="MUIControl"
                     value={questionTitle}
                     reducer={ createDiagnosisQuestion }
                     label={ L_CREATE_QUESTION.questionTitle }

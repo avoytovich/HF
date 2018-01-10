@@ -9,14 +9,8 @@ const diagnosticTab = {
   sequence      : 1,
   sequenceType  : 'normal',
   answerType    : 'single',
-  single  : [
-    { en: '', swe: ''},
-    { en: '', swe: ''}
-  ],
-  multiple: [
-    { en: '', swe: ''},
-    { en: '', swe: ''}
-  ],
+  single  : [ { en: '', swe: ''} ],
+  multiple: [ { en: '', swe: ''} ],
   range   : { from: 0, to: 100 },
   diagnostic_assets: '',
   rules: [],
@@ -37,19 +31,34 @@ const treatmentTab = {
 
 const packageTab = {
   packageType: 'symptomatic',
-  therapyContinuity: '1',
-  packageLevels: []
+  packageLevels: [
+    {
+      level: 1,
+      level_up_properties: {
+        vas: 1,
+        vas_min: 1,
+        sessions: 1
+      },
+      therapy_continuity: '1',
+      exercise_ids: []
+    }
+  ]
 };
 
 const levelUp = {
-  packageLevels: []
+  levelsList: [],
+  packageLevelsList: [
+    {}
+  ]
 };
 
 const exerciseTab = {
   exercise: {
-    instruction: { swe: '', en: '' },
-    title      : { swe: '', en: '' },
-    information: { swe: '', en: '' },
+    name        : '',
+    comments    : '',
+    instruction : { swe: '', en: '' },
+    title       : { swe: '', en: '' },
+    information : { swe: '', en: '' },
   },
 };
 

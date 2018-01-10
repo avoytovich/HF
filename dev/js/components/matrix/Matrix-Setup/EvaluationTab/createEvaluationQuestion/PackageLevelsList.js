@@ -20,18 +20,18 @@ class PackageLevelsList extends Component {
   };
 
   render() {
-    const { packageLevels, areaIds } = this.props;
+    const { packageLevelsList, areaIds } = this.props;
     return <div>
-      {packageLevels && packageLevels.map((item, index) => {
-        const { package_id, id } = item;
+      {packageLevelsList.map((item, index) => {
+        const { packageId, id } = item;
           const levelsList = [];
           return <div key={index}
                       style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
             <PLComponent
-              packageItem={package_id}
-              levelItem={id}
+              packageId={packageId || null}
+              levelItem={id || null}
               area={areaIds || []}
-              levelsList={levelsList || []}
+              levelsList={levelsList}
               index={index}
             />
             <Clear className="margin-bottom" style={{cursor: 'pointer'}}

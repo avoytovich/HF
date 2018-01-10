@@ -102,7 +102,7 @@ class CreatePackageComponent extends Component {
     submitTabs(
       'exercises',
       'packages',
-      result,
+      this.props.routeParams.id ? {...result, id: this.props.routeParams.id} : result,
       '/matrix-setup/packages',
       this.props.routeParams.id
     );
@@ -197,6 +197,7 @@ class CreatePackageComponent extends Component {
                 <Input
                   id='questionTitle'
                   value={questionTitle}
+                  className="MUIControl"
                   reducer={ createDiagnosisQuestion }
                   label={ L_CREATE_QUESTION.questionTitle }
                   placeholder={ L_CREATE_QUESTION.enterTitle }

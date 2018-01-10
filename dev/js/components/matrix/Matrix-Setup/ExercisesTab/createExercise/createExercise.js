@@ -160,6 +160,7 @@ class CreateExerciseComponent extends Component {
                     value={name}
                     reducer={createDiagnosisQuestion}
                     label={ 'Notes' }
+                    className="MUIControl"
                     placeholder={ 'Notes' }
                   />
                 </Grid>
@@ -173,6 +174,7 @@ class CreateExerciseComponent extends Component {
                     reducer={createDiagnosisQuestion}
                     label={ 'Comments' }
                     placeholder={ 'Comments' }
+                    className="MUIControl"
                     multiline={true}
                     rows="5"
                     cols="60"
@@ -189,6 +191,7 @@ class CreateExerciseComponent extends Component {
                       value={title && title.en}
                       reducer={createDiagnosisQuestion}
                       label={ 'Title' }
+                      className="MUIControl"
                       placeholder={ 'Title' }
                     /> :
                     <Input
@@ -196,6 +199,7 @@ class CreateExerciseComponent extends Component {
                       value={title && title.swe}
                       reducer={createDiagnosisQuestion}
                       label={ 'Title' }
+                      className="MUIControl"
                       placeholder={ 'Title' }
                     />
                   }
@@ -208,8 +212,8 @@ class CreateExerciseComponent extends Component {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="English" value="en" />
-                  <Tab label="Swedish"  value="swe" />
+                  <Tab label="English" value="en" className="MUITab"/>
+                  <Tab label="Sweden"  value="swe" className="MUITab"/>
                 </Tabs>
               </Grid>
 
@@ -227,6 +231,7 @@ class CreateExerciseComponent extends Component {
                       label={ 'Information' }
                       placeholder={ 'Information' }
                       multiline={true}
+                      className="MUIControl"
                       rows="5"
                       cols="60"
                     /> :
@@ -237,6 +242,7 @@ class CreateExerciseComponent extends Component {
                       label={'Information' }
                       placeholder={ 'Information' }
                       multiline={true}
+                      className="MUIControl"
                       rows="5"
                       cols="60"
                     />
@@ -250,8 +256,8 @@ class CreateExerciseComponent extends Component {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="English" value="en" />
-                  <Tab label="Swedish"  value="swe" />
+                  <Tab label="English" value="en" className="MUITab"/>
+                  <Tab label="Sweden"  value="swe" className="MUITab"/>
                 </Tabs>
               </Grid>
 
@@ -269,6 +275,7 @@ class CreateExerciseComponent extends Component {
                       label={ 'Instruction' }
                       placeholder={ 'Instruction' }
                       multiline={true}
+                      className="MUIControl"
                       rows="5"
                       cols="60"
                     /> :
@@ -278,6 +285,7 @@ class CreateExerciseComponent extends Component {
                       reducer={createDiagnosisQuestion}
                       label={'Instruction' }
                       placeholder={ 'Instruction' }
+                      className="MUIControl"
                       multiline={true}
                       rows="5"
                       cols="60"
@@ -292,8 +300,8 @@ class CreateExerciseComponent extends Component {
                   textColor="primary"
                   centered
                 >
-                  <Tab label="English" value="en" />
-                  <Tab label="Swedish"  value="swe" />
+                  <Tab label="English" value="en"   className="MUITab"/>
+                  <Tab label="Sweden"  value="swe"  className="MUITab"/>
                 </Tabs>
               </Grid>
 
