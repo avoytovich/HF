@@ -46,7 +46,10 @@ const packageTab = {
 };
 
 const levelUp = {
-  packageLevelsList: []
+  levelsList: [],
+  packageLevelsList: [
+    {}
+  ]
 };
 
 const exerciseTab = {

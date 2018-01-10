@@ -214,7 +214,6 @@ const configPackageLevel = (data) => {
       const { therapy_continuity, package_id, exercise_ids, id, level, level_up_properties } = el;
       const properties = Array.isArray(level_up_properties) ?
         { vas: 1, vas_min: 1, sessions: 1 }: level_up_properties;
-x
       return result.concat({
         therapy_continuity,
         package_id,

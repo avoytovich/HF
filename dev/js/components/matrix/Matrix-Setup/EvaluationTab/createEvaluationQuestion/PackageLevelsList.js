@@ -21,20 +21,19 @@ class PackageLevelsList extends Component {
 
   render() {
     const { packageLevelsList, areaIds } = this.props;
-    console.log('packageLevels', packageLevelsList);
     return <div>
       {packageLevelsList.map((item, index) => {
-        {/*const { package_id, id } = item;*/}
-          {/*const levelsList = [];*/}
+        const { packageId, id } = item;
+          const levelsList = [];
           return <div key={index}
                       style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
-            {/*<PLComponent*/}
-              {/*packageItem={package_id}*/}
-              {/*levelItem={id}*/}
-              {/*area={areaIds || []}*/}
-              {/*levelsList={levelsList || []}*/}
-              {/*index={index}*/}
-            {/*/>*/}
+            <PLComponent
+              packageId={packageId || null}
+              levelItem={id || null}
+              area={areaIds || []}
+              levelsList={levelsList}
+              index={index}
+            />
             <Clear className="margin-bottom" style={{cursor: 'pointer'}}
                    onClick={() => this.removePackage(index)}/>
           </div>

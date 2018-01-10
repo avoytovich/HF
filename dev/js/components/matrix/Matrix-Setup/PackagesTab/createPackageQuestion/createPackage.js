@@ -102,7 +102,7 @@ class CreatePackageComponent extends Component {
     submitTabs(
       'exercises',
       'packages',
-      result,
+      this.props.routeParams.id ? {...result, id: this.props.routeParams.id} : result,
       '/matrix-setup/packages',
       this.props.routeParams.id
     );
