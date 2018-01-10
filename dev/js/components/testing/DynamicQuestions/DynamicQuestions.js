@@ -27,6 +27,7 @@ class DynamicQuestions extends Component {
   ) => {
 
     const { testingReducer } = this.props;
+
     switch (type) {
       case 'single':
         if (content_type === 'functionalTest') {
