@@ -1,10 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-  devtool: 'cheap-module-source-map',
   entry: [
-    'webpack-hot-middleware/client',
     './dev/js/index'
   ],
   output: {
@@ -12,6 +11,7 @@ module.exports = {
     publicPath: "/js/",
     filename: 'bundle.js',
   },
+  target: 'node',
   module: {
     loaders: [
       {
@@ -33,7 +33,7 @@ module.exports = {
         loader: 'style-loader!css-loader'
       },
       {
-        test: /\.(otf|ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+        test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
         loaders: ['url-loader']
       },
       {
@@ -42,13 +42,24 @@ module.exports = {
       }
     ]
   },
+
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('development')
+        'NODE_ENV': JSON.stringify('production'),
+        'NODE_CUSTOM_MODE': JSON.stringify('development'),
       }
     }),
-  ]
+    new UglifyJSPlugin({
+      "mangle": {
+        "screw_ie8": true
+      },
+      "compress": {
+        "screw_ie8": true,
+        "warnings": false
+      },
+      "sourceMap": false
+    })
+  ],
 };

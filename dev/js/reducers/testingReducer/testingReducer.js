@@ -82,7 +82,7 @@ const testingDeleteMultOption = (state, action) => {
 
 export const testingReducer = createReducer(initialState, T.TESTING, {
   [T.TESTING_BODY_AREAS]        : testingBodyAres,
-  [T.TESTING_ADD_QUESTIONS_AND_COND]     : testingAddQuestionsAndCond,
+  [T.TESTING_ADD_QUESTIONS_AND_COND]: testingAddQuestionsAndCond,
   [T.TESTING_ADD_MULT_OPTION]   : testingAddMultOption,
   [T.TESTING_DELETE_MULT_OPTION]: testingDeleteMultOption,
 });
