@@ -41,6 +41,8 @@ class PackageExercises extends Component  {
     };
 
     render() {
+      console.log('this.props.ex', this.props.exercises)
+
       return (
         <Grid item xs={12} className="package-level-exercises-list">
           {this.state.list.map((item, index) => {

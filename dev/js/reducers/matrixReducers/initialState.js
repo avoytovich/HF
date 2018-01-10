@@ -31,11 +31,6 @@ const treatmentTab = {
 
 const packageTab = {
   packageType: 'symptomatic',
-  therapyContinuity: '1',
-  packageLevels: [],
-};
-
-const levelUp = {
   packageLevels: [
     {
       level: 1,
@@ -50,11 +45,15 @@ const levelUp = {
   ]
 };
 
+const levelUp = {};
+
 const exerciseTab = {
   exercise: {
-    instruction: { swe: '', en: '' },
-    title      : { swe: '', en: '' },
-    information: { swe: '', en: '' },
+    name        : '',
+    comments    : '',
+    instruction : { swe: '', en: '' },
+    title       : { swe: '', en: '' },
+    information : { swe: '', en: '' },
   },
 };
 

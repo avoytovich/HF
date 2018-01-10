@@ -250,7 +250,7 @@ class TableComponent extends Component {
           const list = value.map(({title}) => title).join(', ');
           const [ first ] = value;
           return (
-            <Tooltip id="tooltip-top-start" title={list} label="Add" placement="top-start">
+            <Tooltip id="tooltip-top-start" title={<b>{list}</b>} label="_" placement="bottom-start">
               <span>{ value.length > 1 ? `${first.title}...` : first.title }</span>
             </Tooltip>
           );
