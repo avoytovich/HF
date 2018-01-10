@@ -3,6 +3,13 @@ export let domen;
 // form serving front-end assets - i.e. /images - `${assets}/images/auth/page-1.png`
 export let assets;
 
+console.log(`
+  ==========================
+  process.env.NODE_CUSTOM_MODE: ${process.env.NODE_CUSTOM_MODE}
+  process.env.NODE_ENV : ${process.env.NODE_ENV }
+  ==========================
+`);
+
 if (process.env.NODE_ENV === 'production' && process.env.NODE_CUSTOM_MODE !== 'development') {
   assets = 'http://54.93.106.29/assets';
   domen = {
