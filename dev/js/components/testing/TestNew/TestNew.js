@@ -20,6 +20,7 @@ import DynamicQuestions from '../DynamicQuestions/DynamicQuestions';
 import {
   createTestWired,
   checkQuestionWired,
+  T,
 } from '../../../actions';
 import {
   PAGE,
@@ -27,6 +28,10 @@ import {
 } from '../../../config';
 
 class TestNew extends Component {
+  componentWillMount() {
+    this.props.dispatch({ type: `${T.TESTING}_CLEAR` })
+  }
+
   _prepareData = (data) => {
     let prepData     = pick(data, pickKeys.testing);
     prepData.answers = pickBy(prepData, el => el.value);

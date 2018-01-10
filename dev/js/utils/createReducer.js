@@ -5,12 +5,9 @@ import keys from 'lodash/keys';
  * @param initialState object
  * @param standardActionType general action payload dispatch to store
  * @param handlers functions
- * @returns {state}
+ * @returns {function}
  */
 export const createReducer = (initialState, standardActionType, handlers = {}) => {
-  if (process.env.NODE_ENV === 'development' && handlers.undefined) {
-    console.warn(`Reducer contains an 'undefined' action type. Have you misspelled a constant?`);
-  }
   // common action
   handlers[standardActionType] = (state, action) => {
     const stateCopied = { ...state };
@@ -27,14 +24,12 @@ export const createReducer = (initialState, standardActionType, handlers = {}) =
   handlers[`${standardActionType}_ERROR`] = (state, action) =>
     ({ ...state, errors: { ...state.errors, ...action.payload.errors } });
 
-  return function reducer(state, action) {
-    if (state === undefined) {
-      state = initialState;
-    }
+   return (state = initialState, action) => {
 
-    if (handlers.hasOwnProperty(action.type)) {
-      return handlers[action.type](state, action);
-    }
+     if (handlers.hasOwnProperty(action.type)) {
+       return handlers[action.type](state, action);
+     }
+
     return state;
   };
 };
