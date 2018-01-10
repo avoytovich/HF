@@ -45,7 +45,9 @@ const packageTab = {
   ]
 };
 
-const levelUp = {};
+const levelUp = {
+  packageLevelsList: []
+};
 
 const exerciseTab = {
   exercise: {

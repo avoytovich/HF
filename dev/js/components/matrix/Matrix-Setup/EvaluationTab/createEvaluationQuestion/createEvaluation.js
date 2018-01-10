@@ -144,7 +144,7 @@ class CreateEvaluationComponent extends Component {
   render() {
     const {
       createDiagnosisQuestion,
-      createDiagnosisQuestion: { content_type, questionKey, packageLevels },
+      createDiagnosisQuestion: { content_type, questionKey, packageLevelsList },
       routeParams: { id }
     } = this.props;
     return (
@@ -180,7 +180,7 @@ class CreateEvaluationComponent extends Component {
             <DiagnosisTypeQuestion
               page='evaluations'
               packages={true}
-              packageLevels={packageLevels || []}
+              packageLevelsList={packageLevelsList}
               sequenceList={this.state.sequenceList}/>
         }
       </div>
