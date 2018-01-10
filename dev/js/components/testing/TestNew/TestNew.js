@@ -29,8 +29,8 @@ import {
 
 class TestNew extends Component {
   componentWillMount() {
-    this.props.dispatch({ type: `${T.TESTING}_CLEAR` })
-  }
+    this.props.dispatch({ type: `${T.TESTING}_CLEAR` });
+  };
 
   _prepareData = (data) => {
     let prepData     = pick(data, pickKeys.testing);
