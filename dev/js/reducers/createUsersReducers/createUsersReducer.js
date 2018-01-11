@@ -6,7 +6,6 @@ const initialState = {
   errors: {},
   name: "",
   type: "",
-  tariff_id: "",
   email: "",
   entryFee: "",
   contact_info: {
