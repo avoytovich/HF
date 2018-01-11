@@ -35,13 +35,13 @@ class TestNew extends Component {
     this.props.dispatch({ type: `${T.TESTING}_CLEAR` });
   };
 
-  _prepareData = (data) => {
-    let prepData     = pick(data, pickKeys.testing);
-    prepData.answers = pickBy(prepData, el => el.value);
-    prepData.user_id = this.props.userReducer.user_id;
-    prepData.type    = 'diagnostic';
-    return prepData;
-  };
+  _prepareData = (data) => ({
+    answers: pickBy(pick(data, pickKeys.testing), el => el.value),
+    user_id: this.props.userReducer.user_id,
+    type   : 'diagnostic',
+    step   : data.step,
+    title  : data.title,
+  });
 
   _prepareDataForCheckQuestion = (data, step) => {
     let currentQKeysToSend = data.questions.filter(q => q.step == step).map(q => q.key);

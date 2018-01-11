@@ -22,7 +22,6 @@ class NotInComponent extends Component {
   };
 
   onAsyncChange = (value, edit) => {
-    debugger;
     const res = {...onMultipleAsyncChange(value, edit, this.props)};
     this.setState(res);
   }

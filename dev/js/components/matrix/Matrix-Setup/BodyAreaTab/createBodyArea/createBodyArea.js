@@ -67,7 +67,7 @@ class CreateBodyAreaComponent extends Component {
     return (
       <div id="create-question">
         <div className="page-sub-header">
-          <span>Create Body Area</span>
+          <span>Create Pain Area</span>
           <div className="nav-buttons">
 
             <Button onClick={this.cancel}>
@@ -92,7 +92,7 @@ class CreateBodyAreaComponent extends Component {
 
             <div className="main-question">
 
-              {/*Title and Body Area*/}
+              {/*Title and Pain Area*/}
               <Grid container className="row-item">
                 <Grid item md={12} sm={12}>
                   <Input

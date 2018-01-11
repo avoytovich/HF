@@ -39,7 +39,7 @@ class BodyAreas extends Component {
         <Grid container spacing={0}>
           <Grid item xs={12}>
             <p className="testing-inner-sub-header">
-              Body Areas
+              Pain Areas
             </p>
             <Grid container spacing={24}>
 
@@ -57,7 +57,7 @@ class BodyAreas extends Component {
                   id='bodyAreasPicked'
                   style={{ width: "100%" }}
                   reducer={testingReducer}
-                  label='Body Areas'
+                  label='Pain Areas'
                 />
               </Grid>
             </Grid>

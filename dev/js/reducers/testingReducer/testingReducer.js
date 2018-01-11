@@ -57,16 +57,17 @@ const testingAddQuestionsAndCond = (state, action) => {
       conditions.push({ ...val, key: prop })
     }
   });
+  const finalStep = result_status ? step + 1 : step;
 
   return {
     ...state,
     questions,
     conditions,
-    step,
     testId: id,
     result_status,
     condition,
-    changingQuestionStep: step,
+    step                : finalStep,
+    changingQuestionStep: finalStep,
   };
 };
 

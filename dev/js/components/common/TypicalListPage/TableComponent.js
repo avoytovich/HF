@@ -25,7 +25,7 @@ import Tooltip                from 'material-ui/Tooltip';
 
 
 const DEFAULT_QUERY = {
-  per_page    : 5,
+  per_page    : 100,
   current_page: 0,
   sortedBy    : 'desc',
   orderBy     : 'title',

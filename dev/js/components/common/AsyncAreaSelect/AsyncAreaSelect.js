@@ -93,7 +93,7 @@ class AsyncAreaSelect extends Component{
 AsyncAreaSelect.defaultProps = {
   placeholder : 'Select body area',
   className   : 'async_area_select',
-  label       : 'Body Areas',
+  label       : 'Pain Areas',
   labelClass  : ''
 };
 
