@@ -50,7 +50,7 @@ class BodyAreaComponent extends Component {
         />
 
         <TableControls
-          path="body-area"
+          path="bodyArea"
           selected={selected}
           createItem={() => this.create()}>
 
