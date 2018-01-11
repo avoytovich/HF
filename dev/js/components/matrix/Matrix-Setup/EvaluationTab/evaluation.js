@@ -86,7 +86,7 @@ class EvaluationComponent extends Component {
         />
 
         <TableControls
-          path="evaluations"
+          path="levelUps"
           selected={selected}
           createItem={() => this.create()}>
 
