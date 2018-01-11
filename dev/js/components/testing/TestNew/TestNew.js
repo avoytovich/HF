@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router'
 import pick from 'lodash/pick'
 import each from 'lodash/each'
@@ -20,6 +21,9 @@ import DynamicQuestions from '../DynamicQuestions/DynamicQuestions';
 import {
   createTestWired,
   checkQuestionWired,
+  onChange,
+  dispatchTestingPayloadWired,
+  T,
 } from '../../../actions';
 import {
   PAGE,
@@ -27,20 +31,24 @@ import {
 } from '../../../config';
 
 class TestNew extends Component {
-  _prepareData = (data) => {
-    let prepData     = pick(data, pickKeys.testing);
-    prepData.answers = pickBy(prepData, el => el.value);
-    prepData.user_id = this.props.userReducer.user_id;
-    prepData.type    = 'diagnostic';
-    return prepData;
+  componentWillMount() {
+    this.props.dispatch({ type: `${T.TESTING}_CLEAR` });
   };
+
+  _prepareData = (data) => ({
+    answers: pickBy(pick(data, pickKeys.testing), el => el.value),
+    user_id: this.props.userReducer.user_id,
+    type   : 'diagnostic',
+    step   : data.step,
+    title  : data.title,
+  });
 
   _prepareDataForCheckQuestion = (data, step) => {
     let currentQKeysToSend = data.questions.filter(q => q.step == step).map(q => q.key);
     if (currentQKeysToSend.includes('vas_areas')) {
       each(data.vas_areas.value, (val, prop) => {
         data[`vas_pain_level_area_${val}`] = { value: data.vas_pain_level_area_, type: 'single' };
-        data[`vas_pain_type_area_${val}`] = { value: data.vas_pain_type_area_, type: 'single' };
+        data[`vas_pain_type_area_${val}`]  = { value: data.vas_pain_type_area_, type: 'single' };
         currentQKeysToSend.push(`vas_pain_level_area_${val}`);
         currentQKeysToSend.push(`vas_pain_type_area_${val}`);
       });
@@ -59,17 +67,19 @@ class TestNew extends Component {
         testId,
       }
     } = this.props;
-   if (step > 0) {
+   if (testId || testId === 0) {
      let data = this._prepareDataForCheckQuestion(testingReducer, step);
      checkQuestionWired(testId, data);
    } else {
-     createTestWired(this._prepareData(testingReducer));
+     let data = this._prepareData(testingReducer);
+     createTestWired(data);
    }
   };
 
   render() {
     const {
       testingReducer,
+      onChange,
       testingReducer: {
         q_age,
         q_sex,
@@ -133,6 +143,13 @@ class TestNew extends Component {
                 options={diagnosConsts.languages}
                 id='q_lang.value'
                 style={{ width: "100%" }}
+                onChangeCustom={(e) => {
+                  console.log('sdfsdfsdfsdfsdfsdfsdfsdfsdfsdf');
+                  onChange(e);
+                  dispatchTestingPayloadWired({
+                    changingQuestionStep: 0,
+                  })
+                }}
                 reducer={testingReducer}
                 label='Language of questions'
               />
@@ -140,6 +157,12 @@ class TestNew extends Component {
                 options={diagnosConsts.measurements}
                 id='q_metric.value'
                 style={{ width: "100%" }}
+                onChangeCustom={(e) => {
+                  onChange(e);
+                  dispatchTestingPayloadWired({
+                    changingQuestionStep: 0,
+                  })
+                }}
                 reducer={testingReducer}
                 label='Measurements'
               />
@@ -147,6 +170,12 @@ class TestNew extends Component {
                 options={diagnosConsts.sex}
                 id='q_sex.value'
                 style={{ width: "100%" }}
+                onChangeCustom={(e) => {
+                  onChange(e);
+                  dispatchTestingPayloadWired({
+                    changingQuestionStep: 0,
+                  })
+                }}
                 reducer={testingReducer}
                 label='Sex'
               />
@@ -156,6 +185,12 @@ class TestNew extends Component {
                   options={diagnosConsts.pregnant}
                   id='q_pregnant.value'
                   style={{ width: "100%" }}
+                  onChangeCustom={(e) => {
+                    onChange(e);
+                    dispatchTestingPayloadWired({
+                      changingQuestionStep: 0,
+                    })
+                  }}
                   reducer={testingReducer}
                   label='Are you pregnant?'
                 />
@@ -170,6 +205,12 @@ class TestNew extends Component {
                   <Input
                     type="number"
                     style={{ width: '100%' }}
+                    onChangeCustom={(e) => {
+                      onChange(e);
+                      dispatchTestingPayloadWired({
+                        changingQuestionStep: 0,
+                      })
+                    }}
                     id='q_age.value'
                     reducer={testingReducer}
                     label='Your age'
@@ -182,6 +223,12 @@ class TestNew extends Component {
                   <Input
                     type="number"
                     style={{ width: '100%' }}
+                    onChangeCustom={(e) => {
+                      onChange(e);
+                      dispatchTestingPayloadWired({
+                        changingQuestionStep: 0,
+                      })
+                    }}
                     id='q_weight.value'
                     reducer={testingReducer}
                     label='Weight (kg)'
@@ -191,6 +238,12 @@ class TestNew extends Component {
                   <Input
                     type="number"
                     style={{ width: '100%' }}
+                    onChangeCustom={(e) => {
+                      onChange(e);
+                      dispatchTestingPayloadWired({
+                        changingQuestionStep: 0,
+                      })
+                    }}
                     id='q_height.value'
                     reducer={testingReducer}
                     label='Your height (cm)'
@@ -211,7 +264,7 @@ class TestNew extends Component {
 
 TestNew.propTypes = {
   toggleModal: PropTypes.func,
-  headerTitle: PropTypes.string
+  headerTitle: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
@@ -219,4 +272,9 @@ const mapStateToProps = state => ({
   userReducer: state.userReducer,
 });
 
-export default connect(mapStateToProps)(TestNew);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  onChange,
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(TestNew);

@@ -84,7 +84,7 @@ class DiagnosisTypeQuestion extends Component {
           </Grid>
         </Grid>
 
-        {/*Title and Body Area*/}
+        {/*Title and Pain Area*/}
         <Grid container className="row-item">
           <Grid item md={6} sm={12} >
             <Input
@@ -147,7 +147,7 @@ class DiagnosisTypeQuestion extends Component {
 
 
 
-        {/*Package and Start level*/}
+        {/*Packages and Start levels*/}
         { packages && <div style={{display: 'flex', flexDirection: 'column'}}>
           {/* Answers */}
           <Grid className="title answer">

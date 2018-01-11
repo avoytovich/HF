@@ -23,9 +23,8 @@ import { withRouter }         from 'react-router';
 import Tooltip                from 'material-ui/Tooltip';
 
 
-
 const DEFAULT_QUERY = {
-  per_page    : 5,
+  per_page    : 100,
   current_page: 0,
   sortedBy    : 'desc',
   orderBy     : 'title',
@@ -53,7 +52,7 @@ class TableComponent extends Component {
    */
   componentWillReceiveProps(nextProps) {
     if (this.props.location !== nextProps.location &&
-        nextProps.location.query) {
+        !isEmpty(nextProps.location.query)) {
       this.getList(this.props, {...nextProps.location.query, ...nextProps.query});
     }
   }
@@ -297,19 +296,24 @@ class TableComponent extends Component {
               const id         = row.id || row.user_id || row.customer_id;
               const isSelected = this.matchItems(selected, id) !== -1; // !row.deActive &&
               let isEnabled;
-              if (row.hasOwnProperty('enabled')) {
-                isEnabled  = row.enabled ? 'active' : 'de-active';
+
+              switch (true) {
+                case row.hasOwnProperty('enabled'):
+                  isEnabled  = row.enabled ? 'active' : 'de-active';
+                  break;
+                case row.hasOwnProperty('activated_at'):
+                  isEnabled  = row.activated_at && !row.deactivated_at ? 'active' : 'de-active';
+                  break;
+                case row.hasOwnProperty('customer_active'):
+                  isEnabled  = row.customer_active ? 'active' : 'de-active';
+                  break;
+                case row.hasOwnProperty('active'):
+                  isEnabled  = row.active ? 'active' : 'de-active';
+                  break;
+                default:
+                  isEnabled  = 'active';
               }
-              else if (row.hasOwnProperty('activated_at')){
-                isEnabled  = row.activated_at && !row.deactivated_at ? 'active' : 'de-active';
-              }else if (row.hasOwnProperty('customer_active')){
-                isEnabled  = row.customer_active ? 'active' : 'de-active';
-              }
-              else if (row.hasOwnProperty('active')){
-                isEnabled  = row.active ? 'active' : 'de-active';
-              }else {
-                isEnabled  = 'active';
-              }
+
               return (
                 <TableRow
                   hover

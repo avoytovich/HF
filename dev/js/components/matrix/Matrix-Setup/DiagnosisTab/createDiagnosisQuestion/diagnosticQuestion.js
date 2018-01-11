@@ -55,7 +55,7 @@ class DiagnosticQuestion extends Component{
         centered
       >
         <Tab label="English" value="en"  className="MUITab"/>
-        <Tab label="Sweden"  value="swe" className="MUITab"/>
+        <Tab label="Swedish"  value="swe" className="MUITab"/>
       </Tabs>
 
     </Grid>

@@ -16,7 +16,8 @@ class EvaluationComponent extends Component {
   state = {
     selected: [],
     deactivateOpen: false,
-    deleteOpen: false
+    deleteOpen: false,
+    activateOpen: false
   };
 
   create = (id) => id ?
@@ -39,13 +40,30 @@ class EvaluationComponent extends Component {
 
   render() {
     const { tableHeader } = DIAGNOSIS_TAB;
-    const { selected, deactivateOpen, deleteOpen } = this.state;
+    const { selected, deactivateOpen, deleteOpen, activateOpen } = this.state;
 
     return (
       <div id="diagnosis-component">
+        <DeactivateComponent
+          path="levelUps"
+          pathReq="createQuestion"
+          domen="diagnostics"
+          list={selected}
+          open={this.updateModal}
+          itemKey="title"
+          query={this.props.location.query}
+
+          title="Activate this level up"
+          typeKey="activateOpen"
+          activate={true}
+          onSubmitTitle="Activate"
+          deactivateOpen={activateOpen}
+        />
+
 
         <DeactivateComponent
           path="levelUps"
+          pathReq="createQuestion"
           domen="diagnostics"
           typeKey="deactivateOpen"
           list={selected}
@@ -57,6 +75,7 @@ class EvaluationComponent extends Component {
 
         <DeleteComponent
           path="levelUps"
+          pathReq="createQuestion"
           domen="diagnostics"
           typeKey="deleteOpen"
           list={selected}
@@ -67,7 +86,7 @@ class EvaluationComponent extends Component {
         />
 
         <TableControls
-          path="evaluations"
+          path="levelUps"
           selected={selected}
           createItem={() => this.create()}>
 

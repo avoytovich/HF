@@ -56,10 +56,10 @@ export const updateCrateQuestionFields = (data, path) => {
   });
 };
 
-export const deactivateItem = (domenKey, apiKey, ids) => {
+export const deactivateItem = (domenKey, apiKey, ids, activate) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey],
-        apiList   = ids.map(item => Api.put(`${domenPath}${apiPath}/${item.id}`, {enabled: false}));
+        apiList   = ids.map(item => Api.put(`${domenPath}${apiPath}/${item.id}`, {enabled: !!activate}));
   return Promise.all(apiList).then(res => res)
 };
 

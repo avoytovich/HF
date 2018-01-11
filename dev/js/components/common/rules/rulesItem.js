@@ -20,6 +20,7 @@ import {
   EqualComponent,
   InComponent,
   MultipleComponent,
+  NotInComponent,
   NotEqualComponent,
   ConditionsComponent
 }                           from './rulesTypes';
@@ -61,12 +62,14 @@ class RulesItemComponent extends Component {
        return <MatchComponent {..._props}/>;
       case 'equal':
         return <EqualComponent {..._props}/>;
-      case 'multiple':
-        return <MultipleComponent {..._props}/>;
+//      case 'multiple':
+//        return <MultipleComponent {..._props}/>;
       case 'notEqual':
         return <NotEqualComponent {..._props}/>;
       case 'in':
         return <InComponent {..._props}/>;
+      case 'notIn':
+        return <NotInComponent {..._props}/>;
       case 'true':
         return <ConditionsComponent {..._props}/>;
       default:

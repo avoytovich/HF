@@ -13,7 +13,7 @@ import {
 }                             from '../../../../utils'
 
 
-class InComponent extends Component {
+class NotInComponent extends Component {
   state = {
     answers: [],
     type   : 'list',
@@ -21,8 +21,10 @@ class InComponent extends Component {
     max    : 0,
   };
 
-  onAsyncChange = (value, edit) =>
-    this.setState({...onMultipleAsyncChange(value, edit, this.props)});
+  onAsyncChange = (value, edit) => {
+    const res = {...onMultipleAsyncChange(value, edit, this.props)};
+    this.setState(res);
+  }
 
   render() {
     const { key, value } = this.props.itemState;
@@ -78,4 +80,4 @@ const mapStateToProps = (state, props) => ({
   itemState: get(state.createDiagnosisQuestion, `${props.path}.${props.pathType}`)
 });
 
-export default connect(mapStateToProps)(InComponent);
+export default connect(mapStateToProps)(NotInComponent);

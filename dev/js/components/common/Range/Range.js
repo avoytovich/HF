@@ -32,7 +32,7 @@ class Range extends Component {
             reducer={reducer}
             {...range}
           />
-          <span className="range-input-value-indicator"> { value } </span>
+          <span className="range-input-value-indicator">{ value }</span>
         </div>
       </FormControl>
     );

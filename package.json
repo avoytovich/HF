@@ -54,7 +54,6 @@
     "redux-multi": "0.1.12",
     "redux-persist": "^5.4.0",
     "redux-thunk": "2.1.0",
-    "redux-watch": "^1.1.1",
     "sass-loader": "6.0.6",
     "style-loader": "0.16.1",
     "url-loader": "0.5.7",
@@ -78,11 +77,11 @@
     ]
   },
   "scripts": {
-    "dev": "webpack",
     "start": "node devServer.js",
     "clean": "npm cache verify",
     "clean-prod": "npm cache clean",
-    "build-dev" : "npm run clean-prod && NODE_ENV=dev webpack -p --progress --config webpack.config.dev.js",
+    "build-dev": "npm run clean-prod && NODE_ENV=dev webpack -p --progress --config webpack.config.dev.js",
+    "build-prod-dev": "npm run clean-prod && NODE_ENV=production webpack -p --progress --config webpack.config.prod-dev.js",
     "build-prod": "npm run clean-prod && NODE_ENV=production webpack -p --progress --config webpack.config.prod.js"
   },
   "author": "",

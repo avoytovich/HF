@@ -14,9 +14,10 @@ import Done                     from 'material-ui-icons/Done';
 
 class DiagnosisComponent extends Component {
   state = {
-    selected: [],
-    deactivateOpen: false,
-    deleteOpen: false
+    selected       : [],
+    deactivateOpen : false,
+    activateOpen   : false,
+    deleteOpen     : false
   };
 
   create = (id) => {
@@ -38,7 +39,7 @@ class DiagnosisComponent extends Component {
 
   render() {
     const { tableHeader } = DIAGNOSIS_TAB;
-    const { selected, deactivateOpen, deleteOpen } = this.state;
+    const { selected, deactivateOpen, deleteOpen, activateOpen } = this.state;
 
     return (
       <div id="diagnosis-component">
@@ -47,8 +48,24 @@ class DiagnosisComponent extends Component {
           pathReq="createQuestion"
           path="diagnosis"
           domen="diagnostics"
+          typeKey="activateOpen"
+          list={selected}
+          activate={true}
+          deactivateOpen={activateOpen}
+          open={this.updateModal}
+          itemKey="title"
+          title="Activate this question"
+          onSubmitTitle="Activate"
+          query={this.props.location.query}
+        />
+
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="diagnosis"
+          domen="diagnostics"
           typeKey="deactivateOpen"
           list={selected}
+          activate={false}
           deactivateOpen={deactivateOpen}
           open={this.updateModal}
           itemKey="title"
@@ -78,11 +95,11 @@ class DiagnosisComponent extends Component {
             Delete
           </Button>
 
-          {/*<Button raised dense*/}
-                  {/*onClick={() => this.updateModal('activateOpen', true)}>*/}
-            {/*<Done />*/}
-            {/*Activate*/}
-          {/*</Button>*/}
+          <Button raised dense
+                  onClick={() => this.updateModal('activateOpen', true)}>
+            <Done />
+            Activate
+          </Button>
 
           <Button raised dense
                   onClick={() => this.updateModal('deactivateOpen', true)}>
@@ -90,11 +107,6 @@ class DiagnosisComponent extends Component {
             Deactivate
           </Button>
 
-          {/*<Button raised dense*/}
-                  {/*onClick={() => this.updateModal('deactivateOpen', true)}>*/}
-            {/*<NotInterested />*/}
-            {/*Deactivate*/}
-          {/*</Button>*/}
 
         </TableControls>
 
