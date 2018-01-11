@@ -80,6 +80,7 @@ export const api = {
   diagnostics         : '/diagnostics',
   checkQuestion       : '/diagnostics/session',
   unblock             : '/diagnostics/session',
+  existingTest        : '/diagnostics/session',
 };
 
 export const PAGE = {

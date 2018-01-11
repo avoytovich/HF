@@ -11,7 +11,7 @@ import {
 } from '../../config';
 
 export const unblockSandBoxSession = (testId) =>
-  Api.post(`${domen.diagnostics}${api.checkQuestion}/${testId}/unblock`);
+  Api.post(`${domen.diagnostics}${api.unblock}/${testId}/unblock`);
 
 export const unblockSandBoxSessionWired = (testId) => unblockSandBoxSession(testId)
   .then(resp => { console.log(resp);})

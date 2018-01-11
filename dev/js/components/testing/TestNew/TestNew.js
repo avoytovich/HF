@@ -38,7 +38,7 @@ class TestNew extends Component {
   _prepareData = (data) => ({
     answers: pickBy(pick(data, pickKeys.testing), el => el.value),
     user_id: this.props.userReducer.user_id,
-    type   : 'diagnostic',
+    type   : data.type,
     step   : data.step,
     title  : data.title,
   });
