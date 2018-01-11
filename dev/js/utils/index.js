@@ -9,3 +9,4 @@ export * from './matrix';
 export * from './getBase64Promise';
 export * from './rulesMethods';
 export * from './flattenObject';
+export * from './storeSubscriptions';

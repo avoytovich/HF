@@ -72,10 +72,7 @@ class RadioButtonsGroup extends React.Component {
             className={classes.group}
             value={value}
             name={actionType}
-            onChange={(e, value) => {
-              onChangeFinal({ target: { name: actionType, value, id: `${id}.value` }});
-              dispatchTestingPayloadWired({ [`${id}.type`]: 'single' })
-            }}
+            onChange={(e, value) => onChangeFinal({ target: { name: actionType, value, id: `${id}.value` }})}
             {...omit(props, ['dispatch', 'onChange'])}
           >
             { this._renderItems(items)}

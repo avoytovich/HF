@@ -79,6 +79,7 @@ export const api = {
   getExercises        : '/exercises/ids',
   diagnostics         : '/diagnostics',
   checkQuestion       : '/diagnostics/session',
+  unblock             : '/diagnostics/session',
 };
 
 export const PAGE = {

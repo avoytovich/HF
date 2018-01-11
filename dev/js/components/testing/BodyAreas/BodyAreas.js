@@ -8,12 +8,13 @@ import { C } from '../../../components';
 import { dispatchTestingPayloadWired } from '../../../actions';
 
 class BodyAreas extends Component {
-  _renderBodyAreasItem = (items = []) => {
+  _renderBodyAreasItem = (items = [], step) => {
     return items.map(({ title, id }, i) => {
       return !i ?
         (
           <C.BodyAreaItem
             key={id}
+            step={step}
             reducer={this.props.testingReducer}
             title={title}
             id={id}
@@ -28,6 +29,7 @@ class BodyAreas extends Component {
       areas,
       id,
       testingReducer,
+      step,
       testingReducer: {
         bodyAreasPicked,
       }
@@ -37,7 +39,7 @@ class BodyAreas extends Component {
         <Grid container spacing={0}>
           <Grid item xs={12}>
             <p className="testing-inner-sub-header">
-              Body Areas
+              Pain Areas
             </p>
             <Grid container spacing={24}>
 
@@ -47,19 +49,20 @@ class BodyAreas extends Component {
                   options={areas}
                   onChangeCustom={({ target: { value } }) => {
                     dispatchTestingPayloadWired({
-                      bodyAreasPicked: value,
-                      [id]: { type: 'multiple', value }
+                      bodyAreasPicked     : value,
+                      [id]                : { type: 'multiple', value },
+                      changingQuestionStep: step,
                     });
                   }}
                   id='bodyAreasPicked'
                   style={{ width: "100%" }}
                   reducer={testingReducer}
-                  label='Body Areas'
+                  label='Pain Areas'
                 />
               </Grid>
             </Grid>
 
-            { this._renderBodyAreasItem(bodyAreasPicked) }
+            { this._renderBodyAreasItem(bodyAreasPicked, step) }
 
           </Grid>
         </Grid>

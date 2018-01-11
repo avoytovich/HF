@@ -74,7 +74,7 @@ export const DIAGNOSIS_TAB = {
   tableHeader: [
     { title: 'Name', key: 'title', className: 'left' },
     {
-      title: 'Body Areas',
+      title: 'Pain Areas',
       key: 'areas',
       className: 'center',
       type: 'areas'
@@ -103,7 +103,7 @@ export const CONDITIONS_TAB = {
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                        },
     {
-      title: 'Body Areas',
+      title: 'Pain Areas',
       key: 'areas',
       className: 'center',
       type: 'areas'
@@ -120,7 +120,7 @@ export const TREATMENTS_TAB = {
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                       },
     {
-      title: 'Body Areas',
+      title: 'Pain Areas',
       key: 'areas',
       className: 'center',
       type: 'areas'
@@ -137,7 +137,7 @@ export const PACKAGES_TAB = {
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                       },
     {
-      title: 'Body Areas',
+      title: 'Pain Areas',
       key: 'areas.data',
       className: 'center',
       type: 'areas'
@@ -244,7 +244,7 @@ export const TEST_TAB = {
   tableHeader: [
     { title: 'Title',         key: 'title',         className: 'left'                                    },
     { title: 'Package',       key: 'type',          className: 'center'                                  },
-    { title: 'Body Areas',    key: 'properties_temp',          className: 'center'                                  },
+    { title: 'Pain Areas',    key: 'properties_temp',          className: 'center'                                  },
     { title: 'Date',          key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT },
   ]
 };

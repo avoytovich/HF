@@ -110,7 +110,7 @@ class CreateConditionComponent extends Component {
               </Typography>
             </Grid>
 
-            {/*Title and Body Area*/}
+            {/*Title and Pain Area*/}
             <Grid container className="row-item">
               <Grid item md={6} sm={12}>
                 <Input
