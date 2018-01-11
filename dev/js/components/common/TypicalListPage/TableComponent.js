@@ -23,7 +23,6 @@ import { withRouter }         from 'react-router';
 import Tooltip                from 'material-ui/Tooltip';
 
 
-
 const DEFAULT_QUERY = {
   per_page    : 100,
   current_page: 0,
@@ -53,7 +52,7 @@ class TableComponent extends Component {
    */
   componentWillReceiveProps(nextProps) {
     if (this.props.location !== nextProps.location &&
-        nextProps.location.query) {
+        !isEmpty(nextProps.location.query)) {
       this.getList(this.props, {...nextProps.location.query, ...nextProps.query});
     }
   }

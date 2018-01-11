@@ -12,21 +12,17 @@ import Close from 'material-ui-icons/Close';
 class HeaderAssets extends Component {
 
   _onSubmit = () => {
-    let userType,tariff_id;
+    let userType;
     if (this.props.userInfo){
       userType = this.props.userInfo.userType;
-      tariff_id = this.props.userInfo.tarrifId
     }
     else if(get(this.props,'profileReducer.type')==='clinic'){
        userType = 'clinic';
-       tariff_id = 2
     }
     else{
        userType = 'organization';
-       tariff_id = 3
     }
-    const result = {...this.props.createUsersReducers, ...{type: userType,
-      tariff_id: tariff_id, entryFee: 100,
+    const result = {...this.props.createUsersReducers, ...{type: userType, entryFee: 100,
       email: get(this.props.createUsersReducers,'contact_info.contacts[0].email')}};
 
     if(get(this.props,'userInfo.actionType') ==='create'){
