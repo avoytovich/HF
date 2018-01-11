@@ -111,8 +111,6 @@ class CreateEvaluationComponent extends Component {
       content_type,
       ...optional,
     };
-
-
     submitTabs(
       'diagnostics',
       'createQuestion',
@@ -124,7 +122,7 @@ class CreateEvaluationComponent extends Component {
 
 
   configureQuestionResult = (value, optional) => {
-    const { areaIds, answerType, rules, diagnostic_assets } = value,
+    const { areaIds, answerType, rules, diagnostic_assets, packageLevelsList } = value,
       { type, subtype } = this.getAnswerType(answerType),
       moreProps = optional ? { test_file_id: get(diagnostic_assets, 'id') || null } : {};
     return {
@@ -134,7 +132,7 @@ class CreateEvaluationComponent extends Component {
         values: this.getAnswer(answerType, value)
       },
       rule: {and: rules},
-      packageLevelIds: [24],
+      packageLevelIds: !packageLevelsList.length ? [] : packageLevelsList.map(el => el.levelId),
       ...moreProps
     };
   };

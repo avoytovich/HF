@@ -18,17 +18,17 @@ class PLComponent extends Component {
   state = { levelsList: [] };
 
   componentWillMount() {
-//    const id = this.props.packageItem;
-//    getPackagenById('exercises', 'packages', id, true).then((_res) => {
-//      const {data} = _res.packageLevels;
-//      const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
-//      this.setState({levelsList});
-//      updateCrateQuestionFields(levelsList, 'levelsList');
-//      const {id, title} = _res;
-//      const treatmentsPackage = {value: id, label: title, id};
-//      updateCrateQuestionFields(treatmentsPackage, `packageLevels[${this.props.index}]`);
-//
-//    });
+    const id = this.props.packageId;
+    if (id) {
+      getPackagenById('exercises', 'packages', id, true).then((_res) => {
+        if (!_res.packageLevels) return;
+
+        const {data} = _res.packageLevels;
+        const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
+        updateCrateQuestionFields(levelsList, `packageLevelsList[${this.props.index}].levelsList`);
+      });
+    }
+
   }
 
   getPackageOptions = (input) => {
@@ -45,32 +45,30 @@ class PLComponent extends Component {
   };
 
   onPackageChange = (value, index) => {
+    //Todo: write methods for multi arguments
     updateCrateQuestionFields(value.id, `packageLevelsList[${index}].packageId`);
+    updateCrateQuestionFields([], `packageLevelsList[${index}].levelsList`);
+    updateCrateQuestionFields('', `packageLevelsList[${index}].levelId`);
+
     if (value.id) {
+
       getPackagenById('exercises', 'packages', value.id, true).then((_res) => {
         const {data} = _res.packageLevels;
         const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
-
-//        this.setState({levelsList});
-        updateCrateQuestionFields(levelsList, 'levelsList');
+        updateCrateQuestionFields(levelsList, `packageLevelsList[${index}].levelsList`);
       });
     }
     else {
-//      this.setState({levelsList: []});
+      updateCrateQuestionFields([], `packageLevelsList[${index}].levelsList`);
     }
 
   };
 
-  handleLevelsChange = (event) => {
-    const sequenceType = event.target.value;
-    updateCrateQuestionFields(sequenceType, 'treatmentsLevels');
-  };
+  handleLevelsChange = (event, index) =>
+    updateCrateQuestionFields(event.target.value, `packageLevelsList[${index}].levelId`);
 
   render() {
-    const { packageId, levelId, store: {levelsList}, index } = this.props;
-
-    console.log('levelId', levelId);
-    console.log('levelsList', levelsList);
+    const { packageId, levelId, levelsList, index } = this.props;
 
     return <Grid container className="row-item">
       <Grid item sm={6} xs={12}>
@@ -103,8 +101,8 @@ class PLComponent extends Component {
           Start from level
         </Typography>
         <Select
-          value={'d'}
-          onChange={this.handleLevelsChange}
+          value={levelId}
+          onChange={event => this.handleLevelsChange(event, index)}
           disabled={!levelsList.length}
           style={{width: '100%'}}
           MenuProps={{PaperProps:{style:{width: 400}}}}
