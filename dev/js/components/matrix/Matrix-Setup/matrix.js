@@ -36,18 +36,18 @@ class MatrixComponent extends Component {
     this.findNewPathIndex(TABS, path);
   }
 
-  findNewPathIndex = (tabs, path) => {
-    const newURL = tabs.reduce((result, item, index) => {
+  findNewPathIndex = (tabs, path) => tabs.reduce((result, item, index) => {
       if (item) return  item.url === path ? index : result;
 
       return result;
     }, 0);
-    this.setState({value: newURL});
-  };
 
   handleActive = (url) => {
-    browserHistory.push(`${this.props.route.path}/${url}`);
-    this.findNewPathIndex(TABS, url);
+    const newURL = this.findNewPathIndex(TABS, url);
+    if (this.state.value !== newURL){
+      this.setState({value: newURL});
+      browserHistory.push(`${this.props.route.path}/${url}`);
+    }
   };
 
 

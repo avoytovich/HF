@@ -100,7 +100,6 @@ export const getMultipleAnswerValue = (list, value) =>
     }, []);
 
 export const  getAnswersList = (values) => {
-  debugger;
  return values ? Object.keys(values).map(key => {
       const _value = values[key] && values[key].en;
       return {
@@ -121,12 +120,11 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
     default:
       const { type, areaIds, step, state: { page }, reqType } = props;
 
-      debugger;
-
       const body = {
         type: _type || type,
         areaIds: areaIds || [],
-        answerType
+        answerType,
+        answerSubtype: !answerType ? 'list' : undefined
       };
       const noSteps = page === 'condition' || page === 'treatment';
       const _body = noSteps ? body : {...body, step: step || null};

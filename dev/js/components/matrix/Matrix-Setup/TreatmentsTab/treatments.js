@@ -9,12 +9,14 @@ import Delete                   from 'material-ui-icons/Delete';
 import NotInterested            from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from '../matrix-crud/deactivateModal'
 import DeleteComponent          from '../matrix-crud/deleteModal';
+import Done                     from 'material-ui-icons/Done';
 
 class TreatmentsComponent extends Component {
   state = {
     selected: [],
     deactivateOpen: false,
-    deleteOpen: false
+    deleteOpen: false,
+    activateOpen: false
   };
 
   create = (id) => id ?
@@ -30,16 +32,34 @@ class TreatmentsComponent extends Component {
     this.setState({ [key]: value });
 
     if (!value) this.setState({ selected: [] });
-  }
+  };
+
   render() {
     const { tableHeader } = TREATMENTS_TAB;
-    const { selected, deactivateOpen, deleteOpen } = this.state;
+    const { selected, deactivateOpen, deleteOpen, activateOpen } = this.state;
 
     return (
       <div id="treatments-component">
+        <DeactivateComponent
+          path="treatments"
+          pathReq="treatments"
+          domen="diagnostics"
+          list={selected}
+          open={this.updateModal}
+          itemKey="title"
+          query={this.props.location.query}
+
+          title="Activate this treatment"
+          typeKey="activateOpen"
+          activate={true}
+          onSubmitTitle="Activate"
+          deactivateOpen={activateOpen}
+        />
 
         <DeactivateComponent
           path="treatments"
+          treatments="treatments"
+          pathReq="treatments"
           domen="diagnostics"
           typeKey="deactivateOpen"
           list={selected}
@@ -52,6 +72,7 @@ class TreatmentsComponent extends Component {
         <DeleteComponent
           path="treatments"
           domen="diagnostics"
+          pathReq="treatments"
           typeKey="deleteOpen"
           list={selected}
           deactivateOpen={deleteOpen}
@@ -76,6 +97,13 @@ class TreatmentsComponent extends Component {
             <NotInterested />
             Deactivate
           </Button>
+
+          <Button raised dense
+                  onClick={() => this.updateModal('activateOpen', true)}>
+            <Done />
+            Activate
+          </Button>
+
 
         </TableControls>
 

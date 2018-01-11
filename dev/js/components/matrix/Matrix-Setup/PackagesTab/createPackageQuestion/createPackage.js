@@ -86,17 +86,17 @@ class CreatePackageComponent extends Component {
   done = (value) => {
     const { areaIds, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
 
-    const _packageLevels = packageLevels.map((el, index) => {
-      const oldLevel = this.levelList[index];
-      return oldLevel && !el.id ? Object.assign({}, el, {id: oldLevel.id}) : el;
-    });
+//    const _packageLevels = packageLevels.map((el, index) => {
+//      const oldLevel = this.levelList[index];
+//      return oldLevel && !el.id ? Object.assign({}, el, {id: oldLevel.id}) : el;
+//    });
 
     const result = {
       key      : questionKey,
       areaIds  : areaIds,
       title    : questionTitle,
       type     : packageType,
-      package_levels : _packageLevels,
+      package_levels : packageLevels,
     };
 
     submitTabs(

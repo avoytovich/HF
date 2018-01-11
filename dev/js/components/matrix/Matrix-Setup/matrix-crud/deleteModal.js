@@ -15,7 +15,7 @@ import { deleteItem,
 
 class DeleteComponent extends Component {
 
-  deactivate = ({list, path, pathReq, domen}) => {
+  deleteIt = ({list, path, pathReq, domen}) => {
     deleteItem(domen, pathReq, list)
       .then(() => {
         getMatrixInfo(domen, path, this.props.query, path)
@@ -46,7 +46,7 @@ class DeleteComponent extends Component {
         <Button onClick={() => open(typeKey, false)} color="primary">
           Cancel
         </Button>
-        <Button onClick={() => this.deactivate(this.props)} color="primary">
+        <Button onClick={() => this.deleteIt(this.props)} color="primary">
           Delete
         </Button>
       </DialogActions>

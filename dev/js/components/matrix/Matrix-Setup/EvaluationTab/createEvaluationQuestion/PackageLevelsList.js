@@ -43,7 +43,7 @@ class PackageLevelsList extends Component {
       })}
       <div className="add-answer"
            onClick={this.addPackage}>
-        <AddIcon /> ADD ANSWER
+        <AddIcon /> ADD PACKAGE
       </div>
     </div>
   }
