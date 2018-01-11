@@ -1,7 +1,4 @@
 export const testing = [
-  'type',
-  'step',
-  'title',
   'q_lang',
   'q_metric',
   'q_age',

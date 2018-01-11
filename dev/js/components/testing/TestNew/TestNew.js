@@ -67,11 +67,12 @@ class TestNew extends Component {
         testId,
       }
     } = this.props;
-   if (testId || testId !== 0) {
+   if (testId || testId === 0) {
      let data = this._prepareDataForCheckQuestion(testingReducer, step);
      checkQuestionWired(testId, data);
    } else {
-     createTestWired(this._prepareData(testingReducer));
+     let data = this._prepareData(testingReducer);
+     createTestWired(data);
    }
   };
 
