@@ -25,6 +25,8 @@ const initialState = {
   //
   questions: [],
   conditions: [],
+  changingQuestionStep: 0,
+  testId: null,
 };
 
 const testingBodyAres = (state, action) => {
@@ -56,7 +58,16 @@ const testingAddQuestionsAndCond = (state, action) => {
     }
   });
 
-  return { ...state, questions, conditions, step, testId: id, result_status, condition };
+  return {
+    ...state,
+    questions,
+    conditions,
+    step,
+    testId: id,
+    result_status,
+    condition,
+    changingQuestionStep: step,
+  };
 };
 
 const testingAddMultOption = (state, action) => {
@@ -80,9 +91,26 @@ const testingDeleteMultOption = (state, action) => {
   return set({...state}, path, multiQAnswers);
 };
 
+const testingRemoveOverstepQuestions = (state, action) => {
+  let testingReducer   = { ...state };
+  let questions        = [...state.questions];
+  let controlStep      = action.payload;
+  let removedQuestions = remove(questions, q => q.step > controlStep);
+  each(testingReducer, (value, key) => {
+    each(removedQuestions, q => {
+      if (q.key === key) {
+        delete testingReducer[key]
+      }
+    })
+  });
+
+  return { ...testingReducer, questions, step: controlStep };
+};
+
 export const testingReducer = createReducer(initialState, T.TESTING, {
-  [T.TESTING_BODY_AREAS]        : testingBodyAres,
-  [T.TESTING_ADD_QUESTIONS_AND_COND]: testingAddQuestionsAndCond,
-  [T.TESTING_ADD_MULT_OPTION]   : testingAddMultOption,
-  [T.TESTING_DELETE_MULT_OPTION]: testingDeleteMultOption,
+  [T.TESTING_BODY_AREAS]               : testingBodyAres,
+  [T.TESTING_ADD_QUESTIONS_AND_COND]   : testingAddQuestionsAndCond,
+  [T.TESTING_ADD_MULT_OPTION]          : testingAddMultOption,
+  [T.TESTING_DELETE_MULT_OPTION]       : testingDeleteMultOption,
+  [T.TESTING_REMOVE_OVERSTEP_QUESTIONS]: testingRemoveOverstepQuestions,
 });

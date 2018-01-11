@@ -6,7 +6,6 @@ import NotificationsSystem from 'reapop';
 import theme from 'reapop-theme-wybo';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { PersistGate } from 'redux-persist/es/integration/react';
-import watch from 'redux-watch'
 import { Router, Route, IndexRoute, browserHistory, IndexRedirect, Redirect } from 'react-router';
 import { Provider } from 'react-redux';
 
@@ -17,7 +16,10 @@ injectTapEventPlugin();
 import '../sass/index.sass';
 import { C }                          from './components'
 import { PAGE }                       from './config';
-import { onAllEnter }                 from './utils';
+import {
+  onAllEnter,
+  storeSubscriptions,
+}                                     from './utils';
 import { dispatchCommonPayloadWired } from './actions';
 import { configureStore }             from './config/store';
 
@@ -33,13 +35,7 @@ const onBeforeLift = () => {
     currentLanguage: commonReducer.languages[userReducer.language]
   });
 
-  // watcher - will change lang on change 'language' prop in userReducer
-  const w = watch(store.getState, 'userReducer.language');
-  store.subscribe(w((newVal, oldVal, objectPath) => {
-    dispatchCommonPayloadWired({
-      currentLanguage: commonReducer.languages[newVal]
-    });
-  }))
+  storeSubscriptions(store)
 };
 
 const router = (

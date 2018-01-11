@@ -35,3 +35,9 @@ export const dispatchDeleteMultOptionWired = (path, answerId) =>
     payload: { path, answerId },
   });
 
+export const dispatchRemoveOverStepQuestionsWired = payload =>
+  store.dispatch({
+    type: T.TESTING_REMOVE_OVERSTEP_QUESTIONS,
+    payload,
+  });
+

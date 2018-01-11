@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router'
 import pick from 'lodash/pick'
 import each from 'lodash/each'
@@ -20,6 +21,8 @@ import DynamicQuestions from '../DynamicQuestions/DynamicQuestions';
 import {
   createTestWired,
   checkQuestionWired,
+  onChange,
+  dispatchTestingPayloadWired,
   T,
 } from '../../../actions';
 import {
@@ -64,7 +67,7 @@ class TestNew extends Component {
         testId,
       }
     } = this.props;
-   if (step > 0) {
+   if (testId) {
      let data = this._prepareDataForCheckQuestion(testingReducer, step);
      checkQuestionWired(testId, data);
    } else {
@@ -75,6 +78,7 @@ class TestNew extends Component {
   render() {
     const {
       testingReducer,
+      onChange,
       testingReducer: {
         q_age,
         q_sex,
@@ -138,6 +142,13 @@ class TestNew extends Component {
                 options={diagnosConsts.languages}
                 id='q_lang.value'
                 style={{ width: "100%" }}
+                onChangeCustom={(e) => {
+                  console.log('sdfsdfsdfsdfsdfsdfsdfsdfsdfsdf');
+                  onChange(e);
+                  dispatchTestingPayloadWired({
+                    changingQuestionStep: 0,
+                  })
+                }}
                 reducer={testingReducer}
                 label='Language of questions'
               />
@@ -145,6 +156,12 @@ class TestNew extends Component {
                 options={diagnosConsts.measurements}
                 id='q_metric.value'
                 style={{ width: "100%" }}
+                onChangeCustom={(e) => {
+                  onChange(e);
+                  dispatchTestingPayloadWired({
+                    changingQuestionStep: 0,
+                  })
+                }}
                 reducer={testingReducer}
                 label='Measurements'
               />
@@ -152,6 +169,12 @@ class TestNew extends Component {
                 options={diagnosConsts.sex}
                 id='q_sex.value'
                 style={{ width: "100%" }}
+                onChangeCustom={(e) => {
+                  onChange(e);
+                  dispatchTestingPayloadWired({
+                    changingQuestionStep: 0,
+                  })
+                }}
                 reducer={testingReducer}
                 label='Sex'
               />
@@ -161,6 +184,12 @@ class TestNew extends Component {
                   options={diagnosConsts.pregnant}
                   id='q_pregnant.value'
                   style={{ width: "100%" }}
+                  onChangeCustom={(e) => {
+                    onChange(e);
+                    dispatchTestingPayloadWired({
+                      changingQuestionStep: 0,
+                    })
+                  }}
                   reducer={testingReducer}
                   label='Are you pregnant?'
                 />
@@ -175,6 +204,12 @@ class TestNew extends Component {
                   <Input
                     type="number"
                     style={{ width: '100%' }}
+                    onChangeCustom={(e) => {
+                      onChange(e);
+                      dispatchTestingPayloadWired({
+                        changingQuestionStep: 0,
+                      })
+                    }}
                     id='q_age.value'
                     reducer={testingReducer}
                     label='Your age'
@@ -187,6 +222,12 @@ class TestNew extends Component {
                   <Input
                     type="number"
                     style={{ width: '100%' }}
+                    onChangeCustom={(e) => {
+                      onChange(e);
+                      dispatchTestingPayloadWired({
+                        changingQuestionStep: 0,
+                      })
+                    }}
                     id='q_weight.value'
                     reducer={testingReducer}
                     label='Weight (kg)'
@@ -196,6 +237,12 @@ class TestNew extends Component {
                   <Input
                     type="number"
                     style={{ width: '100%' }}
+                    onChangeCustom={(e) => {
+                      onChange(e);
+                      dispatchTestingPayloadWired({
+                        changingQuestionStep: 0,
+                      })
+                    }}
                     id='q_height.value'
                     reducer={testingReducer}
                     label='Your height (cm)'
@@ -216,7 +263,7 @@ class TestNew extends Component {
 
 TestNew.propTypes = {
   toggleModal: PropTypes.func,
-  headerTitle: PropTypes.string
+  headerTitle: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
@@ -224,4 +271,9 @@ const mapStateToProps = state => ({
   userReducer: state.userReducer,
 });
 
-export default connect(mapStateToProps)(TestNew);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  onChange,
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(TestNew);

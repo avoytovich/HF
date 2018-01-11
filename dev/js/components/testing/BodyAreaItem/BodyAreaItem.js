@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Grid from 'material-ui/Grid';
 import get from 'lodash/get';
 
 import { diagnosConsts } from '../consts'
 import { C } from '../../../components';
+import {
+  dispatchTestingPayloadWired,
+  onChange,
+} from '../../../actions';
 
 class BodyAreaItem extends Component {
 
   render() {
     const {
       reducer,
-      title = 'Area Name',
+      onChange,
+      step,
       id,
     } = this.props;
     const value = get(reducer, `vas_pain_level_area_${id}`, 0);
@@ -23,6 +29,10 @@ class BodyAreaItem extends Component {
               options={diagnosConsts.painType}
               id='vas_pain_type_area_'
               style={{ width: "100%" }}
+              onChangeCustom={(e) => {
+                onChange(e);
+                dispatchTestingPayloadWired({ changingQuestionStep: step })
+              }}
               reducer={reducer}
               label='Pain type'
             />
@@ -32,6 +42,10 @@ class BodyAreaItem extends Component {
               <C.Range
                 reducer={reducer}
                 id='vas_pain_level_area_'
+                onChangeCustom={(e) => {
+                  onChange(e);
+                  dispatchTestingPayloadWired({ changingQuestionStep: step })
+                }}
                 label='Pain Level'
               />
             </div>
@@ -50,4 +64,9 @@ const mapStateToProps = state => ({
   testingReducer: state.testingReducer,
 });
 
-export default connect(mapStateToProps)(BodyAreaItem);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  onChange,
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(BodyAreaItem);

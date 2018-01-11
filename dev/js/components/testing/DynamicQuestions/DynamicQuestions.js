@@ -7,7 +7,10 @@ import Grid from 'material-ui/Grid';
 import InsertDriveFile from 'material-ui-icons/InsertDriveFile';
 
 import { C } from '../../../components'
-import { dispatchTestingPayloadWired } from '../../../actions'
+import {
+  dispatchTestingPayloadWired,
+  onChange,
+} from '../../../actions'
 
 class DynamicQuestions extends Component {
   _pickQuestion = (
@@ -26,7 +29,10 @@ class DynamicQuestions extends Component {
     i
   ) => {
 
-    const { testingReducer } = this.props;
+    const {
+      testingReducer,
+      onChange,
+    } = this.props;
 
     switch (type) {
       case 'single':
@@ -35,7 +41,7 @@ class DynamicQuestions extends Component {
           each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
           return (
             <div key={i}>
-              <h5>Step #{ step }</h5>
+              <h5>Question { step }</h5>
               <h4>Functional test</h4>
               <div>
                 <InsertDriveFile className="testing-file-icon"/>
@@ -47,6 +53,13 @@ class DynamicQuestions extends Component {
               <C.RadioButton
                 key={i}
                 items={items}
+                onChangeCustom={(e) => {
+                  onChange(e);
+                  dispatchTestingPayloadWired({
+                    [`${key}.type`]     : 'single',
+                    changingQuestionStep: step,
+                  })
+                }}
                 reducer={testingReducer}
                 id={key}
                 label={question.en}
@@ -58,10 +71,17 @@ class DynamicQuestions extends Component {
           each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
           return (
             <div key={i}>
-              <h5>Step #{ step }</h5>
+              <h5>Question { step }</h5>
               <C.RadioButton
                 key={i}
                 items={items}
+                onChangeCustom={(e) => {
+                  onChange(e);
+                  dispatchTestingPayloadWired({
+                    [`${key}.type`]     : 'single',
+                    changingQuestionStep: step,
+                  })
+                }}
                 reducer={testingReducer}
                 id={key}
                 label={question.en}
@@ -72,7 +92,7 @@ class DynamicQuestions extends Component {
           const { min = 0, max = 100 } = values;
           return (
             <div key={i} className="margin-range">
-              <h5>Step #{ step }</h5>
+              <h5>Question { step }</h5>
               <C.Range
                 key={i}
                 reducer={testingReducer}
@@ -84,6 +104,7 @@ class DynamicQuestions extends Component {
                     [`${key}.type`]       : 'single',
                     [`${key}.value`]      : valueWithinRange,
                     [`${key}.valueOrigin`]: value,
+                    changingQuestionStep  : step,
                   })
                 }}
               />
@@ -97,9 +118,10 @@ class DynamicQuestions extends Component {
           each(values, (val, value) => bodyAreas.push({ label: val.en, value }));
           return (
             <div key={i}>
-              <h5>Step #{ step }</h5>
+              <h5>Question { step }</h5>
               <C.BodyAreas
                 key={i}
+                step={step}
                 id={key}
                 areas={bodyAreas}
               />
@@ -110,9 +132,10 @@ class DynamicQuestions extends Component {
           each(values, (val, answerId) => itemsMultiple.push({ label: val.en, answerId }));
           return (
             <div key={i}>
-              <h5>Step #{ step }</h5>
+              <h5>Question { step }</h5>
               <C.CheckBox
                 key={i}
+                step={step}
                 items={itemsMultiple}
                 reducer={testingReducer}
                 id={key}
@@ -214,6 +237,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  onChange,
   dispatch,
 }, dispatch);
 

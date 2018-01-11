@@ -19,7 +19,8 @@ import {
 } from '../../../actions';
 
 class CheckBox extends Component {
-  _onChange = (id, answerId, i) => (event, checked) => {
+  _onChange = (id, answerId, i, step) => (event, checked) => {
+    dispatchTestingPayloadWired({ changingQuestionStep: step });
     if (checked) {
       dispatchAddMultOptionWired(`${id}.value`, answerId, id);
     } else {
@@ -27,7 +28,7 @@ class CheckBox extends Component {
     }
   };
 
-  _renderCheckBoxes = items => {
+  _renderCheckBoxes = (items, step) => {
     return items.map(({ label, answerId }, i) => {
       const {
         reducer,
@@ -42,7 +43,7 @@ class CheckBox extends Component {
           control={
             <Checkbox
               checked={value}
-              onChange={onChangeFinal(id, answerId, i)}
+              onChange={onChangeFinal(id, answerId, i, step)}
             />
           }
           label={label}
@@ -54,13 +55,14 @@ class CheckBox extends Component {
   render() {
     const {
       items = [],
+      step,
     } = this.props;
 
     return (
       <FormControl component="fieldset">
         <FormLabel component="legend">Assign responsibility</FormLabel>
         <FormGroup>
-          { this._renderCheckBoxes(items)}
+          { this._renderCheckBoxes(items, step)}
         </FormGroup>
       </FormControl>
     );
