@@ -4,6 +4,7 @@ import InComponent          from './in';
 import MatchComponent       from './match';
 import MultipleComponent    from './multiple';
 import ConditionsComponent  from './condition';
+import NotInComponent       from './notIn'
 
 export {
   EqualComponent,
@@ -11,5 +12,6 @@ export {
   InComponent,
   MatchComponent,
   MultipleComponent,
-  ConditionsComponent
+  ConditionsComponent,
+  NotInComponent
 }
