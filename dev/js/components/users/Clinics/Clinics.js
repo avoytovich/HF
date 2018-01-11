@@ -19,7 +19,6 @@ const userInfo = {
   headerTitle:'Create Clinic',
   backButton : '/clinics',
   userType : 'clinic',
-  tarrifId : '2',
   actionType : 'create',
 }
 
