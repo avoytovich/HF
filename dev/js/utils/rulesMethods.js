@@ -71,6 +71,7 @@ export const onMultipleAsyncChange = (value, edit, props) => {
 };
 
 
+
 export const onAnswerChange = (event, {path, pathType}, key) => {
   const value = event.target.value;
   setQuestion(path, pathType, value, key);
@@ -98,12 +99,16 @@ export const getMultipleAnswerValue = (list, value) =>
       return value.some(el => `${el}` === item.label) ? result.concat(item.label) : result;
     }, []);
 
-export const  getAnswersList = (values) =>
-  Object.keys(values).map(key => {
-    const _value = values[key] && values[key].en;
-    return {label: key, value: _value}
-  });
-
+export const  getAnswersList = (values) => {
+  debugger;
+ return values ? Object.keys(values).map(key => {
+      const _value = values[key] && values[key].en;
+      return {
+        label:key,
+        value:_value
+      }
+    }) : [];
+}
 
 export const getOptions = (input, key, onChangeCallBack, props, questionType, answerType, _type) => {
   switch(true) {
@@ -115,6 +120,9 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
 
     default:
       const { type, areaIds, step, state: { page }, reqType } = props;
+
+      debugger;
+
       const body = {
         type: _type || type,
         areaIds: areaIds || [],

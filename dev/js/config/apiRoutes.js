@@ -111,7 +111,7 @@ export const PAGE = {
   simpleUsers       : '/users-simple',
   organizationsUsers: '/users-organizations',
   clinicsUsers      : '/users-clinics',
-  evaluations       : '/matrix-setup/evaluations',
+  levelUps          : '/matrix-setup/levelUps',
   packages          : '/matrix-setup/packages',
   exercises         : '/matrix-setup/exercises',
   diagnosisCreate   : '/diagnosis-create',

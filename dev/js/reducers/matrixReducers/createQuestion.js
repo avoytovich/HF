@@ -116,7 +116,6 @@ const setFullQuestion = (state, action) => {
   const { body: { areas, title, question, key, step, answer, rule, content_type, test_file, packageLevels }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
-
   const _body = {
       areaIds: configArea(areas),
       questionTitle: title,
@@ -128,8 +127,9 @@ const setFullQuestion = (state, action) => {
       rules: Array.isArray(rule) ? rule: rule.and ? rule.and : [rule],
       [_type]: parseAnswers(answer),
       diagnostic_assets: test_file ||  [],
-      packageLevels: packageLevels || []
+      packageLevelsList: configPackageLevelList(packageLevels)
     };
+
   return Object.assign({}, state, _body);
 };
 
@@ -208,6 +208,15 @@ const configArea = (areas) => {
 //  return { value: null, label: 'All', key: null };
 };
 
+const configPackageLevelList = (data) => {
+ return data ?
+    data.map(({package_id, id}) => ({
+      packageId :package_id,
+      levelId   :id,
+      levelsList:[]
+    })) :
+    [];
+}
 const configPackageLevel = (data) => {
   return data.reduce((result, el) => {
     if (el) {

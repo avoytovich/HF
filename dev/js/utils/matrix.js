@@ -13,7 +13,8 @@ export const GROUP_TYPES = [
   { key: 'equal',    type: 'item',  subType: 'single' },
   { key: 'notEqual', type: 'item',  subType: 'single' },
   { key: 'in',       type: 'item',  subType: 'list'   },
-  { key: 'multiple', type: 'item',  subType: 'list'   },
+  { key: 'notIn',    type: 'item',  subType: 'list'   },
+//  { key: 'multiple', type: 'item',  subType: 'list'   },
   { key: 'true',     type: 'item',  subType: 'single' }
 ];
 
@@ -25,7 +26,9 @@ export const TYPES = [
   { label: 'Equal',      value: 'equal',    subType: 'single'   },
   { label: 'Not Equal',  value: 'notEqual', subType: 'single'   },
   { label: 'In',         value: 'in',       subType: 'single'   },
-  { label: 'Multiple',   value: 'multiple', subType: 'multiple' }
+  { label: 'Not In',     value: 'notIn'},
+//  { label: 'In',         value: 'in',       subType: 'single'   },
+//  { label: 'Multiple',   value: 'multiple', subType: 'multiple' }
 ];
 
 export const TYPES_OPTIONAL = TYPES.concat(
