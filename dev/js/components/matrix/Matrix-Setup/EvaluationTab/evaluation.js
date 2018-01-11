@@ -46,7 +46,7 @@ class EvaluationComponent extends Component {
       <div id="diagnosis-component">
         <DeactivateComponent
           path="levelUps"
-          pathReq="levelUps"
+          pathReq="createQuestion"
           domen="diagnostics"
           list={selected}
           open={this.updateModal}
@@ -63,7 +63,7 @@ class EvaluationComponent extends Component {
 
         <DeactivateComponent
           path="levelUps"
-          pathReq="levelUps"
+          pathReq="createQuestion"
           domen="diagnostics"
           typeKey="deactivateOpen"
           list={selected}
@@ -75,7 +75,7 @@ class EvaluationComponent extends Component {
 
         <DeleteComponent
           path="levelUps"
-          pathReq="levelUps"
+          pathReq="createQuestion"
           domen="diagnostics"
           typeKey="deleteOpen"
           list={selected}
