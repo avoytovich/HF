@@ -48,7 +48,6 @@ class Assets extends Component {
 
   handleChange = (event, value) => {
     this.setState({ value });
-    console.log(value)
   };
 
   render() {

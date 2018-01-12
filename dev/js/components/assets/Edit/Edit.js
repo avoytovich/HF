@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
+import { get }                      from 'lodash'
 import {
   getS3Link,
   uploadAssets,
@@ -11,16 +11,16 @@ import {
 import { getBase64Promise } from '../../../utils'
 import AssetItem from '../AssetItem/AssetItem'
 import Dropzone from '../Dropzone/Dropzone'
-import HeaderAssets from '../HeaderAssets/HeaderAssets'
+import HeaderEditAssets from '../HeaderEditAssets/HeaderEditAssets'
 
 class Edit extends Component {
   _onFile = (e) => {
-    console.log(this.refs.file.files);
     const acceptedF = [...this.refs.file.files];
     const { dispatchAssetsPayload } = this.props;
     const tmp_files = acceptedF.map(({ type, name }) => ({
       type: type.split('/').shift() === 'image' ? 'image' : 'video',
-      name_real: name.split('.').shift()
+      // name_real: name.split('.').shift(),
+      name: name.split('.').shift(),
     }));
     dispatchAssetsPayload({ tmp_files });
     if (acceptedF.length) {
@@ -72,9 +72,9 @@ class Edit extends Component {
     } = this.props;
     return (
       <div className="upload-container">
-        <HeaderAssets
+        <HeaderEditAssets
           type={this.props.type}
-          headerTitle={tmp_files[0].name_real}
+          headerTitle={get(tmp_files[0],'name')}
           toggleModal={toggleModal}
         />
         { this._renderChangeFile() }
@@ -110,6 +110,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Edit);
       "description":"description",
       "name_origin":"name_origin",
       "name_real":"name_real" // unique
+      "name":"name" // unique
     }
   ]
 }`;
