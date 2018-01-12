@@ -209,7 +209,7 @@ const configArea = (areas) => {
 };
 
 const configPackageLevelList = (data) => {
- return data ?
+ return data && data.length ?
     data.map(({package_id, id}) => ({
       packageId :package_id,
       levelId   :id,

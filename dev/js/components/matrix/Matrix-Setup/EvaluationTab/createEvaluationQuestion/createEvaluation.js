@@ -33,22 +33,25 @@ class CreateEvaluationComponent extends Component {
       {label: 'Multiple', value: 'multiple'},
     ],
     answerLang      : ['en', 'en'],
-    sequenceList    : []
+    sequenceList    : [],
+    loading: false
   };
 
   constructor(props) {
     super(props);
-    clearCreateQuestion();
-    updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
   componentWillMount() {
+    clearCreateQuestion();
+    updateCrateQuestionFields(this.state.questionType, 'page');
     if (this.props.routeParams.id) {
+      this.setState({loading: true});
       getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
         if (answer.values) {
           const keys = Object.keys(answer.values);
           const answerLang = keys.map(() => 'en');
-          this.setState({answerLang})
+          this.setState({answerLang});
+          this.setState({loading: false});
         }
       });
     }
@@ -167,7 +170,7 @@ class CreateEvaluationComponent extends Component {
         </div>
 
 
-        { id && !questionKey ?
+        { id && this.state.loading ?
           <MatrixPreLoader
             left="1"
             right="2"
@@ -178,6 +181,7 @@ class CreateEvaluationComponent extends Component {
             <DiagnosisTypeQuestion
               page='evaluations'
               packages={true}
+              currentId={id}
               packageLevelsList={packageLevelsList}
               sequenceList={this.state.sequenceList}/>
         }

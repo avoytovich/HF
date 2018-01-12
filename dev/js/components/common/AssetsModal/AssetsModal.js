@@ -137,7 +137,7 @@ class AssetsModal extends Component {
               <Grid container  className="choose-sequence-item-header">
                 <Grid item xs={12}
                       className="choose-sequence-item-title"
-                      onClick={(event) => this.onSelect(event, selected, `${id}`)}>
+                      onClick={(event) => !disabled && this.onSelect(event, selected, `${id}`)}>
                   <Checkbox
                     checked={checked}
                     value={`${id}`}

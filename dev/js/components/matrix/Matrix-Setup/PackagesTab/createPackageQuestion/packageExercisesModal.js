@@ -9,20 +9,15 @@ import Toolbar                    from 'material-ui/Toolbar';
 import IconButton                 from 'material-ui/IconButton';
 import Typography                 from 'material-ui/Typography';
 import CloseIcon                  from 'material-ui-icons/Close';
-import Collapse                   from 'material-ui/transitions/Collapse';
 import Grid                       from 'material-ui/Grid';
-import ExpandLess                 from 'material-ui-icons/ExpandLess';
-import ExpandMore                 from 'material-ui-icons/ExpandMore';
 import {
   updateCrateQuestionFields,
-  getQuestionsByStep,
   getExercises,
 }                                 from '../../../../../actions';
-import Radio                      from 'material-ui/Radio';
 import Button                     from 'material-ui/Button';
-import TextField                  from 'material-ui/TextField';
 import Checkbox                   from 'material-ui/Checkbox';
-
+import Input, { InputAdornment }  from 'material-ui/Input';
+import SearchIcon                 from 'material-ui-icons/Search';
 
 class PackageExercisesModal extends Component {
   state = {
@@ -75,7 +70,7 @@ class PackageExercisesModal extends Component {
               </IconButton>
 
               <Typography type="title" color="inherit">
-                Sequence of Diagnosis Questions
+                Exercises
               </Typography>
             </div>
 
@@ -88,7 +83,19 @@ class PackageExercisesModal extends Component {
 
         <Grid container style={{marginTop: '60px', marginLeft: '30px'}}>
           <Grid item xs={12} >
-            <TextField id="time" type="text"  onChange={this.handleChange}/>
+
+            <Input
+              id="assets_search"
+              onChange={this.handleChange}
+              placeholder='Search'
+              startAdornment={
+                <InputAdornment position="start">
+                  <SearchIcon color="grey"/>
+                </InputAdornment>
+              }
+            />
+
+
           </Grid>
         </Grid>
 
@@ -106,7 +113,7 @@ class PackageExercisesModal extends Component {
                     value={`${item.id}`}
                   />
 
-                  <Typography type="title" color="inherit" className="title">
+                  <Typography type="subheading" color="inherit">
                     {item.title.en || item.name.en || 'Title'}
                   </Typography>
                 </Grid>
