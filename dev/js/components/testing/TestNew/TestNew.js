@@ -31,20 +31,19 @@ import {
 } from '../../../config';
 
 class TestNew extends Component {
-  componentWillMount() {
-    this.props.dispatch({ type: `${T.TESTING}_CLEAR` });
-  };
-
   _prepareData = (data) => ({
     answers: pickBy(pick(data, pickKeys.testing), el => el.value),
     user_id: this.props.userReducer.user_id,
-    type   : 'diagnostic',
+    type   : data.type,
     step   : data.step,
     title  : data.title,
   });
 
   _prepareDataForCheckQuestion = (data, step) => {
     let currentQKeysToSend = data.questions.filter(q => q.step == step).map(q => q.key);
+    if (step === 0) {
+      currentQKeysToSend = currentQKeysToSend.concat(pickKeys.testing);
+    }
     if (currentQKeysToSend.includes('vas_areas')) {
       each(data.vas_areas.value, (val, prop) => {
         data[`vas_pain_level_area_${val}`] = { value: data.vas_pain_level_area_, type: 'single' };
@@ -54,7 +53,7 @@ class TestNew extends Component {
       });
     }
     return {
-      answers: pick(data, currentQKeysToSend),
+      answers: pickBy(pick(data, currentQKeysToSend), el => el.value),
       step,
     };
   };

@@ -13,7 +13,8 @@ import * as createUsersReducers   from './createUsersReducers'
 import * as testingReducer        from './testingReducer'
 const config = {
   key: 'root',
-  whitelist: ['userReducer', 'authReducer'], // for those we need to be saved (only these will be saved)
+  // for those we need to be saved (only these will be saved)
+  whitelist: ['userReducer', 'authReducer', 'testingReducer'],
   storage,
 };
 const rootReducer = persistCombineReducers(config, {

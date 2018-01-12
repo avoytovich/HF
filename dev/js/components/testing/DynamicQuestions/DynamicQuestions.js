@@ -15,6 +15,7 @@ import {
 class DynamicQuestions extends Component {
   _pickQuestion = (
     {
+      answer,
       answer: {
         type,
         subtype,
@@ -89,7 +90,15 @@ class DynamicQuestions extends Component {
             </div>
           );
         } else {
-          const { min = 0, max = 100 } = values;
+          //TODO check with backend regarding nesting of the min/max values
+          let min, max;
+          if (values) {
+            min = values.min || 0;
+            max = values.max || 100;
+          } else {
+            min = answer.min || 0;
+            max = answer.max || 100;
+          }
           return (
             <div key={i} className="margin-range">
               <h5>Question { step }</h5>
@@ -147,12 +156,13 @@ class DynamicQuestions extends Component {
 
       default:
         console.log('default fired: ', { type, subtype });
+        // throw new Error('unpredicted question type');
     }
   };
 
   _renderQuestions = (questions) => {
-    return questions.map((que, i) => {
-      return this._pickQuestion(que, i)
+    return questions.map((q, i) => {
+      return this._pickQuestion(q, i)
     })
   };
 

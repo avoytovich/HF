@@ -17,6 +17,7 @@ import { C } from '../../index'
 import {
   deleteTestWired,
   getListByPost,
+  getExistingTestWired,
 } from '../../../actions';
 
 class TestsList extends Component {
@@ -101,6 +102,12 @@ class TestsList extends Component {
           selected={selected}
           onRowClick={this._onRowClick}
           onSelectAllClick={this._onSelectAllClick}
+          tableCellPropsFunc= {(row, col) => ({
+            onClick: () => {
+              getExistingTestWired(row.id);
+              browserHistory.push(PAGE.testNew)
+            }
+          })}
         />
 
         <C.Modal
