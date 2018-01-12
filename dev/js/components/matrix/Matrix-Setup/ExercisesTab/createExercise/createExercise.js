@@ -30,7 +30,8 @@ class CreateExerciseComponent extends Component {
     titleLang: 'en',
     informationLang: 'en',
     instructionLang: 'en',
-    chooseFiles: false
+    chooseFiles: false,
+    loading: false,
   };
 
   constructor(props) {
@@ -41,7 +42,11 @@ class CreateExerciseComponent extends Component {
 
   componentWillMount() {
     if (this.props.params.id) {
-      getExerciseById('exercises', 'exercises', this.props.params.id);
+      this.setState({loading: true});
+      getExerciseById('exercises', 'exercises', this.props.params.id).then(() => {
+        this.setState({loading: false});
+
+      });
     }
     else {
 //      const newOne = Object.assign({}, DEFAULT_LEVEL);
@@ -135,7 +140,7 @@ class CreateExerciseComponent extends Component {
           </div>
         </div>
 
-        {  id && !files ?
+        {  id && this.state.loading ?
           <MatrixPreLoader
             left="1"
             right="2"

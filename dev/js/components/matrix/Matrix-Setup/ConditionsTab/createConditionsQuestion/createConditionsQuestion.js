@@ -25,7 +25,10 @@ import Input                        from '../../../../common/Input/Input';
 
 
 class CreateConditionComponent extends Component {
-  state = { questionType    : 'condition' };
+  state = {
+    questionType  : 'condition',
+    loading       : false
+  };
 
   constructor(props) {
     super(props);
@@ -36,7 +39,9 @@ class CreateConditionComponent extends Component {
     updateCrateQuestionFields(this.state.questionType, 'page');
 
     if (this.props.routeParams.id) {
-      getConditionById('diagnostics', 'getConditionById', this.props.routeParams.id);
+      this.setState({loading: true});
+      getConditionById('diagnostics', 'getConditionById', this.props.routeParams.id)
+        .then(el => this.setState({loading: false}));
     }
   }
 
@@ -96,7 +101,7 @@ class CreateConditionComponent extends Component {
           </div>
         </div>
 
-        {  id && !questionKey ?
+        {  id && this.state.loading ?
           <MatrixPreLoader
             left="3"
             right="2"
