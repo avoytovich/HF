@@ -31,10 +31,6 @@ import {
 } from '../../../config';
 
 class TestNew extends Component {
-  componentWillMount() {
-    this.props.dispatch({ type: `${T.TESTING}_CLEAR` });
-  };
-
   _prepareData = (data) => ({
     answers: pickBy(pick(data, pickKeys.testing), el => el.value),
     user_id: this.props.userReducer.user_id,

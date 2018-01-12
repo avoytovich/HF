@@ -18,12 +18,16 @@ export const createTest = (data) => Api.post(`${domen.diagnostics}${api.diagnost
 
 export const createTestWired = (data) => createTest(data)
   .then(resp => {
-    const questions     = get(resp, 'data.data.result.questions', []);
-    const conditions    = get(resp, 'data.data.result.conditions', {});
-    const condition     = get(resp, 'data.data.result.condition', {});
-    const step          = get(resp, 'data.data.step');
-    const id            = get(resp, 'data.data.id');
-    const result_status = get(resp, 'data.data.result_status');
+    const {
+      result : {
+        questions = [],
+        conditions = {},
+        condition = {},
+      },
+      step,
+      id,
+      result_status,
+    } = get(resp, 'data.data', {});
     dispatchAddQuestionsAndCondWired({ questions, conditions, step, id, result_status, condition })
   })
   .catch(err => {

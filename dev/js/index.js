@@ -18,6 +18,7 @@ import { C }                          from './components'
 import { PAGE }                       from './config';
 import {
   onAllEnter,
+  onAllChange,
   storeSubscriptions,
 }                                     from './utils';
 import { dispatchCommonPayloadWired } from './actions';
@@ -55,7 +56,7 @@ const router = (
           <Route path={PAGE.passReset} component={C.ResetPassword}/>
           <Route path={PAGE.passForgot} component={C.ForgotPassword}/>
 
-          <Route path={'/'} component={C.Main} onEnter={onAllEnter} onChange={onAllEnter}>
+          <Route path={'/'} component={C.Main} onEnter={onAllEnter} onChange={onAllChange}>
 
             <IndexRedirect to={PAGE.companies}/>
 
