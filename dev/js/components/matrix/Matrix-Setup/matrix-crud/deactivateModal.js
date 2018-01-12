@@ -14,7 +14,7 @@ import { deactivateItem,
 
 class DeactivateComponent extends Component {
 
-  deactivate = ({list, path, pathReq, domen, activate}) => {
+  deactivate = ({list, path, pathReq, domen, activate }) => {
     deactivateItem(domen, pathReq, list, activate)
       .then(() =>
         getMatrixInfo(domen, path, this.props.query, path)
@@ -24,14 +24,14 @@ class DeactivateComponent extends Component {
   transition = (props) => <Slide direction="up" {...props} />;
 
   render() {
-    const { list, deactivateOpen, open, typeKey, itemKey } = this.props;
+    const { list, deactivateOpen, open, typeKey, itemKey, title, onSubmitTitle } = this.props;
     return  <Dialog
       open={deactivateOpen}
       transition={this.transition}
       keepMounted
       onRequestClose={() => open(typeKey, false)}
     >
-      <DialogTitle> Deactivate this question ? </DialogTitle>
+      <DialogTitle> { title || 'Deactivate this question ?'} </DialogTitle>
 
       <DialogContent>
         {list.map((item, index) =>
@@ -45,7 +45,7 @@ class DeactivateComponent extends Component {
           Cancel
         </Button>
         <Button onClick={() => this.deactivate(this.props)} color="primary">
-          Deactivate
+          {onSubmitTitle || 'Deactivate'}
         </Button>
       </DialogActions>
 

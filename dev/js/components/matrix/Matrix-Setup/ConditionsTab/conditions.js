@@ -51,11 +51,10 @@ class ConditionsComponent extends Component {
           open={this.updateModal}
           itemKey="title"
           query={this.props.location.query}
-
           typeKey="activateOpen"
           activate={true}
+          title="Activate this question"
           onSubmitTitle="Activate"
-          title="Activate this condition"
           deactivateOpen={activateOpen}
         />
 
