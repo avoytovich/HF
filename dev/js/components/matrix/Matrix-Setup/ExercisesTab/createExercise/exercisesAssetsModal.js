@@ -81,7 +81,7 @@ class ExercisesAssetsModal extends Component {
               </IconButton>
 
               <Typography type="title" color="inherit">
-                Sequence of Diagnosis Questions
+                Exercises
               </Typography>
             </div>
 

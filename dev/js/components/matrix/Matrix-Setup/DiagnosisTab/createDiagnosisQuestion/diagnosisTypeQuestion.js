@@ -44,10 +44,8 @@ class DiagnosisTypeQuestion extends Component {
         questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type,
         diagnostic_assets
       },
-      page, reqType, packages, packageLevelsList
+      page, reqType, packages, packageLevelsList, currentId
     } = this.props;
-
-    console.log('packageLevelsListpackageLevelsList', packageLevelsList);
 
     return <BlockDivider title="Question">
 
@@ -117,6 +115,7 @@ class DiagnosisTypeQuestion extends Component {
           path="findByKey"
           questionKey={questionKey}
           id="questionKey"
+          currentId={currentId}
           reducer="createDiagnosisQuestion"
         />
 
@@ -148,7 +147,7 @@ class DiagnosisTypeQuestion extends Component {
 
 
         {/*Packages and Start levels*/}
-        { packages && <div style={{display: 'flex', flexDirection: 'column'}}>
+        { packages && <div style={{display: 'flex', flexDirection: 'column', marginBottom: '90px'}}>
           {/* Answers */}
           <Grid className="title answer">
             <Typography type="title"

@@ -59,7 +59,8 @@ class CreatePackageComponent extends Component {
   state = {
     questionType    : 'packages',
     keyIsUniqueError: '',
-    tab: '0'
+    tab: '0',
+    loading: false
   };
 
   constructor(props) {
@@ -70,10 +71,12 @@ class CreatePackageComponent extends Component {
 
   componentWillMount() {
     if (this.props.params.id) {
+      this.setState({loading: true});
       getPackagenById('exercises', 'packages', this.props.params.id).then(res => {
 //        browserHistory.push(`/packages-create/${this.props.routeParams.id}?level=${0}`)
         const { packageLevels } = res;
         this.levelList = packageLevels.data;
+        this.setState({loading: false});
       })
 
     }
@@ -174,7 +177,7 @@ class CreatePackageComponent extends Component {
 
           </div>
         </div>
-        { id && !questionKey ?
+        { id && this.state.loading ?
           <MatrixPreLoader
             left="5"
             right="4"
@@ -220,6 +223,7 @@ class CreatePackageComponent extends Component {
               questionKey={questionKey}
               label="Package Key"
               id="questionKey"
+              currentId={id}
               reducer="createDiagnosisQuestion"
             />
 

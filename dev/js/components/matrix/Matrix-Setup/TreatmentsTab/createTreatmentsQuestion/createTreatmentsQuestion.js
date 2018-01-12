@@ -28,6 +28,7 @@ class CreateTreatmentsComponent extends Component {
     questionType    : 'treatments',
     keyIsUniqueError: '',
     treatmentsLevels: [],
+    loading: false
   };
 
   constructor(props) {
@@ -38,10 +39,11 @@ class CreateTreatmentsComponent extends Component {
 
   componentWillMount() {
     if (this.props.routeParams.id) {
+      this.setState({loading: true});
+
       getTreatmentById('diagnostics', 'treatments', this.props.routeParams.id)
         .then(res => {
         const {package_id, package_level_id} = res.package;
-
           getPackagenById('exercises', 'packages', package_id, true).then((_res) => {
             const {data} = _res.packageLevels;
             const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
@@ -49,8 +51,9 @@ class CreateTreatmentsComponent extends Component {
             const {id, title} = _res;
             const treatmentsPackage = {value: id, label: title, id};
             updateCrateQuestionFields(treatmentsPackage, 'treatmentsPackage');
-
           });
+
+          this.setState({loading: false});
         });
     }
   }
@@ -123,7 +126,7 @@ class CreateTreatmentsComponent extends Component {
           </div>
         </div>
 
-        {  id && !questionKey ?
+        {  id && this.state.loading ?
           <MatrixPreLoader
             left="4"
             right="2"
@@ -166,6 +169,7 @@ class CreateTreatmentsComponent extends Component {
                 path="findByKey"
                 questionKey={questionKey}
                 id="questionKey"
+                currentId={id}
                 reducer="createDiagnosisQuestion"
               />
 
