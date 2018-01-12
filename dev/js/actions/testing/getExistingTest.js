@@ -15,13 +15,40 @@ import {
   api,
 } from '../../config';
 
+const getAnswers = (answers, questions) => {
+  let returnObj = {};
+  for (let key in answers) {
+    set(returnObj, `${key}.value`, answers[key]);
+    set(returnObj, `${key}.type`, 'single');
+
+    questions.forEach((q, index) => {
+      if (q.key === key) {
+        set(returnObj, `${key}.type`, q.answer.type);
+      }
+      if (q.key.includes('vas_pain_level_area_')) {
+        set(returnObj, 'vas_pain_level_area_', answers[q.key]);
+        questions.splice(index, 1)
+      }
+      if (q.key.includes('vas_pain_type_area_')) {
+        set(returnObj, 'vas_pain_type_area_', answers[q.key]);
+        questions.splice(index, 1)
+      }
+    });
+
+    if (key === 'vas_areas') {
+      set(returnObj, 'bodyAreasPicked', answers[key]);
+    }
+  }
+  return returnObj;
+};
+
 export const getExistingTest = (testId) =>
   Api.post(`${domen.diagnostics}${api.existingTest}/${testId}/answers`);
 
 export const getExistingTestWired = (testId) => getExistingTest(testId)
   .then(resp => {
     const {
-      result : {
+      result: {
         answers = {},
         questions = [],
         conditions = {},
@@ -32,21 +59,8 @@ export const getExistingTestWired = (testId) => getExistingTest(testId)
       result_status,
       title,
     } = get(resp, 'data.data', {});
-    let getAnswers = (answers) => {
-      let returnObj = {};
-      for (let key in answers) {
-        set(returnObj, `${key}.value`, answers[key]);
-        questions.forEach(q => {
-          if (q.key === key) {
-            set(returnObj, `${key}.type`, q.answer.type);
-          } else {
-            set(returnObj, `${key}.type`, 'single');
-          }
-        });
-      }
-      return returnObj;
-    };
-    dispatchAddQuestionsAndCondWired({ questions, conditions, step, id, result_status, condition });
-    dispatchTestingPayloadWired({ title, ...getAnswers(answers) })
+
+    dispatchTestingPayloadWired({ title, ...getAnswers(answers, questions) });
+    dispatchAddQuestionsAndCondWired({ questions, conditions, step: step - 1, id, result_status, condition });
   })
   .catch(err => console.log(err));

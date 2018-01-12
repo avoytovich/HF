@@ -41,6 +41,9 @@ class TestNew extends Component {
 
   _prepareDataForCheckQuestion = (data, step) => {
     let currentQKeysToSend = data.questions.filter(q => q.step == step).map(q => q.key);
+    if (step === 0) {
+      currentQKeysToSend = currentQKeysToSend.concat(pickKeys.testing);
+    }
     if (currentQKeysToSend.includes('vas_areas')) {
       each(data.vas_areas.value, (val, prop) => {
         data[`vas_pain_level_area_${val}`] = { value: data.vas_pain_level_area_, type: 'single' };
@@ -50,7 +53,7 @@ class TestNew extends Component {
       });
     }
     return {
-      answers: pick(data, currentQKeysToSend),
+      answers: pickBy(pick(data, currentQKeysToSend), el => el.value),
       step,
     };
   };
