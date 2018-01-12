@@ -61,8 +61,8 @@ class CreateEvaluationComponent extends Component {
     if (type === 'range') {
       const correctValue = obj[type];
       return {
-        min: correctValue.from,
-        max: correctValue.to
+        min: correctValue.from || 0,
+        max: correctValue.to || 100
       };
     }
     else {
