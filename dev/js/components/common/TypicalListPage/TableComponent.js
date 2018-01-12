@@ -138,6 +138,7 @@ class TableComponent extends Component {
   onRowSelection = (value, row, selected) =>
     this.props.onEdit && this.props.onEdit(row.id);
 
+
   /***
    * @param value: string
    */
@@ -323,7 +324,7 @@ class TableComponent extends Component {
                   selected={isSelected}
                   className={isEnabled}
                   aria-checked={isSelected}
-                  onClick={() => this.onRowSelection(event, row, selected)}
+                  onClick={(event) => this.onRowSelection(event, row, selected)}
                 >
                   <TableCell padding="checkbox"
                              className="td-checkbox">
