@@ -136,7 +136,7 @@ class CreateEvaluationComponent extends Component {
         type, subtype,
         values: this.getAnswer(answerType, value)
       },
-      rule: {and: rules},
+      rule: rules && rules.length ? {and: rules} : [],
       packageLevelIds: !packageLevelsList.length ? [] : packageLevelsList.map(el => el.levelId),
       ...moreProps
     };
