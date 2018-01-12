@@ -99,9 +99,9 @@ class CreateEvaluationComponent extends Component {
 
   submit = (value) => {
     const {
-      sequenceType, questionKey, sequence, question, questionTitle, content_type
+      sequenceType, questionKey, sequence, question, questionTitle, content_type, errors
     } = value;
-
+    const validValue = { questionKey, questionTitle };
     const optional = content_type !== 'vas' ?
       this.configureQuestionResult(value, content_type === 'functionalTest') : {};
 
@@ -115,6 +115,8 @@ class CreateEvaluationComponent extends Component {
       ...optional,
     };
     submitTabs(
+      validValue,
+      errors,
       'diagnostics',
       'createQuestion',
       result,

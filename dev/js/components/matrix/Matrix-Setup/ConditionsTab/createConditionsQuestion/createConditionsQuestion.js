@@ -22,6 +22,7 @@ import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
 import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../../common/Input/Input';
+import { validateMatrix }           from '../../../../../utils/validation/validateMatrix';
 
 
 class CreateConditionComponent extends Component {
@@ -46,16 +47,18 @@ class CreateConditionComponent extends Component {
   }
 
   done = (value) => {
-    const { areaIds, questionKey, questionTitle, rules } = value;
-
+    const { areaIds, questionKey, questionTitle, rules, errors } = value;
+    const validValue = { questionKey, questionTitle };
     const result = {
       areaIds,
-      rule  : {and: rules},
+      rule  : rules && rules.length ? {and: rules} : [],
       key   : questionKey,
       title : questionTitle
     };
 
     submitTabs(
+      validValue,
+      errors,
       'diagnostics',
       'conditions',
       result,

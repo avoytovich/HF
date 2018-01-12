@@ -1,9 +1,11 @@
 import {
   diagnosisQuestionCreate,
   updateQuestionCreate,
+  updateCrateQuestionFields,
   clearCreateQuestion
 }                                   from '../actions';
 import { browserHistory }           from 'react-router';
+import { validateMatrix }           from './validation/validateMatrix';
 
 export const GROUP_TYPES = [
   { key: 'and',      type: 'block'                    },
@@ -119,17 +121,25 @@ export const checkQuestionType = (page) => {
 };
 
 
-export const submitTabs = (domain, path, result, url,id) => {
-  !id ?
-    diagnosisQuestionCreate(domain, path, result)
+export const submitTabs = (validValue, oldErrors, domain, path, result, url, id) => {
+
+  const { errors, isValid } = validateMatrix(validValue);
+
+  if (!isValid) {
+    updateCrateQuestionFields({...errors, ...oldErrors}, 'errors');
+  }
+  else {
+    !id ?
+      diagnosisQuestionCreate(domain, path, result)
       .then(() => {
         browserHistory.push(url);
         clearCreateQuestion();
       })
-    :
-    updateQuestionCreate(domain, path, result, id)
+      :
+      updateQuestionCreate(domain, path, result, id)
       .then(() => {
         browserHistory.push(url);
         clearCreateQuestion();
       })
+  }
 };

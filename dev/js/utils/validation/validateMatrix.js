@@ -16,7 +16,7 @@ const SIMPLE_NUMBER_RULES = {
   numericality: {
     onlyInteger: true,
     greaterThanOrEqualTo: 0,
-    lessThanOrEqualTo: 30,
+//    lessThanOrEqualTo: 300,
   }
 };
 
@@ -42,6 +42,13 @@ export const validateMatrix = data => {
         maximum: 80
       },
     },
+
+    questionKey: {
+      length: {
+        minimum: 2,
+        maximum: 80
+      },
+    }
   };
 
   const { isValid, errors } = validator(data, constraints);
