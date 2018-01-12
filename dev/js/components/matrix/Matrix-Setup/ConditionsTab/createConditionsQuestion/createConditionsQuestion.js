@@ -29,11 +29,12 @@ class CreateConditionComponent extends Component {
 
   constructor(props) {
     super(props);
-    clearCreateQuestion();
-    updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
   componentWillMount() {
+    clearCreateQuestion();
+    updateCrateQuestionFields(this.state.questionType, 'page');
+
     if (this.props.routeParams.id) {
       getConditionById('diagnostics', 'getConditionById', this.props.routeParams.id);
     }

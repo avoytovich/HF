@@ -1,6 +1,7 @@
 import React, { Component }         from 'react';
 import { connect }                  from 'react-redux';
 import { Async }                    from 'react-select';
+import PropTypes                    from 'prop-types';
 
 import {
   updateCrateQuestionFields,
@@ -70,6 +71,9 @@ class PLComponent extends Component {
   render() {
     const { packageId, levelId, levelsList, index } = this.props;
 
+
+
+
     return <Grid container className="row-item">
       <Grid item sm={6} xs={12}>
         <Typography
@@ -123,6 +127,11 @@ class PLComponent extends Component {
     </Grid>
   }
 }
+
+PLComponent.defaultProps = {
+  levelsList       : [],
+  levelId          : ''
+};
 
 const mapStateToProps = state => ({store: state.createDiagnosisQuestion});
 

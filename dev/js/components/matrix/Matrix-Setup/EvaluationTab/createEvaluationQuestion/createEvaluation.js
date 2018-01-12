@@ -38,11 +38,11 @@ class CreateEvaluationComponent extends Component {
 
   constructor(props) {
     super(props);
-    clearCreateQuestion();
-    updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
   componentWillMount() {
+    clearCreateQuestion();
+    updateCrateQuestionFields(this.state.questionType, 'page');
     if (this.props.routeParams.id) {
       getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
         if (answer.values) {

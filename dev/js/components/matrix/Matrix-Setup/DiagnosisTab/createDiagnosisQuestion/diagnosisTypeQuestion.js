@@ -47,8 +47,6 @@ class DiagnosisTypeQuestion extends Component {
       page, reqType, packages, packageLevelsList
     } = this.props;
 
-    console.log('packageLevelsListpackageLevelsList', packageLevelsList);
-
     return <BlockDivider title="Question">
 
       <div className="main-question" style={{width: '100%'}}>

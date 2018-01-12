@@ -46,7 +46,7 @@ class diagnosisVASQuestion extends Component {
         </Grid>
         <Grid container className="row-item">
           <Grid item sm={6}>
-            <FormControl>
+            <FormControl className="MUIControl">
               <InputLabel htmlFor="age-simple"> Question type</InputLabel>
               <MUISelect
                 value={content_type}
@@ -72,6 +72,7 @@ class diagnosisVASQuestion extends Component {
               reducer={ createDiagnosisQuestion }
               label={ 'Title' }
               style={{marginTop: 0}}
+              className="MUIControl"
             />
           </Grid>
         </Grid>
