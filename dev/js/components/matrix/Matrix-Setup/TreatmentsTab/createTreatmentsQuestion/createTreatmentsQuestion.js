@@ -60,10 +60,11 @@ class CreateTreatmentsComponent extends Component {
 
 
   done = (value) => {
-    const { areaIds, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules } = value;
+    const { areaIds, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules, errors } = value;
+    const validValue = { questionKey, questionTitle };
     const result = {
       areaIds,
-      rule              : {and: rules},
+      rule              : rules && rules.length ? {and: rules} : [],
       key               : questionKey,
       title             : questionTitle,
 
@@ -79,6 +80,8 @@ class CreateTreatmentsComponent extends Component {
     const _result = this.props.routeParams.id ? Object.assign({}, result, {id: this.props.routeParams.id}) : result;
 
     submitTabs(
+      validValue,
+      errors,
       'diagnostics',
       'treatments',
       _result,

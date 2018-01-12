@@ -87,7 +87,8 @@ class CreatePackageComponent extends Component {
   }
 
   done = (value) => {
-    const { areaIds, questionKey, questionTitle, packageLevels, therapyContinuity, packageType } = value;
+    const { areaIds, questionKey, questionTitle, packageLevels, therapyContinuity, packageType, errors } = value;
+    const validValue = { questionKey, questionTitle };
 
 //    const _packageLevels = packageLevels.map((el, index) => {
 //      const oldLevel = this.levelList[index];
@@ -103,6 +104,8 @@ class CreatePackageComponent extends Component {
     };
 
     submitTabs(
+      validValue,
+      errors,
       'exercises',
       'packages',
       this.props.routeParams.id ? {...result, id: this.props.routeParams.id} : result,

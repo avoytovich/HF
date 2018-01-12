@@ -99,12 +99,12 @@ class CreateQuestionComponent extends Component {
 
   submit = (value) => {
     const {
-      sequenceType, questionKey, sequence, question, questionTitle, content_type
+      sequenceType, questionKey, sequence, question, questionTitle, content_type, errors
     } = value;
 
     const optional = content_type !== 'vas' ?
         this.configureQuestionResult(value, content_type === 'functionalTest') : {};
-
+    const validValue = { questionKey, questionTitle };
     const result = {
       type : 'diagnostic',
       key  : questionKey,
@@ -116,6 +116,8 @@ class CreateQuestionComponent extends Component {
     };
 
     submitTabs(
+      validValue,
+      errors,
       'diagnostics',
       'createQuestion',
       result,

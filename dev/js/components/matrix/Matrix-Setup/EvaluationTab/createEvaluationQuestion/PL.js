@@ -102,7 +102,7 @@ class PLComponent extends Component {
           className="custom-select-title"
           style={{marginBottom:'8px'}}
         >
-          Start from level
+          Level
         </Typography>
         <Select
           value={levelId}

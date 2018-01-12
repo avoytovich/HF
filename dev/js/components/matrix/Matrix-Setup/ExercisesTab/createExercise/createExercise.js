@@ -58,7 +58,8 @@ class CreateExerciseComponent extends Component {
 
 
   done = (value) => {
-    const { id, title, comments, text, instruction, information, name, files } = value;
+    const { id, title, comments, text, instruction, information, name, files, errors } = value;
+    const validValue = { };
     const result = {
       title,
       comments,
@@ -70,6 +71,8 @@ class CreateExerciseComponent extends Component {
     };
 
     submitTabs(
+      validValue,
+      errors,
       'exercises',
       'exercises',
       result,
