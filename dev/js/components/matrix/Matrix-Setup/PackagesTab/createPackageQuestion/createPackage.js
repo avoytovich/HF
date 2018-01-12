@@ -223,6 +223,7 @@ class CreatePackageComponent extends Component {
               questionKey={questionKey}
               label="Package Key"
               id="questionKey"
+              currentId={id}
               reducer="createDiagnosisQuestion"
             />
 

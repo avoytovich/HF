@@ -169,6 +169,7 @@ class CreateTreatmentsComponent extends Component {
                 path="findByKey"
                 questionKey={questionKey}
                 id="questionKey"
+                currentId={id}
                 reducer="createDiagnosisQuestion"
               />
 

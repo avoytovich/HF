@@ -2,9 +2,12 @@ import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
 import PropTypes                    from 'prop-types';
-
+import * as dotProp                 from 'dot-prop-immutable';
 // Actions
-import { findUniqueKey }            from '../../../actions';
+import {
+  findUniqueKey,
+  updateCrateQuestionFields
+}            from '../../../actions';
 import { onChange }                 from '../../../actions/common';
 
 import { Input }                    from '../../common';
@@ -17,18 +20,24 @@ class UniqueKey extends Component {
   state = { keyIsUniqueError: false };
 
   checkIfQuestionKeyValid = (event, value, props) => {
-    const { path, domain } = this.props;
+    const { path, domain, currentType, currentId, errorsStore, id:  ID } = this.props;
 
     this.props.onChange(event, value);
 
-    if (event.target.value.length > 3) {
-      findUniqueKey(domain, path, event.target.value).then(res => {
-        if (res) {
-          this.setState({keyIsUniqueError: 'Key is not Unique'});
+    if (event.target.value.length > 2) {
+      findUniqueKey(domain, path, event.target.value).then(({data}) => {
+        const {data: {id, type}} = data;
+        if (`${currentId}` === `${id}`) {
+          const removed = errorsStore.hasOwnProperty(ID) ? dotProp.delete(errorsStore, [ID]) : errorsStore;
+          updateCrateQuestionFields(removed, 'errors');
         }
-        else if (!res && this.state.keyIsUniqueError){
-          this.setState({keyIsUniqueError: ''});
+        else {
+          const newError = dotProp.set(errorsStore, ID, 'Key is not unique');
+          updateCrateQuestionFields(newError, 'errors');
         }
+      }).catch(() => {
+        const removed = errorsStore.hasOwnProperty(ID) ? dotProp.delete(errorsStore, [ID]) : errorsStore;
+        updateCrateQuestionFields(removed, 'errors');
       });
     }
   };
@@ -44,7 +53,6 @@ class UniqueKey extends Component {
          value={questionKey}
          reducer={store[reducer]}
          label={label}
-         error={!!keyIsUniqueError}
          disabled={disabled}
          onChangeCustom={this.checkIfQuestionKeyValid}
        />
@@ -68,7 +76,7 @@ UniqueKey.propTypes = {
   disabled    : PropTypes.bool
 };
 
-const mapStateToProps = state => ({store: state});
+const mapStateToProps = state => ({store: state, errorsStore: state.createDiagnosisQuestion.errors});
 const mapDispatchToProps = dispatch => bindActionCreators({onChange, dispatch}, dispatch);
 
 export default  connect(mapStateToProps, mapDispatchToProps)(UniqueKey);

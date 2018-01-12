@@ -181,6 +181,7 @@ class CreateEvaluationComponent extends Component {
             <DiagnosisTypeQuestion
               page='evaluations'
               packages={true}
+              currentId={id}
               packageLevelsList={packageLevelsList}
               sequenceList={this.state.sequenceList}/>
         }
