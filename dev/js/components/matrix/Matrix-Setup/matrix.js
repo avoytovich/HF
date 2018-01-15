@@ -33,7 +33,8 @@ class MatrixComponent extends Component {
 
   componentWillMount() {
     const { path } = this.props.routes.pop();
-    this.findNewPathIndex(TABS, path);
+    const index = this.findNewPathIndex(TABS, path);
+    this.setState({value: index});
   }
 
   findNewPathIndex = (tabs, path) => tabs.reduce((result, item, index) => {
@@ -54,6 +55,7 @@ class MatrixComponent extends Component {
   handleChange = (event, value) => this.setState({ value });
 
   render() {
+    console.log('this.state.value', this.state.value);
     return (
       <div id="matrix-setup">
           <AppBar position="static" color="default">
