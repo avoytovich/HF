@@ -33,7 +33,8 @@ class MatrixComponent extends Component {
 
   componentWillMount() {
     const { path } = this.props.routes.pop();
-    this.findNewPathIndex(TABS, path);
+    const index = this.findNewPathIndex(TABS, path);
+    this.setState({value: index});
   }
 
   findNewPathIndex = (tabs, path) => tabs.reduce((result, item, index) => {
