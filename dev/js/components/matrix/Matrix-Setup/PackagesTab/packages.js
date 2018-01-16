@@ -39,6 +39,7 @@ class PackagesComponent extends Component {
       <div id="packages-component">
 
         <DeleteComponent
+          title="Delete this Packages?"
           pathReq="packages"
           path="packages"
           domen="exercises"

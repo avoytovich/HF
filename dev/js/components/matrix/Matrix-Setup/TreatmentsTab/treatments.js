@@ -48,8 +48,7 @@ class TreatmentsComponent extends Component {
           open={this.updateModal}
           itemKey="title"
           query={this.props.location.query}
-
-          title="Activate this treatment"
+          title="Activate this Treatments ?"
           typeKey="activateOpen"
           activate={true}
           onSubmitTitle="Activate"
@@ -66,10 +65,12 @@ class TreatmentsComponent extends Component {
           deactivateOpen={deactivateOpen}
           open={this.updateModal}
           itemKey="title"
+          title="Deactivate this Treatments ?"
           query={this.props.location.query}
         />
 
         <DeleteComponent
+          title="Delete this Treatments?"
           path="treatments"
           domen="diagnostics"
           pathReq="treatments"

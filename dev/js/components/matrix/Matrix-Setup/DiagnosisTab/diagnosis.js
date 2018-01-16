@@ -54,7 +54,7 @@ class DiagnosisComponent extends Component {
           deactivateOpen={activateOpen}
           open={this.updateModal}
           itemKey="title"
-          title="Activate this question"
+          title="Activate this Diagnosis ?"
           onSubmitTitle="Activate"
           query={this.props.location.query}
         />
@@ -69,10 +69,12 @@ class DiagnosisComponent extends Component {
           deactivateOpen={deactivateOpen}
           open={this.updateModal}
           itemKey="title"
+          title="Deactivate this Diagnosis ?"
           query={this.props.location.query}
         />
 
         <DeleteComponent
+          title="Delete this Diagnosis?"
           pathReq="createQuestion"
           path="diagnosis"
           domen="diagnostics"

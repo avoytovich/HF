@@ -45,6 +45,7 @@ class ExercisesComponent extends Component {
 
 
         <DeleteComponent
+          title="Delete this Exercises ?"
           path="exercises"
           pathReq="exercises"
           domen="exercises"

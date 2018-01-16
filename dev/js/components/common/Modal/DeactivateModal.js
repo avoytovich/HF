@@ -33,7 +33,7 @@ class DeactivateModal extends Component {
       keepMounted
       onRequestClose={() => open(typeKey, false)}
     >
-      <DialogTitle> {this.props.title || 'Deactivate this question '}? </DialogTitle>
+      <DialogTitle> {this.props.title || 'Deactivate this question ?'} </DialogTitle>
 
       <DialogContent>
         {list.map((item, index) =>

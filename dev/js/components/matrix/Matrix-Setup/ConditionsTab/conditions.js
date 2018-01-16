@@ -53,7 +53,7 @@ class ConditionsComponent extends Component {
           query={this.props.location.query}
           typeKey="activateOpen"
           activate={true}
-          title="Activate this question"
+          title="Activate this Conditions ?"
           onSubmitTitle="Activate"
           deactivateOpen={activateOpen}
         />
@@ -68,11 +68,13 @@ class ConditionsComponent extends Component {
           open={this.updateModal}
           activate={false}
           itemKey="title"
+          title="Deactivate this Conditions ?"
           query={this.props.location.query}
         />
 
 
         <DeleteComponent
+          title="Delete this Conditions?"
           path="conditions"
           domen="diagnostics"
           pathReq="conditions"
