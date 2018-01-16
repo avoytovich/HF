@@ -2,52 +2,94 @@ import validator from './validator';
 
 import { bCN } from './index';
 
-
-
-const LIST_OF_MULTI_LANG_FIELDS = ['question', 'single', 'multiple'];
-
-const SIMPLE_STRING_RULES = {
-  length: {
-    minimum: 2,
-  }
-};
-
-const SIMPLE_NUMBER_RULES = {
-  numericality: {
-    onlyInteger: true,
-    greaterThanOrEqualTo: 0,
-//    lessThanOrEqualTo: 300,
-  }
-};
-
 export const validateMatrix = data => {
-
-  const multiLang = LIST_OF_MULTI_LANG_FIELDS.reduce((result, item) =>
-    Object.assign(
-      {},
-      result,
-      {
-        [bCN(item, 'en')] : { ...SIMPLE_STRING_RULES },
-        [bCN(item, 'swe')]: { ...SIMPLE_STRING_RULES },
-      }
-    ), {});
+  const tooShort = (title) => `^${title} is too short (minimum is %{count} characters)`;
+  const tooLong  = (title) => `^${title} is too long (maximum is %{count} characters)`;
+  const notInteger = (title) => `^${title} is not a number`;
+  const notGreaterThanOrEqualTo = (title) => `^${title} must be greater than or equal to 0`;
+  const notEmpty = (title) => `^${title} cannot be empty`;
 
   const constraints = {
-    ...multiLang,
-    [bCN('range', 'from')]: {...SIMPLE_NUMBER_RULES},
-    [bCN('range', 'to')]  : {...SIMPLE_NUMBER_RULES},
     questionTitle: {
       length: {
         minimum: 2,
-        maximum: 80
-      },
+        maximum: 120,
+        tooShort: tooShort('Title'),
+        tooLong: tooLong('Title')
+      }
     },
-
     questionKey: {
       length: {
         minimum: 2,
-        maximum: 80
+        maximum: 80,
+        tooShort: tooShort('Key'),
+        tooLong : tooLong('Key')
       },
+    },
+    [bCN('question', 'en')] : {
+      length:{
+        minimum :2,
+        tooShort:tooShort('Question on English'),
+      }
+    },
+    [bCN('question', 'swe')] : {
+      length:{
+        minimum :2,
+        tooShort:tooShort('Answer on Swedish'),
+      }
+    },
+    [bCN('single', 'en')]: {
+      length:{
+        minimum :2,
+        tooShort:tooShort('Answer on English'),
+      }
+    },
+    [bCN('single', 'swe')]: {
+      length:{
+        minimum :2,
+        tooShort:tooShort('Answer on Swedish'),
+      }
+    },
+    [bCN('multiple', 'en')]: {
+      length:{
+        minimum :2,
+        tooShort:tooShort('Answer on English'),
+      }
+    },
+    [bCN('multiple', 'swe')]: {
+      length:{
+        minimum :2,
+        tooShort:tooShort('Answer on Swedish'),
+      }
+    },
+    [bCN('range', 'from')]: {
+      numericality: {
+        onlyInteger: true,
+        greaterThanOrEqualTo: 0,
+        notInteger: notInteger('Value FROM'),
+        notGreaterThanOrEqualTo: notGreaterThanOrEqualTo('Value FROM')
+      }
+    },
+    [bCN('range', 'to')]  : {
+      numericality: {
+        onlyInteger: true,
+        greaterThanOrEqualTo: 0,
+        notInteger: notInteger('Value FROM'),
+        notGreaterThanOrEqualTo: notGreaterThanOrEqualTo('Value TO')
+      }
+    },
+    //treatmentsPackage
+    [bCN('treatmentsPackage', 'id')]: {
+      length:{
+        minimum :1,
+        tooShort: notEmpty('Package'),
+      }
+    },
+    treatmentsLevels: {
+      length:{
+        minimum :1,
+        tooShort: notEmpty('Level'),
+      }
     }
   };
 
