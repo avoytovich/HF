@@ -117,4 +117,7 @@ export const PAGE = {
   packages          : '/matrix-setup/packages',
   exercises         : '/matrix-setup/exercises',
   diagnosisCreate   : '/diagnosis-create',
+
+  personalCabinet     :  'personal-cabinet',
+  personalCabinetUsers : '/personal-cabinet/users',
 };

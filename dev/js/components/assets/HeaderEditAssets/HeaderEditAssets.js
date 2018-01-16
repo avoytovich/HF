@@ -10,18 +10,20 @@ import Toolbar from 'material-ui/Toolbar';
 import Close from 'material-ui-icons/Close';
 
 import {
-  createAssetsPreValidate,
+  editAssetsPreValidate,
 } from '../../../actions';
 import { PAGE } from '../../../config';
 
-class HeaderAssets extends Component {
-  _createAssets = (files = []) => {
+class HeaderEditAssets extends Component {
+  _editAssets = (files = []) => {
     if (files.length) {
       files = files.map(file => {
         file.link = file.link ||file.path ;
+        file.name_origin = file.name ;
+        file.name_real = file.name ;
         return omit(file, ['progress'])
       });
-      createAssetsPreValidate({ tmp_files: files }, this.props.type)
+      editAssetsPreValidate(files[0], this.props.type)
         .then(res => res && this.props.toggleModal())
     }
   };
@@ -53,7 +55,7 @@ class HeaderAssets extends Component {
           <div>
             <p
               className="upload-header-save-button"
-              onClick={() => this._createAssets(tmp_files)}
+              onClick={() => this._editAssets(tmp_files)}
             >
               SAVE
             </p>
@@ -66,7 +68,7 @@ class HeaderAssets extends Component {
   }
 }
 
-HeaderAssets.propTypes = {
+HeaderEditAssets.propTypes = {
   toggleModal: PropTypes.func,
   headerTitle: PropTypes.string
 };
@@ -77,4 +79,4 @@ const mapStateToProps = state => ({
   assetsReducer: state.assetsReducer,
 });
 
-export default connect(mapStateToProps)(HeaderAssets);
+export default connect(mapStateToProps)(HeaderEditAssets);

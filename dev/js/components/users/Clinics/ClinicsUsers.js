@@ -94,6 +94,7 @@ class ClinicOwnUsers extends Component {
     const { profileReducer } = this.props;
     const querySelector = {...this.props.location.query,...{type: 'clinic', store:{}}};
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
+    console.log(this.props)
     return (
       <div id="diagnosis-component">
 
@@ -133,6 +134,7 @@ class ClinicOwnUsers extends Component {
         />
 
         <TableControls
+          locationUrl={this.props.location.pathname}
           path="clinicOwnUsers"
           selected={selected}
           createItem={this.createEntity}

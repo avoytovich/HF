@@ -130,6 +130,7 @@ export default(state = _initialState(), action = TABLE) => {
 
     case `${TABLE}_UPDATE`:
       const {data, meta:{pagination}, path, query} = action.payload;
+      console.log(path)
       const sortOptional = {
         sortedBy: query.sortedBy,
         orderBy : query.orderBy,

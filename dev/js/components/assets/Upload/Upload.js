@@ -21,6 +21,7 @@ class Upload extends Component {
       title: '',
       description: '',
       name_real: name.split('.').shift(),
+      name: name.split('.').shift(),
     }));
     dispatchAssetsPayload({ tmp_files });
     if (acceptedF.length) {
@@ -28,7 +29,6 @@ class Upload extends Component {
         getS3Link(file.name.split('.').pop(), this.props.folder)
           .then((res) => getBase64Promise(file)
             .then(reader => {
-              console.log(reader)
               uploadAssets(
                 res.data.url,
                 // reader.binary,

@@ -30,7 +30,7 @@ class TableControls extends Component {
   }
 
   handleChange = (search) => {
-    const currentPath = PAGE[this.props.path];
+    const currentPath = this.props.locationUrl || PAGE[this.props.path];
     const { current_page, per_page} = this.props.store.pagination;
     const { sortedBy, orderBy }  = this.props.store.sortOptional;
     const query = { orderBy, sortedBy, per_page, current_page: current_page - 1 };
