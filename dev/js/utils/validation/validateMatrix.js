@@ -7,6 +7,7 @@ export const validateMatrix = data => {
   const tooLong  = (title) => `^${title} is too long (maximum is %{count} characters)`;
   const notInteger = (title) => `^${title} is not a number`;
   const notGreaterThanOrEqualTo = (title) => `^${title} must be greater than or equal to 0`;
+  const notEmpty = (title) => `^${title} cannot be empty`;
 
   const constraints = {
     questionTitle: {
@@ -75,6 +76,19 @@ export const validateMatrix = data => {
         greaterThanOrEqualTo: 0,
         notInteger: notInteger('Value FROM'),
         notGreaterThanOrEqualTo: notGreaterThanOrEqualTo('Value TO')
+      }
+    },
+    //treatmentsPackage
+    [bCN('treatmentsPackage', 'id')]: {
+      length:{
+        minimum :1,
+        tooShort: notEmpty('Package'),
+      }
+    },
+    treatmentsLevels: {
+      length:{
+        minimum :1,
+        tooShort: notEmpty('Level'),
       }
     }
   };
