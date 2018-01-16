@@ -34,7 +34,7 @@ class DeleteComponent extends Component {
       keepMounted
       onRequestClose={() => open(key, false)}
     >
-      <DialogTitle>{this.props.title ||  'Delete this question ?'} </DialogTitle>
+      <DialogTitle>{this.props.title} </DialogTitle>
 
       <DialogContent>
         {list.map((item, index) =>
@@ -55,6 +55,11 @@ class DeleteComponent extends Component {
     </Dialog>;
   }
 }
+
+DeleteComponent.defaultProps = {
+  title : 'Delete this question?'
+}
+
 const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);

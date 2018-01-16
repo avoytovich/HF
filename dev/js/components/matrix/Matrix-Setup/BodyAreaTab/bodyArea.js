@@ -38,7 +38,7 @@ class BodyAreaComponent extends Component {
       <div id="diagnosis-component">
 
         <DeleteComponent
-          title="Delete this pain zone?"
+          title="Delete this Pain Zones?"
           pathReq="areas"
           path="bodyArea"
           domen="diagnostics"
