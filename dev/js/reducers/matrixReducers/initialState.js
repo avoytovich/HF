@@ -12,7 +12,7 @@ const diagnosticTab = {
   single  : [ { en: '', swe: ''} ],
   multiple: [ { en: '', swe: ''} ],
   range   : { from: 0, to: 100 },
-  diagnostic_assets: '',
+  diagnostic_assets: { id: null },
   rules: [],
 };
 

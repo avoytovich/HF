@@ -11,6 +11,7 @@ import Grid                         from 'material-ui/Grid';
 import Typography                   from 'material-ui/Typography';
 import Select                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
+import { red }                      from 'material-ui/colors';
 
 
 class TreatmentPackageLevel extends Component {
@@ -39,6 +40,7 @@ class TreatmentPackageLevel extends Component {
 
 //        this.setState({levelsList});
         updateCrateQuestionFields(levelsList, 'levelsList');
+        updateCrateQuestionFields('', 'errors.treatmentsPackage');
       });
     }
     else {
@@ -50,15 +52,17 @@ class TreatmentPackageLevel extends Component {
   handleLevelsChange = (event) => {
     const sequenceType = event.target.value;
     updateCrateQuestionFields(sequenceType, 'treatmentsLevels');
+    updateCrateQuestionFields('', 'errors.treatmentsLevels');
   };
 
   render() {
-    const { packageItem, levelItem, levelsList } = this.props;
+    const { packageItem, levelItem, levelsList, packageError, levelError } = this.props;
     return <Grid container className="row-item">
       <Grid item sm={6} xs={12}>
         <Typography
           type="caption"
           gutterBottom
+          style={{color: packageError ? red[500]: 'initial'}}
           className="custom-select-title">
           Package
         </Typography>
@@ -73,6 +77,7 @@ class TreatmentPackageLevel extends Component {
           ignoreCase ={false}
           clearable={false}
         />
+        {packageError && <Typography type="caption" style={{color: red[500], paddingTop: '5px'}}>{packageError}</Typography>}
       </Grid>
 
       <Grid item sm={6} xs={12}>
@@ -80,7 +85,7 @@ class TreatmentPackageLevel extends Component {
           type="caption"
           gutterBottom
           className="custom-select-title"
-          style={{marginBottom:'8px'}}
+          style={{marginBottom:'8px', color: levelError ? red[500]: 'initial'}}
         >
           Start from level
         </Typography>
@@ -103,6 +108,7 @@ class TreatmentPackageLevel extends Component {
             </MenuItem>
           ))}
         </Select>
+        {levelError && <Typography type="caption" style={{color: red[500], paddingTop: '5px'}}>{levelError}</Typography>}
       </Grid>
     </Grid>
   }

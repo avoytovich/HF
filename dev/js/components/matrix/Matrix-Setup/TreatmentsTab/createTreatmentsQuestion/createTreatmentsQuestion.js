@@ -61,7 +61,7 @@ class CreateTreatmentsComponent extends Component {
 
   done = (value) => {
     const { areaIds, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules, errors } = value;
-    const validValue = { questionKey, questionTitle };
+    const validValue = { questionKey, questionTitle, treatmentsLevels, treatmentsPackage };
     const result = {
       areaIds,
       rule              : rules && rules.length ? {and: rules} : [],
@@ -101,7 +101,8 @@ class CreateTreatmentsComponent extends Component {
         questionKey,
         treatmentsLevels,
         treatmentsPackage,
-        levelsList
+        levelsList,
+        errors
       },
       routeParams: { id },
       commonReducer: {
@@ -182,6 +183,8 @@ class CreateTreatmentsComponent extends Component {
                 packageItem={treatmentsPackage}
                 levelItem={treatmentsLevels}
                 area={areaIds}
+                packageError={errors['treatmentsPackage']}
+                levelError={errors['treatmentsLevels']}
                 levelsList={levelsList || []}
               />
 
