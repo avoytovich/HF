@@ -23,7 +23,7 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120,
-    maxWidth: 300,
+    width: '100%',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -54,7 +54,7 @@ class AsyncAreaSelect extends Component{
     const areaIds = store[valuePath];
 
     return<div className={classes.container}>
-      <FormControl className={classes.formControl}>
+      <div className={classes.formControl}>
         <Typography
           type="caption"
           gutterBottom
@@ -85,7 +85,7 @@ class AsyncAreaSelect extends Component{
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+      </div>
     </div>
   }
 }
