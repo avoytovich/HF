@@ -17,6 +17,8 @@ import AssetsComponent          from './assets/Assets';
 import TestsList                from '../components/testing/TestsList/TestsList';
 import TestNew                  from '../components/testing/TestNew/TestNew';
 
+import PersonalCabinetMain      from '../components/PersonalCabinetMain';
+
 import * as commonComponents    from './common';
 import * as testingComponents   from './testing';
 import * as matrixComponents    from '../components/matrix/Matrix-Setup';
@@ -43,4 +45,5 @@ export const C = {
   ...matrixComponents,
   ...commonComponents,
   ...testingComponents,
+  PersonalCabinetMain
 };

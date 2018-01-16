@@ -47,7 +47,7 @@ class CreateBodyAreaComponent extends Component {
         .then(() => browserHistory.push(`/matrix-setup/body-area`)) :
 
       updateQuestionCreate('diagnostics', 'bodyArea', result, this.props.routeParams.id)
-        .then(() => browserHistory.push(`/matrix-setup/body-area`,this.props.routeParams.id))
+        .then(() => browserHistory.push(`/matrix-setup/body-area`))
 
   };
 
@@ -67,7 +67,7 @@ class CreateBodyAreaComponent extends Component {
     return (
       <div id="create-question">
         <div className="page-sub-header">
-          <span>Create Pain Area</span>
+          <span>Create Pain Zone</span>
           <div className="nav-buttons">
 
             <Button onClick={this.cancel}>

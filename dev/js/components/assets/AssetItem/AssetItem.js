@@ -21,7 +21,7 @@ class AssetItem extends Component {
             <Grid item xs={3}>
               <Input
                 style={{ width: '100%' }}
-                id={`tmp_files[${index}].name_real`}
+                id={`tmp_files[${index}].name`}
                 reducer={assetsReducer}
                 label='File Name'
               />
@@ -65,7 +65,7 @@ class AssetItem extends Component {
         <div className="progress-name-controls-container">
           <div className="progress-name-controls-sub-container">
             <InsertDriveFile />
-            <div className="progress-name">{get(tmp_files[index], 'name_real', '-')}</div>
+            <div className="progress-name">{get(tmp_files[index], 'name', '-')}</div>
           </div>
           <Delete
             onClick={() => dispatchDeleteAssetPayloadWired(index)}

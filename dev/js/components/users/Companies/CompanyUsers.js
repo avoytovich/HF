@@ -134,6 +134,7 @@ class CompanyOwnUsers extends Component {
         />
 
         <TableControls
+          locationUrl={this.props.location.pathname}
           path="companyOwnUsers"
           selected={selected}
           createItem={this.createEntity}

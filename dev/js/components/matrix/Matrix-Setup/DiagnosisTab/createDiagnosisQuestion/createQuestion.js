@@ -10,7 +10,8 @@ import MatrixPreLoader              from '../../matrixPreloader';
 import {
   updateCrateQuestionFields,
   getQuestionById,
-  clearCreateQuestion
+  clearCreateQuestion,
+  notifier
 }                                   from '../../../../../actions';
 import Button                       from 'material-ui/Button';
 import { get }                      from 'lodash'
@@ -99,12 +100,14 @@ class CreateQuestionComponent extends Component {
 
   submit = (value) => {
     const {
-      sequenceType, questionKey, sequence, question, questionTitle, content_type, errors
+      sequenceType, questionKey, sequence, question, questionTitle, content_type, diagnostic_assets, errors
     } = value;
+    const isContentType = content_type === 'functionalTest';
+    const validValue = this.createValidateObj({ questionKey, questionTitle, question }, value);
 
     const optional = content_type !== 'vas' ?
-        this.configureQuestionResult(value, content_type === 'functionalTest') : {};
-    const validValue = { questionKey, questionTitle };
+        this.configureQuestionResult(value, isContentType) : {};
+
     const result = {
       type : 'diagnostic',
       key  : questionKey,
@@ -115,9 +118,19 @@ class CreateQuestionComponent extends Component {
       ...optional,
     };
 
+    const validateAssets = isContentType && this.validateDiagnosticAssets(diagnostic_assets);
+    if (validateAssets){
+      return notifier({
+        title: 'Assets is empty',
+        message: 'Please, select assets!',
+        status: 'error',
+      })
+    }
+    const savedErrors = {questionKey: errors.questionKey};
+
     submitTabs(
       validValue,
-      errors,
+      savedErrors,
       'diagnostics',
       'createQuestion',
       result,
@@ -126,6 +139,13 @@ class CreateQuestionComponent extends Component {
     );
   };
 
+  createValidateObj = (temp, value) => {
+    const { answerType } = value;
+    return {...temp, [answerType]: value[answerType]};
+  };
+
+  validateDiagnosticAssets = (assets) =>
+    assets.hasOwnProperty('id') && !!assets.id;
 
   configureQuestionResult = (value, optional) => {
     const { areaIds, answerType, rules, diagnostic_assets } = value,

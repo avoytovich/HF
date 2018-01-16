@@ -52,7 +52,6 @@ class AssetsList extends Component {
     if (col.key === 'name') {
       return {
         onClick: (e) => {
-          console.log(row);
           e.stopPropagation();
           dispatchAssetsPayloadWired({ [`tmp_files[${0}]`]: { ...row, progress: 100 } });
           this._toggleEditModal()
@@ -73,7 +72,6 @@ class AssetsList extends Component {
   _toggleEditModal = () => this.setState({ showEditModal: !this.state.showEditModal });
 
   render() {
-    console.log(this.props);
     const { tableHeader } = ASSETS_TAB;
     const {
       selected,
@@ -116,7 +114,7 @@ class AssetsList extends Component {
         />
 
         <Modal
-          itemName="name_real"
+          itemName="name"
           open={showDeleteModal}
           title='Delete Packages'
           toggleModal={this._toggleDeleteModal}

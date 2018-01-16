@@ -39,7 +39,9 @@ class AssetsList extends Component {
     const { chooseFiles } = this.state;
 
     const _list = list ?
-      Array.isArray(list) ? list : [list]
+      Array.isArray(list) ?
+        list :
+        list.id ? [list] : []
       : [];
 
     return <div className="assets-list">

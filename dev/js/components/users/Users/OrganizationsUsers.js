@@ -9,6 +9,7 @@ import DeactivateComponent      from '../../common/Modal/DeactivateModal';
 import { activateUser }         from '../../../actions';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
+import  { get }                  from 'lodash'
 
 class OrganizationsUsers extends Component {
   state = {
@@ -41,8 +42,9 @@ class OrganizationsUsers extends Component {
   };
 
   _activateItems = (selected, action) => {
+    let currentPage = get(this.props,'store.pagination.current_page');
     activateUser('users', 'userProfile', selected, action)
-      .then(() => browserHistory.push(`/users-organizations`))
+      .then(() => browserHistory.push(`/users-organizations?current_page=${currentPage}`))
     this._toggleActivateModal(action);
     this.setState({ selected: []})
 

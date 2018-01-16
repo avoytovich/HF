@@ -56,15 +56,27 @@ const router = (
           <Route path={PAGE.passReset} component={C.ResetPassword}/>
           <Route path={PAGE.passForgot} component={C.ForgotPassword}/>
 
+          <Route path={PAGE.personalCabinet} component={C.PersonalCabinetMain}>
+            <Route path={PAGE.personalCabinetUsers}  component={C.SimpleUsers} />
+
+            <Route path={PAGE.assets}             component={C.AssetsComponent} >
+              <IndexRedirect to={PAGE.assetsDiagnostics}/>
+              <Route path={PAGE.assetsExercises} component={(props) => <C.AssetsExercisesList {...props}/>}/>
+              <Route path={PAGE.assetsDiagnostics } component={(props) => <C.AssetsDiagnosticsList {...props}/>}/>
+            </Route>
+
+
+          </Route>
+
           <Route path={'/'} component={C.Main} onEnter={onAllEnter} onChange={onAllChange}>
 
             <IndexRedirect to={PAGE.companies}/>
 
-        <Route path={PAGE.companies}          component={C.Companies} />
-        <Route path={PAGE.clinics}            component={C.Clinics} />
-        <Route path={PAGE.simpleUsers}        component={C.SimpleUsers} />
-        <Route path={PAGE.organizationsUsers} component={C.OrganizationsUsers} />
-        <Route path={PAGE.clinicsUsers}       component={C.ClinicsUsers} />
+            <Route path={PAGE.companies}          component={C.Companies} />
+            <Route path={PAGE.clinics}            component={C.Clinics} />
+            <Route path={PAGE.simpleUsers}        component={C.SimpleUsers} />
+            <Route path={PAGE.organizationsUsers} component={C.OrganizationsUsers} />
+            <Route path={PAGE.clinicsUsers}       component={C.ClinicsUsers} />
 
             <Route path={PAGE.assets}             component={C.AssetsComponent} >
                 <IndexRedirect to={PAGE.assetsDiagnostics}/>
