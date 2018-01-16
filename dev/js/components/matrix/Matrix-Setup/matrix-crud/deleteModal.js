@@ -34,7 +34,7 @@ class DeleteComponent extends Component {
       keepMounted
       onRequestClose={() => open(key, false)}
     >
-      <DialogTitle>{this.props.title ||  'Delete this question ?'} </DialogTitle>
+      <DialogTitle>{this.props.title ||  'Delete this question?'} </DialogTitle>
 
       <DialogContent>
         {list.map((item, index) =>

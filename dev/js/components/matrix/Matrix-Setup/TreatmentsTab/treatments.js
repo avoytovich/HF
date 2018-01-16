@@ -48,7 +48,7 @@ class TreatmentsComponent extends Component {
           open={this.updateModal}
           itemKey="title"
           query={this.props.location.query}
-          title="Activate this Treatments ?"
+          title="Activate this Treatments?"
           typeKey="activateOpen"
           activate={true}
           onSubmitTitle="Activate"
@@ -65,7 +65,7 @@ class TreatmentsComponent extends Component {
           deactivateOpen={deactivateOpen}
           open={this.updateModal}
           itemKey="title"
-          title="Deactivate this Treatments ?"
+          title="Deactivate this Treatments?"
           query={this.props.location.query}
         />
 

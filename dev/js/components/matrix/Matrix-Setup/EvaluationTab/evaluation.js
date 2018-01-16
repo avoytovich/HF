@@ -52,7 +52,7 @@ class EvaluationComponent extends Component {
           open={this.updateModal}
           itemKey="title"
           query={this.props.location.query}
-          title="Activate this Level Up ?"
+          title="Activate this Level Up?"
           typeKey="activateOpen"
           activate={true}
           onSubmitTitle="Activate"
@@ -69,7 +69,7 @@ class EvaluationComponent extends Component {
           deactivateOpen={deactivateOpen}
           open={this.updateModal}
           itemKey="title"
-          title="Deactivate this Level Up ?"
+          title="Deactivate this Level Up?"
           query={this.props.location.query}
         />
 
@@ -82,7 +82,7 @@ class EvaluationComponent extends Component {
           deactivateOpen={deleteOpen}
           open={this.updateModal}
           itemKey="title"
-          title="Delete this Level Up ?"
+          title="Delete this Level Up?"
           query={this.props.location.query}
         />
 
