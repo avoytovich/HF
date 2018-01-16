@@ -91,8 +91,7 @@ export const BODY_AREA_TAB = {
   title: 'bodyArea',
   tableHeader: [
     { title: 'Key',        key: 'key',         className: 'left'                                        },
-    { title: 'Pain Areas', key: 'title',       className: 'center'                                      },
-    { title: 'Created',    key: 'created_at',  className: 'left',   type: 'time', format: TIME_FORMAT },
+    { title: 'Pain Zones', key: 'title',       className: 'left'                                      },
     { title: 'Updated',    key: 'updated_at',  className: 'left',   type: 'time', format: TIME_FORMAT }
   ]
 };

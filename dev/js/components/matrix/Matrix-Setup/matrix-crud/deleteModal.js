@@ -16,6 +16,7 @@ import { deleteItem,
 class DeleteComponent extends Component {
 
   deleteIt = ({list, path, pathReq, domen}) => {
+    console.log(path)
     deleteItem(domen, pathReq, list)
       .then(() => {
         getMatrixInfo(domen, path, this.props.query, path)
@@ -33,7 +34,7 @@ class DeleteComponent extends Component {
       keepMounted
       onRequestClose={() => open(key, false)}
     >
-      <DialogTitle> Delete this question ? </DialogTitle>
+      <DialogTitle>{this.props.title ||  'Delete this question ?'} </DialogTitle>
 
       <DialogContent>
         {list.map((item, index) =>
