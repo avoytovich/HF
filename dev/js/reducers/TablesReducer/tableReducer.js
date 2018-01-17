@@ -107,6 +107,10 @@ const initialState = {
       name: 'assetsExercises',
       changes: []
     },
+    {
+      name: 'chat',
+      changes: []
+    },
   ]
 };
 

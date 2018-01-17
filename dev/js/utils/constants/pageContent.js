@@ -237,6 +237,14 @@ export const CLINICS_USERS_TAB = {
   ]
 };
 
+export const CHAT_USERS_TAB = {
+  key: 'conditions',
+  title: 'ConditionsTab',
+  tableHeader: [
+    { title: 'ID Number',          key: 'user_id',          className: 'left'},
+  ]
+};
+
 export const TEST_TAB = {
   key: 'conditions',
   title: 'ConditionsTab',

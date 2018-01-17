@@ -81,6 +81,7 @@ export const api = {
   checkQuestion       : '/diagnostics/session',
   unblock             : '/diagnostics/session',
   existingTest        : '/diagnostics/session',
+  chat                : '/users/get/all',
 };
 
 export const PAGE = {
