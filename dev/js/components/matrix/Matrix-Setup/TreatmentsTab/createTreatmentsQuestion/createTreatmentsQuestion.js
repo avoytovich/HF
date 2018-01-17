@@ -67,7 +67,6 @@ class CreateTreatmentsComponent extends Component {
       treatmentsLevels,
       treatmentsPackage: treatmentsPackage.hasOwnProperty('id') ? treatmentsPackage : {id: ''}};
 
-    debugger;
     const result = {
       areaIds,
       rule              : rules && rules.length ? {and: rules} : [],
