@@ -2,44 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { get }                      from 'lodash'
+import get from 'lodash/get'
+import omit from 'lodash/omit'
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import Close from 'material-ui-icons/Close';
+
 import {
-  getS3Link,
   uploadAssets,
   dispatchAssetsPayload,
+  editAssetsPreValidate,
 } from '../../../actions'
-import { getBase64Promise } from '../../../utils'
 import AssetItem from '../AssetItem/AssetItem'
-import Dropzone from '../Dropzone/Dropzone'
-import HeaderEditAssets from '../HeaderEditAssets/HeaderEditAssets'
 
 class Edit extends Component {
   _onFile = (e) => {
     const acceptedF = [...this.refs.file.files];
     const { dispatchAssetsPayload } = this.props;
-    const tmp_files = acceptedF.map(({ type, name }) => ({
+    const files = acceptedF.map(({ type, name }) => ({
       type: type.split('/').shift() === 'image' ? 'image' : 'video',
-      // name_real: name.split('.').shift(),
       name: name.split('.').shift(),
     }));
-    dispatchAssetsPayload({ tmp_files });
-    if (acceptedF.length) {
-      acceptedF.map((file, i) => {
-        getS3Link(file.name.split('.').pop())
-          .then((res) => getBase64Promise(file)
-            .then(reader => {
-              uploadAssets(
-                res.data.url,
-                reader.result.split(',').pop(),
-                progress => dispatchAssetsPayload({ [`tmp_files[${i}].progress`]: progress }),
-                file.type
-              );
-              let linkLong = res.data.url.split('?').shift();
-              let link     = linkLong.substr(linkLong.indexOf('temp'));
-              dispatchAssetsPayload({ [`tmp_files[${i}]link`]: link });
-            }));
-      })
-    }
+    dispatchAssetsPayload({ files });
   };
 
   _renderFiles = (files = []) => {
@@ -54,31 +38,55 @@ class Edit extends Component {
     });
   };
 
-  _renderChangeFile = () => {
-    return (
-      <div className="change-file-wrapper">
-        <p>CHANGE FILE</p>
-        <input type="file" ref='file' onChange={this._onFile} className="change-file-input"/>
-      </div>
-    );
-  }
+  _editAssets = (files = [], type) => {
+    if (files.length) {
+      files = files.map(file => {
+        file.link = file.link ||file.path ;
+        return omit(file, ['progress'])
+      });
+      editAssetsPreValidate(files[0], type)
+        .then(res => res && this.props.toggleModal())
+    }
+  };
 
   render() {
     const {
       assetsReducer: {
-        tmp_files,
+        files,
       },
       toggleModal,
+      type,
     } = this.props;
+    const headerTitle = get(files[0],'name', 'Upload Files');
     return (
       <div className="upload-container">
-        <HeaderEditAssets
-          type={this.props.type}
-          headerTitle={get(tmp_files[0],'name')}
-          toggleModal={toggleModal}
-        />
-        { this._renderChangeFile() }
-        { this._renderFiles(tmp_files) }
+        <AppBar
+          position="static"
+          className="header-custom-black"
+        >
+          <Toolbar className="AppBar">
+            <div className="upload-header-title-container">
+              <Close
+                className="upload-header-title-icon"
+                onClick={() => toggleModal()}
+              />
+              <p className="upload-header-title"> {headerTitle} </p>
+            </div>
+            <div>
+              <p
+                className="upload-header-save-button"
+                onClick={() => this._editAssets(files, type)}
+              >
+                SAVE
+              </p>
+            </div>
+          </Toolbar>
+        </AppBar>
+        <div className="change-file-wrapper">
+          <p>CHANGE FILE</p>
+          <input type="file" ref='file' onChange={this._onFile} className="change-file-input"/>
+        </div>
+        { this._renderFiles(files) }
       </div>
     )
   }
@@ -100,17 +108,3 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Edit);
-
-`{
-    "tmp_files":[
-    {
-      "link":"temp/1457018396_servers.png",
-      "type":"image", 
-      "title":"title",
-      "description":"description",
-      "name_origin":"name_origin",
-      "name_real":"name_real" // unique
-      "name":"name" // unique
-    }
-  ]
-}`;

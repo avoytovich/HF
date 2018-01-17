@@ -23,16 +23,21 @@ export class Api {
     return headers;
   };
 
-  static get = (route, options, headers) => Api.xhr({ route, method: 'GET', options, headersIncome: headers });
+  static get = (route, options, headers)        => Api.xhr({ route, method: 'GET', options, headersIncome: headers });
 
-  static put = (route, data, options, headers) => Api.xhr({ route, method: 'PUT', data, options, headersIncome: headers });
+  static put = (route, data, options, headers)  => Api.xhr({ route, method: 'PUT', data, options, headersIncome: headers });
 
   static post = (route, data, options, headers) => Api.xhr({ route, method: 'POST', data, options, headersIncome: headers });
 
-  static delete = (route, options, headers) => Api.xhr({ route, method: 'DELETE', options, headersIncome: headers });
+  static delete = (route, options, headers)     => Api.xhr({ route, method: 'DELETE', options, headersIncome: headers });
 
   static xhr({ route, method, data, options = {}, headersIncome = {} }) {
-    options = { ...{ needLoader: true, showErrNotif: true, onUploadProgress: p => {} }, ...options};
+    options = {
+      needLoader      : true,
+      showErrNotif    : true,
+      onUploadProgress: p => {},
+      ...options
+    };
     const {
       commonReducer: {
         isLoading
@@ -48,13 +53,13 @@ export class Api {
     }
     return Api.headers()
       .then(headers => axios({
-        url: route,
         method,
-        headers: isEmpty(headersIncome) ? headers : headersIncome,
-        data: data && JSON.stringify(data),
+        url             : route,
+        headers         : { ...headers, ...headersIncome },
+        data            : data && JSON.stringify(data),
         onUploadProgress: progressEvent => {
           const percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
-          options.onUploadProgress(percentCompleted)
+          options.onUploadProgress(percentCompleted, progressEvent)
         },
       }))
       .then(response => {

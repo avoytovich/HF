@@ -6,17 +6,17 @@ import { bCN } from './index';
 export const validAssets = data => {
 
   let constraints = {
-    [bCN('tmp_files', 'name')]: {
+    [bCN('files', 'name')]: {
       length: {
         minimum: 2,
       },
     },
-    [bCN('tmp_files', 'title')]: {
+    [bCN('files', 'title')]: {
       length: {
         minimum: 2,
       },
     },
-    [bCN('tmp_files', 'description')]: {
+    [bCN('files', 'description')]: {
       length: {
         minimum: 2,
       },
