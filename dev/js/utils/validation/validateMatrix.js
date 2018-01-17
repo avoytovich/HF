@@ -89,6 +89,7 @@ export const validateMatrix = data => {
     treatmentsLevels: {
       length:{
         minimum :1,
+        tokenizer: (value) => value ? `${value}` : '',
         tooShort: notEmpty('Level'),
       }
     }
