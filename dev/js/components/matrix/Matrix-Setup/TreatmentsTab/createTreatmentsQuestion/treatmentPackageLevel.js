@@ -62,7 +62,7 @@ class TreatmentPackageLevel extends Component {
         <Typography
           type="caption"
           gutterBottom
-          style={{color: packageError ? red[500]: 'initial'}}
+          style={{color: packageError && packageError.id ? red[500]: 'initial'}}
           className="custom-select-title">
           Package
         </Typography>
@@ -77,7 +77,9 @@ class TreatmentPackageLevel extends Component {
           ignoreCase ={false}
           clearable={false}
         />
-        {packageError && <Typography type="caption" style={{color: red[500], paddingTop: '5px'}}>{packageError}</Typography>}
+        {packageError && packageError.id && <Typography type="caption" style={{color: red[500], paddingTop: '5px'}}>
+          {packageError.id}
+          </Typography>}
       </Grid>
 
       <Grid item sm={6} xs={12}>
