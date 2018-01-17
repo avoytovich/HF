@@ -33,7 +33,7 @@ class DeactivateModal extends Component {
       keepMounted
       onRequestClose={() => open(typeKey, false)}
     >
-      <DialogTitle> {this.props.title || 'Deactivate this question '}? </DialogTitle>
+      <DialogTitle> {this.props.title } </DialogTitle>
 
       <DialogContent>
         {list.map((item, index) =>
@@ -47,13 +47,19 @@ class DeactivateModal extends Component {
           Cancel
         </Button>
         <Button onClick={this._onClick} color="primary">
-          {this.props.onSubmitTitle || "Deactivate"}
+          {this.props.onSubmitTitle}
         </Button>
       </DialogActions>
 
     </Dialog>;
   }
 }
+
+DeactivateModal.defaultProps = {
+  title : 'Deactivate this question ?',
+  onSubmitTitle: "Deactivate"
+}
+
 const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);

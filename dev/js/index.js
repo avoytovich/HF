@@ -58,14 +58,6 @@ const router = (
 
           <Route path={PAGE.personalCabinet} component={C.PersonalCabinetMain}>
             <Route path={PAGE.personalCabinetUsers}  component={C.SimpleUsers} />
-
-            <Route path={PAGE.assets}             component={C.AssetsComponent} >
-              <IndexRedirect to={PAGE.assetsDiagnostics}/>
-              <Route path={PAGE.assetsExercises} component={(props) => <C.AssetsExercisesList {...props}/>}/>
-              <Route path={PAGE.assetsDiagnostics } component={(props) => <C.AssetsDiagnosticsList {...props}/>}/>
-            </Route>
-
-
           </Route>
 
           <Route path={'/'} component={C.Main} onEnter={onAllEnter} onChange={onAllChange}>
