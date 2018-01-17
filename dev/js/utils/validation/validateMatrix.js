@@ -80,9 +80,10 @@ export const validateMatrix = data => {
     },
     //treatmentsPackage
     [bCN('treatmentsPackage', 'id')]: {
-      length:{
-        minimum :1,
-        tooShort: notEmpty('Package'),
+      length: {
+        minimum: 1,
+        message: notEmpty('Package'),
+        tokenizer: (value) => value ? `${value}` : '',
       }
     },
     treatmentsLevels: {
