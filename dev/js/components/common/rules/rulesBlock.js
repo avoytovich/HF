@@ -50,6 +50,7 @@ class RulesBlockComponent extends Component {
   onSelected = (item, path, type) => {
     const body = findType(item.value) === 'block' ? { 'match':  {...DEF_ITEM, op: '='}  } :  DEF_ITEM ;
 
+    debugger;
     //Todo: When Back End development for rules will be finished, need to set body for each type of rules;
     addRules({
       type: item.value,

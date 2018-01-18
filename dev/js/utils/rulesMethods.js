@@ -13,8 +13,9 @@ export const SYMBOLS = [
 export const onSingleAsyncChange = (value, edit, props) => {
   const { path, pathType, itemState} = props;
 
-  if (!value || (Array.isArray(value) && !value.length))
+  if (!value || (Array.isArray(value) && !value.length)) {
     return  setQuestion(path, pathType, '', 'key');
+  }
 
   const { subtype, type, values, min, max} = value.answer;
 
@@ -73,6 +74,7 @@ export const onMultipleAsyncChange = (value, edit, props) => {
 
 
 export const onAnswerChange = (event, {path, pathType}, key) => {
+  debugger;
   const value = event.target.value;
   setQuestion(path, pathType, value, key);
 };

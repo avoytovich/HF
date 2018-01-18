@@ -39,6 +39,8 @@ const changeToItemRule = (state, action) => {
 const createQuestionRules = (state, action) => {
   const {path, type, body} = action.payload;
   const isBlock = findType(type) === 'block';
+
+  debugger;
   const template = isBlock ? { [type] : [body] } : { [type] : body };
 
   return dotProp.set(state, path, val => val.concat(template));
@@ -54,7 +56,13 @@ const changeType = (state, action) => {
         break;
 
       case 'equal':
+        propsBody = { key: '', op: '=', value: '1' };
+        break;
+
       case 'notEqual':
+        propsBody = { key: '', op: '!=', value: '1' };
+        break;
+
       case 'true':
         propsBody = { key: '', value: '1' };
         break;
@@ -67,6 +75,7 @@ const changeType = (state, action) => {
       default:
         propsBody = { key: '', op: '=', value: '1' };
     }
+
     delete value[oldProp];
     return Object.assign({}, value, {[newProp]: propsBody});
   });
@@ -99,11 +108,9 @@ const setQuestion = (state, action) => {
   return dotProp.set(
     state,
     `${path}.${type}`,
-    (value) => {
-      return property ?
-        Object.assign({}, value, {[property]: item}):
-        Object.assign({}, value, item);
-    }
+    (value) => property ?
+      dotProp.set(value, property, item) :
+      Object.assign({}, value, item)
   );
 };
 
