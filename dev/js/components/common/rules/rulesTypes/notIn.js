@@ -53,7 +53,7 @@ class NotInComponent extends Component {
           multiple
           id={`answer-${this.props.path}-${this.props.pathType}`}
           name={`answer-${this.props.path}-${this.props.pathType}`}
-          value={ selectValue || ['A'] }
+          value={ selectValue }
           onChange={(event) => onAnswerChange(event, this.props, 'value')}
           className="types-select"
           margin="normal"
