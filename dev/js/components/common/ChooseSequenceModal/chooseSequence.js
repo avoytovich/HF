@@ -13,6 +13,8 @@ import Collapse                   from 'material-ui/transitions/Collapse';
 import Grid                       from 'material-ui/Grid';
 import ExpandLess                 from 'material-ui-icons/ExpandLess';
 import ExpandMore                 from 'material-ui-icons/ExpandMore';
+import Lens                       from 'material-ui-icons/Lens';
+
 import {
   updateCrateQuestionFields,
   getQuestionsByStep,
@@ -129,7 +131,8 @@ class ChooseSequence extends Component {
                       <List className="choose-sequence-collapse-list">
                         {questions && questions.map((questionItem, i) =>
                           (<ListItem key={i} className="choose-sequence-collapse-item">
-                            {questionItem.question.en || '-'}
+                            <Lens style={{ width: 10, height: 10, marginRight: '10px', fill: '#4184f3'}}/>
+                              {questionItem.question.en || '-'}
                           </ListItem>)
                         )}
                       </List>
