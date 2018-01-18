@@ -28,6 +28,8 @@ class InComponent extends Component {
     const { key, value } = this.props.itemState;
     const selectValue    = getMultipleAnswerValue(this.state.answers, value);
 
+    console.log(selectValue);
+
     return <div className="rule-types">
       <div className="main-select">
 
@@ -51,7 +53,7 @@ class InComponent extends Component {
           multiple
           id={`answer-${this.props.path}-${this.props.pathType}`}
           name={`answer-${this.props.path}-${this.props.pathType}`}
-          value={ selectValue || ['A'] }
+          value={ selectValue }
           onChange={(event) => onAnswerChange(event, this.props, 'value')}
           className="types-select"
           margin="normal"
