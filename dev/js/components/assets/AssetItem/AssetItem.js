@@ -21,7 +21,7 @@ class AssetItem extends Component {
             <Grid item xs={3}>
               <Input
                 style={{ width: '100%' }}
-                id={`files[${index}].name`}
+                id={`files.${index}.name`}
                 reducer={assetsReducer}
                 label='File Name'
               />
@@ -29,7 +29,7 @@ class AssetItem extends Component {
             <Grid item xs={3}>
               <Input
                 style={{ width: '100%' }}
-                id={`files[${index}].title`}
+                id={`files.${index}.title`}
                 reducer={assetsReducer}
                 label='Title'
               />
@@ -37,7 +37,7 @@ class AssetItem extends Component {
             <Grid item xs={6}>
               <Input
                 style={{ width: '100%' }}
-                id={`files[${index}].description`}
+                id={`files.${index}.description`}
                 reducer={assetsReducer}
                 label='Description'
               />

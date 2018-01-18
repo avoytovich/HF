@@ -1,20 +1,24 @@
 import isObject from 'lodash/isObject';
 
-export const flattenObject = (ob) => {
+export const flattenObject = (obj) => {
   let toReturn = {};
-  for (let i in ob) {
-    if (!ob.hasOwnProperty(i)) continue;
+  for (let prop in obj) {
+    // if property is inherited - skip it
+    if (!obj.hasOwnProperty(prop)) continue;
 
-    if (isObject(ob[i])) {
-      let flatObject = flattenObject(ob[i]);
-      for (let x in flatObject) {
-        if (!flatObject.hasOwnProperty(x)) {
+    if (isObject(obj[prop])) {
+      // if prop is object - call flattenObject on it
+      let flatObject = flattenObject(obj[prop]);
+      for (let prop2 in flatObject) {
+        // if property is inherited - skip it again
+        if (!flatObject.hasOwnProperty(prop2)) {
           continue;
         }
-        toReturn[i + '.' + x] = flatObject[x];
+        //
+        toReturn[prop + '.' + prop2] = flatObject[prop2];
       }
     } else {
-      toReturn[i] = ob[i];
+      toReturn[prop] = obj[prop];
     }
   }
   return toReturn;

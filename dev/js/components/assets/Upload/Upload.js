@@ -9,22 +9,27 @@ import Toolbar from 'material-ui/Toolbar';
 import Close from 'material-ui-icons/Close';
 
 import {
-  getS3Link,
-  uploadAssets,
   dispatchAssetsPayload,
   createAssetsPreValidate,
+  T,
 } from '../../../actions'
+import { toFormData } from '../../../utils'
 import AssetItem from '../AssetItem/AssetItem'
 import Dropzone from '../Dropzone/Dropzone'
 
 class Upload extends Component {
+  componentWillUnmount() {
+    this.props.dispatch({ type: `${T.ASSETS}_CLEAR` })
+  }
+
   _onDrop = (acceptedF, rejectedF) => {
     const { dispatchAssetsPayload } = this.props;
-    const files = acceptedF.map(({ type, name }) => ({
-      type       : type.split('/').shift() === 'image' ? 'image' : 'video',
+    const files = acceptedF.map(file => ({
+      file,
+      type       : file.type.split('/').shift() === 'image' ? 'image' : 'video',
       title      : '',
       description: '',
-      name       : name.split('.').shift(),
+      name       : file.name.split('.').shift(),
       progress   : 100,
     }));
     dispatchAssetsPayload({ files });
@@ -48,11 +53,8 @@ class Upload extends Component {
 
   _createAssets = (files = [], type) => {
     if (files.length) {
-      files = files.map(file => {
-        file.link = file.link || file.path ;
-        return omit(file, ['progress'])
-      });
-      createAssetsPreValidate({ files: files }, type)
+      files = files.map(file =>  omit(file, ['progress']));
+      createAssetsPreValidate({ files }, type)
         .then(res => res && this.props.toggleModal())
     }
   };

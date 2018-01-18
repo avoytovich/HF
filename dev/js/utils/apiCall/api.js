@@ -14,7 +14,7 @@ export class Api {
   static headers = async () => {
     const token = store.getState().userReducer.token;
     let headers = {
-      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/json',
     };
 
     if (token) {
@@ -56,7 +56,7 @@ export class Api {
         method,
         url             : route,
         headers         : { ...headers, ...headersIncome },
-        data            : data && JSON.stringify(data),
+        data            : data,
         onUploadProgress: progressEvent => {
           const percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
           options.onUploadProgress(percentCompleted, progressEvent)

@@ -16,12 +16,17 @@ import {
 import AssetItem from '../AssetItem/AssetItem'
 
 class Edit extends Component {
+  componentWillUnmount() {
+    this.props.dispatch({ type: `${T.ASSETS}_CLEAR` })
+  }
+
   _onFile = (e) => {
     const acceptedF = [...this.refs.file.files];
     const { dispatchAssetsPayload } = this.props;
-    const files = acceptedF.map(({ type, name }) => ({
-      type: type.split('/').shift() === 'image' ? 'image' : 'video',
-      name: name.split('.').shift(),
+    const files = acceptedF.map((file) => ({
+      file,
+      type       : file.type.split('/').shift() === 'image' ? 'image' : 'video',
+      name       : file.name.split('.').shift(),
     }));
     dispatchAssetsPayload({ files });
   };
@@ -40,10 +45,7 @@ class Edit extends Component {
 
   _editAssets = (files = [], type) => {
     if (files.length) {
-      files = files.map(file => {
-        file.link = file.link ||file.path ;
-        return omit(file, ['progress'])
-      });
+      files = files.map(file => omit(file, ['progress']));
       editAssetsPreValidate(files[0], type)
         .then(res => res && this.props.toggleModal())
     }

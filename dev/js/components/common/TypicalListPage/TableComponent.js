@@ -24,7 +24,7 @@ import Tooltip                from 'material-ui/Tooltip';
 
 
 const DEFAULT_QUERY = {
-  per_page    : 100,
+  per_page    : 50,
   current_page: 0,
   sortedBy    : 'desc',
   orderBy     : 'title',
@@ -32,7 +32,7 @@ const DEFAULT_QUERY = {
 };
 
 
-/*
+/**
  * Important Requirement:
  * 1) Add path props to tableReducer in listOfTables = [ 'diagnosis', 'conditions', * YOUR_ITEM * ],
  * 2) Add url to constant PAGE, key should be the same with 'path' props { [ path ]: '/some-url' };
@@ -377,7 +377,7 @@ TableComponent.defaultProps = {
   data              : [],
   tableCellPropsFunc: () => ({}),
   CellContent       : () => null,
-  rowsPerPageOptions: [ 5, 25, 50, 100 ], // The per page may not be greater than 50.
+  rowsPerPageOptions: [ 5, 25, 50 ], // The per page may not be greater than 50.
   url: ''
 };
 
