@@ -77,7 +77,6 @@ export const onMultipleAsyncChange = (value, edit, props) => {
 
 
 export const onAnswerChange = (event, {path, pathType}, key) => {
-  debugger;
   const value = event.target.value;
   setQuestion(path, pathType, value, key);
 };

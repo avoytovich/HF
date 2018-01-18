@@ -40,7 +40,6 @@ const createQuestionRules = (state, action) => {
   const {path, type, body} = action.payload;
   const isBlock = findType(type) === 'block';
 
-  debugger;
   const template = isBlock ? { [type] : [body] } : { [type] : body };
 
   return dotProp.set(state, path, val => val.concat(template));
