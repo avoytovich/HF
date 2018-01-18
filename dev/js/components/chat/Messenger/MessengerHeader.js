@@ -16,7 +16,6 @@ import SearchIcon                from 'material-ui-icons/Search';
 
 class MessengerHeader extends Component {
   render() {
-    console.log(this.props)
     return (
       <div className="message-header">
         <div className="message-header-user-id">
@@ -39,12 +38,6 @@ const mapStateToProps = (state, ownProps) => ({
 
 MessengerHeader.defaultProps = {
   selected    : [],
-};
-
-MessengerHeader.propTypes = {
-  createItem: PropTypes.func,
-  createButtonText: PropTypes.string,
-  CreateButtonIcon: PropTypes.func,
 };
 
 export default connect(mapStateToProps)( MessengerHeader);

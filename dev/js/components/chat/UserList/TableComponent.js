@@ -13,16 +13,16 @@ import {
   getListByPost,
 }                             from '../../../actions';
 import get                    from 'lodash/get';
-import isEmpty                from 'lodash/isEmpty'
-import moment                 from 'moment';
+import isEmpty                from 'lodash/isEmpty';
 import { browserHistory }     from 'react-router';
 import { PAGE }               from '../../../config';
 import { withRouter }         from 'react-router';
-import Tooltip                from 'material-ui/Tooltip';
+import InfiniteScroll         from 'react-infinite-scroller';
+
 
 
 const DEFAULT_QUERY = {
-  per_page    : 100,
+  per_page    : 20,
   current_page: 0,
   sortedBy    : 'desc',
   orderBy     : 'title',
@@ -135,42 +135,22 @@ class TableComponent extends Component {
     console.log(checked);
   };
 
-  /**
-   * Change number of page
-   * @param e: event
-   * @param nextPage: string
-   */
-  handleChangePage = (e, nextPage) => {
-    const currentPath = PAGE[this.props.path];
-    const { per_page } = this.props.store.pagination;
-
-    browserHistory.push({
-      pathname: currentPath,
-      query: {
-        per_page: per_page,
-        current_page: nextPage
-      }
-    });
-  };
-
-  /**
-   * Change count of items per page
-   * @param event
-   */
-  handleChangeRowsPerPage = (event) => {
+  loadMoreFunction = () => {
     const currentPath = PAGE[this.props.path];
     const { current_page } = this.props.store.pagination;
-    const { sortedBy, orderBy, search }  = this.props.store.sortOptional;
+    let per_page  = get(this.props,'store.pagination.per_page')+ 10;
+    const total = get(this.props,'store.pagination.total');
+    const { domen, path } = this.props;
+    const newQuery = {
+      per_page: per_page,
+      current_page: 0,
+      limit: per_page,
+      page: 1,
 
-    browserHistory.push({
-      pathname: currentPath,
-      query: {
-        per_page     : event.target.value,
-        current_page : 0,
-        sortedBy,
-        orderBy
-      }
-    });
+    };
+    if(total>per_page){
+      getListByPost(domen, path, newQuery );
+    }
   };
 
   /**
@@ -198,18 +178,21 @@ class TableComponent extends Component {
       tableHeader,
       selected,
       tableCellPropsFunc,
-      rowsPerPageOptions,
       store: {
-        data,
-        pagination: {
-          per_page,
-          current_page,
-          total,
-        },
+        data
       }
     } = this.props;
 
     return (
+
+      <div className="scroll-container">
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={this.loadMoreFunction}
+          hasMore={true || false}
+          loader={<div className="loader" key={0}>Loading ...</div>}
+          useWindow={false}
+        >
       <Table className="table-template-users">
 
         <TableBody>
@@ -252,19 +235,9 @@ class TableComponent extends Component {
             })
           }
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              count={total}
-              rowsPerPage={per_page}
-              page={current_page - 1}
-              onChangePage={this.handleChangePage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
-              rowsPerPageOptions={rowsPerPageOptions}
-            />
-          </TableRow>
-        </TableFooter>
       </Table>
+        </InfiniteScroll>
+      </div>
     )
   }
 }
