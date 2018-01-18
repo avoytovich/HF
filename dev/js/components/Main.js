@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Header   from './common/Header/Header';
-import HeaderAssets   from './assets/HeaderAssets/HeaderAssets';
 import MainNavigation from './common/MainNavigation/MainNavigation';
-
-import { PAGE } from '../config'
 
 class Main extends Component {
 

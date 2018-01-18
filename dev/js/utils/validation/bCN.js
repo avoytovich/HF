@@ -1,11 +1,12 @@
 /**
- * buildComplexName function to add regex in prop name for the validation of nested in array objects
- * @param arrName: {string} - array name in which we need to validate repeatable prop
- * @param propName: {string} - prop name which we need to validate - NOTE!!! WIll APPEAR AS FIRST WORD IN ERR MESSAGE
+ * buildComplexName function to add regex in prop name for the validation of nested objects of any depth
+ * @param args: {string} - parameters separated by coma - path to the validating parameter
  * @return string regular expression
  *
  */
-export const bCN = (arrName, propName) => {
-//  return `^(${arrName}(\\.|\\[[0-9]+\\]*)(.${propName}|\\[${propName}+\\]))$`;
-  return `^(${arrName}(\\.|\\[[0-9]+\\]*\\.)${propName})$`;
+export const bCN = (...args) => {
+  let firstProp    = `^(` + args.shift();
+  let returnString = args.reduce((acc, str, i) => acc + '\\.([0-9]\\.)*' + str, firstProp);
+  returnString     = returnString +')$';
+  return returnString;
 };

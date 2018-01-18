@@ -27,11 +27,11 @@ const path  = 'assetsExercises';
 
 class AssetsList extends Component {
   state = {
-    selected: [],
+    selected       : [],
     showDeleteModal: false,
     showUploadModal: false,
-    showEditModal: false,
-    deleteOpen: false
+    showEditModal  : false,
+    deleteOpen     : false
   };
 
   _deleteItems = (items = []) => {
@@ -53,7 +53,7 @@ class AssetsList extends Component {
       return {
         onClick: (e) => {
           e.stopPropagation();
-          dispatchAssetsPayloadWired({ [`tmp_files[${0}]`]: { ...row, progress: 100 } });
+          dispatchAssetsPayloadWired({ [`files[${0}]`]: { ...row, progress: 100 } });
           this._toggleEditModal()
         }
       }
