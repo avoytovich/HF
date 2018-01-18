@@ -118,7 +118,8 @@ class CreateQuestionComponent extends Component {
       ...optional,
     };
 
-    const validateAssets = isContentType && this.validateDiagnosticAssets(diagnostic_assets);
+    const validateAssets = isContentType && !this.validateDiagnosticAssets(diagnostic_assets);
+
     if (validateAssets){
       return notifier({
         title: 'Assets is empty',
