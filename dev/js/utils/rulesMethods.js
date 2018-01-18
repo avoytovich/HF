@@ -14,7 +14,8 @@ export const onSingleAsyncChange = (value, edit, props) => {
   const { path, pathType, itemState} = props;
 
   if (!value || (Array.isArray(value) && !value.length)) {
-    return  setQuestion(path, pathType, '', 'key');
+    setQuestion(path, pathType, '', 'key');
+    return;
   }
 
   const { subtype, type, values, min, max} = value.answer;
@@ -48,8 +49,10 @@ export const onSingleAsyncChange = (value, edit, props) => {
 
 export const onConditionAsyncChange = (value, edit, props) => {
   const { path, pathType, itemState} = props;
-  if (!value || (Array.isArray(value) && !value.length))
-      return  setQuestion(path, pathType, '', 'key');
+  if (!value || (Array.isArray(value) && !value.length)) {
+    setQuestion(path, pathType, '', 'key');
+    return;
+  }
 
   const _value = edit ? itemState[0] : { key: value.value };
   setQuestion(path, pathType, _value);
