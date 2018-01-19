@@ -12,6 +12,8 @@ import {
   uploadAssets,
   dispatchAssetsPayload,
   editAssetsPreValidate,
+  getMatrixInfo,
+  T,
 } from '../../../actions'
 import AssetItem from '../AssetItem/AssetItem'
 
@@ -27,6 +29,7 @@ class Edit extends Component {
       file,
       type       : file.type.split('/').shift() === 'image' ? 'image' : 'video',
       name       : file.name.split('.').shift(),
+      progress   : 100,
     }));
     dispatchAssetsPayload({ files });
   };
@@ -47,7 +50,16 @@ class Edit extends Component {
     if (files.length) {
       files = files.map(file => omit(file, ['progress']));
       editAssetsPreValidate(files[0], type)
-        .then(res => res && this.props.toggleModal())
+        .then(res => {
+          if (res) {
+            const {
+              domen,
+              path,
+            } = this.props;
+            getMatrixInfo(domen, path, this.props.query, path);
+            this.props.toggleModal()
+          }
+        })
     }
   };
 

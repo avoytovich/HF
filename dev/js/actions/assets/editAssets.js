@@ -15,7 +15,12 @@ import {
 } from '../../config';
 
 export const editAssets = (data, domenKey) =>
-  Api.put(`${domen[domenKey]}${api.assets}/${data.id}`, toFormData(data), {}, { 'Content-Type': 'multipart/form-data' });
+  Api.post(
+    `${domen[domenKey]}${api.assets}/${data.id}`,
+    toFormData(data),
+    { onUploadProgress: (progress => dispatchAssetsPayloadWired({ progress }))  },
+    { 'Content-Type': 'multipart/form-data' }
+  );
 
 export const editAssetsWired = (data,domenKey) => editAssets(data,domenKey)
   .catch(err => {
@@ -26,7 +31,7 @@ export const editAssetsWired = (data,domenKey) => editAssets(data,domenKey)
   });
 
 export const editAssetsPreValidate = (data, domenKey) => {
-  const { errors, isValid } = validAssets(data);
+  const { errors, isValid } = validAssets({ files: [data] });
   if (isValid) {
     return editAssetsWired(data, domenKey);
   }

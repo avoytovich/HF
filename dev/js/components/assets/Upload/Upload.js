@@ -11,9 +11,9 @@ import Close from 'material-ui-icons/Close';
 import {
   dispatchAssetsPayload,
   createAssetsPreValidate,
+  getMatrixInfo,
   T,
 } from '../../../actions'
-import { toFormData } from '../../../utils'
 import AssetItem from '../AssetItem/AssetItem'
 import Dropzone from '../Dropzone/Dropzone'
 
@@ -35,9 +35,9 @@ class Upload extends Component {
     dispatchAssetsPayload({ files });
   };
 
-  _renderFiles = (files = []) => {
+  _renderFiles = (files = [], progress) => {
     if (files.length) {
-      return files.map(({ progress }, i) => {
+      return files.map((f, i) => {
         return (
           <AssetItem
             key={i}
@@ -55,7 +55,16 @@ class Upload extends Component {
     if (files.length) {
       files = files.map(file =>  omit(file, ['progress']));
       createAssetsPreValidate({ files }, type)
-        .then(res => res && this.props.toggleModal())
+        .then(res => {
+          if (res) {
+            const {
+              domen,
+              path,
+            } = this.props;
+            getMatrixInfo(domen, path, this.props.query, path);
+            this.props.toggleModal()
+          }
+        })
     }
   };
 
@@ -63,6 +72,7 @@ class Upload extends Component {
     const {
       assetsReducer: {
         files,
+        progress,
       },
       toggleModal,
       type,
@@ -94,7 +104,7 @@ class Upload extends Component {
           </Toolbar>
 
         </AppBar>
-        { this._renderFiles(files) }
+        { this._renderFiles(files, progress) }
       </div>
     )
   }

@@ -15,7 +15,12 @@ import {
 } from '../../config';
 
 export const createAssets = (data, domenKey) =>
-  Api.post(`${domen[domenKey]}${api.assets}`, toFormData(data), {}, { 'Content-Type': 'multipart/form-data' });
+  Api.post(
+    `${domen[domenKey]}${api.assets}`,
+    toFormData(data),
+    { onUploadProgress: (progress => dispatchAssetsPayloadWired({ progress })) },
+    { 'Content-Type': 'multipart/form-data' }
+  );
 
 export const createAssetsWired = (data,domenKey) => createAssets(data,domenKey)
   .catch(err => {

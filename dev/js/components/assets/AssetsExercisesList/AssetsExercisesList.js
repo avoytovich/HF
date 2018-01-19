@@ -127,7 +127,16 @@ class AssetsList extends Component {
           open={showUploadModal}
           showControls={false}
           toggleModal={this._toggleUpdateModal}
-          CustomContent={() => <Upload type="exercises" folder="generateExercises" toggleModal={this._toggleUpdateModal} />}
+          CustomContent={() => (
+            <Upload
+              path={path}
+              domen={domen}
+              query={this.props.location.query}
+              type="exercises"
+              folder="generateExercises"
+              toggleModal={this._toggleUpdateModal}
+            />
+          )}
         />
 
         <Modal
@@ -135,7 +144,15 @@ class AssetsList extends Component {
           open={showEditModal}
           showControls={false}
           toggleModal={this._toggleEditModal}
-          CustomContent={() => <Edit type="exercises" toggleModal={this._toggleEditModal} />}
+          CustomContent={() => (
+            <Edit
+              path={path}
+              domen={domen}
+              query={this.props.location.query}
+              type="exercises"
+              toggleModal={this._toggleEditModal}
+            />
+          )}
         />
 
       </div>
