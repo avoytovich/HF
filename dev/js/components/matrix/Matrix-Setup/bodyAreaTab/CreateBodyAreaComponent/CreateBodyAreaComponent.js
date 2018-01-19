@@ -2,25 +2,26 @@ import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
 import { browserHistory }           from 'react-router'
+import Button                       from 'material-ui/Button';
+import Grid                         from 'material-ui/Grid';
+import { AsyncCreatable }           from 'react-select';
+import Input                        from '../../../../common/Input/Input';
+
 import {
   diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
   updateQuestionCreate,
-  getBodyAreaById
+  getBodyAreaById,
+  onChange,
 }                                   from '../../../../../actions';
-import { onChange }                 from '../../../../../actions/common';
-import { AsyncCreatable }           from 'react-select';
-import Grid                         from 'material-ui/Grid';
-import Button                       from 'material-ui/Button';
-import Input                        from '../../../../common/Input/Input';
-import { find, get }                from 'lodash'
+import { PAGE }                     from '../../../../../config';
 
 class CreateBodyAreaComponent extends Component {
   state = {
     questionType    : 'packages',
     keyIsUniqueError: '',
-    tab: '0'
+    tab             : '0'
   };
 
   constructor(props) {
@@ -38,7 +39,7 @@ class CreateBodyAreaComponent extends Component {
     clearCreateQuestion();
   }
 
-  done = (value) => {
+  _done = (value) => {
     const { key, title, description } = value;
     const result = {
       key,
@@ -56,9 +57,6 @@ class CreateBodyAreaComponent extends Component {
 
   };
 
-  cancel = () => browserHistory.push(`/matrix-setup/body-area`);
-
-
   render() {
     let {
       createDiagnosisQuestion,
@@ -75,14 +73,16 @@ class CreateBodyAreaComponent extends Component {
           <span>Create Pain Zone</span>
           <div className="nav-buttons">
 
-            <Button onClick={this.cancel}>
+            <Button onClick={() => browserHistory.push(PAGE.bodyArea)}>
               Cancel
             </Button>
 
-            <Button raised
-                    dense
-                    onClick={() => this.done(createDiagnosisQuestion)}
-                    color="primary">
+            <Button
+              raised
+              dense
+              onClick={() => this._done(createDiagnosisQuestion)}
+              color="primary"
+            >
               Save
             </Button>
 
@@ -90,10 +90,7 @@ class CreateBodyAreaComponent extends Component {
         </div>
         <Grid container className="margin-remove">
 
-          <Grid item
-                md={6}
-                sm={12}
-                className="create-question-body">
+          <Grid item md={6} sm={12} className="create-question-body">
 
             <div className="main-question">
 
@@ -107,12 +104,7 @@ class CreateBodyAreaComponent extends Component {
                     label={'Title' }
                     placeholder={'Title' }
                   />
-                </Grid>
-              </Grid>
 
-              {/* Question Key */}
-              <Grid container className="row-item">
-                <Grid item xs={12}>
                   <Input
                     id='key'
                     value={key}
@@ -121,12 +113,7 @@ class CreateBodyAreaComponent extends Component {
                     placeholder={ 'Key'}
                     error={!!this.state.keyIsUniqueError}
                   />
-                </Grid>
-              </Grid>
 
-
-              <Grid container className="row-item">
-                <Grid item xs={12}>
                   <Input
                     id='description'
                     value={description}

@@ -60,6 +60,7 @@ class Edit extends Component {
             this.props.toggleModal()
           }
         })
+        .catch(err => this.props.toggleModal())
     }
   };
 
