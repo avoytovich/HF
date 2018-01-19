@@ -241,7 +241,7 @@ export const CHAT_USERS_TAB = {
   key: 'conditions',
   title: 'ConditionsTab',
   tableHeader: [
-    { title: 'ID Number',          key: 'user_id',          className: 'left'},
+    { title: 'ID Number',          key: 'user_id',          className: 'left', type: 'time', format: TIME_FORMAT},
   ]
 };
 

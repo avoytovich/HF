@@ -4,6 +4,7 @@ import { bCN } from './index';
 const validUsersCreation = data => {
 
   let constraints = {
+    message:{},
     email: {
       email: {
         message: "is not valid."

@@ -5,6 +5,8 @@ import { TableComponent }       from './UserList';
 import { browserHistory }       from 'react-router'
 import TableControls            from './UserList/TableControls';
 import MessengerHeader          from './Messenger/MessengerHeader';
+import MessageListComponent          from './Messenger/MessageListComponent';
+import TypeMessageComponent     from './Messenger/TypeMessageComponent';
 import  { get }                 from 'lodash';
 
 class Chat extends Component {
@@ -54,8 +56,12 @@ class Chat extends Component {
           <MessengerHeader
             path="chat"
             selected={selected}
-            createItem={this.create}
-            createButtonText="Add"/>
+            />
+          <MessageListComponent/>
+          <TypeMessageComponent
+            path="chat"
+            selected={selected}
+            />
         </div>
 
       </div>

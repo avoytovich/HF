@@ -5,12 +5,13 @@ import PropTypes              from 'prop-types';
 import Table, {
         TableBody,
         TableCell,
-        TableFooter,
-        TablePagination,
-        TableRow }            from 'material-ui/Table';
+        TableRow, }            from 'material-ui/Table';
 import {
   getMatrixInfo,
   getListByPost,
+  createDialog,
+  getMessages,
+  getMessagesWired
 }                             from '../../../actions';
 import get                    from 'lodash/get';
 import isEmpty                from 'lodash/isEmpty';
@@ -18,15 +19,13 @@ import { browserHistory }     from 'react-router';
 import { PAGE }               from '../../../config';
 import { withRouter }         from 'react-router';
 import InfiniteScroll         from 'react-infinite-scroller';
-
-
+import moment                 from 'moment';
 
 const DEFAULT_QUERY = {
   per_page    : 20,
   current_page: 0,
   sortedBy    : 'desc',
   orderBy     : 'title',
-//  search      :'VAS'
 };
 
 
@@ -61,7 +60,6 @@ class TableComponent extends Component {
    * @param pagination: {{ per_page: string, page: string }}
    */
   setDefaultQuery = (pathname, pagination) => {
-    console.log(pathname, pagination)
     const currentQuery = this.props.location.query;
     const currentPath = this.props.location.pathname;
     const query = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
@@ -133,11 +131,26 @@ class TableComponent extends Component {
     let result =[checked];
     this.props.onRowClick(result);
     console.log(checked);
+    const dialog_id = get(checked, 'dialog_id');
+    if(dialog_id){
+      // get message history
+      console.log('get messages');
+      getMessagesWired(dialog_id)
+    }
+    else{
+      console.log('create dialog')
+      // create Dialog(to write first message)
+      createDialog({
+        "user_id": checked.user_id,
+        "consultant_user_id":  1
+      });
+
+    }
   };
 
   loadMoreFunction = () => {
-    const currentPath = PAGE[this.props.path];
-    const { current_page } = this.props.store.pagination;
+    // const currentPath = PAGE[this.props.path];
+    // const { current_page } = this.props.store.pagination;
     let per_page  = get(this.props,'store.pagination.per_page')+ 10;
     const total = get(this.props,'store.pagination.total');
     const { domen, path } = this.props;
@@ -153,24 +166,8 @@ class TableComponent extends Component {
     }
   };
 
-  /**
-   * Formatting of values
-   * @param row
-   * @param key
-   * @param type
-   * @param format
-   * @return {*}
-   */
-  formatCellValue = (row, { key, type, format }) => {
-    const value =  get(row, key, '-') || '-';
-    switch (type) {
-
-      case 'length':
-        return value ? value.length : 0;
-
-      default:
-        return value;
-    }
+  _formatTime = (data) => {
+    return moment.unix(data).format('MM/DD/YYYY');
   };
 
   render() {
@@ -190,7 +187,7 @@ class TableComponent extends Component {
           pageStart={0}
           loadMore={this.loadMoreFunction}
           hasMore={true || false}
-          loader={<div className="loader" key={0}>Loading ...</div>}
+          loader={<div className="loader" key={0}/>}
           useWindow={false}
         >
       <Table className="table-template-users">
@@ -220,12 +217,12 @@ class TableComponent extends Component {
                         {...tableCellPropsFunc(row, col)}
                       >
                         <div className="user-cell-container">
-                          <div className="user-id-container">User #{ this.formatCellValue(row, col) } </div>
-                          <div className="message-time-container">time</div>
+                          <div className="user-id-container">User #{ get(row, 'user_id', '-') } </div>
+                          <div className="message-time-container">{this._formatTime(get(row, 'activated_at'))}</div>
                         </div>
                         <div className="user-cell-container">
-                          <div className="last-message-container">Lorem ipsum dolor sit amet, consectetur adipiscing ?</div>
-                          <div className="unread-message-container">1</div>
+                          <div className="last-message-container">{ get(row, 'message', '-')||'No messages' }</div>
+                          {get(row, 'unread_message', '-')==true? (<div className="unread-message-container">1</div>):''}
                         </div>
                       </TableCell>
                     ))
@@ -243,7 +240,8 @@ class TableComponent extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    store    : state.tables[ownProps.path]
+    store    : state.tables[ownProps.path],
+    userReducer: state.userReducer
 });
 
 TableComponent.defaultProps = {
