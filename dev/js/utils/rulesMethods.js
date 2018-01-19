@@ -67,14 +67,12 @@ export const onMultipleAsyncChange = (value, edit, props) => {
 
   const { subtype, type, values, min, max} = value.answer;
   const answers = getAnswersList(values);
-  const _value = edit ? itemState.value :  ['1'];
+  const _value = edit ? itemState.value :  [];
 
   setQuestion(path, pathType, { key: value.value, value: _value });
 
   return { type: 'list', answers }
 };
-
-
 
 export const onAnswerChange = (event, {path, pathType}, key) => {
   const value = event.target.value;

@@ -47,8 +47,11 @@ const createQuestionRules = (state, action) => {
 
 const changeType = (state, action) => {
   const {path, oldProp, newProp } = action.payload;
-  return dotProp.set(state, path, value => {
+  debugger;
+  const res = dotProp.set(state, path, value => {
     let propsBody = {}; //value[oldProp];
+
+    debugger;
     switch(newProp) {
       case 'match':
         propsBody = { key: '', op: '=', value: '1' };
@@ -68,16 +71,20 @@ const changeType = (state, action) => {
 
       case 'in':
       case 'notIn':
-        propsBody = { key: '', value: ['1'] };
+        propsBody = { key: '', value: [] };
         break;
 
       default:
-        propsBody = { key: '', op: '=', value: '1' };
+        propsBody = value[oldProp];
     }
+
+    debugger;
 
     delete value[oldProp];
     return Object.assign({}, value, {[newProp]: propsBody});
   });
+  debugger;
+  return res;
 };
 
 const recDelete = (state, path) => {
