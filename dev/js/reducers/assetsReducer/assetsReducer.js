@@ -5,6 +5,7 @@ const initialState = {
   actionType: ASSETS,
   errors: {},
   files: [],
+  progress: 100,
 };
 
 const assetsDelete = (state, action) => {
