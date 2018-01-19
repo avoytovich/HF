@@ -67,7 +67,7 @@ export const onMultipleAsyncChange = (value, edit, props) => {
 
   const { subtype, type, values, min, max} = value.answer;
   const answers = getAnswersList(values);
-  const _value = edit ? itemState.value :  [];
+  const _value = edit ? itemState.value : [];
 
   setQuestion(path, pathType, { key: value.value, value: _value });
 
@@ -100,7 +100,7 @@ export const getMultipleAnswerValue = (list, value) =>
       if (item && !value) return item.label;
       const _value = Array.isArray(value) ? value : [value];
       return _value.some(el => `${el}` === item.label) ? result.concat(item.label) : result;
-    }, ['1']);
+    }, []);
 
 export const  getAnswersList = (values) => {
  return values ? Object.keys(values).map(key => {
