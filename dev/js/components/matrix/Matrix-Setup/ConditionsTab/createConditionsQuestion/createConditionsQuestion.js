@@ -148,6 +148,7 @@ class CreateConditionComponent extends Component {
               questionKey={questionKey}
               id="questionKey"
               currentId={id}
+              label="Condition key"
               reducer="createDiagnosisQuestion"
             />
           </div>

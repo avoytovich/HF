@@ -38,7 +38,6 @@ class RulesItemComponent extends Component {
   handleChange = (event, path, item) => {
     const type  = event.target.value;
     changeTypeOfRule(path, item, type);
-
     if (findType(type) === 'block') {
       addDefaultGroupRule(type, path, [{ [ DEFAULT_ITEM_TYPE || 'match' ]:  DEF_ITEM }]);
     }

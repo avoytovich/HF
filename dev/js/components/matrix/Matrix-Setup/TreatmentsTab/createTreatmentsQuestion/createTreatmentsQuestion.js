@@ -61,7 +61,12 @@ class CreateTreatmentsComponent extends Component {
 
   done = (value) => {
     const { areaIds, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules, errors } = value;
-    const validValue = { questionKey, questionTitle, treatmentsLevels, treatmentsPackage };
+    const validValue = {
+      questionKey,
+      questionTitle,
+      treatmentsLevels,
+      treatmentsPackage: treatmentsPackage.hasOwnProperty('id') ? treatmentsPackage : {id: ''}};
+
     const result = {
       areaIds,
       rule              : rules && rules.length ? {and: rules} : [],
@@ -76,6 +81,8 @@ class CreateTreatmentsComponent extends Component {
         package_level_id: treatmentsLevels
       }
     };
+
+
 
     const _result = this.props.routeParams.id ? Object.assign({}, result, {id: this.props.routeParams.id}) : result;
 
@@ -174,6 +181,7 @@ class CreateTreatmentsComponent extends Component {
                 questionKey={questionKey}
                 id="questionKey"
                 currentId={id}
+                label="Treatment key"
                 reducer="createDiagnosisQuestion"
               />
 
@@ -183,8 +191,8 @@ class CreateTreatmentsComponent extends Component {
                 packageItem={treatmentsPackage}
                 levelItem={treatmentsLevels}
                 area={areaIds}
-                packageError={errors['treatmentsPackage']}
-                levelError={errors['treatmentsLevels']}
+                packageError={ errors['treatmentsPackage']}
+                levelError={ errors['treatmentsLevels']}
                 levelsList={levelsList || []}
               />
 

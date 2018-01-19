@@ -16,6 +16,7 @@ import {
 import Button                       from 'material-ui/Button';
 import { get }                      from 'lodash'
 import { submitTabs }               from '../../../../../utils/matrix';
+import { notifier } from "../../../../../actions/common/notifier";
 
 
 class CreateEvaluationComponent extends Component {
@@ -99,11 +100,24 @@ class CreateEvaluationComponent extends Component {
 
   submit = (value) => {
     const {
-      sequenceType, questionKey, sequence, question, questionTitle, content_type, errors
+      sequenceType, questionKey, sequence, question, questionTitle, content_type, errors, diagnostic_assets
     } = value;
     const validValue = { questionKey, questionTitle };
+    const isContentType = content_type === 'functionalTest';
     const optional = content_type !== 'vas' ?
-      this.configureQuestionResult(value, content_type === 'functionalTest') : {};
+      this.configureQuestionResult(value, isContentType) : {};
+
+    const validateAssets = isContentType && !this.validateDiagnosticAssets(diagnostic_assets);
+
+    if (validateAssets){
+      return notifier({
+        title: 'Assets is empty',
+        message: 'Please, select assets!',
+        status: 'error',
+      })
+    }
+
+    const savedErrors = {questionKey: errors.questionKey};
 
     const result = {
       type : 'levelUp',
@@ -116,7 +130,7 @@ class CreateEvaluationComponent extends Component {
     };
     submitTabs(
       validValue,
-      errors,
+      savedErrors,
       'diagnostics',
       'createQuestion',
       result,
@@ -125,6 +139,8 @@ class CreateEvaluationComponent extends Component {
     );
   };
 
+  validateDiagnosticAssets = (assets) =>
+      assets.hasOwnProperty('id') && !!assets.id;
 
   configureQuestionResult = (value, optional) => {
     const { areaIds, answerType, rules, diagnostic_assets, packageLevelsList } = value,
