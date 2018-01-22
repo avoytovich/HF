@@ -57,7 +57,7 @@ class Chat extends Component {
             path="chat"
             selected={selected}
             />
-          <MessageListComponent/>
+          <MessageListComponent selected={selected}/>
           <TypeMessageComponent
             path="chat"
             selected={selected}

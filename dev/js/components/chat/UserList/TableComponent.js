@@ -22,10 +22,9 @@ import InfiniteScroll         from 'react-infinite-scroller';
 import moment                 from 'moment';
 
 const DEFAULT_QUERY = {
-  per_page    : 20,
-  current_page: 0,
+  page        : 20,
   sortedBy    : 'desc',
-  orderBy     : 'title',
+  orderBy     : 'message_created_at',
 };
 
 
@@ -144,7 +143,7 @@ class TableComponent extends Component {
       createDialog({
         "user_id": checked.user_id,
         "consultant_user_id":  1
-      });
+      }).then((res)=>getMessagesWired(get(res,'data.data.id')));
 
     }
   };
@@ -238,7 +237,7 @@ class TableComponent extends Component {
                         </div>
                         <div className="user-cell-container">
                           <div className="last-message-container">{ get(row, 'message', '-')||'No messages' }</div>
-                          {get(row, 'unread_message', '-')==true? (<div className="unread-message-container">1</div>):''}
+                          {get(row, 'unread_amount')>0? (<div className="unread-message-container">{row.unread_amount}</div>):''}
                         </div>
                       </TableCell>
                     ))

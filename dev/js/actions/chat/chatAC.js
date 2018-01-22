@@ -19,3 +19,12 @@ export const dispatchGetMessages = payload => dispatch =>
 export const dispatchGetMessagesWired = payload =>
   dispatchGetMessages(payload)(store.dispatch);
 
+export const dispatchCreateMessagePayload = payload => dispatch =>
+  dispatch({
+    type   : T.CHAT,
+    payload: payload
+  });
+
+export const dispatchCreateMessagePayloadWired = payload =>
+  dispatchCreateMessagePayload(payload)(store.dispatch);
+

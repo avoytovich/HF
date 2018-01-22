@@ -14,7 +14,25 @@ import Add                       from 'material-ui-icons/Add';
 import Typography                from 'material-ui/Typography';
 import SearchIcon                from 'material-ui-icons/Search';
 
+import {
+  createMessage,
+  getMessagesWired
+}                             from '../../../actions';
+
 class MessengerHeader extends Component {
+
+  _requestInformation=()=>{
+    const dialog_id = get(this.props, 'selected[0].dialog_id');
+    const data={
+      dialog_id,
+      message: "Please, let administrator view your personal information.",
+      info_request: true
+    };
+    console.log(data);
+    createMessage(data).then((res) => getMessagesWired(dialog_id))
+  };
+
+
   render() {
     return (
       <div className="message-header">
@@ -24,7 +42,7 @@ class MessengerHeader extends Component {
         <div className="message-header-user-info">
          <LockIcon className="lock-icon"/> User Information is hidden
         </div>
-        <div className="message-header-request">
+        <div className="message-header-request" onClick={this._requestInformation}>
           REQUEST INFORMATION
         </div>
       </div>

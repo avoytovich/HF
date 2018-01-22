@@ -8,19 +8,26 @@ import Input                from '../../common/Input/Input';
 import SendIcon             from 'material-ui-icons/Send';
 import {
   createMessage,
-  getMessagesWired
+  getMessagesWired,
+  dispatchCreateMessagePayloadWired
 }                             from '../../../actions';
 class TypeMessageComponent extends Component {
 
   _sendMessage=()=>{
     console.log('send Message',this.props.chatReducer)
-    console.log(this.props.messageListReducer)
+    const dialog_id = get(this.props,'selected[0].dialog_id');
     let data = {
-      dialog_id: 2,
+      dialog_id,
       message: this.props.chatReducer.message
-    }
-    createMessage(data).then((res) => getMessagesWired(2))
+    };
+    createMessage(data).then((res) => getMessagesWired(dialog_id)).then((res)=>
+      dispatchCreateMessagePayloadWired ({actionType: "CHAT", errors: {}, message: ""}))
   }
+
+  // actionType(pin): "CHAT"
+  // errors(pin): { }
+  // message(pin): ""
+
   render() {
     let {
       chatReducer,
