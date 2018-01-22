@@ -71,12 +71,10 @@ class SequenceTitle extends Component {
 
 SequenceTitle.propTypes = {
   onClose   : PropTypes.func.isRequired,
-  item      : PropTypes.arrayOf(
-    PropTypes.shape({
-      step  : PropTypes.string.isRequired,
+  item      : PropTypes.shape({
+      step  : PropTypes.number.isRequired,
       title : PropTypes.string.isRequired,
     }).isRequired
-  ),
 };
 
 export default SequenceTitle;
