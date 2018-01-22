@@ -40,8 +40,9 @@ const DEFAULT_QUERY = {
 class TableComponent extends Component {
 
   componentDidMount() {
-    console.log(this.props)
+    console.log(this.props);
     this.setDefaultQuery(this.props.path, this.props.store.pagination);
+    get(this.props,'store.data[0]')?this.handleClick('event', this.props.store.data[0]):'';
   }
 
   /**
@@ -167,8 +168,23 @@ class TableComponent extends Component {
   };
 
   _formatTime = (data) => {
-    return moment.unix(data).format('MM/DD/YYYY');
+    if(data){
+      const started = moment.unix(data).format('HH:mm MM/DD/YYYY');
+      const finished = moment().format('HH:mm MM/DD/YYYY');
+      let minutes = moment(finished).diff(moment(started), 'minutes');
+      let days = moment(finished).diff(moment(started), 'days');
+      const hours = Math.floor(minutes / 60);
+      minutes %= 60;
+      if(days>0){
+        return moment.unix(data).format('MM/DD/YYYY')
+      }
+      if (hours > 0) {
+        return `${hours}h`;
+      }
+      return `${minutes}m`;
+    }
   };
+
 
   render() {
     const {
@@ -194,7 +210,7 @@ class TableComponent extends Component {
 
         <TableBody>
           {
-            data.map(row => {
+            data.map((row)=> {
               const id         = row.id || row.user_id || row.customer_id;
               const isSelected = this.matchItems(selected, id) !== -1; // !row.deActive &&
               return (
@@ -218,7 +234,7 @@ class TableComponent extends Component {
                       >
                         <div className="user-cell-container">
                           <div className="user-id-container">User #{ get(row, 'user_id', '-') } </div>
-                          <div className="message-time-container">{this._formatTime(get(row, 'activated_at'))}</div>
+                          <div className="message-time-container">{this._formatTime(get(row, 'message_created_at'))}</div>
                         </div>
                         <div className="user-cell-container">
                           <div className="last-message-container">{ get(row, 'message', '-')||'No messages' }</div>

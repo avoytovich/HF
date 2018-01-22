@@ -7,18 +7,19 @@ import { withStyles }       from 'material-ui/styles';
 import Input                from '../../common/Input/Input';
 import SendIcon             from 'material-ui-icons/Send';
 import {
-  createMessage
+  createMessage,
+  getMessagesWired
 }                             from '../../../actions';
 class TypeMessageComponent extends Component {
 
   _sendMessage=()=>{
     console.log('send Message',this.props.chatReducer)
+    console.log(this.props.messageListReducer)
     let data = {
-      dialog_id: 1,
+      dialog_id: 2,
       message: this.props.chatReducer.message
     }
-    createMessage(data)
-
+    createMessage(data).then((res) => getMessagesWired(2))
   }
   render() {
     let {
@@ -46,6 +47,7 @@ class TypeMessageComponent extends Component {
 const mapStateToProps = (state, ownProps) => ({
   store: get(state, `tables.${ownProps.path}`),
   chatReducer: state.chatReducer,
+  messageListReducer: state.messageListReducer,
 });
 
 TypeMessageComponent.defaultProps = {
