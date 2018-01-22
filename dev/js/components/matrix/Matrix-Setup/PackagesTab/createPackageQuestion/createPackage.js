@@ -45,9 +45,9 @@ export const PACKAGE_TYPE = [
 export const DEFAULT_LEVEL = {
   level               : 1,
   level_up_properties : {
-    vas     : '1',
-    vas_min : '1',
-    sessions: '1'
+    vas_trend     : 1,
+    vas_min       : 1,
+    session_count : 1
   },
   therapy_continuity: '1',
   exercise_ids      : [],
@@ -81,8 +81,8 @@ class CreatePackageComponent extends Component {
 
     }
     else {
-      const newOne = Object.assign({}, DEFAULT_LEVEL);
-      updateCrateQuestionFields([newOne], 'packageLevels');
+//      const newOne = Object.assign({}, DEFAULT_LEVEL);
+//      updateCrateQuestionFields([newOne], 'packageLevels');
     }
   }
 
@@ -131,9 +131,9 @@ class CreatePackageComponent extends Component {
     const newList = oldList.concat({
       level: oldList.length + 1,
       level_up_properties   : {
-        vas     : '1',
-        vas_min : '1',
-        sessions: '1'
+        vas_trend     : '1',
+        vas_min       : '1',
+        session_count : '1'
       },
       therapy_continuity: '1',
       exercise_ids      : [],
