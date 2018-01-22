@@ -21,7 +21,7 @@ import {
 }                                 from '../../../actions';
 import Radio                      from 'material-ui/Radio';
 import Button                     from 'material-ui/Button';
-
+import SequenceTitle              from './SequenceTitle';
 
 class ChooseSequence extends Component {
 
@@ -29,7 +29,8 @@ class ChooseSequence extends Component {
     list : [],
     isOpen: null,
     selected: 1,
-    questions: []
+    questions: [],
+    openTitle: ''
   };
 
 
@@ -63,11 +64,21 @@ class ChooseSequence extends Component {
     this.setState({selected});
   };
 
+  openTitleModal = (e, step) => {
+    e && e.stopPropagation();
+    this.setState({openTitle: step});
+  };
+
+  update = () => {
+    this.setState({openTitle: ''});
+    this.props.updateList();
+  };
+
   Transition = (props) => <Slide direction="up" {...props} />;
 
   render() {
-    const { open, handleRequestClose, list } = this.props;
-    const { isOpen, selected, questions } = this.state;
+    const { open, handleRequestClose, list, updateList } = this.props;
+    const { isOpen, selected, questions, openTitle } = this.state;
 
     return (
       <Dialog
@@ -75,6 +86,7 @@ class ChooseSequence extends Component {
         open={open}
         onRequestClose={handleRequestClose}
         transition={this.Transition}
+        className="sequence-modal"
       >
         <AppBar className="header-custom-black">
           <Toolbar className="choose-sequence-toolbar">
@@ -113,7 +125,8 @@ class ChooseSequence extends Component {
                     {item.step}.
                   </Typography>
 
-                  <Typography type="title" color="inherit" className="title">
+                  <Typography type="title" color="inherit" className="title"
+                              onClick={event => this.openTitleModal(event, item.step)}>
                      {item.title || 'Title'}
                   </Typography>
                 </Grid>
@@ -122,6 +135,11 @@ class ChooseSequence extends Component {
                   {item.step === isOpen ? <ExpandLess /> : <ExpandMore />}
                 </Grid>
               </Grid>
+
+              {openTitle === item.step && <SequenceTitle item={item}
+                                                         update={this.update}
+                                                         onClose={() => this.setState({openTitle: ''})}/>}
+
               <Collapse in={item.step === isOpen}
                         timeout="auto"
                         className="choose-sequence-collapse"
@@ -140,11 +158,9 @@ class ChooseSequence extends Component {
                 </Grid>
 
               </Collapse>
-
             </ListItem>)
           )}
         </List>
-
       </Dialog>
       );
     }
