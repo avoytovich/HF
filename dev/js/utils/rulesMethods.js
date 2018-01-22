@@ -131,7 +131,6 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
       const noSteps = page === 'condition' || page === 'treatment';
       const _body = noSteps ? body : {...body, step: step || null};
 
-      debugger;
       return findByArea(questionType, 'findByAre', _body, input || key).then(res => {
         const { data } = res.data;
         const _data = data.map(item => {
