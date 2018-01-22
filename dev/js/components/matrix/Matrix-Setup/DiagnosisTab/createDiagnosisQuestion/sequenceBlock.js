@@ -26,12 +26,12 @@ class SequenceBlock extends Component {
   state = { chooseSequence  : false, list: [] };
 
   componentDidMount() {
-    const {path, domain} = this.props;
+    this.getList(this.props)
+  }
+
+  getList = ({path, domain}) => {
     getSequenceList(domain, path)
-      .then(({data}) => {
-//        updateCrateQuestionFields(data.data, 'sequenceBlock');
-        this.setState({list: data.data})
-      });
+    .then(({data}) => this.setState({list: data.data}));
   }
 
   openChooseSequence = (chooseSequence) => this.setState({ chooseSequence });
@@ -95,6 +95,7 @@ class SequenceBlock extends Component {
           open={chooseSequence}
           list={list}
           defaultStep={value}
+          updateList={() =>  this.getList(this.props)}
           handleRequestClose={(value) => this.openChooseSequence(value)}/>}
     </Grid>
   }

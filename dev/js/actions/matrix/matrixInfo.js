@@ -290,3 +290,10 @@ export const getExerciseById =  (domenKey, apiKey, id) => {
   );
 };
 
+
+export const changeSequenceTitle = (domenKey, apiKey, step, value) => {
+  const domenPath = domen[domenKey],
+        apiPath   = api[apiKey];
+  return Api.put(`${domenPath}${apiPath}/${step}`, value);
+};
+

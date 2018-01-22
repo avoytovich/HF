@@ -58,6 +58,7 @@ export const api = {
   findByKey           : '/matrix/questions/get/key',
   findCondByKey       : '/matrix/conditions/get/key',
   sequenceList        : '/matrix/questions/steps/get/type',
+  changeSequenceTitle : '/matrix/questions/steps/diagnostic',
   createQuestion      : '/matrix/questions',
   getPackageByArea    : '/packages/get/area',
   treatmentsFindArea  : '/matrix/treatments/find/area',
