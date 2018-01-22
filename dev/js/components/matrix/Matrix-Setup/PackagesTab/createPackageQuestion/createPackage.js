@@ -69,6 +69,7 @@ class CreatePackageComponent extends Component {
     updateCrateQuestionFields(this.state.questionType, 'page');
   }
 
+
   componentWillMount() {
     if (this.props.params.id) {
       this.setState({loading: true});
@@ -84,6 +85,10 @@ class CreatePackageComponent extends Component {
 //      const newOne = Object.assign({}, DEFAULT_LEVEL);
 //      updateCrateQuestionFields([newOne], 'packageLevels');
     }
+  }
+
+  componentWillUnmount() {
+    clearCreateQuestion();
   }
 
   done = (value) => {
@@ -159,7 +164,6 @@ class CreatePackageComponent extends Component {
       },
       routeParams: { id },
     } = this.props;
-
 
     return (
       <div id="create-question">

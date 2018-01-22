@@ -32,8 +32,6 @@ class BodyAreaComponent extends Component {
   render() {
     const { tableHeader } = BODY_AREA_TAB;
     const { selected, deleteOpen } = this.state;
-
-    console.log(this.props);
     return (
       <div id="diagnosis-component">
 
