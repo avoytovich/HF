@@ -39,11 +39,12 @@ class MessengerHeader extends Component {
         <div className="message-header-user-id">
          User #{get(this.props, 'selected[0].user_id')}
         </div>
-        <div className="message-header-user-info">
-         <LockIcon className="lock-icon"/> User Information is hidden
+        <div>
+          {get(this.props, 'selected[0].email')? get(this.props, 'selected[0].email'):
+            (<div className="message-header-user-info"><LockIcon className="lock-icon"/> User Information is hidden</div>)}
         </div>
         <div className="message-header-request" onClick={this._requestInformation}>
-          REQUEST INFORMATION
+          {get(this.props, 'selected[0].email')? '' : 'REQUEST INFORMATION'}
         </div>
       </div>
     )
