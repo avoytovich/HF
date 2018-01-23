@@ -22,9 +22,11 @@ import InfiniteScroll         from 'react-infinite-scroller';
 import moment                 from 'moment';
 
 const DEFAULT_QUERY = {
-  page        : 20,
-  sortedBy    : 'desc',
-  orderBy     : 'message_created_at',
+  current_page:0,
+  page:1,
+  per_page:15,
+  sortedBy: 'desc',
+  limit:15
 };
 
 
@@ -151,6 +153,7 @@ class TableComponent extends Component {
   loadMoreFunction = () => {
     // const currentPath = PAGE[this.props.path];
     // const { current_page } = this.props.store.pagination;
+    console.log('loadMoreFunction');
     let per_page  = get(this.props,'store.pagination.per_page')+ 10;
     const total = get(this.props,'store.pagination.total');
     const { domen, path } = this.props;
@@ -161,9 +164,9 @@ class TableComponent extends Component {
       page: 1,
 
     };
-    if(total>per_page){
+    // if(total>per_page){
       getListByPost(domen, path, newQuery );
-    }
+    // }
   };
 
   _formatTime = (data) => {
