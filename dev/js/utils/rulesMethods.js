@@ -122,15 +122,15 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
 
     default:
       const { type, areaIds, step, state: { page }, reqType } = props;
-
       const body = {
-        type: _type || type,
+        type: checkRuleType(_type || type, page),
         areaIds: areaIds || [],
         answerType,
         answerSubtype: !answerType ? 'list' : undefined
       };
       const noSteps = page === 'condition' || page === 'treatment';
       const _body = noSteps ? body : {...body, step: step || null};
+
       return findByArea(questionType, 'findByAre', _body, input || key).then(res => {
         const { data } = res.data;
         const _data = data.map(item => {
@@ -148,6 +148,17 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
           complete: true
         }
       });
+  }
+};
+
+const checkRuleType = (type, page) => {
+  switch (page) {
+    case 'levelUp':
+      return 'levelUp';
+    case 'evaluation':
+      return 'evaluation';
+    default:
+      return 'diagnostic'
   }
 };
 

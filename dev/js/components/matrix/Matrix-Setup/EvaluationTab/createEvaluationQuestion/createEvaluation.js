@@ -21,7 +21,7 @@ import { notifier } from "../../../../../actions/common/notifier";
 
 class CreateEvaluationComponent extends Component {
   state = {
-    questionType    : 'diagnosis',
+    questionType    : 'levelUp',
     sequenceTypeList: [
       {label: 'Normal', value: 'normal'},
       {label: 'After',  value: 'after' },
