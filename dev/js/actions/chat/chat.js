@@ -12,9 +12,7 @@ import {
 
 export const createDialog = (data) => Api.post(`${domen.users}${api.createDialog}`,data);
 
-export const getMessages = (dialog_id) => Api.post(`${domen.users}${api.getMessages}${dialog_id}`,{"from": 0,
-  "limit": 40,
-  "also_deleted": true});
+export const getMessages = (dialog_id, data) => Api.post(`${domen.users}${api.getMessages}${dialog_id}`,data);
 
 export const createMessage = (data) => Api.post(`${domen.users}${api.createMessage}`, data);
 
@@ -23,9 +21,9 @@ export const createDialogWired = () => createDialog()
     dispatchCreateDialogWired(response.data.data);
   });
 
-export const getMessagesWired = (dialog_id) => getMessages(dialog_id)
+export const getMessagesWired = (dialog_id, data) => getMessages(dialog_id, data)
   .then(response => {
-    dispatchGetMessagesWired(response.data.data||[]);
+    dispatchGetMessagesWired(response.data||[]);
 
   });
 

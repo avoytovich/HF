@@ -99,10 +99,13 @@ class UserListComponent extends Component {
     this.props.onRowClick(result);
     console.log(checked);
     const dialog_id = get(checked, 'dialog_id');
+    const data = {"from": 0,
+      "limit": 40,
+      "also_deleted": true}
     if(dialog_id){
       // get message history
       console.log('get messages');
-      getMessagesWired(dialog_id)
+      getMessagesWired(dialog_id, data)
     }
     else{
       console.log('create dialog')
@@ -110,7 +113,7 @@ class UserListComponent extends Component {
       createDialog({
         "user_id": checked.user_id,
         "consultant_user_id":  1
-      }).then((res)=>getMessagesWired(get(res,'data.data.id')));
+      }).then((res)=>getMessagesWired(get(res,'data.data.id' , data)));
 
     }
   };
