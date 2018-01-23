@@ -8,7 +8,7 @@ import { withStyles }       from 'material-ui/styles';
 class MessageListComponent extends Component {
 
   _renderMessage=(el)=>{
-    if(this.props.selected[0].dialog_id === el.dialog_id){
+    if(get(this.props,'selected[0].dialog_id') === el.dialog_id){
       let messageContainer;
       el.user_id === this.props.userReducer.user_id ? messageContainer='admin-message':messageContainer='user-message';
       return(<div key={el.id} className={messageContainer}>{el.message}</div>)

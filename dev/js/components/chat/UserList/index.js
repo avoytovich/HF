@@ -1,1 +1,1 @@
-export TableComponent from './TableComponent';
+export UserListComponent from './UserListComponent';

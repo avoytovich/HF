@@ -1,13 +1,10 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { CHAT_USERS_TAB }       from '../../utils/constants/pageContent';
-import { TableComponent }       from './UserList';
-import { browserHistory }       from 'react-router'
-import TableControls            from './UserList/TableControls';
+import { UserListComponent }    from './UserList';
+import UserListControls         from './UserList/UserListControls';
 import MessengerHeader          from './Messenger/MessengerHeader';
-import MessageListComponent          from './Messenger/MessageListComponent';
+import MessageListComponent     from './Messenger/MessageListComponent';
 import TypeMessageComponent     from './Messenger/TypeMessageComponent';
-import  { get }                 from 'lodash';
 
 class Chat extends Component {
   state = {
@@ -16,39 +13,28 @@ class Chat extends Component {
     showDeactivateModal:false,
   };
 
-  onRowClick = (selected = []) => this.setState({selected});
-
-  onSelectAllClick = (selected) => this.setState({selected});
-
-  updateModal = (key, value) => {
-    this.setState({ [key]: value });
-
-    if (!value) this.setState({ selected: [] });
-  };
+  _onUserClick = (selected = []) => this.setState({selected});
 
   render() {
-    const { tableHeader } = CHAT_USERS_TAB;
     const { selected } = this.state;
     return (
       <div id="chat-component">
 
         <div className="user-list-container">
-          <TableControls
+          <UserListControls
             path="chat"
             selected={selected}
             createItem={this.create}
             createButtonText="Add"
           />
 
-          <TableComponent
+          <UserListComponent
             location={this.props.location}
             path="chat"
             domen="users"
             reqType="POST"
-            tableHeader={ tableHeader }
             selected={selected}
-            onRowClick={this.onRowClick}
-            onSelectAllClick={this.onSelectAllClick}
+            onRowClick={this._onUserClick}
             query= {this.props.location.query}
           />
         </div>

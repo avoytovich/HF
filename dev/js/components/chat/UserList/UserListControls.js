@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes            from 'prop-types';
 import { connect }          from 'react-redux';
-import { debounce, get }    from 'lodash';
+import get                  from 'lodash/get';
+import debounce             from 'lodash/debounce';
 import { PAGE }             from '../../../config';
 import { browserHistory }   from 'react-router';
 
@@ -10,9 +10,6 @@ import Grid                      from 'material-ui/Grid';
 import { withStyles }            from 'material-ui/styles';
 import { FormControl }           from 'material-ui/Form';
 import Input, { InputAdornment } from 'material-ui/Input';
-import Button                    from 'material-ui/Button';
-import Add                       from 'material-ui-icons/Add';
-import Typography                from 'material-ui/Typography';
 import SearchIcon                from 'material-ui-icons/Search';
 
 const styles = theme => ({
@@ -23,7 +20,7 @@ const styles = theme => ({
   },
 });
 
-class TableControls extends Component {
+class UserListControls extends Component {
 
   componentWillMount() {
     this.handleChange = debounce(this.handleChange, 500, {leading:false, trailing:true})
@@ -47,10 +44,8 @@ class TableControls extends Component {
     return (
       <Grid container className='user-list-search'>
         <Grid item lg={12} md={12} xs={12}>
-          <Grid container className="page-pagination">
-            <Grid item md={12} sm={12} xs={12}>
-              <FormControl fullWidth>
-                <Input
+          <FormControl fullWidth>
+            <Input
                   id="search"
                   className={classes.formControl}
                   onChange={event => this.handleChange(event.target.value)}
@@ -61,9 +56,7 @@ class TableControls extends Component {
                     </InputAdornment>
                   }
                 />
-              </FormControl>
-            </Grid>
-          </Grid>
+          </FormControl>
         </Grid>
       </Grid>
     )
@@ -74,14 +67,8 @@ const mapStateToProps = (state, ownProps) => ({
   store: get(state, `tables.${ownProps.path}`)
 });
 
-TableControls.defaultProps = {
+UserListControls.defaultProps = {
   selected    : [],
 };
 
-TableControls.propTypes = {
-  createItem: PropTypes.func,
-  createButtonText: PropTypes.string,
-  CreateButtonIcon: PropTypes.func,
-};
-
-export default connect(mapStateToProps)(withStyles(styles)(TableControls));
+export default connect(mapStateToProps)(withStyles(styles)(UserListControls));
