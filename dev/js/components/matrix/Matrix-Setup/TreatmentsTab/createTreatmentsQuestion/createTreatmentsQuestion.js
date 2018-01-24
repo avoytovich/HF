@@ -22,6 +22,7 @@ import Input                        from '../../../../common/Input/Input';
 import { submitTabs }               from '../../../../../utils/matrix';
 import MatrixPreLoader              from '../../matrixPreloader';
 import TreatmentPackageLevel        from './treatmentPackageLevel';
+import { CreateItemNavButtons }     from '../../../../common';
 
 class CreateTreatmentsComponent extends Component {
   state = {
@@ -60,7 +61,9 @@ class CreateTreatmentsComponent extends Component {
 
 
   done = (value) => {
-    const { areaIds, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, rules, errors } = value;
+    const {
+      areaIds, questionKey, questionTitle, treatmentsLevels, treatmentsPackage, testing, rules, errors
+    } = value;
     const validValue = {
       questionKey,
       questionTitle,
@@ -72,6 +75,7 @@ class CreateTreatmentsComponent extends Component {
       rule              : rules && rules.length ? {and: rules} : [],
       key               : questionKey,
       title             : questionTitle,
+      testing,
 
       package_level_id  : treatmentsLevels,
       package_id        : treatmentsPackage.id,
@@ -109,6 +113,7 @@ class CreateTreatmentsComponent extends Component {
         treatmentsLevels,
         treatmentsPackage,
         levelsList,
+        testing,
         errors
       },
       routeParams: { id },
@@ -119,23 +124,19 @@ class CreateTreatmentsComponent extends Component {
 
     return (
       <div id="create-question">
-        <div className="page-sub-header">
-          <span>Create Treatment</span>
-          <div className="nav-buttons">
 
-            <Button onClick={this.cancel}>
-              Cancel
-            </Button>
+        <CreateItemNavButtons
+          title={'Create Treatment'}
+          showSwitch={true}
+          switchChecked={testing}
+          switchLabel={'On testing'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'testing')}
+          onCancelClick={this.cancel}
+          cancelLabel={'Cancel'}
+          onSaveClick={() => this.done(createDiagnosisQuestion)}
+          saveLabel={'Save'}
+        />
 
-            <Button raised
-                    dense
-                    onClick={() => this.done(createDiagnosisQuestion)}
-                    color="primary">
-              Save
-            </Button>
-
-          </div>
-        </div>
 
         {  id && this.state.loading ?
           <MatrixPreLoader
