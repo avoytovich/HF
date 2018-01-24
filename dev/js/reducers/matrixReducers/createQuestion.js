@@ -162,11 +162,12 @@ const setFullQuestion = (state, action) => {
 };
 
 const setFullQuestionForCondition = (state, action) => {
-  const { body, body: { areas, title, key, rule, package_level_id}} = action.payload;
+  const { body, body: { areas, title, key, rule, package_level_id, testing}} = action.payload;
   const _body = {
     areaIds: configArea(areas),
     questionTitle: title,
     questionKey: key,
+    testing,
     rules: Array.isArray(rule) ? rule: rule.and ? rule.and : [rule],
   };
 

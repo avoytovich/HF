@@ -176,30 +176,6 @@ class CreateQuestionComponent extends Component {
     } = this.props;
     return (
       <div id="create-question">
-        {/*<div className="page-sub-header">
-
-          <span>
-            Create Diagnosis Question
-          </span>
-
-          <div className="nav-buttons">
-
-            <Switch label="On testing"
-                    checked={testing}
-                    onChange={(e, value) => updateCrateQuestionFields(value , 'testing')}/>
-
-
-            <Button onClick={this.cancel}>
-              Cancel
-            </Button>
-            <Button raised
-                    dense
-                    onClick={() => this.submit(createDiagnosisQuestion)}
-                    color="primary">
-              Save
-            </Button>
-          </div>
-        </div>*/}
 
         <CreateItemNavButtons
           title={'Create Diagnosis Question'}
