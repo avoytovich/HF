@@ -39,6 +39,7 @@ const changeToItemRule = (state, action) => {
 const createQuestionRules = (state, action) => {
   const {path, type, body} = action.payload;
   const isBlock = findType(type) === 'block';
+
   const template = isBlock ? { [type] : [body] } : { [type] : body };
 
   return dotProp.set(state, path, val => val.concat(template));
@@ -47,7 +48,33 @@ const createQuestionRules = (state, action) => {
 const changeType = (state, action) => {
   const {path, oldProp, newProp } = action.payload;
   return dotProp.set(state, path, value => {
-    const propsBody = value[oldProp];
+    let propsBody = {}; //value[oldProp];
+    switch(newProp) {
+      case 'match':
+        propsBody = { key: '', op: '=', value: '1' };
+        break;
+
+      case 'equal':
+        propsBody = { key: '', op: '=', value: '1' };
+        break;
+
+      case 'notEqual':
+        propsBody = { key: '', op: '!=', value: '1' };
+        break;
+
+      case 'true':
+        propsBody = { key: '', value: '1' };
+        break;
+
+      case 'in':
+      case 'notIn':
+        propsBody = { key: '', value: [] };
+        break;
+
+      default:
+        propsBody = value[oldProp];
+    }
+
     delete value[oldProp];
     return Object.assign({}, value, {[newProp]: propsBody});
   });
@@ -80,11 +107,9 @@ const setQuestion = (state, action) => {
   return dotProp.set(
     state,
     `${path}.${type}`,
-    (value) => {
-      return property ?
-        Object.assign({}, value, {[property]: item}):
-        Object.assign({}, value, item);
-    }
+    (value) => property ?
+      dotProp.set(value, property, item) :
+      Object.assign({}, value, item)
   );
 };
 
@@ -113,13 +138,16 @@ const removeAnswer = (state, action) => {
 };
 
 const setFullQuestion = (state, action) => {
-  const { body: { areas, title, question, key, step, answer, rule, content_type, test_file, packageLevels }} = action.payload;
+  const { body: {
+    areas, title, question, key, step, answer, rule, content_type, test_file, packageLevels, testing
+  }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
   const _body = {
       areaIds: configArea(areas),
       questionTitle: title,
       question,
+      testing,
       content_type,
       sequence: step,
       questionKey: key,
@@ -134,11 +162,12 @@ const setFullQuestion = (state, action) => {
 };
 
 const setFullQuestionForCondition = (state, action) => {
-  const { body, body: { areas, title, key, rule, package_level_id}} = action.payload;
+  const { body, body: { areas, title, key, rule, package_level_id, testing}} = action.payload;
   const _body = {
     areaIds: configArea(areas),
     questionTitle: title,
     questionKey: key,
+    testing,
     rules: Array.isArray(rule) ? rule: rule.and ? rule.and : [rule],
   };
 
@@ -168,12 +197,13 @@ const setFullBodyAreaEdit = (state, action) => {
 };
 
 const setFullQuestionForPackage = (state, action) => {
-  const { body: {areas, title, key, packageLevels }} = action.payload;
+  const { body: {areas, title, key, packageLevels, type }} = action.payload;
   const _body = {
     areaIds: configArea(areas.data),
     questionTitle: title,
     questionKey: key,
-    packageLevels: configPackageLevel(packageLevels.data)
+    packageLevels: configPackageLevel(packageLevels.data),
+    packageType: type
   };
   return Object.assign({}, state, _body);
 };

@@ -35,9 +35,9 @@ const packageTab = {
     {
       level: 1,
       level_up_properties: {
-        vas: 1,
-        vas_min: 1,
-        sessions: 1
+        vas_trend     : 1,
+        vas_min       : 1,
+        session_count : 1
       },
       therapy_continuity: '1',
       exercise_ids: []
@@ -67,6 +67,7 @@ export  default {
   page          : null,
   areas         : [],
   areaIds       : [],
+  testing       : false,
 
   ...diagnosticTab,
   ...conditionTab,

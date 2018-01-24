@@ -25,11 +25,32 @@
     flex-direction: row
     justify-content: space-between
     padding-bottom: 15px
+    padding-right: 20px
     margin-bottom: 0
     border-bottom: 2px solid $primary-grey
     background-color: white
+  .switch-label
+    display: flex
+    flex-direction: row-reverse
+  .title
+    display: flex
+    flex-direction: row
+    justify-content: center
+    align-items: center
+  .navigation-zone
+    display: flex
+    flex-direction: row
+  .navigation-zone-default,
+  .navigation-zone-custom
+    display: flex
+    flex-direction: row
+
   .nav-buttons
-    margin-right: 20px
+    display: flex
+    flex-direction: row
+    justify-content: center
+    align-items: center
+
   .create-question-body-wrap
     height: 100%
   .create-question-body
@@ -183,6 +204,11 @@
     .choose-sequence-collapse-item
       white-space: pre-wrap
       transition: height .3s
+      .lens
+        width: 10px
+        height: 10px
+        margin-right: 10px
+        fill: $primary-blue
 
 
 .page-tabs

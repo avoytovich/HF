@@ -77,6 +77,7 @@ export const DIAGNOSIS_TAB = {
       title: 'Pain Areas',
       key: 'areas',
       className: 'center',
+      sortKey: '--',
       type: 'areas'
     },
     { title: 'Key',         key: 'key',         className: 'left'                                        },
@@ -101,12 +102,7 @@ export const CONDITIONS_TAB = {
   title: 'ConditionsTab',
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                        },
-    {
-      title: 'Pain Areas',
-      key: 'areas',
-      className: 'center',
-      type: 'areas'
-    },
+    { title: 'Pain Areas', key: 'areas',      className: 'center', sortKey: '--', type: 'areas'        },
     { title: 'Key',        key: 'key',        className: 'left'                                        },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT     },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT     }
@@ -118,12 +114,7 @@ export const TREATMENTS_TAB = {
   title: 'TreatmentsTab',
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                       },
-    {
-      title: 'Pain Areas',
-      key: 'areas',
-      className: 'center',
-      type: 'areas'
-    },
+    { title: 'Pain Areas', key: 'areas',      className: 'center', sortKey: '--', type: 'areas'       },
     { title: 'Key',        key: 'key',        className: 'left'                                       },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT    },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT    }
@@ -134,13 +125,8 @@ export const PACKAGES_TAB = {
   key: 'packages',
   title: 'PackagesTab',
   tableHeader: [
-    { title: 'Name',       key: 'title',      className: 'left'                                       },
-    {
-      title: 'Pain Areas',
-      key: 'areas.data',
-      className: 'center',
-      type: 'areas'
-    },
+    { title: 'Name',       key: 'title',      className: 'left',   sortKey: 'title'                   },
+    { title: 'Pain Areas', key: 'areas.data', className: 'center', sortKey: '--', type: 'areas'       },
     { title: 'Key',        key: 'key',        className: 'left'                                       },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT    },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT    }
@@ -151,8 +137,8 @@ export const EXERCISES_TAB = {
   key: 'exercise',
   title: 'ExerciseTab',
   tableHeader: [
-    { title: 'Name',       key: 'title.en',   className: 'left'                                    },
-    { title: 'Packages',   key: 'packages',   className: 'center', type: 'length'                  },
+    { title: 'Name',       key: 'title.en',   className: 'left', sortKey: 'title'                  },
+    { title: 'Packages',   key: 'packages',   className: 'center', type: 'length', sortKey: '--'   },
     { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
   ]

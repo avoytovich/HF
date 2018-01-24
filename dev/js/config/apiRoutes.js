@@ -20,7 +20,7 @@ if (process.env.NODE_CUSTOM_MODE === 'development') {
     s3         : 'https://uk6yk108kj.execute-api.eu-central-1.amazonaws.com/prod',
   };
 } else {
-  assets = 'http://localhost:3030/assets';
+  assets = 'http://localhost:3030/dist/assets';
   domen = {
     users      : 'http://18.195.77.253',
     exercises  : 'http://18.195.76.169',
@@ -58,6 +58,7 @@ export const api = {
   findByKey           : '/matrix/questions/get/key',
   findCondByKey       : '/matrix/conditions/get/key',
   sequenceList        : '/matrix/questions/steps/get/type',
+  changeSequenceTitle : '/matrix/questions/steps/diagnostic',
   createQuestion      : '/matrix/questions',
   getPackageByArea    : '/packages/get/area',
   treatmentsFindArea  : '/matrix/treatments/find/area',

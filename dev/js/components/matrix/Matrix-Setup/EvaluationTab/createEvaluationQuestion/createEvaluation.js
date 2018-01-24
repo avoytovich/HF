@@ -16,11 +16,13 @@ import {
 import Button                       from 'material-ui/Button';
 import { get }                      from 'lodash'
 import { submitTabs }               from '../../../../../utils/matrix';
+import { notifier } from "../../../../../actions/common/notifier";
+import { CreateItemNavButtons }     from '../../../../common';
 
 
 class CreateEvaluationComponent extends Component {
   state = {
-    questionType    : 'diagnosis',
+    questionType    : 'levelUp',
     sequenceTypeList: [
       {label: 'Normal', value: 'normal'},
       {label: 'After',  value: 'after' },
@@ -99,11 +101,24 @@ class CreateEvaluationComponent extends Component {
 
   submit = (value) => {
     const {
-      sequenceType, questionKey, sequence, question, questionTitle, content_type, errors
+      sequenceType, questionKey, sequence, question, questionTitle, content_type, errors, diagnostic_assets, testing
     } = value;
     const validValue = { questionKey, questionTitle };
+    const isContentType = content_type === 'functionalTest';
     const optional = content_type !== 'vas' ?
-      this.configureQuestionResult(value, content_type === 'functionalTest') : {};
+      this.configureQuestionResult(value, isContentType) : {};
+
+    const validateAssets = isContentType && !this.validateDiagnosticAssets(diagnostic_assets);
+
+    if (validateAssets){
+      return notifier({
+        title: 'Assets is empty',
+        message: 'Please, select assets!',
+        status: 'error',
+      })
+    }
+
+    const savedErrors = {questionKey: errors.questionKey};
 
     const result = {
       type : 'levelUp',
@@ -112,11 +127,12 @@ class CreateEvaluationComponent extends Component {
       title: questionTitle,
       question: { ...question },
       content_type,
+      testing,
       ...optional,
     };
     submitTabs(
       validValue,
-      errors,
+      savedErrors,
       'diagnostics',
       'createQuestion',
       result,
@@ -125,6 +141,8 @@ class CreateEvaluationComponent extends Component {
     );
   };
 
+  validateDiagnosticAssets = (assets) =>
+      assets.hasOwnProperty('id') && !!assets.id;
 
   configureQuestionResult = (value, optional) => {
     const { areaIds, answerType, rules, diagnostic_assets, packageLevelsList } = value,
@@ -147,29 +165,23 @@ class CreateEvaluationComponent extends Component {
   render() {
     const {
       createDiagnosisQuestion,
-      createDiagnosisQuestion: { content_type, questionKey, packageLevelsList },
+      createDiagnosisQuestion: { content_type, questionKey, packageLevelsList, testing },
       routeParams: { id }
     } = this.props;
     return (
       <div id="create-question">
-        <div className="page-sub-header">
 
-          <span>
-           Create Level up Question
-          </span>
-
-          <div className="nav-buttons">
-            <Button onClick={this.cancel}>
-              Cancel
-            </Button>
-            <Button raised
-                    dense
-                    onClick={() => this.submit(createDiagnosisQuestion)}
-                    color="primary">
-              Save
-            </Button>
-          </div>
-        </div>
+        <CreateItemNavButtons
+          title={'Create Level up Question'}
+          showSwitch={true}
+          switchChecked={testing}
+          switchLabel={'On testing'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'testing')}
+          onCancelClick={this.cancel}
+          cancelLabel={'Cancel'}
+          onSaveClick={() => this.submit(createDiagnosisQuestion)}
+          saveLabel={'Save'}
+        />
 
 
         { id && this.state.loading ?

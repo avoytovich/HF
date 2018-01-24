@@ -14,7 +14,7 @@ class EnhancedTableHead extends Component {
    * @param property
    */
   createSortHandler =  (event, property, {type}) => {
-    if (type === 'areas') return;
+    if (property === '--') return;
 
     this.props.onRequestSort(event, property);
   };

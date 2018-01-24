@@ -53,7 +53,7 @@ class AssetsList extends Component {
       return {
         onClick: (e) => {
           e.stopPropagation();
-          dispatchAssetsPayloadWired({ [`tmp_files[${0}]`]: { ...row, progress: 100 } });
+          dispatchAssetsPayloadWired({ [`files[${0}]`]: { ...row, progress: 100 } });
           this._toggleEditModal()
         }
       }
@@ -125,7 +125,16 @@ class AssetsList extends Component {
           open={showUploadModal}
           showControls={false}
           toggleModal={this._toggleUpdateModal}
-          CustomContent={() => <Upload type="diagnostics" folder="generateDiagnostics" toggleModal={this._toggleUpdateModal} />}
+          CustomContent={() => (
+            <Upload
+              type="diagnostics"
+              folder="generateDiagnostics"
+              toggleModal={this._toggleUpdateModal}
+              path={path}
+              domen={domen}
+              query={this.props.location.query}
+            />
+          )}
         />
 
         <Modal
@@ -133,7 +142,15 @@ class AssetsList extends Component {
           open={showEditModal}
           showControls={false}
           toggleModal={this._toggleEditModal}
-          CustomContent={() => <Edit type="diagnostics"  toggleModal={this._toggleEditModal} />}
+          CustomContent={() => (
+            <Edit
+              type="diagnostics"
+              toggleModal={this._toggleEditModal}
+              path={path}
+              domen={domen}
+              query={this.props.location.query}
+            />
+          )}
         />
 
       </div>

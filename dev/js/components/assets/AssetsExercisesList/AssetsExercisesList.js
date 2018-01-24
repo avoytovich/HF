@@ -27,11 +27,11 @@ const path  = 'assetsExercises';
 
 class AssetsList extends Component {
   state = {
-    selected: [],
+    selected       : [],
     showDeleteModal: false,
     showUploadModal: false,
-    showEditModal: false,
-    deleteOpen: false
+    showEditModal  : false,
+    deleteOpen     : false
   };
 
   _deleteItems = (items = []) => {
@@ -53,7 +53,7 @@ class AssetsList extends Component {
       return {
         onClick: (e) => {
           e.stopPropagation();
-          dispatchAssetsPayloadWired({ [`tmp_files[${0}]`]: { ...row, progress: 100 } });
+          dispatchAssetsPayloadWired({ [`files[${0}]`]: { ...row, progress: 100 } });
           this._toggleEditModal()
         }
       }
@@ -127,7 +127,16 @@ class AssetsList extends Component {
           open={showUploadModal}
           showControls={false}
           toggleModal={this._toggleUpdateModal}
-          CustomContent={() => <Upload type="exercises" folder="generateExercises" toggleModal={this._toggleUpdateModal} />}
+          CustomContent={() => (
+            <Upload
+              path={path}
+              domen={domen}
+              query={this.props.location.query}
+              type="exercises"
+              folder="generateExercises"
+              toggleModal={this._toggleUpdateModal}
+            />
+          )}
         />
 
         <Modal
@@ -135,7 +144,15 @@ class AssetsList extends Component {
           open={showEditModal}
           showControls={false}
           toggleModal={this._toggleEditModal}
-          CustomContent={() => <Edit type="exercises" toggleModal={this._toggleEditModal} />}
+          CustomContent={() => (
+            <Edit
+              path={path}
+              domen={domen}
+              query={this.props.location.query}
+              type="exercises"
+              toggleModal={this._toggleEditModal}
+            />
+          )}
         />
 
       </div>

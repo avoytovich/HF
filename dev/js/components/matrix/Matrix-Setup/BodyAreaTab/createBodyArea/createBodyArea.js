@@ -2,11 +2,13 @@ import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
 import { browserHistory }           from 'react-router'
-import { diagnosisQuestionCreate,
+import {
+  diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
   updateQuestionCreate,
-  getBodyAreaById}                 from '../../../../../actions';
+  getBodyAreaById
+}                                   from '../../../../../actions';
 import { onChange }                 from '../../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
 import Grid                         from 'material-ui/Grid';
@@ -32,22 +34,25 @@ class CreateBodyAreaComponent extends Component {
     }
   }
 
-  componentWillUnmount() { clearCreateQuestion(); }
+  componentWillUnmount() {
+    clearCreateQuestion();
+  }
 
   done = (value) => {
     const { key, title, description } = value;
     const result = {
-      key           : key,
-      title         : title,
-      description   : description,
+      key,
+      title,
+      description,
     };
 
-    !this.props.routeParams.id ?
+    if (!this.props.routeParams.id) {
       diagnosisQuestionCreate('diagnostics', 'bodyArea', result)
-        .then(() => browserHistory.push(`/matrix-setup/body-area`)) :
-
+        .then(() => browserHistory.push(`/matrix-setup/body-area`))
+    } else {
       updateQuestionCreate('diagnostics', 'bodyArea', result, this.props.routeParams.id)
         .then(() => browserHistory.push(`/matrix-setup/body-area`))
+    }
 
   };
 

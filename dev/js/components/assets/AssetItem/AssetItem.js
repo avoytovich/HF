@@ -21,7 +21,7 @@ class AssetItem extends Component {
             <Grid item xs={3}>
               <Input
                 style={{ width: '100%' }}
-                id={`tmp_files[${index}].name`}
+                id={`files.${index}.name`}
                 reducer={assetsReducer}
                 label='File Name'
               />
@@ -29,7 +29,7 @@ class AssetItem extends Component {
             <Grid item xs={3}>
               <Input
                 style={{ width: '100%' }}
-                id={`tmp_files[${index}].title`}
+                id={`files.${index}.title`}
                 reducer={assetsReducer}
                 label='Title'
               />
@@ -37,7 +37,7 @@ class AssetItem extends Component {
             <Grid item xs={6}>
               <Input
                 style={{ width: '100%' }}
-                id={`tmp_files[${index}].description`}
+                id={`files.${index}.description`}
                 reducer={assetsReducer}
                 label='Description'
               />
@@ -54,7 +54,7 @@ class AssetItem extends Component {
   render() {
     const {
       assetsReducer: {
-        tmp_files,
+        files,
       },
       progress,
       index,
@@ -65,7 +65,7 @@ class AssetItem extends Component {
         <div className="progress-name-controls-container">
           <div className="progress-name-controls-sub-container">
             <InsertDriveFile />
-            <div className="progress-name">{get(tmp_files[index], 'name', '-')}</div>
+            <div className="progress-name">{get(files[index], 'name', '-')}</div>
           </div>
           <Delete
             onClick={() => dispatchDeleteAssetPayloadWired(index)}
@@ -103,7 +103,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default connect(mapStateToProps, mapDispatchToProps)(AssetItem);
 
 `{
-    "tmp_files":[
+    "files":[
     {
       "link":"temp/1457018396_servers.png",
       "type":"image", 

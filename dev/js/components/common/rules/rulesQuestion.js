@@ -33,6 +33,7 @@ class RulesQuestionComponent extends Component {
 
   onSelected = (item) => {
     const body = findType(item.value) === 'block' ?  { 'match':  {...DEF_ITEM, op: '='}  } : DEF_ITEM;
+
     addRules({
       type: item.value,
       path: 'rules',

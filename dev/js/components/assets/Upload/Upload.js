@@ -2,52 +2,42 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
+import omit from 'lodash/omit';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import Close from 'material-ui-icons/Close';
 
 import {
-  getS3Link,
-  uploadAssets,
   dispatchAssetsPayload,
+  createAssetsPreValidate,
+  getMatrixInfo,
+  T,
 } from '../../../actions'
-import { getBase64Promise } from '../../../utils'
 import AssetItem from '../AssetItem/AssetItem'
 import Dropzone from '../Dropzone/Dropzone'
-import HeaderAssets from '../HeaderAssets/HeaderAssets'
 
 class Upload extends Component {
+  componentWillUnmount() {
+    this.props.dispatch({ type: `${T.ASSETS}_CLEAR` })
+  }
+
   _onDrop = (acceptedF, rejectedF) => {
     const { dispatchAssetsPayload } = this.props;
-    const tmp_files = acceptedF.map(({ type, name }) => ({
-      type: type.split('/').shift() === 'image' ? 'image' : 'video',
-      title: '',
+    const files = acceptedF.map(file => ({
+      file,
+      type       : file.type.split('/').shift() === 'image' ? 'image' : 'video',
+      title      : '',
       description: '',
-      name_real: name.split('.').shift(),
-      name: name.split('.').shift(),
+      name       : file.name.split('.').shift(),
+      progress   : 100,
     }));
-    dispatchAssetsPayload({ tmp_files });
-    if (acceptedF.length) {
-      acceptedF.map((file, i) => {
-        getS3Link(file.name.split('.').pop(), this.props.folder)
-          .then((res) => getBase64Promise(file)
-            .then(reader => {
-              uploadAssets(
-                res.data.url,
-                // reader.binary,
-                // reader.result.split(',').pop(),
-                reader.result,
-                progress => dispatchAssetsPayload({ [`tmp_files[${i}].progress`]: progress }),
-                file.type
-              );
-              let linkLong = res.data.url.split('?').shift();
-              let link     = linkLong.substr(linkLong.indexOf('temp'));
-              dispatchAssetsPayload({ [`tmp_files[${i}].link`]: link});
-            }));
-      })
-    }
+    dispatchAssetsPayload({ files });
   };
 
-  _renderFiles = (files = []) => {
+  _renderFiles = (files = [], progress) => {
     if (files.length) {
-      return files.map(({ progress }, i) => {
+      return files.map((f, i) => {
         return (
           <AssetItem
             key={i}
@@ -57,25 +47,64 @@ class Upload extends Component {
         )
       });
     } else {
-      return (
-        <Dropzone
-          onDrop={this._onDrop}
-        />
-      )
+      return <Dropzone onDrop={this._onDrop} />;
+    }
+  };
+
+  _createAssets = (files = [], type) => {
+    if (files.length) {
+      files = files.map(file =>  omit(file, ['progress']));
+      createAssetsPreValidate({ files }, type)
+        .then(res => {
+          if (res) {
+            const {
+              domen,
+              path,
+            } = this.props;
+            getMatrixInfo(domen, path, this.props.query, path);
+            this.props.toggleModal()
+          }
+        })
     }
   };
 
   render() {
     const {
       assetsReducer: {
-        tmp_files,
+        files,
+        progress,
       },
       toggleModal,
+      type,
     } = this.props;
+    const headerTitle = get(files[0],'name', 'Upload Files');
     return (
       <div className="upload-container">
-        <HeaderAssets type={this.props.type} toggleModal={toggleModal} />
-        { this._renderFiles(tmp_files) }
+        <AppBar position="static" className="header-custom-black">
+          <Toolbar className="AppBar">
+            <div className="upload-header-title-container">
+              <Close
+                className="upload-header-title-icon"
+                onClick={() => toggleModal()}
+              />
+              <p className="upload-header-title">
+                {headerTitle}
+              </p>
+            </div>
+
+            <div>
+              <p
+                className="upload-header-save-button"
+                onClick={() => this._createAssets(files, type)}
+              >
+                SAVE
+              </p>
+            </div>
+
+          </Toolbar>
+
+        </AppBar>
+        { this._renderFiles(files, progress) }
       </div>
     )
   }
@@ -97,25 +126,3 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Upload);
-
-`{
-    "tmp_files":[
-    {
-      "link":"temp/1457018396_servers.png",
-      "type":"image", 
-      "title":"title",
-      "description":"description",
-      "name_origin":"name_origin",
-      "name_real":"name_real" // unique
-    }
-  ]
-}`;
-
-`created_at:1513180318
- extension_origin:"jpg"
- id:15
- name_origin:"jpgasdasd"
- name_real:"jpgasdasd"
- path:"https://s3.eu-central-1.amazonaws.com/heal.dev.public/exercises/temp/d0f95998-5dfa-a4dc-2815-133330911c45.jpg"
- type:"image"
- updated_at:1513180318`

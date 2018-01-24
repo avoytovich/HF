@@ -1,23 +1,28 @@
 import get from 'lodash/get';
 import set from 'lodash/set';
 import each from 'lodash/each';
-import keys from 'lodash/keys';
 import { browserHistory } from 'react-router';
 
 import {
   Api,
   validAssets,
+  toFormData,
 } from '../../utils';
 import { dispatchAssetsPayloadWired } from '../../actions';
 import {
   domen,
   api,
-  PAGE,
 } from '../../config';
 
-export const editAssets = (data, key) => Api.put(`${domen[key]}${api.assets}/${data.id}`, data);
+export const editAssets = (data, domenKey) =>
+  Api.post(
+    `${domen[domenKey]}${api.assets}/${data.id}`,
+    toFormData(data),
+    { onUploadProgress: (progress => dispatchAssetsPayloadWired({ progress }))  },
+    { 'Content-Type': 'multipart/form-data' }
+  );
 
-export const editAssetsWired = (data,key) => editAssets(data,key)
+export const editAssetsWired = (data,domenKey) => editAssets(data,domenKey)
   .catch(err => {
     let errors = {};
     let errorsReceived = get(err, 'response.data', {});
@@ -25,11 +30,11 @@ export const editAssetsWired = (data,key) => editAssets(data,key)
     dispatchAssetsPayloadWired({ errors });
   });
 
-export const editAssetsPreValidate = (data, key) => {
-  const { errors, isValid } = validAssets(data);
+export const editAssetsPreValidate = (data, domenKey) => {
+  const { errors, isValid } = validAssets({ files: [data] });
   if (isValid) {
-    return editAssetsWired(data, key);
+    return editAssetsWired(data, domenKey);
   }
   dispatchAssetsPayloadWired({ errors });
-  return false;
+  return Promise.resolve(false);
 };
