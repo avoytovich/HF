@@ -16,6 +16,8 @@ import {
 import Button                       from 'material-ui/Button';
 import { get }                      from 'lodash'
 import { submitTabs }               from '../../../../../utils/matrix';
+import Switch                       from '../../../../common/Switch/Switch'
+
 
 
 class CreateQuestionComponent extends Component {
@@ -168,7 +170,7 @@ class CreateQuestionComponent extends Component {
   render() {
     const {
       createDiagnosisQuestion,
-      createDiagnosisQuestion: { content_type, questionKey },
+      createDiagnosisQuestion: { content_type, questionKey, testing },
       routeParams: { id }
     } = this.props;
     return (
@@ -180,6 +182,12 @@ class CreateQuestionComponent extends Component {
           </span>
 
           <div className="nav-buttons">
+
+            <Switch label="On testing"
+                    checked={testing}
+                    onChange={(e, value) => updateCrateQuestionFields(value , 'testing')}/>
+
+
             <Button onClick={this.cancel}>
               Cancel
             </Button>

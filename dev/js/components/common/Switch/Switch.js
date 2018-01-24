@@ -21,7 +21,6 @@ class Switch extends React.Component {
             />
           }
         />
-        <FormControlLabel control={<Switch />} disabled label="C" />
       </FormGroup>
     );
   }
