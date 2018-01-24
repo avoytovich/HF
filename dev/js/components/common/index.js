@@ -15,3 +15,4 @@ export UniqueKey               from './UniqueKey/UniqueKey';
 export BlockDivider            from './BlockDivider/BlockDivider';
 export ContentPreLoader        from './PreLoaders/ContentPreLoader'
 export AssetsModal             from './AssetsModal/AssetsModal';
+export CreateItemNavButtons    from './CreateItemNavButtons/CreateItemNavButtons';

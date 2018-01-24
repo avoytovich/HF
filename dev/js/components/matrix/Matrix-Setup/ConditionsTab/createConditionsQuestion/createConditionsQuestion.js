@@ -17,6 +17,8 @@ import {
   UniqueKey
 }                                   from '../../../../common';
 import MatrixPreLoader              from '../../matrixPreloader';
+import { CreateItemNavButtons }     from '../../../../common';
+
 //UI
 import Grid                         from 'material-ui/Grid';
 import Button                       from 'material-ui/Button';
@@ -47,13 +49,14 @@ class CreateConditionComponent extends Component {
   }
 
   done = (value) => {
-    const { areaIds, questionKey, questionTitle, rules, errors } = value;
+    const { areaIds, questionKey, questionTitle, rules, testing, errors } = value;
     const validValue = { questionKey, questionTitle };
     const result = {
       areaIds,
       rule  : rules && rules.length ? {and: rules} : [],
       key   : questionKey,
-      title : questionTitle
+      title : questionTitle,
+      testing
     };
 
     submitTabs(
@@ -76,7 +79,8 @@ class CreateConditionComponent extends Component {
         questionTitle,
         questionKey,
         sequence,
-        areaIds
+        areaIds,
+        testing
       },
       routeParams: { id },
       commonReducer: {
@@ -86,23 +90,19 @@ class CreateConditionComponent extends Component {
 
     return (
       <div id="create-question">
-        <div className="page-sub-header">
-          <span>Create Condition</span>
-          <div className="nav-buttons">
 
-            <Button onClick={this.cancel}>
-              Cancel
-            </Button>
+        <CreateItemNavButtons
+          title={'Create Condition'}
+          showSwitch={true}
+          switchChecked={testing}
+          switchLabel={'On testing'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'testing')}
+          onCancelClick={this.cancel}
+          cancelLabel={'Cancel'}
+          onSaveClick={() => this.done(createDiagnosisQuestion)}
+          saveLabel={'Save'}
+        />
 
-            <Button raised
-                    dense
-                    onClick={() => this.done(createDiagnosisQuestion)}
-                    color="primary">
-              Save
-            </Button>
-
-          </div>
-        </div>
 
         {  id && this.state.loading ?
           <MatrixPreLoader
