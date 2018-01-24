@@ -6,7 +6,8 @@ import {
   getMatrixInfo,
   getListByPost,
   createDialog,
-  getMessagesWired
+  getMessagesWired,
+  dispatchCreateMessagePayloadWired
 }                             from '../../../actions';
 import get                    from 'lodash/get';
 import isEmpty                from 'lodash/isEmpty';
@@ -97,24 +98,31 @@ class UserListComponent extends Component {
   handleClick = (event, checked, selected) => {
     let result =[checked];
     this.props.onRowClick(result);
-    console.log(checked);
     const dialog_id = get(checked, 'dialog_id');
-    const data = {"from": 0,
-      "limit": 40,
-      "also_deleted": true}
-    if(dialog_id){
-      // get message history
-      console.log('get messages');
-      getMessagesWired(dialog_id, data)
-    }
-    else{
-      console.log('create dialog')
-      // create Dialog(to write first message)
-      createDialog({
-        "user_id": checked.user_id,
-        "consultant_user_id":  1
-      }).then((res)=>getMessagesWired(get(res,'data.data.id' , data)));
+    let per_page  = get(this.props,'store.pagination.per_page');
+    const { domen, path } = this.props;
+    const newQuery = {
+      per_page: per_page,
+      current_page: 0,
+      limit: per_page,
+      page: 1,
 
+    };
+    const data = {from: 0, limit: 40, also_deleted: true};
+    // get message history
+    if(dialog_id){
+      getMessagesWired(dialog_id, data);
+      dispatchCreateMessagePayloadWired ({actionType: "CHAT", errors: {}, message: "", dialog_id});
+    }
+    // create Dialog(to write first message)
+    else{
+      createDialog({
+        user_id: checked.user_id, consultant_user_id: get(this.props.userReducer, 'user_id')
+      }).then((res)=> {
+        getMessagesWired(get(res,'data.data.id' , data));
+        dispatchCreateMessagePayloadWired ({actionType: "CHAT", errors: {}, message: "", dialog_id:res.data.data.id});
+        getListByPost(domen, path, newQuery );
+      });
     }
   };
 

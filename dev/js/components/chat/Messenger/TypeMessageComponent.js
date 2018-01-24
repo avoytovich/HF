@@ -12,16 +12,13 @@ import {
 class TypeMessageComponent extends Component {
 
   _sendMessage = () => {
-    const dialog_id = get(this.props,'selected[0].dialog_id');
-    let data = {
-      dialog_id,
-      message: this.props.chatReducer.message
-    };
+    const dialog_id = this.props.chatReducer.dialog_id;
+    const message = this.props.chatReducer.message
+    let data = {dialog_id, message};
     createMessage(data).then(() => {
-      dispatchCreateMessagePayloadWired ({actionType: "CHAT", errors: {}, message: ""});
+      dispatchCreateMessagePayloadWired ({actionType: "CHAT", errors: {}, message: "", dialog_id});
       getMessagesWired(dialog_id);
-    }
-      )
+    })
   };
 
   render() {
