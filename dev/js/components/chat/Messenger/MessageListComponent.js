@@ -6,6 +6,10 @@ import values               from 'lodash/values';
 import { browserHistory }   from 'react-router';
 import { withStyles }       from 'material-ui/styles';
 import moment               from 'moment';
+import InfiniteScroll       from 'react-infinite-scroller';
+import {
+  getMessagesWired
+}                           from '../../../actions';
 
 class MessageListComponent extends Component {
 
@@ -20,6 +24,20 @@ class MessageListComponent extends Component {
         <div className='user-message'>{el.message}</div>
       </div>)
   };
+  // loadMoreFunction = () => {
+  //   console.log(this.props);
+  //   if(this.props.messageListReducer.data && this.props.messageListReducer.data.length>0){
+  //     console.log('loadMoreFunction', get(this.props.messageListReducer.data, '[0].id'));
+  //     let from = this.props.messageListReducer.data[this.props.messageListReducer.data.length-1].id;
+  //     console.log('from',from)
+  //     const data = {from,
+  //       limit: 10,
+  //       "also_deleted": false}
+  //     console.log(data);
+  //     getMessagesWired(1, data)
+  //   }
+  //
+  // };
 
   render() {
     const {
@@ -28,10 +46,10 @@ class MessageListComponent extends Component {
     const messageList = values(messageListReducer.data);
 
     return (
-      <div className="message-list">
-        {messageList.length > 0 ? messageList.map(el=>this._renderMessage(el)) :
-          (<div className="no-message-container">You haven’t got any messages with this user</div>)}
-      </div>
+          <div className="message-list">
+            {messageList.length > 0 ? messageList.map(el=>this._renderMessage(el)) :
+              (<div className="no-message-container">You haven’t got any messages with this user</div>)}
+          </div>
     )
   }
 }

@@ -23,6 +23,7 @@ class Chat extends Component {
         <div className="user-list-container">
           <UserListControls
             path="chat"
+            domen="users"
             selected={selected}
             createItem={this.create}
             createButtonText="Add"
