@@ -24,7 +24,7 @@ export const validateMatrix = data => {
         minimum: 2,
         maximum: 80,
         tokenizer: function(value) {
-          return validate.isEmpty(value);
+          return validate.isEmpty(value) ? '' : value;
         },
         tooShort: tooShort('Key'),
         tooLong : tooLong('Key')
