@@ -16,7 +16,7 @@ import {
 import Button                       from 'material-ui/Button';
 import { get }                      from 'lodash'
 import { submitTabs }               from '../../../../../utils/matrix';
-import Switch                       from '../../../../common/Switch/Switch'
+import { CreateItemNavButtons }     from '../../../../common';
 
 
 
@@ -102,7 +102,7 @@ class CreateQuestionComponent extends Component {
 
   submit = (value) => {
     const {
-      sequenceType, questionKey, sequence, question, questionTitle, content_type, diagnostic_assets, errors
+      testing, sequenceType, questionKey, sequence, question, questionTitle, content_type, diagnostic_assets, errors
     } = value;
     const isContentType = content_type === 'functionalTest';
     const validValue = this.createValidateObj({ questionKey, questionTitle, question }, value);
@@ -117,6 +117,7 @@ class CreateQuestionComponent extends Component {
       title: questionTitle,
       question: { ...question },
       content_type,
+      testing,
       ...optional,
     };
 
@@ -175,7 +176,7 @@ class CreateQuestionComponent extends Component {
     } = this.props;
     return (
       <div id="create-question">
-        <div className="page-sub-header">
+        {/*<div className="page-sub-header">
 
           <span>
             Create Diagnosis Question
@@ -198,7 +199,19 @@ class CreateQuestionComponent extends Component {
               Save
             </Button>
           </div>
-        </div>
+        </div>*/}
+
+        <CreateItemNavButtons
+          title={'Create Diagnosis Question'}
+          showSwitch={true}
+          switchChecked={testing}
+          switchLabel={'On testing'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'testing')}
+          onCancelClick={this.cancel}
+          cancelLabel={'Cancel'}
+          onSaveClick={() => this.submit(createDiagnosisQuestion)}
+          saveLabel={'Save'}
+        />
 
 
         { id && this.state.loading ?
