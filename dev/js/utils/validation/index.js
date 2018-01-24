@@ -17,6 +17,7 @@ export const validate = {
   [T.AUTH]            : validSignup,
   [T.ASSETS]          : validAssets,
   [T.CREATE_USERS]    : validUsersCreation,
+  [T.CHAT]            : validUsersCreation,
   [T.CREATE_SIMPLE_USERS]    : validSimpleUsersCreation,
   [T.TESTING]         : validateTesting,
   [T.CREATE_QUESTION] : validateMatrix,

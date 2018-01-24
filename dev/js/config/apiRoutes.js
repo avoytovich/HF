@@ -82,6 +82,10 @@ export const api = {
   checkQuestion       : '/diagnostics/session',
   unblock             : '/diagnostics/session',
   existingTest        : '/diagnostics/session',
+  chat                : '/dialogs/all/users',
+  createDialog        : '/dialogs',
+  getMessages         : '/messages/dialog/',
+  createMessage       : '/messages',
 };
 
 export const PAGE = {
