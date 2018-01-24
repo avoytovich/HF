@@ -46,7 +46,7 @@ class CreateBodyAreaComponent extends Component {
       description,
     };
 
-    if (this.props.routeParams.id) {
+    if (!this.props.routeParams.id) {
       diagnosisQuestionCreate('diagnostics', 'bodyArea', result)
         .then(() => browserHistory.push(`/matrix-setup/body-area`))
     } else {
