@@ -16,7 +16,7 @@ import AssetsDiagnosticsList    from '../components/assets/AssetsDiagnosticsList
 import AssetsComponent          from './assets/Assets';
 import TestsList                from '../components/testing/TestsList/TestsList';
 import TestNew                  from '../components/testing/TestNew/TestNew';
-
+import Chat                     from './chat/Chat';
 import PersonalCabinetMain      from '../components/PersonalCabinetMain';
 
 import * as commonComponents    from './common';
@@ -45,5 +45,6 @@ export const C = {
   ...matrixComponents,
   ...commonComponents,
   ...testingComponents,
-  PersonalCabinetMain
+  PersonalCabinetMain,
+  Chat
 };

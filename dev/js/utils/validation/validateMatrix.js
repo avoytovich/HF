@@ -1,6 +1,6 @@
 import validator from './validator';
-
 import { bCN } from './index';
+import validate from 'validate.js';
 
 export const validateMatrix = data => {
   const tooShort = (title) => `^${title} is too short (minimum is %{count} characters)`;
@@ -23,6 +23,9 @@ export const validateMatrix = data => {
       length: {
         minimum: 2,
         maximum: 80,
+        tokenizer: function(value) {
+          return validate.isEmpty(value) ? '' : value;
+        },
         tooShort: tooShort('Key'),
         tooLong : tooLong('Key')
       },
@@ -30,37 +33,37 @@ export const validateMatrix = data => {
     [bCN('question', 'en')] : {
       length:{
         minimum :2,
-        tooShort:tooShort('Question on English'),
+        tooShort:tooShort('Question in English'),
       }
     },
     [bCN('question', 'swe')] : {
       length:{
         minimum :2,
-        tooShort:tooShort('Answer on Swedish'),
+        tooShort:tooShort('Answer in Swedish'),
       }
     },
     [bCN('single', 'en')]: {
       length:{
         minimum :2,
-        tooShort:tooShort('Answer on English'),
+        tooShort:tooShort('Answer in English'),
       }
     },
     [bCN('single', 'swe')]: {
       length:{
         minimum :2,
-        tooShort:tooShort('Answer on Swedish'),
+        tooShort:tooShort('Answer in Swedish'),
       }
     },
     [bCN('multiple', 'en')]: {
       length:{
         minimum :2,
-        tooShort:tooShort('Answer on English'),
+        tooShort:tooShort('Answer in English'),
       }
     },
     [bCN('multiple', 'swe')]: {
       length:{
         minimum :2,
-        tooShort:tooShort('Answer on Swedish'),
+        tooShort:tooShort('Answer in Swedish'),
       }
     },
     [bCN('range', 'from')]: {
