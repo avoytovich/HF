@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
-import { Map, TileLayer, Circle, FeatureGroup } from 'react-leaflet';
+import get from 'lodash/get';
+import {
+  Map,
+  TileLayer,
+  FeatureGroup,
+  ZoomControl,
+  ImageOverlay,
+} from 'react-leaflet';
 import L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
-// work around broken icons when using webpack, see https://github.com/PaulLeCam/react-leaflet/issues/255
+import { assets } from '../../../../../config'
 
+// work around broken icons when using webpack, see https://github.com/PaulLeCam/react-leaflet/issues/255
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
@@ -12,11 +20,13 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
 });
 
-//
-
-let polyline;
+export const GET_IMAGE = 'imageOverlay.leafletElement._image';
 
 export default class BodyModel extends Component {
+  state = {
+    bounds: [1000, 1000],
+  };
+
 
   // see http://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html#l-draw-event for leaflet-draw events doc
 
@@ -42,7 +52,9 @@ export default class BodyModel extends Component {
       console.log("_onCreated: something else created:", type, e);
     }
     // Do whatever else you need to. (save to db; etc)
-
+    console.log('================');
+    console.log('_editableFG:', this._editableFG.leafletElement.toGeoJSON());
+    console.log('================');
     this._onChange();
   }
 
@@ -59,6 +71,7 @@ export default class BodyModel extends Component {
 
   _onMounted = (drawControl) => {
     console.log('_onMounted', drawControl);
+    this.updateBounds()
   }
 
   _onEditStart = (e) => {
@@ -80,10 +93,7 @@ export default class BodyModel extends Component {
   _editableFG = null
 
   _onFeatureGroupReady = (reactFGref) => {
-
     // populate the leaflet FeatureGroup with the geoJson layers
-
-
     // store the ref for future access to content
 
     this._editableFG = reactFGref;
@@ -103,16 +113,37 @@ export default class BodyModel extends Component {
     onChange(geojsonData);
   }
 
+  updateBounds = () => {
+    var poll = setInterval(() => {
+      let DOMImage = get(this, GET_IMAGE);
+      if (get(DOMImage, 'naturalHeight')) {
+        this.setState({ bounds: [DOMImage.naturalHeight, DOMImage.naturalWidth] });
+        clearInterval(poll);
+      }
+    }, 100);
+  }
+
   render() {
+    const { url } = this.props;
     return (
-      <Map style={{ height: '500px' }} center={[37.8189, -122.4786]} zoom={13} zoomControl={false}>
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://www.w3schools.com/bootstrap/paris.jpg"
+      <Map
+        style={{ height: 'calc(100vh - 180px)', background: '#c2dfdc' }}
+        maxNativeZoom={18}
+        zoomControl={false}
+        minZoom={-2.8}
+        zoom={1000}
+        bounds={[[0, 0], this.state.bounds]}
+        crs={L.CRS.Simple}
+        ref={map => this.map = map}
+      >
+        <ImageOverlay
+          url={url}
+          bounds={[[0, 0], this.state.bounds]}
+          ref={imageOverlay => this.imageOverlay = imageOverlay}
         />
         <FeatureGroup ref={ (reactFGref) => {this._onFeatureGroupReady(reactFGref);} }>
           <EditControl
-            position='topright'
+            position='topleft'
             onEdited={this._onEdited}
             onCreated={this._onCreated}
             onDeleted={this._onDeleted}
@@ -122,10 +153,16 @@ export default class BodyModel extends Component {
             onDeleteStart={this._onDeleteStart}
             onDeleteStop={this._onDeleteStop}
             draw={{
-              rectangle: false
+              polygon     : true,
+              rectangle   : false,
+              polyline    : false,
+              circle      : false,
+              circlemarker: false,
+              marker      : false,
             }}
           />
         </FeatureGroup>
+        <ZoomControl/>
       </Map>
     );
   }

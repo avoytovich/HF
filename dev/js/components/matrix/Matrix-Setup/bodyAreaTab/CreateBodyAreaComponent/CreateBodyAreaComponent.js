@@ -5,8 +5,10 @@ import { browserHistory }           from 'react-router'
 import Button                       from 'material-ui/Button';
 import Grid                         from 'material-ui/Grid';
 import { AsyncCreatable }           from 'react-select';
-import Input                        from '../../../../common/Input/Input';
+import AppBar from 'material-ui/AppBar';
+import Tabs, { Tab } from 'material-ui/Tabs';
 
+import Input                        from '../../../../common/Input/Input';
 import {
   diagnosisQuestionCreate,
   updateCrateQuestionFields,
@@ -15,13 +17,15 @@ import {
   getBodyAreaById,
   onChange,
 }                                   from '../../../../../actions';
-import { PAGE }                     from '../../../../../config';
+import { PAGE, assets }                     from '../../../../../config';
+import { C }                        from '../../../../../components';
 
 class CreateBodyAreaComponent extends Component {
   state = {
     questionType    : 'packages',
     keyIsUniqueError: '',
-    tab             : '0'
+    tab             : 0,
+    url             : `${assets}/images/bodyModel/male1.jpg`,
   };
 
   constructor(props) {
@@ -57,6 +61,12 @@ class CreateBodyAreaComponent extends Component {
 
   };
 
+  getCurrnetImage = tab => {
+    if (tab === 0) {
+      return
+    }
+  }
+
   render() {
     let {
       createDiagnosisQuestion,
@@ -66,6 +76,8 @@ class CreateBodyAreaComponent extends Component {
         description
       }
     } = this.props;
+
+    const { url } = this.state;
 
     return (
       <div id="create-question">
@@ -88,43 +100,66 @@ class CreateBodyAreaComponent extends Component {
 
           </div>
         </div>
-        <Grid container className="margin-remove">
+        <Grid container spacing={0}>
 
-          <Grid item md={6} sm={12} className="create-question-body">
+          <Grid item sm={8}>
+            <AppBar position="static" color="default">
+              <Tabs
+                value={this.state.tab}
+                onChange={() => {}}
+                indicatorColor="primary"
+                textColor="primary"
+                fullWidth
+              >
+                <Tab
+                  label='Male'
+                  onClick={() => this.setState({ tab: 0, url: `${assets}/images/bodyModel/male1.jpg` })}
+                />
+                <Tab
+                  label='Female'
+                  onClick={() => this.setState({ tab: 1, url: `${assets}/images/bodyModel/female1.jpg` })}
+                />
+              </Tabs>
+            </AppBar>
 
+            { this.state.tab === 0 ?
+              <C.BodyModel
+                url={url}
+              />
+              :
+              <C.BodyModel
+                url={url}
+              />
+            }
+
+          </Grid>
+
+          <Grid item sm={4}>
             <div className="main-question">
+              <Input
+                id='title'
+                value={title}
+                reducer={ createDiagnosisQuestion }
+                label={'Title' }
+                placeholder={'Title' }
+              />
 
-              {/*Title and Pain Area*/}
-              <Grid container className="row-item">
-                <Grid item md={12} sm={12}>
-                  <Input
-                    id='title'
-                    value={title}
-                    reducer={ createDiagnosisQuestion }
-                    label={'Title' }
-                    placeholder={'Title' }
-                  />
+              <Input
+                id='key'
+                value={key}
+                reducer={createDiagnosisQuestion}
+                label={ 'Key' }
+                placeholder={ 'Key'}
+                error={!!this.state.keyIsUniqueError}
+              />
 
-                  <Input
-                    id='key'
-                    value={key}
-                    reducer={createDiagnosisQuestion}
-                    label={ 'Key' }
-                    placeholder={ 'Key'}
-                    error={!!this.state.keyIsUniqueError}
-                  />
-
-                  <Input
-                    id='description'
-                    value={description}
-                    reducer={createDiagnosisQuestion}
-                    label={ 'Description' }
-                    placeholder={ 'Description'}
-                  />
-                </Grid>
-              </Grid>
-
-
+              <Input
+                id='description'
+                value={description}
+                reducer={createDiagnosisQuestion}
+                label={ 'Description' }
+                placeholder={ 'Description'}
+              />
             </div>
           </Grid>
 

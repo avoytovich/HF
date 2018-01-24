@@ -87,7 +87,7 @@ const router = (
 
               <IndexRedirect to="body-area"/>
 
-              <Route path='body-area' component={C.BodyModel}/>
+              <Route path='body-area' component={C.BodyAreaComponent}/>
               <Route path='diagnosis' component={C.DiagnosisComponent}/>
               <Route path='conditions' component={C.ConditionsComponent}/>
               <Route path='treatments' component={C.TreatmentsComponent}/>
