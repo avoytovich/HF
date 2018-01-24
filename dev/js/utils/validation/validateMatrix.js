@@ -2,6 +2,8 @@ import validator from './validator';
 import { bCN } from './index';
 import validate from 'validate.js';
 
+const minimizeString = (value) => validate.isEmpty(value) ? '' : value.trim();
+
 export const validateMatrix = data => {
   const tooShort = (title) => `^${title} is too short (minimum is %{count} characters)`;
   const tooLong  = (title) => `^${title} is too long (maximum is %{count} characters)`;
@@ -15,6 +17,7 @@ export const validateMatrix = data => {
       length: {
         minimum: 2,
         maximum: 120,
+        tokenizer: minimizeString,
         tooShort: tooShort('Title'),
         tooLong: tooLong('Title')
       }
@@ -23,9 +26,7 @@ export const validateMatrix = data => {
       length: {
         minimum: 2,
         maximum: 80,
-        tokenizer: function(value) {
-          return validate.isEmpty(value) ? '' : value;
-        },
+        tokenizer: minimizeString,
         tooShort: tooShort('Key'),
         tooLong : tooLong('Key')
       },
@@ -33,36 +34,42 @@ export const validateMatrix = data => {
     [bCN('question', 'en')] : {
       length:{
         minimum :2,
+        tokenizer: minimizeString,
         tooShort:tooShort('Question in English'),
       }
     },
     [bCN('question', 'swe')] : {
       length:{
         minimum :2,
+        tokenizer: minimizeString,
         tooShort:tooShort('Answer in Swedish'),
       }
     },
     [bCN('single', 'en')]: {
       length:{
         minimum :2,
+        tokenizer: minimizeString,
         tooShort:tooShort('Answer in English'),
       }
     },
     [bCN('single', 'swe')]: {
       length:{
         minimum :2,
+        tokenizer: minimizeString,
         tooShort:tooShort('Answer in Swedish'),
       }
     },
     [bCN('multiple', 'en')]: {
       length:{
         minimum :2,
+        tokenizer: minimizeString,
         tooShort:tooShort('Answer in English'),
       }
     },
     [bCN('multiple', 'swe')]: {
       length:{
         minimum :2,
+        tokenizer: minimizeString,
         tooShort:tooShort('Answer in Swedish'),
       }
     },
