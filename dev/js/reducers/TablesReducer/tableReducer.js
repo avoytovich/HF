@@ -107,6 +107,10 @@ const initialState = {
       name: 'assetsExercises',
       changes: []
     },
+    {
+      name: 'chat',
+      changes: []
+    },
   ]
 };
 
@@ -130,17 +134,12 @@ export default(state = _initialState(), action = TABLE) => {
 
     case `${TABLE}_UPDATE`:
       const {data, meta:{pagination}, path, query} = action.payload;
-      const { total, per_page, current_page } = pagination;
-      // Todo: Remove this after backend will be fix
-      const _total = !total && data.length ?  data.length +  per_page * (current_page - 1) : total;
-      const _pagination = { ...pagination, total: _total };
-
       const sortOptional = {
         sortedBy: query.sortedBy,
         orderBy : query.orderBy,
         search  : query.search
       };
-      return set(state, path, {data, pagination: _pagination, sortOptional});
+      return set(state, path, {data, pagination, sortOptional});
 
     case `${TABLE}_UPDATE_FIELDS`:
       const { orderBy, sortedBy, search, path: pathLink } = action.payload;

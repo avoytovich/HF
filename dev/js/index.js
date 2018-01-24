@@ -123,6 +123,7 @@ const router = (
             <Route path='exercise-create/:id' component={(props) => <C.CreateExerciseComponent {...props}/>}/>
             <Route path='exercise-create-new' component={(props) => <C.CreateExerciseComponent {...props}/>}/>
 
+            <Route path={PAGE.chat}      component={C.Chat} />
           </Route>
         </Router>
         <NotificationsSystem theme={theme}/>
