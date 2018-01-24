@@ -1,6 +1,6 @@
 import validator from './validator';
-
 import { bCN } from './index';
+import validate from 'validate.js';
 
 export const validateMatrix = data => {
   const tooShort = (title) => `^${title} is too short (minimum is %{count} characters)`;
@@ -23,6 +23,9 @@ export const validateMatrix = data => {
       length: {
         minimum: 2,
         maximum: 80,
+        tokenizer: function(value) {
+          return validate.isEmpty(value);
+        },
         tooShort: tooShort('Key'),
         tooLong : tooLong('Key')
       },
