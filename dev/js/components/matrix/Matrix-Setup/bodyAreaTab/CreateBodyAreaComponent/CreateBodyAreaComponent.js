@@ -135,7 +135,7 @@ class CreateBodyAreaComponent extends Component {
           </Grid>
 
           <Grid item sm={4}>
-            <div className="main-question">
+            <div style={{ padding: '30px' }}>
               <Input
                 id='title'
                 value={title}
