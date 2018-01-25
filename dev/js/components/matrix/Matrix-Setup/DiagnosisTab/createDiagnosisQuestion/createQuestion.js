@@ -200,7 +200,6 @@ class CreateQuestionComponent extends Component {
           : content_type === 'vas' ?
               <DiagnosisTypeVAS      sequenceList={this.state.sequenceList}/> :
               <DiagnosisTypeQuestion sequenceList={this.state.sequenceList}
-                                     showLevelUp={true}
                                      currentId={id}/>
 
         }
