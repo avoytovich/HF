@@ -24,8 +24,8 @@ class UniqueKey extends Component {
 
     this.props.onChange(event, value);
 
-    if (event.target.value.length > 2) {
-      findUniqueKey(domain, path, event.target.value).then(({data}) => {
+    if (event.target.value.trim().length > 2) {
+      findUniqueKey(domain, path, event.target.value.trim()).then(({data}) => {
         const {data: {id, type}} = data;
         if (`${currentId}` === `${id}`) {
           const removed = errorsStore.hasOwnProperty(ID) ? dotProp.delete(errorsStore, [ID]) : errorsStore;

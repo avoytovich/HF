@@ -124,7 +124,6 @@ export const checkQuestionType = (page) => {
 export const submitTabs = (validValue, oldErrors, domain, path, result, url, id) => {
   const { errors, isValid } = validateMatrix(validValue);
 
-
   if (!isValid) {
     updateCrateQuestionFields({...oldErrors, ...errors}, 'errors');
   }

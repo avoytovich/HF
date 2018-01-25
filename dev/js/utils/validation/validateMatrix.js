@@ -1,6 +1,8 @@
 import validator from './validator';
-
 import { bCN } from './index';
+import validate from 'validate.js';
+
+const minimizeString = (value) => validate.isEmpty(value) ? '' : value.trim();
 
 export const validateMatrix = data => {
   const tooShort = (title) => `^${title} is too short (minimum is %{count} characters)`;
@@ -15,6 +17,7 @@ export const validateMatrix = data => {
       length: {
         minimum: 2,
         maximum: 120,
+        tokenizer: minimizeString,
         tooShort: tooShort('Title'),
         tooLong: tooLong('Title')
       }
@@ -23,6 +26,7 @@ export const validateMatrix = data => {
       length: {
         minimum: 2,
         maximum: 80,
+        tokenizer: minimizeString,
         tooShort: tooShort('Key'),
         tooLong : tooLong('Key')
       },
@@ -30,37 +34,43 @@ export const validateMatrix = data => {
     [bCN('question', 'en')] : {
       length:{
         minimum :2,
-        tooShort:tooShort('Question on English'),
+        tokenizer: minimizeString,
+        tooShort:tooShort('Question in English'),
       }
     },
     [bCN('question', 'swe')] : {
       length:{
         minimum :2,
-        tooShort:tooShort('Answer on Swedish'),
+        tokenizer: minimizeString,
+        tooShort:tooShort('Answer in Swedish'),
       }
     },
     [bCN('single', 'en')]: {
       length:{
         minimum :2,
-        tooShort:tooShort('Answer on English'),
+        tokenizer: minimizeString,
+        tooShort:tooShort('Answer in English'),
       }
     },
     [bCN('single', 'swe')]: {
       length:{
         minimum :2,
-        tooShort:tooShort('Answer on Swedish'),
+        tokenizer: minimizeString,
+        tooShort:tooShort('Answer in Swedish'),
       }
     },
     [bCN('multiple', 'en')]: {
       length:{
         minimum :2,
-        tooShort:tooShort('Answer on English'),
+        tokenizer: minimizeString,
+        tooShort:tooShort('Answer in English'),
       }
     },
     [bCN('multiple', 'swe')]: {
       length:{
         minimum :2,
-        tooShort:tooShort('Answer on Swedish'),
+        tokenizer: minimizeString,
+        tooShort:tooShort('Answer in Swedish'),
       }
     },
     [bCN('range', 'from')]: {
@@ -122,6 +132,65 @@ export const validateMatrix = data => {
         notGreaterThanOrEqualTo: notGreaterThanOrEqualTo('Value Session'),
       }
     },
+
+    //Exercise
+    [bCN('exercise', 'name')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Notes'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'comments')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Comments'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'instruction', 'en')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Instruction'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'instruction', 'swe')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Instruction'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'title', 'en')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Title'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'title', 'swe')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Title'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'information', 'en')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Information'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'information', 'swe')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Information'),
+        tokenizer: minimizeString,
+      }
+    },
+
   };
 
   const { isValid, errors } = validator(data, constraints);

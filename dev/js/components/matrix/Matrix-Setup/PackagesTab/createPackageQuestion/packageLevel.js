@@ -77,7 +77,7 @@ class PackageLevelComponent extends Component {
             min="1"
             className="MUIControl"
             reducer={ createDiagnosisQuestion }
-            placeholder={ L_CREATE_QUESTION.enterTitle }
+            placeholder={'Enter VAS, %'}
           />
         </Grid>
 
@@ -92,7 +92,7 @@ class PackageLevelComponent extends Component {
             min="1"
             className="MUIControl"
             reducer={ createDiagnosisQuestion }
-            placeholder={ L_CREATE_QUESTION.enterTitle }
+            placeholder={'Enter VAS, min'}
           />
         </Grid>
 
@@ -106,6 +106,7 @@ class PackageLevelComponent extends Component {
             min="1"
             className="MUIControl"
             reducer={createDiagnosisQuestion}
+            placeholder={'Enter Sessions'}
           />
         </Grid>
 
