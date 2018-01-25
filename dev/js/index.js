@@ -72,8 +72,8 @@ const router = (
 
             <Route path={PAGE.assets}             component={C.AssetsComponent} >
                 <IndexRedirect to={PAGE.assetsDiagnostics}/>
-                <Route path={PAGE.assetsExercises} component={(props) => <C.AssetsExercisesList {...props}/>}/>
-                <Route path={PAGE.assetsDiagnostics } component={(props) => <C.AssetsDiagnosticsList {...props}/>}/>
+                <Route path={PAGE.assetsExercises} component={C.AssetsExercisesList}/>
+                <Route path={PAGE.assetsDiagnostics } component={C.AssetsDiagnosticsList}/>
             </Route>
 
         <Route path={PAGE.clinicProfile}      component={C.Profile} />
@@ -87,13 +87,13 @@ const router = (
 
               <IndexRedirect to="body-area"/>
 
-              <Route path='body-area' component={(props) => <C.BodyAreaComponent {...props}/>}/>
-              <Route path='diagnosis' component={(props) => <C.DiagnosisComponent  {...props}/>}/>
-              <Route path='conditions' component={(props) => <C.ConditionsComponent {...props}/>}/>
-              <Route path='treatments' component={(props) => <C.TreatmentsComponent {...props}/>}/>
-              <Route path='packages' component={(props) => <C.PackagesComponent   {...props}/>}/>
-              <Route path='levelUps' component={(props) => <C.EvaluationComponent {...props} />}/>
-              <Route path='exercises' component={(props) => <C.ExercisesComponent  {...props}/>}/>
+              <Route path='body-area' component={C.BodyAreaComponent}/>
+              <Route path='diagnosis' component={C.DiagnosisComponent}/>
+              <Route path='conditions' component={C.ConditionsComponent}/>
+              <Route path='treatments' component={C.TreatmentsComponent}/>
+              <Route path='packages' component={C.PackagesComponent}/>
+              <Route path='levelUps' component={C.EvaluationComponent}/>
+              <Route path='exercises' component={C.ExercisesComponent}/>
 
               {/*<Route path='tests'               component={ TestsComponent } />*/}
               {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
@@ -102,26 +102,26 @@ const router = (
             </Route>
 
             {/* Temporary path Todo: Change routes to react-router-dom ?*/}
-            <Route path='body-area-create/:id' component={(props) => <C.CreateBodyAreaComponent {...props}/>}/>
-            <Route path='body-area-create-new' component={(props) => <C.CreateBodyAreaComponent {...props}/>}/>
+            <Route path='body-area-create/:id' component={C.CreateBodyAreaComponent}/>
+            <Route path='body-area-create-new' component={C.CreateBodyAreaComponent}/>
 
-            <Route path='diagnosis-create/:id' component={(props) => <C.CreateQuestionComponent {...props}/>}/>
-            <Route path='diagnosis-create-new' component={(props) => <C.CreateQuestionComponent {...props}/>}/>
+            <Route path='diagnosis-create/:id' component={C.CreateQuestionComponent}/>
+            <Route path='diagnosis-create-new' component={C.CreateQuestionComponent}/>
 
-            <Route path='conditions-create/:id' component={(props) => <C.CreateConditionComponent {...props}/>}/>
-            <Route path='conditions-create-new' component={(props) => <C.CreateConditionComponent {...props}/>}/>
+            <Route path='conditions-create/:id' component={C.CreateConditionComponent}/>
+            <Route path='conditions-create-new' component={C.CreateConditionComponent}/>
 
-            <Route path='treatments-create/:id' component={(props) => <C.CreateTreatmentsComponent {...props}/>}/>
-            <Route path='treatments-create-new' component={(props) => <C.CreateTreatmentsComponent {...props}/>}/>
+            <Route path='treatments-create/:id' component={C.CreateTreatmentsComponent}/>
+            <Route path='treatments-create-new' component={C.CreateTreatmentsComponent}/>
 
-            <Route path='level-up-create/:id' component={(props) => <C.CreateEvaluationComponent {...props}/>}/>
-            <Route path='level-up-create-new' component={(props) => <C.CreateEvaluationComponent {...props}/>}/>
+            <Route path='level-up-create/:id' component={C.CreateEvaluationComponent}/>
+            <Route path='level-up-create-new' component={C.CreateEvaluationComponent}/>
 
-            <Route path='packages-create/:id' component={(props) => <C.CreatePackageComponent {...props}/>}/>
-            <Route path='packages-create-new' component={(props) => <C.CreatePackageComponent {...props}/>}/>
+            <Route path='packages-create/:id' component={C.CreatePackageComponent}/>
+            <Route path='packages-create-new' component={C.CreatePackageComponent}/>
 
-            <Route path='exercise-create/:id' component={(props) => <C.CreateExerciseComponent {...props}/>}/>
-            <Route path='exercise-create-new' component={(props) => <C.CreateExerciseComponent {...props}/>}/>
+            <Route path='exercise-create/:id' component={C.CreateExerciseComponent}/>
+            <Route path='exercise-create-new' component={C.CreateExerciseComponent}/>
 
             <Route path={PAGE.chat}      component={C.Chat} />
           </Route>
