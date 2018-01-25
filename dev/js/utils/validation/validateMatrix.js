@@ -132,6 +132,65 @@ export const validateMatrix = data => {
         notGreaterThanOrEqualTo: notGreaterThanOrEqualTo('Value Session'),
       }
     },
+
+    //Exercise
+    [bCN('exercise', 'name')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Notes'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'comments')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Comments'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'instruction', 'en')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Instruction'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'instruction', 'swe')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Instruction'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'title', 'en')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Title'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'title', 'swe')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Title'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'information', 'en')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Information'),
+        tokenizer: minimizeString,
+      }
+    },
+    [bCN('exercise', 'information', 'swe')]: {
+      length: {
+        minimum: 2,
+        message: notEmpty('Information'),
+        tokenizer: minimizeString,
+      }
+    },
+
   };
 
   const { isValid, errors } = validator(data, constraints);
