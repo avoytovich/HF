@@ -138,13 +138,16 @@ const removeAnswer = (state, action) => {
 };
 
 const setFullQuestion = (state, action) => {
-  const { body: { areas, title, question, key, step, answer, rule, content_type, test_file, packageLevels }} = action.payload;
+  const { body: {
+    areas, title, question, key, step, answer, rule, content_type, test_file, packageLevels, testing
+  }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
   const _body = {
       areaIds: configArea(areas),
       questionTitle: title,
       question,
+      testing,
       content_type,
       sequence: step,
       questionKey: key,
@@ -159,11 +162,12 @@ const setFullQuestion = (state, action) => {
 };
 
 const setFullQuestionForCondition = (state, action) => {
-  const { body, body: { areas, title, key, rule, package_level_id}} = action.payload;
+  const { body, body: { areas, title, key, rule, package_level_id, testing}} = action.payload;
   const _body = {
     areaIds: configArea(areas),
     questionTitle: title,
     questionKey: key,
+    testing,
     rules: Array.isArray(rule) ? rule: rule.and ? rule.and : [rule],
   };
 

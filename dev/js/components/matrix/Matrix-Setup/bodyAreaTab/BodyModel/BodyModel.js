@@ -27,6 +27,11 @@ export default class BodyModel extends Component {
     bounds: [1000, 1000],
   };
 
+  componentDidMount() {
+    setTimeout(() => {
+      console.log(this.layerContainer());
+    }, 100)
+  }
 
   // see http://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html#l-draw-event for leaflet-draw events doc
 
@@ -56,6 +61,11 @@ export default class BodyModel extends Component {
     console.log('_editableFG:', this._editableFG.leafletElement.toGeoJSON());
     console.log('================');
     this._onChange();
+
+    setTimeout( () => {
+      this.layerContainer().clearLayers();
+    }, 100)
+
   }
 
   _onDeleted = (e) => {
@@ -113,6 +123,8 @@ export default class BodyModel extends Component {
     onChange(geojsonData);
   }
 
+  layerContainer = () =>  get(this.editControl, 'context.layerContainer');
+
   updateBounds = () => {
     var poll = setInterval(() => {
       let DOMImage = get(this, GET_IMAGE);
@@ -143,6 +155,10 @@ export default class BodyModel extends Component {
         />
         <FeatureGroup ref={ (reactFGref) => {this._onFeatureGroupReady(reactFGref);} }>
           <EditControl
+            ref={elem => {
+              console.log('EditControl', elem  );
+              this.editControl = elem
+            }}
             position='topleft'
             onEdited={this._onEdited}
             onCreated={this._onCreated}

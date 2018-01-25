@@ -71,7 +71,7 @@ class PackageLevelComponent extends Component {
             VAS, %
           </Typography>
           <Input
-            id={`packageLevels[${index}].level_up_properties.vas_trend`}
+            id={`packageLevels.${index}.level_up_properties.vas_trend`}
             type='number'
             max="100"
             min="1"
@@ -86,7 +86,7 @@ class PackageLevelComponent extends Component {
             VAS, min
           </Typography>
           <Input
-            id={`packageLevels[${index}].level_up_properties.vas_min`}
+            id={`packageLevels.${index}.level_up_properties.vas_min`}
             type='number'
             max="100"
             min="1"
@@ -101,7 +101,7 @@ class PackageLevelComponent extends Component {
             Sessions
           </Typography>
           <Input
-            id={`packageLevels[${index}].level_up_properties.session_count`}
+            id={`packageLevels.${index}.level_up_properties.session_count`}
             type='number'
             min="1"
             className="MUIControl"
@@ -116,7 +116,7 @@ class PackageLevelComponent extends Component {
           <SELECT
             value={therapy_continuity}
             onChange={(event) =>
-              updateCrateQuestionFields(event.target.value, `packageLevels[${index}].therapy_continuity`)}
+              updateCrateQuestionFields(event.target.value, `packageLevels.${index}.therapy_continuity`)}
             className="MuiFormControlDEFAULT"
             label="Therapy continuity"
             >

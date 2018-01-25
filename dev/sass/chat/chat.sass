@@ -1,0 +1,173 @@
+@import "../variables/colors"
+@import "../variables/fonts"
+
+.user-list-container
+  width: 300px
+
+.user-list-search
+  background: #f5f5f5
+  border: solid 1px #d8d8d8
+
+.table-template-users
+  margin-top: 8px
+  border-right: solid 1px #d8d8d8
+  border-collapse: unset !important
+
+.user-cell-container
+  display: flex
+  justify-content: space-between
+  padding: 5px 0
+
+.user-id-container
+  font-size: 13px
+  font-weight: 500
+  text-align: left
+  color: #000000
+
+.message-time-container
+  font-size: 13px
+  text-align: left
+  color: rgba(0, 0, 0, 0.54)
+
+.last-message-container
+  font-size: 12px
+  color: rgba(0, 0, 0, 0.54)
+  max-width: 180px
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+.unread-message-container
+  width: 28px
+  height: 18px
+  border-radius: 100px
+  background-color: #5d74ff
+  color: #ffffff
+  font-size: 13px
+  text-align: center
+  line-height: 18px
+
+.selected-user-data-container
+  background-color: #b9e5fd
+
+.user-data-container
+  border-bottom: solid 1px #d8d8d8
+  padding: 5px 15px
+
+.user-data-container:hover
+  background: #d8d8d8
+
+#chat-component
+  display: flex
+
+.message-list-container
+  margin-right: 7px
+  width: 100%
+
+.message-header
+  display: flex
+  align-items: center
+  justify-content: space-between
+  margin-left: 7px
+  width: calc(100% - 16px)
+  padding: 0 10px
+  height: 56px
+  background: #f5f5f5
+  border: solid 1px #d8d8d8
+
+.message-header-user-info
+  display: flex
+  justify-content: center
+  align-items: center
+  font-size: 13px
+  color: rgba(0, 0, 0, 0.54)
+
+.lock-icon
+  color: #757575
+
+.message-header-user-id
+  opacity: 0.87
+  font-size: 16px
+  font-weight: 500
+  color: #000000
+
+.message-header-request
+  font-size: 14px
+  font-weight: 500
+  color: #4184f3
+  cursor: pointer
+
+.scroll-container
+  height: calc(100vh - 128px)
+  overflow-y: auto
+  width: calc(100% + 7px)
+  margin-top: 8px
+  border-right: solid 1px #d8d8d8
+
+.send-icon
+  color: #757575
+
+.send-icon:hover
+  color: #5d74ff
+
+.type-message-input
+  width: 100%
+
+
+//message List
+
+.message-list
+  height: calc(100vh - 192px)
+  margin-left: 8px
+  display: flex
+  flex-direction: column-reverse
+  overflow: auto
+  padding: 0 10px
+
+  .no-message-container
+    align-self: center
+    margin-top: 16px
+    margin-bottom: auto
+    font-size: 13px
+    color: rgba(0, 0, 0, 0.54)
+
+.user-message
+  background: #f5f5f5
+  border-radius: 10px
+  padding: 16px
+  margin-bottom: 16px
+  max-width: 540px
+  margin-right: auto
+  display: inline-block
+
+.admin-message
+  background-color: #5f70ff
+  border-radius: 10px
+  padding: 16px
+  margin-bottom: 16px
+  color: #ffffff
+  max-width: 540px
+  margin-left: auto
+  display: inline-block
+
+.message-time
+  display: inline-block
+  font-size: 12px
+  color: rgba(0, 0, 0, 0.54)
+  margin: 10px
+
+.admin-message-container
+  margin-left: auto
+
+.user-message-container
+  margin-right: auto
+
+#user-control-container
+  display: flex
+  flex-direction: row
+
+#filter-icon-button
+  min-width: unset
+  padding: 8px 0
+  transition: unset
+

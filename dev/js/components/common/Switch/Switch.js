@@ -8,12 +8,14 @@ class Switch extends React.Component {
     const {
       label,
       checked,
-      onChange
+      onChange,
+      labelClassName
     } = this.props;
     return (
       <FormGroup>
         <FormControlLabel
           label={label}
+          className={labelClassName}
           control={
             <SwitchComponent
               checked={checked}
@@ -21,7 +23,6 @@ class Switch extends React.Component {
             />
           }
         />
-        <FormControlLabel control={<Switch />} disabled label="C" />
       </FormGroup>
     );
   }
@@ -31,12 +32,14 @@ Switch.defaultProps = {
   label: 'Label',
   checked: false,
   onChange: (e, checked) => console.log(e, checked),
+  labelClassName: '',
 };
 
 Switch.propTypes = {
   label: PropTypes.string,
   checked: PropTypes.bool,
   onChange: PropTypes.func,
+  labelClassName: PropTypes.string,
 };
 
 export default Switch;
