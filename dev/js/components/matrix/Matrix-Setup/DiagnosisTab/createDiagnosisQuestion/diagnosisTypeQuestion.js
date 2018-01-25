@@ -15,18 +15,20 @@ import {
   AsyncAreaSelect,
   UniqueKey,
   BlockDivider
-}                                   from '../../../../common';
-import SequenceBlock                from './sequenceBlock';
-import DiagnosticQuestion           from './diagnosticQuestion';
-import DiagnosticAnswers            from './diagnosticAnswers';
-import PackageLevelsList            from '../../EvaluationTab/createEvaluationQuestion/PackageLevelsList'
+}                                        from '../../../../common';
+import SequenceBlock                     from './sequenceBlock';
+import DiagnosticQuestion                from './diagnosticQuestion';
+import DiagnosticAnswers                 from './diagnosticAnswers';
+import PackageLevelsList                 from '../../EvaluationTab/createEvaluationQuestion/PackageLevelsList'
 // UI
-import Grid                         from 'material-ui/Grid';
-import Typography                   from 'material-ui/Typography';
-import MUISelect                    from 'material-ui/Select';
-import Menu, { MenuItem }           from 'material-ui/Menu';
-import { Async }                    from 'react-select';
-import { CONTENT_TYPE_LIST }        from '../../../../../utils'
+import Grid                              from 'material-ui/Grid';
+import Typography                        from 'material-ui/Typography';
+import MUISelect                         from 'material-ui/Select';
+import Menu, { MenuItem }                from 'material-ui/Menu';
+import { FormControl, FormControlLabel } from 'material-ui/Form';
+import Checkbox                          from 'material-ui/Checkbox';
+import { Async }                         from 'react-select';
+import { CONTENT_TYPE_LIST }             from '../../../../../utils'
 
 class DiagnosisTypeQuestion extends Component {
   state = {
@@ -35,16 +37,15 @@ class DiagnosisTypeQuestion extends Component {
     keyIsUniqueError: '',
   };
 
-
   render() {
     const {
       sequenceList,
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type, showLevelUp,
-        diagnostic_assets
+        questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type, level_up,
+        diagnostic_assets,
       },
-      page, reqType, packages, packageLevelsList, currentId
+      page, reqType, packages, packageLevelsList, currentId, showLevelUp, hideArea
     } = this.props;
 
     return <BlockDivider title="Question">
@@ -84,7 +85,7 @@ class DiagnosisTypeQuestion extends Component {
 
         {/*Title and Pain Area*/}
         <Grid container className="row-item">
-          <Grid item md={6} sm={12} >
+          <Grid item md={6} sm={12}>
             <Input
               id='questionTitle'
               value={questionTitle}
@@ -93,9 +94,8 @@ class DiagnosisTypeQuestion extends Component {
               className="MUIControl"
             />
           </Grid>
-          <Grid item md={6} sm={12} >
-            {showLevelUp ?
-              <div>Level Up</div> :
+          <Grid item md={6} sm={12} className="level-up-block">
+            {!hideArea &&
               <AsyncAreaSelect
                 domain="diagnostics"
                 path="findArea"
@@ -111,15 +111,31 @@ class DiagnosisTypeQuestion extends Component {
           question={question}
         />
 
-        {/* Question Key */}
-        <UniqueKey
-          domain="diagnostics"
-          path="findByKey"
-          questionKey={questionKey}
-          id="questionKey"
-          currentId={currentId}
-          reducer="createDiagnosisQuestion"
-        />
+        {/* Question Key AND Level Up */}
+        <div className="row-item level-up-row">
+            <UniqueKey
+              domain="diagnostics"
+              path="findByKey"
+              questionKey={questionKey}
+              id="questionKey"
+              currentId={currentId}
+              reducer="createDiagnosisQuestion"
+              grid={6}
+              className={'row-item level-up-neighborhood'}
+            />
+          {showLevelUp && <div className="level-up-block">
+            <FormControlLabel
+              label={'Level Up'}
+              className="level-up-block-label"
+              control={
+                <Checkbox
+                  checked={level_up}
+                  onChange={e => updateCrateQuestionFields(e.target.checked, 'level_up')}
+                />
+              }
+            />
+          </div>}
+        </div>
 
         {/* Sequence */}
         <SequenceBlock

@@ -124,12 +124,13 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
       const { type, areaIds, step, state: { page }, reqType } = props;
       const body = {
         type: checkRuleType(_type || type, page),
-        areaIds: areaIds || [],
         answerType,
         answerSubtype: !answerType ? 'list' : undefined
       };
-      const noSteps = page === 'condition' || page === 'treatment';
-      const _body = noSteps ? body : {...body, step: step || null};
+      const noSteps   = page === 'condition' || page === 'treatment';
+      const noAreaIds = page === 'levelUp';
+      let _body = noSteps   ? body  : {...body, step: step || null};
+          _body = noAreaIds ? _body : {..._body, areaIds: areaIds || []};
 
       return findByArea(questionType, 'findByAre', _body, input || key).then(res => {
         const { data } = res.data;

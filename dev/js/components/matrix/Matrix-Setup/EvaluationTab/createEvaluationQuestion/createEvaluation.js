@@ -101,7 +101,8 @@ class CreateEvaluationComponent extends Component {
 
   submit = (value) => {
     const {
-      sequenceType, questionKey, sequence, question, questionTitle, content_type, errors, diagnostic_assets, testing
+      sequenceType, questionKey, sequence, question, questionTitle, content_type, errors, diagnostic_assets, testing,
+      level_up
     } = value;
     const validValue = { questionKey, questionTitle };
     const isContentType = content_type === 'functionalTest';
@@ -128,8 +129,10 @@ class CreateEvaluationComponent extends Component {
       question: { ...question },
       content_type,
       testing,
+      level_up,
       ...optional,
     };
+
     submitTabs(
       validValue,
       savedErrors,
@@ -149,7 +152,7 @@ class CreateEvaluationComponent extends Component {
       { type, subtype } = this.getAnswerType(answerType),
       moreProps = optional ? { test_file_id: get(diagnostic_assets, 'id') || null } : {};
     return {
-      areaIds : areaIds,
+//      areaIds : areaIds,
       answer: {
         type, subtype,
         values: this.getAnswer(answerType, value)
@@ -196,6 +199,7 @@ class CreateEvaluationComponent extends Component {
               page='evaluations'
               packages={true}
               showLevelUp={true}
+              hideArea={true}
               currentId={id}
               packageLevelsList={packageLevelsList}
               sequenceList={this.state.sequenceList}/>

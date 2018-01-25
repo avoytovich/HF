@@ -46,6 +46,7 @@ const packageTab = {
 };
 
 const levelUp = {
+  level_up: false,
   packageLevelsList: [
     {packageId: '', levelsList: [], levelId: ''}
   ]

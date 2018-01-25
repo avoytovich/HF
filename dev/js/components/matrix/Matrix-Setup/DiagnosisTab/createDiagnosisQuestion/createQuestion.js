@@ -102,7 +102,8 @@ class CreateQuestionComponent extends Component {
 
   submit = (value) => {
     const {
-      testing, sequenceType, questionKey, sequence, question, questionTitle, content_type, diagnostic_assets, errors
+      testing, sequenceType, questionKey, sequence, question, questionTitle, content_type, diagnostic_assets, errors,
+      level_up
     } = value;
     const isContentType = content_type === 'functionalTest';
     const validValue = this.createValidateObj({ questionKey, questionTitle, question }, value);
@@ -118,6 +119,7 @@ class CreateQuestionComponent extends Component {
       question: { ...question },
       content_type,
       testing,
+      level_up,
       ...optional,
     };
 
