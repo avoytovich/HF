@@ -41,7 +41,7 @@ class DiagnosisTypeQuestion extends Component {
       sequenceList,
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type,
+        questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type, showLevelUp,
         diagnostic_assets
       },
       page, reqType, packages, packageLevelsList, currentId
@@ -94,12 +94,14 @@ class DiagnosisTypeQuestion extends Component {
             />
           </Grid>
           <Grid item md={6} sm={12} >
-            <AsyncAreaSelect
-              domain="diagnostics"
-              path="findArea"
-              valuePath="areaIds"
-              idKey="create_diagnostic_question"
-            />
+            {showLevelUp ?
+              <div>Level Up</div> :
+              <AsyncAreaSelect
+                domain="diagnostics"
+                path="findArea"
+                valuePath="areaIds"
+                idKey="create_diagnostic_question"
+              />}
           </Grid>
         </Grid>
 
@@ -199,4 +201,4 @@ DiagnosisTypeQuestion.propTypes = {
 const mapStateToProps = state => ({createDiagnosisQuestion: state.createDiagnosisQuestion});
 const mapDispatchToProps = dispatch => bindActionCreators({dispatch}, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(DiagnosisTypeQuestion);
+export default connect(mapStateToProps, mapDispatchToProps)(DiagnosisTypeQuestion);
