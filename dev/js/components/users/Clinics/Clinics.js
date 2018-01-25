@@ -96,7 +96,8 @@ class Clinics extends Component {
           path="clinics"
           selected={selected}
           createItem={this.createEntity}
-          createButtonText="Add">
+          createButtonText="Add"
+          searchKey = "filter">
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
