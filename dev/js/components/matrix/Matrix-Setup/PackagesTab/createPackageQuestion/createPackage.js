@@ -228,7 +228,7 @@ class CreatePackageComponent extends Component {
               domain="diagnostics"
               path="findByKey"
               questionKey={questionKey}
-              label="Package Key"
+              label="Package Key*"
               id="questionKey"
               currentId={id}
               reducer="createDiagnosisQuestion"
