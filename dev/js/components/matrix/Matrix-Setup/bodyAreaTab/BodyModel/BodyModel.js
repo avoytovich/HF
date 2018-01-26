@@ -62,9 +62,9 @@ export default class BodyModel extends Component {
     console.log('================');
     this._onChange();
 
-    setTimeout( () => {
+    // setTimeout( () => {
       this.layerContainer().clearLayers();
-    }, 100)
+    // }, 100)
 
   }
 
@@ -84,20 +84,8 @@ export default class BodyModel extends Component {
     this.updateBounds()
   }
 
-  _onEditStart = (e) => {
-    console.log('_onEditStart', e);
-  }
-
   _onEditStop = (e) => {
     console.log('_onEditStop', e);
-  }
-
-  _onDeleteStart = (e) => {
-    console.log('_onDeleteStart', e);
-  }
-
-  _onDeleteStop = (e) => {
-    console.log('_onDeleteStop', e);
   }
 
   _editableFG = null
@@ -164,10 +152,7 @@ export default class BodyModel extends Component {
             onCreated={this._onCreated}
             onDeleted={this._onDeleted}
             onMounted={this._onMounted}
-            onEditStart={this._onEditStart}
             onEditStop={this._onEditStop}
-            onDeleteStart={this._onDeleteStart}
-            onDeleteStop={this._onDeleteStop}
             draw={{
               polygon     : true,
               rectangle   : false,

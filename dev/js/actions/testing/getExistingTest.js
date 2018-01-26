@@ -25,12 +25,12 @@ const getAnswers = (answers, questions) => {
       if (q.key === key) {
         set(returnObj, `${key}.type`, q.answer.type);
       }
-      if (q.key.includes('vas_pain_level_area_')) {
-        set(returnObj, 'vas_pain_level_area_', answers[q.key]);
+      if (q.key.includes('vas_pain_level')) {
+        set(returnObj, 'vas_pain_level', answers[q.key]);
         questions.splice(index, 1)
       }
-      if (q.key.includes('vas_pain_type_area_')) {
-        set(returnObj, 'vas_pain_type_area_', answers[q.key]);
+      if (q.key.includes('vas_pain_type')) {
+        set(returnObj, 'vas_pain_type', answers[q.key]);
         questions.splice(index, 1)
       }
     });
