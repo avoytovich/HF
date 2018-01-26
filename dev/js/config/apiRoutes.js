@@ -125,4 +125,6 @@ export const PAGE = {
 
   personalCabinet     :  'personal-cabinet',
   personalCabinetUsers : '/personal-cabinet/users',
+  personalCabinetProfile : '/personal-cabinet/profile',
+  personalCabinetBilling : '/personal-cabinet/billing',
 };
