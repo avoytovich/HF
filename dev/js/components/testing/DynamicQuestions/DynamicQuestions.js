@@ -188,6 +188,11 @@ class DynamicQuestions extends Component {
         condition = { title: 'Condition Fired' },
       }
     } = this.props;
+    const questionToRender = questions.filter(q =>
+      !['q_lang', 'q_metric', 'q_age', 'q_sex', 'q_weight', 'q_height', 'q_pregnant']
+        .find(key => key === q.key)
+    );
+
     return questions.length ?
       (
         <div>
@@ -209,7 +214,7 @@ class DynamicQuestions extends Component {
                   Questions
                 </h2>
 
-                { this._renderQuestions(questions) }
+                { this._renderQuestions(questionToRender) }
 
               </div>
             </Grid>
