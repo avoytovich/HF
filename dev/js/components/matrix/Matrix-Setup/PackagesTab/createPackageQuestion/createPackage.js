@@ -45,9 +45,9 @@ export const PACKAGE_TYPE = [
 export const DEFAULT_LEVEL = {
   level               : 1,
   level_up_properties : {
-    vas_trend     : 1,
-    vas_min       : 1,
-    session_count : 1
+    vas_trend_down        : 1,
+    vas_min               : 1,
+    package_level_sessions: 1
   },
   therapy_continuity: '1',
   exercise_ids      : [],

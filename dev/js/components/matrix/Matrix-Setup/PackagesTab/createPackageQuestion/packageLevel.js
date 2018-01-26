@@ -68,10 +68,10 @@ class PackageLevelComponent extends Component {
       <Grid container className="row-item">
         <Grid item xs={2}>
           <Typography type="caption">
-            VAS, %
+            Vas, trend down
           </Typography>
           <Input
-            id={`packageLevels.${index}.level_up_properties.vas_trend`}
+            id={`packageLevels.${index}.level_up_properties.vas_trend_down`}
             type='number'
             max="100"
             min="1"
@@ -101,7 +101,7 @@ class PackageLevelComponent extends Component {
             Sessions
           </Typography>
           <Input
-            id={`packageLevels.${index}.level_up_properties.session_count`}
+            id={`packageLevels.${index}.level_up_properties.package_level_sessions`}
             type='number'
             min="1"
             className="MUIControl"
