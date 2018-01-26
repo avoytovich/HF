@@ -12,6 +12,7 @@ const initialState = {
     address: "",
     region: "",
     country: "",
+    postal_code: "",
     contacts: [
       {
         name: "",
@@ -31,6 +32,7 @@ const initialState = {
     address: "",
     region: "",
     country: "",
+    postal_code: "",
     // stripe_token: "",
     // card: {
     //   number: "",

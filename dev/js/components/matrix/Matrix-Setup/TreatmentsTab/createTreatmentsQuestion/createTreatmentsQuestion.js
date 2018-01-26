@@ -182,7 +182,7 @@ class CreateTreatmentsComponent extends Component {
                 questionKey={questionKey}
                 id="questionKey"
                 currentId={id}
-                label="Treatment key"
+                label="Treatment key*"
                 reducer="createDiagnosisQuestion"
               />
 
