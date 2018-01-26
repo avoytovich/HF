@@ -65,6 +65,7 @@ class Upload extends Component {
             this.props.toggleModal()
           }
         })
+        .catch(err => this.props.toggleModal())
     }
   };
 

@@ -237,7 +237,6 @@ class TableComponent extends Component {
    */
   formatCellValue = (row, { key, type, format }) => {
     const value =  get(row, key, '-') || '-';
-
     switch (type) {
       case 'time':
        return moment.unix(value).format(format);
@@ -256,6 +255,24 @@ class TableComponent extends Component {
           );
         }
         return '-';
+
+      case 'in_testing':
+        return  value===true ? 'yes':'no';
+
+      case 'user_status':
+        if (get(row, 'deleted_at', '-')) {
+          return 'deleted'
+        }
+        if (get(row, 'confirmed_at', '-') && get(row, 'activated_at', '-') && get(row, 'deactivated_at', '-')) {
+          return 'deactivated'
+        }
+        if (get(row, 'confirmed_at', '-') && get(row, 'activated_at', '-')) {
+          return 'active'
+        }
+        if (get(row, 'confirmed_at', '-')) {
+          return 'not activated'
+        }
+        return 'not confirmed';
       default:
         return value;
     }
