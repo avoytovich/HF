@@ -196,7 +196,7 @@ export const USERS_TAB = {
   title: 'ConditionsTab',
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
-    { title: 'Status', key: 'activated_at', className: 'center'  },
+    { title: 'Status', key: 'activated_at', className: 'center', type: 'user_status'  },
     { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
@@ -207,7 +207,7 @@ export const COMPANIES_USERS_TAB = {
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Company', key: 'customer_name', className: 'center'  },
-    { title: 'Status', key: 'billing_info', className: 'center'  },
+    { title: 'Status', key: 'activated_at', className: 'center', type:'user_status'  },
     { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
@@ -218,7 +218,7 @@ export const CLINICS_USERS_TAB = {
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Clinic', key: 'customer_name', className: 'center'  },
-    { title: 'Status', key: 'billing_info', className: 'center'  },
+    { title: 'Status', key: 'activated_at', className: 'center', type:'user_status'  },
     { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
