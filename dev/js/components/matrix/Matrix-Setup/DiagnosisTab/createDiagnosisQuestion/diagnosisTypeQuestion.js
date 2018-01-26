@@ -111,31 +111,18 @@ class DiagnosisTypeQuestion extends Component {
           question={question}
         />
 
-        {/* Question Key AND Level Up */}
-        <div className="row-item level-up-row">
-            <UniqueKey
-              domain="diagnostics"
-              path="findByKey"
-              questionKey={questionKey}
-              id="questionKey"
-              currentId={currentId}
-              reducer="createDiagnosisQuestion"
-              grid={6}
-              className={'row-item level-up-neighborhood'}
-            />
-          {showLevelUp && <div className="level-up-block">
-            <FormControlLabel
-              label={'Level Up'}
-              className="level-up-block-label"
-              control={
-                <Checkbox
-                  checked={level_up}
-                  onChange={e => updateCrateQuestionFields(e.target.checked, 'level_up')}
-                />
-              }
-            />
-          </div>}
-        </div>
+        {/* Question Key*/}
+        <UniqueKey
+          domain="diagnostics"
+          path="findByKey"
+          questionKey={questionKey}
+          id="questionKey"
+          currentId={currentId}
+          reducer="createDiagnosisQuestion"
+          grid={6}
+          className={'row-item level-up-neighborhood'}
+        />
+
 
         {/* Sequence */}
         <SequenceBlock
@@ -180,6 +167,25 @@ class DiagnosisTypeQuestion extends Component {
       </div>
 
       <div className="rules">
+
+        {showLevelUp && <Grid container className="row-item">
+          <Grid item xs={12} className="level-up-block">
+            <FormControlLabel
+              label={'Redirect to the next level'}
+              className="level-up-block-label"
+              control={
+                <Checkbox
+                  checked={level_up}
+                  onChange={e => updateCrateQuestionFields(e.target.checked, 'level_up')}
+                />
+              }
+            />
+            <Typography type="caption">
+              After successful execution of the rules to redirect the user to the next level
+            </Typography>
+          </Grid>
+        </Grid>}
+
         {
           content_type === "functionalTest"
           &&
