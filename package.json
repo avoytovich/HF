@@ -83,7 +83,7 @@
     "clean-prod": "npm cache clean",
     "build-dev": "npm run clean-prod && NODE_ENV=dev webpack -p --progress --config webpack.config.dev.js",
     "build-prod-dev": "npm run clean-prod && NODE_ENV=production webpack -p --progress --config webpack.config.prod-dev.js",
-    "build-prod": "npm run clean-prod && NODE_ENV=production webpack -p --progress --config webpack.config.prod.js"
+    "build-prod": "npm run clean && NODE_ENV=production webpack -p --progress --config webpack.config.prod.js"
   },
   "author": "",
   "license": "ISC"
