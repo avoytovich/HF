@@ -1,7 +1,4 @@
-export {
-  BodyAreaComponent,
-  CreateBodyAreaComponent
-}                               from './BodyAreaTab';
+export *  from './bodyAreaTab';
 export {
   ConditionsComponent,
   CreateConditionComponent

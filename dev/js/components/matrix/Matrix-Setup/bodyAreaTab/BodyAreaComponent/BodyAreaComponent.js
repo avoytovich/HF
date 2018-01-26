@@ -1,12 +1,13 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { BODY_AREA_TAB }        from '../../../../utils/constants/pageContent';
-import { TableComponent }       from '../../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
-import TableControls            from '../../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import Delete                   from 'material-ui-icons/Delete';
-import DeleteComponent          from '../matrix-crud/deleteModal';
+
+import DeleteComponent          from '../../matrix-crud/deleteModal';
+import { TableComponent }       from '../../../../common/TypicalListPage';
+import TableControls            from '../../../../common/TypicalListPage/TableControls';
+import { BODY_AREA_TAB }        from '../../../../../utils/constants/pageContent';
 
 class BodyAreaComponent extends Component {
   state = {
