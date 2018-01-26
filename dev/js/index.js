@@ -87,10 +87,10 @@ const router = (
 
             <Route path={PAGE.matrixSetup} component={ C.MatrixComponent }>
 
-              <IndexRedirect to="body-area"/>
+              <IndexRedirect to="diagnosis"/>
 
-              <Route path='body-area' component={(props) => <C.BodyAreaComponent {...props}/>}/>
               <Route path='diagnosis' component={(props) => <C.DiagnosisComponent  {...props}/>}/>
+              <Route path='body-area' component={(props) => <C.BodyAreaComponent {...props}/>}/>
               <Route path='conditions' component={(props) => <C.ConditionsComponent {...props}/>}/>
               <Route path='treatments' component={(props) => <C.TreatmentsComponent {...props}/>}/>
               <Route path='packages' component={(props) => <C.PackagesComponent   {...props}/>}/>

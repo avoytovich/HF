@@ -111,6 +111,7 @@ class CreateUser extends Component {
               <Input id="contact_info.address" reducer={createUsersReducers} label='Address' placeholder='Address'/>
               <Input id="contact_info.region" reducer={createUsersReducers} label='Region' placeholder='Region'/>
               <Input id="contact_info.country" reducer={createUsersReducers} label='Country' placeholder='Country'/>
+              <Input id="contact_info.postal_code" reducer={createUsersReducers} label='Postal code' placeholder='Postal code'/>
               <Select
                 options={industryArray}
                 id='additional_info.industry'

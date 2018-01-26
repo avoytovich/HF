@@ -39,13 +39,15 @@ const mainInformation = [
   {title:'Address', path: 'contact_info.address'},
   {title:'Region', path: 'contact_info.region'},
   {title:'Country', path: 'contact_info.country'},
+  {title:'Postal Code', path: 'contact_info.postal_code'},
   {title:'Industry', path:  'additional_info.industry'}
 ];
 
 const billingAddress = [
   {title: 'Address', path: 'billing_info.address'},
   {title: 'Region', path: 'billing_info.region'},
-  {title: 'Country', path: 'billing_info.country'}
+  {title: 'Country', path: 'billing_info.country'},
+  {title: 'Postal code', path: 'billing_info.postal_code'}
 ];
 
 class Profile extends Component {
