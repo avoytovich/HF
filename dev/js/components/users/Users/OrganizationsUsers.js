@@ -86,8 +86,10 @@ class OrganizationsUsers extends Component {
         />
 
         <TableControls
+          locationUrl={this.props.location.pathname}
           path="users"
-          selected={selected}>
+          selected={selected}
+          searchKey = "filter">
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>

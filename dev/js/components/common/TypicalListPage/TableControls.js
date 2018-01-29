@@ -113,6 +113,7 @@ TableControls.propTypes = {
   createItem: PropTypes.func,
   createButtonText: PropTypes.string,
   CreateButtonIcon: PropTypes.func,
+  searchKey: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(withStyles(styles)(TableControls));
