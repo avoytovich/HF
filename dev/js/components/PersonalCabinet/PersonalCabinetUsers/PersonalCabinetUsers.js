@@ -10,6 +10,9 @@ import { activateUser }         from '../../../actions';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import get                      from 'lodash/get'
+import CreateSimpleUser         from '../../users/CreateUser/CreateSimpleUser';
+import Modal                    from '../../common/Modal/Modal';
+import { userCreate }           from '../../../actions';
 import {
   PAGE,
   domen,
@@ -21,7 +24,15 @@ class PersonalCabinetUsers extends Component {
     selected: [],
     showActivateModal:false,
     showDeactivateModal:false,
+    showCreateUserModal: false,
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.showCreateUserModal && nextState.showCreateUserModal) {
+      return false
+    }
+    return true;
+  }
 
   onRowClick = (selected = []) => this.setState({selected});
 
@@ -34,10 +45,26 @@ class PersonalCabinetUsers extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
+  createEntity = () => {
+    this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
+  };
+
   _toggleActivateModal = (data) => {
     data==='activate'?(this.setState({ showActivateModal: !this.state.showActivateModal })):
       (this.setState({ showDeactivateModal: !this.state.showDeactivateModal }))
   };
+
+  _createSimpleUser =() =>{
+    let currentPage = get(this.props,'store.pagination.current_page');
+    const result = {
+      customer_id: this.props.userReducer.user_id,
+      email: this.props.createSimpleUsersReducers.email};
+    userCreate('users', 'createSimpleUser', result)
+      .then(() => {
+        browserHistory.push(`/personal-cabinet/users?current_page=${currentPage}`)
+        this.setState({showCreateUserModal:false})})
+  };
+
 
   _activateItems = (selected, action) => {
     let currentPage = get(this.props,'store.pagination.current_page');
@@ -50,8 +77,8 @@ class PersonalCabinetUsers extends Component {
 
   render() {
     const { tableHeader } = USERS_TAB;
-    const { selected, showActivateModal, showDeactivateModal } = this.state;
-    const querySelector = {...this.props.location.query,...{customer_type: 'simple'}};
+    const { selected, showActivateModal, showDeactivateModal, showCreateUserModal } = this.state;
+    const querySelector = this.props.location.query;
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.userReducer.user_id}`;
     return (
       <div id="diagnosis-component">
@@ -86,8 +113,12 @@ class PersonalCabinetUsers extends Component {
         />
 
         <TableControls
-          path="users"
+          locationUrl={this.props.location.pathname}
+          path="personalCabinetUsers"
           selected={selected}
+          searchKey = "filter"
+          createItem={this.createEntity}
+          createButtonText="Add"
         >
 
           <Button raised dense
@@ -114,6 +145,15 @@ class PersonalCabinetUsers extends Component {
           query= {querySelector}
         />
 
+        <Modal
+          itemName="name_real"
+          open={showCreateUserModal}
+          title='Add user'
+          toggleModal={this._toggleDeleteModal}
+          onConfirmClick={() => this._createSimpleUser()}
+          CustomContent={() => <CreateSimpleUser />}
+        />
+
       </div>
     )
   }
@@ -121,7 +161,8 @@ class PersonalCabinetUsers extends Component {
 
 const mapStateToProps = state => ({
   store: state.tables.diagnosis,
-  userReducer: state.userReducer
+  userReducer: state.userReducer,
+  createSimpleUsersReducers: state.createSimpleUsersReducers,
 });
 
 export default  connect(mapStateToProps)(PersonalCabinetUsers);
