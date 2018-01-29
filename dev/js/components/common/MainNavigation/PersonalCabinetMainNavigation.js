@@ -5,16 +5,9 @@ import { withStyles } from 'material-ui/styles';
 
 // UI
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import Collapse from 'material-ui/transitions/Collapse';
-import ExpandLess from 'material-ui-icons/ExpandLess';
-import ExpandMore from 'material-ui-icons/ExpandMore';
 import Person from 'material-ui-icons/Person'; // Users
-import Domain from 'material-ui-icons/Domain'; // Companies
-import InsertDriveFile from 'material-ui-icons/InsertDriveFile'; // assets
-import LocalHospital from 'material-ui-icons/LocalHospital'; // Clinics
-import SettingsApplications from 'material-ui-icons/SettingsApplications'; // matrix
-import Chat from 'material-ui-icons/Chat'; // matrix
-import Accessibility from 'material-ui-icons/Accessibility'; // matrix
+import Domain from 'material-ui-icons/Domain'; // Profile
+import Money from 'material-ui-icons/AttachMoney'; // Billing
 
 import { PAGE } from '../../../config';
 
@@ -33,6 +26,18 @@ class PersonalCabinetMainNavigation extends Component {
       <div className="content-navigation">
         <List>
           <Link
+            to={PAGE.personalCabinetProfile}
+            activeClassName='active-route'
+            className="nav-menu-list-item"
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <Domain className="nav-icon" />
+              </ListItemIcon>
+              <ListItemText inset primary="Profile" />
+            </ListItem>
+          </Link>
+          <Link
             to={PAGE.personalCabinetUsers}
             activeClassName='active-route'
             className="nav-menu-list-item"
@@ -44,36 +49,12 @@ class PersonalCabinetMainNavigation extends Component {
               <ListItemText inset primary="Users" />
             </ListItem>
           </Link>
-          {/*<Link to={PAGE.assets} activeClassName='active-route' className="nav-menu-list-item">*/}
-            {/*<ListItem button>*/}
-              {/*<ListItemIcon>*/}
-                {/*<InsertDriveFile className="nav-icon" />*/}
-              {/*</ListItemIcon>*/}
-              {/*<ListItemText inset primary='Assets'/>*/}
-            {/*</ListItem>*/}
-          {/*</Link>*/}
-          {/*<Link to={PAGE.matrixSetup} activeClassName='active-route' className="nav-menu-list-item">*/}
-            {/*<ListItem button>*/}
-              {/*<ListItemIcon>*/}
-                {/*<SettingsApplications className="nav-icon" />*/}
-              {/*</ListItemIcon>*/}
-              {/*<ListItemText inset primary='Matrix'/>*/}
-            {/*</ListItem>*/}
-          {/*</Link>*/}
-          {/*<Link to={PAGE.test} activeClassName='active-route' className="nav-menu-list-item">*/}
-            {/*<ListItem button>*/}
-              {/*<ListItemIcon>*/}
-                {/*<Accessibility className="nav-icon" />*/}
-              {/*</ListItemIcon>*/}
-              {/*<ListItemText inset primary='Testing'/>*/}
-            {/*</ListItem>*/}
-          {/*</Link>*/}
-          <Link to={PAGE.chat} activeClassName='active-route' className="nav-menu-list-item">
+          <Link to={PAGE.personalCabinetBilling} activeClassName='active-route' className="nav-menu-list-item">
             <ListItem button>
               <ListItemIcon>
-                <Chat className="nav-icon" />
+                <Money className="nav-icon" />
               </ListItemIcon>
-              <ListItemText inset primary='Chat'/>
+              <ListItemText inset primary='Billing'/>
             </ListItem>
           </Link>
         </List>

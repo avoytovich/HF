@@ -90,7 +90,7 @@ class DiagnosisTypeQuestion extends Component {
               id='questionTitle'
               value={questionTitle}
               reducer={ createDiagnosisQuestion }
-              label={ 'Title' }
+              label={ 'Title*' }
               className="MUIControl"
             />
           </Grid>

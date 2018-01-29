@@ -18,6 +18,8 @@ import TestsList                from '../components/testing/TestsList/TestsList'
 import TestNew                  from '../components/testing/TestNew/TestNew';
 import Chat                     from './chat/Chat';
 import PersonalCabinetMain      from '../components/PersonalCabinetMain';
+import PersonalCabinetUsers     from '../components/PersonalCabinet/PersonalCabinetUsers/PersonalCabinetUsers';
+import PersonalCabinetProfile     from '../components/PersonalCabinet/PersonalCabinetProfile/PersonalCabinetProfile';
 
 import * as commonComponents    from './common';
 import * as testingComponents   from './testing';
@@ -46,5 +48,7 @@ export const C = {
   ...commonComponents,
   ...testingComponents,
   PersonalCabinetMain,
-  Chat
+  Chat,
+  PersonalCabinetUsers,
+  PersonalCabinetProfile
 };

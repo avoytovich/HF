@@ -66,29 +66,27 @@ class PackageLevelComponent extends Component {
 
     return <div>
       <Grid container className="row-item">
-        <Grid item xs={2}>
+        <Grid item xs={2} className="package-level-counts">
           <Typography type="caption">
-            VAS, %
+            Vas, trend down
           </Typography>
           <Input
-            id={`packageLevels.${index}.level_up_properties.vas_trend`}
+            id={`packageLevels.${index}.level_up_properties.vas_trend_down`}
             type='number'
-            max="100"
             min="1"
             className="MUIControl"
             reducer={ createDiagnosisQuestion }
-            placeholder={'Enter VAS, %'}
+            placeholder={'Enter Vas, trend down'}
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={2} className="package-level-counts">
           <Typography type="caption">
             VAS, min
           </Typography>
           <Input
             id={`packageLevels.${index}.level_up_properties.vas_min`}
             type='number'
-            max="100"
             min="1"
             className="MUIControl"
             reducer={ createDiagnosisQuestion }
@@ -96,12 +94,12 @@ class PackageLevelComponent extends Component {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={2} className="package-level-counts">
           <Typography type="caption">
             Sessions
           </Typography>
           <Input
-            id={`packageLevels.${index}.level_up_properties.session_count`}
+            id={`packageLevels.${index}.level_up_properties.package_level_sessions`}
             type='number'
             min="1"
             className="MUIControl"
@@ -109,8 +107,20 @@ class PackageLevelComponent extends Component {
             placeholder={'Enter Sessions'}
           />
         </Grid>
-
-        <Grid item xs={6}>
+        <Grid item xs={2} className="package-level-counts">
+          <Typography type="caption">
+            Package Level Days
+          </Typography>
+          <Input
+            id={`packageLevels.${index}.level_up_properties.package_level_days`}
+            type='number'
+            min="1"
+            className="MUIControl"
+            reducer={ createDiagnosisQuestion }
+            placeholder={'Enter Package Level Days'}
+          />
+        </Grid>
+        <Grid item xs={4} className="package-level-counts">
           <Typography type="caption" style={{marginBottom: '16px'}}>
               Therapy continuity
           </Typography>
@@ -118,7 +128,7 @@ class PackageLevelComponent extends Component {
             value={therapy_continuity}
             onChange={(event) =>
               updateCrateQuestionFields(event.target.value, `packageLevels.${index}.therapy_continuity`)}
-            className="MuiFormControlDEFAULT"
+            className="MuiFormControlDEFAULT package-level-therapy-continuity"
             label="Therapy continuity"
             >
             {THERAPY.map((item, index) => (

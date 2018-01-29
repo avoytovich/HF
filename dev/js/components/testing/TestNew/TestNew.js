@@ -45,12 +45,8 @@ class TestNew extends Component {
       currentQKeysToSend = currentQKeysToSend.concat(pickKeys.testing);
     }
     if (currentQKeysToSend.includes('vas_areas')) {
-      each(data.vas_areas.value, (val, prop) => {
-        data[`vas_pain_level_area_${val}`] = { value: data.vas_pain_level_area_, type: 'single' };
-        data[`vas_pain_type_area_${val}`]  = { value: data.vas_pain_type_area_, type: 'single' };
-        currentQKeysToSend.push(`vas_pain_level_area_${val}`);
-        currentQKeysToSend.push(`vas_pain_type_area_${val}`);
-      });
+      currentQKeysToSend.push(`vas_pain_level`);
+      currentQKeysToSend.push(`vas_pain_type`);
     }
     return {
       answers: pickBy(pick(data, currentQKeysToSend), el => el.value),

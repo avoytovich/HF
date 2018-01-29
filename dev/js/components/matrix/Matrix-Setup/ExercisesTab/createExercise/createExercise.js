@@ -167,7 +167,7 @@ class CreateExerciseComponent extends Component {
                     id='exercise.name'
                     value={name}
                     reducer={createDiagnosisQuestion}
-                    label={ 'Notes' }
+                    label={ 'Notes*' }
                     className="MUIControl"
                     placeholder={ 'Notes' }
                   />
@@ -180,8 +180,8 @@ class CreateExerciseComponent extends Component {
                     id='exercise.comments'
                     value={comments}
                     reducer={createDiagnosisQuestion}
-                    label={ 'Comments' }
-                    placeholder={ 'Comments' }
+                    label={ 'Comments*' }
+                    placeholder={ 'Comments*' }
                     className="MUIControl"
                     multiline={true}
                     rows="5"
@@ -198,17 +198,17 @@ class CreateExerciseComponent extends Component {
                       id='exercise.title.en'
                       value={title && title.en}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Title' }
+                      label={ 'Title*' }
                       className="MUIControl"
-                      placeholder={ 'Title' }
+                      placeholder={ 'Title*' }
                     /> :
                     <Input
                       id='exercise.title.swe'
                       value={title && title.swe}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Title' }
+                      label={ 'Title*' }
                       className="MUIControl"
-                      placeholder={ 'Title' }
+                      placeholder={ 'Title*' }
                     />
                   }
                 </Grid>
@@ -236,8 +236,8 @@ class CreateExerciseComponent extends Component {
                       id='exercise.information.en'
                       value={information && information.en}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Information' }
-                      placeholder={ 'Information' }
+                      label={ 'Information*' }
+                      placeholder={ 'Information*' }
                       multiline={true}
                       className="MUIControl"
                       rows="5"
@@ -247,8 +247,8 @@ class CreateExerciseComponent extends Component {
                       id='exercise.information.swe'
                       value={information && information.swe}
                       reducer={createDiagnosisQuestion}
-                      label={'Information' }
-                      placeholder={ 'Information' }
+                      label={'Information*' }
+                      placeholder={ 'Information*' }
                       multiline={true}
                       className="MUIControl"
                       rows="5"
@@ -280,8 +280,8 @@ class CreateExerciseComponent extends Component {
                       id='exercise.instruction.en'
                       value={!!instruction ?  instruction.en : ''}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Instruction' }
-                      placeholder={ 'Instruction' }
+                      label={ 'Instruction*' }
+                      placeholder={ 'Instruction*' }
                       multiline={true}
                       className="MUIControl"
                       rows="5"
@@ -291,8 +291,8 @@ class CreateExerciseComponent extends Component {
                       id='exercise.instruction.swe'
                       value={!!instruction ? instruction.swe : ''}
                       reducer={createDiagnosisQuestion}
-                      label={'Instruction' }
-                      placeholder={ 'Instruction' }
+                      label={'Instruction*' }
+                      placeholder={ 'Instruction*' }
                       className="MUIControl"
                       multiline={true}
                       rows="5"
