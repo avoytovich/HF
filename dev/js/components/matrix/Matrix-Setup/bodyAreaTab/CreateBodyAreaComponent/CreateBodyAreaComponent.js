@@ -109,30 +109,30 @@ class CreateBodyAreaComponent extends Component {
         </div>
         <Grid container spacing={0}>
 
-          {/*<Grid item sm={8}>*/}
-            {/*<AppBar position="static" color="default">*/}
-              {/*<Tabs*/}
-                {/*scrollable*/}
-                {/*value={this.state.tab}*/}
-                {/*onChange={() => {}}*/}
-                {/*indicatorColor="primary"*/}
-                {/*textColor="primary"*/}
-                {/*fullWidth*/}
-              {/*>*/}
-                {/*<Tab label='M:front' onClick={() => this._changeTab(0)}/>*/}
-                {/*<Tab label='M:left' onClick={() => this._changeTab(1)}/>*/}
-                {/*<Tab label='M:back' onClick={() => this._changeTab(2)}/>*/}
-                {/*<Tab label='M:right' onClick={() => this._changeTab(3)}/>*/}
-                {/*<Tab label='F:front' onClick={() => this._changeTab(4)}/>*/}
-                {/*<Tab label='F:left'  onClick={() => this._changeTab(5)}/>*/}
-                {/*<Tab label='F:back'  onClick={() => this._changeTab(6)}/>*/}
-                {/*<Tab label='F:right' onClick={() => this._changeTab(7)}/>*/}
-              {/*</Tabs>*/}
-            {/*</AppBar>*/}
+          <Grid item sm={8}>
+            <AppBar position="static" color="default">
+              <Tabs
+                scrollable
+                value={this.state.tab}
+                onChange={() => {}}
+                indicatorColor="primary"
+                textColor="primary"
+                fullWidth
+              >
+                <Tab label='M:front' onClick={() => this._changeTab(0)}/>
+                <Tab label='M:left'  onClick={() => this._changeTab(1)}/>
+                <Tab label='M:back'  onClick={() => this._changeTab(2)}/>
+                <Tab label='M:right' onClick={() => this._changeTab(3)}/>
+                <Tab label='F:front' onClick={() => this._changeTab(4)}/>
+                <Tab label='F:left'  onClick={() => this._changeTab(5)}/>
+                <Tab label='F:back'  onClick={() => this._changeTab(6)}/>
+                <Tab label='F:right' onClick={() => this._changeTab(7)}/>
+              </Tabs>
+            </AppBar>
 
-            {/*<C.BodyModel url={url}/>*/}
+            <C.BodyModel url={url}/>
 
-          {/*</Grid>*/}
+          </Grid>
 
           <Grid item sm={4}>
             <div style={{ padding: '30px' }}>
@@ -170,8 +170,6 @@ class CreateBodyAreaComponent extends Component {
 }
 const mapStateToProps = state => ({
   createDiagnosisQuestion: state.createDiagnosisQuestion,
-  commonReducer          : state.commonReducer,
-  bodyArea               : state.tables.bodyArea
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

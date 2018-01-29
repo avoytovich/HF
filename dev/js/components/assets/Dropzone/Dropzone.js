@@ -9,7 +9,7 @@ class Dropzone extends Component {
     } = this.props;
     return (
       <DropzoneLib
-        accept='image/png,image/jpeg,image/bmp,video/mp4'
+        accept='image/png,image/jpeg,image/bmp,video/mp4,video/mkv'
         className="dropzone"
         activeClassName="dropzone-active"
         onDrop={onDrop}

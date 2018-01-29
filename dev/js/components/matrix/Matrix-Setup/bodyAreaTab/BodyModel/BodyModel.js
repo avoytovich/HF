@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   Map,
   TileLayer,
@@ -11,6 +14,7 @@ import L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
 import { assets } from '../../../../../config'
+import { dispatchBodyModelWired, T } from '../../../../../actions'
 
 // work around broken icons when using webpack, see https://github.com/PaulLeCam/react-leaflet/issues/255
 delete L.Icon.Default.prototype._getIconUrl;
@@ -22,16 +26,37 @@ L.Icon.Default.mergeOptions({
 
 export const GET_IMAGE = 'imageOverlay.leafletElement._image';
 
-export default class BodyModel extends Component {
+class BodyModel extends Component {
   state = {
     bounds: [1000, 1000],
   };
 
+  componentWillMount() {
+    // this.props.dispatch({ type: `${T.BODY_MODEL}_` })
+  }
+
   componentDidMount() {
+
     setTimeout(() => {
-      console.log(this.layerContainer());
+      this._drawExistingShapes();
+      console.log(this.layerContainer);
     }, 100)
   }
+
+  _drawExistingShapes = () => {
+    this.editControl.context.layerContainer.clearLayers();
+    this.props.bodyModelReducer.shapes.features.forEach(shape => {
+      // console.log(shape);
+      let layer = new L.Polygon(
+        [shape.geometry.coordinates[0].map(latlng => new L.LatLng(...latlng.reverse()))]
+      );
+      console.log(cloneDeep(shape.geometry));
+      // layer.setStyle({ color: 'red', fillColor: 'red' });
+      let addLayer = this.editControl.context.layerContainer.addLayer.bind(this.editControl.context.layerContainer);
+      addLayer(layer);
+    });
+    // L.geoJSON(this.props.bodyModelReducer.shapes).addTo(this.map);
+  };
 
   // see http://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html#l-draw-event for leaflet-draw events doc
 
@@ -49,22 +74,16 @@ export default class BodyModel extends Component {
   _onCreated = (e) => {
     let type = e.layerType;
     let layer = e.layer;
-    if (type === 'marker') {
-      // Do marker specific actions
-      console.log("_onCreated: marker created", e);
-    }
-    else {
-      console.log("_onCreated: something else created:", type, e);
-    }
+    // console.log(`_onCreated: '''${type}''' created:`, e);
     // Do whatever else you need to. (save to db; etc)
+    const shapes = this._editableFG.leafletElement.toGeoJSON()
+    dispatchBodyModelWired({ shapes });
     console.log('================');
-    console.log('_editableFG:', this._editableFG.leafletElement.toGeoJSON());
+    console.log('GEOJSON:', shapes);
     console.log('================');
     this._onChange();
 
-    // setTimeout( () => {
-      this.layerContainer().clearLayers();
-    // }, 100)
+    // this.layerContainer.clearLayers();
 
   }
 
@@ -80,8 +99,11 @@ export default class BodyModel extends Component {
   }
 
   _onMounted = (drawControl) => {
-    console.log('_onMounted', drawControl);
-    this.updateBounds()
+    this.updateBounds();
+    // setTimeout(() => {
+    //   this._drawExistingShapes();
+    // }, 100);
+
   }
 
   _onEditStop = (e) => {
@@ -108,10 +130,15 @@ export default class BodyModel extends Component {
     }
 
     const geojsonData = this._editableFG.leafletElement.toGeoJSON();
-    onChange(geojsonData);
+    console.log('gegoegoegoe', geojsonData);
+    // onChange(geojsonData);
   }
 
   layerContainer = () =>  get(this.editControl, 'context.layerContainer');
+
+  // get layerContainer() {
+  //   return get(this.editControl, 'context.layerContainer;')
+  // }
 
   updateBounds = () => {
     var poll = setInterval(() => {
@@ -143,10 +170,7 @@ export default class BodyModel extends Component {
         />
         <FeatureGroup ref={ (reactFGref) => {this._onFeatureGroupReady(reactFGref);} }>
           <EditControl
-            ref={elem => {
-              console.log('EditControl', elem  );
-              this.editControl = elem
-            }}
+            ref={elem => this.editControl = elem}
             position='topleft'
             onEdited={this._onEdited}
             onCreated={this._onCreated}
@@ -168,3 +192,13 @@ export default class BodyModel extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  bodyModelReducer: state.bodyModelReducer,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  dispatch,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(BodyModel);
