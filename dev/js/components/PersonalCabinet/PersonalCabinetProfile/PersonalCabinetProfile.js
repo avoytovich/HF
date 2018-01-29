@@ -76,7 +76,7 @@ class Profile extends Component {
       browserHistory.push(`/clinic/${currentId}/users`);
     }
 
-  }
+  };
 
   _renderItem =(el, index, profileReducer)=>{
     return (
@@ -140,7 +140,7 @@ class Profile extends Component {
 
   _createSimpleUser =() =>{
     const result = {
-      customer_id: this.props.params.id,
+      customer_id: this.props.userReducer.user_id,
       email: this.props.createSimpleUsersReducers.email};
     userCreate('users', 'createSimpleUser', result)
       .then(this.setState({showCreateUserModal:false}))

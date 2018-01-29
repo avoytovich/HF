@@ -86,6 +86,7 @@ export const api = {
   createDialog        : '/dialogs',
   getMessages         : '/messages/dialog/',
   createMessage       : '/messages',
+  personalCabinetUsers : '/users/get/all',
 };
 
 export const PAGE = {

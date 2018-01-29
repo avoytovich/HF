@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Input from '../../common/Input/Input';
 import Header from './CreateUserHeader';
-import{ map } from 'lodash';
+import map  from 'lodash/map';
+import get from 'lodash/get'
 import DeleteIcon  from 'material-ui-icons/Delete';
 import Select from '../../common/Select/Select';
 import {dispatchCreateUserPayloadWired} from '../../../actions'
@@ -79,7 +80,7 @@ class CreateUser extends Component {
           {contacts :  array}
       }
     });
-  }
+  };
 
   _addContact = (array)=>{
     array.push({
@@ -87,17 +88,18 @@ class CreateUser extends Component {
         surname: "",
         email: "",
         phone: ""
-    })
+    });
     this.setState({
       createUsersReducers:{
         contact_info:
           {contacts :  array}
       }
     });
-  }
+  };
 
   render() {
     const createUsersReducers = { ...this.props.userData, ...this.props.createUsersReducers};
+    const contacts = get(createUsersReducers,'contact_info.contacts')||[];
     return (
       <div className="upload-container">
         <Header toggleModal={this.props.toggleModal} userData = {this.props.userData} userInfo={this.props.userInfo}/>
@@ -107,11 +109,13 @@ class CreateUser extends Component {
               <h3 className="create-user-title">Information</h3>
               <Input id="name" reducer={createUsersReducers} label='Company / Entity Name' placeholder='Company / Entity Name'/>
               <Input id="legal_info.vat" reducer={createUsersReducers} label='EU VAT nr.' placeholder='EU VAT nr.'/>
-              <Input id="legal_info.reg_num" reducer={createUsersReducers}  label='Registration nr. (Non EU)' placeholder='Registration nr. (Non EU)'/>
+              <Input id="legal_info.reg_num" reducer={createUsersReducers}
+                     label='Registration nr. (Non EU)' placeholder='Registration nr. (Non EU)'/>
               <Input id="contact_info.address" reducer={createUsersReducers} label='Address' placeholder='Address'/>
               <Input id="contact_info.region" reducer={createUsersReducers} label='Region' placeholder='Region'/>
               <Input id="contact_info.country" reducer={createUsersReducers} label='Country' placeholder='Country'/>
-              <Input id="contact_info.postal_code" reducer={createUsersReducers} label='Postal code' placeholder='Postal code'/>
+              <Input id="contact_info.postal_code" reducer={createUsersReducers}
+                     label='Postal code' placeholder='Postal code'/>
               <Select
                 options={industryArray}
                 id='additional_info.industry'
@@ -131,7 +135,7 @@ class CreateUser extends Component {
           <div className="create-user-container">
           <div className="create-user-contacts-container">
             <h3 className="create-user-title">Contact Persons</h3>
-            {map(createUsersReducers.contact_info.contacts, (el,index) => {
+            {map(contacts, (el,index) => {
               return(
                 <div key={index} className="create-user-input-container">
                  <div className="delete-item-container">

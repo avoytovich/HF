@@ -59,7 +59,7 @@ const router = (
           <Route path={PAGE.personalCabinet} component={C.PersonalCabinetMain}>
             <Route path={PAGE.personalCabinetUsers}  component={C.PersonalCabinetUsers} />
             <Route path={PAGE.personalCabinetProfile}  component={C.PersonalCabinetProfile} />
-            <Route path={PAGE.personalCabinetBilling}  component={<div>Billing</div>} />
+            <Route path={PAGE.personalCabinetBilling}  component={C.PersonalCabinetBilling} />
           </Route>
 
           <Route path={'/'} component={C.Main} onEnter={onAllEnter} onChange={onAllChange}>

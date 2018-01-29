@@ -49,7 +49,8 @@ class PersonalCabinetMainNavigation extends Component {
               <ListItemText inset primary="Users" />
             </ListItem>
           </Link>
-          <Link to={PAGE.personalCabinetBilling} activeClassName='active-route' className="nav-menu-list-item">
+          <Link
+            to={PAGE.personalCabinetBilling} activeClassName='active-route' className="nav-menu-list-item">
             <ListItem button>
               <ListItemIcon>
                 <Money className="nav-icon" />

@@ -9,6 +9,7 @@ import DeactivateComponent      from '../../common/Modal/DeactivateModal'
 import { activateUser }         from '../../../actions';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
+import get                      from 'lodash/get'
 import {
   PAGE,
   domen,
@@ -39,8 +40,9 @@ class PersonalCabinetUsers extends Component {
   };
 
   _activateItems = (selected, action) => {
+    let currentPage = get(this.props,'store.pagination.current_page');
     activateUser('users', 'userProfile', selected, action)
-      .then(() => browserHistory.push(`/users-simple`))
+      .then(() => browserHistory.push(`/personal-cabinet/users?current_page=${currentPage}`));
     this._toggleActivateModal(action);
     this.setState({ selected: []})
 
@@ -51,7 +53,6 @@ class PersonalCabinetUsers extends Component {
     const { selected, showActivateModal, showDeactivateModal } = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'simple'}};
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.userReducer.user_id}`;
-    console.log(this, 'url :', url);
     return (
       <div id="diagnosis-component">
 
@@ -103,7 +104,7 @@ class PersonalCabinetUsers extends Component {
         <TableComponent
           url={url}
           location={this.props.location}
-          path="simpleUsers"
+          path="personalCabinetUsers"
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }

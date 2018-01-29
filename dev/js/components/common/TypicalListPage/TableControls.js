@@ -34,10 +34,10 @@ class TableControls extends Component {
     const { current_page, per_page} = this.props.store.pagination;
     const { sortedBy, orderBy }  = this.props.store.sortOptional;
     const query = { orderBy, sortedBy, per_page, current_page: current_page - 1 };
-
+    const searchKey = this.props.searchKey || 'search';
     browserHistory.push({
       pathname: currentPath,
-      query: search ? { ...query, search } : query
+      query: search ? { ...query, [searchKey]: search} : query
     });
   };
 
@@ -80,7 +80,7 @@ class TableControls extends Component {
                   placeholder='Search'
                   startAdornment={
                     <InputAdornment position="start">
-                      <SearchIcon color="grey"/>
+                      <SearchIcon className="search-icon"/>
                     </InputAdornment>
                   }
                 />
