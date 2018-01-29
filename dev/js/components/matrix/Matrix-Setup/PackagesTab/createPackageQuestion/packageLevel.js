@@ -18,11 +18,11 @@ import { CircularProgress }         from 'material-ui/Progress';
 import PackageExercisesModal        from './packageExercisesModal';
 
 export const THERAPY = [
-  { value: '1',  label: 'Daily'},
-  { value: '2',  label: 'Every other day'},
-  { value: '7',  label: 'Weekly'},
-  { value: '2H', label: 'Every two hours'},
-  { value: 'ME', label: 'Morning and evening'},
+  { value: 'daily',           label: 'Daily'               },
+  { value: 'everyOtherDay',   label: 'Every other day'     },
+  { value: 'weekly',          label: 'Weekly'              },
+  { value: 'everyTwoHours',   label: 'Every two hours'     },
+  { value: 'morningEvening',  label: 'Morning and evening' },
 ];
 class PackageLevelComponent extends Component {
   state = { loading: true, chooseExercises: false };
