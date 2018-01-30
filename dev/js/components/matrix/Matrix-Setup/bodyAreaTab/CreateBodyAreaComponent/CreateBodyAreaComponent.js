@@ -11,6 +11,7 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import Input                        from '../../../../common/Input/Input';
 import {
   diagnosisQuestionCreate,
+  dispatchBodyModelWired,
   updateCrateQuestionFields,
   clearCreateQuestion,
   updateQuestionCreate,
@@ -21,14 +22,14 @@ import { PAGE, assets }             from '../../../../../config';
 import { C }                        from '../../../../../components';
 
 const tabs = {
-  0: { value: 0, url: `${assets}/images/bodyModel/male1.jpg`, },
-  1: { value: 1, url: `${assets}/images/bodyModel/male2.jpg`, },
-  2: { value: 2, url: `${assets}/images/bodyModel/male3.jpg`, },
-  3: { value: 3, url: `${assets}/images/bodyModel/male4.jpg`, },
-  4: { value: 4, url: `${assets}/images/bodyModel/female1.jpg`, },
-  5: { value: 5, url: `${assets}/images/bodyModel/female2.jpg`, },
-  6: { value: 6, url: `${assets}/images/bodyModel/female3.jpg`, },
-  7: { value: 7, url: `${assets}/images/bodyModel/female4.jpg`, },
+  0: { value: 0, side: 'front', sex: 'male',   url: `${assets}/images/bodyModel/male1.jpg`,   },
+  1: { value: 1, side: 'left',  sex: 'male',   url: `${assets}/images/bodyModel/male2.jpg`,   },
+  2: { value: 2, side: 'back',  sex: 'male',   url: `${assets}/images/bodyModel/male3.jpg`,   },
+  3: { value: 3, side: 'right', sex: 'male',   url: `${assets}/images/bodyModel/male4.jpg`,   },
+  4: { value: 4, side: 'front', sex: 'female', url: `${assets}/images/bodyModel/female1.jpg`, },
+  5: { value: 5, side: 'left',  sex: 'female', url: `${assets}/images/bodyModel/female2.jpg`, },
+  6: { value: 6, side: 'back',  sex: 'female', url: `${assets}/images/bodyModel/female3.jpg`, },
+  7: { value: 7, side: 'right', sex: 'female', url: `${assets}/images/bodyModel/female4.jpg`, },
 }
 
 class CreateBodyAreaComponent extends Component {
@@ -36,7 +37,6 @@ class CreateBodyAreaComponent extends Component {
     questionType    : 'packages',
     keyIsUniqueError: '',
     tab             : 0,
-    url             : `${assets}/images/bodyModel/male1.jpg`,
   };
 
   constructor(props) {
@@ -45,6 +45,7 @@ class CreateBodyAreaComponent extends Component {
   }
 
   componentWillMount() {
+    dispatchBodyModelWired({ url: `${assets}/images/bodyModel/male1.jpg` });
     if (this.props.routeParams.id) {
       getBodyAreaById('diagnostics', 'areas', this.props.routeParams.id);
     }
@@ -72,7 +73,12 @@ class CreateBodyAreaComponent extends Component {
 
   };
 
-  _changeTab = i => this.setState({ tab: tabs[i].value, url: tabs[i].url });
+  _changeTab = i => dispatchBodyModelWired({
+    tab : tabs[i].value,
+    url : tabs[i].url,
+    side: tabs[i].side,
+    sex : tabs[i].sex,
+  });
 
   render() {
     let {
@@ -81,11 +87,14 @@ class CreateBodyAreaComponent extends Component {
         title,
         key,
         description
+      },
+      bodyModelReducer: {
+        url,
+        sex,
+        side,
+        tab,
       }
     } = this.props;
-
-    const { url } = this.state;
-
     return (
       <div id="create-question">
         <div className="page-sub-header">
@@ -113,7 +122,7 @@ class CreateBodyAreaComponent extends Component {
             <AppBar position="static" color="default">
               <Tabs
                 scrollable
-                value={this.state.tab}
+                value={tab}
                 onChange={() => {}}
                 indicatorColor="primary"
                 textColor="primary"
@@ -130,7 +139,7 @@ class CreateBodyAreaComponent extends Component {
               </Tabs>
             </AppBar>
 
-            <C.BodyModel url={url}/>
+            <C.BodyModel/>
 
           </Grid>
 
@@ -170,6 +179,7 @@ class CreateBodyAreaComponent extends Component {
 }
 const mapStateToProps = state => ({
   createDiagnosisQuestion: state.createDiagnosisQuestion,
+  bodyModelReducer: state.bodyModelReducer,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

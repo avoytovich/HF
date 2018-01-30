@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
   Map,
-  TileLayer,
   FeatureGroup,
   ZoomControl,
   ImageOverlay,
@@ -13,15 +12,14 @@ import {
 import L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
-import { assets } from '../../../../../config'
 import { dispatchBodyModelWired, T } from '../../../../../actions'
 
 // work around broken icons when using webpack, see https://github.com/PaulLeCam/react-leaflet/issues/255
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
+  iconUrl      : 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
+  shadowUrl    : 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
 });
 
 export const GET_IMAGE = 'imageOverlay.leafletElement._image';
@@ -31,110 +29,73 @@ class BodyModel extends Component {
     bounds: [1000, 1000],
   };
 
-  componentWillMount() {
-    // this.props.dispatch({ type: `${T.BODY_MODEL}_` })
+  componentDidMount() {
+    console.log('mounted');
+    setTimeout(() => this._drawExistingShapes(), 100)
   }
 
-  componentDidMount() {
-
-    setTimeout(() => {
-      this._drawExistingShapes();
-      console.log(this.layerContainer);
-    }, 100)
+  componentWillUpdate({ url }){
+    console.log('updated');
+    if (url !== this.props.url) {
+      setTimeout(() => this._drawExistingShapes(), 100)
+    }
   }
 
   _drawExistingShapes = () => {
-    this.editControl.context.layerContainer.clearLayers();
-    this.props.bodyModelReducer.shapes.features.forEach(shape => {
-      // console.log(shape);
-      let layer = new L.Polygon(
-        [shape.geometry.coordinates[0].map(latlng => new L.LatLng(...latlng.reverse()))]
-      );
-      console.log(cloneDeep(shape.geometry));
-      // layer.setStyle({ color: 'red', fillColor: 'red' });
-      let addLayer = this.editControl.context.layerContainer.addLayer.bind(this.editControl.context.layerContainer);
-      addLayer(layer);
+    this.layerContainer().clearLayers();
+    const { polygons }    = this.props.bodyModelReducer;
+    const { sex, side }   = this.props;
+    const currentPolygons = get(polygons, `${sex}.${side}`, []);
+    currentPolygons.forEach(shape => {
+      shape     = cloneDeep(shape);
+      let layer = new L.Polygon(shape);
+      layer.setStyle({
+        color: 'gray',
+        fillColor: 'gray'
+      });
+      this.layerContainer().addLayer(layer);
     });
-    // L.geoJSON(this.props.bodyModelReducer.shapes).addTo(this.map);
   };
 
   // see http://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html#l-draw-event for leaflet-draw events doc
 
-  _onEdited = (e) => {
-
-    let numEdited = 0;
-    e.layers.eachLayer( (layer) => {
-      numEdited += 1;
-    })
-    console.log(`_onEdited: edited ${numEdited} layers`, e);
-
-    this._onChange();
-  }
+  _onEdited = (e) => this._onChange();
 
   _onCreated = (e) => {
-    let type = e.layerType;
-    let layer = e.layer;
-    // console.log(`_onCreated: '''${type}''' created:`, e);
-    // Do whatever else you need to. (save to db; etc)
-    const shapes = this._editableFG.leafletElement.toGeoJSON()
-    dispatchBodyModelWired({ shapes });
-    console.log('================');
-    console.log('GEOJSON:', shapes);
-    console.log('================');
+    const polygons      = this._editableFG.leafletElement.toGeoJSON();
+    const { sex, side } = this.props;
+
+    polygons.features.forEach((polygon, i) => {
+      let latlng = cloneDeep(polygon.geometry.coordinates);
+      latlng[0].pop();
+      dispatchBodyModelWired({
+        [`polygons.${sex}.${side}[${i}]`]: [latlng[0].map(ll => new L.LatLng(...ll.reverse()))],
+      });
+    });
     this._onChange();
+  };
 
-    // this.layerContainer.clearLayers();
+  _onDeleted = (e) => dispatchBodyModelWired({ polygons: {} });
 
-  }
+  _onMounted = (drawControl) => this.updateBounds();
 
-  _onDeleted = (e) => {
+  _editableFG = null;
 
-    let numDeleted = 0;
-    e.layers.eachLayer( (layer) => {
-      numDeleted += 1;
-    })
-    console.log(`onDeleted: removed ${numDeleted} layers`, e);
-
-    this._onChange();
-  }
-
-  _onMounted = (drawControl) => {
-    this.updateBounds();
-    // setTimeout(() => {
-    //   this._drawExistingShapes();
-    // }, 100);
-
-  }
-
-  _onEditStop = (e) => {
-    console.log('_onEditStop', e);
-  }
-
-  _editableFG = null
-
-  _onFeatureGroupReady = (reactFGref) => {
-    // populate the leaflet FeatureGroup with the geoJson layers
-    // store the ref for future access to content
-
-    this._editableFG = reactFGref;
-  }
+  _onFeatureGroupReady = (reactFGref) => this._editableFG = reactFGref;
 
   _onChange = () => {
-
     // this._editableFG contains the edited geometry, which can be manipulated through the leaflet API
-
     const { onChange } = this.props;
 
     if (!this._editableFG || !onChange) {
       return;
     }
-
     const geojsonData = this._editableFG.leafletElement.toGeoJSON();
     console.log('gegoegoegoe', geojsonData);
     // onChange(geojsonData);
-  }
+  };
 
-  layerContainer = () =>  get(this.editControl, 'context.layerContainer');
+  layerContainer = () => get(this.editControl, 'context.layerContainer');
 
   // get layerContainer() {
   //   return get(this.editControl, 'context.layerContainer;')
@@ -148,7 +109,7 @@ class BodyModel extends Component {
         clearInterval(poll);
       }
     }, 100);
-  }
+  };
 
   render() {
     const { url } = this.props;
@@ -157,7 +118,7 @@ class BodyModel extends Component {
         style={{ height: 'calc(100vh - 180px)', background: '#c2dfdc' }}
         maxNativeZoom={18}
         zoomControl={false}
-        minZoom={-2.8}
+        minZoom={-2}
         zoom={1000}
         bounds={[[0, 0], this.state.bounds]}
         crs={L.CRS.Simple}
@@ -185,6 +146,11 @@ class BodyModel extends Component {
               circlemarker: false,
               marker      : false,
             }}
+            edit={{
+              // remove: false,
+              // edit: false,
+              actions: { clearAll: false }
+            }}
           />
         </FeatureGroup>
         <ZoomControl/>
@@ -195,6 +161,9 @@ class BodyModel extends Component {
 
 const mapStateToProps = state => ({
   bodyModelReducer: state.bodyModelReducer,
+  side: state.bodyModelReducer.side,
+  sex: state.bodyModelReducer.sex,
+  url: state.bodyModelReducer.url,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
