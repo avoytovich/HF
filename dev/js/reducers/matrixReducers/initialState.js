@@ -59,6 +59,7 @@ const exerciseTab = {
     instruction : { swe: '', en: '' },
     title       : { swe: '', en: '' },
     information : { swe: '', en: '' },
+    testing_mode : false,
   },
 };
 

@@ -44,7 +44,6 @@ class TableControls extends Component {
   mainClass = (selected) => `page-navigation ${selected.length ? 'active-navigation' : 'enable-navigation'}`;
 
   render() {
-    console.log(this.props)
     const {
       classes,
       selected,

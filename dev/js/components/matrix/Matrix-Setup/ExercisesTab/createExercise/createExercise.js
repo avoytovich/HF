@@ -22,7 +22,7 @@ import {
 }                                   from '../../../../common';
 import MatrixPreLoader              from '../../matrixPreloader';
 import { submitTabs }               from '../../../../../utils/matrix';
-
+import { CreateItemNavButtons }     from '../../../../common';
 
 class CreateExerciseComponent extends Component {
   state = {
@@ -58,7 +58,7 @@ class CreateExerciseComponent extends Component {
 
 
   done = (value) => {
-    const { id, title, comments, text, instruction, information, name, files, errors } = value;
+    const { id, title, comments, text, instruction, information, name, files, errors, testing_mode } = value;
     const validValue = { title, comments, instruction, information, name };
     const result = {
       title,
@@ -67,6 +67,7 @@ class CreateExerciseComponent extends Component {
       information,
       instruction,
       name,
+      testing_mode,
       file_ids: files ? files.data.map(el => el && el.id) : []
     };
 
@@ -113,7 +114,7 @@ class CreateExerciseComponent extends Component {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
         packageLevels,
-        exerciseState
+        exerciseState,
       },
 
       commonReducer: {
@@ -122,26 +123,39 @@ class CreateExerciseComponent extends Component {
       routeParams: { id },
     } = this.props;
 
-    const { name, comments, title, information, instruction, files } = this.props.exerciseState;
+    const { name, comments, title, information, instruction, files, testing_mode} = this.props.exerciseState;
+    console.log(this.props.exerciseState);
     return (
       <div id="create-question">
-        <div className="page-sub-header">
-          <span>Create Exercise</span>
-          <div className="nav-buttons">
 
-            <Button onClick={this.cancel}>
-              Cancel
-            </Button>
+        <CreateItemNavButtons
+          title={'Create Exercise'}
+          showSwitch={true}
+          switchChecked={testing_mode}
+          switchLabel={'On testing'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'exercise.testing_mode')}
+          onCancelClick={this.cancel}
+          cancelLabel={'Cancel'}
+          onSaveClick={() => this.done(this.props.exerciseState)}
+          saveLabel={'Save'}
+        />
+        {/*<div className="page-sub-header">*/}
+          {/*<span>Create Exercise</span>*/}
+          {/*<div className="nav-buttons">*/}
 
-            <Button raised
-                    dense
-                    onClick={() => this.done(this.props.exerciseState)}
-                    color="primary">
-              Save
-            </Button>
+            {/*<Button onClick={this.cancel}>*/}
+              {/*Cancel*/}
+            {/*</Button>*/}
 
-          </div>
-        </div>
+            {/*<Button raised*/}
+                    {/*dense*/}
+                    {/*onClick={() => this.done(this.props.exerciseState)}*/}
+                    {/*color="primary">*/}
+              {/*Save*/}
+            {/*</Button>*/}
+
+          {/*</div>*/}
+        {/*</div>*/}
 
         {  id && this.state.loading ?
           <MatrixPreLoader
