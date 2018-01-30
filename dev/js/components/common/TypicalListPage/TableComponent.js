@@ -280,11 +280,6 @@ class TableComponent extends Component {
     }
   };
 
-  handleTooltipOpen = (showTestingToolTip) => {
-    debugger;
-    this.setState({showTestingToolTip});
-  }
-
   render() {
     const {
       tableHeader,
@@ -425,29 +420,25 @@ TableComponent.defaultProps = {
 };
 
 TableComponent.propTypes = {
-  data             : PropTypes.arrayOf(
-                      PropTypes.object
-                    ).isRequired,
-  path             : PropTypes.string.isRequired,
-  domen            : PropTypes.string.isRequired,
-  reqType          : PropTypes.string,
-  tableHeader      : PropTypes.arrayOf(
-                      PropTypes.shape({
-                        title   : PropTypes.string.isRequired,
-                        key     : PropTypes.string.isRequired,
-                        tooltip : PropTypes.string
-                      }).isRequired
-                    ),
-  selected         : PropTypes.arrayOf(
-                      PropTypes.object
-                    ).isRequired,
-  onRowClick       : PropTypes.func.isRequired,
-  onSelectAllClick : PropTypes.func.isRequired,
-  onEdit           : PropTypes.func,
+  data              : PropTypes.arrayOf( PropTypes.object ).isRequired,
+  path              : PropTypes.string.isRequired,
+  domen             : PropTypes.string.isRequired,
+  reqType           : PropTypes.string,
+  tableHeader       : PropTypes.arrayOf(
+                        PropTypes.shape({
+                          title   : PropTypes.string.isRequired,
+                          key     : PropTypes.string.isRequired,
+                          tooltip : PropTypes.string
+                        }).isRequired
+                      ),
+  selected          : PropTypes.arrayOf( PropTypes.object ).isRequired,
+  onRowClick        : PropTypes.func.isRequired,
+  onSelectAllClick  : PropTypes.func.isRequired,
+  onEdit            : PropTypes.func,
   tableCellPropsFunc: PropTypes.func,
-  CellContent: PropTypes.func,
+  CellContent       : PropTypes.func,
   rowsPerPageOptions: PropTypes.arrayOf( PropTypes.number ),
-  url: PropTypes.string,
+  url               : PropTypes.string,
   showTestingMarker : PropTypes.bool,
   titleTestingMarker: PropTypes.string,
   keyTestingMarker  : PropTypes.string,
