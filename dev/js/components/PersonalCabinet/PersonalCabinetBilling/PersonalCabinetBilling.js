@@ -30,26 +30,25 @@ const mainInformation = [
   {title:'Company / Entity Name', path: 'name'},
   {title:'EU VAT nr.', path: 'legal_info.vat'},
   {title:'Registration nr. (Non EU)', path: 'legal_info.reg_num'},
-  {title:'Address', path: 'contact_info.address'},
-  {title:'Region', path: 'contact_info.region'},
-  {title:'Country', path: 'contact_info.country'},
-  {title:'Industry', path:  'additional_info.industry'}
+  {title:'Address', path: 'billing_info.address'},
+  {title:'Region', path: 'billing_info.region'},
+  {title:'Country', path: 'billing_info.country'},
+  {title:'Industry', path:  'billing_info.industry'}
 ];
 
 const billingDetails = [
-  {title:'Credit Card', path: 'name'},
-  {title:'Card expires on', path: 'legal_info.vat'},
-  {title:'Address', path: 'contact_info.address'},
-  {title:'Region', path: 'contact_info.region'},
-  {title:'Country', path: 'contact_info.country'}
+  {title:'Credit Card', path: 'billing_info.credit_card'},
+  {title:'Card expires on', path: 'billing_info.expires_on'},
+  {title:'Address', path: 'billing_info.address'},
+  {title:'Region', path: 'billing_info.region'},
+  {title:'Country', path: 'billing_info.country'}
 ];
 
 const tariffPlan = [
-  {title:'Title', path: 'name'},
-  {title:'Cost/User', path: 'legal_info.vat'},
-  {title:'Price/Period', path: 'contact_info.address'},
-  {title:'Period', path: 'contact_info.region'},
-  {title:'Maximum users', path: 'contact_info.country'}
+  {title:'Cost/User', sign:'$', path: 'cost_per_user'},
+  {title:'Price/Period',sign:'$', path: 'subscription_fee'},
+  {title:'Period', path: 'period'},
+  {title:'Maximum users', path: 'user_amount'}
 ];
 
 class PersonalCabinetBilling extends Component {
@@ -77,7 +76,7 @@ class PersonalCabinetBilling extends Component {
           {el.title}
         </div>
         <div className = 'profile-paper-data-info'>
-          {get(profileReducer, el.path,'-')}
+          {el.sign||''}{get(profileReducer, el.path,'-')}
         </div>
       </div>
     )
@@ -118,7 +117,7 @@ class PersonalCabinetBilling extends Component {
           <Grid item xs={12} sm={6} className = 'information-block'>
             <Paper className={classes.paper}>
               <div className = 'profile-paper-container'>
-                <div className = 'profile-paper-sub-header'>Billing Details</div>
+                <div className = 'profile-paper-sub-header'>Tariff Plan</div>
                 <div className = 'profile-paper-data-container'>
                   {map(tariffPlan, (el,index) => this._renderItem(el,index,profileReducer))}
                 </div>
@@ -136,7 +135,7 @@ class PersonalCabinetBilling extends Component {
           <Grid item xs={12} sm={12} className = 'information-block'>
             <Paper className={classes.paper}>
               <div className = 'profile-paper-container'>
-                <div className = 'profile-paper-sub-header'>Information</div>
+                <div className = 'profile-paper-sub-header'>Billing History</div>
                 <div className = 'profile-paper-data-container'>
                   {map(mainInformation, (el,index) => this._renderItem(el,index,profileReducer))}
                 </div>

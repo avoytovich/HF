@@ -1,6 +1,7 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { USERS_TAB }            from '../../../utils/constants/pageContent';
+import {
+  PERSONAL_CABINET_USERS_TAB }  from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
@@ -65,6 +66,7 @@ class PersonalCabinetUsers extends Component {
         this.setState({showCreateUserModal:false})})
   };
 
+  _toggleCloseCreateSimpleUser = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
   _activateItems = (selected, action) => {
     let currentPage = get(this.props,'store.pagination.current_page');
@@ -76,7 +78,7 @@ class PersonalCabinetUsers extends Component {
   };
 
   render() {
-    const { tableHeader } = USERS_TAB;
+    const { tableHeader } = PERSONAL_CABINET_USERS_TAB;
     const { selected, showActivateModal, showDeactivateModal, showCreateUserModal } = this.state;
     const querySelector = this.props.location.query;
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.userReducer.user_id}`;
@@ -119,6 +121,7 @@ class PersonalCabinetUsers extends Component {
           searchKey = "filter"
           createItem={this.createEntity}
           createButtonText="Add"
+          tableTitle  = 'Users'
         >
 
           <Button raised dense
@@ -143,13 +146,14 @@ class PersonalCabinetUsers extends Component {
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
+          tableTitle = 'Users'
         />
 
         <Modal
           itemName="name_real"
           open={showCreateUserModal}
           title='Add user'
-          toggleModal={this._toggleDeleteModal}
+          toggleModal={this._toggleCloseCreateSimpleUser}
           onConfirmClick={() => this._createSimpleUser()}
           CustomContent={() => <CreateSimpleUser />}
         />

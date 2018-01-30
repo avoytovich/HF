@@ -44,6 +44,7 @@ class TableControls extends Component {
   mainClass = (selected) => `page-navigation ${selected.length ? 'active-navigation' : 'enable-navigation'}`;
 
   render() {
+    console.log(this.props)
     const {
       classes,
       selected,
@@ -52,6 +53,7 @@ class TableControls extends Component {
       CreateButtonIcon,
     } = this.props;
     const selectedClassName = selected.length ? 'visible-details' : 'hidden-details';
+    const notSelectedClassName = selected.length ? 'hidden-details' : 'visible-details';
     const mainClass         = this.mainClass(selected);
     return (
       <Grid container className={mainClass}>
@@ -65,6 +67,13 @@ class TableControls extends Component {
             <Grid md={8} xs={6} item className="child-buttons">
               {/*here go custom control buttons above table on pick row*/}
               {this.props.children}
+            </Grid>
+          </Grid>
+          <Grid container className={notSelectedClassName}>
+            <Grid md={4} xs={6} item className="navigation-count">
+              <Typography type="title" gutterBottom>
+                {this.props.tableTitle}
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -107,6 +116,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 TableControls.defaultProps = {
   selected    : [],
+  tableTitle  :  '',
 };
 
 TableControls.propTypes = {
