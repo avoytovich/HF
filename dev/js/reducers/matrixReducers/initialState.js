@@ -42,7 +42,8 @@ const packageTab = {
       therapy_continuity: '1',
       exercise_ids: []
     }
-  ]
+  ],
+  testing_mode  : false,
 };
 
 const levelUp = {
