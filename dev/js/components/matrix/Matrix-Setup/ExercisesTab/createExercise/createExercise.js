@@ -139,23 +139,6 @@ class CreateExerciseComponent extends Component {
           onSaveClick={() => this.done(this.props.exerciseState)}
           saveLabel={'Save'}
         />
-        {/*<div className="page-sub-header">*/}
-          {/*<span>Create Exercise</span>*/}
-          {/*<div className="nav-buttons">*/}
-
-            {/*<Button onClick={this.cancel}>*/}
-              {/*Cancel*/}
-            {/*</Button>*/}
-
-            {/*<Button raised*/}
-                    {/*dense*/}
-                    {/*onClick={() => this.done(this.props.exerciseState)}*/}
-                    {/*color="primary">*/}
-              {/*Save*/}
-            {/*</Button>*/}
-
-          {/*</div>*/}
-        {/*</div>*/}
 
         {  id && this.state.loading ?
           <MatrixPreLoader
