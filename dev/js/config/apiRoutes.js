@@ -52,7 +52,7 @@ export const api = {
   areas               : '/matrix/areas',
   passForgot          : '/auth/password/forgot/web',
   passReset           : '/auth/password/update',
-  findArea            : '/matrix/areas/get/all',
+  findArea            : '/matrix/areas/get/side',
   findByAre           : '/matrix/questions/find/area',
   findEvalByAre       : '/matrix/evaluations/find/area',
   findByKey           : '/matrix/questions/get/key',
