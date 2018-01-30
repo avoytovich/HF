@@ -180,24 +180,6 @@ class CreatePackageComponent extends Component {
           onSaveClick={() => this.done(createDiagnosisQuestion)}
           saveLabel={'Save'}
         />
-
-        {/*<div className="page-sub-header">*/}
-          {/*<span>Create Package</span>*/}
-          {/*<div className="nav-buttons">*/}
-
-            {/*<Button onClick={this.cancel}>*/}
-              {/*Cancel*/}
-            {/*</Button>*/}
-
-            {/*<Button raised*/}
-                    {/*dense*/}
-                    {/*onClick={() => this.done(createDiagnosisQuestion)}*/}
-                    {/*color="primary">*/}
-              {/*Save*/}
-            {/*</Button>*/}
-
-          {/*</div>*/}
-        {/*</div>*/}
         { id && this.state.loading ?
           <MatrixPreLoader
             left="5"
