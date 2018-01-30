@@ -119,6 +119,7 @@ class EvaluationComponent extends Component {
           onRowClick={this.onRowClick}
           onEdit={(id) => this.create(id)}
           onSelectAllClick={this.onSelectAllClick}
+          showTestingMarker={true}
         />
 
       </div>

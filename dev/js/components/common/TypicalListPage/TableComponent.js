@@ -42,6 +42,8 @@ const DEFAULT_QUERY = {
 
 class TableComponent extends Component {
 
+  state = { showTestingToolTip: false };
+
   componentDidMount() {
     this.setDefaultQuery(this.props.path, this.props.store.pagination);
   }
@@ -278,6 +280,11 @@ class TableComponent extends Component {
     }
   };
 
+  handleTooltipOpen = (showTestingToolTip) => {
+    debugger;
+    this.setState({showTestingToolTip});
+  }
+
   render() {
     const {
       tableHeader,
@@ -286,6 +293,9 @@ class TableComponent extends Component {
       onSelectAllClick,
       CellContent,
       rowsPerPageOptions,
+      showTestingMarker,
+      titleTestingMarker,
+      keyTestingMarker,
       store: {
         data,
         pagination: {
@@ -306,6 +316,7 @@ class TableComponent extends Component {
           onRequestSort={this.handleRequestSort}
           rowCount={data.length}
           columnTitleList={tableHeader}
+          showTestingMarker={showTestingMarker}
         />
 
         <TableBody>
@@ -345,8 +356,20 @@ class TableComponent extends Component {
                 >
                   <TableCell padding="checkbox"
                              className="td-checkbox">
-                    <Checkbox checked={isSelected}
-                              onClick={event => this.handleClick(event, row, selected)}/>
+
+                      <div className={`in-testing-wrap ${ row[keyTestingMarker] && 'in-testing' }`}>
+
+                        {showTestingMarker &&
+                          <Tooltip title={titleTestingMarker}
+                                   label="_"
+                                   className={`in-testing-tooltip ${ row[keyTestingMarker] ? 'active' : '' } `}
+                                   placement="bottom-start">
+                              <div className={`in-testing ${ row[keyTestingMarker] && 'active'}`} />
+                          </Tooltip>}
+
+                        <Checkbox checked={isSelected}
+                                  onClick={event => this.handleClick(event, row, selected)}/>
+                      </div>
                   </TableCell>
                   {
                     tableHeader.map((col, i) => (
@@ -395,7 +418,10 @@ TableComponent.defaultProps = {
   tableCellPropsFunc: () => ({}),
   CellContent       : () => null,
   rowsPerPageOptions: [ 5, 25, 50 ], // The per page may not be greater than 50.
-  url: ''
+  url: '',
+  showTestingMarker : false,
+  titleTestingMarker: 'On testing',
+  keyTestingMarker  : 'testing'
 };
 
 TableComponent.propTypes = {
@@ -422,6 +448,9 @@ TableComponent.propTypes = {
   CellContent: PropTypes.func,
   rowsPerPageOptions: PropTypes.arrayOf( PropTypes.number ),
   url: PropTypes.string,
+  showTestingMarker : PropTypes.bool,
+  titleTestingMarker: PropTypes.string,
+  keyTestingMarker  : PropTypes.string,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
