@@ -1,5 +1,6 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
+import each                         from 'lodash/each';
 import { connect }                  from 'react-redux';
 import { browserHistory }           from 'react-router'
 import Button                       from 'material-ui/Button';
@@ -22,14 +23,14 @@ import { PAGE, assets }             from '../../../../../config';
 import { C }                        from '../../../../../components';
 
 const tabs = {
-  0: { value: 0, side: 'front', sex: 'male',   url: `${assets}/images/bodyModel/male1.jpg`,   },
-  1: { value: 1, side: 'left',  sex: 'male',   url: `${assets}/images/bodyModel/male2.jpg`,   },
-  2: { value: 2, side: 'back',  sex: 'male',   url: `${assets}/images/bodyModel/male3.jpg`,   },
-  3: { value: 3, side: 'right', sex: 'male',   url: `${assets}/images/bodyModel/male4.jpg`,   },
-  4: { value: 4, side: 'front', sex: 'female', url: `${assets}/images/bodyModel/female1.jpg`, },
-  5: { value: 5, side: 'left',  sex: 'female', url: `${assets}/images/bodyModel/female2.jpg`, },
-  6: { value: 6, side: 'back',  sex: 'female', url: `${assets}/images/bodyModel/female3.jpg`, },
-  7: { value: 7, side: 'right', sex: 'female', url: `${assets}/images/bodyModel/female4.jpg`, },
+  0: { value: 0, lb: 'M:front', side: 'front', sex: 'male',   url: `${assets}/images/bodyModel/male1.jpg`,   },
+  1: { value: 1, lb: 'M:left' , side: 'left',  sex: 'male',   url: `${assets}/images/bodyModel/male2.jpg`,   },
+  2: { value: 2, lb: 'M:back' , side: 'back',  sex: 'male',   url: `${assets}/images/bodyModel/male3.jpg`,   },
+  3: { value: 3, lb: 'M:right', side: 'right', sex: 'male',   url: `${assets}/images/bodyModel/male4.jpg`,   },
+  4: { value: 4, lb: 'F:front', side: 'front', sex: 'female', url: `${assets}/images/bodyModel/female1.jpg`, },
+  5: { value: 5, lb: 'F:left' , side: 'left',  sex: 'female', url: `${assets}/images/bodyModel/female2.jpg`, },
+  6: { value: 6, lb: 'F:back' , side: 'back',  sex: 'female', url: `${assets}/images/bodyModel/female3.jpg`, },
+  7: { value: 7, lb: 'F:right', side: 'right', sex: 'female', url: `${assets}/images/bodyModel/female4.jpg`, },
 }
 
 class CreateBodyAreaComponent extends Component {
@@ -80,6 +81,20 @@ class CreateBodyAreaComponent extends Component {
     sex : tabs[i].sex,
   });
 
+  _renderTabs = () => {
+    const returnArr = [];
+    each(tabs, ({ lb }, key) => {
+      returnArr.push(
+        <Tab
+          label={lb}
+          onClick={() => this._changeTab(key)}
+          key={key}
+        />
+      )
+    });
+    return returnArr;
+  };
+
   render() {
     let {
       createDiagnosisQuestion,
@@ -89,9 +104,6 @@ class CreateBodyAreaComponent extends Component {
         description
       },
       bodyModelReducer: {
-        url,
-        sex,
-        side,
         tab,
       }
     } = this.props;
@@ -123,19 +135,12 @@ class CreateBodyAreaComponent extends Component {
               <Tabs
                 scrollable
                 value={tab}
-                onChange={() => {}}
                 indicatorColor="primary"
                 textColor="primary"
                 fullWidth
               >
-                <Tab label='M:front' onClick={() => this._changeTab(0)}/>
-                <Tab label='M:left'  onClick={() => this._changeTab(1)}/>
-                <Tab label='M:back'  onClick={() => this._changeTab(2)}/>
-                <Tab label='M:right' onClick={() => this._changeTab(3)}/>
-                <Tab label='F:front' onClick={() => this._changeTab(4)}/>
-                <Tab label='F:left'  onClick={() => this._changeTab(5)}/>
-                <Tab label='F:back'  onClick={() => this._changeTab(6)}/>
-                <Tab label='F:right' onClick={() => this._changeTab(7)}/>
+                { this._renderTabs() }
+
               </Tabs>
             </AppBar>
 

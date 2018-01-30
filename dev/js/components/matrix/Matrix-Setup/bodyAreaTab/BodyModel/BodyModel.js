@@ -46,13 +46,12 @@ class BodyModel extends Component {
     const { polygons }    = this.props.bodyModelReducer;
     const { sex, side }   = this.props;
     const currentPolygons = get(polygons, `${sex}.${side}`, []);
+
     currentPolygons.forEach(shape => {
       shape     = cloneDeep(shape);
       let layer = new L.Polygon(shape);
-      layer.setStyle({
-        color: 'gray',
-        fillColor: 'gray'
-      });
+
+      layer.setStyle({ color: 'gray', fillColor: 'gray' });
       this.layerContainer().addLayer(layer);
     });
   };
@@ -67,8 +66,11 @@ class BodyModel extends Component {
 
     polygons.features.forEach((polygon, i) => {
       let latlng = cloneDeep(polygon.geometry.coordinates);
+      // last element need to be removed (spot the same as the first one due to leaflat stupid nature ->
+      // http://leafletjs.com/reference-1.3.0.html#polygon
       latlng[0].pop();
       dispatchBodyModelWired({
+        // saving polygon for each sex.side : [0: [0: [lat, lan][...][...]]], reversing due to leaflat stupid nature
         [`polygons.${sex}.${side}[${i}]`]: [latlng[0].map(ll => new L.LatLng(...ll.reverse()))],
       });
     });
@@ -149,6 +151,7 @@ class BodyModel extends Component {
             edit={{
               // remove: false,
               // edit: false,
+              allowIntersection: false,
               actions: { clearAll: false }
             }}
           />
