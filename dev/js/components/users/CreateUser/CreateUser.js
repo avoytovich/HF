@@ -129,6 +129,7 @@ class CreateUser extends Component {
               <Input id="billing_info.address" reducer={createUsersReducers} label='Address' placeholder='Address'/>
               <Input id="billing_info.region" reducer={createUsersReducers} label='Region' placeholder='Region'/>
               <Input id="billing_info.country" reducer={createUsersReducers} label='Country' placeholder='Country'/>
+              <Input id="billing_info.postal_code" reducer={createUsersReducers} label='Postal Code' placeholder='Postal Code'/>
             </div>
           </div>
 
