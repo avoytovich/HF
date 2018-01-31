@@ -6,6 +6,7 @@ import { browserHistory }           from 'react-router'
 import Button                       from 'material-ui/Button';
 import Grid                         from 'material-ui/Grid';
 import get                          from 'lodash/get';
+import capitalize                   from 'lodash/capitalize';
 import { AsyncCreatable }           from 'react-select';
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
@@ -65,8 +66,8 @@ class CreateBodyAreaComponent extends Component {
     side       : bodyModelReducer.side,
     properties : {
       coordinates: {
-        male: get(bodyModelReducer.currentlyDrawingPolygon, `male.${bodyModelReducer.side}`, ''),
-        female: get(bodyModelReducer.currentlyDrawingPolygon, `female.${bodyModelReducer.side}`, ''),
+        male: get(bodyModelReducer.currentlyDrawingPolygon, `${bodyModelReducer.side}.male`, ''),
+        female: get(bodyModelReducer.currentlyDrawingPolygon, `${bodyModelReducer.side}.female`, ''),
       }
     }
   });
@@ -113,13 +114,17 @@ class CreateBodyAreaComponent extends Component {
       bodyModelReducer,
       bodyModelReducer: {
         tab,
+      },
+      routeParams: {
+        id
       }
     } = this.props;
     const finalData = this._prepareData(createDiagnosisQuestion, bodyModelReducer);
+    const screenTitle =  `${id? 'Edit': 'Create' } Pain Zone ${id && '"' + capitalize(title) + '"'}`;
     return (
       <div id="create-question">
         <div className="page-sub-header">
-          <span>Create Pain Zone</span>
+          <span>{screenTitle}</span>
           <div className="nav-buttons">
 
             <Button onClick={() => browserHistory.push(PAGE.bodyArea)}>
@@ -154,7 +159,7 @@ class CreateBodyAreaComponent extends Component {
             </AppBar>
 
             <C.BodyModel
-              id={this.props.routeParams.id}
+              id={id}
             />
 
           </Grid>

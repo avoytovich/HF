@@ -22,14 +22,14 @@ export const getBodyAreaById = (domenKey, apiKey, id) => {
           side = 'front'
         }
       }                 = res.data;
-      const coordinates = get(body, 'properties.coordinates', false);
       store.dispatch({
         type:`${T.CREATE_QUESTION}_SET_BODY_AREA`,
         payload: { body }
       });
-      if (coordinates) {
-        dispatchBodyModelWired({ [`existingPolygons.${side}`]: coordinates });
-      }
+      // const coordinates = get(body, 'properties.coordinates', false);
+      // if (coordinates) {
+      //   dispatchBodyModelWired({ [`existingPolygons.${side}`]: coordinates });
+      // }
       return body;
     }
   });

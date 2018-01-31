@@ -6,7 +6,7 @@ const initialState = {
   actionType: T.BODY_MODEL,
   errors                 : {},
   currentlyDrawingPolygon: {},
-  existingPolygons       : {},
+  existingPolygons       : [],
   side                   : 'front',
   sex                    : 'male',
   tab                    : 0,

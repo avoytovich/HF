@@ -15,6 +15,15 @@ export const getAllSideAreas = (side) => Api.post(`${domen.diagnostics}${api.get
 
 export const getAllSideAreasWired = side => getAllSideAreas(side)
   .then(res => {
-    console.log(res);
+    const {
+      data = [],
+    } = res.data;
+    data.forEach((area, i) => {
+      const coordinates = get(area, 'properties.coordinates', false);
+      if (coordinates) {
+        dispatchBodyModelWired({ [`existingPolygons[${i}].${side}`]: coordinates });
+      }
+    });
+
   })
   .catch(err => console.log(err));

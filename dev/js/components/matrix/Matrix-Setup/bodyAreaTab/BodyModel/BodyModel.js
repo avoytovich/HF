@@ -37,16 +37,16 @@ class BodyModel extends Component {
   };
 
   componentWillMount (){
-    getAllSideAreasWired('front');
+    getAllSideAreasWired(this.props.side)
+      .then(() => this._drawExistingPolygons());
     if (this.props.id) {
       getBodyAreaById('diagnostics', 'areas', this.props.id).
-        then(() => this._drawExistingPolygons())
+        then(() => {});
     }
   }
 
   componentDidMount() {
     this._drawingNewPolygons();
-    this._drawExistingPolygons();
   }
 
   componentWillUpdate({ url, ...nextProps }) {
@@ -54,6 +54,15 @@ class BodyModel extends Component {
       this.layerContainer().clearLayers();
       this._drawingNewPolygons();
       this._drawExistingPolygons();
+      getAllSideAreasWired(this.props.side)
+        .then(() => this._drawExistingPolygons());
+    }
+  }
+
+  componentDidUpdate ({ url }) {
+    if (url !== this.props.url) {
+      this._onChange();
+      getAllSideAreasWired(this.props.side);
     }
   }
 
@@ -74,26 +83,25 @@ class BodyModel extends Component {
 
   _drawExistingPolygons() {
     setTimeout(() => {
-      console.log('drawing existing polygons');
-      // this.layerContainer().clearLayers();
       const {
         bodyModelReducer: {
-          existingPolygons,
+          existingPolygons = [],
         },
         sex,
         side,
-      }                     = this.props;
-      const currentPolygons = [get(existingPolygons, `${side}.${sex}`, [])];
-      let layer = new L.Polygon(currentPolygons);
-      layer.setStyle({ color: 'gray', fillColor: 'gray' });
-      this.layerContainer().addLayer(layer);
+      } = this.props;
+      existingPolygons.forEach(existingPolygon => {
+        const currentPolygons = [get(existingPolygon, `${side}.${sex}`, [])];
+        let layer             = new L.Polygon(currentPolygons);
+
+        layer.setStyle({ color: 'gray', fillColor: 'gray' });
+        this.layerContainer().addLayer(layer);
+      });
     }, 10);
   }
 
   _drawingNewPolygons = () => {
     setTimeout(() => {
-      // this.layerContainer().clearLayers();
-      console.log('drawing new polygons');
       const {
         bodyModelReducer: {
           currentlyDrawingPolygon,
@@ -110,14 +118,37 @@ class BodyModel extends Component {
   // see http://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html#l-draw-event for leaflet-draw events doc
 
   _onEditStart = () => {
-
+    this.layerContainer().clearLayers();
+    this._drawingNewPolygons();
   };
+
+  _onEditStop = () => {
+    this._drawExistingPolygons();
+  }
 
   _onDeleteStart = () => {
-
+    this.layerContainer().clearLayers();
+    this._drawingNewPolygons();
   };
 
+  _onDeleteStop = () => {
+    this._drawExistingPolygons();
+  }
+
   _onEdited = (e) => {
+    const currentlyDrawingPolygon = this._editableFG.leafletElement.toGeoJSON();
+    const { sex, side } = this.props;
+
+    currentlyDrawingPolygon.features.forEach((polygon, i) => {
+      let latlng = cloneDeep(polygon.geometry.coordinates);
+      // last element need to be removed (spot the same as the first one due to leaflat stupid nature ->
+      // http://leafletjs.com/reference-1.3.0.html#polygon
+      latlng[0].pop();
+      dispatchBodyModelWired({
+        // saving polygon for each side.sex : [[lat, lan][...][...]], reversing due to leaflat stupid nature
+        [`currentlyDrawingPolygon.${side}.${sex}`]: latlng[0].map(ll => new L.LatLng(...ll.reverse())),
+      });
+    });
     this._onChange();
   };
 
@@ -144,7 +175,14 @@ class BodyModel extends Component {
   };
 
   _onChange = () => {
-    if (isEmpty(this.props.bodyModelReducer.currentlyDrawingPolygon)) {
+    const {
+      bodyModelReducer,
+      bodyModelReducer: {
+        side,
+        sex
+      }
+    } = this.props;
+    if (isEmpty(get(bodyModelReducer, `currentlyDrawingPolygon.${side}.${sex}`, {}))) {
       dispatchBodyModelWired({ showPolygonTool: true})
     } else {
       dispatchBodyModelWired({ showPolygonTool: false})
@@ -192,10 +230,12 @@ class BodyModel extends Component {
           <EditControl
             ref={elem => this.editControl = elem}
             position='topleft'
-            onEditStart={this._onEditStart()}
+            onEditStart={this._onEditStart}
+            onEditStop={this._onEditStop}
             onEdited={this._onEdited}
             onCreated={this._onCreated}
-            onDeleteStart={this._onDeleteStart()}
+            onDeleteStart={this._onDeleteStart}
+            onDeleteStop={this._onDeleteStop}
             onDeleted={this._onDeleted}
             onMounted={this._onMounted}
             draw={{
@@ -207,14 +247,14 @@ class BodyModel extends Component {
               marker: false,
             }}
             edit={{
-              // remove: false,
-              edit: true,
+              remove: !showPolygonTool,
+              // edit: !showPolygonTool,
               allowIntersection: false,
               actions: { clearAll: false }
             }}
           />
         </FeatureGroup>
-        <ZoomControl/>
+        <ZoomControl position='topright'/>
       </Map>
     );
   }
