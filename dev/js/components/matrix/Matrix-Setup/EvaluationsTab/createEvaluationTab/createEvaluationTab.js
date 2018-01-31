@@ -22,7 +22,7 @@ import { CreateItemNavButtons }     from '../../../../common';
 
 class CreateEvaluationComponent extends Component {
   state = {
-    questionType    : 'levelUp',
+    questionType    : 'evaluation',
     sequenceTypeList: [
       {label: 'Normal', value: 'normal'},
       {label: 'After',  value: 'after' },
@@ -102,7 +102,7 @@ class CreateEvaluationComponent extends Component {
   submit = (value) => {
     const {
       sequenceType, questionKey, sequence, question, questionTitle, content_type, errors, diagnostic_assets, testing,
-      level_up
+      level_up, evaluation_result, evaluation_result_data
     } = value;
     const validValue = { questionKey, questionTitle };
     const isContentType = content_type === 'functionalTest';
@@ -122,7 +122,7 @@ class CreateEvaluationComponent extends Component {
     const savedErrors = {questionKey: errors.questionKey};
 
     const result = {
-      type : 'levelUp',
+      type : 'evaluation',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
       title: questionTitle,
@@ -130,6 +130,8 @@ class CreateEvaluationComponent extends Component {
       content_type,
       testing,
       level_up,
+      evaluation_result,
+      evaluation_result_data: evaluation_result_data[evaluation_result],
       ...optional,
     };
 
@@ -139,13 +141,13 @@ class CreateEvaluationComponent extends Component {
       'diagnostics',
       'createQuestion',
       result,
-      '/matrix-setup/levelUps',
+      '/matrix-setup/evaluations',
       this.props.routeParams.id
     );
   };
 
   validateDiagnosticAssets = (assets) =>
-      assets.hasOwnProperty('id') && !!assets.id;
+  assets.hasOwnProperty('id') && !!assets.id;
 
   configureQuestionResult = (value, optional) => {
     const { areaIds, answerType, rules, diagnostic_assets, packageLevelsList } = value,
@@ -163,7 +165,7 @@ class CreateEvaluationComponent extends Component {
     };
   };
 
-  cancel = () => browserHistory.push(`/matrix-setup/levelUps`);
+  cancel = () => browserHistory.push(`/matrix-setup/evaluations`);
 
   render() {
     const {
@@ -175,7 +177,7 @@ class CreateEvaluationComponent extends Component {
       <div id="create-question">
 
         <CreateItemNavButtons
-          title={'Create Level up Question'}
+          title={'Create Evaluation Question'}
           showSwitch={true}
           switchChecked={testing}
           switchLabel={'On testing'}
@@ -197,11 +199,9 @@ class CreateEvaluationComponent extends Component {
               sequenceList={this.state.sequenceList}/> :
             <DiagnosisTypeQuestion
               page='evaluations'
-              packages={true}
-              showLevelUp={true}
               hideArea={true}
+              rules_links={true}
               currentId={id}
-              packageLevelsList={packageLevelsList}
               sequenceList={this.state.sequenceList}/>
         }
       </div>

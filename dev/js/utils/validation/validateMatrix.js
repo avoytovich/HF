@@ -11,6 +11,7 @@ export const validateMatrix = data => {
   const notGreaterThanOrEqualTo = (title) => `^${title} must be greater than or equal to 0`;
   const notLessThanOrEqualTo = (title, lessThen) => `^${title} must be less than or equal to ${lessThen | 100}`;
   const notEmpty = (title) => `^${title} cannot be empty`;
+  const notEmail = (title) => `^${title} doesn't look like a valid email`;
 
   const constraints = {
     questionTitle: {
@@ -190,7 +191,18 @@ export const validateMatrix = data => {
         tokenizer: minimizeString,
       }
     },
-
+    [bCN('evaluation_result_data', 'redirect')]: {
+      email: {
+        message: notEmail('URL address')
+      }
+    },
+    [bCN('evaluation_result_data', 'info')]: {
+      length: {
+        minimum: 2,
+        tooShort: tooShort('Key'),
+        tokenizer: minimizeString,
+      }
+    }
   };
 
   const { isValid, errors } = validator(data, constraints);

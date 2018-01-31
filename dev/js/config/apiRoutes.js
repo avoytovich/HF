@@ -114,7 +114,7 @@ export const PAGE = {
   diagnosis         : '/matrix-setup/diagnosis',
   conditions        : '/matrix-setup/conditions',
   treatments        : '/matrix-setup/treatments',
-  evaluation        : '/matrix-setup/evaluation',
+  evaluations       : '/matrix-setup/evaluations',
   simpleUsers       : '/users-simple',
   organizationsUsers: '/users-organizations',
   clinicsUsers      : '/users-clinics',

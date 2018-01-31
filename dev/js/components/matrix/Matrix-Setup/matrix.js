@@ -14,7 +14,8 @@ const TABS = [
   { label: 'Packages',   url: 'packages'    },
   { label: 'Exercises',  url: 'exercises'   },
   { label: 'Level Up',   url: 'levelUps'    },
-  { label: 'Pain zones',  url: 'body-area'  }
+  { label: 'Evaluation', url: 'evaluations' },
+  { label: 'Pain zones', url: 'body-area'   }
 ];
 
 const styles = theme => ({

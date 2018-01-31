@@ -88,6 +88,18 @@ export const DIAGNOSIS_TAB = {
   ]
 };
 
+export const LEVEL_UP = {
+  key: 'diagnosis',
+  title: 'Diagnosis',
+  tableHeader: [
+    { title: 'Name',          key: 'title',   className: 'left' },
+    { title: 'Key',           key: 'key',     className: 'left' },
+    { title: 'Sequence',      key: 'step',    className: 'center', type: 'number', format: '' },
+    { title: 'Testing mode',  key: 'testing', className: 'left',   type: 'in_testing'         },
+    { title: 'Updated', key: 'updated_at',  className: 'left',   type: 'time',   format: TIME_FORMAT }
+  ]
+};
+
 export const BODY_AREA_TAB = {
   key: 'areas',
   title: 'bodyArea',

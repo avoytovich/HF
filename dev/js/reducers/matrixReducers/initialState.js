@@ -48,10 +48,19 @@ const packageTab = {
 };
 
 const levelUp = {
-  level_up: false,
+  levelup_result: false,
   packageLevelsList: [
     {packageId: '', levelsList: [], levelId: ''}
   ]
+};
+
+const evaluation = {
+  evaluation_result     : '',
+  evaluation_result_data: {
+    redirect: '',
+    page: 'http://heal.com/screen1',
+    info: '',
+  }
 };
 
 const exerciseTab = {
@@ -77,6 +86,7 @@ export  default {
   ...treatmentTab,
   ...packageTab,
   ...levelUp,
+  ...evaluation,
   ...exerciseTab,
   ...bodyAreaTab,
 };
