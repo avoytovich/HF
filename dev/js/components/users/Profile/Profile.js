@@ -95,10 +95,10 @@ class Profile extends Component {
 
   _returnFunc = () => {
     if(get(this.props,'profileReducer.type')==='organization'){
-      browserHistory.push('companies');
+      browserHistory.push('/companies');
     }
     else if(get(this.props,'profileReducer.type')==='clinic'){
-      browserHistory.push('clinics');
+      browserHistory.push('/clinics');
     }
   };
 

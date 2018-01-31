@@ -60,7 +60,7 @@ class CompanyOwnUsers extends Component {
 
   _returnFunc = (param) => {
     if(param==='companies'){
-      browserHistory.push('companies');
+      browserHistory.push('/companies');
     }
     else {
       browserHistory.push(`/company/${this.props.params.id}/profile`)

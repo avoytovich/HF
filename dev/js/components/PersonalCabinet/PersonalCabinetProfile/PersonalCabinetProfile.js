@@ -166,7 +166,6 @@ class Profile extends Component {
         <div>
           <Grid className={classes.root}
                 container
-                alignItems='flex-start'
                 direction='row'
                 justify='space-around'
           >

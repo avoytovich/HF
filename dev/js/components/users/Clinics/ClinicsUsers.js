@@ -57,7 +57,7 @@ class ClinicOwnUsers extends Component {
 
   _returnFunc = (param) => {
     if(param==='clinic'){
-      browserHistory.push('clinics');
+      browserHistory.push('/clinics');
     }
     else {
       browserHistory.push(`/clinic/${this.props.params.id}/profile`)

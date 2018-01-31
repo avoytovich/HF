@@ -7,7 +7,7 @@ class Dropzone extends Component {
     const {
       onDrop
     } = this.props;
-    console.log(this.props)
+
     return (
       <DropzoneLib
         accept={this.props.fileTypes || 'image/png,image/jpeg,image/bmp,video/mp4'}
