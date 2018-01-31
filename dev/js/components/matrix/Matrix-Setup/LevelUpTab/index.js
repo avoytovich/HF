@@ -1,4 +1,4 @@
-import LevelUpComponent          from './levelUp';
-import CreateEvaluationComponent from './createLevelUpQuestion/createLevelUp';
+import LevelUpComponent        from './levelUp';
+import CreateLevelUpComponent  from './createLevelUpQuestion/createLevelUp';
 
-export { LevelUpComponent, CreateEvaluationComponent };
+export { LevelUpComponent, CreateLevelUpComponent };

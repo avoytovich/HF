@@ -10,8 +10,13 @@ export {
 
 export {
   LevelUpComponent,
-  CreateEvaluationComponent
+  CreateLevelUpComponent
 }                                from './LevelUpTab'
+
+export {
+  EvaluationComponent,
+  CreateEvaluationComponent
+}                                from './EvaluationsTab'
 
 export {
   ExercisesComponent,

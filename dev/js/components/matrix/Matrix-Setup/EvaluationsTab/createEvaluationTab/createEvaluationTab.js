@@ -20,9 +20,9 @@ import { notifier } from "../../../../../actions/common/notifier";
 import { CreateItemNavButtons }     from '../../../../common';
 
 
-class CreateLevelUpComponent extends Component {
+class CreateEvaluationComponent extends Component {
   state = {
-    questionType    : 'levelUp',
+    questionType    : 'evaluation',
     sequenceTypeList: [
       {label: 'Normal', value: 'normal'},
       {label: 'After',  value: 'after' },
@@ -145,7 +145,7 @@ class CreateLevelUpComponent extends Component {
   };
 
   validateDiagnosticAssets = (assets) =>
-      assets.hasOwnProperty('id') && !!assets.id;
+  assets.hasOwnProperty('id') && !!assets.id;
 
   configureQuestionResult = (value, optional) => {
     const { areaIds, answerType, rules, diagnostic_assets, packageLevelsList } = value,
@@ -175,7 +175,7 @@ class CreateLevelUpComponent extends Component {
       <div id="create-question">
 
         <CreateItemNavButtons
-          title={'Create Level up Question'}
+          title={'Create Evaluation Question'}
           showSwitch={true}
           switchChecked={testing}
           switchLabel={'On testing'}
@@ -197,11 +197,8 @@ class CreateLevelUpComponent extends Component {
               sequenceList={this.state.sequenceList}/> :
             <DiagnosisTypeQuestion
               page='evaluations'
-              packages={true}
-              showLevelUp={true}
               hideArea={true}
               currentId={id}
-              packageLevelsList={packageLevelsList}
               sequenceList={this.state.sequenceList}/>
         }
       </div>
@@ -212,4 +209,4 @@ class CreateLevelUpComponent extends Component {
 const mapStateToProps    = state => ({createDiagnosisQuestion: state.createDiagnosisQuestion});
 const mapDispatchToProps = dispatch => bindActionCreators({dispatch}, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(CreateLevelUpComponent);
+export default  connect(mapStateToProps, mapDispatchToProps)(CreateEvaluationComponent);
