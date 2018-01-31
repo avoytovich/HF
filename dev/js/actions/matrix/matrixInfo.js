@@ -44,9 +44,6 @@ export const getListByPost = (domenKey, apiKey, _query, url) => {
     });
 };
 
-export const clearCreateQuestion = () =>
-  store.dispatch({type:`${CREATE_QUESTION}_CLEAR`});
-
 export const updateCrateQuestionFields = (data, path) => {
   return store.dispatch({type:`${CREATE_QUESTION}_UPDATE`,
     payload:{
@@ -83,14 +80,6 @@ export const deleteItem = (domenKey, apiKey, ids) => {
     apiList   = ids.map(item => Api.delete(`${domenPath}${apiPath}/${item.id}`));
 
   return Promise.all(apiList).then(res => res)
-};
-
-
-export const diagnosisQuestionCreate = (domenKey, apiKey, body, id) => {
-  const domenPath = domen[domenKey],
-        apiPath   = api[apiKey];
-  return id ? Api.post(`${domenPath}${apiPath}/${id}`, body):
-              Api.post(`${domenPath}${apiPath}`, body);
 };
 
 export const updateQuestionCreate = (domenKey, apiKey, body, id) => {
@@ -168,24 +157,6 @@ export const getTreatmentById = (domenKey, apiKey, id) => {
       store.dispatch(
         {
           type:`${CREATE_QUESTION}_SET_COND_QUESTION`,
-          payload: { body }
-        }
-      );
-      return data;
-    }
-  });
-};
-
-export const getBodyAreaById = (domenKey, apiKey, id) => {
-  const domenPath = domen[domenKey],
-    apiPath   = api[apiKey];
-  return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
-    if (res) {
-      const { data } = res.data;
-      const body = {...data};
-      store.dispatch(
-        {
-          type:`${CREATE_QUESTION}_SET_BODY_AREA`,
           payload: { body }
         }
       );

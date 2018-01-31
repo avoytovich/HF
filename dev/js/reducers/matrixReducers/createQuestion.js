@@ -184,16 +184,27 @@ const setFullQuestionForCondition = (state, action) => {
 };
 
 const setFullBodyAreaEdit = (state, action) => {
-  const { body, body: {title, key, description}} = action.payload;
+  const {
+    body,
+    body: {
+      title,
+      key,
+      description
+    }
+  } = action.payload;
   const _body = {
     title: title,
     key: key,
     description: description,
   };
   const res = body.package ?
-    {..._body,
+    {
+      ..._body,
       treatmentsLevels: { label: body.package.package_id, value:  body.package.package_id},
-      treatmentsPackage:{ label: package_level_id, value: package_level_id}} : _body;
+      treatmentsPackage:{ label: package_level_id, value: package_level_id}
+    }
+    :
+    _body;
   return Object.assign({}, state, res);
 };
 

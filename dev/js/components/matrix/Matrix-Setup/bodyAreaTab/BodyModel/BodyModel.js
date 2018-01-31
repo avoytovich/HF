@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -12,14 +13,20 @@ import {
 import L from 'leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
-import { dispatchBodyModelWired, T } from '../../../../../actions'
+import {
+  dispatchBodyModelWired,
+  T,
+  clearBodyAreaWired,
+  getBodyAreaById,
+  getAllSideAreasWired,
+} from '../../../../../actions'
 
 // work around broken icons when using webpack, see https://github.com/PaulLeCam/react-leaflet/issues/255
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
-  iconUrl      : 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
-  shadowUrl    : 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
 });
 
 export const GET_IMAGE = 'imageOverlay.leafletElement._image';
@@ -29,81 +36,123 @@ class BodyModel extends Component {
     bounds: [1000, 1000],
   };
 
-  componentDidMount() {
-    console.log('mounted');
-    setTimeout(() => this._drawExistingShapes(), 100)
-  }
-
-  componentWillUpdate({ url }){
-    console.log('updated');
-    if (url !== this.props.url) {
-      setTimeout(() => this._drawExistingShapes(), 100)
+  componentWillMount (){
+    getAllSideAreasWired('front');
+    if (this.props.id) {
+      getBodyAreaById('diagnostics', 'areas', this.props.id).
+        then(() => this._drawExistingPolygons())
     }
   }
 
-  _drawExistingShapes = () => {
-    this.layerContainer().clearLayers();
-    const { polygons }    = this.props.bodyModelReducer;
-    const { sex, side }   = this.props;
-    const currentPolygons = get(polygons, `${sex}.${side}`, []);
+  componentDidMount() {
+    this._drawingNewPolygons();
+    this._drawExistingPolygons();
+  }
 
-    currentPolygons.forEach(shape => {
-      shape     = cloneDeep(shape);
-      let layer = new L.Polygon(shape);
+  componentWillUpdate({ url, ...nextProps }) {
+    if (url !== this.props.url) {
+      this.layerContainer().clearLayers();
+      this._drawingNewPolygons();
+      this._drawExistingPolygons();
+    }
+  }
 
-      layer.setStyle({ color: 'gray', fillColor: 'gray' });
-      this.layerContainer().addLayer(layer);
-    });
-  };
-
-  // see http://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html#l-draw-event for leaflet-draw events doc
-
-  _onEdited = (e) => this._onChange();
-
-  _onCreated = (e) => {
-    const polygons      = this._editableFG.leafletElement.toGeoJSON();
-    const { sex, side } = this.props;
-
-    polygons.features.forEach((polygon, i) => {
-      let latlng = cloneDeep(polygon.geometry.coordinates);
-      // last element need to be removed (spot the same as the first one due to leaflat stupid nature ->
-      // http://leafletjs.com/reference-1.3.0.html#polygon
-      latlng[0].pop();
-      dispatchBodyModelWired({
-        // saving polygon for each sex.side : [0: [0: [lat, lan][...][...]]], reversing due to leaflat stupid nature
-        [`polygons.${sex}.${side}[${i}]`]: [latlng[0].map(ll => new L.LatLng(...ll.reverse()))],
-      });
-    });
-    this._onChange();
-  };
-
-  _onDeleted = (e) => dispatchBodyModelWired({ polygons: {} });
-
-  _onMounted = (drawControl) => this.updateBounds();
+  componentWillUnmount() {
+    clearBodyAreaWired();
+  }
 
   _editableFG = null;
 
   _onFeatureGroupReady = (reactFGref) => this._editableFG = reactFGref;
 
-  _onChange = () => {
-    // this._editableFG contains the edited geometry, which can be manipulated through the leaflet API
-    const { onChange } = this.props;
-
-    if (!this._editableFG || !onChange) {
-      return;
-    }
-    const geojsonData = this._editableFG.leafletElement.toGeoJSON();
-    console.log('gegoegoegoe', geojsonData);
-    // onChange(geojsonData);
-  };
-
   layerContainer = () => get(this.editControl, 'context.layerContainer');
 
-  // get layerContainer() {
-  //   return get(this.editControl, 'context.layerContainer;')
-  // }
+  _onMounted = (drawControl) => {
+    this._updateBounds();
+    this._onChange();
+  };
 
-  updateBounds = () => {
+  _drawExistingPolygons() {
+    setTimeout(() => {
+      console.log('drawing existing polygons');
+      // this.layerContainer().clearLayers();
+      const {
+        bodyModelReducer: {
+          existingPolygons,
+        },
+        sex,
+        side,
+      }                     = this.props;
+      const currentPolygons = [get(existingPolygons, `${side}.${sex}`, [])];
+      let layer = new L.Polygon(currentPolygons);
+      layer.setStyle({ color: 'gray', fillColor: 'gray' });
+      this.layerContainer().addLayer(layer);
+    }, 10);
+  }
+
+  _drawingNewPolygons = () => {
+    setTimeout(() => {
+      // this.layerContainer().clearLayers();
+      console.log('drawing new polygons');
+      const {
+        bodyModelReducer: {
+          currentlyDrawingPolygon,
+        },
+        sex,
+        side,
+      }                     = this.props;
+      const currentPolygons = [get(currentlyDrawingPolygon, `${side}.${sex}`, [])];
+      let layer = new L.Polygon(currentPolygons);
+      this.layerContainer().addLayer(layer);
+    }, 10);
+  };
+
+  // see http://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html#l-draw-event for leaflet-draw events doc
+
+  _onEditStart = () => {
+
+  };
+
+  _onDeleteStart = () => {
+
+  };
+
+  _onEdited = (e) => {
+    this._onChange();
+  };
+
+  _onCreated = (e) => {
+    const currentlyDrawingPolygon = this._editableFG.leafletElement.toGeoJSON();
+    const { sex, side } = this.props;
+
+    currentlyDrawingPolygon.features.forEach((polygon, i) => {
+      let latlng = cloneDeep(polygon.geometry.coordinates);
+      // last element need to be removed (spot the same as the first one due to leaflat stupid nature ->
+      // http://leafletjs.com/reference-1.3.0.html#polygon
+      latlng[0].pop();
+      dispatchBodyModelWired({
+        // saving polygon for each side.sex : [[lat, lan][...][...]], reversing due to leaflat stupid nature
+        [`currentlyDrawingPolygon.${side}.${sex}`]: latlng[0].map(ll => new L.LatLng(...ll.reverse())),
+      });
+    });
+    this._onChange();
+  };
+
+  _onDeleted = (e) => {
+    dispatchBodyModelWired({ currentlyDrawingPolygon: {} });
+    this._onChange()
+  };
+
+  _onChange = () => {
+    if (isEmpty(this.props.bodyModelReducer.currentlyDrawingPolygon)) {
+      dispatchBodyModelWired({ showPolygonTool: true})
+    } else {
+      dispatchBodyModelWired({ showPolygonTool: false})
+    }
+    // const geojsonData = this._editableFG.leafletElement.toGeoJSON();
+  };
+
+  _updateBounds = () => {
     var poll = setInterval(() => {
       let DOMImage = get(this, GET_IMAGE);
       if (get(DOMImage, 'naturalHeight')) {
@@ -114,7 +163,13 @@ class BodyModel extends Component {
   };
 
   render() {
-    const { url } = this.props;
+    const {
+      url,
+      bodyModelReducer: {
+        showEditTool,
+        showPolygonTool,
+      }
+    } = this.props;
     return (
       <Map
         style={{ height: 'calc(100vh - 180px)', background: '#c2dfdc' }}
@@ -131,26 +186,29 @@ class BodyModel extends Component {
           bounds={[[0, 0], this.state.bounds]}
           ref={imageOverlay => this.imageOverlay = imageOverlay}
         />
-        <FeatureGroup ref={ (reactFGref) => {this._onFeatureGroupReady(reactFGref);} }>
+        <FeatureGroup ref={ (reactFGref) => {
+          this._onFeatureGroupReady(reactFGref);
+        } }>
           <EditControl
             ref={elem => this.editControl = elem}
             position='topleft'
+            onEditStart={this._onEditStart()}
             onEdited={this._onEdited}
             onCreated={this._onCreated}
+            onDeleteStart={this._onDeleteStart()}
             onDeleted={this._onDeleted}
             onMounted={this._onMounted}
-            onEditStop={this._onEditStop}
             draw={{
-              polygon     : true,
-              rectangle   : false,
-              polyline    : false,
-              circle      : false,
+              polygon: showPolygonTool,
+              rectangle: false,
+              polyline: false,
+              circle: false,
               circlemarker: false,
-              marker      : false,
+              marker: false,
             }}
             edit={{
               // remove: false,
-              // edit: false,
+              edit: true,
               allowIntersection: false,
               actions: { clearAll: false }
             }}
@@ -167,6 +225,7 @@ const mapStateToProps = state => ({
   side: state.bodyModelReducer.side,
   sex: state.bodyModelReducer.sex,
   url: state.bodyModelReducer.url,
+  existingPolygons: state.bodyModelReducer.existingPolygons,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

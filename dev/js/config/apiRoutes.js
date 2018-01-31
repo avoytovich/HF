@@ -86,6 +86,7 @@ export const api = {
   createDialog        : '/dialogs',
   getMessages         : '/messages/dialog/',
   createMessage       : '/messages',
+  getAllSideAreas     : '/matrix/areas/get/side',
 };
 
 export const PAGE = {

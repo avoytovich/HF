@@ -8,4 +8,3 @@ export * from './profile';
 export * from './testing';
 export * from './createUser';
 export * from './chat';
-export * from './bodyModel';

@@ -5,6 +5,7 @@ import { connect }                  from 'react-redux';
 import { browserHistory }           from 'react-router'
 import Button                       from 'material-ui/Button';
 import Grid                         from 'material-ui/Grid';
+import get                          from 'lodash/get';
 import { AsyncCreatable }           from 'react-select';
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
@@ -37,7 +38,6 @@ class CreateBodyAreaComponent extends Component {
   state = {
     questionType    : 'packages',
     keyIsUniqueError: '',
-    tab             : 0,
   };
 
   constructor(props) {
@@ -46,32 +46,39 @@ class CreateBodyAreaComponent extends Component {
   }
 
   componentWillMount() {
-    dispatchBodyModelWired({ url: `${assets}/images/bodyModel/male1.jpg` });
-    if (this.props.routeParams.id) {
-      getBodyAreaById('diagnostics', 'areas', this.props.routeParams.id);
+    if (!this.props.bodyModelReducer.url) {
+      dispatchBodyModelWired({ url: `${assets}/images/bodyModel/male1.jpg` });
     }
+    // if (this.props.routeParams.id) {
+    //   getBodyAreaById('diagnostics', 'areas', this.props.routeParams.id);
+    // }
   }
 
   componentWillUnmount() {
     clearCreateQuestion();
   }
 
-  _done = (value) => {
-    const { key, title, description } = value;
-    const result = {
-      key,
-      title,
-      description,
-    };
+  _prepareData = (createDiagnosisQuestion, bodyModelReducer) => ({
+    key        : createDiagnosisQuestion.key,
+    title      : createDiagnosisQuestion.title,
+    description: createDiagnosisQuestion.description,
+    side       : bodyModelReducer.side,
+    properties : {
+      coordinates: {
+        male: get(bodyModelReducer.currentlyDrawingPolygon, `male.${bodyModelReducer.side}`, ''),
+        female: get(bodyModelReducer.currentlyDrawingPolygon, `female.${bodyModelReducer.side}`, ''),
+      }
+    }
+  });
 
-    if (this.props.routeParams.id) {
-      diagnosisQuestionCreate('diagnostics', 'bodyArea', result)
+  _createOrUpdateBodyArea = (data) => {
+    if (!this.props.routeParams.id) {
+      diagnosisQuestionCreate('diagnostics', 'bodyArea', data)
         .then(() => browserHistory.push(`/matrix-setup/body-area`))
     } else {
-      updateQuestionCreate('diagnostics', 'bodyArea', result, this.props.routeParams.id)
+      updateQuestionCreate('diagnostics', 'bodyArea', data, this.props.routeParams.id)
         .then(() => browserHistory.push(`/matrix-setup/body-area`))
     }
-
   };
 
   _changeTab = i => dispatchBodyModelWired({
@@ -103,10 +110,12 @@ class CreateBodyAreaComponent extends Component {
         key,
         description
       },
+      bodyModelReducer,
       bodyModelReducer: {
         tab,
       }
     } = this.props;
+    const finalData = this._prepareData(createDiagnosisQuestion, bodyModelReducer);
     return (
       <div id="create-question">
         <div className="page-sub-header">
@@ -120,7 +129,7 @@ class CreateBodyAreaComponent extends Component {
             <Button
               raised
               dense
-              onClick={() => this._done(createDiagnosisQuestion)}
+              onClick={() => this._createOrUpdateBodyArea(finalData)}
               color="primary"
             >
               Save
@@ -144,7 +153,9 @@ class CreateBodyAreaComponent extends Component {
               </Tabs>
             </AppBar>
 
-            <C.BodyModel/>
+            <C.BodyModel
+              id={this.props.routeParams.id}
+            />
 
           </Grid>
 
