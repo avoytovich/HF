@@ -45,6 +45,12 @@ const initialState = {
       ]
     },
     {
+      name: 'evaluations',
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'title' }
+      ]
+    },
+    {
       name: 'bodyArea',
       changes: [
         { path: 'sortOptional.orderBy', value: 'title' }
@@ -109,6 +115,10 @@ const initialState = {
     },
     {
       name: 'chat',
+      changes: []
+    },
+    {
+      name: 'personalCabinetUsers',
       changes: []
     },
   ]

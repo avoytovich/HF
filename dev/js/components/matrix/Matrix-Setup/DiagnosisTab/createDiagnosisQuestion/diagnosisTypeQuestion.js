@@ -16,10 +16,11 @@ import {
   UniqueKey,
   BlockDivider
 }                                        from '../../../../common';
+import RulesLinks                        from '../../EvaluationsTab/createEvaluationTab/RulesLinks';
 import SequenceBlock                     from './sequenceBlock';
 import DiagnosticQuestion                from './diagnosticQuestion';
 import DiagnosticAnswers                 from './diagnosticAnswers';
-import PackageLevelsList                 from '../../EvaluationTab/createEvaluationQuestion/PackageLevelsList'
+import PackageLevelsList                 from '../../LevelUpTab/createLevelUpQuestion/PackageLevelsList'
 // UI
 import Grid                              from 'material-ui/Grid';
 import Typography                        from 'material-ui/Typography';
@@ -42,10 +43,10 @@ class DiagnosisTypeQuestion extends Component {
       sequenceList,
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type, level_up,
-        diagnostic_assets,
+        questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type, levelup_result,
+        diagnostic_assets,  evaluation_result,
       },
-      page, reqType, packages, packageLevelsList, currentId, showLevelUp, hideArea
+      page, reqType, packages, packageLevelsList, currentId, showLevelUp, hideArea, rules_links
     } = this.props;
 
     return <BlockDivider title="Question">
@@ -81,29 +82,38 @@ class DiagnosisTypeQuestion extends Component {
               ))}
             </MUISelect>
           </Grid>
+          {hideArea && <Grid item md={6} sm={12}>
+            <Input
+              id='questionTitle'
+              value={questionTitle}
+              reducer={ createDiagnosisQuestion }
+              label={ 'Title*' }
+              className="MUIControl"
+              style={{marginTop: '12px'}}
+            />
+          </Grid>}
         </Grid>
 
         {/*Title and Pain Area*/}
-        <Grid container className="row-item">
+        {!hideArea && <Grid container className="row-item">
           <Grid item md={6} sm={12}>
             <Input
               id='questionTitle'
               value={questionTitle}
               reducer={ createDiagnosisQuestion }
-              label={ 'Title' }
+              label={ 'Title*' }
               className="MUIControl"
             />
           </Grid>
           <Grid item md={6} sm={12} className="level-up-block">
-            {!hideArea &&
               <AsyncAreaSelect
                 domain="diagnostics"
                 path="findArea"
                 valuePath="areaIds"
                 idKey="create_diagnostic_question"
-              />}
+              />
           </Grid>
-        </Grid>
+        </Grid>}
 
         {/* Question !!! */}
         <DiagnosticQuestion
@@ -111,31 +121,18 @@ class DiagnosisTypeQuestion extends Component {
           question={question}
         />
 
-        {/* Question Key AND Level Up */}
-        <div className="row-item level-up-row">
-            <UniqueKey
-              domain="diagnostics"
-              path="findByKey"
-              questionKey={questionKey}
-              id="questionKey"
-              currentId={currentId}
-              reducer="createDiagnosisQuestion"
-              grid={6}
-              className={'row-item level-up-neighborhood'}
-            />
-          {showLevelUp && <div className="level-up-block">
-            <FormControlLabel
-              label={'Level Up'}
-              className="level-up-block-label"
-              control={
-                <Checkbox
-                  checked={level_up}
-                  onChange={e => updateCrateQuestionFields(e.target.checked, 'level_up')}
-                />
-              }
-            />
-          </div>}
-        </div>
+        {/* Question Key*/}
+        <UniqueKey
+          domain="diagnostics"
+          path="findByKey"
+          questionKey={questionKey}
+          id="questionKey"
+          currentId={currentId}
+          reducer="createDiagnosisQuestion"
+          grid={6}
+          className={'row-item level-up-neighborhood'}
+        />
+
 
         {/* Sequence */}
         <SequenceBlock
@@ -180,6 +177,25 @@ class DiagnosisTypeQuestion extends Component {
       </div>
 
       <div className="rules">
+
+        {showLevelUp && <Grid container className="row-item">
+          <Grid item xs={12} className="level-up-block">
+            <FormControlLabel
+              label={'Redirect to the next level'}
+              className="level-up-block-label"
+              control={
+                <Checkbox
+                  checked={levelup_result}
+                  onChange={e => updateCrateQuestionFields(e.target.checked, 'levelup_result')}
+                />
+              }
+            />
+            <Typography type="caption">
+              After successful execution of the rules to redirect the user to the next level
+            </Typography>
+          </Grid>
+        </Grid>}
+
         {
           content_type === "functionalTest"
           &&
@@ -192,6 +208,10 @@ class DiagnosisTypeQuestion extends Component {
             listValue={false}
 
           />
+        }
+
+        {
+          rules_links &&  <RulesLinks typeValue={evaluation_result} />
         }
 
         <DiagnosisRulesComponent

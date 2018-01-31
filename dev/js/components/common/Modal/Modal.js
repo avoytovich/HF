@@ -25,6 +25,14 @@ class Modal extends Component {
     });
   };
 
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(this.props.open && nextProps.open){
+      return false
+    }
+    return true
+  }
+
   render() {
     const {
       title,
@@ -43,7 +51,7 @@ class Modal extends Component {
         fullScreen={fullScreen}
         transition={(props) => <Slide direction="up" {...props} />}
         open={true}
-        onRequestClose={toggleModal}
+        onClose={toggleModal}
       >
         { title && <DialogTitle>{ title }</DialogTitle> }
 

@@ -70,7 +70,7 @@ class diagnosisVASQuestion extends Component {
               id='questionTitle'
               value={questionTitle}
               reducer={ createDiagnosisQuestion }
-              label={ 'Title' }
+              label={ 'Title*' }
               style={{marginTop: 0}}
               className="MUIControl"
             />

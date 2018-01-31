@@ -45,6 +45,7 @@ export const getListByPost = (domenKey, apiKey, _query, url) => {
 };
 
 export const updateCrateQuestionFields = (data, path) => {
+  console.log(data, path);
   return store.dispatch({type:`${CREATE_QUESTION}_UPDATE`,
     payload:{
       data,
@@ -168,7 +169,7 @@ export const getTreatmentById = (domenKey, apiKey, id) => {
 export const findArea = (domenKey, apiKey) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
-  return Api.get(`${domenPath}${apiPath}`);
+  return Api.post(`${domenPath}${apiPath}`);
 };
 
 export const findPackage = (domenKey, apiKey, input, area) => {

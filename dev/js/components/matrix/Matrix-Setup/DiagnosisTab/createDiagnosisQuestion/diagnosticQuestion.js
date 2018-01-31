@@ -28,7 +28,7 @@ class DiagnosticQuestion extends Component{
             id={`${id}.en`}
             value={question.en}
             reducer={store}
-            label={ label }
+            label={ label +'*' }
             multiline={true}
             className="MUIControl"
             rows="5"
@@ -38,7 +38,7 @@ class DiagnosticQuestion extends Component{
             id={`${id}.swe`}
             value={question.swe}
             reducer={store}
-            label={ label }
+            label={ label+'*' }
             multiline={true}
             className="MUIControl"
             rows="5"

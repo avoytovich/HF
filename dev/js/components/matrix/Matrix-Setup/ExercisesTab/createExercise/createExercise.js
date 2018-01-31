@@ -22,7 +22,7 @@ import {
 }                                   from '../../../../common';
 import MatrixPreLoader              from '../../matrixPreloader';
 import { submitTabs }               from '../../../../../utils/matrix';
-
+import { CreateItemNavButtons }     from '../../../../common';
 
 class CreateExerciseComponent extends Component {
   state = {
@@ -58,7 +58,7 @@ class CreateExerciseComponent extends Component {
 
 
   done = (value) => {
-    const { id, title, comments, text, instruction, information, name, files, errors } = value;
+    const { id, title, comments, text, instruction, information, name, files, errors, testing_mode } = value;
     const validValue = { title, comments, instruction, information, name };
     const result = {
       title,
@@ -67,6 +67,7 @@ class CreateExerciseComponent extends Component {
       information,
       instruction,
       name,
+      testing_mode,
       file_ids: files ? files.data.map(el => el && el.id) : []
     };
 
@@ -113,7 +114,7 @@ class CreateExerciseComponent extends Component {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
         packageLevels,
-        exerciseState
+        exerciseState,
       },
 
       commonReducer: {
@@ -122,26 +123,22 @@ class CreateExerciseComponent extends Component {
       routeParams: { id },
     } = this.props;
 
-    const { name, comments, title, information, instruction, files } = this.props.exerciseState;
+    const { name, comments, title, information, instruction, files, testing_mode} = this.props.exerciseState;
+    console.log(this.props.exerciseState);
     return (
       <div id="create-question">
-        <div className="page-sub-header">
-          <span>Create Exercise</span>
-          <div className="nav-buttons">
 
-            <Button onClick={this.cancel}>
-              Cancel
-            </Button>
-
-            <Button raised
-                    dense
-                    onClick={() => this.done(this.props.exerciseState)}
-                    color="primary">
-              Save
-            </Button>
-
-          </div>
-        </div>
+        <CreateItemNavButtons
+          title={'Create Exercise'}
+          showSwitch={true}
+          switchChecked={testing_mode}
+          switchLabel={'On testing'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'exercise.testing_mode')}
+          onCancelClick={this.cancel}
+          cancelLabel={'Cancel'}
+          onSaveClick={() => this.done(this.props.exerciseState)}
+          saveLabel={'Save'}
+        />
 
         {  id && this.state.loading ?
           <MatrixPreLoader
@@ -167,7 +164,7 @@ class CreateExerciseComponent extends Component {
                     id='exercise.name'
                     value={name}
                     reducer={createDiagnosisQuestion}
-                    label={ 'Notes' }
+                    label={ 'Notes*' }
                     className="MUIControl"
                     placeholder={ 'Notes' }
                   />
@@ -180,8 +177,8 @@ class CreateExerciseComponent extends Component {
                     id='exercise.comments'
                     value={comments}
                     reducer={createDiagnosisQuestion}
-                    label={ 'Comments' }
-                    placeholder={ 'Comments' }
+                    label={ 'Comments*' }
+                    placeholder={ 'Comments*' }
                     className="MUIControl"
                     multiline={true}
                     rows="5"
@@ -198,17 +195,17 @@ class CreateExerciseComponent extends Component {
                       id='exercise.title.en'
                       value={title && title.en}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Title' }
+                      label={ 'Title*' }
                       className="MUIControl"
-                      placeholder={ 'Title' }
+                      placeholder={ 'Title*' }
                     /> :
                     <Input
                       id='exercise.title.swe'
                       value={title && title.swe}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Title' }
+                      label={ 'Title*' }
                       className="MUIControl"
-                      placeholder={ 'Title' }
+                      placeholder={ 'Title*' }
                     />
                   }
                 </Grid>
@@ -236,8 +233,8 @@ class CreateExerciseComponent extends Component {
                       id='exercise.information.en'
                       value={information && information.en}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Information' }
-                      placeholder={ 'Information' }
+                      label={ 'Information*' }
+                      placeholder={ 'Information*' }
                       multiline={true}
                       className="MUIControl"
                       rows="5"
@@ -247,8 +244,8 @@ class CreateExerciseComponent extends Component {
                       id='exercise.information.swe'
                       value={information && information.swe}
                       reducer={createDiagnosisQuestion}
-                      label={'Information' }
-                      placeholder={ 'Information' }
+                      label={'Information*' }
+                      placeholder={ 'Information*' }
                       multiline={true}
                       className="MUIControl"
                       rows="5"
@@ -280,8 +277,8 @@ class CreateExerciseComponent extends Component {
                       id='exercise.instruction.en'
                       value={!!instruction ?  instruction.en : ''}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Instruction' }
-                      placeholder={ 'Instruction' }
+                      label={ 'Instruction*' }
+                      placeholder={ 'Instruction*' }
                       multiline={true}
                       className="MUIControl"
                       rows="5"
@@ -291,8 +288,8 @@ class CreateExerciseComponent extends Component {
                       id='exercise.instruction.swe'
                       value={!!instruction ? instruction.swe : ''}
                       reducer={createDiagnosisQuestion}
-                      label={'Instruction' }
-                      placeholder={ 'Instruction' }
+                      label={'Instruction*' }
+                      placeholder={ 'Instruction*' }
                       className="MUIControl"
                       multiline={true}
                       rows="5"

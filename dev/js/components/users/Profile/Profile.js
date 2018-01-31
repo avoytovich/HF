@@ -4,7 +4,9 @@ import { browserHistory }       from 'react-router'
 import Paper                    from 'material-ui/Paper';
 import Grid                     from 'material-ui/Grid';
 import { withStyles }           from 'material-ui/styles';
-import { get, map }             from 'lodash'
+import  get                     from 'lodash/get';
+import  map                     from 'lodash/map'
+import isEqual                  from 'lodash/isEqual'
 import CommentIcon              from 'material-ui-icons/Comment';
 import Modal                    from '../../common/Modal/Modal';
 import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
@@ -14,7 +16,9 @@ import Button                   from 'material-ui/Button';
 import CreateUser from '../CreateUser/CreateUser';
 import {
   userCreate,
-  getProfileWired } from '../../../actions'
+  userCreateByCSV,
+  getProfileWired,
+  dispatchCreateSimpleUserPayloadWired} from '../../../actions'
 
 const styles = theme => ({
   root:{
@@ -39,13 +43,15 @@ const mainInformation = [
   {title:'Address', path: 'contact_info.address'},
   {title:'Region', path: 'contact_info.region'},
   {title:'Country', path: 'contact_info.country'},
+  {title:'Postal Code', path: 'contact_info.postal_code'},
   {title:'Industry', path:  'additional_info.industry'}
 ];
 
 const billingAddress = [
   {title: 'Address', path: 'billing_info.address'},
   {title: 'Region', path: 'billing_info.region'},
-  {title: 'Country', path: 'billing_info.country'}
+  {title: 'Country', path: 'billing_info.country'},
+  {title: 'Postal code', path: 'billing_info.postal_code'}
 ];
 
 class Profile extends Component {
@@ -93,10 +99,10 @@ class Profile extends Component {
 
   _returnFunc = () => {
     if(get(this.props,'profileReducer.type')==='organization'){
-      browserHistory.push('companies');
+      browserHistory.push('/companies');
     }
     else if(get(this.props,'profileReducer.type')==='clinic'){
-      browserHistory.push('clinics');
+      browserHistory.push('/clinics');
     }
   };
 
@@ -141,17 +147,32 @@ class Profile extends Component {
   _createSimpleUser =() =>{
     const result = {
       customer_id: this.props.params.id,
-      email: this.props.createSimpleUsersReducers.email};
-    userCreate('users', 'createSimpleUser', result)
-      .then(this.setState({showCreateUserModal:false}))
-    getProfileWired(this.props.params.id);
-  }
+      email: this.props.createSimpleUsersReducers.email,
+      files: this.props.createSimpleUsersReducers.files,
+    };
+
+    if(this.props.createSimpleUsersReducers.files.length){
+      userCreateByCSV('users', 'createSimpleUserByCSV', result)
+        .then(() => {
+          this.setState({showCreateUserModal:false})
+          dispatchCreateSimpleUserPayloadWired({files:[],email:''})
+          getProfileWired(this.props.params.id)})
+    }
+    else{
+      userCreate('users', 'createSimpleUser', result)
+        .then(() => {
+          this.setState({showCreateUserModal:false})
+          dispatchCreateSimpleUserPayloadWired({files:[],email:''})
+          getProfileWired(this.props.params.id)})
+    }
+
+  };
 
   _toggleCloseModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
   _openEditModal = () => {
     this.setState({ showEditProfileModal: !this.state.showEditProfileModal })
-  }
+  };
 
   render() {
     const {showCreateUserModal, showEditProfileModal} = this.state;
@@ -172,7 +193,6 @@ class Profile extends Component {
       </div>
       <Grid className={classes.root}
             container
-            alignItems='top'
             direction='row'
             justify='space-around'
       >
@@ -234,7 +254,8 @@ class Profile extends Component {
 
 const mapStateToProps = state => ({
   profileReducer: state.profileReducer,
-  createSimpleUsersReducers: state.createSimpleUsersReducers
+  createSimpleUsersReducers: state.createSimpleUsersReducers,
+  userReducer:state.userReducer
 });
 
 export default  connect(mapStateToProps)(withStyles(styles)(Profile));

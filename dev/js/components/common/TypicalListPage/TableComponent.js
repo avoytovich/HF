@@ -42,6 +42,8 @@ const DEFAULT_QUERY = {
 
 class TableComponent extends Component {
 
+  state = { showTestingToolTip: false };
+
   componentDidMount() {
     this.setDefaultQuery(this.props.path, this.props.store.pagination);
   }
@@ -237,7 +239,6 @@ class TableComponent extends Component {
    */
   formatCellValue = (row, { key, type, format }) => {
     const value =  get(row, key, '-') || '-';
-
     switch (type) {
       case 'time':
        return moment.unix(value).format(format);
@@ -256,6 +257,24 @@ class TableComponent extends Component {
           );
         }
         return '-';
+
+      case 'in_testing':
+        return  value===true ? 'yes':'no';
+
+      case 'user_status':
+        if (get(row, 'deleted_at', '-')) {
+          return 'deleted'
+        }
+        if (get(row, 'confirmed_at', '-') && get(row, 'activated_at', '-') && get(row, 'deactivated_at', '-')) {
+          return 'deactivated'
+        }
+        if (get(row, 'confirmed_at', '-') && get(row, 'activated_at', '-')) {
+          return 'active'
+        }
+        if (get(row, 'confirmed_at', '-')) {
+          return 'not activated'
+        }
+        return 'not confirmed';
       default:
         return value;
     }
@@ -269,6 +288,9 @@ class TableComponent extends Component {
       onSelectAllClick,
       CellContent,
       rowsPerPageOptions,
+      showTestingMarker,
+      titleTestingMarker,
+      keyTestingMarker,
       store: {
         data,
         pagination: {
@@ -289,6 +311,7 @@ class TableComponent extends Component {
           onRequestSort={this.handleRequestSort}
           rowCount={data.length}
           columnTitleList={tableHeader}
+          showTestingMarker={showTestingMarker}
         />
 
         <TableBody>
@@ -328,8 +351,20 @@ class TableComponent extends Component {
                 >
                   <TableCell padding="checkbox"
                              className="td-checkbox">
-                    <Checkbox checked={isSelected}
-                              onClick={event => this.handleClick(event, row, selected)}/>
+
+                      <div className={`in-testing-wrap ${ row[keyTestingMarker] && 'in-testing' }`}>
+
+                        {showTestingMarker &&
+                          <Tooltip title={titleTestingMarker}
+                                   label="_"
+                                   className={`in-testing-tooltip ${ row[keyTestingMarker] ? 'active' : '' } `}
+                                   placement="bottom-start">
+                              <div className={`in-testing ${ row[keyTestingMarker] && 'active'}`} />
+                          </Tooltip>}
+
+                        <Checkbox checked={isSelected}
+                                  onClick={event => this.handleClick(event, row, selected)}/>
+                      </div>
                   </TableCell>
                   {
                     tableHeader.map((col, i) => (
@@ -378,33 +413,35 @@ TableComponent.defaultProps = {
   tableCellPropsFunc: () => ({}),
   CellContent       : () => null,
   rowsPerPageOptions: [ 5, 25, 50 ], // The per page may not be greater than 50.
-  url: ''
+  url: '',
+  showTestingMarker : false,
+  titleTestingMarker: 'On testing',
+  keyTestingMarker  : 'testing'
 };
 
 TableComponent.propTypes = {
-  data             : PropTypes.arrayOf(
-                      PropTypes.object
-                    ).isRequired,
-  path             : PropTypes.string.isRequired,
-  domen            : PropTypes.string.isRequired,
-  reqType          : PropTypes.string,
-  tableHeader      : PropTypes.arrayOf(
-                      PropTypes.shape({
-                        title   : PropTypes.string.isRequired,
-                        key     : PropTypes.string.isRequired,
-                        tooltip : PropTypes.string
-                      }).isRequired
-                    ),
-  selected         : PropTypes.arrayOf(
-                      PropTypes.object
-                    ).isRequired,
-  onRowClick       : PropTypes.func.isRequired,
-  onSelectAllClick : PropTypes.func.isRequired,
-  onEdit           : PropTypes.func,
+  data              : PropTypes.arrayOf( PropTypes.object ).isRequired,
+  path              : PropTypes.string.isRequired,
+  domen             : PropTypes.string.isRequired,
+  reqType           : PropTypes.string,
+  tableHeader       : PropTypes.arrayOf(
+                        PropTypes.shape({
+                          title   : PropTypes.string.isRequired,
+                          key     : PropTypes.string.isRequired,
+                          tooltip : PropTypes.string
+                        }).isRequired
+                      ),
+  selected          : PropTypes.arrayOf( PropTypes.object ).isRequired,
+  onRowClick        : PropTypes.func.isRequired,
+  onSelectAllClick  : PropTypes.func.isRequired,
+  onEdit            : PropTypes.func,
   tableCellPropsFunc: PropTypes.func,
-  CellContent: PropTypes.func,
+  CellContent       : PropTypes.func,
   rowsPerPageOptions: PropTypes.arrayOf( PropTypes.number ),
-  url: PropTypes.string,
+  url               : PropTypes.string,
+  showTestingMarker : PropTypes.bool,
+  titleTestingMarker: PropTypes.string,
+  keyTestingMarker  : PropTypes.string,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({

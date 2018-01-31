@@ -57,7 +57,9 @@ const router = (
           <Route path={PAGE.passForgot} component={C.ForgotPassword}/>
 
           <Route path={PAGE.personalCabinet} component={C.PersonalCabinetMain}>
-            <Route path={PAGE.personalCabinetUsers}  component={C.SimpleUsers} />
+            <Route path={PAGE.personalCabinetUsers}  component={C.PersonalCabinetUsers} />
+            <Route path={PAGE.personalCabinetProfile}  component={C.PersonalCabinetProfile} />
+            <Route path={PAGE.personalCabinetBilling}  component={C.PersonalCabinetBilling} />
           </Route>
 
           <Route path={'/'} component={C.Main} onEnter={onAllEnter} onChange={onAllChange}>
@@ -85,15 +87,16 @@ const router = (
 
             <Route path={PAGE.matrixSetup} component={ C.MatrixComponent }>
 
-              <IndexRedirect to="body-area"/>
+              <IndexRedirect to="diagnosis"/>
 
-              <Route path='body-area' component={C.BodyAreaComponent}/>
-              <Route path='diagnosis' component={C.DiagnosisComponent}/>
-              <Route path='conditions' component={C.ConditionsComponent}/>
-              <Route path='treatments' component={C.TreatmentsComponent}/>
-              <Route path='packages' component={C.PackagesComponent}/>
-              <Route path='levelUps' component={C.EvaluationComponent}/>
-              <Route path='exercises' component={C.ExercisesComponent}/>
+              <Route path='diagnosis'   component={(props) => <C.DiagnosisComponent  {...props}/>}/>
+              <Route path='body-area'   component={(props) => <C.BodyAreaComponent   {...props}/>}/>
+              <Route path='conditions'  component={(props) => <C.ConditionsComponent {...props}/>}/>
+              <Route path='treatments'  component={(props) => <C.TreatmentsComponent {...props}/>}/>
+              <Route path='packages'    component={(props) => <C.PackagesComponent   {...props}/>}/>
+              <Route path='levelUps'    component={(props) => <C.LevelUpComponent    {...props}/>}/>
+              <Route path='evaluations' component={(props) => <C.EvaluationComponent {...props}/>}/>
+              <Route path='exercises'   component={(props) => <C.ExercisesComponent  {...props}/>}/>
 
               {/*<Route path='tests'               component={ TestsComponent } />*/}
               {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
@@ -114,8 +117,11 @@ const router = (
             <Route path='treatments-create/:id' component={C.CreateTreatmentsComponent}/>
             <Route path='treatments-create-new' component={C.CreateTreatmentsComponent}/>
 
-            <Route path='level-up-create/:id' component={C.CreateEvaluationComponent}/>
-            <Route path='level-up-create-new' component={C.CreateEvaluationComponent}/>
+            <Route path='level-up-create/:id' component={C.CreateLevelUpComponent}/>
+            <Route path='level-up-create-new' component={C.CreateLevelUpComponent}/>
+
+            <Route path='evaluation-create/:id' component={C.CreateEvaluationComponent}/>
+            <Route path='evaluation-create-new' component={C.CreateEvaluationComponent}/>
 
             <Route path='packages-create/:id' component={C.CreatePackageComponent}/>
             <Route path='packages-create-new' component={C.CreatePackageComponent}/>

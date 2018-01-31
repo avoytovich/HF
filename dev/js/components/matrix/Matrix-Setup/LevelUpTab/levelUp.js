@@ -1,17 +1,18 @@
-import React, { Component }     from 'react';
-import { connect }              from 'react-redux';
-import { CONDITIONS_TAB }       from '../../../../utils/constants/pageContent';
-import { TableComponent }       from '../../../../components/common/TypicalListPage';
-import { browserHistory }       from 'react-router'
-import TableControls           from '../../../common/TypicalListPage/TableControls';
-import Button                   from 'material-ui/Button';
-import Delete                   from 'material-ui-icons/Delete';
-import NotInterested            from 'material-ui-icons/NotInterested';
-import DeactivateComponent      from '../matrix-crud/deactivateModal'
-import DeleteComponent          from '../matrix-crud/deleteModal';
-import Done                     from 'material-ui-icons/Done';
+import React, { Component } from 'react';
+import { connect }          from 'react-redux';
+import { LEVEL_UP }         from '../../../../utils/constants/pageContent';
+import { TableComponent }   from '../../../../components/common/TypicalListPage';
+import { browserHistory }   from 'react-router'
+import TableControls        from '../../../common/TypicalListPage/TableControls';
+import Button               from 'material-ui/Button';
+import Delete               from 'material-ui-icons/Delete';
+import NotInterested        from 'material-ui-icons/NotInterested';
+import DeactivateComponent  from '../matrix-crud/deactivateModal'
+import DeleteComponent      from '../matrix-crud/deleteModal';
+import Done                 from 'material-ui-icons/Done';
 
-class ConditionsComponent extends Component {
+
+class LevelUpComponent extends Component {
   state = {
     selected: [],
     deactivateOpen: false,
@@ -20,8 +21,9 @@ class ConditionsComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/conditions-create/${id}`):
-    browserHistory.push(`/conditions-create-new`);
+    browserHistory.push(`/level-up-create/${id}`):
+    browserHistory.push(`/level-up-create-new`);
+
 
   deleteItems = (items = []) => {};
 
@@ -37,57 +39,55 @@ class ConditionsComponent extends Component {
   };
 
   render() {
-    const { tableHeader } = CONDITIONS_TAB;
+    const { tableHeader } = LEVEL_UP;
     const { selected, deactivateOpen, deleteOpen, activateOpen } = this.state;
 
     return (
-      <div id="conditions-component">
-
+      <div id="diagnosis-component">
         <DeactivateComponent
-          path="conditions"
+          path="levelUps"
+          pathReq="createQuestion"
           domen="diagnostics"
-          pathReq="conditions"
           list={selected}
           open={this.updateModal}
           itemKey="title"
           query={this.props.location.query}
+          title="Activate this Level Up?"
           typeKey="activateOpen"
           activate={true}
-          title="Activate this Conditions?"
           onSubmitTitle="Activate"
           deactivateOpen={activateOpen}
         />
 
+
         <DeactivateComponent
-          path="conditions"
-          pathReq="conditions"
+          path="levelUps"
+          pathReq="createQuestion"
           domen="diagnostics"
           typeKey="deactivateOpen"
           list={selected}
           deactivateOpen={deactivateOpen}
           open={this.updateModal}
-          activate={false}
           itemKey="title"
-          title="Deactivate this Conditions?"
+          title="Deactivate this Level Up?"
           query={this.props.location.query}
         />
 
-
         <DeleteComponent
-          title="Delete this Conditions?"
-          path="conditions"
+          path="levelUps"
+          pathReq="createQuestion"
           domen="diagnostics"
-          pathReq="conditions"
           typeKey="deleteOpen"
           list={selected}
           deactivateOpen={deleteOpen}
           open={this.updateModal}
           itemKey="title"
+          title="Delete this Level Up?"
           query={this.props.location.query}
         />
 
         <TableControls
-          path="conditions"
+          path="levelUps"
           selected={selected}
           createItem={() => this.create()}>
 
@@ -112,7 +112,7 @@ class ConditionsComponent extends Component {
         </TableControls>
 
         <TableComponent
-          path="conditions"
+          path="levelUps"
           domen="diagnostics"
           tableHeader={ tableHeader }
           selected={selected}
@@ -128,7 +128,7 @@ class ConditionsComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-  commonReducer: state.commonReducer
+  store: state.tables.diagnosis
 });
 
-export default  connect(mapStateToProps)(ConditionsComponent);
+export default  connect(mapStateToProps)(LevelUpComponent);

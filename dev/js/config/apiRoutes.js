@@ -39,6 +39,7 @@ export const api = {
   clinics             : '/customers/get/all',
   customers           : '/customers/',
   createSimpleUser    : '/users/customer',
+  createSimpleUserByCSV    : '/users/csv/add/',
   userProfile         : '/users/',
   logout              : '/auth/logout',
   packages            : '/packages',
@@ -52,7 +53,7 @@ export const api = {
   areas               : '/matrix/areas',
   passForgot          : '/auth/password/forgot/web',
   passReset           : '/auth/password/update',
-  findArea            : '/matrix/areas/get/all',
+  findArea            : '/matrix/areas/get/side',
   findByAre           : '/matrix/questions/find/area',
   findEvalByAre       : '/matrix/evaluations/find/area',
   findByKey           : '/matrix/questions/get/key',
@@ -87,6 +88,7 @@ export const api = {
   getMessages         : '/messages/dialog/',
   createMessage       : '/messages',
   getAllSideAreas     : '/matrix/areas/get/side',
+  personalCabinetUsers : '/users/get/all',
 };
 
 export const PAGE = {
@@ -115,7 +117,7 @@ export const PAGE = {
   diagnosis         : '/matrix-setup/diagnosis',
   conditions        : '/matrix-setup/conditions',
   treatments        : '/matrix-setup/treatments',
-  evaluation        : '/matrix-setup/evaluation',
+  evaluations       : '/matrix-setup/evaluations',
   simpleUsers       : '/users-simple',
   organizationsUsers: '/users-organizations',
   clinicsUsers      : '/users-clinics',
@@ -126,4 +128,6 @@ export const PAGE = {
 
   personalCabinet     :  'personal-cabinet',
   personalCabinetUsers : '/personal-cabinet/users',
+  personalCabinetProfile : '/personal-cabinet/profile',
+  personalCabinetBilling : '/personal-cabinet/billing',
 };

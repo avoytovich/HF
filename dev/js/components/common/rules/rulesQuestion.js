@@ -29,7 +29,7 @@ class RulesQuestionComponent extends Component {
 
   handleClick = event => this.setState({ open: true, anchorEl: event.currentTarget });
 
-  handleRequestClose = () => this.setState({ open: false });
+  handleRequestClose = () => this.setState({ open: false, anchorEl: null, });
 
   onSelected = (item) => {
     const body = findType(item.value) === 'block' ?  { 'match':  {...DEF_ITEM, op: '='}  } : DEF_ITEM;
@@ -67,7 +67,7 @@ class RulesQuestionComponent extends Component {
                 id="simple-menu"
                 anchorEl={this.state.anchorEl}
                 open={this.state.open}
-                onRequestClose={this.handleRequestClose}
+                onClose={this.handleRequestClose}
               >
                 {this.listTypes.map((item, index) =>
                   (<MenuItem key={index}

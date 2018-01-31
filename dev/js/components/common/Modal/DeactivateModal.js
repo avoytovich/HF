@@ -31,7 +31,7 @@ class DeactivateModal extends Component {
       open={deactivateOpen}
       transition={this.transition}
       keepMounted
-      onRequestClose={() => open(typeKey, false)}
+      onClose={() => open(typeKey, false)}
     >
       <DialogTitle> {this.props.title } </DialogTitle>
 

@@ -138,8 +138,9 @@ const removeAnswer = (state, action) => {
 };
 
 const setFullQuestion = (state, action) => {
-  const { body: {
-    areas, title, question, key, step, answer, rule, content_type, test_file, packageLevels, testing, level_up
+  const { body, body: {
+    areas, title, question, key, step, answer, rule, content_type, test_file,
+    packageLevels, testing, levelup_result, evaluation_result, properties
   }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
@@ -148,8 +149,10 @@ const setFullQuestion = (state, action) => {
       questionTitle: title,
       question,
       testing,
-      level_up,
       content_type,
+      levelup_result,
+      evaluation_result,
+      evaluation_result_data: evaluationResultData(state, body),
       sequence: step,
       questionKey: key,
       answerType: _type,
@@ -160,6 +163,16 @@ const setFullQuestion = (state, action) => {
     };
 
   return Object.assign({}, state, _body);
+};
+
+
+const evaluationResultData = (state, body) => {
+  const { type, evaluation_result, properties } = body;
+
+  if ( type !== 'evaluation') return state.evaluation_result_data;
+
+  const oldValue =  state.evaluation_result_data;
+  return {...oldValue, [evaluation_result]: properties.evaluation.data};
 };
 
 const setFullQuestionForCondition = (state, action) => {

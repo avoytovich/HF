@@ -7,6 +7,7 @@ class Dropzone extends Component {
     const {
       onDrop
     } = this.props;
+
     return (
       <DropzoneLib
         accept='image/png,image/jpeg,image/bmp,video/mp4,video/mkv'
@@ -20,7 +21,7 @@ class Dropzone extends Component {
             Drop files here or click to upload
           </p>
           <p className="upload-instruction-wrapper">
-            Format files: .mkv
+            Format files: .{this.props.fileExtention || 'mkv'}
           </p>
         </div>
       </DropzoneLib>

@@ -74,7 +74,7 @@ class PackageExercisesModal extends Component {
               </Typography>
             </div>
 
-            <Button color="contrast" onClick={() => this.save(selected)}>
+            <Button color="inherit" onClick={() => this.save(selected)}>
               Save
             </Button>
 
@@ -90,7 +90,7 @@ class PackageExercisesModal extends Component {
               placeholder='Search'
               startAdornment={
                 <InputAdornment position="start">
-                  <SearchIcon color="grey"/>
+                  <SearchIcon className="search-icon"/>
                 </InputAdornment>
               }
             />

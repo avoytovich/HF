@@ -35,21 +35,33 @@ const packageTab = {
     {
       level: 1,
       level_up_properties: {
-        vas_trend     : 1,
-        vas_min       : 1,
-        session_count : 1
+        vas_trend_down        : 1,
+        vas_min               : 1,
+        package_level_sessions: 1,
+        therapy_continuity    : 1,
+        package_level_days    : 1
       },
       therapy_continuity: '1',
       exercise_ids: []
     }
-  ]
+  ],
+  testing_mode  : false,
 };
 
 const levelUp = {
-  level_up: false,
+  levelup_result: false,
   packageLevelsList: [
     {packageId: '', levelsList: [], levelId: ''}
   ]
+};
+
+const evaluation = {
+  evaluation_result     : '',
+  evaluation_result_data: {
+    redirect: '',
+    page: 'http://heal.com/screen1',
+    info: '',
+  }
 };
 
 const exerciseTab = {
@@ -59,6 +71,7 @@ const exerciseTab = {
     instruction : { swe: '', en: '' },
     title       : { swe: '', en: '' },
     information : { swe: '', en: '' },
+    testing_mode : false,
   },
 };
 
@@ -75,6 +88,7 @@ export  default {
   ...treatmentTab,
   ...packageTab,
   ...levelUp,
+  ...evaluation,
   ...exerciseTab,
   ...bodyAreaTab,
 };
