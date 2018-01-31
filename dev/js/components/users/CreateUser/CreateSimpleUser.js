@@ -8,21 +8,37 @@ import {dispatchCreateSimpleUserPayloadWired} from '../../../actions'
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Dropzone      from '../../assets/Dropzone/Dropzone';
-import {
-  toFormData,
-} from '../../../utils';
 const TABS = [
   { label: 'By EMAIL',  value: true   },
   { label: 'BY IMPORT', value: false  }
 ];
 
+import CreateUserFileItem from './CreateUserFileItem'
+
 class CreateSimpleUser extends Component {
   state = {
-    showByEmail:true,
+    showByEmail:false,
+  };
+
+  _renderFiles = (files = [], progress) => {
+    if (files.length) {
+      return files.map((f, i) => {
+        return (
+          <CreateUserFileItem
+            key={i}
+            index={i}
+            progress={progress}
+          />
+        )
+      });
+    } else {
+      return (<div className="create-simple-users-drop-zone-container">
+        <Dropzone fileTypes = 'text/csv' fileExtention= "csv" onDrop={this._onDrop} />
+      </div>);
+    }
   };
 
   _onDrop = (acceptedF, rejectedF) => {
-    console.log(acceptedF, rejectedF);
     const files = acceptedF.map(file => ({
       file,
       type       : file.type.split('/').shift(),
@@ -31,9 +47,7 @@ class CreateSimpleUser extends Component {
       name       : file.name.split('.').shift(),
       progress   : 100,
     }));
-    console.log(files);
-    toFormData(files);
-    dispatchCreateSimpleUserPayloadWired({...this.props.createSimpleUsersReducers,files:files, email:''})
+    dispatchCreateSimpleUserPayloadWired({files:files})
   };
 
   _handleAddUserBy = (value) =>{
@@ -41,7 +55,11 @@ class CreateSimpleUser extends Component {
   };
 
   render() {
-    const {createSimpleUsersReducers} = this.props;
+    const {createSimpleUsersReducers,
+      createSimpleUsersReducers: {
+        files,
+        progress,
+      }} = this.props;
     return (
       <div>
         <div>
@@ -62,8 +80,8 @@ class CreateSimpleUser extends Component {
           <div className="create-simple-users-content">
             {this.state.showByEmail ?(<div>
                 <Input id='email' reducer={createSimpleUsersReducers} label='Email' placeholder='Email'/>
-              </div>):(<div className="create-simple-users-drop-zone-container">
-                <Dropzone fileTypes = 'text/csv' fileExtention= "csv" onDrop={this._onDrop} />
+              </div>):(<div>
+                { this._renderFiles(files, progress) }
               </div>)}
           </div>
 

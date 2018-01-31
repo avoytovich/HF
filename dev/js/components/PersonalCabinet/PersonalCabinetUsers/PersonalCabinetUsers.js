@@ -13,7 +13,7 @@ import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import get                      from 'lodash/get'
 import CreateSimpleUser         from '../../users/CreateUser/CreateSimpleUser';
 import Modal                    from '../../common/Modal/Modal';
-import { userCreate }           from '../../../actions';
+import { userCreate, userCreateByCSV }           from '../../../actions';
 import {
   PAGE,
   domen,
@@ -59,11 +59,22 @@ class PersonalCabinetUsers extends Component {
     let currentPage = get(this.props,'store.pagination.current_page');
     const result = {
       customer_id: this.props.userReducer.user_id,
-      email: this.props.createSimpleUsersReducers.email};
-    userCreate('users', 'createSimpleUser', result)
-      .then(() => {
-        browserHistory.push(`/personal-cabinet/users?current_page=${currentPage}`)
-        this.setState({showCreateUserModal:false})})
+      email: this.props.createSimpleUsersReducers.email,
+      files: this.props.createSimpleUsersReducers.files,
+    };
+
+    if(this.props.createSimpleUsersReducers.files.length){
+      userCreateByCSV('users', 'createSimpleUserByCSV', result)
+        .then(() => {
+          browserHistory.push(`/personal-cabinet/users?current_page=${currentPage}`)
+          this.setState({showCreateUserModal:false})})
+    }
+    else{
+      userCreate('users', 'createSimpleUser', result)
+        .then(() => {
+          browserHistory.push(`/personal-cabinet/users?current_page=${currentPage}`)
+          this.setState({showCreateUserModal:false})})
+    }
   };
 
   _toggleCloseCreateSimpleUser = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });

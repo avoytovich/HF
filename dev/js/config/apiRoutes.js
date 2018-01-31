@@ -39,6 +39,7 @@ export const api = {
   clinics             : '/customers/get/all',
   customers           : '/customers/',
   createSimpleUser    : '/users/customer',
+  createSimpleUserByCSV    : '/users/csv/add/',
   userProfile         : '/users/',
   logout              : '/auth/logout',
   packages            : '/packages',

@@ -14,6 +14,7 @@ import Button                   from 'material-ui/Button';
 import CreateUser               from '../../users/CreateUser/CreateUser';
 import {
   userCreate,
+  userCreateByCSV,
   getProfileWired } from '../../../actions'
 
 const styles = theme => ({
@@ -86,15 +87,6 @@ class Profile extends Component {
     )
   };
 
-  _returnFunc = () => {
-    if(get(this.props,'profileReducer.type')==='organization'){
-      browserHistory.push('companies');
-    }
-    else if(get(this.props,'profileReducer.type')==='clinic'){
-      browserHistory.push('clinics');
-    }
-  };
-
   _renderContact = (el, index)=>{
     return (
       <div key={index}>
@@ -136,11 +128,22 @@ class Profile extends Component {
   _createSimpleUser =() =>{
     const result = {
       customer_id: this.props.userReducer.user_id,
-      email: this.props.createSimpleUsersReducers.email};
-    userCreate('users', 'createSimpleUser', result)
-      .then(this.setState({showCreateUserModal:false}))
-    getProfileWired(this.props.userReducer.user_id);
-  }
+      email: this.props.createSimpleUsersReducers.email,
+      files: this.props.createSimpleUsersReducers.files,
+    };
+
+    if(this.props.createSimpleUsersReducers.files.length){
+      userCreateByCSV('users', 'createSimpleUserByCSV', result)
+        .then(this.setState({showCreateUserModal:false}))
+      getProfileWired(this.props.userReducer.user_id);
+    }
+    else{
+      userCreate('users', 'createSimpleUser', result)
+        .then(this.setState({showCreateUserModal:false}));
+      getProfileWired(this.props.userReducer.user_id);
+    }
+
+  };
 
   _toggleCloseModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 

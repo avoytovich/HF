@@ -14,6 +14,7 @@ import Button                   from 'material-ui/Button';
 import CreateUser from '../CreateUser/CreateUser';
 import {
   userCreate,
+  userCreateByCSV,
   getProfileWired } from '../../../actions'
 
 const styles = theme => ({
@@ -58,7 +59,7 @@ class Profile extends Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.showCreateUserModal && nextState.showCreateUserModal) {
+     if (this.state.showCreateUserModal && nextState.showCreateUserModal) {
       return false
     }
     return true;
@@ -144,18 +145,27 @@ class Profile extends Component {
     const result = {
       customer_id: this.props.params.id,
       email: this.props.createSimpleUsersReducers.email,
-      files: this.props.createSimpleUsersReducers.files
+      files: this.props.createSimpleUsersReducers.files,
     };
-    userCreate('users', 'createSimpleUser', result)
-      .then(this.setState({showCreateUserModal:false}))
-    getProfileWired(this.props.params.id);
-  }
+
+    if(this.props.createSimpleUsersReducers.files.length){
+      userCreateByCSV('users', 'createSimpleUserByCSV', result)
+        .then(this.setState({showCreateUserModal:false}))
+      getProfileWired(this.props.params.id);
+    }
+    else{
+      userCreate('users', 'createSimpleUser', result)
+        .then(this.setState({showCreateUserModal:false}));
+      getProfileWired(this.props.params.id);
+    }
+
+  };
 
   _toggleCloseModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
   _openEditModal = () => {
     this.setState({ showEditProfileModal: !this.state.showEditProfileModal })
-  }
+  };
 
   render() {
     const {showCreateUserModal, showEditProfileModal} = this.state;
@@ -237,7 +247,8 @@ class Profile extends Component {
 
 const mapStateToProps = state => ({
   profileReducer: state.profileReducer,
-  createSimpleUsersReducers: state.createSimpleUsersReducers
+  createSimpleUsersReducers: state.createSimpleUsersReducers,
+  userReducer:state.userReducer
 });
 
 export default  connect(mapStateToProps)(withStyles(styles)(Profile));
