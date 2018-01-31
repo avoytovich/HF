@@ -72,7 +72,7 @@ export  default {
   page          : null,
   areas         : [],
   areaIds       : [],
-  testing       : false,
+  testing       : true,
 
   ...diagnosticTab,
   ...conditionTab,

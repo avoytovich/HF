@@ -31,7 +31,7 @@ class EnhancedTableHead extends Component {
   };
 
   render() {
-    const { rowCount, numSelected, columnTitleList } = this.props;
+    const { rowCount, numSelected, columnTitleList, showTestingMarker } = this.props;
     const { sortedBy, orderBy } = this.props.store.sortOptional;
 
     return (
@@ -40,12 +40,17 @@ class EnhancedTableHead extends Component {
 
           <TableCell padding="checkbox"
                      className="td-checkbox">
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={numSelected === rowCount}
-              disabled={!rowCount}
-              onClick={this.handleClick}
-            />
+            <div className="in-testing-wrap">
+
+              {showTestingMarker && <div className="in-testing"/>}
+
+              <Checkbox
+                indeterminate={numSelected > 0 && numSelected < rowCount}
+                checked={numSelected === rowCount}
+                disabled={!rowCount}
+                onClick={this.handleClick}
+              />
+            </div>
           </TableCell>
 
           {columnTitleList.map((column, index) => {
