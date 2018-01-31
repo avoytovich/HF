@@ -9,9 +9,9 @@ export {
 }                               from './DiagnosisTab';
 
 export {
-  EvaluationComponent,
+  LevelUpComponent,
   CreateEvaluationComponent
-}                                from './EvaluationTab'
+}                                from './LevelUpTab'
 
 export {
   ExercisesComponent,

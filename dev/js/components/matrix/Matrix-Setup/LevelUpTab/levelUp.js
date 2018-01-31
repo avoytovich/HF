@@ -12,7 +12,7 @@ import DeleteComponent          from '../matrix-crud/deleteModal';
 import Done                     from 'material-ui-icons/Done';
 
 
-class EvaluationComponent extends Component {
+class LevelUpComponent extends Component {
   state = {
     selected: [],
     deactivateOpen: false,
@@ -131,4 +131,4 @@ const mapStateToProps = state => ({
   store: state.tables.diagnosis
 });
 
-export default  connect(mapStateToProps)(EvaluationComponent);
+export default  connect(mapStateToProps)(LevelUpComponent);

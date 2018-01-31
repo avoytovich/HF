@@ -89,13 +89,16 @@ const router = (
 
               <IndexRedirect to="diagnosis"/>
 
-              <Route path='diagnosis' component={(props) => <C.DiagnosisComponent  {...props}/>}/>
-              <Route path='body-area' component={(props) => <C.BodyAreaComponent {...props}/>}/>
-              <Route path='conditions' component={(props) => <C.ConditionsComponent {...props}/>}/>
-              <Route path='treatments' component={(props) => <C.TreatmentsComponent {...props}/>}/>
-              <Route path='packages' component={(props) => <C.PackagesComponent   {...props}/>}/>
-              <Route path='levelUps' component={(props) => <C.EvaluationComponent {...props} />}/>
-              <Route path='exercises' component={(props) => <C.ExercisesComponent  {...props}/>}/>
+              <Route path='diagnosis'   component={(props) => <C.DiagnosisComponent  {...props}/>}/>
+              <Route path='body-area'   component={(props) => <C.BodyAreaComponent   {...props}/>}/>
+              <Route path='conditions'  component={(props) => <C.ConditionsComponent {...props}/>}/>
+              <Route path='treatments'  component={(props) => <C.TreatmentsComponent {...props}/>}/>
+              <Route path='packages'    component={(props) => <C.PackagesComponent   {...props}/>}/>
+              <Route path='levelUps'    component={(props) => <C.LevelUpComponent    {...props}/>}/>
+
+              <Route path='evaluations' component={(props) => <C.EvaluationComponent {...props}/>}/>
+
+              <Route path='exercises'   component={(props) => <C.ExercisesComponent  {...props}/>}/>
 
               {/*<Route path='tests'               component={ TestsComponent } />*/}
               {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}

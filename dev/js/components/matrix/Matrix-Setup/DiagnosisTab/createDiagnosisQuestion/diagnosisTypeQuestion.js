@@ -19,7 +19,7 @@ import {
 import SequenceBlock                     from './sequenceBlock';
 import DiagnosticQuestion                from './diagnosticQuestion';
 import DiagnosticAnswers                 from './diagnosticAnswers';
-import PackageLevelsList                 from '../../EvaluationTab/createEvaluationQuestion/PackageLevelsList'
+import PackageLevelsList                 from '../../LevelUpTab/createLevelUpQuestion/PackageLevelsList'
 // UI
 import Grid                              from 'material-ui/Grid';
 import Typography                        from 'material-ui/Typography';
