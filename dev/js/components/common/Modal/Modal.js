@@ -25,6 +25,14 @@ class Modal extends Component {
     });
   };
 
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(this.props.open && nextProps.open){
+      return false
+    }
+    return true
+  }
+
   render() {
     const {
       title,

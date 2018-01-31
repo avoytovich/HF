@@ -4,7 +4,9 @@ import { browserHistory }       from 'react-router'
 import Paper                    from 'material-ui/Paper';
 import Grid                     from 'material-ui/Grid';
 import { withStyles }           from 'material-ui/styles';
-import { get, map }             from 'lodash'
+import  get                     from 'lodash/get';
+import  map                     from 'lodash/map'
+import isEqual                  from 'lodash/isEqual'
 import CommentIcon              from 'material-ui-icons/Comment';
 import Modal                    from '../../common/Modal/Modal';
 import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
@@ -15,7 +17,8 @@ import CreateUser from '../CreateUser/CreateUser';
 import {
   userCreate,
   userCreateByCSV,
-  getProfileWired } from '../../../actions'
+  getProfileWired,
+  dispatchCreateSimpleUserPayloadWired} from '../../../actions'
 
 const styles = theme => ({
   root:{
@@ -59,7 +62,7 @@ class Profile extends Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-     if (this.state.showCreateUserModal && nextState.showCreateUserModal) {
+    if (this.state.showCreateUserModal && nextState.showCreateUserModal) {
       return false
     }
     return true;
@@ -150,13 +153,17 @@ class Profile extends Component {
 
     if(this.props.createSimpleUsersReducers.files.length){
       userCreateByCSV('users', 'createSimpleUserByCSV', result)
-        .then(this.setState({showCreateUserModal:false}))
-      getProfileWired(this.props.params.id);
+        .then(() => {
+          this.setState({showCreateUserModal:false})
+          dispatchCreateSimpleUserPayloadWired({files:[],email:''})
+          getProfileWired(this.props.params.id)})
     }
     else{
       userCreate('users', 'createSimpleUser', result)
-        .then(this.setState({showCreateUserModal:false}));
-      getProfileWired(this.props.params.id);
+        .then(() => {
+          this.setState({showCreateUserModal:false})
+          dispatchCreateSimpleUserPayloadWired({files:[],email:''})
+          getProfileWired(this.props.params.id)})
     }
 
   };

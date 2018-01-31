@@ -67,3 +67,16 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateUserFileItem);
+
+`{
+    "files":[
+    {
+      "link":"temp/1457018396_servers.png",
+      "type":"image", 
+      "title":"title",
+      "description":"description",
+      "name_origin":"name_origin",
+      "name_real":"name_real"
+    }
+  ]
+}`;

@@ -17,7 +17,7 @@ import CreateUserFileItem from './CreateUserFileItem'
 
 class CreateSimpleUser extends Component {
   state = {
-    showByEmail:false,
+    showByEmail:true,
   };
 
   _renderFiles = (files = [], progress) => {
