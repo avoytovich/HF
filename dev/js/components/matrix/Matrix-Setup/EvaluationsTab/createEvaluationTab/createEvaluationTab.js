@@ -102,7 +102,7 @@ class CreateEvaluationComponent extends Component {
   submit = (value) => {
     const {
       sequenceType, questionKey, sequence, question, questionTitle, content_type, errors, diagnostic_assets, testing,
-      level_up
+      level_up, evaluation_result, evaluation_result_data
     } = value;
     const validValue = { questionKey, questionTitle };
     const isContentType = content_type === 'functionalTest';
@@ -122,7 +122,7 @@ class CreateEvaluationComponent extends Component {
     const savedErrors = {questionKey: errors.questionKey};
 
     const result = {
-      type : 'levelUp',
+      type : 'evaluation',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
       title: questionTitle,
@@ -130,6 +130,8 @@ class CreateEvaluationComponent extends Component {
       content_type,
       testing,
       level_up,
+      evaluation_result,
+      evaluation_result_data: evaluation_result_data[evaluation_result],
       ...optional,
     };
 

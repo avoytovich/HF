@@ -103,7 +103,8 @@ class RulesLinks extends Component {
 RulesLinks.defaultProps = {
   typePath   : 'evaluation_result',
   pageOptions: [
-    {value: 'main', label: 'Main page'}
+    {value: 'http://heal.com/screen1', label: 'Screen 1'},
+    {value: 'http://heal.com/screen2', label: 'Screen 2'}
   ]
 };
 

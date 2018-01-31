@@ -82,10 +82,20 @@ class DiagnosisTypeQuestion extends Component {
               ))}
             </MUISelect>
           </Grid>
+          {hideArea && <Grid item md={6} sm={12}>
+            <Input
+              id='questionTitle'
+              value={questionTitle}
+              reducer={ createDiagnosisQuestion }
+              label={ 'Title*' }
+              className="MUIControl"
+              style={{marginTop: '12px'}}
+            />
+          </Grid>}
         </Grid>
 
         {/*Title and Pain Area*/}
-        <Grid container className="row-item">
+        {!hideArea && <Grid container className="row-item">
           <Grid item md={6} sm={12}>
             <Input
               id='questionTitle'
@@ -96,15 +106,14 @@ class DiagnosisTypeQuestion extends Component {
             />
           </Grid>
           <Grid item md={6} sm={12} className="level-up-block">
-            {!hideArea &&
               <AsyncAreaSelect
                 domain="diagnostics"
                 path="findArea"
                 valuePath="areaIds"
                 idKey="create_diagnostic_question"
-              />}
+              />
           </Grid>
-        </Grid>
+        </Grid>}
 
         {/* Question !!! */}
         <DiagnosticQuestion

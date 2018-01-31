@@ -58,7 +58,7 @@ const evaluation = {
   evaluation_result     : '',
   evaluation_result_data: {
     redirect: '',
-    page: '',
+    page: 'http://heal.com/screen1',
     info: '',
   }
 };
