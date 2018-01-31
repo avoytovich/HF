@@ -69,6 +69,7 @@ class CreateUser extends Component {
     if(this.props.userInfo){
       return
     }
+    console.log(this.props.userData)
     dispatchCreateUserPayloadWired(this.props.userData);
   }
 
@@ -96,6 +97,18 @@ class CreateUser extends Component {
       }
     });
   };
+
+  _dublicatePostalCode = ()=>{
+    console.log(this.props.createUsersReducers);
+    const newBillingData = {billing_info:
+      {postal_code: this.props.createUsersReducers.contact_info.postal_code,
+        address: this.props.createUsersReducers.contact_info.address,
+        country: this.props.createUsersReducers.contact_info.country,
+        region: this.props.createUsersReducers.contact_info.region,
+      }}
+      console.log(newBillingData);
+    dispatchCreateUserPayloadWired({...this.props.createUsersReducers,...newBillingData})
+  }
 
   render() {
     const createUsersReducers = { ...this.props.userData, ...this.props.createUsersReducers};
@@ -130,6 +143,7 @@ class CreateUser extends Component {
               <Input id="billing_info.region" reducer={createUsersReducers} label='Region' placeholder='Region'/>
               <Input id="billing_info.country" reducer={createUsersReducers} label='Country' placeholder='Country'/>
               <Input id="billing_info.postal_code" reducer={createUsersReducers} label='Postal Code' placeholder='Postal Code'/>
+              <div className="add-contact-person" onClick={this._dublicatePostalCode}>DUBLICATE INFORMATION </div>
             </div>
           </div>
 
