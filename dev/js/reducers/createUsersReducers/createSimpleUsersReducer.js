@@ -6,7 +6,8 @@ const initialState = {
   errors: {},
   email: "",
   customer_id: '',
-  active: false
+  active: false,
+  files:[],
 };
 
 export const createSimpleUsersReducers = createReducer(initialState, T.CREATE_SIMPLE_USERS);

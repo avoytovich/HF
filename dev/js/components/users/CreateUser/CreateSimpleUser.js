@@ -4,10 +4,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Input from '../../common/Input/Input';
 import  map  from 'lodash/map';
+import {dispatchCreateSimpleUserPayloadWired} from '../../../actions'
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Dropzone      from '../../assets/Dropzone/Dropzone';
-
+import {
+  toFormData,
+} from '../../../utils';
 const TABS = [
   { label: 'By EMAIL',  value: true   },
   { label: 'BY IMPORT', value: false  }
@@ -19,26 +22,30 @@ class CreateSimpleUser extends Component {
   };
 
   _onDrop = (acceptedF, rejectedF) => {
+    console.log(acceptedF, rejectedF);
     const files = acceptedF.map(file => ({
       file,
-      type       : file.type.split('/').shift() === 'image' ? 'image' : 'video',
+      type       : file.type.split('/').shift(),
       title      : '',
       description: '',
       name       : file.name.split('.').shift(),
       progress   : 100,
     }));
     console.log(files);
+    toFormData(files);
+    dispatchCreateSimpleUserPayloadWired({...this.props.createSimpleUsersReducers,files:files, email:''})
   };
 
   _handleAddUserBy = (value) =>{
     this.setState({ showByEmail: value });
   };
+
   render() {
     const {createSimpleUsersReducers} = this.props;
     return (
       <div>
         <div>
-          <AppBar position="static" color="white">
+          <AppBar position="static" color="inherit">
             <Tabs
               value={+!this.state.showByEmail}
               onChange={this._handleAddUserBy}
@@ -55,8 +62,8 @@ class CreateSimpleUser extends Component {
           <div className="create-simple-users-content">
             {this.state.showByEmail ?(<div>
                 <Input id='email' reducer={createSimpleUsersReducers} label='Email' placeholder='Email'/>
-              </div>):(<div>
-                <Dropzone onDrop={this._onDrop} />
+              </div>):(<div className="create-simple-users-drop-zone-container">
+                <Dropzone fileTypes = 'text/csv' fileExtention= "csv" onDrop={this._onDrop} />
               </div>)}
           </div>
 

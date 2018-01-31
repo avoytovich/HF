@@ -143,7 +143,9 @@ class Profile extends Component {
   _createSimpleUser =() =>{
     const result = {
       customer_id: this.props.params.id,
-      email: this.props.createSimpleUsersReducers.email};
+      email: this.props.createSimpleUsersReducers.email,
+      files: this.props.createSimpleUsersReducers.files
+    };
     userCreate('users', 'createSimpleUser', result)
       .then(this.setState({showCreateUserModal:false}))
     getProfileWired(this.props.params.id);
@@ -174,7 +176,6 @@ class Profile extends Component {
       </div>
       <Grid className={classes.root}
             container
-            alignItems='top'
             direction='row'
             justify='space-around'
       >

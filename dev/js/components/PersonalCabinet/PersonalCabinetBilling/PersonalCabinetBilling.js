@@ -100,7 +100,7 @@ class PersonalCabinetBilling extends Component {
         </div>
         <div><Grid className={classes.root}
                    container
-                   alignItems='top'
+                   alignItems='flex-start'
                    direction='row'
                    justify='space-around'
         >
@@ -128,7 +128,7 @@ class PersonalCabinetBilling extends Component {
 
         <div><Grid className={classes.root}
                    container
-                   alignItems='top'
+                   alignItems='flex-start'
                    direction='row'
                    justify='space-around'
         >

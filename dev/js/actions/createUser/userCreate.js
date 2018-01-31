@@ -27,3 +27,13 @@ export const dispatchCreateUserPayload = payload => dispatch =>
 export const dispatchCreateUserPayloadWired = payload =>
   dispatchCreateUserPayload(payload)(store.dispatch);
 
+
+export const dispatchCreateSimpleUserPayload = payload => dispatch =>
+  dispatch({
+    type   : T.CREATE_SIMPLE_USERS,
+    payload: payload
+  });
+
+export const dispatchCreateSimpleUserPayloadWired = payload =>
+  dispatchCreateSimpleUserPayload(payload)(store.dispatch);
+
