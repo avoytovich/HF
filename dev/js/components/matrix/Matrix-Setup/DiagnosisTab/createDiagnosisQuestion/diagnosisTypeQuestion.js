@@ -43,8 +43,8 @@ class DiagnosisTypeQuestion extends Component {
       sequenceList,
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type, level_up,
-        diagnostic_assets,
+        questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type, levelup_result,
+        diagnostic_assets,  evaluation_result,
       },
       page, reqType, packages, packageLevelsList, currentId, showLevelUp, hideArea, rules_links
     } = this.props;
@@ -176,8 +176,8 @@ class DiagnosisTypeQuestion extends Component {
               className="level-up-block-label"
               control={
                 <Checkbox
-                  checked={level_up}
-                  onChange={e => updateCrateQuestionFields(e.target.checked, 'level_up')}
+                  checked={levelup_result}
+                  onChange={e => updateCrateQuestionFields(e.target.checked, 'levelup_result')}
                 />
               }
             />
@@ -202,7 +202,7 @@ class DiagnosisTypeQuestion extends Component {
         }
 
         {
-          rules_links &&  <RulesLinks/>
+          rules_links &&  <RulesLinks typeValue={evaluation_result} />
         }
 
         <DiagnosisRulesComponent

@@ -139,7 +139,7 @@ class CreateEvaluationComponent extends Component {
       'diagnostics',
       'createQuestion',
       result,
-      '/matrix-setup/levelUps',
+      '/matrix-setup/evaluations',
       this.props.routeParams.id
     );
   };
@@ -163,7 +163,7 @@ class CreateEvaluationComponent extends Component {
     };
   };
 
-  cancel = () => browserHistory.push(`/matrix-setup/levelUps`);
+  cancel = () => browserHistory.push(`/matrix-setup/evaluations`);
 
   render() {
     const {
