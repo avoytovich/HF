@@ -87,6 +87,7 @@ export const api = {
   createDialog        : '/dialogs',
   getMessages         : '/messages/dialog/',
   createMessage       : '/messages',
+  getAllSideAreas     : '/matrix/areas/get/side',
   personalCabinetUsers : '/users/get/all',
 };
 
