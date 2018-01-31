@@ -5,12 +5,14 @@ import FileUpload from 'material-ui-icons/FileUpload';
 class Dropzone extends Component {
   render() {
     const {
-      onDrop
+      onDrop,
+      fileTypes,
+      fileExtention,
     } = this.props;
 
     return (
       <DropzoneLib
-        accept='image/png,image/jpeg,image/bmp,video/mp4,video/mkv'
+        accept={fileTypes}
         className="dropzone"
         activeClassName="dropzone-active"
         onDrop={onDrop}
@@ -21,12 +23,17 @@ class Dropzone extends Component {
             Drop files here or click to upload
           </p>
           <p className="upload-instruction-wrapper">
-            Format files: .{this.props.fileExtention || 'mkv'}
+            Format files: .{fileExtention}
           </p>
         </div>
       </DropzoneLib>
     );
   }
+}
+
+Dropzone.defaultProps = {
+  fileTypes: 'image/png,image/jpeg,image/bmp,video/mp4,video/mkv',
+  fileExtention: 'mkv',
 }
 
 export default Dropzone;
