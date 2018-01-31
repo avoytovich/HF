@@ -44,7 +44,8 @@ const packageTab = {
       therapy_continuity: '1',
       exercise_ids: []
     }
-  ]
+  ],
+  testing_mode  : false,
 };
 
 const levelUp = {
@@ -70,6 +71,7 @@ const exerciseTab = {
     instruction : { swe: '', en: '' },
     title       : { swe: '', en: '' },
     information : { swe: '', en: '' },
+    testing_mode : false,
   },
 };
 

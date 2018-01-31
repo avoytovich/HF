@@ -20,6 +20,7 @@ import Chat                     from './chat/Chat';
 import PersonalCabinetMain      from '../components/PersonalCabinetMain';
 import PersonalCabinetUsers     from '../components/PersonalCabinet/PersonalCabinetUsers/PersonalCabinetUsers';
 import PersonalCabinetProfile     from '../components/PersonalCabinet/PersonalCabinetProfile/PersonalCabinetProfile';
+import PersonalCabinetBilling     from '../components/PersonalCabinet/PersonalCabinetBilling/PersonalCabinetBilling';
 
 import * as commonComponents    from './common';
 import * as testingComponents   from './testing';
@@ -50,5 +51,6 @@ export const C = {
   PersonalCabinetMain,
   Chat,
   PersonalCabinetUsers,
-  PersonalCabinetProfile
+  PersonalCabinetProfile,
+  PersonalCabinetBilling,
 };

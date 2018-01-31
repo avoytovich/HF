@@ -92,7 +92,8 @@ class Companies extends Component {
           path="companies"
           selected={selected}
           createItem={this.createEntity}
-          createButtonText="Add">
+          createButtonText="Add"
+          searchKey = "filter">
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>

@@ -1,6 +1,7 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { USERS_TAB }            from '../../../utils/constants/pageContent';
+import {
+  PERSONAL_CABINET_USERS_TAB }  from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
@@ -9,6 +10,10 @@ import DeactivateComponent      from '../../common/Modal/DeactivateModal'
 import { activateUser }         from '../../../actions';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
+import get                      from 'lodash/get'
+import CreateSimpleUser         from '../../users/CreateUser/CreateSimpleUser';
+import Modal                    from '../../common/Modal/Modal';
+import { userCreate, userCreateByCSV }           from '../../../actions';
 import {
   PAGE,
   domen,
@@ -20,7 +25,15 @@ class PersonalCabinetUsers extends Component {
     selected: [],
     showActivateModal:false,
     showDeactivateModal:false,
+    showCreateUserModal: false,
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.showCreateUserModal && nextState.showCreateUserModal) {
+      return false
+    }
+    return true;
+  }
 
   onRowClick = (selected = []) => this.setState({selected});
 
@@ -33,25 +46,53 @@ class PersonalCabinetUsers extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
+  createEntity = () => {
+    this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
+  };
+
   _toggleActivateModal = (data) => {
     data==='activate'?(this.setState({ showActivateModal: !this.state.showActivateModal })):
       (this.setState({ showDeactivateModal: !this.state.showDeactivateModal }))
   };
 
+  _createSimpleUser =() =>{
+    let currentPage = get(this.props,'store.pagination.current_page');
+    const result = {
+      customer_id: this.props.userReducer.user_id,
+      email: this.props.createSimpleUsersReducers.email,
+      files: this.props.createSimpleUsersReducers.files,
+    };
+
+    if(this.props.createSimpleUsersReducers.files.length){
+      userCreateByCSV('users', 'createSimpleUserByCSV', result)
+        .then(() => {
+          browserHistory.push(`/personal-cabinet/users?current_page=${currentPage}`)
+          this.setState({showCreateUserModal:false})})
+    }
+    else{
+      userCreate('users', 'createSimpleUser', result)
+        .then(() => {
+          browserHistory.push(`/personal-cabinet/users?current_page=${currentPage}`)
+          this.setState({showCreateUserModal:false})})
+    }
+  };
+
+  _toggleCloseCreateSimpleUser = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
+
   _activateItems = (selected, action) => {
+    let currentPage = get(this.props,'store.pagination.current_page');
     activateUser('users', 'userProfile', selected, action)
-      .then(() => browserHistory.push(`/users-simple`))
+      .then(() => browserHistory.push(`/personal-cabinet/users?current_page=${currentPage}`));
     this._toggleActivateModal(action);
     this.setState({ selected: []})
 
   };
 
   render() {
-    const { tableHeader } = USERS_TAB;
-    const { selected, showActivateModal, showDeactivateModal } = this.state;
-    const querySelector = {...this.props.location.query,...{customer_type: 'simple'}};
+    const { tableHeader } = PERSONAL_CABINET_USERS_TAB;
+    const { selected, showActivateModal, showDeactivateModal, showCreateUserModal } = this.state;
+    const querySelector = this.props.location.query;
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.userReducer.user_id}`;
-    console.log(this, 'url :', url);
     return (
       <div id="diagnosis-component">
 
@@ -85,8 +126,13 @@ class PersonalCabinetUsers extends Component {
         />
 
         <TableControls
-          path="users"
+          locationUrl={this.props.location.pathname}
+          path="personalCabinetUsers"
           selected={selected}
+          searchKey = "filter"
+          createItem={this.createEntity}
+          createButtonText="Add"
+          tableTitle  = 'Users'
         >
 
           <Button raised dense
@@ -103,7 +149,7 @@ class PersonalCabinetUsers extends Component {
         <TableComponent
           url={url}
           location={this.props.location}
-          path="simpleUsers"
+          path="personalCabinetUsers"
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }
@@ -111,6 +157,16 @@ class PersonalCabinetUsers extends Component {
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
+          tableTitle = 'Users'
+        />
+
+        <Modal
+          itemName="name_real"
+          open={showCreateUserModal}
+          title='Add user'
+          toggleModal={this._toggleCloseCreateSimpleUser}
+          onConfirmClick={() => this._createSimpleUser()}
+          CustomContent={() => <CreateSimpleUser />}
         />
 
       </div>
@@ -120,7 +176,8 @@ class PersonalCabinetUsers extends Component {
 
 const mapStateToProps = state => ({
   store: state.tables.diagnosis,
-  userReducer: state.userReducer
+  userReducer: state.userReducer,
+  createSimpleUsersReducers: state.createSimpleUsersReducers,
 });
 
 export default  connect(mapStateToProps)(PersonalCabinetUsers);

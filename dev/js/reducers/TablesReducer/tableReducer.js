@@ -117,6 +117,10 @@ const initialState = {
       name: 'chat',
       changes: []
     },
+    {
+      name: 'personalCabinetUsers',
+      changes: []
+    },
   ]
 };
 

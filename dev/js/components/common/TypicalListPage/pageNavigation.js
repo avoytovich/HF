@@ -76,7 +76,7 @@ class PageNavigation extends Component {
                   placeholder='Search'
                   startAdornment={
                     <InputAdornment position="start">
-                      <SearchIcon color="grey"/>
+                      <SearchIcon className="search-icon"/>
                     </InputAdornment>
                   }
                 />

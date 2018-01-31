@@ -4,16 +4,17 @@ import { browserHistory }       from 'react-router'
 import Paper                    from 'material-ui/Paper';
 import Grid                     from 'material-ui/Grid';
 import { withStyles }           from 'material-ui/styles';
-import { get, map }             from 'lodash'
+import get                      from 'lodash/get';
+import map                      from 'lodash/map';
 import CommentIcon              from 'material-ui-icons/Comment';
 import Modal                    from '../../common/Modal/Modal';
 import CreateSimpleUser         from '../../users/CreateUser/CreateSimpleUser';
-import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
 import EditIcon                 from 'material-ui-icons/Edit';
 import Button                   from 'material-ui/Button';
 import CreateUser               from '../../users/CreateUser/CreateUser';
 import {
   userCreate,
+  userCreateByCSV,
   getProfileWired } from '../../../actions'
 
 const styles = theme => ({
@@ -39,13 +40,8 @@ const mainInformation = [
   {title:'Address', path: 'contact_info.address'},
   {title:'Region', path: 'contact_info.region'},
   {title:'Country', path: 'contact_info.country'},
+  {title:'Postal code', path: 'contact_info.postal_code'},
   {title:'Industry', path:  'additional_info.industry'}
-];
-
-const billingAddress = [
-  {title: 'Address', path: 'billing_info.address'},
-  {title: 'Region', path: 'billing_info.region'},
-  {title: 'Country', path: 'billing_info.country'}
 ];
 
 class Profile extends Component {
@@ -76,7 +72,7 @@ class Profile extends Component {
       browserHistory.push(`/clinic/${currentId}/users`);
     }
 
-  }
+  };
 
   _renderItem =(el, index, profileReducer)=>{
     return (
@@ -89,15 +85,6 @@ class Profile extends Component {
         </div>
       </div>
     )
-  };
-
-  _returnFunc = () => {
-    if(get(this.props,'profileReducer.type')==='organization'){
-      browserHistory.push('companies');
-    }
-    else if(get(this.props,'profileReducer.type')==='clinic'){
-      browserHistory.push('clinics');
-    }
   };
 
   _renderContact = (el, index)=>{
@@ -140,12 +127,23 @@ class Profile extends Component {
 
   _createSimpleUser =() =>{
     const result = {
-      customer_id: this.props.params.id,
-      email: this.props.createSimpleUsersReducers.email};
-    userCreate('users', 'createSimpleUser', result)
-      .then(this.setState({showCreateUserModal:false}))
-    getProfileWired(this.props.params.id);
-  }
+      customer_id: this.props.userReducer.user_id,
+      email: this.props.createSimpleUsersReducers.email,
+      files: this.props.createSimpleUsersReducers.files,
+    };
+
+    if(this.props.createSimpleUsersReducers.files.length){
+      userCreateByCSV('users', 'createSimpleUserByCSV', result)
+        .then(this.setState({showCreateUserModal:false}))
+      getProfileWired(this.props.userReducer.user_id);
+    }
+    else{
+      userCreate('users', 'createSimpleUser', result)
+        .then(this.setState({showCreateUserModal:false}));
+      getProfileWired(this.props.userReducer.user_id);
+    }
+
+  };
 
   _toggleCloseModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
@@ -163,51 +161,46 @@ class Profile extends Component {
     return (
       <div className="profile-main-container">
         <div className="profile-sub-header">
-          <span className="profile-total" onClick={this._returnFunc}> {get(this.props,'profileReducer.type')==='clinic'?'Clinics ':'Companies ' }</span>
-          <ArrowRight className="arrow-right-icon" />
-          <span className="profile-name">{get(profileReducer,'name')} Profile </span>
+          <span className="profile-name">Profile </span>
           <Button raised className={classes.button} onClick={this._openEditModal}>
             <EditIcon /> Edit
           </Button>
         </div>
-        <Grid className={classes.root}
-              container
-              alignItems='top'
-              direction='row'
-              justify='space-around'
-        >
-          <Grid item xs={12} sm={7} className = 'information-block'>
-            <Paper className={classes.paper}>
-              <div className = 'profile-paper-container'>
-                <div className = 'profile-paper-sub-header'>Information</div>
-                <div className = 'profile-paper-data-container'>
-                  {map(mainInformation, (el,index) => this._renderItem(el,index,profileReducer))}
-                </div>
-                <div className="profile-paper-hr"/>
-                <div className = 'profile-paper-sub-header'>Company Users</div>
-                <div className = 'profile-paper-data-container'>
-                  <div className = 'profile-paper-data'>
-                    <div className="users-count" onClick={this._getUsers}> {get(profileReducer,'users') + (get(profileReducer,'users') > 1 ? ' Users':' User')}</div>
-                    <div className="add-user" onClick = {this._addUsers}><span>+</span> ADD USER</div>
+        <div>
+          <Grid className={classes.root}
+                container
+                direction='row'
+                justify='space-around'
+          >
+            <Grid item xs={12} sm={7} className = 'information-block'>
+              <Paper className={classes.paper}>
+                <div className = 'profile-paper-container'>
+                  <div className = 'profile-paper-sub-header'>Information</div>
+                  <div className = 'profile-paper-data-container'>
+                    {map(mainInformation, (el,index) => this._renderItem(el,index,profileReducer))}
+                  </div>
+                  <div className="profile-paper-hr"/>
+                  <div className = 'profile-paper-sub-header'>Company Users</div>
+                  <div className = 'profile-paper-data-container'>
+                    <div className = 'profile-paper-data'>
+                      <div className="users-count" onClick={this._getUsers}> {get(profileReducer,'users') + (get(profileReducer,'users') > 1 ? ' Users':' User')}</div>
+                      <div className="add-user" onClick = {this._addUsers}><span>+</span> ADD USER</div>
+                    </div>
                   </div>
                 </div>
-                <div className="profile-paper-hr"/>
-                <div className = 'profile-paper-sub-header'>Billing Address</div>
-                <div className = 'profile-paper-data-container'>
-                  {map(billingAddress, (el,index) => this._renderItem(el,index,profileReducer))}
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={5} className = 'information-block'>
+              <Paper className={classes.paper}>
+                <div className = 'profile-paper-container'>
+                  <div className = 'profile-paper-sub-header'>Contact Persons</div>
+                  {map(get(profileReducer,'contact_info.contacts'), (el,index) => this._renderContact(el,index))}
                 </div>
-              </div>
-            </Paper>
+              </Paper>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={5} className = 'information-block'>
-            <Paper className={classes.paper}>
-              <div className = 'profile-paper-container'>
-                <div className = 'profile-paper-sub-header'>Contact Persons</div>
-                {map(get(profileReducer,'contact_info.contacts'), (el,index) => this._renderContact(el,index))}
-              </div>
-            </Paper>
-          </Grid>
-        </Grid>
+        </div>
+
 
         <Modal
           itemName="name_real"

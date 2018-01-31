@@ -34,10 +34,10 @@ class TableControls extends Component {
     const { current_page, per_page} = this.props.store.pagination;
     const { sortedBy, orderBy }  = this.props.store.sortOptional;
     const query = { orderBy, sortedBy, per_page, current_page: current_page - 1 };
-
+    const searchKey = this.props.searchKey || 'search';
     browserHistory.push({
       pathname: currentPath,
-      query: search ? { ...query, search } : query
+      query: search ? { ...query, [searchKey]: search} : query
     });
   };
 
@@ -52,6 +52,7 @@ class TableControls extends Component {
       CreateButtonIcon,
     } = this.props;
     const selectedClassName = selected.length ? 'visible-details' : 'hidden-details';
+    const notSelectedClassName = selected.length ? 'hidden-details' : 'visible-details';
     const mainClass         = this.mainClass(selected);
     return (
       <Grid container className={mainClass}>
@@ -67,6 +68,13 @@ class TableControls extends Component {
               {this.props.children}
             </Grid>
           </Grid>
+          <Grid container className={notSelectedClassName}>
+            <Grid md={4} xs={6} item className="navigation-count">
+              <Typography type="title" gutterBottom>
+                {this.props.tableTitle}
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
 
         <Grid item lg={4} md={5} xs={12}>
@@ -80,7 +88,7 @@ class TableControls extends Component {
                   placeholder='Search'
                   startAdornment={
                     <InputAdornment position="start">
-                      <SearchIcon color="grey"/>
+                      <SearchIcon className="search-icon"/>
                     </InputAdornment>
                   }
                 />
@@ -107,12 +115,14 @@ const mapStateToProps = (state, ownProps) => ({
 
 TableControls.defaultProps = {
   selected    : [],
+  tableTitle  :  '',
 };
 
 TableControls.propTypes = {
   createItem: PropTypes.func,
   createButtonText: PropTypes.string,
   CreateButtonIcon: PropTypes.func,
+  searchKey: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(withStyles(styles)(TableControls));

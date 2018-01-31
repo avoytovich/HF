@@ -10,7 +10,8 @@ import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
 import { get, map }             from 'lodash';
 import Modal                    from '../../common/Modal/Modal';
 import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
-import { userCreate }           from '../../../actions';
+import { userCreate,
+   userCreateByCSV}           from '../../../actions';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal';
@@ -60,7 +61,7 @@ class CompanyOwnUsers extends Component {
 
   _returnFunc = (param) => {
     if(param==='companies'){
-      browserHistory.push('companies');
+      browserHistory.push('/companies');
     }
     else {
       browserHistory.push(`/company/${this.props.params.id}/profile`)
@@ -70,10 +71,20 @@ class CompanyOwnUsers extends Component {
   _createSimpleUser =() =>{
     const result = {
       customer_id: this.props.params.id,
-      email: this.props.createSimpleUsersReducers.email};
-    userCreate('users', 'createSimpleUser', result)
-      .then(this.setState({showCreateUserModal:false}))
-    browserHistory.push(`/company/${this.props.params.id}/users`)
+      email: this.props.createSimpleUsersReducers.email,
+      files: this.props.createSimpleUsersReducers.files,
+    };
+
+    if(this.props.createSimpleUsersReducers.files.length){
+      userCreateByCSV('users', 'createSimpleUserByCSV', result)
+        .then(this.setState({showCreateUserModal:false}))
+      browserHistory.push(`/company/${this.props.params.id}/users`)
+    }
+    else{
+      userCreate('users', 'createSimpleUser', result)
+        .then(this.setState({showCreateUserModal:false}));
+      browserHistory.push(`/company/${this.props.params.id}/users`)
+    }
   };
 
   _toggleActivateModal = (data) => {
@@ -138,7 +149,8 @@ class CompanyOwnUsers extends Component {
           path="companyOwnUsers"
           selected={selected}
           createItem={this.createEntity}
-          createButtonText="Add">
+          createButtonText="Add"
+          searchKey="filter">
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>

@@ -104,8 +104,8 @@ export const BODY_AREA_TAB = {
   key: 'areas',
   title: 'bodyArea',
   tableHeader: [
-    { title: 'Key',        key: 'key',         className: 'left'                                        },
-    // { title: 'Pain Zones', key: 'title',       className: 'left'                                      },
+    { title: 'Key',        key: 'key',         className: 'left'                                       },
+    { title: 'Title', key: 'title',       className: 'left'                                      },
     { title: 'Updated',    key: 'updated_at',  className: 'left',   type: 'time', format: TIME_FORMAT }
   ]
 };
@@ -143,6 +143,7 @@ export const PACKAGES_TAB = {
     { title: 'Name',       key: 'title',      className: 'left',   sortKey: 'title'                   },
     { title: 'Pain Areas', key: 'areas.data', className: 'center', sortKey: '--', type: 'areas'       },
     { title: 'Key',        key: 'key',        className: 'left'                                       },
+    { title: 'Testing mode', key: 'testing_mode', className: 'left',type: 'in_testing'     },
     // { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT    },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT    }
   ]
@@ -154,6 +155,7 @@ export const EXERCISES_TAB = {
   tableHeader: [
     { title: 'Name',       key: 'title.en',   className: 'left', sortKey: 'title'                  },
     { title: 'Packages',   key: 'packages',   className: 'center', type: 'length', sortKey: '--'   },
+    { title: 'Testing mode', key: 'testing_mode', className: 'left',type: 'in_testing'     },
     // { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
     { title: 'Updated',    key: 'updated_at', className: 'left', type: 'time', format: TIME_FORMAT }
   ]
@@ -215,6 +217,18 @@ export const USERS_TAB = {
     { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
+
+export const PERSONAL_CABINET_USERS_TAB = {
+  key: 'conditions',
+  title: 'ConditionsTab',
+  tableHeader: [
+    { title: 'ID Number',  key: 'user_id',      className: 'left'},
+    { title: 'Email',      key: 'email',      className: 'left'},
+    { title: 'Status',     key: 'activated_at', className: 'left', type: 'user_status' },
+    { title: 'Activate',   key: 'created_at',   className: 'left',   type: 'time', format: TIME_FORMAT }
+  ]
+};
+
 
 export const COMPANIES_USERS_TAB = {
   key: 'conditions',

@@ -26,7 +26,7 @@ import Tabs, { Tab }                from 'material-ui/Tabs';
 import PackageLevelComponent        from './packageLevel';
 import { submitTabs }               from '../../../../../utils/matrix';
 import MatrixPreLoader              from '../../matrixPreloader';
-
+import { CreateItemNavButtons }     from '../../../../common';
 
 
 export const THERAPY = [
@@ -93,7 +93,7 @@ class CreatePackageComponent extends Component {
   }
 
   done = (value) => {
-    const { areaIds, questionKey, questionTitle, packageLevels, therapyContinuity, packageType, errors } = value;
+    const { testing_mode, areaIds, questionKey, questionTitle, packageLevels, therapyContinuity, packageType, errors } = value;
     const validValue = { questionKey, questionTitle };
 
 //    const _packageLevels = packageLevels.map((el, index) => {
@@ -107,6 +107,7 @@ class CreatePackageComponent extends Component {
       title    : questionTitle,
       type     : packageType,
       package_levels : packageLevels,
+      testing_mode
     };
 
     submitTabs(
@@ -155,7 +156,8 @@ class CreatePackageComponent extends Component {
         bodyAreas,
         questionKey,
         packageType,
-        packageLevels
+        packageLevels,
+        testing_mode
       },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION },
@@ -165,26 +167,19 @@ class CreatePackageComponent extends Component {
       },
       routeParams: { id },
     } = this.props;
-
     return (
       <div id="create-question">
-        <div className="page-sub-header">
-          <span>Create Package</span>
-          <div className="nav-buttons">
-
-            <Button onClick={this.cancel}>
-              Cancel
-            </Button>
-
-            <Button raised
-                    dense
-                    onClick={() => this.done(createDiagnosisQuestion)}
-                    color="primary">
-              Save
-            </Button>
-
-          </div>
-        </div>
+        <CreateItemNavButtons
+          title={'Create Package'}
+          showSwitch={true}
+          switchChecked={testing_mode}
+          switchLabel={'On testing'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'testing_mode')}
+          onCancelClick={this.cancel}
+          cancelLabel={'Cancel'}
+          onSaveClick={() => this.done(createDiagnosisQuestion)}
+          saveLabel={'Save'}
+        />
         { id && this.state.loading ?
           <MatrixPreLoader
             left="5"

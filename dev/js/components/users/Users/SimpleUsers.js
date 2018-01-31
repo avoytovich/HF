@@ -78,8 +78,10 @@ class SimpleUsers extends Component {
         />
 
         <TableControls
+          locationUrl={this.props.location.pathname}
           path="users"
           selected={selected}
+          searchKey = "filter"
         >
 
           <Button raised dense
