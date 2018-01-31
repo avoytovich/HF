@@ -1,6 +1,6 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { DIAGNOSIS_TAB }        from '../../../../utils/constants/pageContent';
+import { LEVEL_UP }             from '../../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls           from '../../../common/TypicalListPage/TableControls';
@@ -39,7 +39,7 @@ class EvaluationComponent extends Component {
   };
 
   render() {
-    const { tableHeader } = DIAGNOSIS_TAB;
+    const { tableHeader } = LEVEL_UP;
     const { selected, deactivateOpen, deleteOpen, activateOpen } = this.state;
 
     return (

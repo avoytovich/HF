@@ -1,15 +1,15 @@
-import React, { Component }     from 'react';
-import { connect }              from 'react-redux';
-import { DIAGNOSIS_TAB }        from '../../../../utils/constants/pageContent';
-import { TableComponent }       from '../../../../components/common/TypicalListPage';
-import { browserHistory }       from 'react-router'
-import TableControls           from '../../../common/TypicalListPage/TableControls';
-import Button                   from 'material-ui/Button';
-import Delete                   from 'material-ui-icons/Delete';
-import NotInterested            from 'material-ui-icons/NotInterested';
-import DeactivateComponent      from '../matrix-crud/deactivateModal'
-import DeleteComponent          from '../matrix-crud/deleteModal';
-import Done                     from 'material-ui-icons/Done';
+import React, { Component } from 'react';
+import { connect }          from 'react-redux';
+import { LEVEL_UP }         from '../../../../utils/constants/pageContent';
+import { TableComponent }   from '../../../../components/common/TypicalListPage';
+import { browserHistory }   from 'react-router'
+import TableControls        from '../../../common/TypicalListPage/TableControls';
+import Button               from 'material-ui/Button';
+import Delete               from 'material-ui-icons/Delete';
+import NotInterested        from 'material-ui-icons/NotInterested';
+import DeactivateComponent  from '../matrix-crud/deactivateModal'
+import DeleteComponent      from '../matrix-crud/deleteModal';
+import Done                 from 'material-ui-icons/Done';
 
 
 class LevelUpComponent extends Component {
@@ -39,7 +39,7 @@ class LevelUpComponent extends Component {
   };
 
   render() {
-    const { tableHeader } = DIAGNOSIS_TAB;
+    const { tableHeader } = LEVEL_UP;
     const { selected, deactivateOpen, deleteOpen, activateOpen } = this.state;
 
     return (
