@@ -41,7 +41,11 @@ class BodyModel extends Component {
       .then(() => this._drawExistingPolygons());
     if (this.props.id) {
       getBodyAreaById('diagnostics', 'areas', this.props.id).
-        then(() => this._drawingNewPolygons());
+        then(() => {
+        this._drawingNewPolygons();
+        this._onChange();
+      });
+
     }
   }
 
