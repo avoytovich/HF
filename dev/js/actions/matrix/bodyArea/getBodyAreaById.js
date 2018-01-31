@@ -26,10 +26,10 @@ export const getBodyAreaById = (domenKey, apiKey, id) => {
         type:`${T.CREATE_QUESTION}_SET_BODY_AREA`,
         payload: { body }
       });
-      // const coordinates = get(body, 'properties.coordinates', false);
-      // if (coordinates) {
-      //   dispatchBodyModelWired({ [`existingPolygons.${side}`]: coordinates });
-      // }
+      const coordinates = get(body, 'properties.coordinates', false);
+      if (coordinates) {
+        dispatchBodyModelWired({ [`currentlyDrawingPolygon.${side}`]: coordinates });
+      }
       return body;
     }
   });

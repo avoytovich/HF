@@ -37,11 +37,11 @@ class BodyModel extends Component {
   };
 
   componentWillMount (){
-    getAllSideAreasWired(this.props.side)
+    getAllSideAreasWired(this.props.side, this.props.id)
       .then(() => this._drawExistingPolygons());
     if (this.props.id) {
       getBodyAreaById('diagnostics', 'areas', this.props.id).
-        then(() => {});
+        then(() => this._drawingNewPolygons());
     }
   }
 
@@ -54,7 +54,7 @@ class BodyModel extends Component {
       this.layerContainer().clearLayers();
       this._drawingNewPolygons();
       this._drawExistingPolygons();
-      getAllSideAreasWired(this.props.side)
+      getAllSideAreasWired(this.props.side, this.props.id)
         .then(() => this._drawExistingPolygons());
     }
   }
@@ -62,7 +62,6 @@ class BodyModel extends Component {
   componentDidUpdate ({ url }) {
     if (url !== this.props.url) {
       this._onChange();
-      getAllSideAreasWired(this.props.side);
     }
   }
 
@@ -124,7 +123,7 @@ class BodyModel extends Component {
 
   _onEditStop = () => {
     this._drawExistingPolygons();
-  }
+  };
 
   _onDeleteStart = () => {
     this.layerContainer().clearLayers();
@@ -133,7 +132,7 @@ class BodyModel extends Component {
 
   _onDeleteStop = () => {
     this._drawExistingPolygons();
-  }
+  };
 
   _onEdited = (e) => {
     const currentlyDrawingPolygon = this._editableFG.leafletElement.toGeoJSON();

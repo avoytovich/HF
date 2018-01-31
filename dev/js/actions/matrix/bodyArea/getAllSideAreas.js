@@ -13,14 +13,14 @@ import {
 
 export const getAllSideAreas = (side) => Api.post(`${domen.diagnostics}${api.getAllSideAreas}`, { side });
 
-export const getAllSideAreasWired = side => getAllSideAreas(side)
+export const getAllSideAreasWired = (side, id = false) => getAllSideAreas(side)
   .then(res => {
     const {
       data = [],
     } = res.data;
     data.forEach((area, i) => {
       const coordinates = get(area, 'properties.coordinates', false);
-      if (coordinates) {
+      if (coordinates && area.id != id) {
         dispatchBodyModelWired({ [`existingPolygons[${i}].${side}`]: coordinates });
       }
     });
