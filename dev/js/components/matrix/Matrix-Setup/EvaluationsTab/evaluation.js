@@ -61,7 +61,7 @@ class EvaluationComponent extends Component {
 
 
         <DeactivateComponent
-          path="levelUps"
+          path="evaluations"
           pathReq="createQuestion"
           domen="diagnostics"
           typeKey="deactivateOpen"
@@ -69,12 +69,12 @@ class EvaluationComponent extends Component {
           deactivateOpen={deactivateOpen}
           open={this.updateModal}
           itemKey="title"
-          title="Deactivate this Level Up?"
+          title="Deactivate this Evaluation?"
           query={this.props.location.query}
         />
 
         <DeleteComponent
-          path="levelUps"
+          path="evaluations"
           pathReq="createQuestion"
           domen="diagnostics"
           typeKey="deleteOpen"
@@ -82,12 +82,12 @@ class EvaluationComponent extends Component {
           deactivateOpen={deleteOpen}
           open={this.updateModal}
           itemKey="title"
-          title="Delete this Level Up?"
+          title="Delete this Evaluation?"
           query={this.props.location.query}
         />
 
         <TableControls
-          path="levelUps"
+          path="evaluations"
           selected={selected}
           createItem={() => this.create()}>
 
@@ -112,7 +112,7 @@ class EvaluationComponent extends Component {
         </TableControls>
 
         <TableComponent
-          path="levelUps"
+          path="evaluations"
           domen="diagnostics"
           tableHeader={ tableHeader }
           selected={selected}

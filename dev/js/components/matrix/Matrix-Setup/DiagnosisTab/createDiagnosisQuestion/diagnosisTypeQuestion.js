@@ -16,6 +16,7 @@ import {
   UniqueKey,
   BlockDivider
 }                                        from '../../../../common';
+import RulesLinks                        from '../../EvaluationsTab/createEvaluationTab/RulesLinks';
 import SequenceBlock                     from './sequenceBlock';
 import DiagnosticQuestion                from './diagnosticQuestion';
 import DiagnosticAnswers                 from './diagnosticAnswers';
@@ -45,7 +46,7 @@ class DiagnosisTypeQuestion extends Component {
         questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type, level_up,
         diagnostic_assets,
       },
-      page, reqType, packages, packageLevelsList, currentId, showLevelUp, hideArea
+      page, reqType, packages, packageLevelsList, currentId, showLevelUp, hideArea, rules_links
     } = this.props;
 
     return <BlockDivider title="Question">
@@ -198,6 +199,10 @@ class DiagnosisTypeQuestion extends Component {
             listValue={false}
 
           />
+        }
+
+        {
+          rules_links &&  <RulesLinks/>
         }
 
         <DiagnosisRulesComponent

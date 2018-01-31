@@ -45,6 +45,12 @@ const initialState = {
       ]
     },
     {
+      name: 'evaluations',
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'title' }
+      ]
+    },
+    {
       name: 'bodyArea',
       changes: [
         { path: 'sortOptional.orderBy', value: 'title' }
