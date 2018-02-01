@@ -44,9 +44,9 @@ class DiagnosisTypeQuestion extends Component {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
         questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type, levelup_result,
-        diagnostic_assets,  evaluation_result,
+        diagnostic_assets,  evaluation_result
       },
-      page, reqType, packages, packageLevelsList, currentId, showLevelUp, hideArea, rules_links
+      page, reqType, packages, packageLevelsList, currentId, showLevelUp, hideArea, rules_links, SequenceBlockReqType
     } = this.props;
 
     return <BlockDivider title="Question">
@@ -138,6 +138,7 @@ class DiagnosisTypeQuestion extends Component {
         <SequenceBlock
           domain="diagnostics"
           path="sequenceList"
+          reqType={SequenceBlockReqType}
           value={sequence}
           valuePath="sequence"
           typePath="sequenceType"
@@ -227,11 +228,13 @@ class DiagnosisTypeQuestion extends Component {
 }
 
 DiagnosisTypeQuestion.defaultProps = {
-  sequenceList       : []
+  sequenceList        : [],
+  SequenceBlockReqType: 'diagnostic',
 };
 
 DiagnosisTypeQuestion.propTypes = {
-  sequenceList       : PropTypes.array,
+  sequenceList        : PropTypes.array,
+  SequenceBlockReqType: PropTypes.string
 };
 
 const mapStateToProps = state => ({createDiagnosisQuestion: state.createDiagnosisQuestion});
