@@ -48,8 +48,8 @@ const testingAddQuestionsAndCond = (state, action) => {
     id,
     result_status,
     condition,
+    treatments,
   } = action.payload;
-  each(action.payload.questions, (q, p) => q.step = step);
   each(action.payload.conditions, (c, p) => c.step = step);
   questions = questions.concat(action.payload.questions);
   each(action.payload.conditions, (val, prop) => {
@@ -57,7 +57,7 @@ const testingAddQuestionsAndCond = (state, action) => {
       conditions.push({ ...val, key: prop })
     }
   });
-  const finalStep = result_status ? step + 1 : step;
+  const finalStep = result_status ? +step + 1 : +step;
 
   return {
     ...state,
@@ -66,6 +66,7 @@ const testingAddQuestionsAndCond = (state, action) => {
     testId: id,
     result_status,
     condition,
+    treatments,
     step                : finalStep,
     changingQuestionStep: finalStep,
   };
