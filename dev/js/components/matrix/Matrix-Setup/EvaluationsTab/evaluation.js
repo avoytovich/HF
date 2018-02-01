@@ -21,7 +21,7 @@ class EvaluationComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`evaluation-create/${id}`):
+    browserHistory.push(`/evaluation-create/${id}`):
     browserHistory.push(`/evaluation-create-new`);
 
 
