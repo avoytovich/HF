@@ -23,12 +23,21 @@ export const createTestWired = (data) => createTest(data)
         questions = [],
         conditions = {},
         condition = {},
+        treatments = [],
       },
       step,
       id,
       result_status,
     } = get(resp, 'data.data', {});
-    dispatchAddQuestionsAndCondWired({ questions, conditions, step, id, result_status, condition })
+    dispatchAddQuestionsAndCondWired({
+      questions,
+      conditions,
+      step,
+      id,
+      result_status,
+      condition,
+      treatments,
+    })
   })
   .catch(err => {
     console.log(err);

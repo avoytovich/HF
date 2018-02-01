@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import each from 'lodash/each';
+import get from 'lodash/get';
+import map from 'lodash/map';
 import { bindActionCreators } from 'redux';
 import Grid from 'material-ui/Grid';
 import AddAlert from 'material-ui-icons/AddAlert';
@@ -10,7 +12,7 @@ import { C } from '../../../components'
 import { dispatchTestingPayloadWired } from '../../../actions'
 
 class Result extends Component {
-  _pickText = (result) => {
+  _pickText = (result, treatments) => {
     const { condition } = this.props;
     switch (result) {
       case 'condition':
@@ -23,7 +25,23 @@ class Result extends Component {
         return 'Questions in the queue are missing - please check the rules';
 
       case 'treatment':
-        return 'Treatment fired';
+        return (
+          <div>
+            {
+              map(treatments, (tr => {
+                return (
+                  <div>
+                    <p>{ tr.title }</p>
+                    <p>Package: </p>
+                    <p>Package title: { get(tr, 'package.title', '-') }</p>
+                    <p>Package id: { get(tr, 'package.package_id', '-') }</p>
+                    <p>Package level id: { get(tr, 'package.package_level_id', '-') }</p>
+                  </div>
+                );
+              }))
+            }
+          </div>
+        )
     }
   };
 
@@ -31,7 +49,9 @@ class Result extends Component {
     const {
       result,
       label,
+      treatments,
     } = this.props;
+    console.log('rendered');
     return (
       <div className="testing-inner-container-long">
         <h4>Results</h4>
@@ -40,7 +60,7 @@ class Result extends Component {
         </h3>
         <C.Paper
           label={label}
-          conditionText={this._pickText(result)}
+          conditionText={this._pickText(result, treatments)}
         />
       </div>
     );

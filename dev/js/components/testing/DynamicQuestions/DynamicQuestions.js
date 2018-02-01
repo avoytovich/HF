@@ -11,6 +11,7 @@ import {
   dispatchTestingPayloadWired,
   onChange,
 } from '../../../actions'
+import { pickKeys } from '../../../config'
 
 class DynamicQuestions extends Component {
   _pickQuestion = (
@@ -186,14 +187,12 @@ class DynamicQuestions extends Component {
         step,
         result_status,
         condition = { title: 'Condition Fired' },
+        treatments = [],
       }
     } = this.props;
-    const questionToRender = questions.filter(q =>
-      !['q_lang', 'q_metric', 'q_age', 'q_sex', 'q_weight', 'q_height', 'q_pregnant']
-        .find(key => key === q.key)
-    );
+    const questionToRender = questions.filter(q => !pickKeys.testing.find(key => key === q.key));
 
-    return questions.length ?
+    return questions.length || result_status ?
       (
         <div>
           <Grid container spacing={0}>
@@ -227,6 +226,7 @@ class DynamicQuestions extends Component {
 
                     <C.Result
                       condition={condition}
+                      treatments={treatments}
                       result={result_status}
                       label={result_status}
                     />

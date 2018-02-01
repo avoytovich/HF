@@ -113,72 +113,45 @@ class TestNew extends Component {
           </Toolbar>
         </AppBar>
 
-        <Grid container spacing={0} className="border-bottom">
-          <Grid item xs={12}>
-            <div className="testing-inner-container border-bottom">
-              <Input
-                id='title'
-                reducer={testingReducer}
-                label='Title'
-              />
-            </div>
-          </Grid>
-          <Grid item xs={12}>
-            <div className="testing-inner-container-long">
-              <p className="testing-inner-sub-header">
-                Profile
-              </p>
-            </div>
-          </Grid>
+        <div className="testing-scrollable-sub-container">
+          <Grid container spacing={0} className="border-bottom">
+            <Grid item xs={12}>
+              <div className="testing-inner-container border-bottom">
+                <Input
+                  id='title'
+                  reducer={testingReducer}
+                  label='Title'
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <div className="testing-inner-container-long">
+                <p className="testing-inner-sub-header">
+                  Profile
+                </p>
+              </div>
+            </Grid>
 
-          <Grid item xs={5}>
-            <div className="testing-inner-container-long">
+            <Grid item xs={5}>
+              <div className="testing-inner-container-long">
 
-              <Select
-                options={diagnosConsts.languages}
-                id='q_lang.value'
-                style={{ width: "100%" }}
-                onChangeCustom={(e) => {
-                  console.log('sdfsdfsdfsdfsdfsdfsdfsdfsdfsdf');
-                  onChange(e);
-                  dispatchTestingPayloadWired({
-                    changingQuestionStep: 0,
-                  })
-                }}
-                reducer={testingReducer}
-                label='Language of questions'
-              />
-              <Select
-                options={diagnosConsts.measurements}
-                id='q_metric.value'
-                style={{ width: "100%" }}
-                onChangeCustom={(e) => {
-                  onChange(e);
-                  dispatchTestingPayloadWired({
-                    changingQuestionStep: 0,
-                  })
-                }}
-                reducer={testingReducer}
-                label='Measurements'
-              />
-              <Select
-                options={diagnosConsts.sex}
-                id='q_sex.value'
-                style={{ width: "100%" }}
-                onChangeCustom={(e) => {
-                  onChange(e);
-                  dispatchTestingPayloadWired({
-                    changingQuestionStep: 0,
-                  })
-                }}
-                reducer={testingReducer}
-                label='Sex'
-              />
-              {
-                q_age.value <= 49 && q_age.value >= 15 && q_sex.value === 2 &&
                 <Select
-                  options={diagnosConsts.pregnant}
-                  id='q_pregnant.value'
+                  options={diagnosConsts.languages}
+                  id='q_lang.value'
+                  style={{ width: "100%" }}
+                  onChangeCustom={(e) => {
+                    console.log('sdfsdfsdfsdfsdfsdfsdfsdfsdfsdf');
+                    onChange(e);
+                    dispatchTestingPayloadWired({
+                      changingQuestionStep: 0,
+                    })
+                  }}
+                  reducer={testingReducer}
+                  label='Language of questions'
+                />
+                <Select
+                  options={diagnosConsts.measurements}
+                  id='q_metric.value'
                   style={{ width: "100%" }}
                   onChangeCustom={(e) => {
                     onChange(e);
@@ -187,71 +160,84 @@ class TestNew extends Component {
                     })
                   }}
                   reducer={testingReducer}
-                  label='Are you pregnant?'
+                  label='Measurements'
                 />
-              }
-            </div>
+                <Select
+                  options={diagnosConsts.sex}
+                  id='q_sex.value'
+                  style={{ width: "100%" }}
+                  onChangeCustom={(e) => {
+                    onChange(e);
+                    dispatchTestingPayloadWired({
+                      changingQuestionStep: 0,
+                    })
+                  }}
+                  reducer={testingReducer}
+                  label='Sex'
+                />
+              </div>
+            </Grid>
+            <Grid item xs={5}>
+              <div className="testing-inner-container-long">
+                <Grid container spacing={24}>
+
+                  <Grid item xs={6}>
+                    <Input
+                      type="number"
+                      style={{ width: '100%' }}
+                      onChangeCustom={(e) => {
+                        onChange(e);
+                        dispatchTestingPayloadWired({
+                          changingQuestionStep: 0,
+                        })
+                      }}
+                      id='q_age.value'
+                      reducer={testingReducer}
+                      label='Your age'
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}/>
+
+                  <Grid item xs={6}>
+                    <Input
+                      type="number"
+                      style={{ width: '100%' }}
+                      onChangeCustom={(e) => {
+                        onChange(e);
+                        dispatchTestingPayloadWired({
+                          changingQuestionStep: 0,
+                        })
+                      }}
+                      id='q_weight.value'
+                      reducer={testingReducer}
+                      label='Weight (kg)'
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Input
+                      type="number"
+                      style={{ width: '100%' }}
+                      onChangeCustom={(e) => {
+                        onChange(e);
+                        dispatchTestingPayloadWired({
+                          changingQuestionStep: 0,
+                        })
+                      }}
+                      id='q_height.value'
+                      reducer={testingReducer}
+                      label='Your height (cm)'
+                    />
+                  </Grid>
+                </Grid>
+              </div>
+            </Grid>
+
           </Grid>
-          <Grid item xs={5}>
-            <div className="testing-inner-container-long">
-              <Grid container spacing={24}>
 
-                <Grid item xs={6}>
-                  <Input
-                    type="number"
-                    style={{ width: '100%' }}
-                    onChangeCustom={(e) => {
-                      onChange(e);
-                      dispatchTestingPayloadWired({
-                        changingQuestionStep: 0,
-                      })
-                    }}
-                    id='q_age.value'
-                    reducer={testingReducer}
-                    label='Your age'
-                  />
-                </Grid>
+          <DynamicQuestions />
 
-                <Grid item xs={6}/>
-
-                <Grid item xs={6}>
-                  <Input
-                    type="number"
-                    style={{ width: '100%' }}
-                    onChangeCustom={(e) => {
-                      onChange(e);
-                      dispatchTestingPayloadWired({
-                        changingQuestionStep: 0,
-                      })
-                    }}
-                    id='q_weight.value'
-                    reducer={testingReducer}
-                    label='Weight (kg)'
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Input
-                    type="number"
-                    style={{ width: '100%' }}
-                    onChangeCustom={(e) => {
-                      onChange(e);
-                      dispatchTestingPayloadWired({
-                        changingQuestionStep: 0,
-                      })
-                    }}
-                    id='q_height.value'
-                    reducer={testingReducer}
-                    label='Your height (cm)'
-                  />
-                </Grid>
-              </Grid>
-            </div>
-          </Grid>
-
-        </Grid>
-
-        <DynamicQuestions />
-
+        </div>
       </div>
     )
   }
