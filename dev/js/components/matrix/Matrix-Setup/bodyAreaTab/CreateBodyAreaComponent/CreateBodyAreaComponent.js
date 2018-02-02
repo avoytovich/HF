@@ -6,6 +6,9 @@ import { browserHistory }           from 'react-router'
 import Button                       from 'material-ui/Button';
 import Grid                         from 'material-ui/Grid';
 import get                          from 'lodash/get';
+import keys                         from 'lodash/keys';
+import filter                       from 'lodash/filter';
+import isEmpty                      from 'lodash/isEmpty';
 import capitalize                   from 'lodash/capitalize';
 import { AsyncCreatable }           from 'react-select';
 import AppBar from 'material-ui/AppBar';
@@ -20,19 +23,22 @@ import {
   updateQuestionCreate,
   getBodyAreaById,
   onChange,
+  notifier,
+  dispatchMatrixPayloadWired,
 }                                   from '../../../../../actions';
 import { PAGE, assets }             from '../../../../../config';
 import { C }                        from '../../../../../components';
+import { validateBodyArea }         from '../../../../../utils';
 
 const tabs = {
-  0: { value: 0, lb: 'M:front', side: 'front', sex: 'male',   url: `${assets}/images/bodyModel/male1.jpg`,   },
-  1: { value: 1, lb: 'M:left' , side: 'left',  sex: 'male',   url: `${assets}/images/bodyModel/male2.jpg`,   },
-  2: { value: 2, lb: 'M:back' , side: 'back',  sex: 'male',   url: `${assets}/images/bodyModel/male3.jpg`,   },
-  3: { value: 3, lb: 'M:right', side: 'right', sex: 'male',   url: `${assets}/images/bodyModel/male4.jpg`,   },
-  4: { value: 4, lb: 'F:front', side: 'front', sex: 'female', url: `${assets}/images/bodyModel/female1.jpg`, },
-  5: { value: 5, lb: 'F:left' , side: 'left',  sex: 'female', url: `${assets}/images/bodyModel/female2.jpg`, },
-  6: { value: 6, lb: 'F:back' , side: 'back',  sex: 'female', url: `${assets}/images/bodyModel/female3.jpg`, },
-  7: { value: 7, lb: 'F:right', side: 'right', sex: 'female', url: `${assets}/images/bodyModel/female4.jpg`, },
+  0: { value: 0, lb: 'Male: front',   side: 'front', sex: 'male',   url: `${assets}/images/bodyModel/male1.jpg`,   },
+  1: { value: 1, lb: 'Male: left' ,   side: 'left',  sex: 'male',   url: `${assets}/images/bodyModel/male2.jpg`,   },
+  2: { value: 2, lb: 'Male: back' ,   side: 'back',  sex: 'male',   url: `${assets}/images/bodyModel/male3.jpg`,   },
+  3: { value: 3, lb: 'Male: right',   side: 'right', sex: 'male',   url: `${assets}/images/bodyModel/male4.jpg`,   },
+  4: { value: 4, lb: 'Female: front', side: 'front', sex: 'female', url: `${assets}/images/bodyModel/female1.jpg`, },
+  5: { value: 5, lb: 'Female: left' , side: 'left',  sex: 'female', url: `${assets}/images/bodyModel/female2.jpg`, },
+  6: { value: 6, lb: 'Female: back' , side: 'back',  sex: 'female', url: `${assets}/images/bodyModel/female3.jpg`, },
+  7: { value: 7, lb: 'Female: right', side: 'right', sex: 'female', url: `${assets}/images/bodyModel/female4.jpg`, },
 }
 
 class CreateBodyAreaComponent extends Component {
@@ -50,9 +56,6 @@ class CreateBodyAreaComponent extends Component {
     if (!this.props.bodyModelReducer.url) {
       dispatchBodyModelWired({ url: `${assets}/images/bodyModel/male1.jpg` });
     }
-    // if (this.props.routeParams.id) {
-    //   getBodyAreaById('diagnostics', 'areas', this.props.routeParams.id);
-    // }
   }
 
   componentWillUnmount() {
@@ -73,13 +76,28 @@ class CreateBodyAreaComponent extends Component {
   });
 
   _createOrUpdateBodyArea = (data) => {
-    if (!this.props.routeParams.id) {
-      diagnosisQuestionCreate('diagnostics', 'bodyArea', data)
-        .then(() => browserHistory.push(`/matrix-setup/body-area`))
-    } else {
-      updateQuestionCreate('diagnostics', 'bodyArea', data, this.props.routeParams.id)
-        .then(() => browserHistory.push(`/matrix-setup/body-area`))
+    const {
+      currentlyDrawingPolygon: CDP,
+    } = this.props.bodyModelReducer;
+    if (isEmpty(CDP) || filter(CDP[keys(CDP)[0]], sex => sex.length).length < 2) {
+      notifier({
+        title  : 'Hint',
+        message: 'Please make sure zones were provided for both sexes.',
+        status : 'info',
+      });
+      return;
     }
+    const { errors, isValid } = validateBodyArea(data);
+    if (isValid) {
+      if (!this.props.routeParams.id) {
+        diagnosisQuestionCreate('diagnostics', 'bodyArea', data)
+          .then(() => browserHistory.push(`/matrix-setup/body-area`))
+      } else {
+        updateQuestionCreate('diagnostics', 'bodyArea', data, this.props.routeParams.id)
+          .then(() => browserHistory.push(`/matrix-setup/body-area`))
+      }
+    }
+    dispatchMatrixPayloadWired({ errors });
   };
 
   _changeTab = i => dispatchBodyModelWired({
@@ -180,7 +198,6 @@ class CreateBodyAreaComponent extends Component {
                 reducer={createDiagnosisQuestion}
                 label={ 'Key' }
                 placeholder={ 'Key'}
-                error={!!this.state.keyIsUniqueError}
               />
 
               <Input
