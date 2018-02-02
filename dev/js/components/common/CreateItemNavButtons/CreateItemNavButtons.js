@@ -27,7 +27,7 @@ class CreateItemNavButtons extends Component {
         { !customNavigation ?
           <div className="navigation-zone-default">
             {showSwitch && <Switch label={switchLabel}
-                                   checked={switchChecked}
+                                   checked={!switchChecked}
                                    labelClassName={'switch-label'}
                                    onChange={onSwitchChange}/>}
 

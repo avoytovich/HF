@@ -180,8 +180,8 @@ class CreateEvaluationComponent extends Component {
           title={'Create Evaluation Question'}
           showSwitch={true}
           switchChecked={testing}
-          switchLabel={'On testing'}
-          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'testing')}
+          switchLabel={'Live'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing')}
           onCancelClick={this.cancel}
           cancelLabel={'Cancel'}
           onSaveClick={() => this.submit(createDiagnosisQuestion)}

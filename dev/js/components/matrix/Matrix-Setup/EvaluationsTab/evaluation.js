@@ -52,7 +52,7 @@ class EvaluationComponent extends Component {
           open={this.updateModal}
           itemKey="title"
           query={this.props.location.query}
-          title="Activate this Level Up?"
+          title="Activate this Evaluation?"
           typeKey="activateOpen"
           activate={true}
           onSubmitTitle="Activate"
@@ -119,7 +119,7 @@ class EvaluationComponent extends Component {
           onRowClick={this.onRowClick}
           onEdit={(id) => this.create(id)}
           onSelectAllClick={this.onSelectAllClick}
-          showTestingMarker={true}
+          showTestingMarker={false}
         />
 
       </div>
