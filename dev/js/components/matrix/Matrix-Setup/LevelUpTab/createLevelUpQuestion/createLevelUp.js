@@ -197,6 +197,7 @@ class CreateLevelUpComponent extends Component {
               sequenceList={this.state.sequenceList}/> :
             <DiagnosisTypeQuestion
               page='evaluations'
+              SequenceBlockReqType="evaluation"
               packages={true}
               showLevelUp={true}
               hideArea={true}

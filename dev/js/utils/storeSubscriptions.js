@@ -39,7 +39,6 @@ export const storeSubscriptions = store =>
     if (previousLanguage !== currentLanguage) {
       dispatchCommonPayloadWired({ currentLanguage: commonReducer.languages[currentLanguage] });
     }
-
     if (previousSandBoxChangingQuestionStep !== currentSandBoxChangingQuestionStep) {
       if (currentSandBoxChangingQuestionStep < step) {
         dispatchRemoveOverStepQuestionsWired(currentSandBoxChangingQuestionStep)

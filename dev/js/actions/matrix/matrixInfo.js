@@ -199,11 +199,11 @@ export const findConditionsByArea = (domenKey, apiKey, body, string) => {
 };
 
 
-export const getSequenceList = (domenKey, apiKey) => {
+export const getSequenceList = (domenKey, apiKey, type) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey],
         body = {
-          "type": "diagnostic",
+          "type": type,
           "text": "",
           "area": null,
           "step": null

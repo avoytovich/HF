@@ -199,6 +199,7 @@ class CreateEvaluationComponent extends Component {
               sequenceList={this.state.sequenceList}/> :
             <DiagnosisTypeQuestion
               page='evaluations'
+              SequenceBlockReqType="evaluation"
               hideArea={true}
               rules_links={true}
               currentId={id}

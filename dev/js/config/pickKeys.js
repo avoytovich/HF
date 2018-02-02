@@ -5,7 +5,6 @@ export const testing = [
   'q_sex',
   'q_weight',
   'q_height',
-  'q_pregnant',
 ];
 
 export const pickKeys = {
