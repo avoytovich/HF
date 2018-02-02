@@ -53,18 +53,13 @@ class BodyModel extends Component {
     this._drawingNewPolygons();
   }
 
-  componentWillUpdate({ url, ...nextProps }) {
+  componentDidUpdate ({ url }) {
     if (url !== this.props.url) {
       this.layerContainer().clearLayers();
       this._drawingNewPolygons();
       this._drawExistingPolygons();
       getAllSideAreasWired(this.props.side, this.props.id)
         .then(() => this._drawExistingPolygons());
-    }
-  }
-
-  componentDidUpdate ({ url }) {
-    if (url !== this.props.url) {
       this._onChange();
     }
   }
@@ -79,7 +74,7 @@ class BodyModel extends Component {
 
   layerContainer = () => get(this.editControl, 'context.layerContainer');
 
-  _onMounted = (drawControl) => {
+  _onMounted = () => {
     this._updateBounds();
     this._onChange();
   };
@@ -94,11 +89,16 @@ class BodyModel extends Component {
         side,
       } = this.props;
       existingPolygons.forEach(existingPolygon => {
-        const currentPolygons = [get(existingPolygon, `${side}.${sex}`, [])];
-        let layer             = new L.Polygon(currentPolygons);
+        const currentPolygons = [get(existingPolygon, `${side}.${sex}`, false)];
+        if (currentPolygons[0]) {
+          const tooltip = existingPolygon.title;
+          const layer   = new L.Polygon(currentPolygons).bindTooltip(tooltip, {
+            sticky: true // If true, the tooltip will follow the mouse instead of being fixed at the feature center.
+          });
 
-        layer.setStyle({ color: 'gray', fillColor: 'gray' });
-        this.layerContainer().addLayer(layer);
+          layer.setStyle({ color: 'gray', fillColor: 'gray' });
+          this.layerContainer().addLayer(layer);
+        }
       });
     }, 10);
   }
@@ -173,7 +173,10 @@ class BodyModel extends Component {
   };
 
   _onDeleted = (e) => {
-    dispatchBodyModelWired({ currentlyDrawingPolygon: {} });
+    const { sex, side } = this.props;
+    if (!this._editableFG.leafletElement.toGeoJSON().features.length) {
+      dispatchBodyModelWired({ [`currentlyDrawingPolygon.${side}.${sex}`]: [] });
+    }
     this._onChange()
   };
 
@@ -227,9 +230,7 @@ class BodyModel extends Component {
           bounds={[[0, 0], this.state.bounds]}
           ref={imageOverlay => this.imageOverlay = imageOverlay}
         />
-        <FeatureGroup ref={ (reactFGref) => {
-          this._onFeatureGroupReady(reactFGref);
-        } }>
+        <FeatureGroup ref={ (reactFGref) => this._onFeatureGroupReady(reactFGref)}>
           <EditControl
             ref={elem => this.editControl = elem}
             position='topleft'
