@@ -136,7 +136,7 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
       return findByArea(questionType, 'findByAre', _body, input || key).then(res => {
         const { data } = res.data;
         const _data = data.map(item => {
-          return Object.assign({}, item, { label: item.title, value: item.key })
+          return Object.assign({}, item, { label: item.title, value: item.title })
         });
 
         !input.length &&
