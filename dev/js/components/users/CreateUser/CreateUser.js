@@ -143,7 +143,7 @@ class CreateUser extends Component {
               <Input id="billing_info.region" reducer={createUsersReducers} label='Region' placeholder='Region'/>
               <Input id="billing_info.country" reducer={createUsersReducers} label='Country' placeholder='Country'/>
               <Input id="billing_info.postal_code" reducer={createUsersReducers} label='Postal Code' placeholder='Postal Code'/>
-              <div className="add-contact-person" onClick={this._dublicatePostalCode}>DUBLICATE INFORMATION </div>
+              <div className="add-contact-person" onClick={this._dublicatePostalCode}>Billing Address same as Mailing Address</div>
             </div>
           </div>
 

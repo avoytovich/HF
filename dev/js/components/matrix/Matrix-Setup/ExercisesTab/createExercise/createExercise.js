@@ -132,8 +132,8 @@ class CreateExerciseComponent extends Component {
           title={'Create Exercise'}
           showSwitch={true}
           switchChecked={testing_mode}
-          switchLabel={'On testing'}
-          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'exercise.testing_mode')}
+          switchLabel={'Live'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'exercise.testing_mode')}
           onCancelClick={this.cancel}
           cancelLabel={'Cancel'}
           onSaveClick={() => this.done(this.props.exerciseState)}
