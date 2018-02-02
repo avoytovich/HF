@@ -157,7 +157,7 @@ const setFullQuestion = (state, action) => {
       questionKey: key,
       answerType: _type,
       rules: Array.isArray(rule) ? rule: rule.and ? rule.and : [rule],
-      [_type]: parseAnswers(answer),
+      [_type === 'multiple' ? 'single' : _type]: parseAnswers(answer),
       diagnostic_assets: test_file ||  [],
       packageLevelsList: configPackageLevelList(packageLevels)
     };

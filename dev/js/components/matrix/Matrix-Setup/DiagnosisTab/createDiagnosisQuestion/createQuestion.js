@@ -69,7 +69,7 @@ class CreateQuestionComponent extends Component {
       };
     }
     else {
-      const correctValue = obj[type];
+      const correctValue = obj['single'];
       return Object.keys(correctValue).reduce((result, item, index) => {
         if (item) {
           const key = index + 1; //letters[index];
