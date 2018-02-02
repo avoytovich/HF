@@ -64,7 +64,7 @@ class Companies extends Component {
     activateCustomer('users', 'customers', selected)
       .then(() => browserHistory.push(`/companies`))
     this.setState({ showActivateModal: !this.state.showActivateModal, selected: [], })
-  }
+  };
 
   render() {
     const { tableHeader } = COMPANIES_TAB;
