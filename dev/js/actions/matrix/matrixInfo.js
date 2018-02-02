@@ -1,10 +1,20 @@
 import get            from 'lodash/get';
 import { Api }        from '../../utils';
+import { T }          from '../../actions';
 import { domen, api } from '../../config/apiRoutes';
 import { TABLE,
   CREATE_QUESTION }   from '../index'
 import { store }      from '../../index'
 import qs             from 'query-string';
+
+export const dispatchMatrixPayload = payload => dispatch =>
+  dispatch({
+    type   : T.CREATE_QUESTION,
+    payload: payload
+  });
+
+export const dispatchMatrixPayloadWired = payload =>
+  dispatchMatrixPayload(payload)(store.dispatch);
 
 export const getMatrixInfo = (domenKey, apiKey, query, path, url) => {
   const domenPath = domen[domenKey],

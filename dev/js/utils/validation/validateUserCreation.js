@@ -1,7 +1,7 @@
 import validator from './validator';
 import { bCN } from './index';
 
-const validUsersCreation = data => {
+const validateUsersCreation = data => {
 
   let constraints = {
     message:{length: {minimum: 1}},
@@ -75,4 +75,4 @@ const validUsersCreation = data => {
   }
 };
 
-export default validUsersCreation;
+export default validateUsersCreation;
