@@ -73,6 +73,7 @@ class diagnosisVASQuestion extends Component {
               label={ 'Title*' }
               style={{marginTop: 0}}
               className="MUIControl"
+              disabled={true}
             />
           </Grid>
         </Grid>
