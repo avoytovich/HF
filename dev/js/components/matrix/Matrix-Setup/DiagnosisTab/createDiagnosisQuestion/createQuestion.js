@@ -69,7 +69,7 @@ class CreateQuestionComponent extends Component {
       };
     }
     else {
-      const correctValue = obj[type];
+      const correctValue = obj['single'];
       return Object.keys(correctValue).reduce((result, item, index) => {
         if (item) {
           const key = index + 1; //letters[index];
@@ -181,8 +181,8 @@ class CreateQuestionComponent extends Component {
           title={'Create Diagnosis Question'}
           showSwitch={true}
           switchChecked={testing}
-          switchLabel={'On testing'}
-          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'testing')}
+          switchLabel={'Live'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing')}
           onCancelClick={this.cancel}
           cancelLabel={'Cancel'}
           onSaveClick={() => this.submit(createDiagnosisQuestion)}

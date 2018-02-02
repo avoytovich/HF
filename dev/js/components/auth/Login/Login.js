@@ -32,6 +32,7 @@ class Login extends Component {
         currentLanguage: { L_LOGIN },
       },
     } = this.props;
+
     return (
       <Container >
         <div className="login-form-container">

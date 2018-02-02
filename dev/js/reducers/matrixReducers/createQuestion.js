@@ -157,7 +157,7 @@ const setFullQuestion = (state, action) => {
       questionKey: key,
       answerType: _type,
       rules: Array.isArray(rule) ? rule: rule.and ? rule.and : [rule],
-      [_type]: parseAnswers(answer),
+      [_type === 'multiple' ? 'single' : _type]: parseAnswers(answer),
       diagnostic_assets: test_file ||  [],
       packageLevelsList: configPackageLevelList(packageLevels)
     };
@@ -169,7 +169,7 @@ const setFullQuestion = (state, action) => {
 const evaluationResultData = (state, body) => {
   const { type, evaluation_result, properties } = body;
 
-  if ( type !== 'evaluation') return state.evaluation_result_data;
+  if ( type !== 'evaluation' || !properties.evaluation) return state.evaluation_result_data;
 
   const oldValue =  state.evaluation_result_data;
   return {...oldValue, [evaluation_result]: properties.evaluation.data};

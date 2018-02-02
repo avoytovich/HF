@@ -259,7 +259,7 @@ class TableComponent extends Component {
         return '-';
 
       case 'in_testing':
-        return  value===true ? 'yes':'no';
+        return  value===true ? 'No':'Yes';
 
       case 'user_status':
         if (get(row, 'deleted_at', '-')) {

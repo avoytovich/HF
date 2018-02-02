@@ -68,7 +68,7 @@ class CreateEvaluationComponent extends Component {
       };
     }
     else {
-      const correctValue = obj[type];
+      const correctValue = obj['single'];
       return Object.keys(correctValue).reduce((result, item, index) => {
         if (item) {
           const key = index + 1; //letters[index];
@@ -180,8 +180,8 @@ class CreateEvaluationComponent extends Component {
           title={'Create Evaluation Question'}
           showSwitch={true}
           switchChecked={testing}
-          switchLabel={'On testing'}
-          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'testing')}
+          switchLabel={'Live'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing')}
           onCancelClick={this.cancel}
           cancelLabel={'Cancel'}
           onSaveClick={() => this.submit(createDiagnosisQuestion)}
@@ -199,6 +199,7 @@ class CreateEvaluationComponent extends Component {
               sequenceList={this.state.sequenceList}/> :
             <DiagnosisTypeQuestion
               page='evaluations'
+              SequenceBlockReqType="evaluation"
               hideArea={true}
               rules_links={true}
               currentId={id}

@@ -113,7 +113,7 @@ class TestsList extends Component {
         <C.Modal
           itemName="title"
           open={showDeleteModal}
-          title='Delete Packages'
+          title='Delete Testing Item?'
           toggleModal={this._toggleDeleteModal}
           items={selected}
           onConfirmClick={() => this._deleteItems(selected)}

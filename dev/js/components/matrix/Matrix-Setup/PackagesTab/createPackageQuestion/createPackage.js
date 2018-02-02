@@ -173,8 +173,8 @@ class CreatePackageComponent extends Component {
           title={'Create Package'}
           showSwitch={true}
           switchChecked={testing_mode}
-          switchLabel={'On testing'}
-          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'testing_mode')}
+          switchLabel={'Live'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing_mode')}
           onCancelClick={this.cancel}
           cancelLabel={'Cancel'}
           onSaveClick={() => this.done(createDiagnosisQuestion)}

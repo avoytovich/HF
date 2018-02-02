@@ -29,10 +29,10 @@ class SequenceBlock extends Component {
     this.getList(this.props)
   }
 
-  getList = ({path, domain}) => {
-    getSequenceList(domain, path)
+  getList = ({path, domain, reqType}) => {
+    getSequenceList(domain, path, reqType)
     .then(({data}) => this.setState({list: data.data}));
-  }
+  };
 
   openChooseSequence = (chooseSequence) => this.setState({ chooseSequence });
 
@@ -104,7 +104,8 @@ class SequenceBlock extends Component {
 SequenceBlock.defaultProps = {
   className : '',
   value     : '1',
-  type      : 'normal'
+  type      : 'normal',
+  reqType   : 'diagnostic'
 };
 
 SequenceBlock.propTypes = {
@@ -117,7 +118,8 @@ SequenceBlock.propTypes = {
     PropTypes.number,
   ]).isRequired,
   type        : PropTypes.string.isRequired,
-  className   : PropTypes.string
+  className   : PropTypes.string,
+  reqType     : PropTypes.string,
 };
 
 const mapStateToProps    = state => ({store: state.createDiagnosisQuestion});

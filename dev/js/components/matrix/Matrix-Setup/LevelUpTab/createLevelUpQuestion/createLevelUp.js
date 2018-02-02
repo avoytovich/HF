@@ -68,7 +68,7 @@ class CreateLevelUpComponent extends Component {
       };
     }
     else {
-      const correctValue = obj[type];
+      const correctValue = obj['single'];
       return Object.keys(correctValue).reduce((result, item, index) => {
         if (item) {
           const key = index + 1; //letters[index];
@@ -178,8 +178,8 @@ class CreateLevelUpComponent extends Component {
           title={'Create Level up Question'}
           showSwitch={true}
           switchChecked={testing}
-          switchLabel={'On testing'}
-          onSwitchChange={(e, value) => updateCrateQuestionFields(value , 'testing')}
+          switchLabel={'Live'}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing')}
           onCancelClick={this.cancel}
           cancelLabel={'Cancel'}
           onSaveClick={() => this.submit(createDiagnosisQuestion)}
@@ -197,6 +197,7 @@ class CreateLevelUpComponent extends Component {
               sequenceList={this.state.sequenceList}/> :
             <DiagnosisTypeQuestion
               page='evaluations'
+              SequenceBlockReqType="evaluation"
               packages={true}
               showLevelUp={true}
               hideArea={true}
