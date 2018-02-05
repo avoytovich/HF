@@ -10,16 +10,29 @@ import Table, {
         TableRow }            from 'material-ui/Table';
 import Checkbox               from 'material-ui/Checkbox';
 import EnhancedTableHead      from './TableHeader';
-import { getMatrixInfo }      from '../../../actions';
+import {
+  getMatrixInfo,
+  getListByPost,
+}                             from '../../../actions';
 import get                    from 'lodash/get';
 import isEmpty                from 'lodash/isEmpty'
 import moment                 from 'moment';
-import { browserHistory }     from 'react-router'
-import { PAGE }               from '../../../config'
-import { withRouter }         from 'react-router'
+import { browserHistory }     from 'react-router';
+import { PAGE }               from '../../../config';
+import { withRouter }         from 'react-router';
+import Tooltip                from 'material-ui/Tooltip';
 
 
-/*
+const DEFAULT_QUERY = {
+  per_page    : 50,
+  current_page: 0,
+  sortedBy    : 'desc',
+  orderBy     : 'title',
+//  search      :'VAS'
+};
+
+
+/**
  * Important Requirement:
  * 1) Add path props to tableReducer in listOfTables = [ 'diagnosis', 'conditions', * YOUR_ITEM * ],
  * 2) Add url to constant PAGE, key should be the same with 'path' props { [ path ]: '/some-url' };
@@ -29,14 +42,20 @@ import { withRouter }         from 'react-router'
 
 class TableComponent extends Component {
 
+  state = { showTestingToolTip: false };
+
   componentDidMount() {
     this.setDefaultQuery(this.props.path, this.props.store.pagination);
   }
 
+  /**
+   * New request on url query change
+   * @param nextProps
+   */
   componentWillReceiveProps(nextProps) {
     if (this.props.location !== nextProps.location &&
-        nextProps.location.query) {
-      this.getInfo(this.props, nextProps.location.query);
+        !isEmpty(nextProps.location.query)) {
+      this.getList(this.props, {...nextProps.location.query, ...nextProps.query});
     }
   }
 
@@ -45,32 +64,40 @@ class TableComponent extends Component {
    * @param pagination: {{ per_page: string, page: string }}
    */
   setDefaultQuery = (pathname, pagination) => {
-    console.log('browserHistory', this.props.location.query);
     const currentQuery = this.props.location.query;
-    const currentPath = PAGE[this.props.path];
-    const { per_page, current_page } =
-      isEmpty(currentQuery) ? { per_page: 5, current_page: 0 } : currentQuery;
+    const currentPath = this.props.location.pathname;
+    const query = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
+
     browserHistory.push({
       pathname: currentPath,
-      query: {
-        current_page,
-        per_page
-      }
+      query
     });
   };
 
   /**
+   * @param reqType
    * @param domen: {string}     - custom api to microservice
    * @param path: {string}      - variable with location for curent page
-   * @param per_page: {string}  - count of items per page
-   * @param current_page: {string}      - current page
+   * @param url: {string}      - variable with location for curent page
+   * @param _query: {object}  - count of items per pa
    */
-  getInfo = ({domen, path}, {per_page, current_page}) => {
-    const query = {
-      per_page: per_page,
-      page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
-    };
-    getMatrixInfo(domen, path, query, path)
+  getList = ({ reqType, domen, path, url }, _query) => {
+    switch (reqType) {
+      case 'POST':
+        getListByPost(domen, path, _query, url);
+        break;
+
+      default:
+        const {per_page, current_page, sortedBy, orderBy, search} = _query;
+        const query = {
+          sortedBy,
+          orderBy,
+          per_page,
+          page: +current_page + 1 // TODO: need to talk we back end developers to change count start point from 0
+        };
+        const newQuery = search ? {...query, search} : query;
+        getMatrixInfo(domen, path, newQuery, path, url)
+    }
   };
 
   /**
@@ -89,12 +116,30 @@ class TableComponent extends Component {
    * @param event
    * @param property
    */
-  handleRequestSort = (event, property) => {};
+  handleRequestSort = (event, property) => {
+    const currentPath = PAGE[this.props.path];
+    const { sortedBy, orderBy } = this.props.location.query;
+    const  _sortedBy = property === orderBy ?
+      sortedBy === 'asc' ? 'desc' : 'asc'
+      : sortedBy;
+
+
+    const query = Object.assign({}, this.props.location.query, { orderBy : property, sortedBy: _sortedBy });
+    browserHistory.push({
+      pathname: currentPath,
+      query   : { ...query }
+    });
+
+  };
 
    /**
-   * @param value: string
+    * @param value: string
+    * @param row: {Object}
+    * @param selected
    */
-  onRowSelection = (value) => console.log('onRowSelection', value);
+  onRowSelection = (value, row, selected) =>
+    this.props.onEdit && this.props.onEdit(row.id);
+
 
   /***
    * @param value: string
@@ -107,14 +152,22 @@ class TableComponent extends Component {
    * @return {*}
    */
   matchItems(selected, id) {
-    return selected.reduce((result, item, index) =>
-                  item && item.id === id ? index : result, -1);
+    return selected.reduce((result, item, index) => {
+      return item && (item.id || item.user_id || item.customer_id) === id ? index : result;
+    }, -1)
   };
 
-  handleClick = (event, checked, selected) => {
-    const { id, deActive} = checked;
 
-//    if (deActive) return;
+  /**
+   * @param event
+   * @param checked
+   * @param selected
+   */
+  handleClick = (event, checked, selected) => {
+    let { id, deActive, user_id, customer_id } = checked;
+    id = id || user_id || customer_id;
+    event && event.preventDefault();
+    event && event.stopPropagation();
 
     const isIn = this.matchItems(selected, id);
 
@@ -129,7 +182,7 @@ class TableComponent extends Component {
         break;
 
       case isIn >= 0:
-        result = selected.filter(item => item && item.id !== id );
+        result = selected.filter(item => item && (item.id || item.user_id || item.customer_id) !== id );
         break;
 
       default:
@@ -163,17 +216,18 @@ class TableComponent extends Component {
   handleChangeRowsPerPage = (event) => {
     const currentPath = PAGE[this.props.path];
     const { current_page } = this.props.store.pagination;
+    const { sortedBy, orderBy, search }  = this.props.store.sortOptional;
 
     browserHistory.push({
       pathname: currentPath,
       query: {
-        per_page: event.target.value,
-        current_page: 0
+        per_page     : event.target.value,
+        current_page : 0,
+        sortedBy,
+        orderBy
       }
     });
   };
-
-  handleChange = (event) => {};
 
   /**
    * Formatting of values
@@ -183,21 +237,69 @@ class TableComponent extends Component {
    * @param format
    * @return {*}
    */
-  getInfoByKey = (row, key, type, format) => {
-    const value =  get(row, key);
+  formatCellValue = (row, { key, type, format }) => {
+    const value =  get(row, key, '-') || '-';
     switch (type) {
       case 'time':
        return moment.unix(value).format(format);
-      case 'number':
-        return value;
+
+      case 'length':
+        return value ? value.length : 0;
+
+      case 'areas':
+        if (value.length) {
+          const list = value.map(({title}) => title).join(', ');
+          const [ first ] = value;
+          return (
+            <Tooltip id="tooltip-top-start" title={<b>{list}</b>} label="_" placement="bottom-start">
+              <span>{ value.length > 1 ? `${first.title}...` : first.title }</span>
+            </Tooltip>
+          );
+        }
+        return '-';
+
+      case 'in_testing':
+        return  value===true ? 'No':'Yes';
+
+      case 'user_status':
+        if (get(row, 'deleted_at', '-')) {
+          return 'deleted'
+        }
+        if (get(row, 'confirmed_at', '-') && get(row, 'activated_at', '-') && get(row, 'deactivated_at', '-')) {
+          return 'deactivated'
+        }
+        if (get(row, 'confirmed_at', '-') && get(row, 'activated_at', '-')) {
+          return 'active'
+        }
+        if (get(row, 'confirmed_at', '-')) {
+          return 'not activated'
+        }
+        return 'not confirmed';
       default:
-        return value ? value : '-';
+        return value;
     }
   };
 
   render() {
-    const { tableHeader, selected, onSelectAllClick} = this.props;
-    const { data, pagination: {  per_page, current_page, total } } = this.props.store;
+    const {
+      tableHeader,
+      selected,
+      tableCellPropsFunc,
+      onSelectAllClick,
+      CellContent,
+      rowsPerPageOptions,
+      showTestingMarker,
+      titleTestingMarker,
+      keyTestingMarker,
+      store: {
+        data,
+        pagination: {
+          per_page,
+          current_page,
+          total,
+        },
+      }
+    } = this.props;
 
     return (
       <Table className="table-template">
@@ -209,33 +311,79 @@ class TableComponent extends Component {
           onRequestSort={this.handleRequestSort}
           rowCount={data.length}
           columnTitleList={tableHeader}
+          showTestingMarker={showTestingMarker}
         />
 
         <TableBody>
-          {data.map(row => {
-            const isSelected = this.matchItems(selected, row.id) !== -1; // !row.deActive &&
-            return <TableRow
-                      hover
-                      key={row.id}
-                      tabIndex={-1}
-                      role="checkbox"
-                      selected={isSelected}
-                      className={row.enabled ? 'active' : 'de-active'}
-                      aria-checked={isSelected}
-                      onClick={event => this.handleClick(event, row, selected)}>
+          {
+            data.map(row => {
+              const id         = row.id || row.user_id || row.customer_id;
+              const isSelected = this.matchItems(selected, id) !== -1; // !row.deActive &&
+              let isEnabled;
 
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected}/>
+              switch (true) {
+                case row.hasOwnProperty('enabled'):
+                  isEnabled  = row.enabled ? 'active' : 'de-active';
+                  break;
+                case row.hasOwnProperty('activated_at'):
+                  isEnabled  = row.activated_at && !row.deactivated_at ? 'active' : 'de-active';
+                  break;
+                case row.hasOwnProperty('customer_active'):
+                  isEnabled  = row.customer_active ? 'active' : 'de-active';
+                  break;
+                case row.hasOwnProperty('active'):
+                  isEnabled  = row.active ? 'active' : 'de-active';
+                  break;
+                default:
+                  isEnabled  = 'active';
+              }
+
+              return (
+                <TableRow
+                  hover
+                  key={id}
+                  tabIndex={-1}
+                  role="checkbox"
+                  selected={isSelected}
+                  className={isEnabled}
+                  aria-checked={isSelected}
+                  onClick={(event) => this.onRowSelection(event, row, selected)}
+                >
+                  <TableCell padding="checkbox"
+                             className="td-checkbox">
+
+                      <div className={`in-testing-wrap ${ row[keyTestingMarker] && 'in-testing' }`}>
+
+                        {showTestingMarker &&
+                          <Tooltip title={titleTestingMarker}
+                                   label="_"
+                                   className={`in-testing-tooltip ${ row[keyTestingMarker] ? 'active' : '' } `}
+                                   placement="bottom-start">
+                              <div className={`in-testing ${ row[keyTestingMarker] && 'active'}`} />
+                          </Tooltip>}
+
+                        <Checkbox checked={isSelected}
+                                  onClick={event => this.handleClick(event, row, selected)}/>
+                      </div>
+                  </TableCell>
+                  {
+                    tableHeader.map((col, i) => (
+                      <TableCell
+                        key={i}
+                        className={col.className}
+                        padding="dense"
+                        {...tableCellPropsFunc(row, col)}
+                      >
+                        <div className="cell-wrapper">
+                          { this.formatCellValue(row, col) } <CellContent />
+                        </div>
                       </TableCell>
-
-                    {tableHeader.map( (col, index) =>
-                      <TableCell key={index}
-                                 className={col.className}
-                                 padding="dense">
-                        { this.getInfoByKey(row, col.key, col.type, col.format) }
-                      </TableCell>)}
-            </TableRow>
-          })}
+                    ))
+                  }
+                </TableRow>
+              )
+            })
+          }
         </TableBody>
         <TableFooter>
           <TableRow>
@@ -245,6 +393,7 @@ class TableComponent extends Component {
               page={current_page - 1}
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
             />
           </TableRow>
         </TableFooter>
@@ -258,29 +407,41 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 TableComponent.defaultProps = {
-  tableHeader : [],
-  selected    : [],
-  data        : [],
+  tableHeader       : [],
+  selected          : [],
+  data              : [],
+  tableCellPropsFunc: () => ({}),
+  CellContent       : () => null,
+  rowsPerPageOptions: [ 5, 25, 50 ], // The per page may not be greater than 50.
+  url: '',
+  showTestingMarker : false,
+  titleTestingMarker: 'On testing',
+  keyTestingMarker  : 'testing'
 };
 
-TableComponent.PropTypes = {
-  data             : PropTypes.arrayOf(
-                      PropTypes.object
-                    ).isRequired,
-  path             : PropTypes.string.isRequired,
-  domen            : PropTypes.string.isRequired,
-  tableHeader      : PropTypes.arrayOf(
-                      PropTypes.shape({
-                        title   : PropTypes.string.isRequired,
-                        key     : PropTypes.string.isRequired,
-                        tooltip : PropTypes.string
-                      }).isRequired
-                    ),
-  selected         : PropTypes.arrayOf(
-                      PropTypes.object
-                    ).isRequired,
-  onRowClick       : PropTypes.func.isRequired,
-  onSelectAllClick : PropTypes.func.isRequired,
+TableComponent.propTypes = {
+  data              : PropTypes.arrayOf( PropTypes.object ).isRequired,
+  path              : PropTypes.string.isRequired,
+  domen             : PropTypes.string.isRequired,
+  reqType           : PropTypes.string,
+  tableHeader       : PropTypes.arrayOf(
+                        PropTypes.shape({
+                          title   : PropTypes.string.isRequired,
+                          key     : PropTypes.string.isRequired,
+                          tooltip : PropTypes.string
+                        }).isRequired
+                      ),
+  selected          : PropTypes.arrayOf( PropTypes.object ).isRequired,
+  onRowClick        : PropTypes.func.isRequired,
+  onSelectAllClick  : PropTypes.func.isRequired,
+  onEdit            : PropTypes.func,
+  tableCellPropsFunc: PropTypes.func,
+  CellContent       : PropTypes.func,
+  rowsPerPageOptions: PropTypes.arrayOf( PropTypes.number ),
+  url               : PropTypes.string,
+  showTestingMarker : PropTypes.bool,
+  titleTestingMarker: PropTypes.string,
+  keyTestingMarker  : PropTypes.string,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({

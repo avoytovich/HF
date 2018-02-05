@@ -1,15 +1,20 @@
-import {
-  USER,
-} from '../../actions';
-import { pathToPage } from '../../utils';
-import { store } from '../../index';
+import get from 'lodash/get';
 
-export const clearComponentState = (prevState) => {
-  let route    = prevState.location.pathname;
+import { store } from '../../index';
+import { PAGE } from '../../config';
+import { T } from '../../actions';
+
+export const clearComponentStateOnLeave = (prevState) => {
+  const clearingRoutesOnLeave = [
+    { path: PAGE.testNew, type: T.TESTING },
+  ];
+
+  let route    = get(prevState, 'location.pathname', '');
   let dispatch = store.dispatch;
-  switch (true) {
-    //i.e. fullString.includes(partOfString)
-    // case route.includes(pathToPage.mealsUpdate):
-    //   return dispatch({ type: USER_CLEAR });
-  }
+
+  clearingRoutesOnLeave.forEach(r => {
+    if (route.includes(r.path)) {
+      dispatch({ type: `${r.type}_CLEAR` });
+    }
+  });
 };

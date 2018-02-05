@@ -42,44 +42,32 @@ class PageNavigation extends Component {
     return `page-navigation ${selected.length ? 'active-navigation' : 'enable-navigation'}`
   };
   render() {
-    const { classes, selected } = this.props;
+    const { classes, selected, createItem } = this.props;
     const mainClass = this.mainClass(selected);
     return (
-      <Grid container
-            className={mainClass}>
-        <Grid item
-              lg={8}
-              md={7}
+      <Grid container className={mainClass}>
+        <Grid item lg={7} md={8}
               style={{alignItems: 'center'}}>
-
-            <Grid container className={selected.length ? 'visible-details' : 'hidden-details'}>
-              <Grid md={2}
-                    item
-                    className="navigation-count">
-                <Typography type="title"
-                            gutterBottom>
-                  {selected.length} {selected.length > 1 ? 'Items' : 'Item'} selected
-                </Typography>
-
-              </Grid>
-
-              <Grid md={10}
-                    item className="child-buttons">
-                {this.props.children}
-              </Grid>
-
+          <Grid container
+                className={selected.length ? 'visible-details' : 'hidden-details'}>
+            <Grid  item xs={4}
+              className="navigation-count">
+              <Typography type="title" gutterBottom>
+                {selected.length} {selected.length > 1 ? 'Items' : 'Item'} selected
+              </Typography>
             </Grid>
+            <Grid  item xs={8}
+                   className="child-buttons">
+              {this.props.children}
+            </Grid>
+          </Grid>
         </Grid>
 
-        <Grid item
-              lg={4}
-              md={5}>
-          <Grid container
-                className="page-pagination">
-
-            <Grid item
-                  md={9}
-                  xs={12}>
+        <Grid item lg={5} md={4}>
+          <Grid
+            container
+            className="page-pagination">
+            <Grid item md={7} xs={12}>
               <FormControl fullWidth>
                 <Input
                   id="search"
@@ -88,24 +76,21 @@ class PageNavigation extends Component {
                   placeholder='Search'
                   startAdornment={
                     <InputAdornment position="start">
-                      <SearchIcon color="grey"/>
+                      <SearchIcon className="search-icon"/>
                     </InputAdornment>
                   }
                 />
               </FormControl>
             </Grid>
-
-            <Grid item
-                  md={3}
-                  xs={12}>
-
-              {/*<Button raised*/}
-                      {/*dense*/}
-                      {/*color="primary">*/}
-                {/*<Add />*/}
-                {/*Create*/}
-              {/*</Button>*/}
-
+            <Grid item md={4} xs={12}>
+              <Button
+                raised
+                dense
+                onClick={createItem}
+                color="primary">
+                <Add />
+                Create
+              </Button>
             </Grid>
           </Grid>
         </Grid>

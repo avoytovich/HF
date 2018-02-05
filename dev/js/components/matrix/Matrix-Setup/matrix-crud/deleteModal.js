@@ -7,16 +7,20 @@ import Dialog, {
 import Slide                  from 'material-ui/transitions/Slide';
 import Button                 from 'material-ui/Button';
 import { connect }            from 'react-redux';
+import { get }                from 'lodash';
 import { bindActionCreators } from 'redux';
-import { deleteItem }         from '../../../../actions';
+import { deleteItem,
+         getMatrixInfo }      from '../../../../actions';
 
 
 class DeleteComponent extends Component {
 
-  deactivate = ({list, path, domen}) => {
-    deleteItem(domen, path, list)
+  deleteIt = ({list, path, pathReq, domen}) => {
+    console.log(path)
+    deleteItem(domen, pathReq, list)
       .then(() => {
-        this.props.open(this.props.typeKey, false);
+        getMatrixInfo(domen, path, this.props.query, path)
+          .then(() => this.props.open(this.props.typeKey, false))
       })
   };
 
@@ -24,19 +28,18 @@ class DeleteComponent extends Component {
 
   render() {
     const { list, deactivateOpen, open, typeKey, itemKey } = this.props;
-
     return  <Dialog
       open={deactivateOpen}
       transition={this.transition}
       keepMounted
       onRequestClose={() => open(key, false)}
     >
-      <DialogTitle> Delete this question ? </DialogTitle>
+      <DialogTitle>{this.props.title} </DialogTitle>
 
       <DialogContent>
         {list.map((item, index) =>
           <DialogContentText key={index}>
-            {index + 1}. {item[itemKey]}
+            {index + 1}. {get(item, itemKey)}
           </DialogContentText>)}
       </DialogContent>
 
@@ -44,7 +47,7 @@ class DeleteComponent extends Component {
         <Button onClick={() => open(typeKey, false)} color="primary">
           Cancel
         </Button>
-        <Button onClick={() => this.deactivate(this.props)} color="primary">
+        <Button onClick={() => this.deleteIt(this.props)} color="primary">
           Delete
         </Button>
       </DialogActions>
@@ -52,6 +55,11 @@ class DeleteComponent extends Component {
     </Dialog>;
   }
 }
+
+DeleteComponent.defaultProps = {
+  title : 'Delete this question?'
+}
+
 const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);

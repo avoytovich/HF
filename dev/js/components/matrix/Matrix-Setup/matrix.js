@@ -8,15 +8,14 @@ import { withStyles } from 'material-ui/styles';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
 const TABS = [
-  { label: 'Diagnosis',     url: 'diagnosis' },
-  { label: 'Conditions',    url: 'conditions' },
-  { label: 'Treatments',    url: 'treatments' },
-//  { label: 'Evaluation',    url: 'evaluation' }, // api doesn't work
-  { label: 'Packages',      url: 'packages' },
-  { label: 'Exercises',     url: 'exercises' },
-//  { label: 'Meta Controls', url: 'meta-controls' },
-//  { label: 'Achievements',  url: 'achievements' },
-//  { label: 'Tests',         url: 'tests' },
+  { label: 'Diagnosis',  url: 'diagnosis'   },
+  { label: 'Conditions', url: 'conditions'  },
+  { label: 'Treatments', url: 'treatments'  },
+  { label: 'Packages',   url: 'packages'    },
+  { label: 'Exercises',  url: 'exercises'   },
+  { label: 'Level Up',   url: 'levelUps'    },
+  { label: 'Evaluation', url: 'evaluations' },
+  { label: 'Pain zones', url: 'body-area'   }
 ];
 
 const styles = theme => ({
@@ -35,27 +34,26 @@ class MatrixComponent extends Component {
 
   componentWillMount() {
     const { path } = this.props.routes.pop();
-    this.findNewPathIndex(TABS, path);
+    const index = this.findNewPathIndex(TABS, path);
+    this.setState({value: index});
   }
 
-  findNewPathIndex = (tabs, path) => {
-    const newURL = tabs.reduce((result, item, index) => {
+  findNewPathIndex = (tabs, path) => tabs.reduce((result, item, index) => {
       if (item) return  item.url === path ? index : result;
 
       return result;
     }, 0);
-    this.setState({value: newURL});
-  };
 
   handleActive = (url) => {
-    browserHistory.push(`/${this.props.route.path}/${url}`);
-    this.findNewPathIndex(TABS, url);
+    const newURL = this.findNewPathIndex(TABS, url);
+    if (this.state.value !== newURL){
+      this.setState({value: newURL});
+      browserHistory.push(`${this.props.route.path}/${url}`);
+    }
   };
 
 
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
+  handleChange = (event, value) => this.setState({ value });
 
   render() {
     return (

@@ -1,5 +1,4 @@
 import 'babel-polyfill';
-//npm-packages
 import React from 'react';
 import { render } from 'react-dom';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -7,48 +6,23 @@ import NotificationsSystem from 'reapop';
 import theme from 'reapop-theme-wybo';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { PersistGate } from 'redux-persist/es/integration/react';
-import watch from 'redux-watch'
+import { Router, Route, IndexRoute, browserHistory, IndexRedirect, Redirect } from 'react-router';
+import { Provider } from 'react-redux';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
-// router
-import { Router, Route, IndexRoute, browserHistory, IndexRedirect, Redirect } from 'react-router';
-import { Provider } from 'react-redux';
-
-const Switch = require('react-router').Switch;
-
-// styles
-// import 'react-select/dist/react-select.min.css'
 import '../sass/index.sass';
-
-//components
-import Main                           from './components/Main';
-import Login                          from './components/auth/Login/Login';
-import SignUp                         from './components/auth/SignUp/SignUp';
-import ResetPassword                  from './components/auth/ResetPassword/ResetPassword';
-import ForgotPassword                 from './components/auth/ForgotPassword/ForgotPassword';
-import {
-   MatrixComponent,
-   DiagnosisComponent,
-   ConditionsComponent,
-   TreatmentsComponent,
-   EvaluationComponent,
-   PackagesComponent,
-   ExercisesComponent,
-//   MetaControlsComponent,
-//   AchievementsComponent,
-//   TestsComponent,
-   CreateQuestionComponent
- }                                    from './components/matrix/Matrix-Setup';
-
+import { C }                          from './components'
 import { PAGE }                       from './config';
-import { onAllEnter }                 from './utils';
+import {
+  onAllEnter,
+  onAllChange,
+  storeSubscriptions,
+}                                     from './utils';
 import { dispatchCommonPayloadWired } from './actions';
-
-
-import { configureStore } from './config/store';
+import { configureStore }             from './config/store';
 
 export const { persistor, store } = configureStore();
 export const history = syncHistoryWithStore(browserHistory, store);
@@ -62,80 +36,106 @@ const onBeforeLift = () => {
     currentLanguage: commonReducer.languages[userReducer.language]
   });
 
-  // watcher - will change lang on change 'language' prop in userReducer
-  const w = watch(store.getState, 'userReducer.language');
-  store.subscribe(w((newVal, oldVal, objectPath) => {
-    dispatchCommonPayloadWired({
-      currentLanguage: commonReducer.languages[newVal]
-    });
-  }))
+  storeSubscriptions(store)
 };
 
 const router = (
-  <Provider store={store}>
-    <div>
-    <PersistGate
-      loading={null}
-      onBeforeLift={onBeforeLift}
-      persistor={persistor}
-    >
-    <Router
-      history={history}
-      onUpdate={() => window.scrollTo(0, 0)}
-    >
-      <Route path={PAGE.signup}     component={SignUp} />
-      <Route path={PAGE.login}      component={Login} />
-      <Route path={PAGE.passReset}  component={ResetPassword} />
-      <Route path={PAGE.passForgot} component={ForgotPassword} />
-      <Route
-        path={'/'}
-        component={Main}
-        onEnter={onAllEnter}
-        onChange={onAllEnter}
-      >
+  <PersistGate
+    loading={null}
+    onBeforeLift={onBeforeLift}
+    persistor={persistor}
+  >
+    <Provider store={store}>
+      <div>
+        <Router
+          history={history}
+          onUpdate={() => window.scrollTo(0, 0)}
+        >
+          <Route path={PAGE.signup} component={C.SignUp}/>
+          <Route path={PAGE.login} component={C.Login}/>
+          <Route path={PAGE.passReset} component={C.ResetPassword}/>
+          <Route path={PAGE.passForgot} component={C.ForgotPassword}/>
 
-        <IndexRedirect to="organizations"/>
+          <Route path={PAGE.personalCabinet} component={C.PersonalCabinetMain}>
+            <Route path={PAGE.personalCabinetUsers}  component={C.PersonalCabinetUsers} />
+            <Route path={PAGE.personalCabinetProfile}  component={C.PersonalCabinetProfile} />
+            <Route path={PAGE.personalCabinetBilling}  component={C.PersonalCabinetBilling} />
+          </Route>
 
-        <Route path='organizations'         component={() => <div>ORGANISATION_PAGE</div>} />
-        <Route path='clinics'               component={() => <div>CLINICS_PAGE</div>} />
-        <Route path='users'                 component={() => <div>USERS_PAGE</div>} />
-        <Route path='resource'              component={() => <div>RESOURCE_PAGE</div>} />
-        <Route path='matrix-setup'          component={ MatrixComponent }>
+          <Route path={'/'} component={C.Main} onEnter={onAllEnter} onChange={onAllChange}>
 
-          <IndexRedirect to="diagnosis"/>
+            <IndexRedirect to={PAGE.companies}/>
 
-          <Route path='diagnosis'           component={(props) => <DiagnosisComponent  {...props}/>} />
-          <Route path='conditions'          component={(props) => <ConditionsComponent {...props}/>} />
-          <Route path='treatments'          component={(props) => <TreatmentsComponent {...props}/>} />
-          <Route path='packages'            component={(props) => <PackagesComponent   {...props}/>} />
-          {/*<Route path='evaluation'          component={(props) => <EvaluationComponent {...props} />} />*/}
-          <Route path='exercises'           component={(props) => <ExercisesComponent  {...props}/>} />
+            <Route path={PAGE.companies}          component={C.Companies} />
+            <Route path={PAGE.clinics}            component={C.Clinics} />
+            <Route path={PAGE.simpleUsers}        component={C.SimpleUsers} />
+            <Route path={PAGE.organizationsUsers} component={C.OrganizationsUsers} />
+            <Route path={PAGE.clinicsUsers}       component={C.ClinicsUsers} />
 
-          {/*<Route path='tests'               component={ TestsComponent } />*/}
-          {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
-          {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
-          <Redirect from="*" to="diagnosis"/>
-        </Route>
+            <Route path={PAGE.assets}             component={C.AssetsComponent} >
+                <IndexRedirect to={PAGE.assetsDiagnostics}/>
+                <Route path={PAGE.assetsExercises} component={C.AssetsExercisesList}/>
+                <Route path={PAGE.assetsDiagnostics } component={C.AssetsDiagnosticsList}/>
+            </Route>
 
-        <Route path='test-diagnostic-flow'  component={() => <div>TEST_DIAGNOSTIC_FLOW_PAGE</div>} />
+        <Route path={PAGE.clinicProfile}      component={C.Profile} />
+        <Route path={PAGE.companyProfile}      component={C.Profile} />
+        <Route path={PAGE.clinicOwnUsers}      component={C.ClinicOwnUsers} />
+        <Route path={PAGE.companyOwnUsers}      component={C.CompanyOwnUsers} />
+        <Route path={PAGE.test}               component={C.TestsList} />
+        <Route path={PAGE.testNew}            component={C.TestNew} />
 
-        {/* Temporary path Todo: Change routes to react-router-dom ?*/}
-        <Route path='diagnosis-create'    component={ CreateQuestionComponent } />
+            <Route path={PAGE.matrixSetup} component={ C.MatrixComponent }>
 
-        {/*<Redirect from="*" to="organizations"/>*/}
+              <IndexRedirect to="diagnosis"/>
 
-        {/*<Route path={'/login'}  component={Login} />*/}
+              <Route path='diagnosis'   component={(props) => <C.DiagnosisComponent  {...props}/>}/>
+              <Route path='body-area'   component={(props) => <C.BodyAreaComponent   {...props}/>}/>
+              <Route path='conditions'  component={(props) => <C.ConditionsComponent {...props}/>}/>
+              <Route path='treatments'  component={(props) => <C.TreatmentsComponent {...props}/>}/>
+              <Route path='packages'    component={(props) => <C.PackagesComponent   {...props}/>}/>
+              <Route path='levelUps'    component={(props) => <C.LevelUpComponent    {...props}/>}/>
+              <Route path='evaluations' component={(props) => <C.EvaluationComponent {...props}/>}/>
+              <Route path='exercises'   component={(props) => <C.ExercisesComponent  {...props}/>}/>
 
-      </Route>
+              {/*<Route path='tests'               component={ TestsComponent } />*/}
+              {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
+              {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
+              <Redirect from="*" to="diagnosis"/>
+            </Route>
 
+            {/* Temporary path Todo: Change routes to react-router-dom ?*/}
+            <Route path='body-area-create/:id' component={C.CreateBodyAreaComponent}/>
+            <Route path='body-area-create-new' component={C.CreateBodyAreaComponent}/>
 
-    </Router>
+            <Route path='diagnosis-create/:id' component={C.CreateQuestionComponent}/>
+            <Route path='diagnosis-create-new' component={C.CreateQuestionComponent}/>
 
+            <Route path='conditions-create/:id' component={C.CreateConditionComponent}/>
+            <Route path='conditions-create-new' component={C.CreateConditionComponent}/>
 
-    </PersistGate>
-    <NotificationsSystem theme={theme}/>
-  </div>
-  </Provider>
+            <Route path='treatments-create/:id' component={C.CreateTreatmentsComponent}/>
+            <Route path='treatments-create-new' component={C.CreateTreatmentsComponent}/>
+
+            <Route path='level-up-create/:id' component={C.CreateLevelUpComponent}/>
+            <Route path='level-up-create-new' component={C.CreateLevelUpComponent}/>
+
+            <Route path='evaluation-create/:id' component={C.CreateEvaluationComponent}/>
+            <Route path='evaluation-create-new' component={C.CreateEvaluationComponent}/>
+
+            <Route path='packages-create/:id' component={C.CreatePackageComponent}/>
+            <Route path='packages-create-new' component={C.CreatePackageComponent}/>
+
+            <Route path='exercise-create/:id' component={C.CreateExerciseComponent}/>
+            <Route path='exercise-create-new' component={C.CreateExerciseComponent}/>
+
+            <Route path={PAGE.chat}      component={C.Chat} />
+          </Route>
+        </Router>
+        <NotificationsSystem theme={theme}/>
+      </div>
+    </Provider>
+  </PersistGate>
 );
 
 render(router, document.getElementById('root'));

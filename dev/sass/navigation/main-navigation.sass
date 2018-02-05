@@ -1,42 +1,17 @@
-.content-navigation
-  font-family: $Roboto
-
-  .navigation-list
-    width: 100%
-    padding: 0
-    li
-      list-style-type: none
-      a
-        height: 40px
-        width: 100%
-        color: $title-grey
-        text-decoration: none
-        font-size: 15px
-        font-weight: 500
-        line-height: 3.2
-        text-align: left
-        display: flex
-        align-items: center
-        transition: background-color 0.4s
-
-        &:hover
-          background-color: $primary-color
-      span
-        padding-left: 25px
-    .active-route
-      background-color: $primary-color
-
 .page-navigation
-  padding: 0 15px
+  padding: 0 18px 0 16px
   margin: 0!important
   display: flex
   flex-direction: row
   justify-content: space-around
   align-items: center
+  width: 100% !important
 
   &.active-navigation
     background-color: $lightBlue100
-
+  .child-buttons
+    display: flex
+    flex-direction: row
   .child-buttons button
     margin-right: 20px
 
@@ -57,9 +32,12 @@
   display: flex
   justify-content: flex-end
   align-items: center
-  
+
 .active-route
   background-color: #e0e0e0
+
+  .nav-icon
+    color: #4683f3
 
 .nav-menu-list-item
   color: inherit

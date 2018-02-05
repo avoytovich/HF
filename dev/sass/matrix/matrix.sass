@@ -9,58 +9,270 @@
   .diagnosis-table
     margin-top: 15px
 
+
 #create-question
+  background-color: #f5f5f5
+  height: 100%
+
+  .row-item
+    margin-top: 15px
+    //[class^="MuiFormControl"],
+    .MUIControl
+      width: 100%
+
   .page-sub-header
     display: flex
     flex-direction: row
     justify-content: space-between
     padding-bottom: 15px
+    padding-right: 20px
     margin-bottom: 0
     border-bottom: 2px solid $primary-grey
+    background-color: white
+    .title
+      display: flex
+      flex-direction: row
+      justify-content: center
+      align-items: center
+  .switch-label
+    display: flex
+    flex-direction: row-reverse
+  .navigation-zone
+    display: flex
+    flex-direction: row
+  .navigation-zone-default,
+  .navigation-zone-custom
+    display: flex
+    flex-direction: row
+
   .nav-buttons
-    margin-right: 20px
+    display: flex
+    flex-direction: row
+    justify-content: center
+    align-items: center
+
+  .create-question-body-wrap
+    height: 100%
   .create-question-body
     margin: 0!important
     padding: 0 20px
     height: 100%
+
   .create-question-body > div:first-child
       border-right: 2px solid $primary-grey
 
+  .level-up-block
+    display: flex
+    flex-direction: column
+    justify-content: flex-end
+    //margin-left: 20px
+    .level-up-block-label
+      display: flex
+      margin-left: 0
+  .level-up-row
+    display: flex
+    flex-direction: row
+    justify-content: flex-start
+  .level-up-neighborhood
+    max-width: 50%
+
   .main-question
-    padding: 20px 20px 40px 10px
+    //padding: 20px 20px 40px 10px
     .title
       display: flex
       flex-direction: row
       justify-content: space-between
       align-items: center
-    .size-buttons
-      border: 1px solid $primary-color
-      cursor: pointer
-      color: $primary-color
-  .item-wrap-row,
-  .item-wrap-column
+
+    .answer
+      margin-top: 40px
+      background: none
+
+
+  .Select.Select--single:focus,
+  .Select input
+    box-shadow: none
+    outline: none!important
+  .Select .Select-menu-outer
+    border-radius: 0
+
+  .Select-control,
+  .Input-ui
+    border: none
+    background: none
+    border-radius: 0
+    border-bottom: 1px solid grey
+
+  .custom-select-title
+    margin-top: 7px
+
+  .async-area-select
+    width: 100%
+
+  .tab-lang,
+  .MUITab
+    min-width: 80px!important
+    //[class*='MuiTabIndicator-root']
+      min-width: 90px!important
+
+
+  .tab-lang.answer
+    width: 45%
+    margin: 0
+
+  .sequence-wrap .sequence
+    //border-bottom: 1px solid grey
+    cursor: pointer
+  .sequence-type
     display: flex
-    margin-top: 20px
+    align-items: flex-end
 
-  .item-wrap-column
-    flex-direction: column
+  .answer-wrap
+    width: 100%
+    ol
+      padding-left: 5px
+    ol, ol > li
+      list-style: none
+    &.range
+      display: flex
+      flex-direction: row
+      align-items: center
+      h2
+        margin-bottom: 0
+        margin-right: 20px
+      .range-to
+        margin-left: 20px
 
-  .item-wrap-row
+  .add-answer
+    display: flex
+    flex-direction: row
+    align-items: center
+    color: $primary-blue
+    padding-left: 20px
+    cursor: pointer
+    margin-top: 30px
+    svg
+      padding-right: 10px
+  .answer-item
+    display: flex
+    flex-direction: row
+    align-items: center
+    svg
+      cursor: pointer
+  .open-sequence
+    display: flex
+    align-items: flex-end
+    margin-bottom: 15px
+    cursor: pointer
+
+.choose-sequence-toolbar
+  display: flex
+  justify-content: space-between
+  .title-and-close
+    display: flex
+    flex-direction: row
+    justify-content: center
+    align-items: center
+.choose-sequence-list
+  margin-top: 64px!important
+
+
+.choose-sequence-item
+  display: flex
+  flex-direction: column
+  cursor: pointer
+  transition: margin .3s
+  border-top: 1px solid #aaa
+  border-bottom: none
+
+  &.open
+    transition: margin .3s
+    margin: 25px 0
+    box-shadow: 0 1px 1px 1px #ccc
+    border-bottom: 1px solid #aaa
+
+  .choose-sequence-item-header
+    height: 40px
+  .choose-sequence-item-title
+    display: flex
+    flex-direction: row
+    justify-content: flex-start
+    align-items: center
+    .step
+      margin-left: 15px
+    .title
+      color: $primary-blue
+      margin-left: 15px
+
+  .choose-sequence-item-expand
+    display: flex
+    flex: 1
+    justify-content: flex-end
+    align-items: center
+  .choose-sequence-collapse
+    display: flex
+    flex: 1
+    width: 100%
+    padding-left: 130px
+    .choose-sequence-collapse-list,
+    .choose-sequence-collapse-item
+      white-space: pre-wrap
+      transition: height .3s
+      .lens
+        width: 10px
+        height: 10px
+        margin-right: 10px
+        fill: $primary-blue
+
+
+.page-tabs
+  padding: 5px 20px 30px 20px
+
+.package-level-header
+  display: flex
+  flex-direction: row
+  .package-level-header-item-right,
+  .package-level-header-item-left
+      display: flex
+      flex-direction: row
+      align-items: center
+  .package-level-header-item-right
+    justify-content: flex-end
+
+
+.assets-list
+  padding: 10px 20px
+.package-level-counts
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  .package-level-therapy-continuity
+    margin-bottom: 8px
+
+.package-level-exercises
+  margin-top: 35px!important
+  margin-bottom: 25px!important
+
+  .package-level-exercises-item
+    display: flex
     flex-direction: row
     justify-content: space-between
-    .item-wrap
-      flex: 1
-      div:nth-child(2n)
-        margin-right: 10px
+    border-bottom: 1px solid $primary-color
+    padding-bottom: 5px
+    .information
+      display: flex
+      flex-direction: column
+    .title
+      font-weight: bold
+      margin-bottom: 5px
 
-  .sub-item-wrap
-    display: flex
-    flex-direction: row
-  .label-text
-    display: flex
-    flex-direction: column
-    padding-bottom: 10px
-  .question-context
-    height: 120px
-  textarea
-    resize: none
+.matrix_pre_loaders
+  display: flex
+  flex-direction: row
+  height: 100%
+  .item:first-child
+    border-right: 1px solid #eeee
+
+  .item
+    width: 50%
+

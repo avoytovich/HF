@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-
-import Header   from './common/Header/header';
-// Components
+import Header   from './common/Header/Header';
 import MainNavigation from './common/MainNavigation/MainNavigation';
 
 class Main extends Component {
@@ -11,7 +9,7 @@ class Main extends Component {
   render() {
     return (
         <div className="main-wrapper">
-          <Header/>
+          <Header />
           <div className="main-content">
               <div className="content-navigation">
                 <MainNavigation/>
@@ -24,8 +22,6 @@ class Main extends Component {
     )
   }
 }
-{/*<MuiThemeProvider theme={context.theme} sheetsManager={context.sheetsManager}>*/}
-{/* </MuiThemeProvider>*/}
 
 const mapStateToProps = state => ({
   commonReducer: state.commonReducer

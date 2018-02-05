@@ -11,6 +11,9 @@ import get from 'lodash/get';
 import { onChange } from '../../../actions'
 
 const styles = theme => ({
+  formControl: {
+    width: '100%',
+  },
   textField: {
     width: 300,
   },
@@ -22,10 +25,11 @@ class Input extends Component {
       id,
       classes,
       onChange,
-      onCustomChange,
+      onChangeCustom,
       label = '',
       placeholder = '',
       reducer,
+      style,
       reducer: {
         actionType,
         errors,
@@ -41,20 +45,23 @@ class Input extends Component {
         id={id}
         name={actionType}
         value={value}
-        onChange={onCustomChange || onChange}
+        onChange={onChangeCustom || onChange}
         label={label}
         placeholder={placeholder}
         className={classes.textField}
+        style={style}
         margin="normal"
+        helperText={error}
         {...omit(props, ['dispatch'])}
       />
-      {
-        error && <FormHelperText>{ error }</FormHelperText>
-      }
     </FormControl>
     );
   }
 }
+
+Input.defaultProps = {
+  styles: {},
+};
 
 Input.propTypes = {
   id: PropTypes.string.isRequired,
@@ -63,7 +70,8 @@ Input.propTypes = {
   onChange: PropTypes.func,
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  onCustomChange: PropTypes.func,
+  onChangeCustom: PropTypes.func,
+  style: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

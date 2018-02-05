@@ -8,29 +8,30 @@ import Slide                  from 'material-ui/transitions/Slide';
 import Button                 from 'material-ui/Button';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deactivateItem }      from '../../../../actions';
+import { deactivateItem,
+         getMatrixInfo }      from '../../../../actions';
 
 
 class DeactivateComponent extends Component {
 
-  deactivate = ({list, path, domen}) => {
-    deactivateItem(domen, path, list)
-      .then(() => {
-        this.props.open(this.props.typeKey, false);
-      })
+  deactivate = ({list, path, pathReq, domen, activate }) => {
+    deactivateItem(domen, pathReq, list, activate)
+      .then(() =>
+        getMatrixInfo(domen, path, this.props.query, path)
+          .then(() => this.props.open(this.props.typeKey, false)))
   };
 
   transition = (props) => <Slide direction="up" {...props} />;
 
   render() {
-    const { list, deactivateOpen, open, typeKey, itemKey } = this.props;
+    const { list, deactivateOpen, open, typeKey, itemKey, title, onSubmitTitle } = this.props;
     return  <Dialog
       open={deactivateOpen}
       transition={this.transition}
       keepMounted
       onRequestClose={() => open(typeKey, false)}
     >
-      <DialogTitle> Deactivate this question ? </DialogTitle>
+      <DialogTitle> { title || 'Deactivate this question ?'} </DialogTitle>
 
       <DialogContent>
         {list.map((item, index) =>
@@ -44,7 +45,7 @@ class DeactivateComponent extends Component {
           Cancel
         </Button>
         <Button onClick={() => this.deactivate(this.props)} color="primary">
-          Deactivate
+          {onSubmitTitle || 'Deactivate'}
         </Button>
       </DialogActions>
 

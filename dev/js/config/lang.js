@@ -15,6 +15,20 @@ export default {
     L_SIGNUP: {},
     L_FORGOT_PASS: {},
     L_RESET_PASS: {},
+
+    L_CREATE_QUESTION: {
+      enterQuestion   : 'Enter question',
+      enterQuestionKey: 'Enter question',
+      enterTitle      : 'Enter title',
+      question        : 'Question*',
+      questionKey     : 'Question Key*',
+      questionTitle   : 'Title*',
+      sequence        : 'Sequence',
+      enterSequence   : 'Enter sequence',
+      sequenceProp    : '',
+      answer          : 'Answer',
+      enterAnswer     : 'Enter Answer',
+    }
   },
   se: {
     L_LOGIN: {

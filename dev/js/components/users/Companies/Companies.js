@@ -1,0 +1,137 @@
+import React, { Component }     from 'react';
+import { connect }              from 'react-redux';
+import { COMPANIES_TAB }        from '../../../utils/constants/pageContent';
+import { TableComponent }       from '../../../components/common/TypicalListPage';
+import { browserHistory }       from 'react-router'
+import TableControls            from '../../common/TypicalListPage/TableControls';
+import Button                   from 'material-ui/Button';
+import Modal                    from '../../common/Modal/Modal';
+import { PAGE } from '../../../config';
+import CreateUser from '../CreateUser/CreateUser';
+import DeactivateComponent      from '../../common/Modal/DeactivateModal';
+import { activateCustomer,
+  getMatrixInfo }      from '../../../actions';
+
+const userInfo = {
+  headerTitle:'Create Company',
+  backButton : '/companies',
+  userType : 'organization',
+  actionType : 'create',
+}
+
+class Companies extends Component {
+  state = {
+    selected: [],
+    showDeleteModal:false,
+    showActivateModal:false,
+    showCreateModal: false,
+  };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.showCreateModal && nextState.showCreateModal) {
+      return false
+    }
+    return true;
+  }
+
+  _tableCellPropsFunc = (row, col) => {
+    if (col.key === 'name') {
+      return {
+        onClick: (e) => {
+          e.stopPropagation();
+          browserHistory.push(`/company/${row.id}/profile`);
+        }
+      }
+    }
+    return {};
+  };
+
+  onRowClick = (selected = []) => this.setState({ selected });
+
+  onSelectAllClick = (selected) => this.setState({ selected });
+
+  createEntity = () => this.setState({ showCreateModal: !this.state.showCreateModal });
+
+  _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
+
+  updateModal = (key, value) => {
+    this.setState({ [key]: value });
+
+    if (!value) this.setState({ selected: [] });
+  };
+
+  _activateItems=(selected)=>{
+    activateCustomer('users', 'customers', selected)
+      .then(() => browserHistory.push(`/companies`))
+    this.setState({ showActivateModal: !this.state.showActivateModal, selected: [], })
+  };
+
+  render() {
+    const { tableHeader } = COMPANIES_TAB;
+    const { selected, showActivateModal, showCreateModal } = this.state;
+    const querySelector = {...this.props.location.query,...{type: 'organization', back :'companies'}};
+    return (
+      <div id="diagnosis-component">
+
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="users"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Activate this Companies"
+          deactivateOpen={showActivateModal}
+          open={this._toggleActivateModal}
+          itemKey="name"
+          query={this.props.location.query}
+          onSubmit={this._activateItems}
+          onSubmitTitle = "Activate"
+        />
+
+        <TableControls
+          path="companies"
+          selected={selected}
+          createItem={this.createEntity}
+          createButtonText="Add"
+          searchKey = "filter">
+
+          <Button raised dense
+                  onClick={() => this.updateModal('showActivateModal', true)}>
+            Activate
+          </Button>
+
+        </TableControls>
+
+        <TableComponent
+          location={this.props.location}
+          path="companies"
+          domen="users"
+          reqType="POST"
+          tableHeader={ tableHeader }
+          selected={selected}
+          onRowClick={this.onRowClick}
+          onSelectAllClick={this.onSelectAllClick}
+          query= {querySelector}
+          tableCellPropsFunc={this._tableCellPropsFunc}
+        />
+
+        <Modal
+          fullScreen
+          open={showCreateModal}
+          showControls={false}
+          toggleModal={this.createEntity}
+          CustomContent={() => <CreateUser userInfo={userInfo} toggleModal={this.createEntity}/>}
+        />
+
+
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = state => ({
+  createUsersReducers: state.createUsersReducers,
+  store: state.tables.diagnosis
+});
+
+export default  connect(mapStateToProps)(Companies);

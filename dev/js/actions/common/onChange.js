@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import { validate } from '../../utils';
 
 export const onChange = (e, val = 'value') => dispatch => {
@@ -14,9 +15,8 @@ export const onChange = (e, val = 'value') => dispatch => {
     {
       type   : `${type}_ERROR`,
       payload: {
-        errors: { [property]: errors[property] }
+        errors: { [property]: get(errors, property) }
       }
     },
-
   ]);
 };

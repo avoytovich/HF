@@ -1,11 +1,38 @@
-export MatrixComponent          from './matrix';
-export DiagnosisComponent       from './diagnosis';
-export CreateQuestionComponent  from './createDiagnosisQuestion/createQuestion'
-export ConditionsComponent      from './conditions';
-export TreatmentsComponent      from './treatments';
-export EvaluationComponent      from './evaluation'
-export PackagesComponent        from './packages';
-export ExercisesComponent       from './exercises';
-//export AchievementsComponent    from './achievements'
-//export MetaControlsComponent    from './metaControls'
-//export TestsComponent           from './tests'
+export *  from './bodyAreaTab';
+export {
+  ConditionsComponent,
+  CreateConditionComponent
+}                               from './ConditionsTab';
+export {
+  DiagnosisComponent,
+  CreateQuestionComponent
+}                               from './DiagnosisTab';
+
+export {
+  LevelUpComponent,
+  CreateLevelUpComponent
+}                                from './LevelUpTab'
+
+export {
+  EvaluationComponent,
+  CreateEvaluationComponent
+}                                from './EvaluationsTab'
+
+export {
+  ExercisesComponent,
+  CreateExerciseComponent
+}                                 from './ExercisesTab';
+
+export {
+  PackagesComponent,
+  CreatePackageComponent
+
+}                                 from './PackagesTab';
+
+export {
+  TreatmentsComponent,
+  CreateTreatmentsComponent
+}                                 from './TreatmentsTab';
+
+export MatrixComponent            from './matrix';
+

@@ -1,107 +1,261 @@
-.rules
+.rule-question
   display: flex
-  flex: 1
   flex-direction: row
-  justify-content: flex-start
-  width: 100%
-  min-height: 80px
-  border-radius: 3px
-  background-color: #f2f2f2
-  border: solid 1px #d0d0d0
-  min-width: 485px
-
-  .rules-type
-    display: flex
-    align-items: center
-    justify-content: center
-    width: 50px
-    max-width: 50px
-    background-color: #e0e0e0
-    border-right: solid 1px #d0d0d0
-    font-size: 12px
-    text-align: left
-    color: #9e9e9e
-
-  .rules-question,
-  .rules-answer
+  width: 560px
+  min-height: 72px
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26)
+  margin-bottom: 30px
+  .nav-block,
+  .question-block
     display: flex
     flex-direction: column
-    justify-content: flex-start
-    padding: 10px 10px
-    span.title
-      font-size: 12px
-      text-align: left
-      color: #9e9e9e
-      margin-bottom: 10px
+  .question-block
+    background-color: white
+    width: calc(100% - 64px)
+    .wrap
+      padding: 10px 20px
+      .text
+        overflow: hidden
+        text-overflow: ellipsis
+  .nav-block
+    background-color: $primary-blue
+    width: 64px
+    min-height: 72px
+    position: relative
+    align-items: center
+    button
+      position: absolute
+      bottom: -20px
+      width: 40px
+      height: 40px
 
-  .rules-question
-    flex: 2
+.rules
+  z-index: 0
+  height: 100%
+  //padding-right: 35px!important
 
-  .rules-answer
-    flex: 1
+.rule-question + .items
+  //overflow: auto
 
-  .rules-navigation,
-  .rules-navigation button
-    max-width: 25px
-    width: 25px
-    min-width: 25px
-    padding: 0
+.rules-block .items > .rule-item
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26)
+.rules-block .items > div
+  margin-bottom: 30px
 
-  .rules-navigation
-    display: flex
-    align-items: flex-start
-
-  .sub-rules
-    display: flex
-    flex-direction: row
-    min-width: 50px
-
-    .sub-rules-title
-      padding: 10px 10px
-      text-transform: capitalize
-      font-size: 16px
-      text-align: left
-      background-color: #e0e0e0
-      color: #9e9e9e
-      border-radius: 3px 0 0 3px
-      border: solid 1px #d0d0d0
-      border-right: none
-      display: flex
-      align-items: center
-      span
-        align-self: center
-        display: block
-  .sub-rules + .rulesWithAnswer.sub-title-rule .rules:last-child
-    margin-bottom: 0
-
-
-.rules-wrap,
-.rulesWithAnswer
-  width: 100%
-.rules-wrap
-  padding: 20px
+.rules-block
+  position: relative
+  top: 0
   overflow-x: auto
-  //& > .rulesWithAnswer
-  //  margin-top: 20px
+  height: 100%
+  padding: 20px 0 20px 20px
+  margin-right: 20px
 
-.rules-main-question
-  input
-    margin: 20px
-    height: 36px
-    width: 90%
 
-.rulesWithAnswer
+  .vertical-line
+    border-left: 2px solid #bdbdbd
+    width: 1px
+    height: calc(100% - 72px)
+    position: absolute
+    top: 0
+    left: 32px
+    z-index: -1
+    visibility: hidden
+
+.rule-block,
+.rule-item
   display: flex
-  & > .rules
-    margin-bottom: 15px
+  flex-direction: row
+  .nav
+    width: 64px
+    min-width: 64px
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26)
+    //z-index: 1
 
-.add-margin
-  margin-left: 55px
+.rule-block .nav
+  margin-right: 2px
+  background-color: $primary-red
+  &.and
+    background-color: $primary-blue
+  &.or
+    background-color: $primary-green
 
-.rulesWithAnswer:not(.sub-title-rule)
-  margin-bottom: 15px
+.rule-block
+  width: 560px
+  min-height: 72px
+  background-color: white
+  .details
+    display: flex
+    flex-direction: column
+    height: 40px
+    width: 100%
+  .rule-block,
+  .rule-item
+    margin-bottom: 2px
 
-//////
-.sub-title-rule
+.rule-block-details
+  background-color: white
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.16), 0 1px 4px 0 rgba(0, 0, 0, 0.26)
+  //z-index: 1
+
+
+.rule-block,
+.rule-item
+  .types-select
+    margin: 0
+    display: flex
+    padding-top: 8px
+    //[class^='MuiInput']:before,
+    //[class^='MuiInput']:after,
+    & > div:before,
+    & > div:after
+      display: none
+    //[class^='MuiSelect-select'],
+    & > div > div > div
+      padding: 0 12px 2px 0
+      text-align: center
+      color: white
+      font-size: 12px
+      font-weight: bold
+    //[class^='MuiSvgIcon'],
+    & > div > div > svg
+      fill: white
+      stroke: white
+      width: 20px
+      height: 18px
+  .answer-select .types-select
+    padding-top: 4px
+
+
+
+.add-item
   display: flex
-  flex-direction: column
+  flex-direction: row
+  justify-content: flex-start
+  align-items: center
+  color:  $primary-blue
+  cursor: pointer
+  background-color: white
+  border-bottom: 1px solid $secondary-grey
+
+//[class*='MuiSelect-selectMenu-']
+  white-space: inherit!important
+  overflow: inherit!important
+  line-height: inherit!important
+  display: flex!important
+  justify-content: flex-start!important
+  align-items: center!important
+  text-align: left!important
+  margin: 0 5px!important
+
+
+.rule-item
+  width: 560px
+  height: 72px
+  background-color: white
+  border-bottom: 1px solid $secondary-grey
+  .rule-nav
+    width: 64px
+    min-width: 64px
+    background-color: $secondary-grey
+    //z-index: 1
+
+
+  .rule-item-details
+    background-color: white
+    display: flex
+    flex-direction: column
+    flex: 1
+    //z-index: 1
+    .rule-item-question,
+    .rule-item-answer,
+    .rule-item-delete
+      display: flex
+      flex-direction: column
+    .rule-item-question
+      flex: 7
+      justify-content: center
+      align-items: flex-start
+      padding: 0 20px
+    .rule-item-answer
+      flex: 4
+      justify-content: center
+      align-items: flex-start
+    .rule-item-delete
+      flex: 1
+  .ansyc-select
+    width: 100%
+    //padding-right: 15px
+
+.rule-types
+  display: flex
+  flex-direction: row
+  margin-bottom: 5px
+  margin-left: 15px
+  .main-select
+    display: flex
+    flex: 4
+    flex-direction: column
+    margin-right: 10px
+    .title
+      overflow: hidden
+      height: 20px
+      margin-top: 4px
+      div
+        color: $primary-blue!important
+        font-weight: bold
+      .simple-question-variety
+        color: inherit!important
+        font-weight: normal
+        margin-top: 5px
+      .question-variety-select
+        font-size: 14px
+        display: flex
+        justify-content: flex-start
+        align-items: center
+        max-width: 100px
+        height: 20px
+        border-bottom: none
+        padding-top: 4px
+        &:before,
+        &:after
+          display: none
+  .symbol-select
+    display: flex
+    flex: 1
+    flex-direction: column
+    & > div > div > div > div:first-child
+      font-weight: bold
+      color: black!important
+      border-bottom: 1px solid grey
+      padding-bottom: 1px!important
+      margin: 0!important
+
+    //[class*='MuiSelect-select']
+      justify-content: center!important
+  .answer-select
+    display: flex
+    flex: 2
+    flex-direction: column
+    margin-left: 10px
+    color: black!important
+  //[class*='MuiSelect-select'],
+  input ~ div
+    color: black!important
+    border-bottom: 1px solid black
+    padding-bottom: 1px!important
+    margin: 0!important
+  //[class*='MuiSvgIcon'],
+  svg
+    fill: black
+  .title
+    color: grey
+    margin-top: 10px
+    margin-bottom: 2px
+    font-size: 12px
+  .range-answer
+    display: flex
+    flex-direction: column
+    .range-answer-title
+      margin: 3px 0
+
+

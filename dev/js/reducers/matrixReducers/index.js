@@ -1,2 +1,7 @@
+import createDiagnosisQuestion from './createQuestion';
+import { bodyModelReducer } from './bodyModelReducer';
 
-export default {}
+export default {
+  createDiagnosisQuestion,
+  bodyModelReducer,
+}

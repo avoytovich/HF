@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect }          from 'react-redux';
+import PropTypes            from 'prop-types';
+import Checkbox             from 'material-ui/Checkbox';
 import {
   TableCell,
   TableHead,
   TableRow,
   TableSortLabel,
-} from 'material-ui/Table';
-import Checkbox from 'material-ui/Checkbox';
-import PropTypes from 'prop-types';
+}                           from 'material-ui/Table';
 
 class EnhancedTableHead extends Component {
+  /**
+   * @param property
+   */
+  createSortHandler =  (event, property, {type}) => {
+    if (property === '--') return;
 
-  createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
   };
 
+  /**
+   * @param event
+   */
   handleClick = (event) => {
     const { rowCount, numSelected } = this.props;
     const allSelected = numSelected === rowCount;
@@ -24,36 +31,44 @@ class EnhancedTableHead extends Component {
   };
 
   render() {
-    const { rowCount, numSelected, columnTitleList } = this.props;
-    const { order, orderBy } = this.props.store.pagination;
+    const { rowCount, numSelected, columnTitleList, showTestingMarker } = this.props;
+    const { sortedBy, orderBy } = this.props.store.sortOptional;
+
     return (
       <TableHead>
         <TableRow>
 
-          <TableCell padding="checkbox">
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={numSelected === rowCount}
-              disabled={!rowCount}
-              onClick={this.handleClick}
-            />
+          <TableCell padding="checkbox"
+                     className="td-checkbox">
+            <div className="in-testing-wrap">
+
+              {showTestingMarker && <div className="in-testing"/>}
+
+              <Checkbox
+                indeterminate={numSelected > 0 && numSelected < rowCount}
+                checked={numSelected === rowCount}
+                disabled={!rowCount}
+                onClick={this.handleClick}
+              />
+            </div>
           </TableCell>
 
-          {columnTitleList.map((column, index) =>
-            <TableCell className={column.className}
+          {columnTitleList.map((column, index) => {
+            const sortKey = column.sortKey || column.key;
+            return <TableCell className={column.className}
                        key={index}
                        padding="dense">
-
               <TableSortLabel
-                active={orderBy === column.key}
-                direction={order}
+                active={orderBy === sortKey}
+                direction={sortedBy}
 
-                onClick={this.createSortHandler(column.key)}
+                onClick={(event) => this.createSortHandler(event, sortKey, column)}
               >
                 {column.title}
               </TableSortLabel>
 
-            </TableCell>)}
+            </TableCell>
+          })}
 
         </TableRow>
       </TableHead>
@@ -71,6 +86,7 @@ EnhancedTableHead.propTypes = {
     PropTypes.shape({
       title   : PropTypes.string.isRequired,
       key     : PropTypes.string.isRequired,
+      sortKey : PropTypes.string,
       tooltip : PropTypes.string
     }).isRequired
   ),
