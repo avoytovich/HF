@@ -38,12 +38,12 @@ class DiagnosticAnswers extends Component {
 
   componentDidMount() {
     const { answerType } = this.props.store;
-    const answerList = this.props.store[answerType];
+    const _type = answerType === 'multiple' ? 'single' : answerType;
+    const answerList = this.props.store[_type];
     if (Array.isArray(answerList)) {
-      const answerLang = this.props.store[answerType].map(() => 'en');
+      const answerLang = this.props.store[_type].map(() => 'en');
       this.setState({answerLang});
     }
-
   }
 
   addAnswer = (value) => {
@@ -67,42 +67,6 @@ class DiagnosticAnswers extends Component {
     const { answerLang } = this.state;
 
     switch (type) {
-      case 'single'  :
-      case 'multiple':
-
-
-        const list = type === 'single' ? single : multiple;
-        return <div className="answer-wrap">
-          <ol style={{width: '100%'}}>
-            {list.map((answer, index) => {
-              return <li  key={index} className="row-item">
-                <div className="answer-item">
-                  <Input
-                    id={`${type}.${index}.${answerLang[index]}`}
-                    reducer={store}
-                    className="MUIControl"
-                  />
-                  <Clear onClick={() => removeAnswer(type, index)}/>
-                </div>
-                <Tabs
-                  value={answerLang[index] || 'en'}
-                  onChange={(event, value) => this.handleAnswerLangChange(value, index)}
-                  indicatorColor="primary"
-                  className="tab-lang answer"
-                  textColor="primary"
-                  centered
-                >
-                  <Tab label="English" value="en"  className="MUITab"/>
-                  <Tab label="Swedish"  value="swe" className="MUITab" />
-                </Tabs>
-              </li>})}
-          </ol>
-          <div className="add-answer"
-               onClick={() => this.addAnswer(type)}>
-            <AddIcon /> ADD ANSWER
-          </div>
-        </div>;
-
       case 'range':
         return <div className="answer-wrap range">
           <Typography type="title" gutterBottom>
@@ -129,8 +93,36 @@ class DiagnosticAnswers extends Component {
         </div>;
 
       default:
-        console.log('Wrong type!!');
-        return <div className="answer-wrap"></div>;
+        return <div className="answer-wrap">
+          <ol style={{width: '100%'}}>
+            {single.map((answer, index) => {
+              return <li  key={index} className="row-item">
+                <div className="answer-item">
+                  <Input
+                    id={`single.${index}.${answerLang[index]}`}
+                    reducer={store}
+                    className="MUIControl"
+                  />
+                  <Clear onClick={() => removeAnswer('single', index)}/>
+                </div>
+                <Tabs
+                  value={answerLang[index] || 'en'}
+                  onChange={(event, value) => this.handleAnswerLangChange(value, index)}
+                  indicatorColor="primary"
+                  className="tab-lang answer"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="English" value="en"  className="MUITab"/>
+                  <Tab label="Swedish"  value="swe" className="MUITab" />
+                </Tabs>
+              </li>})}
+          </ol>
+          <div className="add-answer"
+               onClick={() => this.addAnswer('single')}>
+            <AddIcon /> ADD ANSWER
+          </div>
+        </div>;
     }
   };
 

@@ -20,6 +20,7 @@ export const onSingleAsyncChange = (value, edit, props) => {
 
   const { subtype, type, values, min, max} = value.answer;
 
+
   if (subtype === 'range') {
     const _value = edit ?
       itemState :
@@ -110,7 +111,7 @@ export const  getAnswersList = (values) => {
         value:_value
       }
     }) : [];
-}
+};
 
 export const getOptions = (input, key, onChangeCallBack, props, questionType, answerType, _type) => {
   switch(true) {
@@ -135,7 +136,7 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
       return findByArea(questionType, 'findByAre', _body, input || key).then(res => {
         const { data } = res.data;
         const _data = data.map(item => {
-          return Object.assign({}, item, { label: item.question.en, value: item.key })
+          return Object.assign({}, item, { label: item.title, value: item.key })
         });
 
         !input.length &&

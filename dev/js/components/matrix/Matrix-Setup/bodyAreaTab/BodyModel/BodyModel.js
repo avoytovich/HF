@@ -36,12 +36,11 @@ class BodyModel extends Component {
     bounds: [1000, 1000],
   };
 
-  componentWillMount (){
+  componentWillMount() {
     getAllSideAreasWired(this.props.side, this.props.id)
       .then(() => this._drawExistingPolygons());
     if (this.props.id) {
-      getBodyAreaById('diagnostics', 'areas', this.props.id).
-        then(() => {
+      getBodyAreaById('diagnostics', 'areas', this.props.id).then(() => {
         this._drawingNewPolygons();
         this._onChange();
       });
@@ -53,18 +52,13 @@ class BodyModel extends Component {
     this._drawingNewPolygons();
   }
 
-  componentWillUpdate({ url, ...nextProps }) {
+  componentDidUpdate({ url }) {
     if (url !== this.props.url) {
       this.layerContainer().clearLayers();
       this._drawingNewPolygons();
       this._drawExistingPolygons();
       getAllSideAreasWired(this.props.side, this.props.id)
         .then(() => this._drawExistingPolygons());
-    }
-  }
-
-  componentDidUpdate ({ url }) {
-    if (url !== this.props.url) {
       this._onChange();
     }
   }
@@ -79,7 +73,7 @@ class BodyModel extends Component {
 
   layerContainer = () => get(this.editControl, 'context.layerContainer');
 
-  _onMounted = (drawControl) => {
+  _onMounted = () => {
     this._updateBounds();
     this._onChange();
   };
@@ -94,11 +88,16 @@ class BodyModel extends Component {
         side,
       } = this.props;
       existingPolygons.forEach(existingPolygon => {
-        const currentPolygons = [get(existingPolygon, `${side}.${sex}`, [])];
-        let layer             = new L.Polygon(currentPolygons);
+        const currentPolygons = [get(existingPolygon, `${side}.${sex}`, false)];
+        if (currentPolygons[0]) {
+          const tooltip = existingPolygon.title;
+          const layer = new L.Polygon(currentPolygons).bindTooltip(tooltip, {
+            sticky: true // If true, the tooltip will follow the mouse instead of being fixed at the feature center.
+          });
 
-        layer.setStyle({ color: 'gray', fillColor: 'gray' });
-        this.layerContainer().addLayer(layer);
+          layer.setStyle({ color: 'gray', fillColor: 'gray' });
+          this.layerContainer().addLayer(layer);
+        }
       });
     }, 10);
   }
@@ -121,20 +120,28 @@ class BodyModel extends Component {
   // see http://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html#l-draw-event for leaflet-draw events doc
 
   _onEditStart = () => {
-    this.layerContainer().clearLayers();
-    this._drawingNewPolygons();
+    console.log('edit started');
+    setTimeout(() => {
+      this.layerContainer().clearLayers();
+      this._drawingNewPolygons();
+    }, 10);
   };
 
   _onEditStop = () => {
+    console.log('edit stopped');
     this._drawExistingPolygons();
   };
 
   _onDeleteStart = () => {
-    this.layerContainer().clearLayers();
-    this._drawingNewPolygons();
+    setTimeout(() => {
+      console.log('delete started');
+      this.layerContainer().clearLayers();
+      this._drawingNewPolygons();
+    }, 10);
   };
 
   _onDeleteStop = () => {
+    console.log('delete stopped');
     this._drawExistingPolygons();
   };
 
@@ -173,7 +180,10 @@ class BodyModel extends Component {
   };
 
   _onDeleted = (e) => {
-    dispatchBodyModelWired({ currentlyDrawingPolygon: {} });
+    const { sex, side } = this.props;
+    if (!this._editableFG.leafletElement.toGeoJSON().features.length) {
+      dispatchBodyModelWired({ [`currentlyDrawingPolygon.${side}.${sex}`]: [] });
+    }
     this._onChange()
   };
 
@@ -186,9 +196,9 @@ class BodyModel extends Component {
       }
     } = this.props;
     if (isEmpty(get(bodyModelReducer, `currentlyDrawingPolygon.${side}.${sex}`, {}))) {
-      dispatchBodyModelWired({ showPolygonTool: true})
+      dispatchBodyModelWired({ showPolygonTool: true })
     } else {
-      dispatchBodyModelWired({ showPolygonTool: false})
+      dispatchBodyModelWired({ showPolygonTool: false })
     }
     // const geojsonData = this._editableFG.leafletElement.toGeoJSON();
   };
@@ -227,9 +237,7 @@ class BodyModel extends Component {
           bounds={[[0, 0], this.state.bounds]}
           ref={imageOverlay => this.imageOverlay = imageOverlay}
         />
-        <FeatureGroup ref={ (reactFGref) => {
-          this._onFeatureGroupReady(reactFGref);
-        } }>
+        <FeatureGroup ref={ (reactFGref) => this._onFeatureGroupReady(reactFGref)}>
           <EditControl
             ref={elem => this.editControl = elem}
             position='topleft'

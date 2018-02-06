@@ -3,24 +3,23 @@ import validator from './validator';
 import { store } from '../../index';
 import { bCN } from './index';
 
-const validateDay = data => {
+const validateBodyArea = data => {
 
   let constraints = {
-    email: {
-      email: {
-        message: "is not valid."
+    title: {
+      presence: {
+        message: "is required."
       },
-    },
-    password: {
       length: {
-        minimum: 6,
+        minimum: 2,
       }
     },
-    confirmPassword: {
-      equality: {
-        attribute: "resetPasswordAttribute",
-        message: "should match the password.",
-        comparator: (v1, v2) => JSON.stringify(v1) === JSON.stringify(v2)
+    key: {
+      presence: {
+        message: "is required."
+      },
+      length: {
+        minimum: 2,
       }
     }
   };
@@ -36,4 +35,4 @@ const validateDay = data => {
   }
 };
 
-export default validateDay;
+export default validateBodyArea;
