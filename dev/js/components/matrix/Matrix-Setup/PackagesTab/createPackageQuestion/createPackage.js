@@ -51,7 +51,7 @@ export const DEFAULT_LEVEL = {
     therapy_continuity    : 1
   },
   therapy_continuity: '1',
-  exercise_ids      : [],
+  exercises         : [],
 };
 
 class CreatePackageComponent extends Component {
@@ -93,7 +93,11 @@ class CreatePackageComponent extends Component {
   }
 
   done = (value) => {
-    const { testing_mode, areaIds, questionKey, questionTitle, packageLevels, therapyContinuity, packageType, errors } = value;
+    const {
+      testing_mode, areaIds,
+      questionKey, questionTitle,
+      packageLevels, therapyContinuity,
+      packageType, errors, app_title } = value;
     const validValue = { questionKey, questionTitle };
 
 //    const _packageLevels = packageLevels.map((el, index) => {
@@ -106,6 +110,7 @@ class CreatePackageComponent extends Component {
       areaIds  : areaIds,
       title    : questionTitle,
       type     : packageType,
+      app_title,
       package_levels : packageLevels,
       testing_mode
     };
@@ -138,12 +143,14 @@ class CreatePackageComponent extends Component {
     const newList = oldList.concat({
       level: oldList.length + 1,
       level_up_properties   : {
-        vas_trend     : '1',
-        vas_min       : '1',
-        session_count : '1'
+        vas_trend_down        : '1',
+        vas_min               : '1',
+        package_level_sessions: '1',
+        therapy_continuity    : '1',
+        package_level_days    : '1'
       },
-      therapy_continuity: '1',
-      exercise_ids      : [],
+      therapy_continuity: 'daily',
+      exercises      : [],
     });
     updateCrateQuestionFields(newList, 'packageLevels');
   };
@@ -220,15 +227,30 @@ class CreatePackageComponent extends Component {
             </Grid>
 
             {/* Question Key */}
-            <UniqueKey
-              domain="diagnostics"
-              path="findByKey"
-              questionKey={questionKey}
-              label="Package Key*"
-              id="questionKey"
-              currentId={id}
-              reducer="createDiagnosisQuestion"
-            />
+            <Grid container className="row-item">
+              <Grid item md={6} sm={12}>
+                <Input
+                  id='app_title'
+                  reducer={ createDiagnosisQuestion }
+                  label={ 'App Title' }
+                  style={{width: '100%'}}
+                />
+              </Grid>
+
+              <Grid item md={6} sm={12}>
+                <UniqueKey
+                  domain="diagnostics"
+                  path="findByKey"
+                  questionKey={questionKey}
+                  label="Package Key*"
+                  id="questionKey"
+                  currentId={id}
+                  reducer="createDiagnosisQuestion"
+                  className="_"
+                  style={{width: '100%'}}
+                />
+              </Grid>
+            </Grid>
 
             <Grid container className="row-item">
               <Grid item md={6} sm={12}>
@@ -289,7 +311,7 @@ class CreatePackageComponent extends Component {
             </div>
 
             {packageLevels.map((level, index) => {
-              const { therapy_continuity, exercise_ids} = level;
+              const { therapy_continuity, exercises} = level;
               return <div className="tab-item"
                           key={index}>
                 {
@@ -299,7 +321,7 @@ class CreatePackageComponent extends Component {
                     index={index}
                     level={level}
                     therapy_continuity={therapy_continuity}
-                    exercise_ids={exercise_ids}
+                    exercises={exercises}
                     changeTab={this.changeLastSelectedIndex}
                   />
                 }

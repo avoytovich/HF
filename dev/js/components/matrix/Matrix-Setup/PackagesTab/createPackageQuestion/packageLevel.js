@@ -61,7 +61,7 @@ class PackageLevelComponent extends Component {
       index,
       level,
       therapy_continuity,
-      exercise_ids
+      exercises
     } = this.props;
 
     return <div>
@@ -155,7 +155,7 @@ class PackageLevelComponent extends Component {
         </Grid>
 
 
-        <PackageExercises exercises={exercise_ids} level={index}/>
+        <PackageExercises exercises={exercises} level={index}/>
 
         <Grid item xs={12} style={{display: 'flex', justifyContent: 'space-between'}}>
           <Button color="primary" onClick={() => this.openChooseExercises(true)}>
@@ -172,7 +172,7 @@ class PackageLevelComponent extends Component {
           <PackageExercisesModal
             level={index}
             open={this.state.chooseExercises}
-            isSelected={exercise_ids || []}
+            isSelected={exercises || []}
             handleRequestClose={(value) => this.openChooseExercises(value)}/>}
         </Grid>
       </Grid>
