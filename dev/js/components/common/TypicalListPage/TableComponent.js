@@ -24,7 +24,7 @@ import Tooltip                from 'material-ui/Tooltip';
 
 
 const DEFAULT_QUERY = {
-  per_page    : 50,
+  per_page    : 100,
   current_page: 0,
   sortedBy    : 'desc',
   orderBy     : 'title',
@@ -412,7 +412,7 @@ TableComponent.defaultProps = {
   data              : [],
   tableCellPropsFunc: () => ({}),
   CellContent       : () => null,
-  rowsPerPageOptions: [ 5, 25, 50 ], // The per page may not be greater than 50.
+  rowsPerPageOptions: [ 50, 100, 200 ], // The per page may not be greater than 50.
   url: '',
   showTestingMarker : false,
   titleTestingMarker: 'On testing',

@@ -43,7 +43,7 @@ class UniqueKey extends Component {
   };
 
   render() {
-    const { store, questionKey, id, reducer, label, disabled, grid, className} = this.props;
+    const { store, questionKey, id, reducer, label, disabled, grid, className, style} = this.props;
     const { keyIsUniqueError } = this.state;
 
    return <Grid container className={className}>
@@ -54,6 +54,7 @@ class UniqueKey extends Component {
          reducer={store[reducer]}
          label={label}
          disabled={disabled}
+         style={style}
          onChangeCustom={this.checkIfQuestionKeyValid}
        />
      </Grid>
@@ -66,7 +67,7 @@ UniqueKey.defaultProps = {
   reducer  : 'createDiagnosisQuestion',
   label    : 'Question Key',
   grid     : 12,
-  className: 'row-item'
+  className: 'row-item',
 };
 
 UniqueKey.propTypes = {
@@ -77,7 +78,8 @@ UniqueKey.propTypes = {
   reducer     : PropTypes.string.isRequired,
   disabled    : PropTypes.bool,
   grid        : PropTypes.number,
-  className   : PropTypes.string
+  className   : PropTypes.string,
+  style       : PropTypes.object
 };
 
 const mapStateToProps = state => ({store: state, errorsStore: state.createDiagnosisQuestion.errors});

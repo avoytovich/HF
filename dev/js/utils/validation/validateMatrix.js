@@ -32,6 +32,13 @@ export const validateMatrix = data => {
         tooLong : tooLong('Key')
       },
     },
+    app_title: {
+      length: {
+        minimum: 2,
+        tokenizer: minimizeString,
+        tooShort: tooShort('App title'),
+      },
+    },
     [bCN('question', 'en')] : {
       length:{
         minimum :2,
