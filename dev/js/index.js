@@ -58,6 +58,7 @@ const router = (
 
           <Route path={PAGE.personalCabinet} component={C.PersonalCabinetMain}>
             <Route path={PAGE.personalCabinetUsers}  component={C.PersonalCabinetUsers} />
+            <Route path={PAGE.personalCabinetUserProfile}  component={C.SimpleUserProfile} />
             <Route path={PAGE.personalCabinetProfile}  component={C.PersonalCabinetProfile} />
             <Route path={PAGE.personalCabinetBilling}  component={C.PersonalCabinetBilling} />
           </Route>

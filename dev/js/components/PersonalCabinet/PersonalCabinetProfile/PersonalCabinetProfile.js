@@ -59,7 +59,7 @@ class Profile extends Component {
   }
 
   componentWillMount (){
-    getProfileWired(this.props.userReducer.user_id);
+    getProfileWired(this.props.userReducer.user_id, 'customers');
   }
 
   _getUsers = ()=>{
@@ -135,12 +135,12 @@ class Profile extends Component {
     if(this.props.createSimpleUsersReducers.files.length){
       userCreateByCSV('users', 'createSimpleUserByCSV', result)
         .then(this.setState({showCreateUserModal:false}))
-      getProfileWired(this.props.userReducer.user_id);
+      getProfileWired(this.props.userReducer.user_id, 'customers');
     }
     else{
       userCreate('users', 'createSimpleUser', result)
         .then(this.setState({showCreateUserModal:false}));
-      getProfileWired(this.props.userReducer.user_id);
+      getProfileWired(this.props.userReducer.user_id, 'customers');
     }
 
   };

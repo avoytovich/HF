@@ -74,6 +74,13 @@ export const activateUser = (domenKey, apiKey, ids, value) => {
   return Promise.all(apiList).then(res => res)
 };
 
+export const deleteUser = (domenKey, apiKey, ids) => {
+  const domenPath = domen[domenKey],
+    apiPath   = api[apiKey],
+    apiList   = ids.map(item => Api.delete(`${domenPath}${apiPath}${item.user_id}`));
+  return Promise.all(apiList).then(res => res)
+};
+
 export const deleteItem = (domenKey, apiKey, ids) => {
   const domenPath = domen[domenKey],
     apiPath   = api[apiKey],

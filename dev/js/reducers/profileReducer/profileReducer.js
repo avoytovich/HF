@@ -2,8 +2,10 @@ import { createReducer } from '../../utils';
 import { PROFILE } from '../../actions';
 
 const initialState = {
+  actionType:  PROFILE,
+  errors: {},
 };
 
-const userReducer = createReducer(initialState, PROFILE);
+const profileReducer = createReducer(initialState, PROFILE);
 
-export default userReducer
+export default profileReducer
