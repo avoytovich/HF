@@ -73,13 +73,13 @@ export const DIAGNOSIS_TAB = {
   title: 'Diagnosis',
   tableHeader: [
     { title: 'Name', key: 'title', className: 'left' },
-    {
-      title: 'Pain Areas',
-      key: 'areas',
-      className: 'center',
-      sortKey: '--',
-      type: 'areas'
-    },
+    // {
+    //   title: 'Pain Areas',
+    //   key: 'areas',
+    //   className: 'center',
+    //   sortKey: '--',
+    //   type: 'areas'
+    // },
     { title: 'Key',         key: 'key',         className: 'left'                                        },
     { title: 'Sequence',    key: 'step',        className: 'center', type: 'number', format: ''          },
     { title: 'Live',        key: 'testing',         className: 'left',type: 'in_testing'        },
@@ -115,7 +115,7 @@ export const CONDITIONS_TAB = {
   title: 'ConditionsTab',
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                        },
-    { title: 'Pain Areas', key: 'areas',      className: 'center', sortKey: '--', type: 'areas'        },
+    // { title: 'Pain Areas', key: 'areas',      className: 'center', sortKey: '--', type: 'areas'        },
     { title: 'Key',        key: 'key',        className: 'left'                                        },
     { title: 'Live',       key: 'testing',         className: 'left',type: 'in_testing'      },
     // { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT     },
@@ -128,7 +128,7 @@ export const TREATMENTS_TAB = {
   title: 'TreatmentsTab',
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left'                                       },
-    { title: 'Pain Areas', key: 'areas',      className: 'center', sortKey: '--', type: 'areas'       },
+    // { title: 'Pain Areas', key: 'areas',      className: 'center', sortKey: '--', type: 'areas'       },
     { title: 'Key',        key: 'key',        className: 'left'                                       },
     { title: 'Live',       key: 'testing',    className: 'left',type: 'in_testing'               },
     // { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT    },
@@ -141,7 +141,7 @@ export const PACKAGES_TAB = {
   title: 'PackagesTab',
   tableHeader: [
     { title: 'Name',       key: 'title',      className: 'left',   sortKey: 'title'                   },
-    { title: 'Pain Areas', key: 'areas.data', className: 'center', sortKey: '--', type: 'areas'       },
+    // { title: 'Pain Areas', key: 'areas.data', className: 'center', sortKey: '--', type: 'areas'       },
     { title: 'Key',        key: 'key',        className: 'left'                                       },
     { title: 'Live',       key: 'testing_mode', className: 'left',type: 'in_testing'     },
     // { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT    },

@@ -18,6 +18,18 @@ class ClinicsUsers extends Component {
     showDeactivateModal:false,
   };
 
+  _tableCellPropsFunc = (row, col) => {
+    if (col.key === 'user_id') {
+      return {
+        onClick: (e) => {
+          e.stopPropagation();
+          browserHistory.push(`${this.props.location.pathname}/${row.user_id}/profile`);
+        }
+      }
+    }
+    return {};
+  };
+
   onRowClick = (selected = []) => this.setState({selected});
 
   onSelectAllClick = (selected) => this.setState({selected});
@@ -111,6 +123,7 @@ class ClinicsUsers extends Component {
           onRowClick={this.onRowClick}
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
+          tableCellPropsFunc={this._tableCellPropsFunc}
         />
 
       </div>

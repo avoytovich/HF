@@ -102,7 +102,7 @@ class UserListControls extends Component {
                 id="fade-menu"
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
-                onClose={this.handleClose}
+                onRequestClose={this.handleClose}
               >
                 <MenuItem onClick={()=>this.filterUsers()}>All Users</MenuItem>
                 <MenuItem onClick={()=>this.filterUsers('simple')}>Heal Users</MenuItem>

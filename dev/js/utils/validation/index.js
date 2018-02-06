@@ -1,4 +1,4 @@
-import { T } from '../../actions';
+import { T ,PROFILE} from '../../actions';
 
 import validSignup from './validateAuth';
 import { validAssets } from './validAssets';
@@ -23,4 +23,5 @@ export const validate = {
   [T.CREATE_SIMPLE_USERS]    : validSimpleUsersCreation,
   [T.TESTING]         : validateTesting,
   [T.CREATE_QUESTION] : validateMatrix,
+  [PROFILE]           : validSimpleUsersCreation,
 };

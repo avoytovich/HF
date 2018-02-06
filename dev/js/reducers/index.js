@@ -5,6 +5,7 @@ import notifierReducer            from './commonReducers/notifierReducer';
 import commonReducer              from './commonReducers/commonReducer';
 import userReducer                from './userReducer/userReducer';
 import profileReducer             from './profileReducer/profileReducer';
+import simpleUserProfileReducer   from './profileReducer/simpleUserProfileReducer';
 import chatReducer                from './chatReducers/chatReducer';
 import messageListReducer         from './chatReducers/messageListReducer';
 import * as authReducers          from './authReducers';
@@ -24,6 +25,7 @@ const rootReducer = persistCombineReducers(config, {
   commonReducer,
   userReducer,
   profileReducer,
+  simpleUserProfileReducer,
   chatReducer,
   messageListReducer,
   ...authReducers,

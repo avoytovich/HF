@@ -66,7 +66,7 @@ class PersonalCabinetBilling extends Component {
   }
 
   componentWillMount (){
-    getProfileWired(this.props.userReducer.user_id);
+    getProfileWired(this.props.userReducer.user_id,'customers');
   }
 
   _renderItem =(el, index, profileReducer)=>{
@@ -100,7 +100,6 @@ class PersonalCabinetBilling extends Component {
         </div>
         <div><Grid className={classes.root}
                    container
-                   alignItems='flex-start'
                    direction='row'
                    justify='space-around'
         >
