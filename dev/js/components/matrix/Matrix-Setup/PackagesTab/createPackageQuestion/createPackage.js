@@ -111,8 +111,6 @@ class CreatePackageComponent extends Component {
       testing_mode
     };
 
-    console.log(result);
-
     submitTabs(
       validValue,
       errors,

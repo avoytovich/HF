@@ -6,18 +6,21 @@ import Typography              from 'material-ui/Typography';
 import IconButton              from 'material-ui/IconButton';
 import {
   updateCrateQuestionFields,
-  getPackageLevel
+  getPackageLevel,
+  notifier
 }                              from '../../../../../actions';
 import { connect }             from 'react-redux';
 import { bindActionCreators }  from 'redux';
 import Grid                    from 'material-ui/Grid';
-import { get }                 from 'lodash';
+import { debounce, get }       from 'lodash';
 import Input                   from '../../../../common/Input/Input';
 
 
 class PackageExercises extends Component  {
     state = { list: [], error: false };
     componentDidMount() {
+      this.sendNotification = debounce(this.sendNotification, 500, {leading:false, trailing:true});
+
       this.props.exercises.length &&
       getPackageLevel('exercises', 'getExercises', this.props.exercises.map(({id}) => id), this.props.level)
         .then(({data}) => {
@@ -42,27 +45,28 @@ class PackageExercises extends Component  {
       updateCrateQuestionFields(filtered, `packageLevels[${this.props.level}].exercises`)
     };
 
+  sendNotification = (level) =>
+    notifier({
+      title: 'Invalid probabilities sum count',
+      message: `Please, check Level ${ level + 1 }!`,
+      status: 'error',
+    });
 
-    onProbabilityChange = (event, level, index) => {
+  handleProbabilityChange = (event, level, index) => {
       const value = event.target.value ? event.target.value / 100 : '';
-//      const list = this.state.list.map((item, i) => {
-//        debugger;
-//        if (index === i) {
-//          return Object.assign({}, item, {probability: value});
-//        }
-//        return item;
-//      });
-//      const tooMuch = list.reduce((result, item) => {
-//        if (item) {
-//          return result + +item.probability;
-//        }
-//        return item;
-//      }, 0);
-//      this.setState({list, error: tooMuch > 100});
-//      console.log('error', this.state.error)
+      updateCrateQuestionFields(value, `packageLevels.${level}.exercises.${index}.probability`);
 
+      const list = get(this.props.createDiagnosisQuestion, `packageLevels.${level}.exercises`);
+      const sum = list.reduce((result, item) => {
+        if (item) {
+          return result + (item.probability || 0);
+        }
+        return result;
+      }, 0);
 
-      updateCrateQuestionFields(value, `packageLevels.${level}.exercises.${index}.probability`)
+      if (sum > 1) {
+        this.sendNotification(level);
+      }
     };
 
     render() {
@@ -91,11 +95,11 @@ class PackageExercises extends Component  {
              <div>
                <Input
                  type="number"
-                 value={probability ? probability * 100 : probability}
+                 value={probability ? (probability * 100).toFixed(0) : probability}
                  id={`packageLevels.${level}.exercises.${index}.probability`}
                  reducer={createDiagnosisQuestion}
                  label={ 'Probability' }
-                 onChangeCustom={event => this.onProbabilityChange(event, level, index)}
+                 onChangeCustom={event => this.handleProbabilityChange(event, level, index)}
                />
              </div>
 
