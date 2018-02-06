@@ -13,6 +13,7 @@ export const getUser = () => Api.get(`${domen.users}${api.userOwn}`);
 export const getUserWired = () => getUser()
   .then(response => {
     dispatchUserPayloadWired(response.data.data);
-    response.data.data.role === 'admin'? browserHistory.push(PAGE.home):
+    response.data.data.role === 'admin'?
+      browserHistory.push(PAGE.home):
       browserHistory.push(PAGE.personalCabinetProfile);
   });
