@@ -110,6 +110,7 @@ class CreatePackageComponent extends Component {
       testing_mode
     };
 
+
     submitTabs(
       validValue,
       errors,
@@ -289,7 +290,7 @@ class CreatePackageComponent extends Component {
             </div>
 
             {packageLevels.map((level, index) => {
-              const { therapy_continuity, exercise_ids} = level;
+              const { therapy_continuity, exercises} = level;
               return <div className="tab-item"
                           key={index}>
                 {
@@ -299,7 +300,7 @@ class CreatePackageComponent extends Component {
                     index={index}
                     level={level}
                     therapy_continuity={therapy_continuity}
-                    exercise_ids={exercise_ids}
+                    exercises={exercises}
                     changeTab={this.changeLastSelectedIndex}
                   />
                 }

@@ -27,8 +27,9 @@ class PackageExercisesModal extends Component {
   };
 
   componentDidMount() {
-    this.setState({selected:this.props.isSelected});
-    getExercises('exercises', 'exercises').then(list => this.setState({list}));
+    const selected = this.props.isSelected.map(item => item && item.id);
+    getExercises('exercises', 'exercises')
+      .then(list => this.setState({list, selected}));
   }
 
   onSelect = (event, value) => {
@@ -38,8 +39,16 @@ class PackageExercisesModal extends Component {
     this.setState({selected});
   };
 
-  save = (selected) => {
-    updateCrateQuestionFields(selected, `packageLevels[${this.props.level}].exercise_ids`);
+  save = (selected, oldList) => {
+    const list = selected.reduce((result, item) => {
+      if (item) {
+        const wasSelected = oldList.find(el => el && `${el.id}` === `${item}`);
+        const correctValue = wasSelected || { id: +item, probability: 0 };
+        return result.concat(correctValue);
+      }
+      return [];
+    }, []);
+    updateCrateQuestionFields(list, `packageLevels[${this.props.level}].exercises`);
     this.props.handleRequestClose(false);
   };
 
@@ -50,7 +59,7 @@ class PackageExercisesModal extends Component {
   Transition = (props) => <Slide direction="up" {...props} />;
 
   render() {
-    const { open, handleRequestClose } = this.props;
+    const { open, handleRequestClose, isSelected } = this.props;
     const { selected, list } = this.state;
 
     return (
@@ -74,7 +83,7 @@ class PackageExercisesModal extends Component {
               </Typography>
             </div>
 
-            <Button color="inherit" onClick={() => this.save(selected)}>
+            <Button color="inherit" onClick={() => this.save(selected, isSelected)}>
               Save
             </Button>
 
@@ -126,7 +135,7 @@ class PackageExercisesModal extends Component {
       </Dialog>
     );
   }
-};
+}
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
