@@ -6,7 +6,7 @@ import  map                 from 'lodash/map';
 
 const language = [
   {label:'English',value:'English'},
-  {label:'Swedish',value:'Swedish'}]
+  {label:'Swedish',value:'Swedish'}];
 
 class CreateSimpleUser extends Component {
 

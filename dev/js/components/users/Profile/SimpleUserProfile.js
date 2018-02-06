@@ -5,7 +5,8 @@ import Paper                    from 'material-ui/Paper';
 import Grid                     from 'material-ui/Grid';
 import { withStyles }           from 'material-ui/styles';
 import  get                     from 'lodash/get';
-import  map                     from 'lodash/map'
+import  map                     from 'lodash/map';
+import  split                     from 'lodash/split';
 import Modal                    from '../../common/Modal/Modal';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal'
 import EditSimpleUser           from '../CreateUser/EditSimpleUser';
@@ -64,7 +65,7 @@ class Profile extends Component {
   }
 
   componentWillMount (){
-    getProfileWired(this.props.params.id, 'users');
+    getProfileWired(this.props.params.userId, 'users');
   }
 
   _renderItem =(el, index, profileReducer)=>{
@@ -91,7 +92,8 @@ class Profile extends Component {
   };
 
   _returnFunc = () => {
-    browserHistory.push('/personal-cabinet/users');
+    const returnUrl = split(this.props.route.path, '/:userId/', 1);
+    browserHistory.push(returnUrl[0]);
   };
 
   _toggleEditSimpleUserModal = () => this.setState({ showEditSimpleUserModal: !this.state.showEditSimpleUserModal });
@@ -105,8 +107,8 @@ class Profile extends Component {
    if(this.props.profileReducer.deactivated_at){
      action = 'activate';
    }
-   activateUser('users', 'userProfile', [{user_id: this.props.params.id}], action)
-     .then(() => getProfileWired(this.props.params.id, 'users'));
+   activateUser('users', 'userProfile', [{user_id: this.props.params.userId}], action)
+     .then(() => getProfileWired(this.props.params.userId, 'users'));
  };
 
   _formatTime = (data) => {
@@ -114,8 +116,9 @@ class Profile extends Component {
   };
 
   _deleteUser = ()=>{
-    deleteUser('users', 'userProfile', [{user_id: this.props.params.id}])
-      .then(() => browserHistory.push('/personal-cabinet/users'));
+    const returnUrl = split(this.props.route.path, '/:userId/', 1);
+    deleteUser('users', 'userProfile', [{user_id: this.props.params.userId}])
+      .then(() => browserHistory.push(returnUrl[0]));
   };
 
   _editSimpleUser= ()=>{
@@ -123,7 +126,6 @@ class Profile extends Component {
   };
 
   render() {
-    console.log(this.props);
     const {showEditSimpleUserModal, showDeleteUserModal} = this.state;
     const {
       classes,

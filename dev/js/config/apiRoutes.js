@@ -111,7 +111,9 @@ export const PAGE = {
   clinicProfile     : '/clinic/:id/profile',
   companyProfile    : '/company/:id/profile',
   companyOwnUsers   : '/company/:id/users',
+  companyOwnUsersProfile   : '/company/:id/users/:userId/profile',
   clinicOwnUsers    : '/clinic/:id/users',
+  clinicOwnUsersProfile   : '/clinic/:id/users/:userId/profile',
   matrixSetup       : '/matrix-setup',
   chat              : '/chat',
   diagnosis         : '/matrix-setup/diagnosis',
@@ -120,6 +122,9 @@ export const PAGE = {
   evaluations       : '/matrix-setup/evaluations',
   simpleUsers       : '/users-simple',
   organizationsUsers: '/users-organizations',
+  clinicsUsersProfile      : '/users-clinics/:userId/profile',
+  simpleUsersProfile       : '/users-simple/:userId/profile',
+  organizationsUsersProfile: '/users-organizations/:userId/profile',
   clinicsUsers      : '/users-clinics',
   levelUps          : '/matrix-setup/levelUps',
   packages          : '/matrix-setup/packages',
@@ -128,7 +133,7 @@ export const PAGE = {
 
   personalCabinet     :  'personal-cabinet',
   personalCabinetUsers : '/personal-cabinet/users',
-  personalCabinetUserProfile : '/personal-cabinet/users/:id/profile',
+  personalCabinetUserProfile : '/personal-cabinet/users/:userId/profile',
   personalCabinetProfile : '/personal-cabinet/profile',
   personalCabinetBilling : '/personal-cabinet/billing',
 };
