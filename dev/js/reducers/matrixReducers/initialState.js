@@ -42,7 +42,7 @@ const packageTab = {
         package_level_days    : 1
       },
       therapy_continuity: '1',
-      exercise_ids: []
+      exercises: []
     }
   ],
   testing_mode  : false,

@@ -30,7 +30,6 @@ class PackageExercises extends Component  {
         nextProps.exercises.length ?
           getPackageLevel('exercises', 'getExercises', nextProps.exercises.map(({id}) => id), nextProps.level)
             .then(({data}) => {
-
               this.setState({list: data})
             }) :
           this.setState({list: []});
@@ -44,32 +43,37 @@ class PackageExercises extends Component  {
     };
 
 
-    onProbabilityChange = (event, index) => {
-      const value = event.target.value;
-      const list = this.state.list.map((item, i) => {
-        debugger;
-        if (index === i) {
-          return Object.assign({}, item, {probability: value});
-        }
-        return item;
-      });
-      const tooMuch = list.reduce((result, item) => {
-        if (item) {
-          return result + +item.probability;
-        }
-        return item;
-      }, 0);
+    onProbabilityChange = (event, level, index) => {
+      const value = event.target.value ? event.target.value / 100 : '';
+//      const list = this.state.list.map((item, i) => {
+//        debugger;
+//        if (index === i) {
+//          return Object.assign({}, item, {probability: value});
+//        }
+//        return item;
+//      });
+//      const tooMuch = list.reduce((result, item) => {
+//        if (item) {
+//          return result + +item.probability;
+//        }
+//        return item;
+//      }, 0);
 //      this.setState({list, error: tooMuch > 100});
 //      console.log('error', this.state.error)
+
+
+      updateCrateQuestionFields(value, `packageLevels.${level}.exercises.${index}.probability`)
     };
 
     render() {
-      const { level, createDiagnosisQuestion } = this.props;
+      const { level, createDiagnosisQuestion, createDiagnosisQuestion: { packageLevels } } = this.props;
       return (
         <Grid item xs={12} className="package-level-exercises-list">
           {this.state.list.map((item, index) => {
            const { id, title, created_at } = item;
            const created = moment.unix(created_at).format(TIME_FORMAT_DOTS);
+
+           const probability = get( packageLevels, `[${level}].exercises[${index}].probability`);
            return <div key={index} className="package-level-exercises-item">
 
              <div className="exercises-information">
@@ -87,9 +91,11 @@ class PackageExercises extends Component  {
              <div>
                <Input
                  type="number"
+                 value={probability ? probability * 100 : probability}
                  id={`packageLevels.${level}.exercises.${index}.probability`}
                  reducer={createDiagnosisQuestion}
                  label={ 'Probability' }
+                 onChangeCustom={event => this.onProbabilityChange(event, level, index)}
                />
              </div>
 

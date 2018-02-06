@@ -51,7 +51,7 @@ export const DEFAULT_LEVEL = {
     therapy_continuity    : 1
   },
   therapy_continuity: '1',
-  exercise_ids      : [],
+  exercises         : [],
 };
 
 class CreatePackageComponent extends Component {
@@ -106,10 +106,12 @@ class CreatePackageComponent extends Component {
       areaIds  : areaIds,
       title    : questionTitle,
       type     : packageType,
+      app_title: 'fghjkl',
       package_levels : packageLevels,
       testing_mode
     };
 
+    console.log(result);
 
     submitTabs(
       validValue,
@@ -144,7 +146,7 @@ class CreatePackageComponent extends Component {
         session_count : '1'
       },
       therapy_continuity: '1',
-      exercise_ids      : [],
+      exercises      : [],
     });
     updateCrateQuestionFields(newList, 'packageLevels');
   };
