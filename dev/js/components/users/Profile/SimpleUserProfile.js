@@ -29,6 +29,7 @@ const styles = theme => ({
   },
   paper:{
     margin: '10px',
+    padding: '20px 0',
     display:'flex',
     width:'100%',
   }
@@ -104,17 +105,15 @@ class Profile extends Component {
    if(this.props.profileReducer.deactivated_at){
      action = 'activate';
    }
-  console.log(action);
    activateUser('users', 'userProfile', [{user_id: this.props.params.id}], action)
      .then(() => getProfileWired(this.props.params.id, 'users'));
  };
 
   _formatTime = (data) => {
-    return moment.unix(data).format('DD MMM YYYY')
+    return data ? moment.unix(data).format('DD MMM YYYY') : '-'
   };
 
   _deleteUser = ()=>{
-    console.log('delete!!!');
     deleteUser('users', 'userProfile', [{user_id: this.props.params.id}])
       .then(() => browserHistory.push('/personal-cabinet/users'));
   };
@@ -138,15 +137,12 @@ class Profile extends Component {
         <ArrowRight className="arrow-right-icon" />
         <span className="profile-name"> User Profile </span>
 
-        {/*<Button raised className={classes.button} onClick={this._openEditModal}>*/}
-          {/*<EditIcon /> Edit*/}
-        {/*</Button>*/}
-
       </div>
       <Grid className={classes.root}
             container
             direction='row'
             justify='space-around'
+            alignItems='flex-start'
       >
         <Grid item xs={12} sm={6} className = 'information-block'>
           <Paper className={classes.paper}>
@@ -194,7 +190,6 @@ class Profile extends Component {
                   <div className="users-count" onClick={this._toggleDeleteUserModal}> DELETE USER</div>
                 </div>
               </div>
-              <div className="profile-paper-hr"/>
             </div>
           </Paper>
         </Grid>
@@ -234,7 +229,7 @@ class Profile extends Component {
 }
 
 const mapStateToProps = state => ({
-  profileReducer: state.profileReducer,
+  profileReducer: state.simpleUserProfileReducer,
   createSimpleUsersReducers: state.createSimpleUsersReducers,
   userReducer:state.userReducer
 });

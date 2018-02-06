@@ -33,7 +33,7 @@ class CreateSimpleUser extends Component {
 }
 
 const mapStateToProps = state => ({
-  profileReducer: state.profileReducer
+  profileReducer: state.simpleUserProfileReducer
 });
 
 export default connect(mapStateToProps)(CreateSimpleUser);
