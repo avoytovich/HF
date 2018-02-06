@@ -271,17 +271,18 @@ const configPackageLevelList = (data) => {
       levelsList:[]
     })) :
     [];
-}
+};
+
 const configPackageLevel = (data) => {
   return data.reduce((result, el) => {
     if (el) {
-      const { therapy_continuity, package_id, exercise_ids, id, level, level_up_properties } = el;
+      const { therapy_continuity, package_id, exercises, id, level, level_up_properties } = el;
       const properties = Array.isArray(level_up_properties) ?
         { vas: 1, vas_min: 1, sessions: 1 }: level_up_properties;
       return result.concat({
         therapy_continuity,
         package_id,
-        exercise_ids,
+        exercises,
         id,
         level,
         level_up_properties: properties
