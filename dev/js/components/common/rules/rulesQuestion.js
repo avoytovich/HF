@@ -67,6 +67,7 @@ class RulesQuestionComponent extends Component {
                 id="simple-menu"
                 anchorEl={this.state.anchorEl}
                 open={this.state.open}
+                onRequestClose={this.handleRequestClose}
                 onClose={this.handleRequestClose}
               >
                 {this.listTypes.map((item, index) =>

@@ -40,7 +40,6 @@ class CompanyOwnUsers extends Component {
 
   _tableCellPropsFunc = (row, col) => {
     if (col.key === 'user_id') {
-      console.log(this.props)
       return {
         onClick: (e) => {
           e.stopPropagation();
@@ -107,7 +106,22 @@ class CompanyOwnUsers extends Component {
     this._toggleActivateModal(action);
     this.setState({ selected: []})
 
-  }
+  };
+
+  _toggleCSVModal=(data)=>{
+    console.log('_toggleCSVModal', data);
+    // switch(data) {
+    //   case 'add':
+    //     return {type: 'single', subtype: 'list'};
+    //   case 'range':
+    //     return {type: 'single', subtype: 'range'};
+    //   case 'multiple':
+    //     return {type: 'multiple', subtype: 'list'};
+    //   default:
+    //     console.log('Wrong type');
+    //     return {type: 'single', subtype: 'list'};
+    //       }
+  };
 
   render() {
     const { tableHeader } = USERS_TAB;
@@ -159,7 +173,9 @@ class CompanyOwnUsers extends Component {
           selected={selected}
           createItem={this.createEntity}
           createButtonText="Add"
-          searchKey="filter">
+          searchKey="filter"
+          toggleCSVModal={this._toggleCSVModal}
+          uploadCSV={true}>
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>

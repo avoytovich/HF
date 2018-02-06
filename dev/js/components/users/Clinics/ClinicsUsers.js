@@ -39,7 +39,6 @@ class ClinicOwnUsers extends Component {
 
   _tableCellPropsFunc = (row, col) => {
     if (col.key === 'user_id') {
-      console.log(this.props);
       return {
         onClick: (e) => {
           e.stopPropagation();
@@ -63,7 +62,7 @@ class ClinicOwnUsers extends Component {
 
   createEntity = () => {
     this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
-  }
+  };
 
   _returnFunc = (param) => {
     if(param==='clinic'){
