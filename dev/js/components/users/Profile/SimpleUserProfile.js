@@ -6,7 +6,8 @@ import Grid                     from 'material-ui/Grid';
 import { withStyles }           from 'material-ui/styles';
 import  get                     from 'lodash/get';
 import  map                     from 'lodash/map';
-import  split                     from 'lodash/split';
+import  split                   from 'lodash/split';
+import replace                  from 'lodash/replace';
 import Modal                    from '../../common/Modal/Modal';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal'
 import EditSimpleUser           from '../CreateUser/EditSimpleUser';
@@ -92,8 +93,9 @@ class Profile extends Component {
   };
 
   _returnFunc = () => {
-    const returnUrl = split(this.props.route.path, '/:userId/', 1);
-    browserHistory.push(returnUrl[0]);
+    let returnUrl = split(this.props.route.path, '/:userId/', 1);
+    returnUrl = replace(returnUrl[0], ':id', this.props.params.id);
+    browserHistory.push(returnUrl);
   };
 
   _toggleEditSimpleUserModal = () => this.setState({ showEditSimpleUserModal: !this.state.showEditSimpleUserModal });
@@ -116,9 +118,10 @@ class Profile extends Component {
   };
 
   _deleteUser = ()=>{
-    const returnUrl = split(this.props.route.path, '/:userId/', 1);
+    let returnUrl = split(this.props.route.path, '/:userId/', 1);
+    returnUrl = replace(returnUrl[0], ':id', this.props.params.id);
     deleteUser('users', 'userProfile', [{user_id: this.props.params.userId}])
-      .then(() => browserHistory.push(returnUrl[0]));
+      .then(() => browserHistory.push(returnUrl));
   };
 
   _editSimpleUser= ()=>{
