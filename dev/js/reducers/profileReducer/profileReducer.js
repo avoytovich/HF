@@ -4,6 +4,6 @@ import { PROFILE } from '../../actions';
 const initialState = {
 };
 
-const userReducer = createReducer(initialState, PROFILE);
+const profileReducer = createReducer(initialState, PROFILE);
 
-export default userReducer
+export default profileReducer

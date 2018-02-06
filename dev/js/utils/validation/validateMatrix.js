@@ -32,22 +32,6 @@ export const validateMatrix = data => {
         tooLong : tooLong('Key')
       },
     },
-    title: {
-      presence: {
-        message: "is required."
-      },
-      length: {
-        minimum: 2,
-      }
-    },
-    key: {
-      presence: {
-        message: "is required."
-      },
-      length: {
-        minimum: 2,
-      }
-    },
     [bCN('question', 'en')] : {
       length:{
         minimum :2,

@@ -121,6 +121,7 @@ class CreateUser extends Component {
             <div className="create-user-input-container">
               <h3 className="create-user-title">Information</h3>
               <Input id="name" reducer={createUsersReducers} label='Company / Entity Name' placeholder='Company / Entity Name'/>
+              <Input id="email" reducer={createUsersReducers} label='Email' placeholder='Email'/>
               <Input id="legal_info.vat" reducer={createUsersReducers} label='EU VAT nr.' placeholder='EU VAT nr.'/>
               <Input id="legal_info.reg_num" reducer={createUsersReducers}
                      label='Registration nr. (Non EU)' placeholder='Registration nr. (Non EU)'/>
