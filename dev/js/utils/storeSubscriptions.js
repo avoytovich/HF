@@ -32,7 +32,8 @@ export const storeSubscriptions = store =>
     } = store.getState();
 
     // set new values to [current...] variables
-    currentLanguage                    = language;
+    // in case received language prop is not set up and equals to null - set back to current val;
+    currentLanguage                    = language || currentLanguage;
     currentSandBoxChangingQuestionStep = changingQuestionStep;
     currentSandBoxResultStatus         = result_status;
 
