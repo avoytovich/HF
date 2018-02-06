@@ -46,6 +46,7 @@ const packageTab = {
     }
   ],
   testing_mode  : false,
+  app_title     : ''
 };
 
 const levelUp = {

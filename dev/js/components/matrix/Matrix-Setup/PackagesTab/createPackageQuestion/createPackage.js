@@ -93,7 +93,11 @@ class CreatePackageComponent extends Component {
   }
 
   done = (value) => {
-    const { testing_mode, areaIds, questionKey, questionTitle, packageLevels, therapyContinuity, packageType, errors } = value;
+    const {
+      testing_mode, areaIds,
+      questionKey, questionTitle,
+      packageLevels, therapyContinuity,
+      packageType, errors, app_title } = value;
     const validValue = { questionKey, questionTitle };
 
 //    const _packageLevels = packageLevels.map((el, index) => {
@@ -106,7 +110,7 @@ class CreatePackageComponent extends Component {
       areaIds  : areaIds,
       title    : questionTitle,
       type     : packageType,
-      app_title: 'fghjkl',
+      app_title,
       package_levels : packageLevels,
       testing_mode
     };
@@ -221,15 +225,30 @@ class CreatePackageComponent extends Component {
             </Grid>
 
             {/* Question Key */}
-            <UniqueKey
-              domain="diagnostics"
-              path="findByKey"
-              questionKey={questionKey}
-              label="Package Key*"
-              id="questionKey"
-              currentId={id}
-              reducer="createDiagnosisQuestion"
-            />
+            <Grid container className="row-item">
+              <Grid item md={6} sm={12}>
+                <Input
+                  id='app_title'
+                  reducer={ createDiagnosisQuestion }
+                  label={ 'App Title' }
+                  style={{width: '100%'}}
+                />
+              </Grid>
+
+              <Grid item md={6} sm={12}>
+                <UniqueKey
+                  domain="diagnostics"
+                  path="findByKey"
+                  questionKey={questionKey}
+                  label="Package Key*"
+                  id="questionKey"
+                  currentId={id}
+                  reducer="createDiagnosisQuestion"
+                  className="_"
+                  style={{width: '100%'}}
+                />
+              </Grid>
+            </Grid>
 
             <Grid container className="row-item">
               <Grid item md={6} sm={12}>
