@@ -35,13 +35,13 @@ const packageTab = {
     {
       level: 1,
       level_up_properties: {
-        vas_trend_down        : 1,
-        vas_min               : 1,
-        package_level_sessions: 1,
-        therapy_continuity    : 1,
-        package_level_days    : 1
+        vas_trend_down        : '1',
+        vas_min               : '1',
+        package_level_sessions: '1',
+        therapy_continuity    : '1',
+        package_level_days    : '1'
       },
-      therapy_continuity: '1',
+      therapy_continuity: 'daily',
       exercises: []
     }
   ],

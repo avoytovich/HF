@@ -5,7 +5,6 @@ import Button               from 'material-ui/Button';
 
 class CreateItemNavButtons extends Component {
   render() {
- console.log(this.props)
     const {
       title,
       showSwitch,
