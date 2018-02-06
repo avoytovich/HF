@@ -38,6 +38,15 @@ class ClinicOwnUsers extends Component {
   }
 
   _tableCellPropsFunc = (row, col) => {
+    if (col.key === 'user_id') {
+      console.log(this.props);
+      return {
+        onClick: (e) => {
+          e.stopPropagation();
+          browserHistory.push(`${this.props.location.pathname}/${row.user_id}/profile`);
+        }
+      }
+    }
     return {};
   };
 

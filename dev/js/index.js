@@ -58,6 +58,7 @@ const router = (
 
           <Route path={PAGE.personalCabinet} component={C.PersonalCabinetMain}>
             <Route path={PAGE.personalCabinetUsers}  component={C.PersonalCabinetUsers} />
+            <Route path={PAGE.personalCabinetUserProfile}  component={C.SimpleUserProfile} />
             <Route path={PAGE.personalCabinetProfile}  component={C.PersonalCabinetProfile} />
             <Route path={PAGE.personalCabinetBilling}  component={C.PersonalCabinetBilling} />
           </Route>
@@ -71,6 +72,9 @@ const router = (
             <Route path={PAGE.simpleUsers}        component={C.SimpleUsers} />
             <Route path={PAGE.organizationsUsers} component={C.OrganizationsUsers} />
             <Route path={PAGE.clinicsUsers}       component={C.ClinicsUsers} />
+            <Route path={PAGE.simpleUsersProfile}        component={C.SimpleUserProfile} />
+            <Route path={PAGE.organizationsUsersProfile} component={C.SimpleUserProfile} />
+            <Route path={PAGE.clinicsUsersProfile}       component={C.SimpleUserProfile} />
 
             <Route path={PAGE.assets}             component={C.AssetsComponent} >
                 <IndexRedirect to={PAGE.assetsDiagnostics}/>
@@ -82,6 +86,8 @@ const router = (
         <Route path={PAGE.companyProfile}      component={C.Profile} />
         <Route path={PAGE.clinicOwnUsers}      component={C.ClinicOwnUsers} />
         <Route path={PAGE.companyOwnUsers}      component={C.CompanyOwnUsers} />
+        <Route path={PAGE.companyOwnUsersProfile}     component={C.SimpleUserProfile} />
+        <Route path={PAGE.clinicOwnUsersProfile}      component={C.SimpleUserProfile} />
         <Route path={PAGE.test}               component={C.TestsList} />
         <Route path={PAGE.testNew}            component={C.TestNew} />
 

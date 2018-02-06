@@ -35,6 +35,18 @@ class PersonalCabinetUsers extends Component {
     return true;
   }
 
+  _tableCellPropsFunc = (row, col) => {
+    if (col.key === 'email') {
+      return {
+        onClick: (e) => {
+          e.stopPropagation();
+          browserHistory.push(`/personal-cabinet/users/${row.user_id}/profile`);
+        }
+      }
+    }
+    return {};
+  };
+
   onRowClick = (selected = []) => this.setState({selected});
 
   onSelectAllClick = (selected) => this.setState({selected});
@@ -85,7 +97,6 @@ class PersonalCabinetUsers extends Component {
       .then(() => browserHistory.push(`/personal-cabinet/users?current_page=${currentPage}`));
     this._toggleActivateModal(action);
     this.setState({ selected: []})
-
   };
 
   render() {
@@ -158,6 +169,7 @@ class PersonalCabinetUsers extends Component {
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
           tableTitle = 'Users'
+          tableCellPropsFunc={this._tableCellPropsFunc}
         />
 
         <Modal

@@ -22,8 +22,7 @@ class HeaderAssets extends Component {
     else{
        userType = 'organization';
     }
-    const result = {...this.props.createUsersReducers, ...{type: userType, entryFee: 100,
-      email: get(this.props.createUsersReducers,'contact_info.contacts[0].email')}};
+    const result = {...this.props.createUsersReducers, ...{type: userType, entryFee: 100}};
 
     if(get(this.props,'userInfo.actionType') ==='create'){
       userCreate('users', 'customers', result)

@@ -9,9 +9,9 @@ import {
   PAGE,
 } from '../../config';
 
-export const getProfile = (id) => Api.get(`${domen.users}/customers/${id}`);
+export const getProfile = (id, url) => Api.get(`${domen.users}/${url}/${id}`);
 
-export const getProfileWired = (id) => getProfile(id)
+export const getProfileWired = (id, url) => getProfile(id, url)
   .then(response => {
     dispatchProfilePayloadWired(get(response,'data.data', {}));
   });

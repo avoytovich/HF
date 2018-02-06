@@ -7,6 +7,7 @@ import Companies                from '../components/users/Companies/Companies';
 import Clinics                  from '../components/users/Clinics/Clinics';
 import ClinicOwnUsers           from '../components/users/Clinics/ClinicsUsers';
 import Profile                  from '../components/users/Profile/Profile';
+import SimpleUserProfile        from '../components/users/Profile/SimpleUserProfile';
 import SimpleUsers              from '../components/users/Users/SimpleUsers';
 import OrganizationsUsers       from '../components/users/Users/OrganizationsUsers';
 import ClinicsUsers             from '../components/users/Users/ClinicsUsers';
@@ -37,6 +38,7 @@ export const C = {
   ClinicOwnUsers,
   CompanyOwnUsers,
   Profile,
+  SimpleUserProfile,
   SimpleUsers,
   OrganizationsUsers,
   ClinicsUsers,
