@@ -8,6 +8,7 @@ export const TABLE           = 'TABLE';
 export const CREATE_QUESTION = 'CREATE_QUESTION';
 export const PROFILE         = 'PROFILE';
 export const CREATE_USERS    = 'CREATE_USERS';
+export const CSV_FILE        = 'CSV_FILE';
 
 export const T = {
   USER                                      : 'USER',

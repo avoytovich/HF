@@ -6,15 +6,18 @@ import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import ArrowRight              from 'material-ui-icons/KeyboardArrowRight';
-import { get, map }             from 'lodash';
+import get                      from 'lodash/get';
+import  map                     from 'lodash/map';
 import Modal                    from '../../common/Modal/Modal';
+import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
 import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
-import { userCreate,
-     userCreateByCSV}           from '../../../actions';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal';
-import { activateUser }         from '../../../actions';
+import { activateUser,
+  toggleCSVModal,
+  userCreate,
+  dispatchCreateSimpleUserPayloadWired}              from '../../../actions';
 
 import {
   PAGE,
@@ -28,6 +31,7 @@ class ClinicOwnUsers extends Component {
     showCreateUserModal: false,
     showActivateModal:false,
     showDeactivateModal:false,
+    showCSVUploadModal: false,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -39,7 +43,6 @@ class ClinicOwnUsers extends Component {
 
   _tableCellPropsFunc = (row, col) => {
     if (col.key === 'user_id') {
-      console.log(this.props);
       return {
         onClick: (e) => {
           e.stopPropagation();
@@ -63,7 +66,7 @@ class ClinicOwnUsers extends Component {
 
   createEntity = () => {
     this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
-  }
+  };
 
   _returnFunc = (param) => {
     if(param==='clinic'){
@@ -77,23 +80,19 @@ class ClinicOwnUsers extends Component {
   _toggleDeleteModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
   _createSimpleUser =() =>{
+    console.log(this.props);
+    let location = get(this.props,'location.search');
     const result = {
       customer_id: this.props.params.id,
       email: this.props.createSimpleUsersReducers.email,
-      files: this.props.createSimpleUsersReducers.files,
     };
 
-    if(this.props.createSimpleUsersReducers.files.length){
-      userCreateByCSV('users', 'createSimpleUserByCSV', result)
-        .then(this.setState({showCreateUserModal:false}))
-      browserHistory.push(`/clinic/${this.props.params.id}/users`)
-    }
-    else{
-      userCreate('users', 'createSimpleUser', result)
-        .then(this.setState({showCreateUserModal:false}));
-      browserHistory.push(`/clinic/${this.props.params.id}/users`)
-    }
-
+    userCreate('users', 'createSimpleUser', result)
+      .then(()=>{
+        this.setState({showCreateUserModal:false});
+        dispatchCreateSimpleUserPayloadWired({email:''});
+        browserHistory.push(`/clinic/${this.props.params.id}/users${location}`);
+      });
   };
 
   _toggleActivateModal = (data) => {
@@ -107,11 +106,15 @@ class ClinicOwnUsers extends Component {
     this._toggleActivateModal(action);
     this.setState({ selected: []})
 
-  }
+  };
+
+  _toggleCSVModal=(data)=>{
+    toggleCSVModal(data, this, `/clinic/${this.props.params.id}/users`,this.props.params.id)
+  };
 
   render() {
     const { tableHeader } = USERS_TAB;
-    const { selected, showActivateModal, showCreateUserModal, showDeactivateModal} = this.state;
+    const { selected, showActivateModal, showCreateUserModal, showDeactivateModal, showCSVUploadModal} = this.state;
     const { profileReducer } = this.props;
     const querySelector = {...this.props.location.query,...{type: 'clinic', store:{}}};
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
@@ -159,7 +162,9 @@ class ClinicOwnUsers extends Component {
           selected={selected}
           createItem={this.createEntity}
           createButtonText="Add"
-          searchKey="filter">
+          searchKey="filter"
+          toggleCSVModal={this._toggleCSVModal}
+          uploadCSV={true}>
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
@@ -195,6 +200,15 @@ class ClinicOwnUsers extends Component {
           CustomContent={() => <CreateSimpleUser />}
         />
 
+        <Modal
+          itemName="name_real"
+          open={showCSVUploadModal}
+          title={this.state.CSVUploadModalTitle}
+          toggleModal={this._toggleCSVModal}
+          onConfirmClick={() => this.state.CSVUploadModalConfirm()}
+          CustomContent={() => <CSVUploadModal />}
+        />
+
       </div>
     )
   }
@@ -204,6 +218,7 @@ const mapStateToProps = state => ({
   store: state.tables.clinicOwnUsers,
   profileReducer: state.profileReducer,
   createSimpleUsersReducers: state.createSimpleUsersReducers,
+  CSVFileReducer :state.CSVFileReducer,
 });
 
 export default  connect(mapStateToProps)(ClinicOwnUsers);

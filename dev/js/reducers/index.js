@@ -4,6 +4,7 @@ import storage                    from 'redux-persist/es/storage' // default: lo
 import notifierReducer            from './commonReducers/notifierReducer';
 import commonReducer              from './commonReducers/commonReducer';
 import userReducer                from './userReducer/userReducer';
+import CSVFileReducer             from './CSVFileReducer/CSVFileReducer'
 import profileReducer             from './profileReducer/profileReducer';
 import simpleUserProfileReducer   from './profileReducer/simpleUserProfileReducer';
 import chatReducer                from './chatReducers/chatReducer';
@@ -28,6 +29,7 @@ const rootReducer = persistCombineReducers(config, {
   simpleUserProfileReducer,
   chatReducer,
   messageListReducer,
+  CSVFileReducer,
   ...authReducers,
   ...assetsReducer,
   ...createUsersReducers,
