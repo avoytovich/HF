@@ -156,10 +156,12 @@ class BodyModel extends Component {
       // last element need to be removed (spot the same as the first one due to leaflat stupid nature ->
       // http://leafletjs.com/reference-1.3.0.html#polygon
       latlng[0].pop();
-      dispatchBodyModelWired({
-        // saving polygon for each side.sex : [[lat, lan][...][...]], reversing due to leaflat stupid nature
-        [`currentlyDrawingPolygon.${side}.${sex}`]: latlng[0].map(ll => new L.LatLng(...ll.reverse())),
-      });
+      if (latlng[0].length) {
+        dispatchBodyModelWired({
+          // saving polygon for each side.sex : [[lat, lan][...][...]], reversing due to leaflat stupid nature
+          [`currentlyDrawingPolygon.${side}.${sex}`]: latlng[0].map(ll => new L.LatLng(...ll.reverse())),
+        });
+      }
     });
     this._onChange();
   };
