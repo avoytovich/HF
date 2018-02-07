@@ -12,7 +12,6 @@ class Dropzone extends Component {
 
     return (
       <DropzoneLib
-        accept={fileTypes}
         className="dropzone"
         activeClassName="dropzone-active"
         onDrop={onDrop}

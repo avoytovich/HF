@@ -1,23 +1,28 @@
-import React, { Component }  from 'react';
-import Delete                from 'material-ui-icons/Delete';
-import * as moment           from 'moment';
-import { TIME_FORMAT_DOTS }  from '../../../../../utils/constants/pageContent';
-import Typography            from 'material-ui/Typography';
-import IconButton            from 'material-ui/IconButton';
+import React, { Component }    from 'react';
+import Delete                  from 'material-ui-icons/Delete';
+import * as moment             from 'moment';
+import { TIME_FORMAT_DOTS }    from '../../../../../utils/constants/pageContent';
+import Typography              from 'material-ui/Typography';
+import IconButton              from 'material-ui/IconButton';
 import {
   updateCrateQuestionFields,
-  getPackageLevel
-}                             from '../../../../../actions';
-import { connect }                from 'react-redux';
-import { bindActionCreators }     from 'redux';
-import Grid                       from 'material-ui/Grid';
-import { get }                      from 'lodash';
+  getPackageLevel,
+  notifier
+}                              from '../../../../../actions';
+import { connect }             from 'react-redux';
+import { bindActionCreators }  from 'redux';
+import Grid                    from 'material-ui/Grid';
+import { debounce, get }       from 'lodash';
+import Input                   from '../../../../common/Input/Input';
+
 
 class PackageExercises extends Component  {
-    state = { list: [] };
+    state = { list: [], error: false };
     componentDidMount() {
+      this.sendNotification = debounce(this.sendNotification, 500, {leading:false, trailing:true});
+
       this.props.exercises.length &&
-      getPackageLevel('exercises', 'getExercises', this.props.exercises, this.props.level)
+      getPackageLevel('exercises', 'getExercises', this.props.exercises.map(({id}) => id), this.props.level)
         .then(({data}) => {
           this.setState({list: data})
         });
@@ -26,7 +31,7 @@ class PackageExercises extends Component  {
     componentWillReceiveProps(nextProps) {
       if (this.props.exercises.length !== nextProps.exercises.length) {
         nextProps.exercises.length ?
-          getPackageLevel('exercises', 'getExercises', nextProps.exercises, nextProps.level)
+          getPackageLevel('exercises', 'getExercises', nextProps.exercises.map(({id}) => id), nextProps.level)
             .then(({data}) => {
               this.setState({list: data})
             }) :
@@ -36,17 +41,43 @@ class PackageExercises extends Component  {
 
     handleDelete = (ID) =>  {
       const packageLevels = this.props.createDiagnosisQuestion.packageLevels;
-      const filtered = get(packageLevels, `[${this.props.level}].exercise_ids`).filter(el =>  el != ID);
-      updateCrateQuestionFields(filtered, `packageLevels[${this.props.level}].exercise_ids`)
+      const filtered = get(packageLevels, `[${this.props.level}].exercises`).filter(el =>  el.id != ID);
+      updateCrateQuestionFields(filtered, `packageLevels[${this.props.level}].exercises`)
+    };
+
+  sendNotification = (level) =>
+    notifier({
+      title: 'Invalid probabilities sum count',
+      message: `Please, check Level ${ level + 1 }!`,
+      status: 'error',
+    });
+
+  handleProbabilityChange = (event, level, index) => {
+      const value = event.target.value ? event.target.value / 100 : '';
+      updateCrateQuestionFields(value, `packageLevels.${level}.exercises.${index}.probability`);
+
+      const list = get(this.props.createDiagnosisQuestion, `packageLevels.${level}.exercises`);
+      const sum = list.reduce((result, item) => {
+        if (item) {
+          return result + (item.probability || 0);
+        }
+        return result;
+      }, 0);
+
+      if (sum > 1) {
+        this.sendNotification(level);
+      }
     };
 
     render() {
+      const { level, createDiagnosisQuestion, createDiagnosisQuestion: { packageLevels } } = this.props;
       return (
         <Grid item xs={12} className="package-level-exercises-list">
           {this.state.list.map((item, index) => {
            const { id, title, created_at } = item;
            const created = moment.unix(created_at).format(TIME_FORMAT_DOTS);
 
+           const probability = get( packageLevels, `[${level}].exercises[${index}].probability`);
            return <div key={index} className="package-level-exercises-item">
 
              <div className="exercises-information">
@@ -59,6 +90,17 @@ class PackageExercises extends Component  {
                  Created { created }
                </Typography>
 
+             </div>
+
+             <div>
+               <Input
+                 type="number"
+                 value={probability ? (probability * 100).toFixed(0) : probability}
+                 id={`packageLevels.${level}.exercises.${index}.probability`}
+                 reducer={createDiagnosisQuestion}
+                 label={ 'Probability' }
+                 onChangeCustom={event => this.handleProbabilityChange(event, level, index)}
+               />
              </div>
 
              <div className="delete-icon">
