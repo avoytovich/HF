@@ -64,15 +64,7 @@ class Profile extends Component {
   }
 
   _getUsers = ()=>{
-    const currentId = this.props.params.id;
-
-    if(get(this.props,'profileReducer.type')==='organization'){
-      browserHistory.push(`/company/${currentId}/users`);
-    }
-    else if(get(this.props,'profileReducer.type')==='clinic'){
-      browserHistory.push(`/clinic/${currentId}/users`);
-    }
-
+    browserHistory.push(`/personal-cabinet/users`);
   };
 
   _renderItem =(el, index, profileReducer)=>{

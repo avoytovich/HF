@@ -42,7 +42,7 @@ class PersonalCabinetUsers extends Component {
   }
 
   _tableCellPropsFunc = (row, col) => {
-    if (col.key === 'email') {
+    if (col.key === 'user_id') {
       return {
         onClick: (e) => {
           e.stopPropagation();
