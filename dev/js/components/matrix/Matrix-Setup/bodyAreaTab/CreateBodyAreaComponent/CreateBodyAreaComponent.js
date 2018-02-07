@@ -66,23 +66,23 @@ class CreateBodyAreaComponent extends Component {
     key        : createDiagnosisQuestion.key,
     title      : createDiagnosisQuestion.title,
     description: createDiagnosisQuestion.description,
-    side       : bodyModelReducer.side,
-    properties : {
-      coordinates: {
-        male: get(bodyModelReducer.currentlyDrawingPolygon, `${bodyModelReducer.side}.male`, ''),
-        female: get(bodyModelReducer.currentlyDrawingPolygon, `${bodyModelReducer.side}.female`, ''),
-      }
-    }
+    coordinates: bodyModelReducer.currentlyDrawingPolygon,
   });
 
   _createOrUpdateBodyArea = (data) => {
     const {
       currentlyDrawingPolygon: CDP,
     } = this.props.bodyModelReducer;
-    if (isEmpty(CDP) || filter(CDP[keys(CDP)[0]], sex => sex.length).length < 2) {
+
+    let sidesNotForBothSexes = keys(CDP).filter(side => keys(CDP[side]).length < 2);
+    let hintTextSomeDrawn    = `Please make sure zones were provided for both sexes 
+                                (check side(s): ${sidesNotForBothSexes.toString().replace(/,/g, ', ')}).`;
+    let hintTextNothingDrawn = 'Please make sure zones were provided for both sexes.';
+
+    if (isEmpty(CDP) || sidesNotForBothSexes.length) {
       notifier({
         title  : 'Hint',
-        message: 'Please make sure zones were provided for both sexes.',
+        message: sidesNotForBothSexes.length ? hintTextSomeDrawn : hintTextNothingDrawn,
         status : 'info',
       });
       return;
