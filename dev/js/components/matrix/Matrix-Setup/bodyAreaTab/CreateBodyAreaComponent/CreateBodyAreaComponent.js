@@ -6,8 +6,12 @@ import { browserHistory }           from 'react-router'
 import Button                       from 'material-ui/Button';
 import Grid                         from 'material-ui/Grid';
 import get                          from 'lodash/get';
+import map                          from 'lodash/map';
 import keys                         from 'lodash/keys';
 import filter                       from 'lodash/filter';
+import clone                        from 'lodash/clone';
+import cloneDeep                    from 'lodash/cloneDeep';
+import reverse                      from 'lodash/reverse';
 import isEmpty                      from 'lodash/isEmpty';
 import capitalize                   from 'lodash/capitalize';
 import { AsyncCreatable }           from 'react-select';
@@ -62,11 +66,27 @@ class CreateBodyAreaComponent extends Component {
     clearCreateQuestion();
   }
 
+  _reverseCoords = (objWithSexes) => {
+    each(objWithSexes, (side, sideKey) => {
+      each(side, (sex, sexKey) => {
+        each(objWithSexes[sideKey][sexKey], (coordArr, coordArrIndex) => {
+          console.log('(objWithSexes[sideKey][sexKey][coordArrIndex]',objWithSexes[sideKey][sexKey][coordArrIndex]);
+          let tempCoordObj = cloneDeep(objWithSexes[sideKey][sexKey][coordArrIndex]);
+          objWithSexes[sideKey][sexKey][coordArrIndex].lat = tempCoordObj.lng;
+          objWithSexes[sideKey][sexKey][coordArrIndex].lng = tempCoordObj.lat;
+          console.log(' AFTER (objWithSexes[sideKey][sexKey][coordArrIndex]',objWithSexes[sideKey][sexKey][coordArrIndex]);
+        });
+        reverse(objWithSexes[sideKey][sexKey]);
+      });
+    });
+    return objWithSexes;
+  };
+
   _prepareData = (createDiagnosisQuestion, bodyModelReducer) => ({
     key        : createDiagnosisQuestion.key,
     title      : createDiagnosisQuestion.title,
     description: createDiagnosisQuestion.description,
-    coordinates: bodyModelReducer.currentlyDrawingPolygon,
+    coordinates: this._reverseCoords(cloneDeep(bodyModelReducer.currentlyDrawingPolygon)),
   });
 
   _createOrUpdateBodyArea = (data) => {
@@ -137,7 +157,6 @@ class CreateBodyAreaComponent extends Component {
         id
       }
     } = this.props;
-    const finalData = this._prepareData(createDiagnosisQuestion, bodyModelReducer);
     const screenTitle =  `${id? 'Edit': 'Create' } Pain Zone ${id && '"' + capitalize(title) + '"'}`;
     return (
       <div id="create-question">
@@ -152,7 +171,11 @@ class CreateBodyAreaComponent extends Component {
             <Button
               raised
               dense
-              onClick={() => this._createOrUpdateBodyArea(finalData)}
+              onClick={() => {
+                this._createOrUpdateBodyArea(
+                  this._prepareData(createDiagnosisQuestion, bodyModelReducer)
+                )
+              }}
               color="primary"
             >
               Save
