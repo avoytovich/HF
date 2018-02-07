@@ -17,7 +17,8 @@ import { Switch }               from '../../common/index';
 import {
   getProfileWired,
   activateUser,
-  deleteUser} from '../../../actions'
+  deleteUser,
+  userUpdate} from '../../../actions'
 
 import moment                   from 'moment';
 
@@ -43,8 +44,8 @@ const Id = [
 ];
 
 const mainInformation = [
-  {title:'First Name', path: 'name'},
-  {title:'Last Name', path: 'surname'},
+  {title:'First Name', path: 'first_name'},
+  {title:'Last Name', path: 'last_name'},
   {title:'Email', path: 'email'},
   {title:'Country', path: 'country'},
   {title:'City', path: 'city'},
@@ -69,23 +70,23 @@ class Profile extends Component {
     getProfileWired(this.props.params.userId, 'users');
   }
 
-  _renderItem =(el, index, profileReducer)=>{
+  _renderItem =(el, index, simpleUserProfileReducer)=>{
     return (
       <div className = 'profile-paper-data' key={el.path}>
         <div className = 'profile-paper-data-title'>
           {el.title}
         </div>
         <div className = 'profile-paper-data-info'>
-          {get(profileReducer, el.path,'-')}
+          {get(simpleUserProfileReducer, el.path,'-')}
         </div>
       </div>
     )
   };
 
   _renderSwitcher = () => {
-    if(this.props.profileReducer.confirmed_at){
-      return(<Switch label={this.props.profileReducer.deactivated_at ? 'Suspended':'Active'}
-                     checked={!this.props.profileReducer.deactivated_at}
+    if(this.props.simpleUserProfileReducer.confirmed_at){
+      return(<Switch label={this.props.simpleUserProfileReducer.deactivated_at ? 'Suspended':'Active'}
+                     checked={!this.props.simpleUserProfileReducer.deactivated_at}
                      labelClassName={'switch-label'}
                      onChange={this._onSwitchChange}/>)
     }
@@ -106,7 +107,7 @@ class Profile extends Component {
 
  _onSwitchChange = () => {
    let action = 'deactivate';
-   if(this.props.profileReducer.deactivated_at){
+   if(this.props.simpleUserProfileReducer.deactivated_at){
      action = 'activate';
    }
    activateUser('users', 'userProfile', [{user_id: this.props.params.userId}], action)
@@ -125,14 +126,15 @@ class Profile extends Component {
   };
 
   _editSimpleUser= ()=>{
-    console.log('E D I T!!!');
+    userUpdate('users', 'userProfile', this.props.params.userId, this.props.simpleUserProfileReducer)
+      .then(() => this._toggleEditSimpleUserModal());
   };
 
   render() {
     const {showEditSimpleUserModal, showDeleteUserModal} = this.state;
     const {
       classes,
-      profileReducer
+      simpleUserProfileReducer
     } = this.props;
 
     return (
@@ -154,7 +156,7 @@ class Profile extends Component {
             <div className = 'profile-paper-container'>
 
               <div className = 'profile-paper-data-container'>
-                {map(Id, (el,index) => this._renderItem(el,index,profileReducer))}
+                {map(Id, (el,index) => this._renderItem(el,index,simpleUserProfileReducer))}
               </div>
               <div className="profile-paper-hr"/>
 
@@ -173,7 +175,7 @@ class Profile extends Component {
               <div className = 'profile-paper-sub-header'>User Information
                 <EditIcon onClick={this._toggleEditSimpleUserModal} /> </div>
               <div className = 'profile-paper-data-container'>
-                {map(mainInformation, (el,index) => this._renderItem(el,index,profileReducer))}
+                {map(mainInformation, (el,index) => this._renderItem(el,index,simpleUserProfileReducer))}
               </div>
               <div className="profile-paper-hr"/>
 
@@ -183,7 +185,7 @@ class Profile extends Component {
                     Activated at
                   </div>
                   <div className = 'profile-paper-data-info'>
-                    {this._formatTime(get(profileReducer, 'activated_at','-'))}
+                    {this._formatTime(get(simpleUserProfileReducer, 'activated_at','-'))}
                   </div>
                 </div>
               </div>
@@ -208,7 +210,7 @@ class Profile extends Component {
         path="users"
         domen="diagnostics"
         typeKey="deactivateOpen"
-        list={[this.props.profileReducer]}
+        list={[this.props.simpleUserProfileReducer]}
         title="Delete user?"
         deactivateOpen={showDeleteUserModal}
         open={()=>this._toggleDeleteUserModal()}
@@ -234,9 +236,9 @@ class Profile extends Component {
 }
 
 const mapStateToProps = state => ({
-  profileReducer: state.simpleUserProfileReducer,
   createSimpleUsersReducers: state.createSimpleUsersReducers,
-  userReducer:state.userReducer
+  userReducer:state.userReducer,
+  simpleUserProfileReducer: state.simpleUserProfileReducer,
 });
 
 export default  connect(mapStateToProps)(withStyles(styles)(Profile));

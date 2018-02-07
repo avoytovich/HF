@@ -148,23 +148,14 @@ class Profile extends Component {
     const result = {
       customer_id: this.props.params.id,
       email: this.props.createSimpleUsersReducers.email,
-      files: this.props.createSimpleUsersReducers.files,
     };
 
-    if(this.props.createSimpleUsersReducers.files.length){
-      userCreateByCSV('users', 'createSimpleUserByCSV', result)
-        .then(() => {
-          this.setState({showCreateUserModal:false})
-          dispatchCreateSimpleUserPayloadWired({files:[],email:''})
-          getProfileWired(this.props.params.id, 'customers')})
-    }
-    else{
-      userCreate('users', 'createSimpleUser', result)
-        .then(() => {
-          this.setState({showCreateUserModal:false})
-          dispatchCreateSimpleUserPayloadWired({files:[],email:''})
-          getProfileWired(this.props.params.id, 'customers')})
-    }
+    userCreate('users', 'createSimpleUser', result)
+      .then(() => {
+        this.setState({showCreateUserModal:false});
+        dispatchCreateSimpleUserPayloadWired({email:''});
+        getProfileWired(this.props.params.id, 'customers');
+    })
 
   };
 

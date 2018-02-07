@@ -8,22 +8,22 @@ const language = [
   {label:'English',value:'English'},
   {label:'Swedish',value:'Swedish'}];
 
-class CreateSimpleUser extends Component {
+class EditSimpleUser extends Component {
 
   render() {
-    const {profileReducer} = this.props;
+    const {simpleUserProfileReducer} = this.props;
     return (
       <div className="edit-simple-user-container">
-        <Input id='first_name' reducer={profileReducer} label='First Name' placeholder='First Name'/>
-        <Input id='last_name' reducer={profileReducer} label='Last Name' placeholder='Last Name'/>
-        <Input id='email' reducer={profileReducer} label='Email' placeholder='Email'/>
-        <Input id='country' reducer={profileReducer} label='Country' placeholder='Country'/>
-        <Input id='city' reducer={profileReducer} label='City' placeholder='City'/>
+        <Input id='first_name' reducer={simpleUserProfileReducer} label='First Name' placeholder='First Name'/>
+        <Input id='last_name' reducer={simpleUserProfileReducer} label='Last Name' placeholder='Last Name'/>
+        <Input id='email' reducer={simpleUserProfileReducer} label='Email' placeholder='Email'/>
+        <Input id='country' reducer={simpleUserProfileReducer} label='Country' placeholder='Country'/>
+        <Input id='city' reducer={simpleUserProfileReducer} label='City' placeholder='City'/>
         <Select
           options={language}
           id='language'
           style={{ width: "100%" }}
-          reducer={profileReducer}
+          reducer={simpleUserProfileReducer}
           label='Language'
         />
       </div>
@@ -33,7 +33,7 @@ class CreateSimpleUser extends Component {
 }
 
 const mapStateToProps = state => ({
-  profileReducer: state.simpleUserProfileReducer
+  simpleUserProfileReducer: state.simpleUserProfileReducer
 });
 
-export default connect(mapStateToProps)(CreateSimpleUser);
+export default connect(mapStateToProps)(EditSimpleUser);

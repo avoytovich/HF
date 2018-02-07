@@ -31,6 +31,23 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
 });
 
+// L.Projection.NoWrap = {
+//   project: function (latlng) {
+//     return new L.Point(latlng.lng, latlng.lat);
+//   },
+//
+//   unproject: function (point, unbounded) {
+//     return new L.LatLng(point.y, point.x, true);
+//   }
+// };
+//
+// L.CRS.Direct = L.Util.extend({}, L.CRS, {
+//   code: 'Direct',
+//
+//   projection: L.Projection.NoWrap,
+//   transformation: new L.Transformation(1, 0, 1, 0)
+// });
+
 export const GET_IMAGE = 'imageOverlay.leafletElement._image';
 
 class BodyModel extends Component {
@@ -156,10 +173,12 @@ class BodyModel extends Component {
       // last element need to be removed (spot the same as the first one due to leaflat stupid nature ->
       // http://leafletjs.com/reference-1.3.0.html#polygon
       latlng[0].pop();
-      dispatchBodyModelWired({
-        // saving polygon for each side.sex : [[lat, lan][...][...]], reversing due to leaflat stupid nature
-        [`currentlyDrawingPolygon.${side}.${sex}`]: latlng[0].map(ll => new L.LatLng(...ll.reverse())),
-      });
+      if (latlng[0].length) {
+        dispatchBodyModelWired({
+          // saving polygon for each side.sex : [[lat, lan][...][...]], reversing due to leaflat stupid nature
+          [`currentlyDrawingPolygon.${side}.${sex}`]: latlng[0].map(ll => new L.LatLng(...ll.reverse())),
+        });
+      }
     });
     this._onChange();
   };
