@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import get from 'lodash/get';
+import keys from 'lodash/keys';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
@@ -19,6 +20,7 @@ import {
   clearBodyAreaWired,
   getBodyAreaById,
   getAllSideAreasWired,
+  deletePolygonWired,
 } from '../../../../../actions'
 
 // work around broken icons when using webpack, see https://github.com/PaulLeCam/react-leaflet/issues/255
@@ -180,9 +182,19 @@ class BodyModel extends Component {
   };
 
   _onDeleted = (e) => {
-    const { sex, side } = this.props;
+    const {
+      sex,
+      side,
+      bodyModelReducer: {
+        currentlyDrawingPolygon,
+      }
+    } = this.props;
     if (!this._editableFG.leafletElement.toGeoJSON().features.length) {
-      dispatchBodyModelWired({ [`currentlyDrawingPolygon.${side}.${sex}`]: [] });
+      if (keys(get(currentlyDrawingPolygon, side)).length > 1) {
+        deletePolygonWired(`currentlyDrawingPolygon.${side}.${sex}`);
+      } else {
+        deletePolygonWired(`currentlyDrawingPolygon.${side}`);
+      }
     }
     this._onChange()
   };
