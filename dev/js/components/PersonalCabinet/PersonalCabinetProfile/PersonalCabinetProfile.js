@@ -15,7 +15,8 @@ import CreateUser               from '../../users/CreateUser/CreateUser';
 import {
   userCreate,
   userCreateByCSV,
-  getProfileWired } from '../../../actions'
+  getProfileWired,
+  dispatchCreateSimpleUserPayloadWired} from '../../../actions'
 
 const styles = theme => ({
   root:{
@@ -125,24 +126,18 @@ class Profile extends Component {
     this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
   };
 
-  _createSimpleUser =() =>{
+  _createSimpleUser =() => {
     const result = {
       customer_id: this.props.userReducer.user_id,
-      email: this.props.createSimpleUsersReducers.email,
-      files: this.props.createSimpleUsersReducers.files,
+      email: this.props.createSimpleUsersReducers.email
     };
 
-    if(this.props.createSimpleUsersReducers.files.length){
-      userCreateByCSV('users', 'createSimpleUserByCSV', result)
-        .then(this.setState({showCreateUserModal:false}))
-      getProfileWired(this.props.userReducer.user_id, 'customers');
-    }
-    else{
-      userCreate('users', 'createSimpleUser', result)
-        .then(this.setState({showCreateUserModal:false}));
-      getProfileWired(this.props.userReducer.user_id, 'customers');
-    }
-
+    userCreate('users', 'createSimpleUser', result)
+      .then(() => {
+        this.setState({showCreateUserModal: false});
+        dispatchCreateSimpleUserPayloadWired({email:''});
+        getProfileWired(this.props.userReducer.user_id, 'customers');
+      });
   };
 
   _toggleCloseModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });

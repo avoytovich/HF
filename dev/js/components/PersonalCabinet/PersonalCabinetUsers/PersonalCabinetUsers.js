@@ -16,7 +16,8 @@ import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
 import { activateUser,
   toggleCSVModal,
   userCreate,
-  userCreateByCSV}              from '../../../actions';
+  userCreateByCSV,
+  dispatchCreateSimpleUserPayloadWired}              from '../../../actions';
 
 import {
   PAGE,
@@ -72,25 +73,18 @@ class PersonalCabinetUsers extends Component {
   };
 
   _createSimpleUser =() =>{
-    let currentPage = get(this.props,'store.pagination.current_page');
+    let location = get(this.props,'location.search');
     const result = {
       customer_id: this.props.userReducer.user_id,
       email: this.props.createSimpleUsersReducers.email,
-      files: this.props.createSimpleUsersReducers.files,
     };
+    userCreate('users', 'createSimpleUser', result)
+      .then(() => {
+        browserHistory.push(`/personal-cabinet/users${location}`);
+        dispatchCreateSimpleUserPayloadWired({email:''});
+        this.setState({showCreateUserModal:false})
+    })
 
-    if(this.props.createSimpleUsersReducers.files.length){
-      userCreateByCSV('users', 'createSimpleUserByCSV', result)
-        .then(() => {
-          browserHistory.push(`/personal-cabinet/users?current_page=${currentPage}`)
-          this.setState({showCreateUserModal:false})})
-    }
-    else{
-      userCreate('users', 'createSimpleUser', result)
-        .then(() => {
-          browserHistory.push(`/personal-cabinet/users?current_page=${currentPage}`)
-          this.setState({showCreateUserModal:false})})
-    }
   };
 
   _toggleCloseCreateSimpleUser = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });

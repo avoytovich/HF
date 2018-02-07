@@ -17,7 +17,7 @@ import DeactivateComponent      from '../../common/Modal/DeactivateModal';
 import { activateUser,
   toggleCSVModal,
   userCreate,
-  userCreateByCSV}              from '../../../actions';
+  dispatchCreateSimpleUserPayloadWired}              from '../../../actions';
 
 import {
   PAGE,
@@ -80,23 +80,19 @@ class ClinicOwnUsers extends Component {
   _toggleDeleteModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
   _createSimpleUser =() =>{
+    console.log(this.props);
+    let location = get(this.props,'location.search');
     const result = {
       customer_id: this.props.params.id,
       email: this.props.createSimpleUsersReducers.email,
-      files: this.props.createSimpleUsersReducers.files,
     };
 
-    if(this.props.createSimpleUsersReducers.files.length){
-      userCreateByCSV('users', 'createSimpleUserByCSV', result)
-        .then(this.setState({showCreateUserModal:false}))
-      browserHistory.push(`/clinic/${this.props.params.id}/users`)
-    }
-    else{
-      userCreate('users', 'createSimpleUser', result)
-        .then(this.setState({showCreateUserModal:false}));
-      browserHistory.push(`/clinic/${this.props.params.id}/users`)
-    }
-
+    userCreate('users', 'createSimpleUser', result)
+      .then(()=>{
+        this.setState({showCreateUserModal:false});
+        dispatchCreateSimpleUserPayloadWired({email:''});
+        browserHistory.push(`/clinic/${this.props.params.id}/users${location}`);
+      });
   };
 
   _toggleActivateModal = (data) => {

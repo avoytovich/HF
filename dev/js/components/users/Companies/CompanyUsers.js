@@ -16,7 +16,8 @@ import DeactivateComponent      from '../../common/Modal/DeactivateModal';
 import { activateUser,
   toggleCSVModal,
   userCreate,
-  userCreateByCSV}              from '../../../actions';
+  userCreateByCSV,
+  dispatchCreateSimpleUserPayloadWired}              from '../../../actions';
 
 import {
   PAGE,
@@ -83,22 +84,18 @@ class CompanyOwnUsers extends Component {
   };
 
   _createSimpleUser =() =>{
+    let location = get(this.props,'location.search');
     const result = {
       customer_id: this.props.params.id,
-      email: this.props.createSimpleUsersReducers.email,
-      files: this.props.createSimpleUsersReducers.files,
+      email: this.props.createSimpleUsersReducers.email
     };
+    userCreate('users', 'createSimpleUser', result)
+      .then(()=>{
+        browserHistory.push(`/company/${this.props.params.id}/users${location}`);
+        dispatchCreateSimpleUserPayloadWired({email:''});
+        this.setState({showCreateUserModal:false})
+    });
 
-    if(this.props.createSimpleUsersReducers.files.length){
-      userCreateByCSV('users', 'createSimpleUserByCSV', result)
-        .then(this.setState({showCreateUserModal:false}))
-      browserHistory.push(`/company/${this.props.params.id}/users`)
-    }
-    else{
-      userCreate('users', 'createSimpleUser', result)
-        .then(this.setState({showCreateUserModal:false}));
-      browserHistory.push(`/company/${this.props.params.id}/users`)
-    }
   };
 
   _toggleActivateModal = (data) => {
