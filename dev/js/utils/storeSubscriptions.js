@@ -42,7 +42,7 @@ export const storeSubscriptions = store =>
     }
     if (previousSandBoxChangingQuestionStep !== currentSandBoxChangingQuestionStep) {
       if (currentSandBoxChangingQuestionStep < step) {
-        dispatchRemoveOverStepQuestionsWired(currentSandBoxChangingQuestionStep)
+        dispatchRemoveOverStepQuestionsWired(currentSandBoxChangingQuestionStep);
         if (currentSandBoxResultStatus) {
           // send unblock request
           unblockSandBoxSessionWired(testId);

@@ -66,13 +66,7 @@ class CreateBodyAreaComponent extends Component {
     key        : createDiagnosisQuestion.key,
     title      : createDiagnosisQuestion.title,
     description: createDiagnosisQuestion.description,
-    side       : bodyModelReducer.side,
-    properties : {
-      coordinates: {
-        male: get(bodyModelReducer.currentlyDrawingPolygon, `${bodyModelReducer.side}.male`, ''),
-        female: get(bodyModelReducer.currentlyDrawingPolygon, `${bodyModelReducer.side}.female`, ''),
-      }
-    }
+    coordinates: bodyModelReducer.currentlyDrawingPolygon,
   });
 
   _createOrUpdateBodyArea = (data) => {
