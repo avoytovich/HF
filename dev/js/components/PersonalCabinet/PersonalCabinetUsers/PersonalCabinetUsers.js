@@ -7,13 +7,17 @@ import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal'
-import { activateUser }         from '../../../actions';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import get                      from 'lodash/get'
 import CreateSimpleUser         from '../../users/CreateUser/CreateSimpleUser';
 import Modal                    from '../../common/Modal/Modal';
-import { userCreate, userCreateByCSV }           from '../../../actions';
+import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
+import { activateUser,
+  toggleCSVModal,
+  userCreate,
+  userCreateByCSV}              from '../../../actions';
+
 import {
   PAGE,
   domen,
@@ -26,6 +30,7 @@ class PersonalCabinetUsers extends Component {
     showActivateModal:false,
     showDeactivateModal:false,
     showCreateUserModal: false,
+    showCSVUploadModal: false,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -50,7 +55,6 @@ class PersonalCabinetUsers extends Component {
   onRowClick = (selected = []) => this.setState({selected});
 
   onSelectAllClick = (selected) => this.setState({selected});
-
 
   updateModal = (key, value) => {
     this.setState({ [key]: value });
@@ -99,9 +103,13 @@ class PersonalCabinetUsers extends Component {
     this.setState({ selected: []})
   };
 
+  _toggleCSVModal=(data)=>{
+    toggleCSVModal(data, this, `personal-cabinet/users`, this.props.userReducer.user_id)
+  };
+
   render() {
     const { tableHeader } = PERSONAL_CABINET_USERS_TAB;
-    const { selected, showActivateModal, showDeactivateModal, showCreateUserModal } = this.state;
+    const { selected, showActivateModal, showDeactivateModal, showCreateUserModal, showCSVUploadModal } = this.state;
     const querySelector = this.props.location.query;
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.userReducer.user_id}`;
     return (
@@ -144,6 +152,8 @@ class PersonalCabinetUsers extends Component {
           createItem={this.createEntity}
           createButtonText="Add"
           tableTitle  = 'Users'
+          toggleCSVModal={this._toggleCSVModal}
+          uploadCSV={true}
         >
 
           <Button raised dense
@@ -181,6 +191,15 @@ class PersonalCabinetUsers extends Component {
           CustomContent={() => <CreateSimpleUser />}
         />
 
+        <Modal
+          itemName="name_real"
+          open={showCSVUploadModal}
+          title={this.state.CSVUploadModalTitle}
+          toggleModal={this._toggleCSVModal}
+          onConfirmClick={() => this.state.CSVUploadModalConfirm()}
+          CustomContent={() => <CSVUploadModal />}
+        />
+
       </div>
     )
   }
@@ -190,6 +209,7 @@ const mapStateToProps = state => ({
   store: state.tables.diagnosis,
   userReducer: state.userReducer,
   createSimpleUsersReducers: state.createSimpleUsersReducers,
+  CSVFileReducer :state.CSVFileReducer,
 });
 
 export default  connect(mapStateToProps)(PersonalCabinetUsers);

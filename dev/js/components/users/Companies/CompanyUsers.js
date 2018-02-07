@@ -5,19 +5,18 @@ import { TableComponent }       from '../../../components/common/TypicalListPage
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
-import Delete                   from 'material-ui-icons/Delete';
 import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
 import { get, map }             from 'lodash';
 import Modal                    from '../../common/Modal/Modal';
 import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
 import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
-import { userCreate,
-   userCreateByCSV}           from '../../../actions';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal';
 import { activateUser,
-  dispatchCSVFilePayloadWired}          from '../../../actions';
+  toggleCSVModal,
+  userCreate,
+  userCreateByCSV}              from '../../../actions';
 
 import {
   PAGE,
@@ -116,47 +115,8 @@ class CompanyOwnUsers extends Component {
   };
 
   _toggleCSVModal=(data)=>{
-    console.log('_toggleCSVModal', data);
-    switch(data) {
-      case 'add':
-        this.setState({ showCSVUploadModal: !this.state.showCSVUploadModal,
-          CSVUploadModalTitle: 'Add users',
-          CSVUploadModalConfirm: ()=>this._userActionByCSV('createSimpleUserByCSV')});
-        return;
-      case 'activate':
-        this.setState({ showCSVUploadModal: !this.state.showCSVUploadModal,
-          CSVUploadModalTitle: 'Activate users',
-          CSVUploadModalConfirm: ()=>this._userActionByCSV('activateSimpleUserByCSV')});
-        return;
-      case 'deactivate':
-        this.setState({ showCSVUploadModal: !this.state.showCSVUploadModal,
-          CSVUploadModalTitle: 'Deactivate users',
-          CSVUploadModalConfirm: ()=>this._userActionByCSV('deactivateSimpleUserByCSV')});
-        return;
-      case 'remove':
-        this.setState({ showCSVUploadModal: !this.state.showCSVUploadModal,
-          CSVUploadModalTitle: 'Delete users',
-          CSVUploadModalConfirm: ()=>this._userActionByCSV('deleteSimpleUserByCSV')});
-        return;
-      default:
-        this.setState({ showCSVUploadModal: false });
-        dispatchCSVFilePayloadWired({...this.props.createSimpleUsersReducers,files:[]})
-          }
+    toggleCSVModal(data, this, `/company/${this.props.params.id}/users`,this.props.params.id)
   };
-
-  _userActionByCSV = (api) => {
-    const result = {
-      customer_id: this.props.params.id,
-      files: this.props.CSVFileReducer.files,
-    };
-    userCreateByCSV('users', api, result)
-      .then(()=>{
-      browserHistory.push(`/company/${this.props.params.id}/users`);
-      this.setState({showCSVUploadModal:false});
-      dispatchCSVFilePayloadWired({...this.props.createSimpleUsersReducers,files:[]})
-      });
-  };
-
 
   render() {
     const { tableHeader } = USERS_TAB;
