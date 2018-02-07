@@ -29,11 +29,15 @@ export const history = syncHistoryWithStore(browserHistory, store);
 
 const onBeforeLift = () => {
   const {
-    userReducer,
-    commonReducer,
+    userReducer: {
+      language
+    },
+    commonReducer: {
+      languages
+    },
   } = store.getState();
   dispatchCommonPayloadWired({
-    currentLanguage: commonReducer.languages[userReducer.language]
+    currentLanguage: languages[language || 'en']
   });
 
   storeSubscriptions(store)
