@@ -9,13 +9,15 @@ import Delete                   from 'material-ui-icons/Delete';
 import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
 import { get, map }             from 'lodash';
 import Modal                    from '../../common/Modal/Modal';
+import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
 import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
 import { userCreate,
    userCreateByCSV}           from '../../../actions';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal';
-import { activateUser}          from '../../../actions';
+import { activateUser,
+  dispatchCSVFilePayloadWired}          from '../../../actions';
 
 import {
   PAGE,
@@ -29,6 +31,11 @@ class CompanyOwnUsers extends Component {
     showCreateUserModal: false,
     showActivateModal:false,
     showDeactivateModal:false,
+    showCSVUploadModal: false,
+    CSVUploadModalConfirm: function () {
+      console.log('CSVUploadModalConfirm')
+    },
+    CSVUploadModalTitle: '',
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -110,22 +117,50 @@ class CompanyOwnUsers extends Component {
 
   _toggleCSVModal=(data)=>{
     console.log('_toggleCSVModal', data);
-    // switch(data) {
-    //   case 'add':
-    //     return {type: 'single', subtype: 'list'};
-    //   case 'range':
-    //     return {type: 'single', subtype: 'range'};
-    //   case 'multiple':
-    //     return {type: 'multiple', subtype: 'list'};
-    //   default:
-    //     console.log('Wrong type');
-    //     return {type: 'single', subtype: 'list'};
-    //       }
+    switch(data) {
+      case 'add':
+        this.setState({ showCSVUploadModal: !this.state.showCSVUploadModal,
+          CSVUploadModalTitle: 'Add users',
+          CSVUploadModalConfirm: ()=>this._userActionByCSV('createSimpleUserByCSV')});
+        return;
+      case 'activate':
+        this.setState({ showCSVUploadModal: !this.state.showCSVUploadModal,
+          CSVUploadModalTitle: 'Activate users',
+          CSVUploadModalConfirm: ()=>this._userActionByCSV('activateSimpleUserByCSV')});
+        return;
+      case 'deactivate':
+        this.setState({ showCSVUploadModal: !this.state.showCSVUploadModal,
+          CSVUploadModalTitle: 'Deactivate users',
+          CSVUploadModalConfirm: ()=>this._userActionByCSV('deactivateSimpleUserByCSV')});
+        return;
+      case 'remove':
+        this.setState({ showCSVUploadModal: !this.state.showCSVUploadModal,
+          CSVUploadModalTitle: 'Delete users',
+          CSVUploadModalConfirm: ()=>this._userActionByCSV('deleteSimpleUserByCSV')});
+        return;
+      default:
+        this.setState({ showCSVUploadModal: false });
+        dispatchCSVFilePayloadWired({...this.props.createSimpleUsersReducers,files:[]})
+          }
   };
+
+  _userActionByCSV = (api) => {
+    const result = {
+      customer_id: this.props.params.id,
+      files: this.props.CSVFileReducer.files,
+    };
+    userCreateByCSV('users', api, result)
+      .then(()=>{
+      browserHistory.push(`/company/${this.props.params.id}/users`);
+      this.setState({showCSVUploadModal:false});
+      dispatchCSVFilePayloadWired({...this.props.createSimpleUsersReducers,files:[]})
+      });
+  };
+
 
   render() {
     const { tableHeader } = USERS_TAB;
-    const { selected, showActivateModal, showCreateUserModal, showDeactivateModal} = this.state;
+    const { selected, showActivateModal, showCreateUserModal, showDeactivateModal, showCSVUploadModal} = this.state;
     const { profileReducer } = this.props;
     const querySelector = {...this.props.location.query,...{type: 'organization'}};
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
@@ -212,6 +247,14 @@ class CompanyOwnUsers extends Component {
           CustomContent={() => <CreateSimpleUser />}
         />
 
+        <Modal
+          itemName="name_real"
+          open={showCSVUploadModal}
+          title={this.state.CSVUploadModalTitle}
+          toggleModal={this._toggleCSVModal}
+          onConfirmClick={() => this.state.CSVUploadModalConfirm()}
+          CustomContent={() => <CSVUploadModal />}
+        />
 
       </div>
     )
@@ -222,6 +265,7 @@ const mapStateToProps = state => ({
   store: state.tables.companyOwnUsers,
   profileReducer: state.profileReducer,
   createSimpleUsersReducers: state.createSimpleUsersReducers,
+  CSVFileReducer :state.CSVFileReducer,
 });
 
 export default  connect(mapStateToProps)(CompanyOwnUsers);
