@@ -64,6 +64,7 @@ class ClinicsUsers extends Component {
                   onClick={() => this.updateModal('showActivateModal', true)}>
             <ActivateIcon/>Activate
           </Button>
+
           <Button raised dense
                   onClick={() => this.updateModal('showDeactivateModal', true)}>
            <DeactivateIcon/> Deactivate

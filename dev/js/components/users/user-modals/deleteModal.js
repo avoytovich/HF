@@ -14,7 +14,7 @@ import { deleteUser,
 
 
 class DeleteComponent extends Component {
-  //deleteUser('users', 'userProfile', selected)
+
   deleteIt = ({list, path, pathReq, domen, query, url}) => {
     deleteUser(domen, pathReq, list)
       .then(() => {
