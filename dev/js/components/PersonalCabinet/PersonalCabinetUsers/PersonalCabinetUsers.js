@@ -17,8 +17,8 @@ import Modal                    from '../../common/Modal/Modal';
 import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
 import { toggleCSVModal,
          userCreate,
-        dispatchCreateSimpleUserPayloadWired,
-        deleteUser }              from '../../../actions';
+        dispatchCreateSimpleUserPayloadWired
+                 }              from '../../../actions';
 
 import {
   PAGE,

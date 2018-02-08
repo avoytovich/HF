@@ -15,7 +15,6 @@ import { activateUser,
 class DeactivateComponent extends Component {
 
   deactivate = ({list, path, pathReq, domen,  action, url }) => {
-    console.log(list, path, pathReq, domen, action);
     activateUser(domen, pathReq, list, action)
       .then(() =>
         getListByPost(domen, path, this.props.query, url)

@@ -16,7 +16,6 @@ import { deleteUser,
 class DeleteComponent extends Component {
   //deleteUser('users', 'userProfile', selected)
   deleteIt = ({list, path, pathReq, domen, url}) => {
-    console.log(path)
     deleteUser(domen, pathReq, list)
       .then(() => {
         getListByPost(domen, path, this.props.query, url)
