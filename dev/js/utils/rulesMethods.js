@@ -21,12 +21,14 @@ export const onSingleAsyncChange = (value, edit, props) => {
   const { subtype, type, values, min, max} = value.answer;
 
   if (subtype === 'range') {
+
+    debugger;
     const _value = edit ?
       itemState :
       {
         key: value.key,
         op: '=',
-        value: (parseFloat(min) + parseFloat(max)) / 2
+        value: ((parseFloat(min) + parseFloat(max)) / 2).toFixed(0)
       };
 
     setQuestion(path, pathType, _value);
