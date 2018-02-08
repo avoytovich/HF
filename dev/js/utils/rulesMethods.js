@@ -198,3 +198,15 @@ export const getConditionOptions = (input, key, onChangeCallBack, props, questio
       });
   }
 };
+
+
+export const trickForUpdateComponent = (props, nextProps, func) => {
+  const { op: oldOp, value: oldValue, _key: oldKey } = props;
+  const { op, value, _key } = nextProps;
+
+  if (op !== oldOp || value !== oldValue || _key !== oldKey) {
+    return func(nextProps._key);
+  }
+};
+
+

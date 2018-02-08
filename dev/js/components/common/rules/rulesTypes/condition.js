@@ -8,7 +8,8 @@ import {
   onAnswerChange,
   getAnswerValue,
   onConditionAsyncChange,
-  getConditionOptions
+  getConditionOptions,
+  trickForUpdateComponent
 }                             from '../../../../utils';
 
 class ConditionsComponent extends Component {
@@ -18,12 +19,7 @@ class ConditionsComponent extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { op: oldOp, value: oldValue, _key: oldKey } = this.props;
-    const { op, value, _key } = nextProps;
-
-    if (op !== oldOp || value !== oldValue || _key !== oldKey) {
-      this.refs.async._onInputChange(nextProps._key);
-    }
+    trickForUpdateComponent(this.props, nextProps, this.refs.async._onInputChange);
   }
 
   onAsyncChange = (value, edit) =>
