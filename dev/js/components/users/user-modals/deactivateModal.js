@@ -14,10 +14,10 @@ import { activateUser,
 
 class DeactivateComponent extends Component {
 
-  deactivate = ({list, path, pathReq, domen,  action, url }) => {
+  deactivate = ({list, path, pathReq, domen,  action, query,  url }) => {
     activateUser(domen, pathReq, list, action)
       .then(() =>
-        getListByPost(domen, path, this.props.query, url)
+        getListByPost(domen, path, query, url)
           .then(() => this.props.open(this.props.typeKey, false)))
   };
 

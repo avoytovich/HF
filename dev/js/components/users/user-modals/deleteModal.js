@@ -15,10 +15,10 @@ import { deleteUser,
 
 class DeleteComponent extends Component {
   //deleteUser('users', 'userProfile', selected)
-  deleteIt = ({list, path, pathReq, domen, url}) => {
+  deleteIt = ({list, path, pathReq, domen, query, url}) => {
     deleteUser(domen, pathReq, list)
       .then(() => {
-        getListByPost(domen, path, this.props.query, url)
+        getListByPost(domen, path, query, url)
           .then(() => this.props.open(this.props.typeKey, false))
       })
   };
