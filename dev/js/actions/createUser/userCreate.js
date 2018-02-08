@@ -4,7 +4,7 @@ import { TABLE,
   CREATE_QUESTION }   from '../index'
 import { store }      from '../../index'
 import qs             from 'query-string';
-import { T} from '../index'
+import { T, CSV_FILE} from '../index'
 import {
   toFormData,
 } from '../../utils';
@@ -17,7 +17,6 @@ export const userCreate = (domenKey, apiKey, body) => {
 
 export const userCreateByCSV = (domenKey, apiKey, body) => {
   const domenPath = domen[domenKey], apiPath   = api[apiKey];
-  console.log(`${domenPath}${apiPath}${body.customer_id}`, body.files[0]);
   return Api.post(`${domenPath}${apiPath}${body.customer_id}`,
     toFormData({ csv: body.files[0].file }),
     { onUploadProgress: (progress => dispatchCreateSimpleUserPayloadWired ({ progress })) },
@@ -48,4 +47,14 @@ export const dispatchCreateSimpleUserPayload = payload => dispatch =>
 
 export const dispatchCreateSimpleUserPayloadWired = payload =>
   dispatchCreateSimpleUserPayload(payload)(store.dispatch);
+
+
+export const dispatchCSVFilePayload = payload => dispatch =>
+  dispatch({
+    type   : CSV_FILE,
+    payload: payload
+  });
+
+export const dispatchCSVFilePayloadWired = payload =>
+  dispatchCSVFilePayload(payload)(store.dispatch);
 

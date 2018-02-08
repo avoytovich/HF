@@ -26,9 +26,9 @@ export const getBodyAreaById = (domenKey, apiKey, id) => {
         type:`${T.CREATE_QUESTION}_SET_BODY_AREA`,
         payload: { body }
       });
-      const coordinates = get(body, 'properties.coordinates', false);
+      const coordinates = get(body, 'coordinates', false);
       if (coordinates) {
-        dispatchBodyModelWired({ [`currentlyDrawingPolygon.${side}`]: coordinates });
+        dispatchBodyModelWired({ [`currentlyDrawingPolygon`]: coordinates });
       }
       return body;
     }

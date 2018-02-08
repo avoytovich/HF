@@ -32,7 +32,10 @@ export const storeSubscriptions = store =>
     } = store.getState();
 
     // set new values to [current...] variables
-    currentLanguage                    = language;
+    if (language) {
+      currentLanguage = language;
+    }
+
     currentSandBoxChangingQuestionStep = changingQuestionStep;
     currentSandBoxResultStatus         = result_status;
 
@@ -41,7 +44,7 @@ export const storeSubscriptions = store =>
     }
     if (previousSandBoxChangingQuestionStep !== currentSandBoxChangingQuestionStep) {
       if (currentSandBoxChangingQuestionStep < step) {
-        dispatchRemoveOverStepQuestionsWired(currentSandBoxChangingQuestionStep)
+        dispatchRemoveOverStepQuestionsWired(currentSandBoxChangingQuestionStep);
         if (currentSandBoxResultStatus) {
           // send unblock request
           unblockSandBoxSessionWired(testId);

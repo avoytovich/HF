@@ -14,6 +14,9 @@ import Button                    from 'material-ui/Button';
 import Add                       from 'material-ui-icons/Add';
 import Typography                from 'material-ui/Typography';
 import SearchIcon                from 'material-ui-icons/Search';
+import UploadIcon                from 'material-ui-icons/FileUpload';
+import ArrowDropDown             from  'material-ui-icons/ArrowDropDown'
+import Menu, { MenuItem } from 'material-ui/Menu';
 
 const styles = theme => ({
   formControl: {
@@ -25,9 +28,26 @@ const styles = theme => ({
 
 class TableControls extends Component {
 
+  state = {
+    anchorEl: null,
+  };
+
   componentWillMount() {
     this.handleChange = debounce(this.handleChange, 500, {leading:false, trailing:true})
   }
+
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handleMenuClick =(action)=>{
+    this.props.toggleCSVModal(action);
+    this.setState({ anchorEl: null });
+  };
 
   handleChange = (search) => {
     const currentPath = this.props.locationUrl || PAGE[this.props.path];
@@ -48,9 +68,13 @@ class TableControls extends Component {
       classes,
       selected,
       createItem,
+      uploadCSV,
       createButtonText,
       CreateButtonIcon,
     } = this.props;
+
+    const { anchorEl } = this.state;
+
     const selectedClassName = selected.length ? 'visible-details' : 'hidden-details';
     const notSelectedClassName = selected.length ? 'hidden-details' : 'visible-details';
     const mainClass         = this.mainClass(selected);
@@ -79,7 +103,7 @@ class TableControls extends Component {
 
         <Grid item lg={4} md={5} xs={12}>
           <Grid container className="page-pagination">
-            <Grid item md={8} sm={8} xs={12}>
+            <Grid item md={6} sm={6} xs={12}>
               <FormControl fullWidth>
                 <Input
                   id="search"
@@ -95,13 +119,38 @@ class TableControls extends Component {
               </FormControl>
             </Grid>
             {createItem?
-              (<Grid item md={4} sm={4} xs={12}>
+              (<Grid item md={3} sm={3} xs={12}>
               <Button raised dense onClick={createItem} color="primary">
                   { CreateButtonIcon ? <CreateButtonIcon /> : <Add /> }
                   { createButtonText || 'Create' }
                 </Button>
 
             </Grid>):''}
+            {uploadCSV ?
+              (<Grid item md={3} sm={3} xs={12}>
+                <Button raised dense
+                        aria-owns={anchorEl ? 'fade-menu' : null}
+                        aria-haspopup="true"
+                        onClick={this.handleClick}
+                        color="inherit">
+                  <UploadIcon />
+                  CSV
+                  <ArrowDropDown/>
+                </Button>
+
+                <Menu
+                  id="fade-menu"
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onRequestClose={this.handleClose}
+                >
+                  <MenuItem onClick={()=>this.handleMenuClick('add')}>Add</MenuItem>
+                  <MenuItem onClick={()=>this.handleMenuClick('activate')}>Activate</MenuItem>
+                  <MenuItem onClick={()=>this.handleMenuClick('deactivate')}>Deactivate</MenuItem>
+                  <MenuItem onClick={()=>this.handleMenuClick('remove')} id="remove-menu-item">Remove</MenuItem>
+                </Menu>
+
+              </Grid>):''}
           </Grid>
         </Grid>
       </Grid>
@@ -119,10 +168,12 @@ TableControls.defaultProps = {
 };
 
 TableControls.propTypes = {
+  uploadCSV: PropTypes.bool,
   createItem: PropTypes.func,
   createButtonText: PropTypes.string,
   CreateButtonIcon: PropTypes.func,
   searchKey: PropTypes.string,
+  toggleCSVModal: PropTypes.func,
 };
 
 export default connect(mapStateToProps)(withStyles(styles)(TableControls));

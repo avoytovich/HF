@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import get from 'lodash/get';
+import keys from 'lodash/keys';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
@@ -19,6 +20,7 @@ import {
   clearBodyAreaWired,
   getBodyAreaById,
   getAllSideAreasWired,
+  deletePolygonWired,
 } from '../../../../../actions'
 
 // work around broken icons when using webpack, see https://github.com/PaulLeCam/react-leaflet/issues/255
@@ -28,6 +30,23 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
 });
+
+// L.Projection.NoWrap = {
+//   project: function (latlng) {
+//     return new L.Point(latlng.lng, latlng.lat);
+//   },
+//
+//   unproject: function (point, unbounded) {
+//     return new L.LatLng(point.y, point.x, true);
+//   }
+// };
+//
+// L.CRS.Direct = L.Util.extend({}, L.CRS, {
+//   code: 'Direct',
+//
+//   projection: L.Projection.NoWrap,
+//   transformation: new L.Transformation(1, 0, 1, 0)
+// });
 
 export const GET_IMAGE = 'imageOverlay.leafletElement._image';
 
@@ -154,10 +173,12 @@ class BodyModel extends Component {
       // last element need to be removed (spot the same as the first one due to leaflat stupid nature ->
       // http://leafletjs.com/reference-1.3.0.html#polygon
       latlng[0].pop();
-      dispatchBodyModelWired({
-        // saving polygon for each side.sex : [[lat, lan][...][...]], reversing due to leaflat stupid nature
-        [`currentlyDrawingPolygon.${side}.${sex}`]: latlng[0].map(ll => new L.LatLng(...ll.reverse())),
-      });
+      if (latlng[0].length) {
+        dispatchBodyModelWired({
+          // saving polygon for each side.sex : [[lat, lan][...][...]], reversing due to leaflat stupid nature
+          [`currentlyDrawingPolygon.${side}.${sex}`]: latlng[0].map(ll => new L.LatLng(...ll.reverse())),
+        });
+      }
     });
     this._onChange();
   };
@@ -180,9 +201,19 @@ class BodyModel extends Component {
   };
 
   _onDeleted = (e) => {
-    const { sex, side } = this.props;
+    const {
+      sex,
+      side,
+      bodyModelReducer: {
+        currentlyDrawingPolygon,
+      }
+    } = this.props;
     if (!this._editableFG.leafletElement.toGeoJSON().features.length) {
-      dispatchBodyModelWired({ [`currentlyDrawingPolygon.${side}.${sex}`]: [] });
+      if (keys(get(currentlyDrawingPolygon, side)).length > 1) {
+        deletePolygonWired(`currentlyDrawingPolygon.${side}.${sex}`);
+      } else {
+        deletePolygonWired(`currentlyDrawingPolygon.${side}`);
+      }
     }
     this._onChange()
   };
