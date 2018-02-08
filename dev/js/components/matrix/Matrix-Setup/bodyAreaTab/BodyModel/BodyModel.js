@@ -31,23 +31,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-shadow.png',
 });
 
-// L.Projection.NoWrap = {
-//   project: function (latlng) {
-//     return new L.Point(latlng.lng, latlng.lat);
-//   },
-//
-//   unproject: function (point, unbounded) {
-//     return new L.LatLng(point.y, point.x, true);
-//   }
-// };
-//
-// L.CRS.Direct = L.Util.extend({}, L.CRS, {
-//   code: 'Direct',
-//
-//   projection: L.Projection.NoWrap,
-//   transformation: new L.Transformation(1, 0, 1, 0)
-// });
-
 export const GET_IMAGE = 'imageOverlay.leafletElement._image';
 
 class BodyModel extends Component {
@@ -63,7 +46,6 @@ class BodyModel extends Component {
         this._drawingNewPolygons();
         this._onChange();
       });
-
     }
   }
 
