@@ -21,8 +21,6 @@ export const onSingleAsyncChange = (value, edit, props) => {
   const { subtype, type, values, min, max} = value.answer;
 
   if (subtype === 'range') {
-    debugger;
-
     const _value = edit ?
       itemState :
       {
