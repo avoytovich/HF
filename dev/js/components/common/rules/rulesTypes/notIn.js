@@ -21,6 +21,15 @@ class NotInComponent extends Component {
     max    : 0,
   };
 
+  componentWillReceiveProps(nextProps) {
+    const { op: oldOp, value: oldValue, _key: oldKey } = this.props;
+    const { op, value, _key } = nextProps;
+
+    if (op !== oldOp || value !== oldValue || _key !== oldKey) {
+      this.refs.async._onInputChange(nextProps._key);
+    }
+  }
+
   onAsyncChange = (value, edit) => {
     const res = {...onMultipleAsyncChange(value, edit, this.props)};
     this.setState(res);
@@ -36,6 +45,7 @@ class NotInComponent extends Component {
         <QuestionVariety />
 
         <Async
+          ref="async"
           id={`in-type-${this.props.path}-${this.props.pathType}`}
           name={`in-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>

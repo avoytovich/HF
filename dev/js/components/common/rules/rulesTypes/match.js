@@ -25,11 +25,20 @@ class MatchComponent extends Component {
     max    : 0,
   };
 
+  componentWillReceiveProps(nextProps) {
+    const { op: oldOp, value: oldValue, _key: oldKey } = this.props;
+    const { op, value, _key } = nextProps;
+
+    if (op !== oldOp || value !== oldValue || _key !== oldKey) {
+      this.refs.async._onInputChange(nextProps._key);
+    }
+  }
+
   onAsyncChange = (value, edit) =>
     this.setState({...onSingleAsyncChange(value, edit, this.props)});
 
   render() {
-    const { key, op, value } = this.props.itemState,
+    const { _key: key, op, value } = this.props,
           opValue            = getSymbolValue(op),
           selectValue        = getAnswerValue(this.state.answers, value);
 
@@ -40,6 +49,7 @@ class MatchComponent extends Component {
         <QuestionVariety />
 
         <Async
+          ref="async"
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>
@@ -120,7 +130,6 @@ class MatchComponent extends Component {
 
 const mapStateToProps = (state, props) => ({
   state    : state.createDiagnosisQuestion,
-  itemState: get(state.createDiagnosisQuestion, `${props.path}.${props.pathType}`)
 });
 
 export default connect(mapStateToProps)(MatchComponent);

@@ -21,6 +21,15 @@ class InComponent extends Component {
     max    : 0,
   };
 
+  componentWillReceiveProps(nextProps) {
+    const { op: oldOp, value: oldValue, _key: oldKey } = this.props;
+    const { op, value, _key } = nextProps;
+
+    if (op !== oldOp || value !== oldValue || _key !== oldKey) {
+      this.refs.async._onInputChange(nextProps._key);
+    }
+  }
+
   onAsyncChange = (value, edit) =>
     this.setState({...onMultipleAsyncChange(value, edit, this.props)});
 
@@ -28,14 +37,13 @@ class InComponent extends Component {
     const { key, value } = this.props.itemState;
     const selectValue    = getMultipleAnswerValue(this.state.answers, value);
 
-    console.log(selectValue);
-
     return <div className="rule-types">
       <div className="main-select">
 
         <QuestionVariety />
 
         <Async
+          ref="async"
           id={`in-type-${this.props.path}-${this.props.pathType}`}
           name={`in-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>

@@ -17,6 +17,15 @@ class ConditionsComponent extends Component {
     type   : 'list', // list or range
   };
 
+  componentWillReceiveProps(nextProps) {
+    const { op: oldOp, value: oldValue, _key: oldKey } = this.props;
+    const { op, value, _key } = nextProps;
+
+    if (op !== oldOp || value !== oldValue || _key !== oldKey) {
+      this.refs.async._onInputChange(nextProps._key);
+    }
+  }
+
   onAsyncChange = (value, edit) =>
     onConditionAsyncChange(value, edit, this.props);
 
@@ -30,6 +39,7 @@ class ConditionsComponent extends Component {
         </div>
 
         <Async
+          ref="async"
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>

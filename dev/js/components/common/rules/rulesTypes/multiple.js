@@ -21,6 +21,15 @@ class MultipleComponent extends Component {
     max    : 0,
   };
 
+  componentWillReceiveProps(nextProps) {
+    const { op: oldOp, value: oldValue, _key: oldKey } = this.props;
+    const { op, value, _key } = nextProps;
+
+    if (op !== oldOp || value !== oldValue || _key !== oldKey) {
+      this.refs.async._onInputChange(nextProps._key);
+    }
+  }
+
   onAsyncChange = (value, edit) => {
     this.setState({...onMultipleAsyncChange(value, edit, this.props)});
   };
@@ -35,6 +44,7 @@ class MultipleComponent extends Component {
         <QuestionVariety />
 
         <Async
+          ref="async"
           id={`multiple-type-${this.props.path}-${this.props.pathType}`}
           name={`multiple-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>

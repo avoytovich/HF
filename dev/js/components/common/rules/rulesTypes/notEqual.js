@@ -21,6 +21,15 @@ class NotEqualComponent extends Component {
     max    : 0,
   };
 
+  componentWillReceiveProps(nextProps) {
+    const { op: oldOp, value: oldValue, _key: oldKey } = this.props;
+    const { op, value, _key } = nextProps;
+
+    if (op !== oldOp || value !== oldValue || _key !== oldKey) {
+      this.refs.async._onInputChange(nextProps._key);
+    }
+  }
+
   onAsyncChange = (value, edit) =>
     this.setState({...onSingleAsyncChange(value, edit, this.props)});
 
@@ -34,6 +43,7 @@ class NotEqualComponent extends Component {
         <QuestionVariety />
 
         <Async
+          ref="async"
           id={`not-equal-type-${this.props.path}-${this.props.pathType}`}
           name={`not-equal-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>
