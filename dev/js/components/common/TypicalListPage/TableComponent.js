@@ -21,6 +21,7 @@ import { browserHistory }     from 'react-router';
 import { PAGE }               from '../../../config';
 import { withRouter }         from 'react-router';
 import Tooltip                from 'material-ui/Tooltip';
+import { store }              from '../../../index'
 
 
 const DEFAULT_QUERY = {
@@ -45,7 +46,7 @@ class TableComponent extends Component {
   state = { showTestingToolTip: false };
 
   componentDidMount() {
-    this.setDefaultQuery(this.props.path, this.props.store.pagination);
+    this.setDefaultQuery(this.props.path, this.props.store);
   }
 
   /**
@@ -61,16 +62,20 @@ class TableComponent extends Component {
 
   /**
    * @param pathname  : {string} - current url
-   * @param pagination: {{ per_page: string, page: string }}
+   * @param table: {{ per_page: string, page: string }}
    */
-  setDefaultQuery = (pathname, pagination) => {
-    const currentQuery = this.props.location.query;
-    const currentPath = this.props.location.pathname;
-    const query = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
-
+  setDefaultQuery = (pathname, table) => {
+    const currentQuery          = this.props.location.query;
+    const currentPath           = this.props.location.pathname;
+    const query                 = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
+    let sortOptionalFromState   = table.sortOptional;
+    if (pathname === 'test') {
+      sortOptionalFromState.orderBy = 'title'
+    }
+    console.log(sortOptionalFromState);
     browserHistory.push({
       pathname: currentPath,
-      query
+      query   : { ...query, ...sortOptionalFromState }
     });
   };
 
@@ -411,7 +416,7 @@ TableComponent.defaultProps = {
   data              : [],
   tableCellPropsFunc: () => ({}),
   CellContent       : () => null,
-  rowsPerPageOptions: [ 50, 100, 200 ], // The per page may not be greater than 50.
+  rowsPerPageOptions: [ 50, 100, 200], // The per page may not be greater than 50.
   url: '',
   showTestingMarker : false,
   titleTestingMarker: 'On testing',
