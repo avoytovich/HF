@@ -124,7 +124,7 @@ class CreateExerciseComponent extends Component {
     } = this.props;
 
     const { name, comments, title, information, instruction, files, testing_mode} = this.props.exerciseState;
-    console.log(this.props.exerciseState);
+
     return (
       <div id="create-question">
 
