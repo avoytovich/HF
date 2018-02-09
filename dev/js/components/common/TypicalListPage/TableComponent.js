@@ -324,6 +324,8 @@ class TableComponent extends Component {
             data.map(row => {
               const id         = row.id || row.user_id || row.customer_id;
               const isSelected = this.matchItems(selected, id) !== -1; // !row.deActive &&
+              const markerActiveClass = showTestingMarker && row[keyTestingMarker];
+
               let isEnabled;
 
               switch (true) {
@@ -357,13 +359,13 @@ class TableComponent extends Component {
                   <TableCell padding="checkbox"
                              className="td-checkbox">
 
-                      <div className={`in-testing-wrap ${ row[keyTestingMarker] && 'in-testing' }`}>
+                      <div className={`in-testing-wrap ${ markerActiveClass && 'in-testing' }`}>
 
                         <Tooltip title={titleTestingMarker}
                                  label="_"
-                                 className={`in-testing-tooltip ${ showTestingMarker && row[keyTestingMarker] ? 'active' : '' } `}
+                                 className={`in-testing-tooltip ${ markerActiveClass ? 'active' : '' } `}
                                  placement="bottom-start">
-                            <div className={`in-testing ${ showTestingMarker && row[keyTestingMarker] && 'active'}`} />
+                            <div className={`in-testing ${ markerActiveClass && 'active' }`} />
                         </Tooltip>
 
                         <Checkbox checked={isSelected}
