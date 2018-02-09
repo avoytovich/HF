@@ -9,7 +9,8 @@ import {
   getMultipleAnswerValue,
   onMultipleAsyncChange,
   getOptions,
-  onAnswerChange
+  onAnswerChange,
+  trickForUpdateComponent
 }                             from '../../../../utils'
 
 
@@ -21,6 +22,10 @@ class InComponent extends Component {
     max    : 0,
   };
 
+  componentWillReceiveProps(nextProps) {
+    trickForUpdateComponent(this.props, nextProps, this.refs.async._onInputChange);
+  }
+
   onAsyncChange = (value, edit) =>
     this.setState({...onMultipleAsyncChange(value, edit, this.props)});
 
@@ -28,14 +33,13 @@ class InComponent extends Component {
     const { key, value } = this.props.itemState;
     const selectValue    = getMultipleAnswerValue(this.state.answers, value);
 
-    console.log(selectValue);
-
     return <div className="rule-types">
       <div className="main-select">
 
         <QuestionVariety />
 
         <Async
+          ref="async"
           id={`in-type-${this.props.path}-${this.props.pathType}`}
           name={`in-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>

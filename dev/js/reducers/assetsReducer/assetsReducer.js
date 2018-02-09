@@ -4,14 +4,14 @@ import { ASSETS, ASSETS_DELETE } from '../../actions';
 const initialState = {
   actionType: ASSETS,
   errors: {},
-  files: [],
+  tmp_files: [],
   progress: 100,
 };
 
 const assetsDelete = (state, action) => {
-  let files = [...state.files];
-  files.splice(action.payload, 1);
-  return { ...state, files };
+  let tmp_files = [...state.tmp_files];
+  tmp_files.splice(action.payload, 1);
+  return { ...state, tmp_files };
 };
 
 export const assetsReducer = createReducer(initialState, ASSETS, {

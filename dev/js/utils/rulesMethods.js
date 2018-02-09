@@ -20,14 +20,13 @@ export const onSingleAsyncChange = (value, edit, props) => {
 
   const { subtype, type, values, min, max} = value.answer;
 
-
   if (subtype === 'range') {
     const _value = edit ?
       itemState :
       {
         key: value.key,
         op: '=',
-        value: min
+        value: ((parseFloat(min) + parseFloat(max)) / 2).toFixed(0)
       };
 
     setQuestion(path, pathType, _value);
@@ -199,3 +198,15 @@ export const getConditionOptions = (input, key, onChangeCallBack, props, questio
       });
   }
 };
+
+
+export const trickForUpdateComponent = (props, nextProps, func) => {
+  const { op: oldOp, value: oldValue, _key: oldKey } = props;
+  const { op, value, _key } = nextProps;
+
+  if (op !== oldOp || value !== oldValue || _key !== oldKey) {
+    return func(nextProps._key);
+  }
+};
+
+
