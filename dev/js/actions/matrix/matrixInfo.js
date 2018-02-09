@@ -22,7 +22,7 @@ export const getMatrixInfo = (domenKey, apiKey, query, path, url) => {
         queryFormStore = get(store.getState(), `tables.${path}.sortOptional`, {}),
         _query     = { ...query, queryFormStore },
         querySt   = qs.stringify(_query);
-  const finalUrl  = url ? url : `${domenPath}${apiPath}${'?' + querySt}`;
+  const finalUrl  = url ? url : `${domenPath}${apiPath}${querySt ? '?' + querySt : ''}`;
   return Api.get(finalUrl)
           .then((res) => dispatchTableInfo(res, path, _query));
 };
