@@ -19,10 +19,12 @@ export const dispatchMatrixPayloadWired = payload =>
 export const getMatrixInfo = (domenKey, apiKey, query, path, url) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey],
-        querySt   = qs.stringify(query);
-  const finalUrl  = url ? url : `${domenPath}${apiPath}${querySt ? '?' + querySt : ''}`;
+        queryFormStore = get(store.getState(), `tables.${path}.sortOptional`, {}),
+        _query     = { ...query, queryFormStore },
+        querySt   = qs.stringify(_query);
+  const finalUrl  = url ? url : `${domenPath}${apiPath}${'?' + querySt}`;
   return Api.get(finalUrl)
-          .then((res) => dispatchTableInfo(res, path, query));
+          .then((res) => dispatchTableInfo(res, path, _query));
 };
 
 export const dispatchTableInfo = ({data}, path, query) => {
@@ -37,8 +39,10 @@ export const dispatchTableInfo = ({data}, path, query) => {
 
 export const getListByPost = (domenKey, apiKey, _query, url) => {
   _query.orderBy === 'title' && delete _query.orderBy;
-  const finalQuery = { ..._query, page: +_query.current_page + 1, limit: _query.per_page };
+  const queryFormStore = get(store.getState(), `tables.${apiKey}.sortOptional`, {});
+  const finalQuery = { ..._query, page: +_query.current_page + 1, limit: _query.per_page, ...queryFormStore };
   const finalUrl   = url ? url : `${domen[domenKey]}${api[apiKey]}`;
+
   return Api.post(finalUrl, finalQuery)
     .then(res => {
       const { data, meta } = res.data;
