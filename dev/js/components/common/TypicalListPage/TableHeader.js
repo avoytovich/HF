@@ -42,7 +42,7 @@ class EnhancedTableHead extends Component {
                      className="td-checkbox">
             <div className="in-testing-wrap">
 
-              {showTestingMarker && <div className="in-testing"/>}
+              <div className="in-testing"/>
 
               <Checkbox
                 indeterminate={numSelected > 0 && numSelected < rowCount}
