@@ -1,5 +1,6 @@
 import { TABLE }      from '../../actions';
 import set            from 'lodash/set';
+import get            from 'lodash/get';
 import * as dotProp   from 'dot-prop-immutable';
 import qs             from 'query-string';
 
@@ -143,13 +144,21 @@ export default(state = _initialState(), action = TABLE) => {
   switch (action.type) {
 
     case `${TABLE}_UPDATE`:
-      const {data, meta:{pagination}, path, query} = action.payload;
+      const {
+        data,
+        meta:{
+          pagination
+        },
+        path,
+        query
+      } = action.payload;
+      const sortOptionalFromState = get(state, `${path}.sortOptional`, {});
       const sortOptional = {
         sortedBy: query.sortedBy,
         orderBy : query.orderBy,
         search  : query.search
       };
-      return set(state, path, {data, pagination, sortOptional});
+      return set(state, path, { data, pagination, sortOptional });
 
     case `${TABLE}_UPDATE_FIELDS`:
       const { orderBy, sortedBy, search, path: pathLink } = action.payload;
