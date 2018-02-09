@@ -354,13 +354,12 @@ class TableComponent extends Component {
 
                       <div className={`in-testing-wrap ${ row[keyTestingMarker] && 'in-testing' }`}>
 
-                        {showTestingMarker &&
-                          <Tooltip title={titleTestingMarker}
-                                   label="_"
-                                   className={`in-testing-tooltip ${ row[keyTestingMarker] ? 'active' : '' } `}
-                                   placement="bottom-start">
-                              <div className={`in-testing ${ row[keyTestingMarker] && 'active'}`} />
-                          </Tooltip>}
+                        <Tooltip title={titleTestingMarker}
+                                 label="_"
+                                 className={`in-testing-tooltip ${ showTestingMarker && row[keyTestingMarker] ? 'active' : '' } `}
+                                 placement="bottom-start">
+                            <div className={`in-testing ${ showTestingMarker && row[keyTestingMarker] && 'active'}`} />
+                        </Tooltip>
 
                         <Checkbox checked={isSelected}
                                   onClick={event => this.handleClick(event, row, selected)}/>
