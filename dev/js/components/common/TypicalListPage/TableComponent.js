@@ -15,7 +15,7 @@ import {
   getListByPost,
 }                             from '../../../actions';
 import get                    from 'lodash/get';
-import isEmpty                from 'lodash/isEmpty'
+import isEmpty                from 'lodash/isEmpty';
 import moment                 from 'moment';
 import { browserHistory }     from 'react-router';
 import { PAGE }               from '../../../config';
@@ -72,10 +72,20 @@ class TableComponent extends Component {
     if (pathname === 'test') {
       sortOptionalFromState.orderBy = 'title'
     }
-    console.log(sortOptionalFromState);
+
+    const _sortKey = Object.keys(sortOptionalFromState);
+    const _sortOptionalFromState = _sortKey.reduce((result, key) => {
+      if (key && sortOptionalFromState[key]) {
+        return {...result, [key]: sortOptionalFromState[key]};
+      }
+      return result;
+    }, {});
+
+    console.log('_sortOptionalFromState', );
+
     browserHistory.push({
       pathname: currentPath,
-      query   : { ...query, ...sortOptionalFromState }
+      query   : { ...query, ..._sortOptionalFromState }
     });
   };
 
@@ -204,13 +214,18 @@ class TableComponent extends Component {
   handleChangePage = (e, nextPage) => {
     const currentPath = PAGE[this.props.path];
     const { per_page } = this.props.store.pagination;
+    const { sortedBy, orderBy, search }  = this.props.store.sortOptional;
+
+    const query = {
+      per_page: per_page,
+      current_page: nextPage,
+      sortedBy,
+      orderBy,
+    };
 
     browserHistory.push({
       pathname: currentPath,
-      query: {
-        per_page: per_page,
-        current_page: nextPage
-      }
+      query: search ? {...query, search } : query
     });
   };
 
@@ -223,14 +238,16 @@ class TableComponent extends Component {
     const { current_page } = this.props.store.pagination;
     const { sortedBy, orderBy, search }  = this.props.store.sortOptional;
 
+    const query = {
+      per_page     : event.target.value,
+      current_page : 0,
+      sortedBy,
+      orderBy,
+    };
+
     browserHistory.push({
       pathname: currentPath,
-      query: {
-        per_page     : event.target.value,
-        current_page : 0,
-        sortedBy,
-        orderBy
-      }
+      query: search ? {...query, search } : query
     });
   };
 
