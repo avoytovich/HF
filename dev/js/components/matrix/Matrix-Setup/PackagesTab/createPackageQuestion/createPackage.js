@@ -77,6 +77,7 @@ class CreatePackageComponent extends Component {
       getPackagenById('exercises', 'packages', this.props.params.id).then(res => {
 //        browserHistory.push(`/packages-create/${this.props.routeParams.id}?level=${0}`)
         const { packageLevels } = res;
+        console.log(packageLevels);
         this.levelList = packageLevels.data;
         this.setState({loading: false});
       })
@@ -112,7 +113,7 @@ class CreatePackageComponent extends Component {
       type     : packageType,
       app_title,
       package_levels : packageLevels,
-      testing_mode
+      testing_mode,
     };
 
     submitTabs(
@@ -174,6 +175,8 @@ class CreatePackageComponent extends Component {
       },
       routeParams: { id },
     } = this.props;
+
+    console.log(this.props);
     return (
       <div id="create-question">
         <CreateItemNavButtons

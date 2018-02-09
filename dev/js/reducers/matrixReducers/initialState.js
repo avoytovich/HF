@@ -45,8 +45,7 @@ const packageTab = {
       exercises: []
     }
   ],
-  testing_mode  : false,
-  app_title     : ''
+  app_title     : '',
 };
 
 const levelUp = {
@@ -72,7 +71,7 @@ const exerciseTab = {
     instruction : { swe: '', en: '' },
     title       : { swe: '', en: '' },
     information : { swe: '', en: '' },
-    testing_mode : false,
+    testing_mode : true,
   },
 };
 
@@ -83,7 +82,7 @@ export  default {
   areas         : [],
   areaIds       : [],
   testing       : true,
-
+  testing_mode  : true,
   ...diagnosticTab,
   ...conditionTab,
   ...treatmentTab,

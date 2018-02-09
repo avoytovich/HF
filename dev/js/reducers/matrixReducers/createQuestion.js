@@ -10,6 +10,7 @@ import InitialState        from './initialState'
 const createQuestionUpdate = (state, action) => {
   switch (action.type) {
     case `${CREATE_QUESTION}_UPDATE`:
+      console.log(state, action.payload);
       const {data, path } = action.payload;
       const res =  set(state, path, data);
       return Object.assign({}, res);
@@ -222,13 +223,14 @@ const setFullBodyAreaEdit = (state, action) => {
 };
 
 const setFullQuestionForPackage = (state, action) => {
-  const { body: {areas, title, key, packageLevels, type }} = action.payload;
+  const { body: {areas, title, key, packageLevels, type, testing_mode }} = action.payload;
   const _body = {
     areaIds: configArea(areas.data),
     questionTitle: title,
     questionKey: key,
     packageLevels: configPackageLevel(packageLevels.data),
-    packageType: type
+    packageType: type,
+    testing_mode
   };
   return Object.assign({}, state, _body);
 };
