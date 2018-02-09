@@ -10,7 +10,6 @@ import InitialState        from './initialState'
 const createQuestionUpdate = (state, action) => {
   switch (action.type) {
     case `${CREATE_QUESTION}_UPDATE`:
-      console.log(state, action.payload);
       const {data, path } = action.payload;
       const res =  set(state, path, data);
       return Object.assign({}, res);

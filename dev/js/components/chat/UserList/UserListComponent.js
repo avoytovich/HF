@@ -27,7 +27,6 @@ const DEFAULT_QUERY = {
 class UserListComponent extends Component {
 
   componentDidMount() {
-    console.log(this.props);
     this.setDefaultQuery(this.props.path, this.props.store.pagination);
     get(this.props,'store.data[0]')?this.handleClick('event', this.props.store.data[0]):'';
   }
