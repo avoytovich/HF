@@ -81,8 +81,6 @@ class TableComponent extends Component {
       return result;
     }, {});
 
-    console.log('_sortOptionalFromState', );
-
     browserHistory.push({
       pathname: currentPath,
       query   : { ...query, ..._sortOptionalFromState }
