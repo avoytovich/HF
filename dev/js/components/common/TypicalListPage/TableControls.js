@@ -109,7 +109,7 @@ class TableControls extends Component {
               <FormControl fullWidth>
                 <Input
                   id="search"
-                  value={defaultValue}
+                  value={defaultValue || ''}
                   className={classes.formControl}
                   onChange={event => this.handleChange(event.target.value)}
                   placeholder='Search'
