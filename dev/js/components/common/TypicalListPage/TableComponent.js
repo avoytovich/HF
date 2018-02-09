@@ -15,7 +15,7 @@ import {
   getListByPost,
 }                             from '../../../actions';
 import get                    from 'lodash/get';
-import isEmpty                from 'lodash/isEmpty'
+import isEmpty                from 'lodash/isEmpty';
 import moment                 from 'moment';
 import { browserHistory }     from 'react-router';
 import { PAGE }               from '../../../config';
@@ -72,10 +72,18 @@ class TableComponent extends Component {
     if (pathname === 'test') {
       sortOptionalFromState.orderBy = 'title'
     }
-    console.log(sortOptionalFromState);
+
+    const _sortKey = Object.keys(sortOptionalFromState);
+    const _sortOptionalFromState = _sortKey.reduce((result, key) => {
+      if (key && sortOptionalFromState[key]) {
+        return {...result, [key]: sortOptionalFromState[key]};
+      }
+      return result;
+    }, {});
+
     browserHistory.push({
       pathname: currentPath,
-      query   : { ...query, ...sortOptionalFromState }
+      query   : { ...query, ..._sortOptionalFromState }
     });
   };
 
@@ -204,13 +212,18 @@ class TableComponent extends Component {
   handleChangePage = (e, nextPage) => {
     const currentPath = PAGE[this.props.path];
     const { per_page } = this.props.store.pagination;
+    const { sortedBy, orderBy, search }  = this.props.store.sortOptional;
+
+    const query = {
+      per_page: per_page,
+      current_page: nextPage,
+      sortedBy,
+      orderBy,
+    };
 
     browserHistory.push({
       pathname: currentPath,
-      query: {
-        per_page: per_page,
-        current_page: nextPage
-      }
+      query: search ? {...query, search } : query
     });
   };
 
@@ -223,14 +236,16 @@ class TableComponent extends Component {
     const { current_page } = this.props.store.pagination;
     const { sortedBy, orderBy, search }  = this.props.store.sortOptional;
 
+    const query = {
+      per_page     : event.target.value,
+      current_page : 0,
+      sortedBy,
+      orderBy,
+    };
+
     browserHistory.push({
       pathname: currentPath,
-      query: {
-        per_page     : event.target.value,
-        current_page : 0,
-        sortedBy,
-        orderBy
-      }
+      query: search ? {...query, search } : query
     });
   };
 
@@ -324,6 +339,8 @@ class TableComponent extends Component {
             data.map(row => {
               const id         = row.id || row.user_id || row.customer_id;
               const isSelected = this.matchItems(selected, id) !== -1; // !row.deActive &&
+              const markerActiveClass = showTestingMarker && row[keyTestingMarker];
+
               let isEnabled;
 
               switch (true) {
@@ -357,13 +374,13 @@ class TableComponent extends Component {
                   <TableCell padding="checkbox"
                              className="td-checkbox">
 
-                      <div className={`in-testing-wrap ${ row[keyTestingMarker] && 'in-testing' }`}>
+                      <div className={`in-testing-wrap ${ markerActiveClass && 'in-testing' }`}>
 
                         <Tooltip title={titleTestingMarker}
                                  label="_"
-                                 className={`in-testing-tooltip ${ showTestingMarker && row[keyTestingMarker] ? 'active' : '' } `}
+                                 className={`in-testing-tooltip ${ markerActiveClass ? 'active' : '' } `}
                                  placement="bottom-start">
-                            <div className={`in-testing ${ showTestingMarker && row[keyTestingMarker] && 'active'}`} />
+                            <div className={`in-testing ${ markerActiveClass && 'active' }`} />
                         </Tooltip>
 
                         <Checkbox checked={isSelected}
@@ -416,7 +433,7 @@ TableComponent.defaultProps = {
   data              : [],
   tableCellPropsFunc: () => ({}),
   CellContent       : () => null,
-  rowsPerPageOptions: [ 50, 100, 200], // The per page may not be greater than 50.
+  rowsPerPageOptions: [ 50, 100, 200], // The per page may not be greater than 200.
   url: '',
   showTestingMarker : false,
   titleTestingMarker: 'On testing',
