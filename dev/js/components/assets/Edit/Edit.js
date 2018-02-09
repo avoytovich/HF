@@ -73,7 +73,6 @@ class Edit extends Component {
       type,
     } = this.props;
 
-    console.log(this.props)
     const headerTitle = get(tmp_files[0],'name', 'Upload Files');
     return (
       <div className="upload-container">
