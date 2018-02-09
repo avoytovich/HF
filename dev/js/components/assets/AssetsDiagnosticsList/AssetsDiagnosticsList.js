@@ -53,7 +53,7 @@ class AssetsList extends Component {
       return {
         onClick: (e) => {
           e.stopPropagation();
-          dispatchAssetsPayloadWired({ [`files[${0}]`]: { ...row, progress: 100 } });
+          dispatchAssetsPayloadWired({ [`tmp_files[${0}]`]: { ...row, progress: 100 } });
           this._toggleEditModal()
         }
       }
