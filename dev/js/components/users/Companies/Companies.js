@@ -5,12 +5,14 @@ import { TableComponent }       from '../../../components/common/TypicalListPage
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
+import DeactivateIcon           from 'material-ui-icons/NotInterested';
+import ActivateIcon             from 'material-ui-icons/Check';
+import DeleteIcon               from 'material-ui-icons/Delete';
 import Modal                    from '../../common/Modal/Modal';
-import { PAGE } from '../../../config';
-import CreateUser from '../CreateUser/CreateUser';
-import DeactivateComponent      from '../../common/Modal/DeactivateModal';
-import { activateCustomer,
-  getMatrixInfo }      from '../../../actions';
+import CreateUser               from '../CreateUser/CreateUser';
+import DeactivateComponent      from '../user-modals/deactivateModal';
+import DeleteComponent          from '../user-modals/deleteModal';
+import {domen, api}             from '../../../config';
 
 const userInfo = {
   headerTitle:'Create Company',
@@ -22,9 +24,10 @@ const userInfo = {
 class Companies extends Component {
   state = {
     selected: [],
-    showDeleteModal:false,
-    showActivateModal:false,
     showCreateModal: false,
+    showActivateModal:false,
+    showDeactivateModal:false,
+    showDeleteModal: false,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -52,41 +55,20 @@ class Companies extends Component {
 
   createEntity = () => this.setState({ showCreateModal: !this.state.showCreateModal });
 
-  _toggleActivateModal = () => this.setState({ showActivateModal: !this.state.showActivateModal });
-
   updateModal = (key, value) => {
     this.setState({ [key]: value });
 
     if (!value) this.setState({ selected: [] });
   };
 
-  _activateItems=(selected)=>{
-    activateCustomer('users', 'customers', selected)
-      .then(() => browserHistory.push(`/companies`))
-    this.setState({ showActivateModal: !this.state.showActivateModal, selected: [], })
-  };
-
   render() {
     const { tableHeader } = COMPANIES_TAB;
-    const { selected, showActivateModal, showCreateModal } = this.state;
+    const { selected, showCreateModal,showActivateModal,
+      showDeactivateModal, showDeleteModal } = this.state;
     const querySelector = {...this.props.location.query,...{type: 'organization', back :'companies'}};
+    const url = `${domen['users']}${api['companies']}`;
     return (
       <div id="diagnosis-component">
-
-        <DeactivateComponent
-          pathReq="createQuestion"
-          path="users"
-          domen="diagnostics"
-          typeKey="deactivateOpen"
-          list={selected}
-          title="Activate this Companies"
-          deactivateOpen={showActivateModal}
-          open={this._toggleActivateModal}
-          itemKey="name"
-          query={this.props.location.query}
-          onSubmit={this._activateItems}
-          onSubmitTitle = "Activate"
-        />
 
         <TableControls
           path="companies"
@@ -97,7 +79,17 @@ class Companies extends Component {
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
-            Activate
+            <ActivateIcon/>Activate
+          </Button>
+
+          <Button raised dense
+                  onClick={() => this.updateModal('showDeactivateModal', true)}>
+            <DeactivateIcon/> Deactivate
+          </Button>
+
+          <Button raised dense
+                  onClick={() => this.updateModal('showDeleteModal', true)}>
+            <DeleteIcon/> Delete
           </Button>
 
         </TableControls>
@@ -113,6 +105,52 @@ class Companies extends Component {
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
           tableCellPropsFunc={this._tableCellPropsFunc}
+        />
+
+        <DeactivateComponent
+          pathReq="customers"
+          path="companies"
+          domen="users"
+          url={url}
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Activate this Companies?"
+          deactivateOpen={showActivateModal}
+          open={()=>this.updateModal('showActivateModal', false)}
+          itemKey="name"
+          query={querySelector}
+          action="activate"
+          onSubmitTitle = "Activate"
+        />
+
+        <DeactivateComponent
+          pathReq="customers"
+          path="companies"
+          domen="users"
+          url={url}
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Deactivate this Companies?"
+          deactivateOpen={showDeactivateModal}
+          open={()=>this.updateModal('showDeactivateModal', false)}
+          itemKey="name"
+          query={querySelector}
+          action="deactivate"
+          onSubmitTitle = "Deactivate"
+        />
+
+        <DeleteComponent
+          pathReq="customers"
+          path="companies"
+          domen = "users"
+          url={url}
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Delete this Companies?"
+          deactivateOpen={showDeleteModal}
+          open={()=>this.updateModal('showDeleteModal', false)}
+          itemKey="name"
+          query={querySelector}
         />
 
         <Modal

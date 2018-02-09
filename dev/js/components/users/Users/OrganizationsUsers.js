@@ -5,17 +5,19 @@ import { TableComponent }       from '../../../components/common/TypicalListPage
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
-import DeactivateComponent      from '../../common/Modal/DeactivateModal';
-import { activateUser }         from '../../../actions';
+import DeactivateComponent      from '../user-modals/deactivateModal';
+import DeleteComponent          from '../user-modals/deleteModal';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
-import  { get }                  from 'lodash'
+import DeleteIcon               from 'material-ui-icons/Delete';
+import {domen, api}             from '../../../config';
 
 class OrganizationsUsers extends Component {
   state = {
     selected: [],
     showActivateModal:false,
     showDeactivateModal:false,
+    showDeleteModal: false
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -41,61 +43,19 @@ class OrganizationsUsers extends Component {
 
   onSelectAllClick = (selected) => this.setState({selected});
 
-
   updateModal = (key, value) => {
     this.setState({ [key]: value });
 
     if (!value) this.setState({ selected: [] });
   };
 
-  _toggleActivateModal = (data) => {
-    data==='activate'?(this.setState({ showActivateModal: !this.state.showActivateModal })):
-      (this.setState({ showDeactivateModal: !this.state.showDeactivateModal }))
-  };
-
-  _activateItems = (selected, action) => {
-    let currentPage = get(this.props,'store.pagination.current_page');
-    activateUser('users', 'userProfile', selected, action)
-      .then(() => browserHistory.push(`/users-organizations?current_page=${currentPage}`))
-    this._toggleActivateModal(action);
-    this.setState({ selected: []})
-
-  };
   render() {
     const { tableHeader } = COMPANIES_USERS_TAB;
-    const { selected, showActivateModal, showDeactivateModal} = this.state;
+    const { selected, showActivateModal, showDeactivateModal, showDeleteModal} = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'organization'}};
+    const url = `${domen['users']}${api['organizationsUsers']}`;
     return (
       <div id="diagnosis-component">
-
-        <DeactivateComponent
-          pathReq="createQuestion"
-          path="users"
-          domen="diagnostics"
-          typeKey="deactivateOpen"
-          list={selected}
-          title="Activate this Users"
-          deactivateOpen={showActivateModal}
-          open={()=>this._toggleActivateModal('activate')}
-          itemKey="user_id"
-          query={this.props.location.query}
-          onSubmit={()=>this._activateItems(selected, 'activate')}
-          onSubmitTitle = "Activate"
-        />
-
-        <DeactivateComponent
-          pathReq="createQuestion"
-          path="users"
-          domen="diagnostics"
-          typeKey="deactivateOpen"
-          list={selected}
-          title="Deactivate this Users"
-          deactivateOpen={showDeactivateModal}
-          open={()=>this._toggleActivateModal('deactivate')}
-          itemKey="user_id"
-          query={this.props.location.query}
-          onSubmit={()=>this._activateItems(selected, 'deactivate')}
-        />
 
         <TableControls
           locationUrl={this.props.location.pathname}
@@ -113,6 +73,12 @@ class OrganizationsUsers extends Component {
             <DeactivateIcon/> Deactivate
           </Button>
 
+          <Button raised dense
+                  onClick={() => this.updateModal('showDeleteModal', true)}>
+            <DeleteIcon/> Delete
+          </Button>
+
+
         </TableControls>
 
         <TableComponent
@@ -126,6 +92,52 @@ class OrganizationsUsers extends Component {
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
           tableCellPropsFunc={this._tableCellPropsFunc}
+        />
+
+        <DeactivateComponent
+          pathReq="userProfile"
+          path="organizationsUsers"
+          domen="users"
+          url={url}
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Activate this Users"
+          deactivateOpen={showActivateModal}
+          open={()=>this.updateModal('showActivateModal', false)}
+          itemKey="user_id"
+          query={querySelector}
+          action="activate"
+          onSubmitTitle = "Activate"
+        />
+
+        <DeactivateComponent
+          pathReq="userProfile"
+          path="organizationsUsers"
+          domen="users"
+          url={url}
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Deactivate this Users"
+          deactivateOpen={showDeactivateModal}
+          open={()=>this.updateModal('showDeactivateModal', false)}
+          itemKey="user_id"
+          query={querySelector}
+          action="deactivate"
+          onSubmitTitle = "Deactivate"
+        />
+
+        <DeleteComponent
+          pathReq="userProfile"
+          path="organizationsUsers"
+          domen = "users"
+          url={url}
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Delete this Users?"
+          deactivateOpen={showDeleteModal}
+          open={()=>this.updateModal('showDeleteModal', false)}
+          itemKey="user_id"
+          query={this.props.location.query}
         />
 
       </div>

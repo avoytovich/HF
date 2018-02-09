@@ -1,29 +1,27 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
+import { browserHistory }       from 'react-router'
+import get                      from 'lodash/get';
+
+import { PAGE, domen, api }     from '../../../config';
 import { USERS_TAB }            from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
-import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
-import Button                   from 'material-ui/Button';
-import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
-import { get, map }             from 'lodash';
 import Modal                    from '../../common/Modal/Modal';
 import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
 import CreateSimpleUser         from '../CreateUser/CreateSimpleUser';
+import DeactivateComponent      from '../user-modals/deactivateModal';
+import DeleteComponent          from '../user-modals/deleteModal';
+import { dispatchCreateSimpleUserPayloadWired,
+        toggleCSVModal,
+        userCreate }            from '../../../actions';
+
+//UI
+import Button                   from 'material-ui/Button';
+import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
-import DeactivateComponent      from '../../common/Modal/DeactivateModal';
-import { activateUser,
-  toggleCSVModal,
-  userCreate,
-  userCreateByCSV,
-  dispatchCreateSimpleUserPayloadWired}              from '../../../actions';
-
-import {
-  PAGE,
-  domen,
-  api
-} from '../../../config';
+import DeleteIcon               from 'material-ui-icons/Delete';
 
 class CompanyOwnUsers extends Component {
   state = {
@@ -32,10 +30,7 @@ class CompanyOwnUsers extends Component {
     showActivateModal:false,
     showDeactivateModal:false,
     showCSVUploadModal: false,
-    CSVUploadModalConfirm: function () {
-      console.log('CSVUploadModalConfirm')
-    },
-    CSVUploadModalTitle: '',
+    showDeleteModal:    false,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -95,20 +90,6 @@ class CompanyOwnUsers extends Component {
         dispatchCreateSimpleUserPayloadWired({email:''});
         this.setState({showCreateUserModal:false})
     });
-
-  };
-
-  _toggleActivateModal = (data) => {
-    data==='activate'?(this.setState({ showActivateModal: !this.state.showActivateModal })):
-      (this.setState({ showDeactivateModal: !this.state.showDeactivateModal }))
-  };
-
-  _activateItems = (selected, action) => {
-    activateUser('users', 'userProfile', selected, action)
-      .then(() => browserHistory.push(`/clinic/${this.props.params.id}/users`))
-    this._toggleActivateModal(action);
-    this.setState({ selected: []})
-
   };
 
   _toggleCSVModal=(data)=>{
@@ -117,7 +98,8 @@ class CompanyOwnUsers extends Component {
 
   render() {
     const { tableHeader } = USERS_TAB;
-    const { selected, showActivateModal, showCreateUserModal, showDeactivateModal, showCSVUploadModal} = this.state;
+    const { selected, showActivateModal, showCreateUserModal, showDeactivateModal,
+      showCSVUploadModal, showDeleteModal} = this.state;
     const { profileReducer } = this.props;
     const querySelector = {...this.props.location.query,...{type: 'organization'}};
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
@@ -129,35 +111,6 @@ class CompanyOwnUsers extends Component {
           <ArrowRight className="arrow-right-icon" />
           <span onClick={()=>this._returnFunc('profile')}> {get(profileReducer,'name')}</span>
         </div>
-
-        <DeactivateComponent
-          pathReq="createQuestion"
-          path="users"
-          domen="diagnostics"
-          typeKey="deactivateOpen"
-          list={selected}
-          title="Activate this Users"
-          deactivateOpen={showActivateModal}
-          open={()=>this._toggleActivateModal('activate')}
-          itemKey="user_id"
-          query={this.props.location.query}
-          onSubmit={()=>this._activateItems(selected, 'activate')}
-          onSubmitTitle = "Activate"
-        />
-
-        <DeactivateComponent
-          pathReq="createQuestion"
-          path="users"
-          domen="diagnostics"
-          typeKey="deactivateOpen"
-          list={selected}
-          title="Deactivate this Users"
-          deactivateOpen={showDeactivateModal}
-          open={()=>this._toggleActivateModal('deactivate')}
-          itemKey="user_id"
-          query={this.props.location.query}
-          onSubmit={()=>this._activateItems(selected, 'deactivate')}
-        />
 
         <TableControls
           locationUrl={this.props.location.pathname}
@@ -179,6 +132,11 @@ class CompanyOwnUsers extends Component {
            <DeactivateIcon/> Deactivate
           </Button>
 
+          <Button raised dense
+                  onClick={() => this.updateModal('showDeleteModal', true)}>
+            <DeleteIcon/> Delete
+          </Button>
+
         </TableControls>
 
         <TableComponent
@@ -193,6 +151,52 @@ class CompanyOwnUsers extends Component {
           onSelectAllClick={this.onSelectAllClick}
           query= {querySelector}
           tableCellPropsFunc={this._tableCellPropsFunc}
+        />
+
+        <DeactivateComponent
+          pathReq="userProfile"
+          path="companyOwnUsers"
+          domen="users"
+          url={url}
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Activate this Users"
+          deactivateOpen={showActivateModal}
+          open={()=>this.updateModal('showActivateModal', false)}
+          itemKey="user_id"
+          query={this.props.location.query}
+          action="activate"
+          onSubmitTitle = "Activate"
+        />
+
+        <DeactivateComponent
+          pathReq="userProfile"
+          path="companyOwnUsers"
+          domen="users"
+          url={url}
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Deactivate this Users"
+          deactivateOpen={showDeactivateModal}
+          open={()=>this.updateModal('showDeactivateModal', false)}
+          itemKey="user_id"
+          query={this.props.location.query}
+          action="deactivate"
+          onSubmitTitle = "Deactivate"
+        />
+
+        <DeleteComponent
+          pathReq="userProfile"
+          path="companyOwnUsers"
+          domen = "users"
+          url={url}
+          typeKey="deactivateOpen"
+          list={selected}
+          title="Delete this Users?"
+          deactivateOpen={showDeleteModal}
+          open={()=>this.updateModal('showDeleteModal', false)}
+          itemKey="user_id"
+          query={this.props.location.query}
         />
 
         <Modal
