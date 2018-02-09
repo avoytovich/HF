@@ -2,8 +2,12 @@ import {
   diagnosisQuestionCreate,
   updateQuestionCreate,
   updateCrateQuestionFields,
-  clearCreateQuestion
+  clearCreateQuestion,
+  dispatchMatrixPayloadWired
 }                                   from '../actions';
+import get                          from 'lodash/get';
+import set from 'lodash/set';
+import each from 'lodash/each';
 import { browserHistory }           from 'react-router';
 import { validateMatrix }           from './validation/validateMatrix';
 
@@ -129,16 +133,36 @@ export const submitTabs = (validValue, oldErrors, domain, path, result, url, id)
   }
   else {
     !id ?
-      diagnosisQuestionCreate(domain, path, result)
-      .then(() => {
-        browserHistory.push(url);
-        clearCreateQuestion();
-      })
+      diagnosisQuestionCreateWired(domain, path, result,url)
       :
-      updateQuestionCreate(domain, path, result, id)
-      .then(() => {
-        browserHistory.push(url);
-        clearCreateQuestion();
-      })
+      updateQuestionCreateWired(domain, path, result, id,url)
+
   }
 };
+
+
+export const diagnosisQuestionCreateWired = (domain, path, result, url) => diagnosisQuestionCreate(domain, path, result)
+  .then((result) => {
+    console.log(result)
+    browserHistory.push(url);
+    clearCreateQuestion();
+  })
+  .catch(err => {
+    let errors = {};
+    let errorsReceived = get(err, 'response.data', {});
+    each(errorsReceived, (errorVal, errorPath) => set(errors, errorPath, errorVal.toString()));
+    dispatchMatrixPayloadWired({ errors: {exercise: errors} });
+  });
+
+export const updateQuestionCreateWired = (domain, path, result, id,url) => updateQuestionCreate(domain, path, result, id)
+  .then((result) => {
+    console.log(result)
+    browserHistory.push(url);
+    clearCreateQuestion();
+  })
+  .catch(err => {
+    let errors = {};
+    let errorsReceived = get(err, 'response.data', {});
+    each(errorsReceived, (errorVal, errorPath) => set(errors, errorPath, errorVal.toString()));
+    dispatchMatrixPayloadWired({ errors: {exercise: errors} });
+  })
