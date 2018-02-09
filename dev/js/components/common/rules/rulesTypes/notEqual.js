@@ -9,7 +9,8 @@ import {
   onAnswerChange,
   getAnswerValue,
   onSingleAsyncChange,
-  getOptions
+  getOptions,
+  trickForUpdateComponent
 }                             from '../../../../utils';
 
 class NotEqualComponent extends Component {
@@ -20,6 +21,10 @@ class NotEqualComponent extends Component {
     min    : 0,
     max    : 0,
   };
+
+  componentWillReceiveProps(nextProps) {
+    trickForUpdateComponent(this.props, nextProps, this.refs.async._onInputChange);
+  }
 
   onAsyncChange = (value, edit) =>
     this.setState({...onSingleAsyncChange(value, edit, this.props)});
@@ -34,6 +39,7 @@ class NotEqualComponent extends Component {
         <QuestionVariety />
 
         <Async
+          ref="async"
           id={`not-equal-type-${this.props.path}-${this.props.pathType}`}
           name={`not-equal-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>

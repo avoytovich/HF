@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import get from 'lodash/get';
+import keys from 'lodash/keys';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
@@ -19,6 +20,7 @@ import {
   clearBodyAreaWired,
   getBodyAreaById,
   getAllSideAreasWired,
+  deletePolygonWired,
 } from '../../../../../actions'
 
 // work around broken icons when using webpack, see https://github.com/PaulLeCam/react-leaflet/issues/255
@@ -44,7 +46,6 @@ class BodyModel extends Component {
         this._drawingNewPolygons();
         this._onChange();
       });
-
     }
   }
 
@@ -154,10 +155,12 @@ class BodyModel extends Component {
       // last element need to be removed (spot the same as the first one due to leaflat stupid nature ->
       // http://leafletjs.com/reference-1.3.0.html#polygon
       latlng[0].pop();
-      dispatchBodyModelWired({
-        // saving polygon for each side.sex : [[lat, lan][...][...]], reversing due to leaflat stupid nature
-        [`currentlyDrawingPolygon.${side}.${sex}`]: latlng[0].map(ll => new L.LatLng(...ll.reverse())),
-      });
+      if (latlng[0].length) {
+        dispatchBodyModelWired({
+          // saving polygon for each side.sex : [[lat, lan][...][...]], reversing due to leaflat stupid nature
+          [`currentlyDrawingPolygon.${side}.${sex}`]: latlng[0].map(ll => new L.LatLng(...ll.reverse())),
+        });
+      }
     });
     this._onChange();
   };
@@ -180,9 +183,19 @@ class BodyModel extends Component {
   };
 
   _onDeleted = (e) => {
-    const { sex, side } = this.props;
+    const {
+      sex,
+      side,
+      bodyModelReducer: {
+        currentlyDrawingPolygon,
+      }
+    } = this.props;
     if (!this._editableFG.leafletElement.toGeoJSON().features.length) {
-      dispatchBodyModelWired({ [`currentlyDrawingPolygon.${side}.${sex}`]: [] });
+      if (keys(get(currentlyDrawingPolygon, side)).length > 1) {
+        deletePolygonWired(`currentlyDrawingPolygon.${side}.${sex}`);
+      } else {
+        deletePolygonWired(`currentlyDrawingPolygon.${side}`);
+      }
     }
     this._onChange()
   };

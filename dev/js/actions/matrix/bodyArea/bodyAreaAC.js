@@ -12,6 +12,11 @@ export const dispatchBodyModel = payload => dispatch =>
 export const dispatchBodyModelWired = payload =>
   dispatchBodyModel(payload)(store.dispatch);
 
+export const deletePolygonWired = path => store.dispatch({
+  type   : T.BODY_MODEL_DELETE_POLYGON,
+  payload: path
+});
+
 
 export const clearCreateQuestion = () =>
   store.dispatch({type:`${T.CREATE_QUESTION}_CLEAR`});

@@ -9,7 +9,8 @@ import {
   getMultipleAnswerValue,
   onMultipleAsyncChange,
   getOptions,
-  onAnswerChange
+  onAnswerChange,
+  trickForUpdateComponent
 }                             from '../../../../utils'
 
 
@@ -21,10 +22,14 @@ class NotInComponent extends Component {
     max    : 0,
   };
 
+  componentWillReceiveProps(nextProps) {
+    trickForUpdateComponent(this.props, nextProps, this.refs.async._onInputChange);
+  }
+
   onAsyncChange = (value, edit) => {
     const res = {...onMultipleAsyncChange(value, edit, this.props)};
     this.setState(res);
-  }
+  };
 
   render() {
     const { key, value } = this.props.itemState;
@@ -36,6 +41,7 @@ class NotInComponent extends Component {
         <QuestionVariety />
 
         <Async
+          ref="async"
           id={`in-type-${this.props.path}-${this.props.pathType}`}
           name={`in-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>

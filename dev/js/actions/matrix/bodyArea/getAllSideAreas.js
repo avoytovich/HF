@@ -19,12 +19,12 @@ export const getAllSideAreasWired = (side, id = false) => getAllSideAreas(side)
       data = [],
     } = res.data;
     data.forEach((area, i) => {
-      const coordinates = get(area, 'properties.coordinates', false);
+      const coordinates = get(area, 'coordinates', false);
       const title       = get(area, 'title', '-');
       if (coordinates && area.id != id) {
         dispatchBodyModelWired({
-          [`existingPolygons[${i}].${side}`]: coordinates,
-          [`existingPolygons[${i}].title`]  : title,
+          [`existingPolygons[${i}]`]      : coordinates,
+          [`existingPolygons[${i}].title`]: title,
         });
       }
     });

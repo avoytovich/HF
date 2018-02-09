@@ -13,6 +13,7 @@ import {
   getAnswerValue,
   getOptions,
   onSingleAsyncChange,
+  trickForUpdateComponent,
   SYMBOLS
 }                             from '../../../../utils';
 
@@ -25,11 +26,15 @@ class MatchComponent extends Component {
     max    : 0,
   };
 
+  componentWillReceiveProps(nextProps) {
+    trickForUpdateComponent(this.props, nextProps, this.refs.async._onInputChange);
+  }
+
   onAsyncChange = (value, edit) =>
     this.setState({...onSingleAsyncChange(value, edit, this.props)});
 
   render() {
-    const { key, op, value } = this.props.itemState,
+    const { _key: key, op, value } = this.props,
           opValue            = getSymbolValue(op),
           selectValue        = getAnswerValue(this.state.answers, value);
 
@@ -40,6 +45,7 @@ class MatchComponent extends Component {
         <QuestionVariety />
 
         <Async
+          ref="async"
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>
@@ -120,7 +126,6 @@ class MatchComponent extends Component {
 
 const mapStateToProps = (state, props) => ({
   state    : state.createDiagnosisQuestion,
-  itemState: get(state.createDiagnosisQuestion, `${props.path}.${props.pathType}`)
 });
 
 export default connect(mapStateToProps)(MatchComponent);

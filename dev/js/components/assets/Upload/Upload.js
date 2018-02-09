@@ -9,11 +9,14 @@ import Toolbar from 'material-ui/Toolbar';
 import Close from 'material-ui-icons/Close';
 
 import {
+  getS3Link,
+  uploadAssets,
   dispatchAssetsPayload,
   createAssetsPreValidate,
   getMatrixInfo,
   T,
 } from '../../../actions'
+import { getBase64Promise } from '../../../utils'
 import AssetItem from '../AssetItem/AssetItem'
 import Dropzone from '../Dropzone/Dropzone'
 
@@ -24,20 +27,35 @@ class Upload extends Component {
 
   _onDrop = (acceptedF, rejectedF) => {
     const { dispatchAssetsPayload } = this.props;
-    const files = acceptedF.map(file => ({
-      file,
-      type       : file.type.split('/').shift() === 'image' ? 'image' : 'video',
+    const tmp_files = acceptedF.map(({ type, name }) => ({
+      type       : type.split('/').shift() === 'image' ? 'image' : 'video',
       title      : '',
       description: '',
-      name       : file.name.split('.').shift(),
-      progress   : 100,
+      name_real  : name.split('.').shift(),
+      name       : name.split('.').shift(),
     }));
-    dispatchAssetsPayload({ files });
+    dispatchAssetsPayload({ tmp_files });
+    if (acceptedF.length) {
+      acceptedF.map((file, i) => {
+        getS3Link(file.name.split('.').pop(), this.props.folder)
+          .then((res) => {
+            uploadAssets(
+              res.data.url,
+              file,
+              progress => dispatchAssetsPayload({ [`tmp_files[${i}].progress`]: progress }),
+              file.type
+            );
+            let linkLong = res.data.url.split('?').shift();
+            let link = linkLong.substr(linkLong.indexOf('temp'));
+            dispatchAssetsPayload({ [`tmp_files[${i}].link`]: link });
+          })
+      });
+    }
   };
 
-  _renderFiles = (files = [], progress) => {
+  _renderFiles = (files = []) => {
     if (files.length) {
-      return files.map((f, i) => {
+      return files.map(({ progress }, i) => {
         return (
           <AssetItem
             key={i}
@@ -51,52 +69,44 @@ class Upload extends Component {
     }
   };
 
-  _createAssets = (files = [], type) => {
-    if (files.length) {
-      files = files.map(file =>  omit(file, ['progress']));
-      createAssetsPreValidate({ files }, type)
-        .then(res => {
-          if (res) {
-            const {
-              domen,
-              path,
-            } = this.props;
-            getMatrixInfo(domen, path, this.props.query, path);
-            this.props.toggleModal()
-          }
-        })
-        .catch(err => this.props.toggleModal())
+  _createAssets = (tmp_files = [], type) => {
+    if (tmp_files.length) {
+      tmp_files = tmp_files.map(file => {
+        file.link = file.link ||file.path ;
+        return omit(file, ['progress'])
+      });
+      createAssetsPreValidate({ tmp_files: tmp_files }, type)
+        .then(res => res && this.props.toggleModal())
     }
   };
 
   render() {
     const {
       assetsReducer: {
-        files,
-        progress,
+        tmp_files,
       },
       toggleModal,
       type,
     } = this.props;
-    const headerTitle = get(files[0],'name', 'Upload Files');
     return (
       <div className="upload-container">
         <AppBar position="static" className="header-custom-black">
           <Toolbar className="AppBar">
             <div className="upload-header-title-container">
+
               <Close
                 className="upload-header-title-icon"
                 onClick={() => toggleModal()}
               />
               <p className="upload-header-title">
-                {headerTitle}
+                Files
               </p>
             </div>
 
             <div>
               <p
                 className="upload-header-save-button"
-                onClick={() => this._createAssets(files, type)}
+                onClick={() => this._createAssets(tmp_files, type)}
               >
                 SAVE
               </p>
@@ -105,7 +115,7 @@ class Upload extends Component {
           </Toolbar>
 
         </AppBar>
-        { this._renderFiles(files, progress) }
+        { this._renderFiles(tmp_files) }
       </div>
     )
   }
@@ -127,3 +137,25 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Upload);
+
+`{
+    "tmp_files":[
+    {
+      "link":"temp/1457018396_servers.png",
+      "type":"image", 
+      "title":"title",
+      "description":"description",
+      "name_origin":"name_origin",
+      "name_real":"name_real" // unique
+    }
+  ]
+}`;
+
+`created_at:1513180318
+ extension_origin:"jpg"
+ id:15
+ name_origin:"jpgasdasd"
+ name_real:"jpgasdasd"
+ path:"https://s3.eu-central-1.amazonaws.com/heal.dev.public/exercises/temp/d0f95998-5dfa-a4dc-2815-133330911c45.jpg"
+ type:"image"
+ updated_at:1513180318`

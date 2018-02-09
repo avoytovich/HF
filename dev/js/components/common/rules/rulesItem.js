@@ -47,13 +47,15 @@ class RulesItemComponent extends Component {
 
   checkTypes = () => {
     const { reqType, area, step, type, path, page } = this.props;
+    const { key, op, value } = this.props.itemState;
     const _props = {
       areaIds: area || [],
       type: reqType,
       step: step,
       path, page,
       reqType: page === 'evaluations' ? 'evaluations' : 'diagnostics',
-      pathType: type
+      pathType: type,
+      _key: key, op, value
     };
 
     switch (type) {

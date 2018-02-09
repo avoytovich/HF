@@ -8,7 +8,8 @@ import {
   onAnswerChange,
   getAnswerValue,
   onConditionAsyncChange,
-  getConditionOptions
+  getConditionOptions,
+  trickForUpdateComponent
 }                             from '../../../../utils';
 
 class ConditionsComponent extends Component {
@@ -16,6 +17,10 @@ class ConditionsComponent extends Component {
   state = {
     type   : 'list', // list or range
   };
+
+  componentWillReceiveProps(nextProps) {
+    trickForUpdateComponent(this.props, nextProps, this.refs.async._onInputChange);
+  }
 
   onAsyncChange = (value, edit) =>
     onConditionAsyncChange(value, edit, this.props);
@@ -30,6 +35,7 @@ class ConditionsComponent extends Component {
         </div>
 
         <Async
+          ref="async"
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>
