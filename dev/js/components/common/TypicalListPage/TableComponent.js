@@ -418,7 +418,7 @@ TableComponent.defaultProps = {
   data              : [],
   tableCellPropsFunc: () => ({}),
   CellContent       : () => null,
-  rowsPerPageOptions: [ 50, 100, 200], // The per page may not be greater than 50.
+  rowsPerPageOptions: [ 50, 100, 200], // The per page may not be greater than 200.
   url: '',
   showTestingMarker : false,
   titleTestingMarker: 'On testing',
