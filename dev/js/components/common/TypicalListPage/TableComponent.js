@@ -68,7 +68,10 @@ class TableComponent extends Component {
     const currentQuery          = this.props.location.query;
     const currentPath           = this.props.location.pathname;
     const query                 = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
-    const sortOptionalFromState = table.sortOptional;
+    let sortOptionalFromState   = table.sortOptional;
+    if (pathname === 'test') {
+      sortOptionalFromState.orderBy = 'title'
+    }
     console.log(sortOptionalFromState);
     browserHistory.push({
       pathname: currentPath,
