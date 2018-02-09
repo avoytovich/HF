@@ -2,19 +2,24 @@ import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
 import { USERS_TAB }            from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
-import { browserHistory }       from 'react-router'
+import { browserHistory }       from 'react-router';
+import get                      from 'lodash//get';
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import DeactivateComponent      from '../user-modals/deactivateModal';
 import DeleteComponent          from '../user-modals/deleteModal';
+import CreateSimpleAdminUser         from '../CreateUser/CreateSimpleAdminUser';
+import Modal                    from '../../common/Modal/Modal';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeleteIcon               from 'material-ui-icons/Delete';
 import {domen, api}             from '../../../config';
+import { userCreate,dispatchCreateSimpleUserPayloadWired }           from '../../../actions'
 
 class SimpleUsers extends Component {
   state = {
     selected: [],
+    showCreateUserModal:false,
     showActivateModal:false,
     showDeactivateModal:false,
     showDeleteModal:false,
@@ -36,6 +41,9 @@ class SimpleUsers extends Component {
 
   onSelectAllClick = (selected) => this.setState({selected});
 
+  createEntity = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
+
+  _toggleDeleteModal = () => this.setState({ showCreateUserModal: !this.state.showCreateUserModal });
 
   updateModal = (key, value) => {
     this.setState({ [key]: value });
@@ -43,9 +51,28 @@ class SimpleUsers extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
+  _createSimpleUser =() =>{
+    let location = get(this.props,'location.search');
+    const result = {
+      customer_id: this.props.params.id,
+      email: this.props.createSimpleUsersReducers.email,
+    };
+
+    console.log(this.props.createSimpleUsersReducers);
+
+    userCreate('users', 'usersSimple', this.props.createSimpleUsersReducers)
+      .then(()=>{
+        this.setState({showCreateUserModal:false});
+        dispatchCreateSimpleUserPayloadWired({errors: {}, email: "", customer_id: '', active: false,
+          role:'', first_name:'', last_name:'',});
+        browserHistory.push(`/users-simple/${location}`);
+      });
+  };
+
+
   render() {
     const { tableHeader } = USERS_TAB;
-    const { selected, showActivateModal, showDeactivateModal, showDeleteModal } = this.state;
+    const { selected, showActivateModal, showDeactivateModal, showDeleteModal, showCreateUserModal } = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'simple'}};
     const url = `${domen['users']}${api['simpleUsers']}`;
     return (
@@ -55,6 +82,8 @@ class SimpleUsers extends Component {
           locationUrl={this.props.location.pathname}
           path="users"
           selected={selected}
+          createItem={this.createEntity}
+          createButtonText="Add"
           searchKey = "filter"
         >
 
@@ -133,13 +162,23 @@ class SimpleUsers extends Component {
           query={querySelector}
         />
 
+        <Modal
+          itemName="name_real"
+          open={showCreateUserModal}
+          title='Add user'
+          toggleModal={this._toggleDeleteModal}
+          onConfirmClick={() => this._createSimpleUser()}
+          CustomContent={() => <CreateSimpleAdminUser />}
+        />
+
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  store: state.tables.diagnosis
+  store: state.tables.diagnosis,
+  createSimpleUsersReducers: state.createSimpleUsersReducers,
 });
 
 export default  connect(mapStateToProps)(SimpleUsers);

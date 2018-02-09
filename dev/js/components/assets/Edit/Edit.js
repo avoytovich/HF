@@ -72,6 +72,8 @@ class Edit extends Component {
       toggleModal,
       type,
     } = this.props;
+
+    console.log(this.props)
     const headerTitle = get(files[0],'name', 'Upload Files');
     return (
       <div className="upload-container">

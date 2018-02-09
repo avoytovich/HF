@@ -112,7 +112,7 @@ class CreatePackageComponent extends Component {
       type     : packageType,
       app_title,
       package_levels : packageLevels,
-      testing_mode
+      testing_mode,
     };
 
     submitTabs(
@@ -174,6 +174,7 @@ class CreatePackageComponent extends Component {
       },
       routeParams: { id },
     } = this.props;
+
     return (
       <div id="create-question">
         <CreateItemNavButtons
