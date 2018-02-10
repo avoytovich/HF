@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 
 import {
   domen,
@@ -27,7 +28,7 @@ export const getBodyAreaById = (domenKey, apiKey, id) => {
         payload: { body }
       });
       const coordinates = get(body, 'coordinates', false);
-      if (coordinates) {
+      if (!isEmpty(coordinates)) {
         dispatchBodyModelWired({ [`currentlyDrawingPolygon`]: coordinates });
       }
       return body;

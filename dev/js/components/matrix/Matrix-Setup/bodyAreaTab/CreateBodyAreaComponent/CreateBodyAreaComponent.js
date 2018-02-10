@@ -86,7 +86,7 @@ class CreateBodyAreaComponent extends Component {
     key        : createDiagnosisQuestion.key,
     title      : createDiagnosisQuestion.title,
     description: createDiagnosisQuestion.description,
-    coordinates: cloneDeep(bodyModelReducer.currentlyDrawingPolygon),
+    coordinates: bodyModelReducer.currentlyDrawingPolygon,
   });
 
   _createOrUpdateBodyArea = (data) => {
