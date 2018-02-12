@@ -87,15 +87,21 @@ const initialState = {
     },
     {
       name: 'simpleUsers',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'first_name' }
+      ]
     },
     {
       name: 'organizationsUsers',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'first_name' }
+      ]
     },
     {
       name: 'clinicsUsers',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'first_name' }
+      ]
     },
     {
       name: 'test',
@@ -103,11 +109,15 @@ const initialState = {
     },
     {
       name: 'clinicOwnUsers',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'first_name' }
+      ]
     },
     {
       name: 'companyOwnUsers',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'first_name' }
+      ]
     },
 
     {
@@ -120,7 +130,9 @@ const initialState = {
     },
     {
       name: 'personalCabinetUsers',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'first_name' }
+      ]
     },
   ]
 };

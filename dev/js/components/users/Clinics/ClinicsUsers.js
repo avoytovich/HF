@@ -117,7 +117,7 @@ class ClinicOwnUsers extends Component {
 
         <TableControls
           locationUrl={this.props.location.pathname}
-          path="clinicOwnUsers"
+          path="clinicsUsers"
           selected={selected}
           createItem={this.createEntity}
           createButtonText="Add"
@@ -144,7 +144,7 @@ class ClinicOwnUsers extends Component {
         <TableComponent
           url={url}
           location={this.props.location}
-          path="clinicOwnUsers"
+          path="clinicsUsers"
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }
@@ -157,7 +157,7 @@ class ClinicOwnUsers extends Component {
 
         <DeactivateComponent
           pathReq="userProfile"
-          path="clinicOwnUsers"
+          path="clinicsUsers"
           domen="users"
           url={url}
           typeKey="deactivateOpen"
@@ -173,7 +173,7 @@ class ClinicOwnUsers extends Component {
 
         <DeactivateComponent
           pathReq="userProfile"
-          path="clinicOwnUsers"
+          path="clinicsUsers"
           domen="users"
           url={url}
           typeKey="deactivateOpen"
@@ -189,7 +189,7 @@ class ClinicOwnUsers extends Component {
 
         <DeleteComponent
           pathReq="userProfile"
-          path="clinicOwnUsers"
+          path="clinicsUsers"
           domen = "users"
           url={url}
           typeKey="deactivateOpen"
