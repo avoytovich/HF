@@ -10,11 +10,14 @@ import DeactivateComponent      from '../user-modals/deactivateModal';
 import DeleteComponent          from '../user-modals/deleteModal';
 import CreateSimpleAdminUser         from '../CreateUser/CreateSimpleAdminUser';
 import Modal                    from '../../common/Modal/Modal';
+import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeleteIcon               from 'material-ui-icons/Delete';
 import {domen, api}             from '../../../config';
-import { userCreate,dispatchCreateSimpleUserPayloadWired }           from '../../../actions'
+import { toggleCSVModalSimple,
+  userCreate,
+  dispatchCreateSimpleUserPayloadWired }           from '../../../actions'
 
 class SimpleUsers extends Component {
   state = {
@@ -23,6 +26,7 @@ class SimpleUsers extends Component {
     showActivateModal:false,
     showDeactivateModal:false,
     showDeleteModal:false,
+    showCSVUploadModal: false
   };
 
   _tableCellPropsFunc = (row, col) => {
@@ -69,10 +73,14 @@ class SimpleUsers extends Component {
       });
   };
 
+  _toggleCSVModal=(data)=>{
+    toggleCSVModalSimple(data, this, `/users-simple`)
+  };
+
 
   render() {
     const { tableHeader } = USERS_TAB;
-    const { selected, showActivateModal, showDeactivateModal, showDeleteModal, showCreateUserModal } = this.state;
+    const { selected, showActivateModal, showDeactivateModal, showDeleteModal, showCreateUserModal, showCSVUploadModal } = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'simple'}};
     const url = `${domen['users']}${api['simpleUsers']}`;
     return (
@@ -85,6 +93,8 @@ class SimpleUsers extends Component {
           createItem={this.createEntity}
           createButtonText="Add"
           searchKey = "filter"
+          toggleCSVModal={this._toggleCSVModal}
+          uploadCSV={true}
         >
 
           <Button raised dense
@@ -171,6 +181,15 @@ class SimpleUsers extends Component {
           CustomContent={() => <CreateSimpleAdminUser />}
         />
 
+        <Modal
+          itemName="name_real"
+          open={showCSVUploadModal}
+          title={this.state.CSVUploadModalTitle}
+          toggleModal={this._toggleCSVModal}
+          onConfirmClick={() => this.state.CSVUploadModalConfirm()}
+          CustomContent={() => <CSVUploadModal />}
+        />
+
       </div>
     )
   }
@@ -179,6 +198,7 @@ class SimpleUsers extends Component {
 const mapStateToProps = state => ({
   store: state.tables.diagnosis,
   createSimpleUsersReducers: state.createSimpleUsersReducers,
+  CSVFileReducer :state.CSVFileReducer,
 });
 
 export default  connect(mapStateToProps)(SimpleUsers);
