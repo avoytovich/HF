@@ -101,7 +101,7 @@ class CompanyOwnUsers extends Component {
     const { selected, showActivateModal, showCreateUserModal, showDeactivateModal,
       showCSVUploadModal, showDeleteModal} = this.state;
     const { profileReducer } = this.props;
-    const querySelector = {...this.props.location.query,...{type: 'organization'}};
+    const querySelector = {...this.props.location.query,...{type: 'organization',orderBy:'first_name'}};
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
     return (
       <div id="diagnosis-component">

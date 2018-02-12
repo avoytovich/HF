@@ -31,6 +31,7 @@ if (process.env.NODE_CUSTOM_MODE === 'development') {
 
 
 export const api = {
+  usersSimple         : '/users/simple',
   simpleUsers         : '/users/get/all',
   clinicsUsers        : '/users/get/all',
   companiesOwnUsers   : '/users/customer',

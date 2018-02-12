@@ -66,27 +66,27 @@ class CreateBodyAreaComponent extends Component {
     clearCreateQuestion();
   }
 
-  _reverseCoords = (objWithSexes) => {
-    each(objWithSexes, (side, sideKey) => {
-      each(side, (sex, sexKey) => {
-        each(objWithSexes[sideKey][sexKey], (coordArr, coordArrIndex) => {
-          console.log('(objWithSexes[sideKey][sexKey][coordArrIndex]',objWithSexes[sideKey][sexKey][coordArrIndex]);
-          let tempCoordObj = cloneDeep(objWithSexes[sideKey][sexKey][coordArrIndex]);
-          objWithSexes[sideKey][sexKey][coordArrIndex].lat = tempCoordObj.lng;
-          objWithSexes[sideKey][sexKey][coordArrIndex].lng = tempCoordObj.lat;
-          console.log(' AFTER (objWithSexes[sideKey][sexKey][coordArrIndex]',objWithSexes[sideKey][sexKey][coordArrIndex]);
-        });
-        reverse(objWithSexes[sideKey][sexKey]);
-      });
-    });
-    return objWithSexes;
-  };
+  // _reverseCoords = (objWithSexes) => {
+  //   each(objWithSexes, (side, sideKey) => {
+  //     each(side, (sex, sexKey) => {
+  //       each(objWithSexes[sideKey][sexKey], (coordArr, coordArrIndex) => {
+  //         console.log('(objWithSexes[sideKey][sexKey][coordArrIndex]',objWithSexes[sideKey][sexKey][coordArrIndex]);
+  //         let tempCoordObj = cloneDeep(objWithSexes[sideKey][sexKey][coordArrIndex]);
+  //         objWithSexes[sideKey][sexKey][coordArrIndex].lat = tempCoordObj.lng;
+  //         objWithSexes[sideKey][sexKey][coordArrIndex].lng = tempCoordObj.lat;
+  //         console.log(' AFTER (objWithSexes[sideKey][sexKey][coordArrIndex]',objWithSexes[sideKey][sexKey][coordArrIndex]);
+  //       });
+  //       reverse(objWithSexes[sideKey][sexKey]);
+  //     });
+  //   });
+  //   return objWithSexes;
+  // };
 
   _prepareData = (createDiagnosisQuestion, bodyModelReducer) => ({
     key        : createDiagnosisQuestion.key,
     title      : createDiagnosisQuestion.title,
     description: createDiagnosisQuestion.description,
-    coordinates: this._reverseCoords(cloneDeep(bodyModelReducer.currentlyDrawingPolygon)),
+    coordinates: bodyModelReducer.currentlyDrawingPolygon,
   });
 
   _createOrUpdateBodyArea = (data) => {

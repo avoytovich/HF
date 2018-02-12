@@ -23,9 +23,9 @@ class Edit extends Component {
   }
 
   _onFile = (e) => {
-    const acceptedF = [...this.refs.file.files];
+    const acceptedF = [...this.refs.file.tmp_files];
     const { dispatchAssetsPayload } = this.props;
-    const files = acceptedF.map((file) => ({
+    const tmp_files = acceptedF.map((file) => ({
       file,
       type       : file.type.split('/').shift() === 'image' ? 'image' : 'video',
       name       : file.name.split('.').shift(),
@@ -34,8 +34,8 @@ class Edit extends Component {
     dispatchAssetsPayload({ files });
   };
 
-  _renderFiles = (files = []) => {
-    return files.map(({ progress }, i) => {
+  _renderFiles = (tmp_files = []) => {
+    return tmp_files.map(({ progress }, i) => {
       return (
         <AssetItem
           key={i}
@@ -46,10 +46,10 @@ class Edit extends Component {
     });
   };
 
-  _editAssets = (files = [], type) => {
-    if (files.length) {
-      files = files.map(file => omit(file, ['progress']));
-      editAssetsPreValidate(files[0], type)
+  _editAssets = (tmp_files = [], type) => {
+    if (tmp_files.length) {
+      tmp_files = tmp_files.map(file => omit(file, ['progress']));
+      editAssetsPreValidate(tmp_files[0], type)
         .then(res => {
           if (res) {
             const {
@@ -67,12 +67,13 @@ class Edit extends Component {
   render() {
     const {
       assetsReducer: {
-        files,
+        tmp_files,
       },
       toggleModal,
       type,
     } = this.props;
-    const headerTitle = get(files[0],'name', 'Upload Files');
+
+    const headerTitle = get(tmp_files[0],'name', 'Upload Files');
     return (
       <div className="upload-container">
         <AppBar
@@ -90,7 +91,7 @@ class Edit extends Component {
             <div>
               <p
                 className="upload-header-save-button"
-                onClick={() => this._editAssets(files, type)}
+                onClick={() => this._editAssets(tmp_files, type)}
               >
                 SAVE
               </p>
@@ -101,7 +102,7 @@ class Edit extends Component {
           <p>CHANGE FILE</p>
           <input type="file" ref='file' onChange={this._onFile} className="change-file-input"/>
         </div>
-        { this._renderFiles(files) }
+        { this._renderFiles(tmp_files) }
       </div>
     )
   }
