@@ -21,6 +21,7 @@ import {
 }                                 from '../../../actions';
 import Radio                      from 'material-ui/Radio';
 import Button                     from 'material-ui/Button';
+import capitalize                 from 'lodash/capitalize';
 import SequenceTitle              from './SequenceTitle';
 
 class ChooseSequence extends Component {
@@ -44,7 +45,7 @@ class ChooseSequence extends Component {
 
     if (_isOpen) {
       getQuestionsByStep('diagnostics', 'questionsByStep', {
-        type: 'diagnostic',
+        type: this.props.reqType,
         area: null,
         step,
       }).then(questions => this.setState({questions}));
@@ -77,7 +78,7 @@ class ChooseSequence extends Component {
   Transition = (props) => <Slide direction="up" {...props} />;
 
   render() {
-    const { open, handleRequestClose, list, updateList } = this.props;
+    const { open, handleRequestClose, list, updateList, reqType } = this.props;
     const { isOpen, selected, questions, openTitle } = this.state;
 
     return (
@@ -98,7 +99,7 @@ class ChooseSequence extends Component {
               </IconButton>
 
               <Typography type="title" color="inherit">
-                Sequence of Diagnosis Questions
+                Sequence of {capitalize(reqType)} Questions
               </Typography>
             </div>
 

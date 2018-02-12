@@ -3,6 +3,8 @@ import { connect }            from 'react-redux';
 import { Async }              from 'react-select';
 import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
+import sortBy                 from 'lodash/sortBy'
+import capitalize             from 'lodash/capitalize'
 import Select                 from 'material-ui/Select';
 import QuestionVariety        from '../questionVariety';
 import {
@@ -65,11 +67,11 @@ class InComponent extends Component {
           fullWidth={true}
           renderValue={item => `${item},`}
         >
-          {this.state.answers.map((option, index) =>
+          {sortBy(this.state.answers, [a => capitalize(a.value)]).map((option, index) =>
             (<MenuItem key={index}
                        className="CMuiInput"
                        value={option.label }>
-              {option.label}.{option.value}
+              {option.value}
             </MenuItem>))}
         </Select>
 

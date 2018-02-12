@@ -38,29 +38,33 @@ class SequenceBlock extends Component {
 
   render() {
 
-    const { type, value, valuePath, typePath } = this.props;
+    const { type, value, valuePath, typePath, reqType } = this.props;
     const { chooseSequence, list } = this.state;
 //    const sequenceBlock = this.props.store.sequenceBlock || []; // Todo: Need to refactor it;
 
     return  <Grid container  className="row-item">
-      <Grid item lg={3} className="sequence-type">
+      <Grid item lg={4} className="sequence-type">
         <MUISelect
           value={type}
           onChange={event => updateCrateQuestionFields(event.target.value, typePath)}
           MenuProps={{PaperProps: {style: {width: 400}}}}
         >
-          {SEQUENCE_TYPE_LIST.map((item, index) => (
-            <MenuItem
-              key={item.value}
-              value={item.value}
-            >
-              {item.label}
-            </MenuItem>
-          ))}
+          {
+            SEQUENCE_TYPE_LIST.map((item, index) => {
+              return(
+                <MenuItem
+                  key={item.value}
+                  value={item.value}
+                >
+                  {item.label}
+                </MenuItem>
+              )
+            })
+          }
         </MUISelect>
       </Grid>
 
-      <Grid item xs={2}
+      <Grid item xs={4}
             className="sequence-wrap">
         <Typography
           type="caption"
@@ -73,17 +77,23 @@ class SequenceBlock extends Component {
             onChange={({target}) => updateCrateQuestionFields(target.value, valuePath)}
             MenuProps={{PaperProps: {style: {width: 400}}}}
           >
-            {list.map((item, index) => (
-              <MenuItem
-                key={item.step}
-                value={item.step}
-              >
-                {item.step}
-              </MenuItem>
-            ))}
+            {
+              list.map((item, index) => {
+                return (
+                  <MenuItem
+                    key={item.step}
+                    value={item.step}
+                  >
+                    {`${item.step}. ${item.title}`}
+                  </MenuItem>
+                )
+              })
+            }
           </MUISelect>
         </div>
       </Grid>
+      <Grid item xs={4}
+            className="sequence-wrap">
       <Typography color="primary"
                   className="open-sequence"
                   onClick={() => this.openChooseSequence(true)}>
@@ -92,11 +102,14 @@ class SequenceBlock extends Component {
 
       { chooseSequence &&
         <ChooseSequence
+          reqType={reqType}
           open={chooseSequence}
           list={list}
           defaultStep={value}
           updateList={() =>  this.getList(this.props)}
-          handleRequestClose={(value) => this.openChooseSequence(value)}/>}
+          handleRequestClose={(value) => this.openChooseSequence(value)}
+        />}
+      </Grid>
     </Grid>
   }
 }

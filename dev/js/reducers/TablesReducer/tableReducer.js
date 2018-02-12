@@ -98,8 +98,10 @@ const initialState = {
       changes: []
     },
     {
-      name: 'test',
-      changes: []
+      name: 'test' ,
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'title' }
+      ]
     },
     {
       name: 'clinicOwnUsers',
