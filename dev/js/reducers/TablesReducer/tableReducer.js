@@ -104,8 +104,10 @@ const initialState = {
       ]
     },
     {
-      name: 'test',
-      changes: []
+      name: 'test' ,
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'title' }
+      ]
     },
     {
       name: 'clinicOwnUsers',

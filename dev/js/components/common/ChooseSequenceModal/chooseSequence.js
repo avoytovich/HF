@@ -21,6 +21,7 @@ import {
 }                                 from '../../../actions';
 import Radio                      from 'material-ui/Radio';
 import Button                     from 'material-ui/Button';
+import capitalize                 from 'lodash/capitalize';
 import SequenceTitle              from './SequenceTitle';
 
 class ChooseSequence extends Component {
@@ -44,7 +45,7 @@ class ChooseSequence extends Component {
 
     if (_isOpen) {
       getQuestionsByStep('diagnostics', 'questionsByStep', {
-        type: 'diagnostic',
+        type: this.props.reqType,
         area: null,
         step,
       }).then(questions => this.setState({questions}));
@@ -77,7 +78,7 @@ class ChooseSequence extends Component {
   Transition = (props) => <Slide direction="up" {...props} />;
 
   render() {
-    const { open, handleRequestClose, list, updateList } = this.props;
+    const { open, handleRequestClose, list, updateList, reqType } = this.props;
     const { isOpen, selected, questions, openTitle } = this.state;
 
     return (
@@ -98,7 +99,7 @@ class ChooseSequence extends Component {
               </IconButton>
 
               <Typography type="title" color="inherit">
-                Sequence of Diagnosis Questions
+                Sequence of {capitalize(reqType)} Questions
               </Typography>
             </div>
 
@@ -110,55 +111,60 @@ class ChooseSequence extends Component {
         </AppBar>
 
         <List className="choose-sequence-list">
-          {list.map((item, index) =>
-            (<ListItem key={index}
-                       className={`choose-sequence-item ${isOpen === item.step  ? 'open' : ''}`}
-                       onClick={() => this.onOpen(item)}>
+          {
+            list.map((item, index) => {
+              return (
+                <ListItem key={index}
+                                className={`choose-sequence-item ${isOpen === item.step ? 'open' : ''}`}
+                                onClick={() => this.onOpen(item)}>
 
-              <Grid container  className="choose-sequence-item-header">
+                  <Grid container className="choose-sequence-item-header">
 
-                <Grid item xs={11} className="choose-sequence-item-title">
-                  <Radio checked={selected === item.step}
-                         onClick={(event) => this.onSelect(event, item.step)}/>
+                    <Grid item xs={11} className="choose-sequence-item-title">
+                      <Radio checked={selected === item.step}
+                             onClick={(event) => this.onSelect(event, item.step)}/>
 
-                  <Typography  type="title" color="inherit" className="step">
-                    {item.step}.
-                  </Typography>
+                      <Typography type="title" color="inherit" className="step">
+                        {item.step}.
+                      </Typography>
 
-                  <Typography type="title" color="inherit" className="title"
-                              onClick={event => this.openTitleModal(event, item.step)}>
-                     {item.title || 'Title'}
-                  </Typography>
-                </Grid>
+                      <Typography type="title" color="inherit" className="title"
+                                  onClick={event => this.openTitleModal(event, item.step)}>
+                        {item.title || 'Title'}
+                      </Typography>
+                    </Grid>
 
-                <Grid item xs={1} className="choose-sequence-item-expand">
-                  {item.step === isOpen ? <ExpandLess /> : <ExpandMore />}
-                </Grid>
-              </Grid>
-
-              {openTitle === item.step && <SequenceTitle item={item}
-                                                         update={this.update}
-                                                         onClose={() => this.setState({openTitle: ''})}/>}
-
-              <Collapse in={item.step === isOpen}
-                        timeout="auto"
-                        className="choose-sequence-collapse"
-                        unmountOnExit>
-                <Grid container className="margin-remove">
-                  <Grid item xs={12}>
-                      <List className="choose-sequence-collapse-list">
-                        {questions && questions.map((questionItem, i) =>
-                          (<ListItem key={i} className="choose-sequence-collapse-item">
-                            <Lens style={{ width: 10, height: 10, marginRight: '10px', fill: '#4184f3'}}/>
-                              {questionItem.question.en || '-'}
-                          </ListItem>)
-                        )}
-                      </List>
+                    <Grid item xs={1} className="choose-sequence-item-expand">
+                      {item.step === isOpen ? <ExpandLess /> : <ExpandMore />}
+                    </Grid>
                   </Grid>
-                </Grid>
 
-              </Collapse>
-            </ListItem>)
+                  {openTitle === item.step && <SequenceTitle item={item}
+                                                             update={this.update}
+                                                             onClose={() => this.setState({ openTitle: '' })}/>}
+
+                  <Collapse in={item.step === isOpen}
+                            timeout="auto"
+                            className="choose-sequence-collapse"
+                            unmountOnExit>
+                    <Grid container className="margin-remove">
+                      <Grid item xs={12}>
+                        <List className="choose-sequence-collapse-list">
+                          {questions && questions.map((questionItem, i) => {
+                            console.log(questionItem);
+                            return (<ListItem key={i} className="choose-sequence-collapse-item">
+                              <Lens style={{ width: 10, height: 10, marginRight: '10px', fill: '#4184f3' }}/>
+                              {questionItem.title || '-'}
+                            </ListItem>)
+                          })}
+                        </List>
+                      </Grid>
+                    </Grid>
+
+                  </Collapse>
+                </ListItem>
+                )
+            }
           )}
         </List>
       </Dialog>
