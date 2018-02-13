@@ -62,8 +62,6 @@ class SimpleUsers extends Component {
       email: this.props.createSimpleUsersReducers.email,
     };
 
-    console.log(this.props.createSimpleUsersReducers);
-
     userCreate('users', 'usersSimple', this.props.createSimpleUsersReducers)
       .then(()=>{
         this.setState({showCreateUserModal:false});

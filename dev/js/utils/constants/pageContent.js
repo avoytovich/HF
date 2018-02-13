@@ -182,7 +182,7 @@ export const ASSETS_TAB = {
     { title: 'Extension',     key: 'extension', className: 'center'                                    },
     { title: 'Type',          key: 'type',             className: 'left'                                      },
     { title: 'Upload Date',   key: 'updated_at',       className: 'left', type: 'time',   format: TIME_FORMAT },
-    { title: 'Size',          key: 'size',             className: 'left'                                      },
+    { title: 'Size',          key: 'properties.size',             className: 'left'                                      },
   ]
 };
 
@@ -260,6 +260,20 @@ export const TEST_TAB = {
     { title: 'Package',       key: 'type',          className: 'center'                                  },
     // { title: 'Pain Areas',    key: 'properties_temp',          className: 'center'                                  },
     { title: 'Date',          key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT },
+  ]
+};
+
+export const TARIFF_PLANS = {
+  key: 'conditions',
+  title: 'ConditionsTab',
+  tableHeader: [
+    { title: 'Title',          key: 'user_id',          className: 'left'},
+    { title: 'Type',          key: 'type',          className: 'left'},
+    { title: 'Cost/User, $',          key: 'cost_user',          className: 'left'},
+    { title: 'Price, $',          key: 'price',          className: 'left'},
+    { title: 'Period',          key: 'period',          className: 'left'},
+    { title: 'Subscription, $',          key: 'subscription',          className: 'left'},
+    { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
 

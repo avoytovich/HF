@@ -4,6 +4,7 @@ import validSignup from './validateAuth';
 import { validAssets } from './validAssets';
 import  validateUsersCreation  from './validateUserCreation';
 import  validSimpleUsersCreation  from './validateUserCreation';
+import validateTariffPlanCreation from './validateTariffPlanCreation'
 import  validateTesting  from './validateTesting';
 import { validateMatrix } from './validateMatrix';
 
@@ -24,4 +25,5 @@ export const validate = {
   [T.TESTING]         : validateTesting,
   [T.CREATE_QUESTION] : validateMatrix,
   [PROFILE]           : validSimpleUsersCreation,
+  [T.CREATE_TARIFF_PLAN]:validateTariffPlanCreation,
 };

@@ -30,4 +30,5 @@ export const T = {
   MESSAGE_LIST                              : "MESSAGE_LIST",
   BODY_MODEL                                : "BODY_MODEL",
   BODY_MODEL_DELETE_POLYGON                 : "BODY_MODEL_DELETE_POLYGON",
+  CREATE_TARIFF_PLAN                        : "CREATE_TARIFF_PLAN",
 };
