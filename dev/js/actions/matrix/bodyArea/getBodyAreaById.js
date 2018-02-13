@@ -5,7 +5,10 @@ import {
   domen,
   api
 } from '../../../config'
-import { Api} from '../../../utils'
+import {
+  Api,
+  reverseCoords
+} from '../../../utils'
 import { store } from '../../../index';
 import {
   T,
@@ -29,7 +32,8 @@ export const getBodyAreaById = (domenKey, apiKey, id) => {
       });
       const coordinates = get(body, 'coordinates', false);
       if (!isEmpty(coordinates)) {
-        dispatchBodyModelWired({ [`currentlyDrawingPolygon`]: coordinates });
+        // reverse is needed when creating/updating and getting existing polygons
+        dispatchBodyModelWired({ [`currentlyDrawingPolygon`]: reverseCoords(coordinates) });
       }
       return body;
     }
