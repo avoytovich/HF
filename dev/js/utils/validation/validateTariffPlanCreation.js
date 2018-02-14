@@ -3,14 +3,14 @@ import validator from './validator';
 const validateTariffPlanCreation = data => {
 
   let constraints = {
-    price:{
+    cost_per_user:{
       numericality: {
         onlyInteger: true,
         greaterThan: 0,
         message: "Price should be a number",
       }
     },
-    cost:{
+    subscription_fee:{
       numericality: {
         onlyInteger: true,
         greaterThan: 0,

@@ -94,6 +94,8 @@ export const api = {
   createMessage       : '/messages',
   getAllSideAreas     : '/matrix/areas/get/side',
   personalCabinetUsers : '/users/get/all',
+  tariffPlans         : '/tariffs/get/all',
+  createTariff        : '/tariffs/'
 };
 
 export const PAGE = {

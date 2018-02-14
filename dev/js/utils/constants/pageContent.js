@@ -267,12 +267,11 @@ export const TARIFF_PLANS = {
   key: 'conditions',
   title: 'ConditionsTab',
   tableHeader: [
-    { title: 'Title',          key: 'user_id',          className: 'left'},
-    { title: 'Type',          key: 'type',          className: 'left'},
-    { title: 'Cost/User, $',          key: 'cost_user',          className: 'left'},
-    { title: 'Price, $',          key: 'price',          className: 'left'},
+    { title: 'Title',          key: 'name',          className: 'left'},
+    { title: 'Type',          key: 'customer_type',          className: 'left'},
+    { title: 'Cost/User, $',          key: 'cost_per_user',    className: 'left'},
     { title: 'Period',          key: 'period',          className: 'left'},
-    { title: 'Subscription, $',          key: 'subscription',          className: 'left'},
+    { title: 'Cost/Period, $',          key: 'subscription_fee',          className: 'left'},
     { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };

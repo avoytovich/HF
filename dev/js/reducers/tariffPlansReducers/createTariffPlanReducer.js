@@ -4,10 +4,11 @@ import { T } from '../../actions';
 const initialState = {
   actionType: T.CREATE_TARIFF_PLAN,
   errors: {},
-  title: "",
-  type: '',
-  price: '',
-  cost:'',
+  name: '',
+  customer_type: '',
+  tariff_type: '',
+  subscription_fee: '',
+  cost_per_user:'',
   period:'',
 };
 

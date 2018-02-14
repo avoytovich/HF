@@ -134,6 +134,12 @@ const initialState = {
         { path: 'sortOptional.orderBy', value: 'first_name' }
       ]
     },
+    {
+      name: 'tariffPlans',
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'first_name' }
+      ]
+    },
   ]
 };
 

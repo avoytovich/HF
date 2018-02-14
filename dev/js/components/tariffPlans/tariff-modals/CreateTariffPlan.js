@@ -4,27 +4,26 @@ import Input from '../../common/Input/Input';
 import Select from '../../common/Select/Select';
 
 const tariffTypeArray = [
-  {label:'Company',value:'company'},
+  {label:'Company',value:'organization'},
   {label:'Clinic',value:'clinic'}];
 
 const tariffPeriodArray = [
-  {label:'Monthly',value:'monthly'},
-  {label:'Weekly',value:'weekly'},
-  {label:'Daily',value:'daily'}];
+  {label:'Month',value:'month'},
+  {label:'Week',value:'week'},
+  {label:'Day',value:'day'}];
 
 class CreateSimpleUser extends Component {
 
   render() {
     const {createTariffPlanReducer} = this.props;
-    console.log(createTariffPlanReducer)
     return (
       <div className="create-tariff-plan-content">
         <div className="create-tariff-plan-container">
-          <Input id='title' reducer={createTariffPlanReducer} label='Title' placeholder='Title'
+          <Input id='name' reducer={createTariffPlanReducer} label='Title' placeholder='Title'
                  className="two-part"/>
           <Select
             options={tariffTypeArray}
-            id='type'
+            id='customer_type'
             reducer={createTariffPlanReducer}
             label='Type'
             className="two-part"
@@ -32,9 +31,9 @@ class CreateSimpleUser extends Component {
         </div>
 
         <div className="create-tariff-plan-container">
-          <Input id='price' reducer={createTariffPlanReducer} label='Price, $' placeholder='Price, $' helperText="Per period"
+          <Input id='subscription_fee' reducer={createTariffPlanReducer} label='Cost/Period, $' placeholder='Price, $'
                  className="tree-part"/>
-          <Input id='cost' reducer={createTariffPlanReducer} label='Cost/User, $' placeholder='Cost/User, $' helperText="Per period"
+          <Input id='cost_per_user' reducer={createTariffPlanReducer} label='Cost/User, $' placeholder='Cost/User, $'
                  className="tree-part"/>
           <Select
             options={tariffPeriodArray}
