@@ -1,10 +1,14 @@
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 
 import {
   domen,
   api
 } from '../../../config'
-import { Api } from '../../../utils'
+import {
+  Api,
+  reverseCoords
+} from '../../../utils'
 import { store } from '../../../index';
 import {
   T,
@@ -21,9 +25,10 @@ export const getAllSideAreasWired = (side, id = false) => getAllSideAreas(side)
     data.forEach((area, i) => {
       const coordinates = get(area, 'coordinates', false);
       const title       = get(area, 'title', '-');
-      if (coordinates && area.id != id) {
+      if (!isEmpty(coordinates) && area.id != id) {
         dispatchBodyModelWired({
-          [`existingPolygons[${i}]`]      : coordinates,
+          // reverse is needed when creating/updating and getting existing polygons
+          [`existingPolygons[${i}]`]      : reverseCoords(coordinates),
           [`existingPolygons[${i}].title`]: title,
         });
       }

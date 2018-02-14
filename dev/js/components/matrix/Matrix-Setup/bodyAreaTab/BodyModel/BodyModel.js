@@ -33,10 +33,11 @@ L.Icon.Default.mergeOptions({
 
 export const GET_IMAGE = 'imageOverlay.leafletElement._image';
 
-// L.CRS.Simple = L.extend({}, L.CRS.Simple, {
-//   projection: L.Projection.LonLat,
-//   transformation: new L.Transformation(1, 0, 1, 0), // this line is changed!!
-// });
+// to move zero point fom bottom left to top left
+L.CRS.Simple = L.extend({}, L.CRS.Simple, {
+  projection: L.Projection.LonLat,
+  transformation: new L.Transformation(1, 0, 1, 0), // this line is changed!!
+});
 
 class BodyModel extends Component {
   state = {

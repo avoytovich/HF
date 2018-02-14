@@ -1,10 +1,10 @@
 import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
-import each                         from 'lodash/each';
 import { connect }                  from 'react-redux';
 import { browserHistory }           from 'react-router'
 import Button                       from 'material-ui/Button';
 import Grid                         from 'material-ui/Grid';
+import each                         from 'lodash/each';
 import get                          from 'lodash/get';
 import map                          from 'lodash/map';
 import keys                         from 'lodash/keys';
@@ -32,17 +32,20 @@ import {
 }                                   from '../../../../../actions';
 import { PAGE, assets }             from '../../../../../config';
 import { C }                        from '../../../../../components';
-import { validateBodyArea }         from '../../../../../utils';
+import {
+  validateBodyArea,
+  reverseCoords
+}                                   from '../../../../../utils';
 
 const tabs = {
-  0: { value: 0, lb: 'Male: front',   side: 'front', sex: 'male',   url: `${assets}/images/bodyModel/male1.jpg`,   },
-  1: { value: 1, lb: 'Male: left' ,   side: 'left',  sex: 'male',   url: `${assets}/images/bodyModel/male2.jpg`,   },
-  2: { value: 2, lb: 'Male: back' ,   side: 'back',  sex: 'male',   url: `${assets}/images/bodyModel/male3.jpg`,   },
-  3: { value: 3, lb: 'Male: right',   side: 'right', sex: 'male',   url: `${assets}/images/bodyModel/male4.jpg`,   },
-  4: { value: 4, lb: 'Female: front', side: 'front', sex: 'female', url: `${assets}/images/bodyModel/female1.jpg`, },
-  5: { value: 5, lb: 'Female: left' , side: 'left',  sex: 'female', url: `${assets}/images/bodyModel/female2.jpg`, },
-  6: { value: 6, lb: 'Female: back' , side: 'back',  sex: 'female', url: `${assets}/images/bodyModel/female3.jpg`, },
-  7: { value: 7, lb: 'Female: right', side: 'right', sex: 'female', url: `${assets}/images/bodyModel/female4.jpg`, },
+  0: { value: 0, lb: 'Male: front',   side: 'front', sex: 'male',   url: `${assets}/images/bodyModel/male1.png`,   },
+  1: { value: 1, lb: 'Male: left' ,   side: 'left',  sex: 'male',   url: `${assets}/images/bodyModel/male2.png`,   },
+  2: { value: 2, lb: 'Male: back' ,   side: 'back',  sex: 'male',   url: `${assets}/images/bodyModel/male3.png`,   },
+  3: { value: 3, lb: 'Male: right',   side: 'right', sex: 'male',   url: `${assets}/images/bodyModel/male4.png`,   },
+  4: { value: 4, lb: 'Female: front', side: 'front', sex: 'female', url: `${assets}/images/bodyModel/female1.png`, },
+  5: { value: 5, lb: 'Female: left' , side: 'left',  sex: 'female', url: `${assets}/images/bodyModel/female2.png`, },
+  6: { value: 6, lb: 'Female: back' , side: 'back',  sex: 'female', url: `${assets}/images/bodyModel/female3.png`, },
+  7: { value: 7, lb: 'Female: right', side: 'right', sex: 'female', url: `${assets}/images/bodyModel/female4.png`, },
 }
 
 class CreateBodyAreaComponent extends Component {
@@ -58,7 +61,7 @@ class CreateBodyAreaComponent extends Component {
 
   componentWillMount() {
     if (!this.props.bodyModelReducer.url) {
-      dispatchBodyModelWired({ url: `${assets}/images/bodyModel/male1.jpg` });
+      dispatchBodyModelWired({ url: `${assets}/images/bodyModel/male1.png` });
     }
   }
 
@@ -66,28 +69,11 @@ class CreateBodyAreaComponent extends Component {
     clearCreateQuestion();
   }
 
-  // _reverseCoords = (objWithSexes) => {
-  //   each(objWithSexes, (side, sideKey) => {
-  //     each(side, (sex, sexKey) => {
-  //       each(objWithSexes[sideKey][sexKey], (coordArr, coordArrIndex) => {
-  //         // console.log('(objWithSexes[sideKey][sexKey][coordArrIndex]',objWithSexes[sideKey][sexKey][coordArrIndex]);
-  //         let tempCoordObj = cloneDeep(objWithSexes[sideKey][sexKey][coordArrIndex]);
-  //         objWithSexes[sideKey][sexKey][coordArrIndex].lat = tempCoordObj.lng;
-  //         objWithSexes[sideKey][sexKey][coordArrIndex].lng = tempCoordObj.lat;
-  //         // console.log(' AFTER (objWithSexes[sideKey][sexKey][coordArrIndex]',objWithSexes[sideKey][sexKey][coordArrIndex]);
-  //       });
-  //       // reverse(objWithSexes[sideKey][sexKey]);
-  //     });
-  //   });
-  //   return objWithSexes;
-  // };
-
   _prepareData = (createDiagnosisQuestion, bodyModelReducer) => ({
     key        : createDiagnosisQuestion.key,
     title      : createDiagnosisQuestion.title,
     description: createDiagnosisQuestion.description,
-    // coordinates: this._reverseCoords(cloneDeep(bodyModelReducer.currentlyDrawingPolygon)),
-    coordinates: bodyModelReducer.currentlyDrawingPolygon,
+    coordinates: reverseCoords(cloneDeep(bodyModelReducer.currentlyDrawingPolygon)),
   });
 
   _createOrUpdateBodyArea = (data) => {
