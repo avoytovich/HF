@@ -13,9 +13,11 @@ import Button                   from 'material-ui/Button';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeleteIcon               from 'material-ui-icons/Delete';
+import EditIcon                 from 'material-ui-icons/Edit';
 import DeactivateComponent      from '../users/user-modals/deactivateModal';
 import DeleteComponent          from '../users/user-modals/deleteModal';
 import CreateTariffPlan         from './tariff-modals/CreateTariffPlan';
+import EditSimpleTariffPlan         from './tariff-modals/EditSimpleTariffPlan';
 import Modal                    from '../common/Modal/Modal';
 import { getTariffPlansWired,
   tariffPlanCreate,
@@ -44,11 +46,12 @@ class PersonalCabinetBilling extends Component {
     showCreateTariffPlanModal:false,
     showActivateModal:false,
     showDeactivateModal:false,
-    showDeleteModal:false
+    showDeleteModal:false,
+    showEditSimpleTariff:false,
   };
 
   componentWillMount (){
-    console.log('get simple tariff')
+    getTariffPlansWired('getSimpleTariff');
   }
 
   _tableCellPropsFunc = (row, col) => {
@@ -72,10 +75,34 @@ class PersonalCabinetBilling extends Component {
 
   _toggleDeleteModal = () => this.setState({ showCreateTariffPlanModal: !this.state.showCreateTariffPlanModal });
 
+  _toggleEditSimpleTariff = () => this.setState({ showEditSimpleTariff: !this.state.showEditSimpleTariff });
+
   updateModal = (key, value) => {
     this.setState({ [key]: value });
 
     if (!value) this.setState({ selected: [] });
+  };
+
+  _editSimpleTariff = () =>{
+    let location = get(this.props,'location.search');
+    const result = {
+      ...this.props.simpleTariffPlanReducer,...{tariff_type:this.props.simpleTariffPlanReducer.customer_type,
+        subscription_fee: +this.props.simpleTariffPlanReducer.subscription_fee,
+        cost_per_user: +this.props.simpleTariffPlanReducer.cost_per_user},
+    };
+
+    tariffPlanUpdate('users', 'createTariff',result, get(this.props,'simpleTariffPlanReducer.id') )
+      .then(()=>{
+        this.setState({showEditSimpleTariff:false});
+        dispatchTariffPlansPayloadWired ({errors: {},
+          name: '',
+          customer_type: '',
+          tariff_type: '',
+          subscription_fee: '',
+          cost_per_user:'',
+          period:'',});
+        browserHistory.push(`/tariff-plans/${location}`);
+      });
   };
 
   _createTariffPlan =() =>{
@@ -85,8 +112,6 @@ class PersonalCabinetBilling extends Component {
         subscription_fee: +this.props.createTariffPlanReducer.subscription_fee,
         cost_per_user: +this.props.createTariffPlanReducer.cost_per_user},
     };
-
-    console.log(location, result);
 
     if (get(this.props,'createTariffPlanReducer.id')){
       tariffPlanUpdate('users', 'createTariff',result, get(this.props,'createTariffPlanReducer.id') )
@@ -122,11 +147,12 @@ class PersonalCabinetBilling extends Component {
 
   render() {
     const {
-      classes
+      classes, simpleTariffPlanReducer
     } = this.props;
 
     const { tableHeader } = TARIFF_PLANS;
-    const { selected, showActivateModal, showDeactivateModal, showDeleteModal, showCreateTariffPlanModal } = this.state;
+    const { selected, showActivateModal, showDeactivateModal, showDeleteModal, showCreateTariffPlanModal,
+      showEditSimpleTariff} = this.state;
     const querySelector = {...this.props.location.query};
     const url = `${domen['users']}${api['tariffPlans']}`;
 
@@ -150,18 +176,20 @@ class PersonalCabinetBilling extends Component {
                     <div className = 'tariff-plan-data-info'>
                       Period
                     </div>
+                    <EditIcon onClick = {()=>this.updateModal('showEditSimpleTariff', true)}/>
                   </div>
 
                   <div className = 'profile-paper-data'>
                     <div className = 'tariff-plan-paper-data-title tariff-plan-data-info'>
-                      Heal Users
+                      {get(simpleTariffPlanReducer,'name')}
                     </div>
                     <div className = 'tariff-plan-data-info'>
-                      $ 99
+                      $  {get(simpleTariffPlanReducer,'cost_per_user')}
                     </div>
                     <div className = 'tariff-plan-data-info'>
-                      Monthly
+                      {get(simpleTariffPlanReducer,'period')}
                     </div>
+                    <div/>
                   </div>
 
                 </div>
@@ -272,6 +300,15 @@ class PersonalCabinetBilling extends Component {
             onConfirmClick={() => this._createTariffPlan()}
             CustomContent={() => <CreateTariffPlan />}
           />
+
+              <Modal
+                itemName="name_real"
+                open={showEditSimpleTariff}
+                title='Tariff Plan'
+                toggleModal={this._toggleEditSimpleTariff}
+                onConfirmClick={() => this._editSimpleTariff()}
+                CustomContent={() => <EditSimpleTariffPlan />}
+              />
             </Paper>
           </Grid>
 
@@ -282,11 +319,8 @@ class PersonalCabinetBilling extends Component {
 }
 
 const mapStateToProps = state => ({
-  profileReducer: state.profileReducer,
-  userReducer: state.userReducer,
-  store: state.tables.diagnosis,
   createTariffPlanReducer: state.createTariffPlanReducer,
-
+  simpleTariffPlanReducer: state.simpleTariffPlanReducer,
 });
 
 export default  connect(mapStateToProps)(withStyles(styles)(PersonalCabinetBilling));

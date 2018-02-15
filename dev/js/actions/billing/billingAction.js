@@ -9,3 +9,13 @@ export const dispatchTariffPlansPayload = payload => dispatch =>
 
 export const dispatchTariffPlansPayloadWired = payload =>
   dispatchTariffPlansPayload (payload)(store.dispatch);
+
+export const dispatchSimpleTariffPlansPayload = payload => dispatch =>
+  dispatch({
+    type   : T.SIMPLE_TARIFF_PLAN,
+    payload: payload
+  });
+
+export const dispatchSimpleTariffPlansPayloadWired = payload =>
+  dispatchSimpleTariffPlansPayload (payload)(store.dispatch);
+

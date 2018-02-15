@@ -95,7 +95,8 @@ export const api = {
   getAllSideAreas     : '/matrix/areas/get/side',
   personalCabinetUsers : '/users/get/all',
   tariffPlans         : '/tariffs/get/all',
-  createTariff        : '/tariffs/'
+  createTariff        : '/tariffs/',
+  getSimpleTariff     :'/tariffs/simple'
 };
 
 export const PAGE = {

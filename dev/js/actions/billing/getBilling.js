@@ -1,18 +1,18 @@
 import { browserHistory } from 'react-router';
 import { Api } from '../../utils';
 import { get } from 'lodash'
-import { dispatchTariffPlansPayloadWired } from '../../actions';
+import {  dispatchSimpleTariffPlansPayloadWired  } from '../../actions';
 import {
   domen,
   api,
   PAGE,
 } from '../../config';
 
-export const getTariffPlans = (url) => Api.get(`${domen.users}/${api.url}`);
+export const getTariffPlans = (url) => Api.get(`${domen.users}/${api[url]}`);
 
 export const getTariffPlansWired = (url) => getTariffPlans(url)
   .then(response => {
-    dispatchTariffPlansPayloadWired(get(response,'data.data', {}));
+    dispatchSimpleTariffPlansPayloadWired (get(response,'data.data', {}));
   });
 
 export const tariffPlanCreate = (domenKey, apiKey, body) => {
@@ -24,7 +24,7 @@ export const tariffPlanCreate = (domenKey, apiKey, body) => {
 export const tariffPlanUpdate = (domenKey, apiKey, body, id) => {
   const domenPath = domen[domenKey],
     apiPath   = api[apiKey];
-  return Api.put(`${domenPath}${apiPath}/${id}`, body);
+  return Api.put(`${domenPath}${apiPath}${id}`, body);
 };
 
 
