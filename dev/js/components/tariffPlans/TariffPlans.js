@@ -189,14 +189,14 @@ class PersonalCabinetBilling extends Component {
             createButtonText="Add"
           >
 
-            {/*<Button raised dense*/}
-                    {/*onClick={() => this.updateModal('showActivateModal', true)}>*/}
-              {/*<ActivateIcon/>Activate*/}
-            {/*</Button>*/}
-            {/*<Button raised dense*/}
-                    {/*onClick={() => this.updateModal('showDeactivateModal', true)}>*/}
-              {/*<DeactivateIcon/> Deactivate*/}
-            {/*</Button>*/}
+            <Button raised dense
+                    onClick={() => this.updateModal('showActivateModal', true)}>
+              <ActivateIcon/>Activate
+            </Button>
+            <Button raised dense
+                    onClick={() => this.updateModal('showDeactivateModal', true)}>
+              <DeactivateIcon/> Deactivate
+            </Button>
 
             <Button raised dense
                     onClick={() => this.updateModal('showDeleteModal', true)}>
