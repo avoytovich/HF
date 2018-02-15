@@ -127,7 +127,6 @@ class TableComponent extends Component {
    * @param property
    */
   handleRequestSort = (event, property) => {
-    console.log(this.props)
     const currentPath = this.props.currentPath || PAGE[this.props.path];
     const { sortedBy, orderBy } = this.props.location.query;
     const  _sortedBy = property === orderBy ?
