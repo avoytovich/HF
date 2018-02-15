@@ -103,6 +103,7 @@ class CompanyOwnUsers extends Component {
     const { profileReducer } = this.props;
     const querySelector = {...this.props.location.query,...{type: 'organization'}};
     const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.params.id}`;
+    const path = `/company/${this.props.params.id}/users`;
     return (
       <div id="diagnosis-component">
 
@@ -114,11 +115,11 @@ class CompanyOwnUsers extends Component {
 
         <TableControls
           locationUrl={this.props.location.pathname}
-          path="organizationsUsers"
+          path="companyOwnUsers"
+          currentPath = {path}
           selected={selected}
           createItem={this.createEntity}
           createButtonText="Add"
-          searchKey="filter"
           toggleCSVModal={this._toggleCSVModal}
           uploadCSV={true}>
 
@@ -142,7 +143,8 @@ class CompanyOwnUsers extends Component {
         <TableComponent
           url={url}
           location={this.props.location}
-          path="organizationsUsers"
+          path="companyOwnUsers"
+          currentPath = {path}
           domen="users"
           reqType="POST"
           tableHeader={ tableHeader }
@@ -155,7 +157,7 @@ class CompanyOwnUsers extends Component {
 
         <DeactivateComponent
           pathReq="userProfile"
-          path="organizationsUsers"
+          path="companyOwnUsers"
           domen="users"
           url={url}
           typeKey="deactivateOpen"
@@ -171,7 +173,7 @@ class CompanyOwnUsers extends Component {
 
         <DeactivateComponent
           pathReq="userProfile"
-          path="organizationsUsers"
+          path="companyOwnUsers"
           domen="users"
           url={url}
           typeKey="deactivateOpen"
@@ -187,7 +189,7 @@ class CompanyOwnUsers extends Component {
 
         <DeleteComponent
           pathReq="userProfile"
-          path="organizationsUsers"
+          path="companyOwnUsers"
           domen = "users"
           url={url}
           typeKey="deactivateOpen"
