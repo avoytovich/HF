@@ -33,6 +33,12 @@ L.Icon.Default.mergeOptions({
 
 export const GET_IMAGE = 'imageOverlay.leafletElement._image';
 
+// to move zero point fom bottom left to top left
+L.CRS.Simple = L.extend({}, L.CRS.Simple, {
+  projection: L.Projection.LonLat,
+  transformation: new L.Transformation(1, 0, 1, 0), // this line is changed!!
+});
+
 class BodyModel extends Component {
   state = {
     bounds: [1000, 1000],
@@ -43,20 +49,20 @@ class BodyModel extends Component {
       .then(() => this._drawExistingPolygons());
     if (this.props.id) {
       getBodyAreaById('diagnostics', 'areas', this.props.id).then(() => {
-        this._drawingNewPolygons();
+        this._drawingNewOrEditingPolygons();
         this._onChange();
       });
     }
   }
 
   componentDidMount() {
-    this._drawingNewPolygons();
+    this._drawingNewOrEditingPolygons();
   }
 
   componentDidUpdate({ url }) {
     if (url !== this.props.url) {
       this.layerContainer().clearLayers();
-      this._drawingNewPolygons();
+      this._drawingNewOrEditingPolygons();
       this._drawExistingPolygons();
       getAllSideAreasWired(this.props.side, this.props.id)
         .then(() => this._drawExistingPolygons());
@@ -103,7 +109,7 @@ class BodyModel extends Component {
     }, 10);
   }
 
-  _drawingNewPolygons = () => {
+  _drawingNewOrEditingPolygons = () => {
     setTimeout(() => {
       const {
         bodyModelReducer: {
@@ -124,7 +130,7 @@ class BodyModel extends Component {
     console.log('edit started');
     setTimeout(() => {
       this.layerContainer().clearLayers();
-      this._drawingNewPolygons();
+      this._drawingNewOrEditingPolygons();
     }, 10);
   };
 
@@ -137,7 +143,7 @@ class BodyModel extends Component {
     setTimeout(() => {
       console.log('delete started');
       this.layerContainer().clearLayers();
-      this._drawingNewPolygons();
+      this._drawingNewOrEditingPolygons();
     }, 10);
   };
 

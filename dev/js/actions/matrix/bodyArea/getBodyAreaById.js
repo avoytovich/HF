@@ -1,10 +1,14 @@
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 
 import {
   domen,
   api
 } from '../../../config'
-import { Api} from '../../../utils'
+import {
+  Api,
+  reverseCoords
+} from '../../../utils'
 import { store } from '../../../index';
 import {
   T,
@@ -27,8 +31,9 @@ export const getBodyAreaById = (domenKey, apiKey, id) => {
         payload: { body }
       });
       const coordinates = get(body, 'coordinates', false);
-      if (coordinates) {
-        dispatchBodyModelWired({ [`currentlyDrawingPolygon`]: coordinates });
+      if (!isEmpty(coordinates)) {
+        // reverse is needed when creating/updating and getting existing polygons
+        dispatchBodyModelWired({ [`currentlyDrawingPolygon`]: reverseCoords(coordinates) });
       }
       return body;
     }

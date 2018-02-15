@@ -69,9 +69,6 @@ class TableComponent extends Component {
     const currentPath           = this.props.location.pathname;
     const query                 = isEmpty(currentQuery) ? DEFAULT_QUERY : currentQuery;
     let sortOptionalFromState   = table.sortOptional;
-    if (pathname === 'test') {
-      sortOptionalFromState.orderBy = 'title'
-    }
 
     const _sortKey = Object.keys(sortOptionalFromState);
     const _sortOptionalFromState = _sortKey.reduce((result, key) => {

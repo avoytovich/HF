@@ -1,3 +1,4 @@
+import sha1 from 'sha1';
 import { browserHistory } from 'react-router';
 
 import { Api } from '../../utils';
@@ -12,7 +13,7 @@ export const resetPassword = ({ token, user_id, password }) => Api.post(
   {'Pass-Token': token}
 );
 
-export const resetPasswordWired = data => resetPassword(data)
+export const resetPasswordWired = data => resetPassword({ ...data, ...{ password: sha1(data.password) } })
   .then(response => {
     notifier({
       title: 'Success',

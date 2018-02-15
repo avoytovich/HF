@@ -75,7 +75,7 @@ class TableControls extends Component {
     } = this.props;
 
     const { anchorEl } = this.state;
-    const defaultValue = store.sortOptional.search;
+    const defaultValue = get(store, 'sortOptional.search', '');
 
     const selectedClassName = selected.length ? 'visible-details' : 'hidden-details';
     const notSelectedClassName = selected.length ? 'hidden-details' : 'visible-details';
@@ -109,7 +109,7 @@ class TableControls extends Component {
               <FormControl fullWidth>
                 <Input
                   id="search"
-                  value={defaultValue || ''}
+                  defaultValue={defaultValue}
                   className={classes.formControl}
                   onChange={event => this.handleChange(event.target.value)}
                   placeholder='Search'

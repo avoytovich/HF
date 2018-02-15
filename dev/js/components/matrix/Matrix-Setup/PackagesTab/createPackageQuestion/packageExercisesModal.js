@@ -90,7 +90,7 @@ class PackageExercisesModal extends Component {
           </Toolbar>
         </AppBar>
 
-        <Grid container style={{marginTop: '60px', marginLeft: '30px'}}>
+        <Grid container id="search-field-container">
           <Grid item xs={12} >
 
             <Input
