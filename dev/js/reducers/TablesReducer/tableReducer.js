@@ -75,11 +75,15 @@ const initialState = {
     },
     {
       name: 'companies',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'id' }
+      ]
     },
     {
       name: 'clinics',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'id' }
+      ]
     },
     {
       name: 'assets',
