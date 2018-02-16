@@ -53,9 +53,11 @@ class DiagnosticAnswers extends Component {
   };
 
   handleAnswerLangChange = (value, index) => {
-    const state = this.state.answerLang;
-    const _value = state.map((el, i) => {
-      if (i === index) return value;
+    const answerLang = this.state.answerLang;
+    const _value     = answerLang.map((el, i) => {
+      if (i === index) {
+        return value;
+      }
 
       return el ;
     });
@@ -95,28 +97,33 @@ class DiagnosticAnswers extends Component {
       default:
         return <div className="answer-wrap">
           <ol style={{width: '100%'}}>
-            {single.map((answer, index) => {
-              return <li  key={index} className="row-item">
-                <div className="answer-item">
-                  <Input
-                    id={`single.${index}.${answerLang[index]}`}
-                    reducer={store}
-                    className="MUIControl"
-                  />
-                  <Clear onClick={() => removeAnswer('single', index)}/>
-                </div>
-                <Tabs
-                  value={answerLang[index] || 'en'}
-                  onChange={(event, value) => this.handleAnswerLangChange(value, index)}
-                  indicatorColor="primary"
-                  className="tab-lang answer"
-                  textColor="primary"
-                  centered
-                >
-                  <Tab label="English" value="en"  className="MUITab"/>
-                  <Tab label="Swedish"  value="swe" className="MUITab" />
-                </Tabs>
-              </li>})}
+            {
+              single.map((answer, index) => {
+                return (
+                  <li  key={index} className="row-item">
+                    <div className="answer-item">
+                      <Input
+                        id={`single.${index}.${answerLang[index]}`}
+                        reducer={store}
+                        className="MUIControl"
+                      />
+                      <Clear onClick={() => removeAnswer('single', index)}/>
+                    </div>
+                    {/*<Tabs*/}
+                      {/*value={answerLang[index] || 'en'}*/}
+                      {/*onChange={(event, value) => this.handleAnswerLangChange(value, index)}*/}
+                      {/*indicatorColor="primary"*/}
+                      {/*className="tab-lang answer"*/}
+                      {/*textColor="primary"*/}
+                      {/*centered*/}
+                    {/*>*/}
+                      {/*<Tab label="English" value="en"  className="MUITab"/>*/}
+                      {/*<Tab label="Swedish"  value="swe" className="MUITab" />*/}
+                    {/*</Tabs>*/}
+                  </li>
+                )
+              })
+            }
           </ol>
           <div className="add-answer"
                onClick={() => this.addAnswer('single')}>

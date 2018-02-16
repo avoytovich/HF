@@ -103,7 +103,7 @@ class CreateConditionComponent extends Component {
           saveLabel={'Save'}
         />
 
-
+        <div className="create-question-sub-container">
         {  id && this.state.loading ?
           <MatrixPreLoader
             left="3"
@@ -164,6 +164,7 @@ class CreateConditionComponent extends Component {
           </div>
         </BlockDivider>
         }
+        </div>
       </div>
     )
   }

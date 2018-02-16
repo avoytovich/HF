@@ -8,6 +8,7 @@ import Input                 from 'material-ui/Input';
 import { FormControl }       from 'material-ui/Form';
 import Button                from 'material-ui/Button';
 import Slide                 from 'material-ui/transitions/Slide';
+import capitalize                 from 'lodash/capitalize';
 import {
   changeSequenceTitle
 }                            from '../../../actions';
@@ -19,16 +20,22 @@ class SequenceTitle extends Component {
 
   componentDidMount() {
     const { title } = this.props.item;
-    this.setState({value: title});
+    this.setState({ value: title });
+    console.log(this.props);
   }
 
-  handleChange = (event) => this.setState({value: event.target.value});
+  handleChange = (event) => this.setState({ value: event.target.value });
 
   save = (item, value) => {
     if (value.length < 2) return;
 
     const { step } = item;
-    changeSequenceTitle('diagnostics', 'changeSequenceTitle', step, {title: value})
+    changeSequenceTitle(
+      'diagnostics',
+      `changeSequenceTitle${capitalize(this.props.reqType)}`,
+      step,
+      {title: value}
+    )
       .then(res => this.props.update());
   };
 
@@ -50,8 +57,10 @@ class SequenceTitle extends Component {
 
       <DialogContent>
         <FormControl>
-          <Input value={value}
-                 onChange={this.handleChange} />
+          <Input
+            value={value}
+            onChange={this.handleChange}
+          />
         </FormControl>
       </DialogContent>
 

@@ -188,6 +188,8 @@ class CreatePackageComponent extends Component {
           onSaveClick={() => this.done(createDiagnosisQuestion)}
           saveLabel={'Save'}
         />
+
+        <div className="create-question-sub-container">
         { id && this.state.loading ?
           <MatrixPreLoader
             left="5"
@@ -330,7 +332,9 @@ class CreatePackageComponent extends Component {
             })}
 
           </div>
-        </BlockDivider>}
+        </BlockDivider>
+        }
+        </div>
       </div>
     )
   }

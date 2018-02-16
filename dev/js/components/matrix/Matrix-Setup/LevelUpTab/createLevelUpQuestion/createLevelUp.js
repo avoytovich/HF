@@ -186,25 +186,26 @@ class CreateLevelUpComponent extends Component {
           saveLabel={'Save'}
         />
 
-
-        { id && this.state.loading ?
-          <MatrixPreLoader
-            left="1"
-            right="2"
-          />
-          : content_type === 'vas' ?
-            <DiagnosisTypeVAS
-              sequenceList={this.state.sequenceList}/> :
-            <DiagnosisTypeQuestion
-              page='evaluations'
-              SequenceBlockReqType="levelUp"
-              packages={true}
-              showLevelUp={true}
-              hideArea={true}
-              currentId={id}
-              packageLevelsList={packageLevelsList}
-              sequenceList={this.state.sequenceList}/>
-        }
+        <div className="create-question-sub-container">
+          { id && this.state.loading ?
+            <MatrixPreLoader
+              left="1"
+              right="2"
+            />
+            : content_type === 'vas' ?
+              <DiagnosisTypeVAS
+                sequenceList={this.state.sequenceList}/> :
+              <DiagnosisTypeQuestion
+                page='evaluations'
+                SequenceBlockReqType="levelUp"
+                packages={true}
+                showLevelUp={true}
+                hideArea={true}
+                currentId={id}
+                packageLevelsList={packageLevelsList}
+                sequenceList={this.state.sequenceList}/>
+          }
+        </div>
       </div>
     )
   }

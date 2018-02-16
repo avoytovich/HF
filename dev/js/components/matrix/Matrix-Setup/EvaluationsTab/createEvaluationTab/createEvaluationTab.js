@@ -188,7 +188,7 @@ class CreateEvaluationComponent extends Component {
           saveLabel={'Save'}
         />
 
-
+        <div className="create-question-sub-container">
         { id && this.state.loading ?
           <MatrixPreLoader
             left="1"
@@ -205,6 +205,7 @@ class CreateEvaluationComponent extends Component {
               currentId={id}
               sequenceList={this.state.sequenceList}/>
         }
+        </div>
       </div>
     )
   }
