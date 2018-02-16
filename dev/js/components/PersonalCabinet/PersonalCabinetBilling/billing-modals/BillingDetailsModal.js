@@ -2,19 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Input from '../../../common/Input/Input';
 import Select from '../../../common/Select/Select';
-
-const tariffTypeArray = [
-  {label:'Company',value:'organization'},
-  {label:'Clinic',value:'clinic'}];
-
-const tariffPeriodArray = [
-  {label:'Month',value:'month'},
-  {label:'Week',value:'week'},
-  {label:'Day',value:'day'}];
+// import stripePackage from 'stripe';
 
 class BillingDetailsModal extends Component {
+  componentWillMount (){
+    Stripe.setPublishableKey('pk_test_nd2AO9CvcrB17TXhe5kwjd8I');
+   console.log('set', Stripe);
+  }
 
   render() {
+    // const stripe = stripePackage('sk_test_...');
     const {createTariffPlanReducer} = this.props;
     return (
       <div className="create-tariff-plan-content">
@@ -32,14 +29,14 @@ class BillingDetailsModal extends Component {
         </div>
 
         <div className="create-tariff-plan-container">
-          <Input id='name' reducer={createTariffPlanReducer} label='Card Number' placeholder='Card Number'/>
+          <Input id='name' reducer={createTariffPlanReducer} label='Card Number' placeholder='Card Number' data-stripe='number'/>
         </div>
 
         <div className="create-tariff-plan-container">
           <Input id='subscription_fee' reducer={createTariffPlanReducer} label='Card expires on' placeholder='Card expires on'
                  className="tree-part"/>
           <Input id='cost_per_user' reducer={createTariffPlanReducer} label='CVC' placeholder='CVC'
-                 className="tree-part"/>
+                 className="tree-part"  data-stripe='cvc' />
 
         </div>
       </div>

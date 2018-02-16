@@ -8,8 +8,12 @@ import { withStyles }           from 'material-ui/styles';
 import get                      from 'lodash/get';
 import map                      from 'lodash/map';
 import Modal                    from '../../common/Modal/Modal';
+import DeactivateComponent      from './billing-modals/deactivateModal';
 import BillingDetailsModal      from './billing-modals/BillingDetailsModal';
 import {getProfileWired }       from '../../../actions';
+import {StripeProvider} from 'react-stripe-elements';
+
+
 
 const styles = theme => ({
   root:{
@@ -57,6 +61,8 @@ class PersonalCabinetBilling extends Component {
 
   componentWillMount (){
     getProfileWired(this.props.userReducer.user_id,'customers');
+    Stripe.setPublishableKey('pk_test_nd2AO9CvcrB17TXhe5kwjd8I');
+    console.log('set', Stripe);
   }
 
   _renderItem =(el, index, profileReducer)=>{
@@ -77,8 +83,9 @@ class PersonalCabinetBilling extends Component {
     this.setState({ showEditBillingDetailsModal: !this.state.showEditBillingDetailsModal })
   };
 
-  _updateBillingDate=()=>{
+  _updateBillingDate=(e,d)=>{
     console.log('on submit')
+    console.log(this,e,d)
     this.setState({ showEditBillingDetailsModal: !this.state.showEditBillingDetailsModal })
   }
 
@@ -135,14 +142,29 @@ class PersonalCabinetBilling extends Component {
         </Grid></div>
 
 
-        <Modal
-          itemName="name_real"
-          open={showEditBillingDetailsModal}
-          title='Billing Details'
-          toggleModal={this._openEditModal}
-          onConfirmClick={() => this._updateBillingDate()}
-          CustomContent={() => <BillingDetailsModal />}
+        {/*<Modal*/}
+          {/*itemName="name_real"*/}
+          {/*open={showEditBillingDetailsModal}*/}
+          {/*title='Billing Details'*/}
+          {/*toggleModal={this._openEditModal}*/}
+          {/*onConfirmClick={this._updateBillingDate}*/}
+          {/*CustomContent={() => <BillingDetailsModal />}*/}
+        {/*/>*/}
+        <StripeProvider apiKey="pk_test_nd2AO9CvcrB17TXhe5kwjd8I">
+        <DeactivateComponent
+          pathReq="userProfile"
+          path="clinicOwnUsers"
+          domen="users"
+          typeKey="deactivateOpen"
+          title="Billing"
+          deactivateOpen={showEditBillingDetailsModal}
+          open={this._openEditModal}
+          itemKey="user_id"
+          query={this.props.location.query}
+          action="deactivate"
+          onSubmitTitle = "Submit"
         />
+        </StripeProvider>
 
       </div>
     )
