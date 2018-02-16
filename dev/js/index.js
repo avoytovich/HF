@@ -79,7 +79,7 @@ const router = (
             <Route path={PAGE.simpleUsersProfile}        component={C.SimpleUserProfile} />
             <Route path={PAGE.organizationsUsersProfile} component={C.SimpleUserProfile} />
             <Route path={PAGE.clinicsUsersProfile}       component={C.SimpleUserProfile} />
-
+            <Route path={PAGE.tariffPlans}       component={C.TariffPlans}/>
             <Route path={PAGE.assets}             component={C.AssetsComponent} >
                 <IndexRedirect to={PAGE.assetsDiagnostics}/>
                 <Route path={PAGE.assetsExercises} component={C.AssetsExercisesList}/>

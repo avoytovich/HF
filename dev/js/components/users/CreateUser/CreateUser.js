@@ -69,7 +69,6 @@ class CreateUser extends Component {
     if(this.props.userInfo){
       return
     }
-    console.log(this.props.userData)
     dispatchCreateUserPayloadWired(this.props.userData);
   }
 
@@ -99,14 +98,12 @@ class CreateUser extends Component {
   };
 
   _dublicatePostalCode = ()=>{
-    console.log(this.props.createUsersReducers);
     const newBillingData = {billing_info:
       {postal_code: this.props.createUsersReducers.contact_info.postal_code,
         address: this.props.createUsersReducers.contact_info.address,
         country: this.props.createUsersReducers.contact_info.country,
         region: this.props.createUsersReducers.contact_info.region,
       }}
-      console.log(newBillingData);
     dispatchCreateUserPayloadWired({...this.props.createUsersReducers,...newBillingData})
   }
 
@@ -115,7 +112,8 @@ class CreateUser extends Component {
     const contacts = get(createUsersReducers,'contact_info.contacts')||[];
     return (
       <div className="upload-container">
-        <Header toggleModal={this.props.toggleModal} userData = {this.props.userData} userInfo={this.props.userInfo}/>
+        <Header toggleModal={this.props.toggleModal} userData = {this.props.userData} userInfo={this.props.userInfo}
+                backButton={this.props.backButton}/>
         <div className="create-user-main-container">
           <div className="create-user-container">
             <div className="create-user-input-container">

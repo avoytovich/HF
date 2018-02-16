@@ -153,7 +153,7 @@ export const EXERCISES_TAB = {
   key: 'exercise',
   title: 'ExerciseTab',
   tableHeader: [
-    { title: 'Name',       key: 'title.en',   className: 'left', sortKey: 'title'                  },
+    { title: 'Name',       key: 'name',   className: 'left', sortKey: 'title'                  },
     { title: 'Packages',   key: 'packages',   className: 'center', type: 'length', sortKey: '--'   },
     { title: 'Live',       key: 'testing_mode', className: 'left',type: 'in_testing'     },
     // { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
@@ -182,7 +182,7 @@ export const ASSETS_TAB = {
     { title: 'Extension',     key: 'extension', className: 'center'                                    },
     { title: 'Type',          key: 'type',             className: 'left'                                      },
     { title: 'Upload Date',   key: 'updated_at',       className: 'left', type: 'time',   format: TIME_FORMAT },
-    { title: 'Size',          key: 'size',             className: 'left'                                      },
+    { title: 'Size',          key: 'properties.size',             className: 'left'                                      },
   ]
 };
 
@@ -193,7 +193,7 @@ export const COMPANIES_TAB = {
     { title: 'Company Name',   key: 'name',          className: 'left assets-title-cell'},
     { title: 'Contact Person', key: 'contact_info.contacts[0].name',       className: 'center'  },
     { title: 'Users',          key: 'users',         className: 'left'},
-    { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
+    { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
 
@@ -204,7 +204,7 @@ export const CLINICS_TAB = {
     { title: 'Clinic Name',    key: 'name',          className: 'left assets-title-cell'},
     { title: 'Contact Person', key: 'contact_info.contacts[0].name',          className: 'center', sortKey: '--',  },
     { title: 'Users',          key: 'users',         className: 'left'},
-    { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
+    { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
 
@@ -213,8 +213,8 @@ export const USERS_TAB = {
   title: 'ConditionsTab',
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
-    { title: 'Status', key: 'activated_at', className: 'center', type: 'user_status'  },
-    { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
+    { title: 'Status', key: 'status', className: 'center'  },
+    { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
 
@@ -224,8 +224,8 @@ export const PERSONAL_CABINET_USERS_TAB = {
   tableHeader: [
     { title: 'ID Number',  key: 'user_id',      className: 'left'},
     { title: 'Email',      key: 'email',      className: 'left'},
-    { title: 'Status',     key: 'activated_at', className: 'left', type: 'user_status' },
-    { title: 'Activate',   key: 'created_at',   className: 'left',   type: 'time', format: TIME_FORMAT }
+    { title: 'Status',     key: 'status', className: 'left' },
+    { title: 'Created',   key: 'created_at',   className: 'left',   type: 'time', format: TIME_FORMAT }
   ]
 };
 
@@ -236,8 +236,8 @@ export const COMPANIES_USERS_TAB = {
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Company', key: 'customer_name', className: 'center'  },
-    { title: 'Status', key: 'activated_at', className: 'center', type:'user_status'  },
-    { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
+    { title: 'Status', key: 'status', className: 'center' },
+    { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
 
@@ -247,8 +247,8 @@ export const CLINICS_USERS_TAB = {
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Clinic', key: 'customer_name', className: 'center'  },
-    { title: 'Status', key: 'activated_at', className: 'center', type:'user_status'  },
-    { title: 'Activate',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
+    { title: 'Status', key: 'status', className: 'center'},
+    { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
 
@@ -260,6 +260,19 @@ export const TEST_TAB = {
     { title: 'Package',       key: 'type',          className: 'center'                                  },
     // { title: 'Pain Areas',    key: 'properties_temp',          className: 'center'                                  },
     { title: 'Date',          key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT },
+  ]
+};
+
+export const TARIFF_PLANS = {
+  key: 'conditions',
+  title: 'ConditionsTab',
+  tableHeader: [
+    { title: 'Title',          key: 'name',          className: 'left'},
+    { title: 'Type',          key: 'customer_type',          className: 'left'},
+    { title: 'Cost/User, $',          key: 'cost_per_user',    className: 'left'},
+    { title: 'Period',          key: 'period',          className: 'left'},
+    { title: 'Cost/Period, $',          key: 'subscription_fee',          className: 'left'},
+    { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
 
