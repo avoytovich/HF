@@ -10,6 +10,7 @@ import ExpandLess from 'material-ui-icons/ExpandLess';
 import ExpandMore from 'material-ui-icons/ExpandMore';
 import Person from 'material-ui-icons/Person'; // Users
 import Domain from 'material-ui-icons/Domain'; // Companies
+import TariffPlan from 'material-ui-icons/AttachMoney'; // Tariff plans
 import InsertDriveFile from 'material-ui-icons/InsertDriveFile'; // assets
 import LocalHospital from 'material-ui-icons/LocalHospital'; // Clinics
 import SettingsApplications from 'material-ui-icons/SettingsApplications'; // matrix
@@ -78,6 +79,14 @@ class MainNavigation extends Component {
               </Link>
             </List>
           </Collapse>
+          <Link to={PAGE.tariffPlans} activeClassName='active-route' className="nav-menu-list-item">
+            <ListItem button>
+              <ListItemIcon>
+                <TariffPlan className="nav-icon" />
+              </ListItemIcon>
+              <ListItemText inset primary='Tariff Plans'/>
+            </ListItem>
+          </Link>
           <Link to={PAGE.assets} activeClassName='active-route' className="nav-menu-list-item">
             <ListItem button>
               <ListItemIcon>

@@ -17,7 +17,8 @@ export const userCreate = (domenKey, apiKey, body) => {
 
 export const userCreateByCSV = (domenKey, apiKey, body) => {
   const domenPath = domen[domenKey], apiPath   = api[apiKey];
-  return Api.post(`${domenPath}${apiPath}${body.customer_id}`,
+  let url = body.customer_id? `${domenPath}${apiPath}${body.customer_id}`: `${domenPath}${apiPath}`;
+  return Api.post(url,
     toFormData({ csv: body.files[0].file }),
     { onUploadProgress: (progress => dispatchCreateSimpleUserPayloadWired ({ progress })) },
     { 'Content-Type': 'multipart/form-data' });

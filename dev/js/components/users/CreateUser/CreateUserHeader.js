@@ -26,12 +26,17 @@ class HeaderAssets extends Component {
 
     if(get(this.props,'userInfo.actionType') ==='create'){
       userCreate('users', 'customers', result)
-        .then(() => this.props.toggleModal())
-      browserHistory.push(this.props.backButton)
+        .then(() => {
+        this.props.toggleModal();
+        browserHistory.push(get(this.props,'backButton'))
+      })
     }
     else {
       userUpdate('users', 'customers', this.props.userData.id,  result)
-        .then(() => this.props.toggleModal())
+        .then(() => {
+          this.props.toggleModal();
+          browserHistory.push(get(this.props,'backButton'))
+        })
     }
   };
 

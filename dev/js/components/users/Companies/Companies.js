@@ -67,6 +67,7 @@ class Companies extends Component {
       showDeactivateModal, showDeleteModal } = this.state;
     const querySelector = {...this.props.location.query,...{type: 'organization', back :'companies'}};
     const url = `${domen['users']}${api['companies']}`;
+    const backButton = `${this.props.location.pathname}/${this.props.location.search}`;
     return (
       <div id="diagnosis-component">
 
@@ -75,7 +76,7 @@ class Companies extends Component {
           selected={selected}
           createItem={this.createEntity}
           createButtonText="Add"
-          searchKey = "filter">
+        >
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
@@ -158,7 +159,7 @@ class Companies extends Component {
           open={showCreateModal}
           showControls={false}
           toggleModal={this.createEntity}
-          CustomContent={() => <CreateUser userInfo={userInfo} toggleModal={this.createEntity}/>}
+          CustomContent={() => <CreateUser userInfo={userInfo} toggleModal={this.createEntity} backButton={backButton} />}
         />
 
 
