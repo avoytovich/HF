@@ -73,47 +73,55 @@ class DiagnosisTypeQuestion extends Component {
               onChange={e => updateCrateQuestionFields(e.target.value, 'content_type')}
               MenuProps={{ PaperProps: { style: { width: 400 }}}}
             >
-              {CONTENT_TYPE_LIST.map((item, index) => (
-                <MenuItem
-                  key={ item.value }
-                  value={ item.value }>
-                  {item.label}
-                </MenuItem>
-              ))}
+              {
+                CONTENT_TYPE_LIST.map((item, index) => (
+                  <MenuItem
+                    key={ item.value }
+                    value={ item.value }>
+                    {item.label}
+                  </MenuItem>
+                ))
+              }
             </MUISelect>
           </Grid>
-          {hideArea && <Grid item md={6} sm={12}>
-            <Input
-              id='questionTitle'
-              value={questionTitle}
-              reducer={ createDiagnosisQuestion }
-              label={ 'Title*' }
-              className="MUIControl"
-              style={{marginTop: '12px'}}
-            />
-          </Grid>}
+          {
+            hideArea &&
+            <Grid item md={6} sm={12}>
+              <Input
+                id='questionTitle'
+                value={questionTitle}
+                reducer={ createDiagnosisQuestion }
+                label={ 'Title*' }
+                className="MUIControl"
+                style={{marginTop: '12px'}}
+              />
+            </Grid>
+          }
         </Grid>
 
         {/*Title and Pain Area*/}
-        {!hideArea && <Grid container className="row-item">
-          <Grid item md={6} sm={12}>
-            <Input
-              id='questionTitle'
-              value={questionTitle}
-              reducer={ createDiagnosisQuestion }
-              label={ 'Title*' }
-              className="MUIControl"
-            />
-          </Grid>
-          <Grid item md={6} sm={12} className="level-up-block">
-              <AsyncAreaSelect
-                domain="diagnostics"
-                path="findArea"
-                valuePath="areaIds"
-                idKey="create_diagnostic_question"
+        {
+          !hideArea &&
+          <Grid container className="row-item">
+            <Grid item md={6} sm={12}>
+              <Input
+                id='questionTitle'
+                value={questionTitle}
+                reducer={ createDiagnosisQuestion }
+                label={ 'Title*' }
+                className="MUIControl"
               />
+            </Grid>
+            <Grid item md={6} sm={12} className="level-up-block">
+                <AsyncAreaSelect
+                  domain="diagnostics"
+                  path="findArea"
+                  valuePath="areaIds"
+                  idKey="create_diagnostic_question"
+                />
+            </Grid>
           </Grid>
-        </Grid>}
+        }
 
         {/* Question !!! */}
         <DiagnosticQuestion
@@ -159,47 +167,50 @@ class DiagnosisTypeQuestion extends Component {
           typePath="answerType"
         />
 
-
-
-
         {/*Packages and Start levels*/}
-        { packages && <div style={{display: 'flex', flexDirection: 'column', marginBottom: '90px'}}>
-          {/* Answers */}
-          <Grid className="title answer">
-            <Typography type="title"
-                        gutterBottom>
-              Packages & Levels
-            </Typography>
-          </Grid>
+        {
+          packages &&
+          <div style={{display: 'flex', flexDirection: 'column', marginBottom: '90px'}}>
+            {/* Answers */}
+            <Grid className="title answer">
+              <Typography type="title"
+                          gutterBottom>
+                Packages & Levels
+              </Typography>
+            </Grid>
 
-          <PackageLevelsList packageLevelsList={packageLevelsList}
-                             areaIds={areaIds}/>
-        </div>}
+            <PackageLevelsList
+              packageLevelsList={packageLevelsList}
+              areaIds={areaIds}
+            />
+          </div>
+        }
       </div>
 
       <div className="rules">
-
-        {showLevelUp && <Grid container className="row-item">
-          <Grid item xs={12} className="level-up-block">
-            <FormControlLabel
-              label={'Redirect to the next level'}
-              className="level-up-block-label"
-              control={
-                <Checkbox
-                  checked={levelup_result}
-                  onChange={e => updateCrateQuestionFields(e.target.checked, 'levelup_result')}
-                />
-              }
-            />
-            <Typography type="caption">
-              After successful execution of the rules to redirect the user to the next level
-            </Typography>
+        {
+          showLevelUp &&
+          <Grid container className="row-item">
+            <Grid item xs={12} className="level-up-block">
+              <FormControlLabel
+                label={'Redirect to the next level'}
+                className="level-up-block-label"
+                control={
+                  <Checkbox
+                    checked={levelup_result}
+                    onChange={e => updateCrateQuestionFields(e.target.checked, 'levelup_result')}
+                  />
+                }
+              />
+              <Typography type="caption">
+                After successful execution of the rules to redirect the user to the next level
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>}
+        }
 
         {
-          content_type === "functionalTest"
-          &&
+          content_type === "functionalTest" &&
           <AssetsList
             list={ diagnostic_assets }
             path="assets"

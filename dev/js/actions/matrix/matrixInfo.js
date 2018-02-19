@@ -267,7 +267,8 @@ export const getExercises = (domenKey, apiKey, text) => {
 export const getExerciseById =  (domenKey, apiKey, id) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
-  return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
+  return Api.get(`${domenPath}${apiPath}/${id}`)
+    .then(res => {
       if (res) {
         const { data } = res.data;
         store.dispatch(
@@ -278,8 +279,7 @@ export const getExerciseById =  (domenKey, apiKey, id) => {
         );
         return data;
       }
-    }
-  );
+    });
 };
 
 

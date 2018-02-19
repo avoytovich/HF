@@ -152,9 +152,17 @@ class CreateQuestionComponent extends Component {
     assets.hasOwnProperty('id') && !!assets.id;
 
   configureQuestionResult = (value, optional) => {
-    const { areaIds, answerType, rules, diagnostic_assets } = value,
-          { type, subtype } = this.getAnswerType(answerType),
-          moreProps = optional ? { test_file_id: get(diagnostic_assets, 'id') || null } : {};
+    const {
+        areaIds,
+        answerType,
+        rules,
+        diagnostic_assets
+    } = value;
+    const {
+      type,
+      subtype
+    } = this.getAnswerType(answerType);
+    const moreProps = optional ? { test_file_id: get(diagnostic_assets, 'id') || null } : {};
     return {
       areaIds : areaIds,
       answer: {
@@ -178,7 +186,7 @@ class CreateQuestionComponent extends Component {
       <div id="create-question">
 
         <CreateItemNavButtons
-          title={'Create Diagnosis Question'}
+          title='Create Diagnosis Question'
           showSwitch={true}
           switchChecked={testing}
           switchLabel={'Live'}
@@ -189,18 +197,25 @@ class CreateQuestionComponent extends Component {
           saveLabel={'Save'}
         />
 
+        <div className="create-question-sub-container">
+          {
+            id && this.state.loading ?
+              <MatrixPreLoader
+                left="1"
+                right="2"
+              />
+              : content_type === 'vas' ?
+              <DiagnosisTypeVAS
+                sequenceList={this.state.sequenceList}
+              />
+              :
+              <DiagnosisTypeQuestion
+                sequenceList={this.state.sequenceList}
+                currentId={id}
+              />
+          }
+        </div>
 
-        { id && this.state.loading ?
-          <MatrixPreLoader
-            left="1"
-            right="2"
-          />
-          : content_type === 'vas' ?
-              <DiagnosisTypeVAS      sequenceList={this.state.sequenceList}/> :
-              <DiagnosisTypeQuestion sequenceList={this.state.sequenceList}
-                                     currentId={id}/>
-
-        }
       </div>
     )
   }

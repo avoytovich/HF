@@ -12,52 +12,29 @@ import Tabs, { Tab }                from 'material-ui/Tabs';
 
 
 class DiagnosticQuestion extends Component{
-  state = { questionLang: 'en' };
-
-  handleQuestionLangChange = (event, questionLang) =>
-    this.setState({ questionLang });
-
   render() {
-    const { store, question, id, label } = this.props;
-    const { questionLang } = this.state;
-
+    const {
+      store:{
+        questionAnswerLang,
+      },
+      store,
+      question,
+      id,
+      label
+    } = this.props;
     return <Grid container className="row-item">
       <Grid item xs={12}>
-        {questionLang === 'en' ?
-          <Input
-            id={`${id}.en`}
-            value={question.en}
-            reducer={store}
-            label={ label +'*' }
-            multiline={true}
-            className="MUIControl"
-            rows="5"
-            cols="60"
-          /> :
-          <Input
-            id={`${id}.swe`}
-            value={question.swe}
-            reducer={store}
-            label={ label+'*' }
-            multiline={true}
-            className="MUIControl"
-            rows="5"
-            cols="60"
-          />
-        }
+        <Input
+          id={`${id}.${questionAnswerLang}`}
+          value={question[questionAnswerLang]}
+          reducer={store}
+          label={ label +'*' }
+          multiline={true}
+          className="MUIControl"
+          rows="5"
+          cols="60"
+        />
       </Grid>
-      <Tabs
-        value={questionLang}
-        onChange={this.handleQuestionLangChange}
-        indicatorColor="primary"
-        className="tab-lang"
-        textColor="primary"
-        centered
-      >
-        <Tab label="English" value="en"  className="MUITab"/>
-        <Tab label="Swedish"  value="swe" className="MUITab"/>
-      </Tabs>
-
     </Grid>
   }
 }
@@ -66,6 +43,7 @@ DiagnosticQuestion.defaultProps = {
   className   : 'async_area_select',
   label       : 'Question',
   id          : 'question',
+  questionAnswerLang: 'en',
 };
 
 DiagnosticQuestion.propTypes = {
@@ -77,7 +55,11 @@ DiagnosticQuestion.propTypes = {
   label       : PropTypes.string
 };
 
-const mapStateToProps    = state => ({store: state.createDiagnosisQuestion});
-const mapDispatchToProps = dispatch => bindActionCreators({dispatch}, dispatch);
+const mapStateToProps    = state => ({
+  store: state.createDiagnosisQuestion}
+);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  dispatch
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiagnosticQuestion);

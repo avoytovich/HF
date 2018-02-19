@@ -9,6 +9,9 @@
   .diagnosis-table
     margin-top: 15px
 
+.create-question-sub-container
+  height: calc(100vh - 144px)
+  overflow-y: auto
 
 #create-question
   background-color: #f5f5f5
@@ -40,7 +43,13 @@
   .navigation-zone
     display: flex
     flex-direction: row
-  .navigation-zone-default,
+
+  .name-switcher-wrapper
+    margin: 0, 15px
+  .navigation-zone-default
+    margin-left: 20px
+    display: flex
+    flex-direction: row
   .navigation-zone-custom
     display: flex
     flex-direction: row
