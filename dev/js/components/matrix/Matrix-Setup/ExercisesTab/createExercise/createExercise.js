@@ -180,7 +180,7 @@ class CreateExerciseComponent extends Component {
                       id='exercise.name'
                       value={name}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Notes*' }
+                      label={ 'Name*' }
                       className="MUIControl"
                       placeholder={ 'Notes' }
                     />

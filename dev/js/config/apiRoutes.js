@@ -40,7 +40,8 @@ export const api = {
   clinics             : '/customers/get/all',
   customers           : '/customers/',
   createSimpleUser    : '/users/customer',
-  createSimpleUserByCSV    : '/users/csv/add/',
+  addSimpleUserByCSV    : '/users/csv/add/',
+  createSimpleUserByCSV    : '/users/csv/create',
   activateSimpleUserByCSV    : '/users/csv/activate/',
   deactivateSimpleUserByCSV  : '/users/csv/deactivate/',
   deleteSimpleUserByCSV  : '/users/csv/delete/',
@@ -96,6 +97,9 @@ export const api = {
   createMessage       : '/messages',
   getAllSideAreas     : '/matrix/areas/get/side',
   personalCabinetUsers : '/users/get/all',
+  tariffPlans         : '/tariffs/get/all',
+  createTariff        : '/tariffs/',
+  getSimpleTariff     :'/tariffs/simple'
 };
 
 export const PAGE = {
@@ -137,6 +141,7 @@ export const PAGE = {
   packages          : '/matrix-setup/packages',
   exercises         : '/matrix-setup/exercises',
   diagnosisCreate   : '/diagnosis-create',
+  tariffPlans       : '/tariff-plans',
 
   personalCabinet     :  'personal-cabinet',
   personalCabinetUsers : '/personal-cabinet/users',

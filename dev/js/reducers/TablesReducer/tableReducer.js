@@ -75,11 +75,15 @@ const initialState = {
     },
     {
       name: 'companies',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'id' }
+      ]
     },
     {
       name: 'clinics',
-      changes: []
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'id' }
+      ]
     },
     {
       name: 'assets',
@@ -132,6 +136,12 @@ const initialState = {
     },
     {
       name: 'personalCabinetUsers',
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'first_name' }
+      ]
+    },
+    {
+      name: 'tariffPlans',
       changes: [
         { path: 'sortOptional.orderBy', value: 'first_name' }
       ]

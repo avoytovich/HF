@@ -16,11 +16,12 @@ export const dispatchUserClearWired = () =>
   store.dispatch({ type: `${USER}_CLEAR` });
 
 export const  toggleCSVModal = (data, that, browserUrl, userId) =>{
+  console.log(data, that, browserUrl);
   switch(data) {
     case 'add':
       that.setState({ showCSVUploadModal: !that.state.showCSVUploadModal,
         CSVUploadModalTitle: 'Add users',
-        CSVUploadModalConfirm: ()=>userActionByCSV(that,'createSimpleUserByCSV',  browserUrl, userId)});
+        CSVUploadModalConfirm: ()=> userActionByCSV(that,'addSimpleUserByCSV',  browserUrl, userId)});
       return;
     case 'activate':
       that.setState({ showCSVUploadModal: !that.state.showCSVUploadModal,
@@ -37,6 +38,26 @@ export const  toggleCSVModal = (data, that, browserUrl, userId) =>{
         CSVUploadModalTitle: 'Delete users',
         CSVUploadModalConfirm: ()=>userActionByCSV(that,'deleteSimpleUserByCSV',  browserUrl,userId)});
       return;
+    default:
+      that.setState({ showCSVUploadModal: false });
+      dispatchCSVFilePayloadWired({...that.props.createSimpleUsersReducers,files:[]})
+  }
+};
+
+export const  toggleCSVModalSimple = (data, that, browserUrl) =>{
+  console.log(data, that, browserUrl);
+  switch(data) {
+    case 'add':
+      that.setState({ showCSVUploadModal: !that.state.showCSVUploadModal,
+        CSVUploadModalTitle: 'Add users',
+        CSVUploadModalConfirm: ()=> userActionByCSV(that,'createSimpleUserByCSV',  browserUrl)});
+      return;
+    case 'activate':
+      return;
+    case 'deactivate':
+       return;
+    case 'remove':
+       return;
     default:
       that.setState({ showCSVUploadModal: false });
       dispatchCSVFilePayloadWired({...that.props.createSimpleUsersReducers,files:[]})

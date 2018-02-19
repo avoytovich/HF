@@ -14,6 +14,7 @@ import * as assetsReducer         from './assetsReducer';
 import * as matrixReducers        from './matrixReducers';
 import * as tableReducers         from './TablesReducer'
 import * as createUsersReducers   from './createUsersReducers'
+import * as tariffPlansReducers   from './tariffPlansReducers'
 import * as testingReducer        from './testingReducer'
 const config = {
   key: 'root',
@@ -33,6 +34,7 @@ const rootReducer = persistCombineReducers(config, {
   ...authReducers,
   ...assetsReducer,
   ...createUsersReducers,
+  ...tariffPlansReducers,
   ...matrixReducers.default,
   ...tableReducers.default,
   ...testingReducer,
