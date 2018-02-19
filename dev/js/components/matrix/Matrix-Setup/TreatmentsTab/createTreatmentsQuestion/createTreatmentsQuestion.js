@@ -128,6 +128,7 @@ class CreateTreatmentsComponent extends Component {
         <CreateItemNavButtons
           title={'Create Treatment'}
           showSwitch={true}
+          showLangSwitcher={false}
           switchChecked={testing}
           switchLabel={'Live'}
           onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing')}
@@ -136,79 +137,80 @@ class CreateTreatmentsComponent extends Component {
           onSaveClick={() => this.done(createDiagnosisQuestion)}
           saveLabel={'Save'}
         />
+        <div className="create-question-sub-container">
 
+          {  id && this.state.loading ?
+            <MatrixPreLoader
+              left="4"
+              right="2"
+            />
+            :
+            <BlockDivider title="Treatment">
+              <div className="main-question" style={{width:'100%'}}>
 
-        {  id && this.state.loading ?
-          <MatrixPreLoader
-            left="4"
-            right="2"
-          />
-          :
-          <BlockDivider title="Treatment">
-            <div className="main-question" style={{width:'100%'}}>
-
-              <Grid className="title">
-                <Typography type="title" gutterBottom>
-                  Treatment
-                </Typography>
-              </Grid>
-
-              {/*Title and Pain Area*/}
-              <Grid container className="row-item">
-                <Grid item md={6} sm={12}>
-                  <Input
-                    id='questionTitle'
-                    className="MUIControl"
-                    value={questionTitle}
-                    reducer={ createDiagnosisQuestion }
-                    label={ L_CREATE_QUESTION.questionTitle }
-                    placeholder={ L_CREATE_QUESTION.enterTitle }
-                  />
+                <Grid className="title">
+                  <Typography type="title" gutterBottom>
+                    Treatment
+                  </Typography>
                 </Grid>
-                <Grid item md={6} sm={12}>
-                  <AsyncAreaSelect
-                    domain="diagnostics"
-                    path="findArea"
-                    valuePath="areaIds"
-                    idKey="create_treatment_question"
-                  />
+
+                {/*Title and Pain Area*/}
+                <Grid container className="row-item">
+                  <Grid item md={6} sm={12}>
+                    <Input
+                      id='questionTitle'
+                      className="MUIControl"
+                      value={questionTitle}
+                      reducer={ createDiagnosisQuestion }
+                      label={ L_CREATE_QUESTION.questionTitle }
+                      placeholder={ L_CREATE_QUESTION.enterTitle }
+                    />
+                  </Grid>
+                  <Grid item md={6} sm={12}>
+                    <AsyncAreaSelect
+                      domain="diagnostics"
+                      path="findArea"
+                      valuePath="areaIds"
+                      idKey="create_treatment_question"
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
 
-              {/* Question Key */}
-              <UniqueKey
-                domain="diagnostics"
-                path="findByKey"
-                questionKey={questionKey}
-                id="questionKey"
-                currentId={id}
-                label="Treatment key*"
-                reducer="createDiagnosisQuestion"
-              />
+                {/* Question Key */}
+                <UniqueKey
+                  domain="diagnostics"
+                  path="findByKey"
+                  questionKey={questionKey}
+                  id="questionKey"
+                  currentId={id}
+                  label="Treatment key*"
+                  reducer="createDiagnosisQuestion"
+                />
 
 
-              {/*Package and Start level*/}
-              <TreatmentPackageLevel
-                packageItem={treatmentsPackage}
-                levelItem={treatmentsLevels}
-                area={areaIds}
-                packageError={ errors['treatmentsPackage']}
-                levelError={ errors['treatmentsLevels']}
-                levelsList={levelsList || []}
-              />
+                {/*Package and Start level*/}
+                <TreatmentPackageLevel
+                  packageItem={treatmentsPackage}
+                  levelItem={treatmentsLevels}
+                  area={areaIds}
+                  packageError={ errors['treatmentsPackage']}
+                  levelError={ errors['treatmentsLevels']}
+                  levelsList={levelsList || []}
+                />
 
-            </div>
-            <div className="rules">
-              <DiagnosisRulesComponent
-                page="treatments"
-                type="diagnostic"
-                area={areaIds}
-                step={null}
-                showTitle={true}
-              />
-            </div>
-          </BlockDivider>
-        }
+              </div>
+              <div className="rules">
+                <DiagnosisRulesComponent
+                  page="treatments"
+                  type="diagnostic"
+                  area={areaIds}
+                  step={null}
+                  showTitle={true}
+                />
+              </div>
+            </BlockDivider>
+          }
+        </div>
 
       </div>
     )

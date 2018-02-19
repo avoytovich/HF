@@ -77,7 +77,8 @@ const exerciseTab = {
 
 export  default {
   actionType    : CREATE_QUESTION,
-  errors: {},
+  errors        : {},
+  questionAnswerLang: 'en',
   page          : null,
   areas         : [],
   areaIds       : [],

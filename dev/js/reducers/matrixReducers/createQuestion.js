@@ -298,7 +298,8 @@ const deletePackageLevel = (state, action) => {
   return dotProp.set(
     state,
     'packageLevels',
-    list => list.filter((item, i) =>  id ? item.id !== id : index !== i));
+    list => list.filter((item, i) =>  id ? item.id !== id : index !== i)
+  );
 };
 
 export default createReducer(Object.assign({}, InitialState), CREATE_QUESTION, {

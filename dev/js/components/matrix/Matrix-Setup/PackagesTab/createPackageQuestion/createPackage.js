@@ -180,6 +180,7 @@ class CreatePackageComponent extends Component {
         <CreateItemNavButtons
           title={'Create Package'}
           showSwitch={true}
+          showLangSwitcher={false}
           switchChecked={testing_mode}
           switchLabel={'Live'}
           onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing_mode')}
@@ -188,6 +189,8 @@ class CreatePackageComponent extends Component {
           onSaveClick={() => this.done(createDiagnosisQuestion)}
           saveLabel={'Save'}
         />
+
+        <div className="create-question-sub-container">
         { id && this.state.loading ?
           <MatrixPreLoader
             left="5"
@@ -330,7 +333,9 @@ class CreatePackageComponent extends Component {
             })}
 
           </div>
-        </BlockDivider>}
+        </BlockDivider>
+        }
+        </div>
       </div>
     )
   }
