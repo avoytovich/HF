@@ -42,30 +42,25 @@ class DiagnosticAnswers extends Component {
     const answerList = this.props.store[_type];
     if (Array.isArray(answerList)) {
       const answerLang = this.props.store[_type].map(() => 'en');
-      this.setState({answerLang});
+      // this.setState({answerLang});
     }
   }
 
   addAnswer = (value) => {
     const inState = this.state.answerLang;
-    this.setState({ answerLang: inState.concat('en')});
+    this.setState({ answerLang: inState.concat('en') });
     addNewAnswer(value);
   };
 
-  handleAnswerLangChange = (value, index) => {
-    const answerLang = this.state.answerLang;
-    const _value     = answerLang.map((el, i) => {
-      if (i === index) {
-        return value;
-      }
-
-      return el ;
-    });
-    this.setState({ answerLang: _value || 'en'});
-  };
-
   answers = (type) => {
-    const { store, store: { single, multiple } } = this.props;
+    const {
+      store,
+      store: {
+        single,
+        multiple,
+        questionAnswerLang,
+      }
+    } = this.props;
     const { answerLang } = this.state;
 
     switch (type) {
@@ -103,23 +98,12 @@ class DiagnosticAnswers extends Component {
                   <li  key={index} className="row-item">
                     <div className="answer-item">
                       <Input
-                        id={`single.${index}.${answerLang[index]}`}
+                        id={`single.${index}.${questionAnswerLang}`}
                         reducer={store}
                         className="MUIControl"
                       />
                       <Clear onClick={() => removeAnswer('single', index)}/>
                     </div>
-                    {/*<Tabs*/}
-                      {/*value={answerLang[index] || 'en'}*/}
-                      {/*onChange={(event, value) => this.handleAnswerLangChange(value, index)}*/}
-                      {/*indicatorColor="primary"*/}
-                      {/*className="tab-lang answer"*/}
-                      {/*textColor="primary"*/}
-                      {/*centered*/}
-                    {/*>*/}
-                      {/*<Tab label="English" value="en"  className="MUITab"/>*/}
-                      {/*<Tab label="Swedish"  value="swe" className="MUITab" />*/}
-                    {/*</Tabs>*/}
                   </li>
                 )
               })

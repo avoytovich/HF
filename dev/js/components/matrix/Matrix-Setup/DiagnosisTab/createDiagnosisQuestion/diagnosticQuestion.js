@@ -12,26 +12,21 @@ import Tabs, { Tab }                from 'material-ui/Tabs';
 
 
 class DiagnosticQuestion extends Component{
-  constructor(props) {
-    super(props);
-    this.state = { questionLang: this.props.questionLang };
-  }
-
   render() {
     const {
+      store:{
+        questionAnswerLang,
+      },
       store,
       question,
       id,
       label
     } = this.props;
-    const {
-      questionLang
-    } = this.state;
     return <Grid container className="row-item">
       <Grid item xs={12}>
         <Input
-          id={`${id}.${questionLang}`}
-          value={question[questionLang]}
+          id={`${id}.${questionAnswerLang}`}
+          value={question[questionAnswerLang]}
           reducer={store}
           label={ label +'*' }
           multiline={true}
@@ -48,7 +43,7 @@ DiagnosticQuestion.defaultProps = {
   className   : 'async_area_select',
   label       : 'Question',
   id          : 'question',
-  questionLang: 'en',
+  questionAnswerLang: 'en',
 };
 
 DiagnosticQuestion.propTypes = {

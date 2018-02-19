@@ -43,12 +43,9 @@ class CreateExerciseComponent extends Component {
   componentWillMount() {
     if (this.props.params.id) {
       this.setState({loading: true});
-      getExerciseById('exercises', 'exercises', this.props.params.id).then(() => {
-        this.setState({loading: false});
-
-      });
-    }
-    else {
+      getExerciseById('exercises', 'exercises', this.props.params.id)
+        .then(() => this.setState({ loading: false }));
+    } else {
 //      const newOne = Object.assign({}, DEFAULT_LEVEL);
 //      updateCrateQuestionFields([newOne], 'packageLevels');
     }
@@ -117,6 +114,7 @@ class CreateExerciseComponent extends Component {
       createDiagnosisQuestion: {
         packageLevels,
         exerciseState,
+        questionAnswerLang,
       },
       commonReducer: {
         currentLanguage: {
@@ -208,38 +206,15 @@ class CreateExerciseComponent extends Component {
                 {/* Question !!! */}
                 <Grid container className="row-item">
                   <Grid item xs={12}>
-                    {
-                      this.state.titleLang === 'en' ?
-                      <Input
-                        id='exercise.title.en'
-                        value={title && title.en}
-                        reducer={createDiagnosisQuestion}
-                        label={ 'Title*' }
-                        className="MUIControl"
-                        placeholder={ 'Title*' }
-                      />
-                      :
-                      <Input
-                        id='exercise.title.swe'
-                        value={title && title.swe}
-                        reducer={createDiagnosisQuestion}
-                        label={ 'Title*' }
-                        className="MUIControl"
-                        placeholder={ 'Title*' }
-                      />
-                    }
+                    <Input
+                      id={`exercise.title.${questionAnswerLang}`}
+                      value={!!title && title[questionAnswerLang]}
+                      reducer={createDiagnosisQuestion}
+                      label={ 'Title*' }
+                      className="MUIControl"
+                      placeholder={ 'Title*' }
+                    />
                   </Grid>
-                  {/*<Tabs*/}
-                    {/*value={this.state.titleLang}*/}
-                    {/*onChange={(event, value) => this.handleQuestionLangChange(event, value, 'titleLang')}*/}
-                    {/*indicatorColor="primary"*/}
-                    {/*className="tab-lang"*/}
-                    {/*textColor="primary"*/}
-                    {/*centered*/}
-                  {/*>*/}
-                    {/*<Tab label="English" value="en" className="MUITab"/>*/}
-                    {/*<Tab label="Swedish"  value="swe" className="MUITab"/>*/}
-                  {/*</Tabs>*/}
                 </Grid>
 
                 <Typography type="title" style={{marginTop: '40px'}}>
@@ -248,44 +223,18 @@ class CreateExerciseComponent extends Component {
 
                 <Grid container className="row-item">
                   <Grid item xs={12}>
-                    {
-                      this.state.informationLang === 'en' ?
-                      <Input
-                        id='exercise.information.en'
-                        value={information && information.en}
-                        reducer={createDiagnosisQuestion}
-                        label={ 'Information' }
-                        placeholder={ 'Information' }
-                        multiline={true}
-                        className="MUIControl"
-                        rows="5"
-                        cols="60"
-                      />
-                        :
-                      <Input
-                        id='exercise.information.swe'
-                        value={information && information.swe}
-                        reducer={createDiagnosisQuestion}
-                        label={'Information' }
-                        placeholder={ 'Information' }
-                        multiline={true}
-                        className="MUIControl"
-                        rows="5"
-                        cols="60"
-                      />
-                    }
+                    <Input
+                      id={`exercise.information.${questionAnswerLang}`}
+                      value={!!information && information[questionAnswerLang]}
+                      reducer={createDiagnosisQuestion}
+                      label={ 'Information' }
+                      placeholder={ 'Information' }
+                      multiline={true}
+                      className="MUIControl"
+                      rows="5"
+                      cols="60"
+                    />
                   </Grid>
-                  {/*<Tabs*/}
-                    {/*value={this.state.informationLang}*/}
-                    {/*onChange={(event, value) => this.handleQuestionLangChange(event, value, 'informationLang')}*/}
-                    {/*indicatorColor="primary"*/}
-                    {/*className="tab-lang"*/}
-                    {/*textColor="primary"*/}
-                    {/*centered*/}
-                  {/*>*/}
-                    {/*<Tab label="English" value="en" className="MUITab"/>*/}
-                    {/*<Tab label="Swedish"  value="swe" className="MUITab"/>*/}
-                  {/*</Tabs>*/}
                 </Grid>
 
                 <Typography type="title"  style={{marginTop: '40px'}}>
@@ -294,44 +243,18 @@ class CreateExerciseComponent extends Component {
 
                 <Grid container className="row-item">
                   <Grid item xs={12}>
-                    {
-                      this.state.instructionLang === 'en' ?
-                      <Input
-                        id='exercise.instruction.en'
-                        value={!!instruction ?  instruction.en : ''}
-                        reducer={createDiagnosisQuestion}
-                        label={ 'Instruction*' }
-                        placeholder={ 'Instruction*' }
-                        multiline={true}
-                        className="MUIControl"
-                        rows="5"
-                        cols="60"
-                      />
-                        :
-                      <Input
-                        id='exercise.instruction.swe'
-                        value={!!instruction ? instruction.swe : ''}
-                        reducer={createDiagnosisQuestion}
-                        label={'Instruction*' }
-                        placeholder={ 'Instruction*' }
-                        className="MUIControl"
-                        multiline={true}
-                        rows="5"
-                        cols="60"
-                      />
-                    }
+                    <Input
+                      id={`exercise.instruction.${questionAnswerLang}`}
+                      value={!!instruction && instruction[questionAnswerLang]}
+                      reducer={createDiagnosisQuestion}
+                      label={ 'Instruction*' }
+                      placeholder={ 'Instruction*' }
+                      multiline={true}
+                      className="MUIControl"
+                      rows="5"
+                      cols="60"
+                    />
                   </Grid>
-                  {/*<Tabs*/}
-                    {/*value={this.state.instructionLang}*/}
-                    {/*onChange={(event, value) => this.handleQuestionLangChange(event, value, 'instructionLang')}*/}
-                    {/*indicatorColor="primary"*/}
-                    {/*className="tab-lang"*/}
-                    {/*textColor="primary"*/}
-                    {/*centered*/}
-                  {/*>*/}
-                    {/*<Tab label="English" value="en"   className="MUITab"/>*/}
-                    {/*<Tab label="Swedish"  value="swe"  className="MUITab"/>*/}
-                  {/*</Tabs>*/}
                 </Grid>
 
               </div>

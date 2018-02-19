@@ -180,6 +180,7 @@ class CreatePackageComponent extends Component {
         <CreateItemNavButtons
           title={'Create Package'}
           showSwitch={true}
+          showLangSwitcher={false}
           switchChecked={testing_mode}
           switchLabel={'Live'}
           onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing_mode')}

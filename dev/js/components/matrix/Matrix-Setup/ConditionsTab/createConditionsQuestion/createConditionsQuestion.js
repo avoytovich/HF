@@ -95,6 +95,7 @@ class CreateConditionComponent extends Component {
           title={'Create Condition'}
           showSwitch={true}
           switchChecked={testing}
+          showLangSwitcher={false}
           switchLabel={'Live'}
           onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing')}
           onCancelClick={this.cancel}

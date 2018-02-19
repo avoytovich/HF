@@ -128,6 +128,7 @@ class CreateTreatmentsComponent extends Component {
         <CreateItemNavButtons
           title={'Create Treatment'}
           showSwitch={true}
+          showLangSwitcher={false}
           switchChecked={testing}
           switchLabel={'Live'}
           onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing')}

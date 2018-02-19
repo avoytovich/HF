@@ -188,7 +188,6 @@ class DiagnosisTypeQuestion extends Component {
       </div>
 
       <div className="rules">
-
         {
           showLevelUp &&
           <Grid container className="row-item">
