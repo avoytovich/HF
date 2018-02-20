@@ -1,5 +1,6 @@
 import Main                     from '../components/Main';
 import Login                    from '../components/auth/Login/Login';
+import TwoFactorInput           from '../components/auth/Login/TwoFactorInput';
 import SignUp                   from '../components/auth/SignUp/SignUp';
 import ResetPassword            from '../components/auth/ResetPassword/ResetPassword';
 import ForgotPassword           from '../components/auth/ForgotPassword/ForgotPassword';
@@ -31,6 +32,7 @@ import * as matrixComponents    from '../components/matrix/Matrix-Setup';
 export const C = {
   Main,
   Login,
+  TwoFactorInput,
   SignUp,
   ResetPassword,
   ForgotPassword,

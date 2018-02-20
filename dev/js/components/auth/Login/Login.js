@@ -7,19 +7,25 @@ import Button from 'material-ui/Button';
 
 import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
+import { C } from '../../../components';
 
 import { PAGE } from '../../../config';
 
 import {
   loginWired,
-  getUserWired,
+  dispatchAuthPayloadWired,
+  twoFactorConfirmWired,
 } from '../../../actions'
 
 class Login extends Component {
-  _loginAndGetUserInfo = (data) => {
-    loginWired(data)
-      .then(() => getUserWired());
+  _toggleTwoFactorModal = () => {
+    const showTwoFactorModal = this.props.authReducer.showTwoFactorModal;
+    dispatchAuthPayloadWired({ showTwoFactorModal: !showTwoFactorModal })
   };
+
+  _loginAndGetUserInfo = (data) => loginWired(data);
+
+  _twoFactorAuth = (data) => twoFactorConfirmWired(data);
 
   render() {
     const {
@@ -27,6 +33,8 @@ class Login extends Component {
       authReducer: {
         email,
         password,
+        showTwoFactorModal,
+        twoFactorCode,
       },
       commonReducer: {
         currentLanguage: { L_LOGIN },
@@ -83,6 +91,16 @@ class Login extends Component {
 
           </div>
         </div>
+
+        <C.Modal
+          itemName="title"
+          open={showTwoFactorModal}
+          title='Two-factor authorization. Please insert code that was sent to your mail.'
+          CustomContent={() => <C.TwoFactorInput />}
+          toggleModal={this._toggleTwoFactorModal}
+          onConfirmClick={() => this._twoFactorAuth({ email, code: twoFactorCode })}
+        />
+
       </Container>
     );
   }
