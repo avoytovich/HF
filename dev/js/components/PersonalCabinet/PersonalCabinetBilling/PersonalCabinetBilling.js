@@ -7,12 +7,10 @@ import EditIcon                 from 'material-ui-icons/Edit';
 import { withStyles }           from 'material-ui/styles';
 import get                      from 'lodash/get';
 import map                      from 'lodash/map';
-import Modal                    from '../../common/Modal/Modal';
-import DeactivateComponent      from './billing-modals/deactivateModal';
-import BillingDetailsModal      from './billing-modals/BillingDetailsModal';
-import {getProfileWired }       from '../../../actions';
+import DeactivateComponent      from './billing-modals/editBillingModal';
+import {getProfileWired,
+  dispatchCreateUserPayloadWired }       from '../../../actions';
 import {StripeProvider} from 'react-stripe-elements';
-
 
 
 const styles = theme => ({
@@ -62,7 +60,7 @@ class PersonalCabinetBilling extends Component {
   componentWillMount (){
     getProfileWired(this.props.userReducer.user_id,'customers');
     Stripe.setPublishableKey('pk_test_nd2AO9CvcrB17TXhe5kwjd8I');
-    console.log('set', Stripe);
+
   }
 
   _renderItem =(el, index, profileReducer)=>{
@@ -79,7 +77,7 @@ class PersonalCabinetBilling extends Component {
   };
 
   _openEditModal = () => {
-    console.log('on edit')
+    dispatchCreateUserPayloadWired(this.props.profileReducer)
     this.setState({ showEditBillingDetailsModal: !this.state.showEditBillingDetailsModal })
   };
 
