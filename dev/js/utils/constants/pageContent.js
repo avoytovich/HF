@@ -276,6 +276,15 @@ export const TARIFF_PLANS = {
   ]
 };
 
+export const BILLING_HISTORY = {
+  key: 'conditions',
+  title: 'ConditionsTab',
+  tableHeader: [
+    { title: 'Date',          key: 'name',          className: 'left'},
+    { title: 'Amount',          key: 'customer_type',          className: 'left'},
+    { title: 'Status',          key: 'cost_per_user',    className: 'left'},
+  ]
+};
 
 export const CONTENT_TYPE_LIST = [
   {label: 'Question',        value: 'question'},

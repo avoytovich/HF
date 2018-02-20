@@ -5,7 +5,8 @@ import Select from '../../common/Select/Select';
 
 const tariffTypeArray = [
   {label:'Company',value:'organization'},
-  {label:'Clinic',value:'clinic'}];
+  {label:'Clinic',value:'clinic'},
+  {label:'Simple',value:'simple'}];
 
 const tariffPeriodArray = [
   {label:'Month',value:'month'},
@@ -43,6 +44,13 @@ class CreateSimpleUser extends Component {
             className="tree-part"
           />
         </div>
+
+        <div className="create-tariff-plan-container">
+          <Input id='properties.free_period' reducer={createTariffPlanReducer} label='Free period, days' placeholder='Free period, days'
+                 className="two-part"/>
+        </div>
+
+
       </div>
     )
   }

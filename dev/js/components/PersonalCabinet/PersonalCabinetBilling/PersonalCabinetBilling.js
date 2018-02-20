@@ -1,9 +1,14 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
 import { browserHistory }       from 'react-router';
+import TableControls            from '../../common/TypicalListPage/TableControls';
+import { TableComponent }       from '../../../components/common/TypicalListPage';
 import Paper                    from 'material-ui/Paper';
 import Grid                     from 'material-ui/Grid';
 import EditIcon                 from 'material-ui-icons/Edit';
+import { BILLING_HISTORY }            from '../../../utils/constants/pageContent';
+import {domen, api}             from '../../../config';
+import Button                   from 'material-ui/Button';
 import { withStyles }           from 'material-ui/styles';
 import get                      from 'lodash/get';
 import map                      from 'lodash/map';
@@ -23,7 +28,6 @@ const styles = theme => ({
   },
   paper:{
     margin: '10px',
-    display:'flex',
     width:'100%',
   }
 
@@ -47,9 +51,14 @@ const tariffPlan = [
 class PersonalCabinetBilling extends Component {
 
   state = {
+    selected: [],
+    showCreateTariffPlanModal:false,
+    showActivateModal:false,
+    showDeactivateModal:false,
+    showDeleteModal:false,
+    showEditSimpleTariff:false,
     showEditBillingDetailsModal: false
   };
-
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.showEditBillingDetailsModal && nextState.showEditBillingDetailsModal) {
       return false
@@ -81,19 +90,16 @@ class PersonalCabinetBilling extends Component {
     this.setState({ showEditBillingDetailsModal: !this.state.showEditBillingDetailsModal })
   };
 
-  _updateBillingDate=(e,d)=>{
-    console.log('on submit')
-    console.log(this,e,d)
-    this.setState({ showEditBillingDetailsModal: !this.state.showEditBillingDetailsModal })
-  }
-
   render() {
-    const {showEditBillingDetailsModal} = this.state;
+    const { selected, showEditBillingDetailsModal} = this.state;
     const {
       classes,
       profileReducer
     } = this.props;
 
+    const { tableHeader } = BILLING_HISTORY;
+    const querySelector = {...this.props.location.query};
+    const url = `${domen['users']}${api['tariffPlans']}`;
     return (
       <div className="profile-main-container">
         <div className="profile-sub-header">
@@ -134,21 +140,35 @@ class PersonalCabinetBilling extends Component {
         >
           <Grid item xs={12} sm={12} className = 'information-block'>
             <Paper className={classes.paper}>
-              Data
+              <div className = 'profile-paper-sub-header'>Billing History</div>
+              <TableControls
+                locationUrl={this.props.location.pathname}
+                path="tariffPlans"
+                selected={selected}
+                createItem={this.createEntity}
+                createButtonText="Add"
+              >
+
+              </TableControls>
+
+              <TableComponent
+                location={this.props.location}
+                path="tariffPlans"
+                domen="users"
+                reqType="POST"
+                tableHeader={ tableHeader }
+                selected={selected}
+                onRowClick={this.onRowClick}
+                onSelectAllClick={this.onSelectAllClick}
+                query= {querySelector}
+                tableCellPropsFunc={this._tableCellPropsFunc}
+              />
             </Paper>
           </Grid>
         </Grid></div>
 
-
-        {/*<Modal*/}
-          {/*itemName="name_real"*/}
-          {/*open={showEditBillingDetailsModal}*/}
-          {/*title='Billing Details'*/}
-          {/*toggleModal={this._openEditModal}*/}
-          {/*onConfirmClick={this._updateBillingDate}*/}
-          {/*CustomContent={() => <BillingDetailsModal />}*/}
-        {/*/>*/}
         <StripeProvider apiKey="pk_test_nd2AO9CvcrB17TXhe5kwjd8I">
+
         <DeactivateComponent
           pathReq="userProfile"
           path="clinicOwnUsers"

@@ -30,6 +30,12 @@ class EditSimpleTariffPlan extends Component {
             className="simple-tree-part"
           />
         </div>
+
+        <div className="create-simple-tariff-plan-container">
+          <Input id='properties.free_period' reducer={simpleTariffPlanReducer} label='Free period, days'
+                 placeholder='Free period, days'
+          />
+        </div>
       </div>
     )
   }
