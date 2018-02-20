@@ -53,7 +53,11 @@ class Modal extends Component {
         open={true}
         onClose={toggleModal}
       >
-        { title && <DialogTitle>{ title }</DialogTitle> }
+        { title &&
+          <DialogTitle>
+            { title }
+          </DialogTitle>
+        }
 
         <DialogContent>
 

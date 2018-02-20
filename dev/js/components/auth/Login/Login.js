@@ -25,7 +25,9 @@ class Login extends Component {
 
   _loginAndGetUserInfo = (data) => loginWired(data);
 
-  _twoFactorAuth = (data) => twoFactorConfirmWired(data);
+  _twoFactorAuth = (data) => {
+    twoFactorConfirmWired(data);
+  }
 
   render() {
     const {
@@ -40,6 +42,7 @@ class Login extends Component {
         currentLanguage: { L_LOGIN },
       },
     } = this.props;
+    console.log(twoFactorCode);
 
     return (
       <Container >
@@ -95,7 +98,7 @@ class Login extends Component {
         <C.Modal
           itemName="title"
           open={showTwoFactorModal}
-          title='Two-factor authorization. Please insert code that was sent to your mail.'
+          title='Two-factor authorization.'
           CustomContent={() => <C.TwoFactorInput />}
           toggleModal={this._toggleTwoFactorModal}
           onConfirmClick={() => this._twoFactorAuth({ email, code: twoFactorCode })}

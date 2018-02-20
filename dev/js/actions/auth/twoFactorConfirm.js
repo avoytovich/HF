@@ -22,7 +22,7 @@ export const twoFactorConfirmWired = data => {
       if (token) {
         dispatchUserPayloadWired({ token, ...user });
       }
-      user.role === 'admin'?
+      user.role === 'admin' ?
         browserHistory.push(PAGE.home):
         browserHistory.push(PAGE.personalCabinetProfile);
     });
