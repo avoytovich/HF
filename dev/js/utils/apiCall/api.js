@@ -1,14 +1,17 @@
 import axios from 'axios';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
+import { browserHistory } from 'react-router';
 
 import { store }  from '../../index';
 import {
   dispatchUserPayloadWired,
   dispatchCommonPayloadWired,
   notifier,
-  loginWired
+  loginWired,
+  T,
 } from '../../actions';
+import { PAGE } from '../../config';
 
 export class Api {
   static headers = async () => {
@@ -70,8 +73,10 @@ export class Api {
         dispatchCommonPayloadWired({ isLoading: isLoading && isLoading - 1 });
         console.log(err);
         if (get(err, 'response.status') === 401) {
-          return loginWired({ email, password })
-            .then(() => Api.xhr({route, method, data, options, headersIncome}))
+          // return loginWired({ email, password })
+          //   .then(() => Api.xhr({route, method, data, options, headersIncome}))
+          store.dispatch({ type: `${T.USER}_CLEAR` });
+          browserHistory.push(PAGE.login);
         }
         if (options.showErrNotif) {
           notifier({

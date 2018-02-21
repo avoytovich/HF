@@ -31,7 +31,7 @@ class Container extends Component {
 }
 
 Container.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.any,
   classes: PropTypes.object,
 };
 
