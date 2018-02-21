@@ -33,8 +33,17 @@ class Clinics extends Component {
   };
 
   componentWillMount() {
-    getListByPost('users', 'tariffPlans',
-      {current_page: "0", orderBy: "created_at",customer_type: 'clinic', per_page: "100", sortedBy: "desc"});
+    getListByPost(
+      'users',
+      'tariffPlans',
+      {
+        current_page: "0",
+        orderBy: "created_at",
+        customer_type: 'clinic',
+        per_page: "100",
+        sortedBy: "desc"
+      }
+    );
   }
 
   shouldComponentUpdate(nextProps, nextState) {

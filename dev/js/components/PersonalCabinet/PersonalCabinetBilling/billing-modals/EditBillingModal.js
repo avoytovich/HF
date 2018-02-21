@@ -15,7 +15,7 @@ import { userUpdate }     from '../../../../actions';
 import get                    from 'lodash/get';
 
 
-class editBillingModal extends Component {
+class EditBillingModal extends Component {
 
   handleSubmit1 = function (profileReducer) {
     const number = get(profileReducer,'billing_info.card.number');
@@ -24,7 +24,7 @@ class editBillingModal extends Component {
     const exp_year = get(profileReducer,'billing_info.card.exp_year');
     const result = {number, cvc, exp_month, exp_year};
     const that = this;
-    console.log(this.props);
+
     Stripe.card.createToken(result, function (status, response) {
       if(status==200){
         const new_billing_info = {... get(profileReducer,'billing_info'), ...{stripe_token:response.id}}
@@ -33,7 +33,6 @@ class editBillingModal extends Component {
         that.props.open();
       }
       else{
-        console.log(response.error.message);
         new Error("Environment must not be an array")
       }
     });
@@ -57,30 +56,71 @@ class editBillingModal extends Component {
     <Elements>
         <div className="create-tariff-plan-content">
           <div className="create-tariff-plan-container">
-            <Input id='billing_info.address' reducer={createUsersReducers} label='Address' placeholder='Address'/>
+            <Input
+              id='billing_info.address'
+              reducer={createUsersReducers}
+              label='Address'
+              placeholder='Address'
+            />
           </div>
 
           <div className="create-tariff-plan-container">
-            <Input id='billing_info.region' reducer={createUsersReducers} label='Country' placeholder='Country'
-                   className="tree-part"/>
-            <Input id='billing_info.country' reducer={createUsersReducers} label='Region' placeholder='Region'
-                   className="tree-part"/>
-            <Input id='billing_info.zip_code' reducer={createUsersReducers} label='ZIP' placeholder='ZIP'
-                   className="tree-part"/>
+            <Input
+              id='billing_info.region'
+              reducer={createUsersReducers}
+              label='Country'
+              placeholder='Country'
+              className="tree-part"
+            />
+            <Input
+              id='billing_info.country'
+              reducer={createUsersReducers}
+              label='Region'
+              placeholder='Region'
+              className="tree-part"
+            />
+            <Input
+              id='billing_info.zip_code'
+              reducer={createUsersReducers}
+              label='ZIP'
+              placeholder='ZIP'
+              className="tree-part"
+            />
           </div>
 
           <div className="create-tariff-plan-container">
-            <Input id='billing_info.card.number' reducer={createUsersReducers} label='Card Number' placeholder='Card Number' data-stripe='number'/>
+            <Input
+              id='billing_info.card.number'
+              reducer={createUsersReducers}
+              label='Card Number'
+              placeholder='Card Number'
+              data-stripe='number'
+            />
           </div>
 
           <div className="create-tariff-plan-container">
-            <Input id='billing_info.card.exp_month' reducer={createUsersReducers} label='expires month' placeholder='Card expires on month'
-                   className="tree-part"/>
-            <Input id='billing_info.card.exp_year' reducer={createUsersReducers} label='expires year' placeholder='Card expires on year'
-                   className="tree-part"/>
-            <Input id='billing_info.card.cvc' reducer={createUsersReducers} label='CVC' placeholder='CVC'
-                   mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-                   className="tree-part"  data-stripe='cvc' />
+            <Input
+              id='billing_info.card.exp_month'
+              reducer={createUsersReducers}
+              label='expires month'
+              placeholder='Card expires on month'
+              className="tree-part"
+            />
+            <Input
+              id='billing_info.card.exp_year'
+              reducer={createUsersReducers}
+              label='expires year'
+              placeholder='Card expires on year'
+              className="tree-part"
+            />
+            <Input
+              id='billing_info.card.cvc'
+              reducer={createUsersReducers}
+              label='CVC'
+              placeholder='CVC'
+              mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+              className="tree-part"  data-stripe='cvc'
+            />
 
           </div>
         </div>
@@ -109,4 +149,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps)(editBillingModal)
+export default connect(mapStateToProps)(EditBillingModal)

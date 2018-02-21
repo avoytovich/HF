@@ -10,11 +10,11 @@ import {domen, api}             from '../../../config';
 import { withStyles }           from 'material-ui/styles';
 import get                      from 'lodash/get';
 import map                      from 'lodash/map';
-import DeactivateComponent      from './billing-modals/editBillingModal';
+import EditBillingModal      from './billing-modals/EditBillingModal';
 import {getProfileWired,
   dispatchCreateUserPayloadWired }       from '../../../actions';
 import {StripeProvider} from 'react-stripe-elements';
-
+import {stripeKey} from '../../../utils/constants';
 
 const styles = theme => ({
   root:{
@@ -66,7 +66,7 @@ class PersonalCabinetBilling extends Component {
 
   componentWillMount (){
     getProfileWired(this.props.userReducer.user_id,'customers');
-    Stripe.setPublishableKey('pk_test_nd2AO9CvcrB17TXhe5kwjd8I');
+    Stripe.setPublishableKey(stripeKey);
 
   }
 
@@ -102,7 +102,7 @@ class PersonalCabinetBilling extends Component {
     const { tableHeader } = BILLING_HISTORY;
     const querySelector = {...this.props.location.query};
     const url = `${domen['users']}${api['personalCabinetBilling']}${this.props.profileReducer.id}`;
-    console.log('url',url);
+
     return (
       <div className="profile-main-container">
         <div className="profile-sub-header">
@@ -163,9 +163,9 @@ class PersonalCabinetBilling extends Component {
           </Grid>
         </Grid></div>
 
-        <StripeProvider apiKey="pk_test_nd2AO9CvcrB17TXhe5kwjd8I">
+        <StripeProvider apiKey={stripeKey}>
 
-        <DeactivateComponent
+        <EditBillingModal
           pathReq="userProfile"
           path="clinicOwnUsers"
           domen="users"

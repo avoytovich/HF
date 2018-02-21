@@ -33,8 +33,17 @@ class Companies extends Component {
   };
 
   componentWillMount() {
-    getListByPost('users', 'tariffPlans',
-      {current_page: "0", orderBy: "created_at",customer_type: 'organization', per_page: "100", sortedBy: "desc"});
+    getListByPost(
+      'users',
+      'tariffPlans',
+      {
+        current_page: "0",
+        orderBy: "created_at",
+        customer_type: 'organization',
+        per_page: "100",
+        sortedBy: "desc"
+      }
+    );
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -61,7 +70,6 @@ class Companies extends Component {
   onSelectAllClick = (selected) => this.setState({ selected });
 
   createEntity = () => {
-    console.log('pushed')
     this.setState({ showCreateModal: !this.state.showCreateModal })};
 
   updateModal = (key, value) => {
