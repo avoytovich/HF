@@ -99,7 +99,8 @@ export const api = {
   personalCabinetUsers : '/users/get/all',
   tariffPlans         : '/tariffs/get/all',
   createTariff        : '/tariffs/',
-  getSimpleTariff     :'/tariffs/simple'
+  getSimpleTariff     :'/tariffs/simple',
+  twoFactorConfirm    :'/auth/tfa/login',
 };
 
 export const PAGE = {
