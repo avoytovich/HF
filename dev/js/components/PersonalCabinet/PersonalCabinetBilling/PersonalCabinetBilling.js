@@ -1,14 +1,12 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
 import { browserHistory }       from 'react-router';
-import TableControls            from '../../common/TypicalListPage/TableControls';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import Paper                    from 'material-ui/Paper';
 import Grid                     from 'material-ui/Grid';
 import EditIcon                 from 'material-ui-icons/Edit';
 import { BILLING_HISTORY }            from '../../../utils/constants/pageContent';
 import {domen, api}             from '../../../config';
-import Button                   from 'material-ui/Button';
 import { withStyles }           from 'material-ui/styles';
 import get                      from 'lodash/get';
 import map                      from 'lodash/map';
@@ -34,12 +32,12 @@ const styles = theme => ({
 });
 
 const billingDetails = [
-  {title:'Credit Card', path: 'billing_info.credit_card'},
-  {title:'Card expires on', path: 'billing_info.expires_on'},
+  {title:'Credit Card', path: 'billing_info.card.number'},
+  {title:'Card expires on', path: 'billing_info.card.exp_month'},
   {title:'Address', path: 'billing_info.address'},
   {title:'Country', path: 'billing_info.country'},
   {title:'Region', path: 'billing_info.region'},
-  {title:'Zip Code', path: 'billing_info.postal_code'},
+  {title:'Zip Code', path: 'billing_info.zip_code'},
 ];
 
 const tariffPlan = [
@@ -90,16 +88,21 @@ class PersonalCabinetBilling extends Component {
     this.setState({ showEditBillingDetailsModal: !this.state.showEditBillingDetailsModal })
   };
 
+  onRowClick = (selected = []) => this.setState({selected});
+
+  onSelectAllClick = (selected) => this.setState({selected});
+
   render() {
     const { selected, showEditBillingDetailsModal} = this.state;
     const {
       classes,
       profileReducer
     } = this.props;
-
+    const path = `/payments/customer/${this.props.profileReducer.id}`;
     const { tableHeader } = BILLING_HISTORY;
     const querySelector = {...this.props.location.query};
-    const url = `${domen['users']}${api['tariffPlans']}`;
+    const url = `${domen['users']}${api['personalCabinetBilling']}${this.props.profileReducer.id}`;
+    console.log('url',url);
     return (
       <div className="profile-main-container">
         <div className="profile-sub-header">
@@ -141,21 +144,14 @@ class PersonalCabinetBilling extends Component {
           <Grid item xs={12} sm={12} className = 'information-block'>
             <Paper className={classes.paper}>
               <div className = 'profile-paper-sub-header'>Billing History</div>
-              <TableControls
-                locationUrl={this.props.location.pathname}
-                path="tariffPlans"
-                selected={selected}
-                createItem={this.createEntity}
-                createButtonText="Add"
-              >
-
-              </TableControls>
 
               <TableComponent
+                url={url}
                 location={this.props.location}
-                path="tariffPlans"
+                path="personalCabinetBilling"
+                currentPath = {path}
                 domen="users"
-                reqType="POST"
+                reqType="GET"
                 tableHeader={ tableHeader }
                 selected={selected}
                 onRowClick={this.onRowClick}

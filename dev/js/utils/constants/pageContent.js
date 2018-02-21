@@ -280,8 +280,8 @@ export const BILLING_HISTORY = {
   key: 'conditions',
   title: 'ConditionsTab',
   tableHeader: [
-    { title: 'Date',          key: 'name',          className: 'left'},
-    { title: 'Amount',          key: 'customer_type',          className: 'left'},
+    { title: 'Date',          key: 'updated_at',          className: 'left', type: 'time', format: TIME_FORMAT},
+    { title: 'Amount',          key: 'sum',          className: 'left'},
     { title: 'Status',          key: 'cost_per_user',    className: 'left'},
   ]
 };

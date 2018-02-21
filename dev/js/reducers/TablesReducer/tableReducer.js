@@ -146,6 +146,12 @@ const initialState = {
         { path: 'sortOptional.orderBy', value: 'first_name' }
       ]
     },
+    {
+      name: 'personalCabinetBilling',
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'amount' }
+      ]
+    },
   ]
 };
 
