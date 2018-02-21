@@ -151,7 +151,7 @@ class PersonalCabinetBilling extends Component {
                 path="personalCabinetBilling"
                 currentPath = {path}
                 domen="users"
-                reqType="GET"
+                reqType="POST"
                 tableHeader={ tableHeader }
                 selected={selected}
                 onRowClick={this.onRowClick}
