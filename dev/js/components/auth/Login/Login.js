@@ -7,18 +7,36 @@ import Button from 'material-ui/Button';
 
 import Container from '../Container/Container';
 import Input from '../../common/Input/Input';
+import { C } from '../../../components';
 
 import { PAGE } from '../../../config';
 
 import {
   loginWired,
-  getUserWired,
+  dispatchAuthPayloadWired,
+  twoFactorConfirmWired,
 } from '../../../actions'
 
 class Login extends Component {
-  _loginAndGetUserInfo = (data) => {
-    loginWired(data)
-      .then(() => getUserWired());
+  componentWillMount() {
+    dispatchAuthPayloadWired({ showTwoFactorModal: false })
+  }
+
+  _toggleTwoFactorModal = () => {
+    const showTwoFactorModal = this.props.authReducer.showTwoFactorModal;
+    dispatchAuthPayloadWired({ showTwoFactorModal: !showTwoFactorModal })
+  };
+
+  _loginAndGetUserInfo = (data) => loginWired(data);
+
+  _twoFactorAuth = () => {
+    const {
+      authReducer: {
+        email,
+        twoFactorCode,
+      },
+    } = this.props;
+    twoFactorConfirmWired({ email, code: twoFactorCode });
   };
 
   render() {
@@ -27,11 +45,14 @@ class Login extends Component {
       authReducer: {
         email,
         password,
+        showTwoFactorModal,
+        twoFactorCode,
       },
       commonReducer: {
         currentLanguage: { L_LOGIN },
       },
     } = this.props;
+    console.log(twoFactorCode);
 
     return (
       <Container >
@@ -83,6 +104,16 @@ class Login extends Component {
 
           </div>
         </div>
+
+        <C.Modal
+          itemName="title"
+          open={showTwoFactorModal}
+          title='Two-factor authorization.'
+          CustomContent={() => <C.TwoFactorInput />}
+          toggleModal={this._toggleTwoFactorModal}
+          onConfirmClick={() => this._twoFactorAuth()}
+        />
+
       </Container>
     );
   }

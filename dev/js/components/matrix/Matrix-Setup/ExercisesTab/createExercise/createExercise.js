@@ -26,12 +26,12 @@ import { CreateItemNavButtons }     from '../../../../common';
 
 class CreateExerciseComponent extends Component {
   state = {
-    questionType: 'exercise',
-    titleLang: 'en',
+    questionType   : 'exercise',
+    titleLang      : 'en',
     informationLang: 'en',
     instructionLang: 'en',
-    chooseFiles: false,
-    loading: false,
+    chooseFiles    : false,
+    loading        : false,
   };
 
   constructor(props) {
@@ -43,18 +43,17 @@ class CreateExerciseComponent extends Component {
   componentWillMount() {
     if (this.props.params.id) {
       this.setState({loading: true});
-      getExerciseById('exercises', 'exercises', this.props.params.id).then(() => {
-        this.setState({loading: false});
-
-      });
-    }
-    else {
+      getExerciseById('exercises', 'exercises', this.props.params.id)
+        .then(() => this.setState({ loading: false }));
+    } else {
 //      const newOne = Object.assign({}, DEFAULT_LEVEL);
 //      updateCrateQuestionFields([newOne], 'packageLevels');
     }
   }
 
-  componentWillUnmount() { clearCreateQuestion(); }
+  componentWillUnmount() {
+    clearCreateQuestion();
+  }
 
 
   done = (value) => {
@@ -115,15 +114,31 @@ class CreateExerciseComponent extends Component {
       createDiagnosisQuestion: {
         packageLevels,
         exerciseState,
+        questionAnswerLang,
       },
-
       commonReducer: {
-        currentLanguage: { L_CREATE_QUESTION },
+        currentLanguage: {
+          L_CREATE_QUESTION
+        },
       },
       routeParams: { id },
+      exerciseState: {
+        name,
+        comments,
+        title,
+        information,
+        instruction,
+        files,
+        testing_mode
+      },
     } = this.props;
 
-    const { name, comments, title, information, instruction, files, testing_mode} = this.props.exerciseState;
+    const {
+      loading,
+      titleLang,
+      informationLang,
+      instructionLang,
+    } = this.state;
 
     return (
       <div id="create-question">
@@ -139,143 +154,98 @@ class CreateExerciseComponent extends Component {
           onSaveClick={() => this.done(this.props.exerciseState)}
           saveLabel={'Save'}
         />
+        <div className="create-question-sub-container">
 
-        {  id && this.state.loading ?
-          <MatrixPreLoader
-            left="1"
-            right="2"
-          />
-          :
-          <BlockDivider title="Exercise">
+          {  id && loading ?
+            <MatrixPreLoader
+              left="1"
+              right="2"
+            />
+            :
+            <BlockDivider title="Exercise">
 
-            <div className="main-question">
+              <div className="main-question">
 
-              <Grid container>
-                <Grid item xs={12}>
-                  <Typography type="title">
-                    Exercise
-                  </Typography>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Typography type="title">
+                      Exercise
+                    </Typography>
+                  </Grid>
                 </Grid>
-              </Grid>
 
-              <Grid container className="row-item">
-                <Grid item xs={12}>
-                  <Input
-                    id='exercise.name'
-                    value={name}
-                    reducer={createDiagnosisQuestion}
-                    label={ 'Name*' }
-                    className="MUIControl"
-                    placeholder={ 'Notes' }
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid container className="row-item">
-                <Grid item xs={12}>
-                  <Input
-                    id='exercise.comments'
-                    value={comments}
-                    reducer={createDiagnosisQuestion}
-                    label={ 'Comments*' }
-                    placeholder={ 'Comments*' }
-                    className="MUIControl"
-                    multiline={true}
-                    rows="5"
-                    cols="60"
-                  />
-                </Grid>
-              </Grid>
-
-              {/* Question !!! */}
-              <Grid container className="row-item">
-                <Grid item xs={12}>
-                  {this.state.titleLang === 'en' ?
+                <Grid container className="row-item">
+                  <Grid item xs={12}>
                     <Input
-                      id='exercise.title.en'
-                      value={title && title.en}
+                      id='exercise.name'
+                      value={name}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Title*' }
+                      label={ 'Name*' }
                       className="MUIControl"
-                      placeholder={ 'Title*' }
-                    /> :
+                      placeholder={ 'Notes' }
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container className="row-item">
+                  <Grid item xs={12}>
                     <Input
-                      id='exercise.title.swe'
-                      value={title && title.swe}
+                      id='exercise.comments'
+                      value={comments}
+                      reducer={createDiagnosisQuestion}
+                      label={ 'Comments*' }
+                      placeholder={ 'Comments*' }
+                      className="MUIControl"
+                      multiline={true}
+                      rows="5"
+                      cols="60"
+                    />
+                  </Grid>
+                </Grid>
+
+                {/* Question !!! */}
+                <Grid container className="row-item">
+                  <Grid item xs={12}>
+                    <Input
+                      id={`exercise.title.${questionAnswerLang}`}
+                      value={!!title && title[questionAnswerLang]}
                       reducer={createDiagnosisQuestion}
                       label={ 'Title*' }
                       className="MUIControl"
                       placeholder={ 'Title*' }
                     />
-                  }
+                  </Grid>
                 </Grid>
-                <Tabs
-                  value={this.state.titleLang}
-                  onChange={(event, value) => this.handleQuestionLangChange(event, value, 'titleLang')}
-                  indicatorColor="primary"
-                  className="tab-lang"
-                  textColor="primary"
-                  centered
-                >
-                  <Tab label="English" value="en" className="MUITab"/>
-                  <Tab label="Swedish"  value="swe" className="MUITab"/>
-                </Tabs>
-              </Grid>
 
-              <Typography type="title" style={{marginTop: '40px'}}>
-                Exercise Information
-              </Typography>
+                <Typography type="title" style={{marginTop: '40px'}}>
+                  Exercise Information
+                </Typography>
 
-              <Grid container className="row-item">
-                <Grid item xs={12}>
-                  {this.state.informationLang === 'en' ?
+                <Grid container className="row-item">
+                  <Grid item xs={12}>
                     <Input
-                      id='exercise.information.en'
-                      value={information && information.en}
+                      id={`exercise.information.${questionAnswerLang}`}
+                      value={!!information && information[questionAnswerLang]}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Information*' }
-                      placeholder={ 'Information*' }
-                      multiline={true}
-                      className="MUIControl"
-                      rows="5"
-                      cols="60"
-                    /> :
-                    <Input
-                      id='exercise.information.swe'
-                      value={information && information.swe}
-                      reducer={createDiagnosisQuestion}
-                      label={'Information*' }
-                      placeholder={ 'Information*' }
+                      label={ 'Information' }
+                      placeholder={ 'Information' }
                       multiline={true}
                       className="MUIControl"
                       rows="5"
                       cols="60"
                     />
-                  }
+                  </Grid>
                 </Grid>
-                <Tabs
-                  value={this.state.informationLang}
-                  onChange={(event, value) => this.handleQuestionLangChange(event, value, 'informationLang')}
-                  indicatorColor="primary"
-                  className="tab-lang"
-                  textColor="primary"
-                  centered
-                >
-                  <Tab label="English" value="en" className="MUITab"/>
-                  <Tab label="Swedish"  value="swe" className="MUITab"/>
-                </Tabs>
-              </Grid>
 
-              <Typography type="title"  style={{marginTop: '40px'}}>
-                Exercise Instruction
-              </Typography>
+                <Typography type="title"  style={{marginTop: '40px'}}>
+                  Exercise Instruction
+                </Typography>
 
-              <Grid container className="row-item">
-                <Grid item xs={12}>
-                  {this.state.instructionLang === 'en' ?
+                <Grid container className="row-item">
+                  <Grid item xs={12}>
                     <Input
-                      id='exercise.instruction.en'
-                      value={!!instruction ?  instruction.en : ''}
+                      id={`exercise.instruction.${questionAnswerLang}`}
+                      value={!!instruction && instruction[questionAnswerLang]}
                       reducer={createDiagnosisQuestion}
                       label={ 'Instruction*' }
                       placeholder={ 'Instruction*' }
@@ -283,45 +253,23 @@ class CreateExerciseComponent extends Component {
                       className="MUIControl"
                       rows="5"
                       cols="60"
-                    /> :
-                    <Input
-                      id='exercise.instruction.swe'
-                      value={!!instruction ? instruction.swe : ''}
-                      reducer={createDiagnosisQuestion}
-                      label={'Instruction*' }
-                      placeholder={ 'Instruction*' }
-                      className="MUIControl"
-                      multiline={true}
-                      rows="5"
-                      cols="60"
                     />
-                  }
+                  </Grid>
                 </Grid>
-                <Tabs
-                  value={this.state.instructionLang}
-                  onChange={(event, value) => this.handleQuestionLangChange(event, value, 'instructionLang')}
-                  indicatorColor="primary"
-                  className="tab-lang"
-                  textColor="primary"
-                  centered
-                >
-                  <Tab label="English" value="en"   className="MUITab"/>
-                  <Tab label="Swedish"  value="swe"  className="MUITab"/>
-                </Tabs>
-              </Grid>
 
-            </div>
+              </div>
 
 
-            <AssetsList
-              list={ files ? files.data : []}
-              path="assets"
-              domain="exercises"
-              valuePath="exercise.files.data"
-            />
+              <AssetsList
+                list={ files ? files.data : []}
+                path="assets"
+                domain="exercises"
+                valuePath="exercise.files.data"
+              />
 
-          </BlockDivider>
-        }
+            </BlockDivider>
+          }
+        </div>
       </div>
     )
   }

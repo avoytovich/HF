@@ -66,7 +66,7 @@ const initialState = {
     {
       name: 'exercises',
       changes: [
-        { path: 'sortOptional.orderBy', value: 'title' }
+        // { path: 'sortOptional.orderBy', value: 'title' }
       ]
     },
     {

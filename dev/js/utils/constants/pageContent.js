@@ -153,7 +153,7 @@ export const EXERCISES_TAB = {
   key: 'exercise',
   title: 'ExerciseTab',
   tableHeader: [
-    { title: 'Name',       key: 'name',   className: 'left', sortKey: 'title'                  },
+    { title: 'Name',       key: 'name',   className: 'left', sortKey: 'name'                  },
     { title: 'Packages',   key: 'packages',   className: 'center', type: 'length', sortKey: '--'   },
     { title: 'Live',       key: 'testing_mode', className: 'left',type: 'in_testing'     },
     // { title: 'Created',    key: 'created_at', className: 'left', type: 'time', format: TIME_FORMAT },
