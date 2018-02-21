@@ -2,7 +2,10 @@ import get from 'lodash/get';
 import { browserHistory } from 'react-router';
 
 import { Api } from '../../utils';
-import { dispatchUserPayloadWired } from '../../actions';
+import {
+  dispatchUserPayloadWired,
+  dispatchAuthPayloadWired,
+} from '../../actions';
 import {
   domen,
   api,
@@ -15,10 +18,10 @@ export const twoFactorConfirmWired = data => {
   return twoFactorConfirm(data)
     .then(response => {
 
-      const token  = get(response, 'headers["app-token"]', false);
-      const user   = get(response, 'data.data', {});
+      const token = get(response, 'headers["app-token"]', false);
+      const user  = get(response, 'data.data', {});
 
-      dispatchUserPayloadWired({ showTwoFactorModal: false });
+      dispatchAuthPayloadWired({ showTwoFactorModal: false });
       if (token) {
         dispatchUserPayloadWired({ token, ...user });
       }

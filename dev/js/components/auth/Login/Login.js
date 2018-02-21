@@ -18,6 +18,10 @@ import {
 } from '../../../actions'
 
 class Login extends Component {
+  componentWillMount() {
+    dispatchAuthPayloadWired({ showTwoFactorModal: false })
+  }
+
   _toggleTwoFactorModal = () => {
     const showTwoFactorModal = this.props.authReducer.showTwoFactorModal;
     dispatchAuthPayloadWired({ showTwoFactorModal: !showTwoFactorModal })
@@ -25,9 +29,15 @@ class Login extends Component {
 
   _loginAndGetUserInfo = (data) => loginWired(data);
 
-  _twoFactorAuth = (data) => {
-    twoFactorConfirmWired(data);
-  }
+  _twoFactorAuth = () => {
+    const {
+      authReducer: {
+        email,
+        twoFactorCode,
+      },
+    } = this.props;
+    twoFactorConfirmWired({ email, code: twoFactorCode });
+  };
 
   render() {
     const {
@@ -101,7 +111,7 @@ class Login extends Component {
           title='Two-factor authorization.'
           CustomContent={() => <C.TwoFactorInput />}
           toggleModal={this._toggleTwoFactorModal}
-          onConfirmClick={() => this._twoFactorAuth({ email, code: twoFactorCode })}
+          onConfirmClick={() => this._twoFactorAuth()}
         />
 
       </Container>

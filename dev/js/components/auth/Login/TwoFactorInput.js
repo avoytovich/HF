@@ -4,8 +4,13 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import { C } from '../../../components';
+import { dispatchAuthPayloadWired } from '../../../actions';
 
 class TwoFactorInput extends Component {
+  componentWillMount() {
+    dispatchAuthPayloadWired({ twoFactorCode: '' })
+  }
+
   render() {
     const {
       authReducer,
