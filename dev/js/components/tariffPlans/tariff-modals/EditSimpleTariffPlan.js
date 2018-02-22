@@ -36,8 +36,11 @@ class EditSimpleTariffPlan extends Component {
         </div>
 
         <div className="create-simple-tariff-plan-container">
-          <Input id='properties.free_period' reducer={simpleTariffPlanReducer} label='Free period, days'
-                 placeholder='Free period, days'
+          <Input
+            id='properties.free_period'
+            reducer={simpleTariffPlanReducer}
+            label='Free period, days'
+            placeholder='Free period, days'
           />
         </div>
       </div>

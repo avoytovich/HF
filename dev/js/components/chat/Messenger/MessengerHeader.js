@@ -22,10 +22,11 @@ class MessengerHeader extends Component {
 
   render() {
     const userInfo = get(this.props, 'selected[0].email');
+    const userId = get(this.props, 'selected[0].user_id');
     return (
       <div className="message-header">
         <div className="message-header-user-id">
-         User #{get(this.props, 'selected[0].user_id')}
+         User #{userId}
         </div>
         <div>
           {userInfo || (<div className="message-header-user-info"><LockIcon className="lock-icon"/> User Information is hidden</div>)}
