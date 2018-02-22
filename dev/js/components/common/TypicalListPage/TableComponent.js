@@ -275,8 +275,26 @@ class TableComponent extends Component {
         }
         return '-';
 
+      case 'birthday':
+        return value!=='-' ? moment(new Date()).diff(moment(value), 'years'): '-';
+
       case 'in_testing':
-        return  value===true ? 'No':'Yes';
+        return  value;
+
+      case 'gender':
+        if (value==1){
+          return  'male';
+        }
+        else if (value==2){
+        return  'female';
+      }
+        else if (value==3){
+          return  'transgender ';
+        }
+        else {
+          return  ' - '
+        }
+
 
       case 'user_status':
         if (get(row, 'deleted_at', '-')) {

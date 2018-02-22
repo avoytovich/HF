@@ -214,6 +214,8 @@ export const USERS_TAB = {
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Status', key: 'status', className: 'center'  },
+    { title: 'Age', key: 'birthday', className: 'center', type: 'birthday'  },
+    { title: 'Gender', key: 'gender', className: 'center', type: 'gender'  },
     { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
@@ -237,6 +239,8 @@ export const COMPANIES_USERS_TAB = {
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Company', key: 'customer_name', className: 'center'  },
     { title: 'Status', key: 'status', className: 'center' },
+    { title: 'Age', key: 'birthday', className: 'center',  type: 'birthday'  },
+    { title: 'Gender', key: 'gender', className: 'center', type: 'gender'  },
     { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
@@ -247,7 +251,9 @@ export const CLINICS_USERS_TAB = {
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Clinic', key: 'customer_name', className: 'center'  },
-    { title: 'Status', key: 'status', className: 'center'},
+    { title: 'Status', key: 'status', className: 'center' },
+    { title: 'Age', key: 'birthday', className: 'center', type: 'birthday'  },
+    { title: 'Gender', key: 'gender', className: 'center', type: 'gender'  },
     { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };

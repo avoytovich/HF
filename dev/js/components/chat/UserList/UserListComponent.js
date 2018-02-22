@@ -15,6 +15,9 @@ import { browserHistory }     from 'react-router';
 import { withRouter }         from 'react-router';
 import InfiniteScroll         from 'react-infinite-scroller';
 import moment                 from 'moment';
+import io from 'socket.io-client';
+
+
 
 const DEFAULT_QUERY = {
   current_page:0,
@@ -27,6 +30,15 @@ const DEFAULT_QUERY = {
 class UserListComponent extends Component {
 
   componentDidMount() {
+    // const socket = io('http://18.195.77.253:3000?channel=dialog&id=1&token=1:518f666c61f4ecac5cae40ddad84d355f8eed6ef');
+    // socket.on('connect', function(){
+    //   console.log('connect socket')
+    // });
+    // socket.on('event', function(data){
+    //   console.log('event', data)
+    // });
+    // socket.on('disconnect', function(){});
+
     this.setDefaultQuery(this.props.path, this.props.store.pagination);
     get(this.props,'store.data[0]')?this.handleClick('event', this.props.store.data[0]):'';
   }
@@ -126,7 +138,6 @@ class UserListComponent extends Component {
   };
 
   loadMoreFunction = () => {
-    console.log('loadMoreFunction',this.props.store );
     let per_page  = get(this.props,'store.pagination.per_page')+ 5;
     const total = get(this.props,'store.pagination.total');
     const count = get(this.props,'store.pagination.count');
