@@ -13,6 +13,8 @@ import CreateUser               from '../CreateUser/CreateUser';
 import DeactivateComponent      from '../user-modals/deactivateModal';
 import DeleteComponent          from '../user-modals/deleteModal';
 import {domen, api}             from '../../../config';
+import {
+  getListByPost  }     from '../../../actions'
 
 const userInfo = {
   headerTitle:'Create Company',
@@ -29,6 +31,20 @@ class Companies extends Component {
     showDeactivateModal:false,
     showDeleteModal: false,
   };
+
+  componentWillMount() {
+    getListByPost(
+      'users',
+      'tariffPlans',
+      {
+        current_page: "0",
+        orderBy: "created_at",
+        customer_type: 'organization',
+        per_page: "100",
+        sortedBy: "desc"
+      }
+    );
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.showCreateModal && nextState.showCreateModal) {
@@ -53,7 +69,8 @@ class Companies extends Component {
 
   onSelectAllClick = (selected) => this.setState({ selected });
 
-  createEntity = () => this.setState({ showCreateModal: !this.state.showCreateModal });
+  createEntity = () => {
+    this.setState({ showCreateModal: !this.state.showCreateModal })};
 
   updateModal = (key, value) => {
     this.setState({ [key]: value });

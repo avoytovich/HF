@@ -86,9 +86,15 @@ class PersonalCabinetBilling extends Component {
   _editSimpleTariff = () =>{
     let location = get(this.props,'location.search');
     const result = {
-      ...this.props.simpleTariffPlanReducer,...{tariff_type:this.props.simpleTariffPlanReducer.customer_type,
+      ...this.props.simpleTariffPlanReducer,
+      ...{
+        tariff_type:this.props.simpleTariffPlanReducer.customer_type,
         subscription_fee: +this.props.simpleTariffPlanReducer.subscription_fee,
-        cost_per_user: +this.props.simpleTariffPlanReducer.cost_per_user},
+        cost_per_user: +this.props.simpleTariffPlanReducer.cost_per_user,
+        properties: {
+          free_period: this.props.simpleTariffPlanReducer.properties.free_period+' days'
+        }
+      },
     };
 
     tariffPlanUpdate('users', 'createTariff',result, get(this.props,'simpleTariffPlanReducer.id') )
@@ -111,6 +117,7 @@ class PersonalCabinetBilling extends Component {
       ...this.props.createTariffPlanReducer,...{tariff_type:this.props.createTariffPlanReducer.customer_type,
         subscription_fee: +this.props.createTariffPlanReducer.subscription_fee,
         cost_per_user: +this.props.createTariffPlanReducer.cost_per_user},
+        properties: { free_period: this.props.createTariffPlanReducer.properties.free_period +' days'}
     };
 
     if (get(this.props,'createTariffPlanReducer.id')){

@@ -1,0 +1,1 @@
+export const stripeKey = "pk_test_nd2AO9CvcrB17TXhe5kwjd8I";

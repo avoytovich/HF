@@ -100,6 +100,7 @@ export const api = {
   tariffPlans         : '/tariffs/get/all',
   createTariff        : '/tariffs/',
   getSimpleTariff     :'/tariffs/simple',
+  personalCabinetBilling : '/payments/customer/',
   twoFactorConfirm    :'/auth/tfa/login',
 };
 

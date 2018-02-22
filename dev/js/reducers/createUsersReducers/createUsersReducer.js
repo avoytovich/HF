@@ -33,13 +33,13 @@ const initialState = {
     region: "",
     country: "",
     postal_code: "",
-    // stripe_token: "",
-    // card: {
-    //   number: "",
-    //   exp_month: "",
-    //   exp_year: "",
-    //   cvc: ""
-    // }
+    stripe_token: "",
+    card: {
+      number: "",
+      exp_month: "",
+      exp_year: "",
+      cvc: ""
+    }
   },
   legal_info: {
     vat: "",

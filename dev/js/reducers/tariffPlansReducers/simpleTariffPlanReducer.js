@@ -10,6 +10,9 @@ const initialState = {
   subscription_fee: '',
   cost_per_user:'',
   period:'',
+  properties:{
+    free_period: ''
+  }
 };
 
 export const simpleTariffPlanReducer = createReducer(initialState, T.SIMPLE_TARIFF_PLAN);
