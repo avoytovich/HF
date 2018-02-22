@@ -88,9 +88,9 @@ class PersonalCabinetBilling extends Component {
     const result = {
       ...this.props.simpleTariffPlanReducer,
       ...{
-        tariff_type:this.props.simpleTariffPlanReducer.customer_type,
+        tariff_type: this.props.simpleTariffPlanReducer.customer_type,
         subscription_fee: +this.props.simpleTariffPlanReducer.subscription_fee,
-        cost_per_user: +this.props.simpleTariffPlanReducer.cost_per_user,
+        cost_per_user: +this.props.simpleTariffPlanReducer.cost_per_user
         properties: {
           free_period: this.props.simpleTariffPlanReducer.properties.free_period+' days'
         }
