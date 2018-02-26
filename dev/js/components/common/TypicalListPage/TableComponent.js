@@ -56,7 +56,7 @@ class TableComponent extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.location !== nextProps.location &&
         !isEmpty(nextProps.location.query)) {
-      this.getList(this.props, {...nextProps.location.query, ...nextProps.query});
+      this.getList(this.props, {...nextProps.query, ...nextProps.location.query });
     }
   }
 

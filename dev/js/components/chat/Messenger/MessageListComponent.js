@@ -29,7 +29,8 @@ class MessageListComponent extends Component {
 
   componentWillReceiveProps(props){
     if ( get(this.props,'selected[0].dialog_id' )!== get(props,'selected[0].dialog_id')){
-      console.log('componentWillReceiveProps');
+      const data = {from: 0, limit: 40, also_deleted: true};
+      console.log('componentWillReceiveProps', props);
       this._initSocket(props.selected[0].dialog_id, get(this.props,'userReducer.token'))
     }
   }
@@ -43,6 +44,9 @@ class MessageListComponent extends Component {
           token,
         }
       });
+
+    console.log('This state on init', this.props.messageListReducer.data);
+
     const that = this;
     socket.on('connect', function () {
       console.log('connect socket', socket)
@@ -68,6 +72,7 @@ class MessageListComponent extends Component {
         <div className='user-message'>{el.message}</div>
       </div>)
   };
+
   // loadMoreFunction = () => {
   //   console.log(this.props);
   //   if(this.props.messageListReducer.data && this.props.messageListReducer.data.length>0){
