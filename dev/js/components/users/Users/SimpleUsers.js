@@ -86,11 +86,10 @@ class SimpleUsers extends Component {
 
         <TableControls
           locationUrl={this.props.location.pathname}
-          path="users"
+          path="simpleUsers"
           selected={selected}
           createItem={this.createEntity}
           createButtonText="Add"
-          searchKey = "filter"
           toggleCSVModal={this._toggleCSVModal}
           uploadCSV={true}
         >
