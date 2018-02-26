@@ -16,21 +16,15 @@ import io                     from 'socket.io-client';
 const socketUrl = 'http://18.195.77.253:3000';
 
 class MessageListComponent extends Component {
-  state = {
-    messageList: [],
-  };
 
   componentDidMount() {
-    this.setState({
-      messageList: this.props.messageListReducer.data
-    });
-    this._initSocket();
+    if ( get(this.props,'selected[0].dialog_id' )){
+      this._initSocket();
+    }
   }
 
   componentWillReceiveProps(props){
     if ( get(this.props,'selected[0].dialog_id' )!== get(props,'selected[0].dialog_id')){
-      const data = {from: 0, limit: 40, also_deleted: true};
-      console.log('componentWillReceiveProps', props);
       this._initSocket(props.selected[0].dialog_id, get(this.props,'userReducer.token'))
     }
   }
@@ -45,19 +39,11 @@ class MessageListComponent extends Component {
         }
       });
 
-    console.log('This state on init', this.props.messageListReducer.data);
-
-    const that = this;
     socket.on('connect', function () {
-      console.log('connect socket', socket)
+      getMessagesWired(id);
     });
     socket.on(`dialog:${id}`, function (data) {
-      console.log(`dialog:${id}`, socket, data);
-      let list = that.props.messageListReducer.data;
-      list.unshift(data.data);
-      that.setState({
-        messageList: list
-      });
+      getMessagesWired(id);
     });
   };
 
@@ -92,9 +78,7 @@ class MessageListComponent extends Component {
     const {
       messageListReducer
     } = this.props;
-    const messageList1 = values(messageListReducer.data);
-    const messageList = this.state.messageList || messageList1;
-    console.log(this.state.messageList);
+    const messageList = values(messageListReducer.data);
     return (
           <div className="message-list">
             {messageList.length > 0 ? messageList.map(el=>this._renderMessage(el)) :
