@@ -126,7 +126,6 @@ class UserListComponent extends Component {
   };
 
   loadMoreFunction = () => {
-    console.log('loadMoreFunction',this.props.store );
     let per_page  = get(this.props,'store.pagination.per_page')+ 5;
     const total = get(this.props,'store.pagination.total');
     const count = get(this.props,'store.pagination.count');

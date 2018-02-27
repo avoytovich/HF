@@ -53,11 +53,10 @@ class ClinicsUsers extends Component {
 
         <TableControls
           locationUrl={this.props.location.pathname}
-          path="users"
+          path="clinicsUsers"
           selected={selected}
           createItem={this.create}
           createButtonText="Add"
-          searchKey = "filter"
         >
 
           <Button raised dense

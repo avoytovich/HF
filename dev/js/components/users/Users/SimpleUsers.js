@@ -72,7 +72,8 @@ class SimpleUsers extends Component {
   };
 
   _toggleCSVModal=(data)=>{
-    toggleCSVModalSimple(data, this, `/users-simple`)
+    const browserUrl = get(this.props,'location.pathname')+ get(this.props,'location.search');
+    toggleCSVModalSimple(data, this, browserUrl)
   };
 
 
@@ -86,11 +87,10 @@ class SimpleUsers extends Component {
 
         <TableControls
           locationUrl={this.props.location.pathname}
-          path="users"
+          path="simpleUsers"
           selected={selected}
           createItem={this.createEntity}
           createButtonText="Add"
-          searchKey = "filter"
           toggleCSVModal={this._toggleCSVModal}
           uploadCSV={true}
         >
@@ -197,6 +197,7 @@ const mapStateToProps = state => ({
   store: state.tables.diagnosis,
   createSimpleUsersReducers: state.createSimpleUsersReducers,
   CSVFileReducer :state.CSVFileReducer,
+  userReducer: state.userReducer,
 });
 
 export default  connect(mapStateToProps)(SimpleUsers);

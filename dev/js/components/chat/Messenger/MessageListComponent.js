@@ -10,8 +10,43 @@ import InfiniteScroll       from 'react-infinite-scroller';
 import {
   getMessagesWired
 }                           from '../../../actions';
+import io                   from 'socket.io-client';
+import {socketUrl}          from '../../../utils/constants';
+
 
 class MessageListComponent extends Component {
+
+  componentDidMount() {
+    if ( get(this.props,'selected[0].dialog_id' )){
+      this._initSocket();
+    }
+  }
+
+  componentWillReceiveProps(props){
+    const currentDialogId = get(this.props,'selected[0].dialog_id' );
+    const dialogId = get(props,'selected[0].dialog_id');
+    if ( currentDialogId !== dialogId ) {
+      this._initSocket(dialogId, get(this.props,'userReducer.token'))
+    }
+  }
+
+  _initSocket = (id, token) => {
+    const socket = io(socketUrl,
+      {
+        query: {
+          channel: 'dialog',
+          id,
+          token,
+        }
+      });
+
+    socket.on('connect', function () {
+      getMessagesWired(id);
+    });
+    socket.on(`dialog:${id}`, function (data) {
+      getMessagesWired(id);
+    });
+  };
 
   _renderMessage=(el)=>{
     return el.user_id === this.props.userReducer.user_id ?
@@ -24,6 +59,7 @@ class MessageListComponent extends Component {
         <div className='user-message'>{el.message}</div>
       </div>)
   };
+
   // loadMoreFunction = () => {
   //   console.log(this.props);
   //   if(this.props.messageListReducer.data && this.props.messageListReducer.data.length>0){
@@ -44,7 +80,6 @@ class MessageListComponent extends Component {
       messageListReducer
     } = this.props;
     const messageList = values(messageListReducer.data);
-
     return (
           <div className="message-list">
             {messageList.length > 0 ? messageList.map(el=>this._renderMessage(el)) :
