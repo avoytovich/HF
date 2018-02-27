@@ -6,9 +6,8 @@ import {
 import { browserHistory }  from 'react-router';
 import get                 from 'lodash/get';
 import io                  from 'socket.io-client';
+import {socketUrl}         from '../../utils/constants';
 
-
-const socketUrl = 'http://18.195.77.253:3000';
 
 export const dispatchUserPayload = payload => dispatch =>
   dispatch({

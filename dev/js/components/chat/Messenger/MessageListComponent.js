@@ -10,10 +10,9 @@ import InfiniteScroll       from 'react-infinite-scroller';
 import {
   getMessagesWired
 }                           from '../../../actions';
-import io                     from 'socket.io-client';
+import io                   from 'socket.io-client';
+import {socketUrl}          from '../../../utils/constants';
 
-
-const socketUrl = 'http://18.195.77.253:3000';
 
 class MessageListComponent extends Component {
 
