@@ -23,8 +23,10 @@ class MessageListComponent extends Component {
   }
 
   componentWillReceiveProps(props){
-    if ( get(this.props,'selected[0].dialog_id' )!== get(props,'selected[0].dialog_id')){
-      this._initSocket(props.selected[0].dialog_id, get(this.props,'userReducer.token'))
+    const currentDialogId = get(this.props,'selected[0].dialog_id' );
+    const dialogId = get(props,'selected[0].dialog_id');
+    if ( currentDialogId !== dialogId ) {
+      this._initSocket(dialogId, get(this.props,'userReducer.token'))
     }
   }
 
