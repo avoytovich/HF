@@ -5,7 +5,7 @@ import {
   userCreateByCSV}         from '../index';
 import { browserHistory }  from 'react-router';
 import get                 from 'lodash/get';
-import io                  from 'socket.io-client';
+// import io                  from 'socket.io-client';
 import {socketUrl}         from '../../utils/constants';
 
 
@@ -77,7 +77,7 @@ export const userActionByCSV = (that,api, browserUrl, userId) => {
   };
   userCreateByCSV('users', api, result)
     .then((data)=>{
-      initSocket(id, token,browserUrl);
+      // initSocket(id, token,browserUrl);
       browserHistory.push(browserUrl);
       that.setState({showCSVUploadModal:false});
       dispatchCSVFilePayloadWired({files:[]})
@@ -85,17 +85,17 @@ export const userActionByCSV = (that,api, browserUrl, userId) => {
 };
 
 
-export const initSocket = (id, token, browserUrl) => {
-  const socket = io(socketUrl,
-    {
-      query: {
-        channel: 'notification',
-        id,
-        token,
-      }
-    });
-  socket.on(`notification:${id}`, function (data) {
-    browserHistory.push(browserUrl);
-  });
-};
+// export const initSocket = (id, token, browserUrl) => {
+//   const socket = io(socketUrl,
+//     {
+//       query: {
+//         channel: 'notification',
+//         id,
+//         token,
+//       }
+//     });
+//   socket.on(`notification:${id}`, function (data) {
+//     browserHistory.push(browserUrl);
+//   });
+// };
 
