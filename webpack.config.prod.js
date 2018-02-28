@@ -50,6 +50,15 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new UglifyJSPlugin()
+    new UglifyJSPlugin({
+      "mangle": {
+        "screw_ie8": true
+      },
+      "compress": {
+        "screw_ie8": true,
+        "warnings": false
+      },
+      "sourceMap": false
+    })
   ],
 };

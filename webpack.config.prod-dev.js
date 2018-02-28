@@ -51,6 +51,15 @@ module.exports = {
         'NODE_CUSTOM_MODE': JSON.stringify('development'),
       }
     }),
-    new UglifyJSPlugin()
+    new UglifyJSPlugin({
+      "mangle": {
+        "screw_ie8": true
+      },
+      "compress": {
+        "screw_ie8": true,
+        "warnings": false
+      },
+      "sourceMap": false
+    })
   ],
 };
