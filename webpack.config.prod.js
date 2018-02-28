@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -50,15 +50,6 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    // new UglifyJSPlugin({
-    //   "mangle": {
-    //     "screw_ie8": true
-    //   },
-    //   "compress": {
-    //     "screw_ie8": true,
-    //     "warnings": false
-    //   },
-    //   "sourceMap": false
-    // })
+    new UglifyJSPlugin()
   ],
 };
