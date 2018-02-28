@@ -5,7 +5,7 @@ import {
   userCreateByCSV}         from '../index';
 import { browserHistory }  from 'react-router';
 import get                 from 'lodash/get';
-import io                  from 'socket.io-client';
+// import io                  from 'socket.io-client';
 import {socketUrl}         from '../../utils/constants';
 
 
