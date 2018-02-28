@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -15,7 +15,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         include: path.join(__dirname, 'dev/js'),
         exclude: /node_modules/,
         loader: "babel-loader",
@@ -51,15 +51,15 @@ module.exports = {
         'NODE_CUSTOM_MODE': JSON.stringify('development'),
       }
     }),
-    // new UglifyJSPlugin({
-    //   "mangle": {
-    //     "screw_ie8": true
-    //   },
-    //   "compress": {
-    //     "screw_ie8": true,
-    //     "warnings": false
-    //   },
-    //   "sourceMap": false
-    // })
+    new UglifyJSPlugin({
+      "mangle": {
+        "screw_ie8": true
+      },
+      "compress": {
+        "screw_ie8": true,
+        "warnings": false
+      },
+      "sourceMap": false
+    })
   ],
 };
