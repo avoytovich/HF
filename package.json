@@ -90,7 +90,7 @@
     "start": "node devServer.js",
     "clean": "npm cache verify",
     "clean-prod": "npm cache clean",
-    "build-prod-dev": "npm run clean && NODE_ENV=production webpack -p --progress --config webpack.config.prod-dev.js",
+    "build-prod-dev": "npm run clean-prod && NODE_ENV=production webpack -p --progress --config webpack.config.prod-dev.js",
     "build-dev": "npm run clean-p && NODE_ENV=dev webpack -p --progress --config webpack.config.dev.js",
     "build-prod": "npm run clean && NODE_ENV=production webpack -p --progress --config webpack.config.prod.js"
   },
