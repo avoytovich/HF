@@ -4,10 +4,11 @@ import { browserHistory }       from 'react-router'
 import Paper                    from 'material-ui/Paper';
 import Grid                     from 'material-ui/Grid';
 import { withStyles }           from 'material-ui/styles';
-import { TARIFF_PLANS }            from '../../utils/constants/pageContent';
+import { TARIFF_PLANS }         from '../../utils/constants/pageContent';
 import TableControls            from '../common/TypicalListPage/TableControls';
 import { TableComponent }       from '../../components/common/TypicalListPage';
 import get                      from 'lodash/get';
+import parseInt                 from 'lodash/parseInt';
 import {domen, api}             from '../../config';
 import Button                   from 'material-ui/Button';
 import ActivateIcon             from 'material-ui-icons/Check';
@@ -85,6 +86,7 @@ class PersonalCabinetBilling extends Component {
 
   _editSimpleTariff = () =>{
     let location = get(this.props,'location.search');
+    const free_period = this.props.simpleTariffPlanReducer.properties.free_period+' days';
     const result = {
       ...this.props.simpleTariffPlanReducer,
       ...{
@@ -92,7 +94,7 @@ class PersonalCabinetBilling extends Component {
         subscription_fee: +this.props.simpleTariffPlanReducer.subscription_fee,
         cost_per_user: +this.props.simpleTariffPlanReducer.cost_per_user,
         properties: {
-          free_period: this.props.simpleTariffPlanReducer.properties.free_period+' days'
+          free_period
         }
       },
     };
@@ -113,11 +115,15 @@ class PersonalCabinetBilling extends Component {
 
   _createTariffPlan =() =>{
     let location = get(this.props,'location.search');
+    const free_period = parseInt(this.props.createTariffPlanReducer.properties.free_period)+ ' days';
+    console.log('Update', free_period);
     const result = {
       ...this.props.createTariffPlanReducer,...{tariff_type:this.props.createTariffPlanReducer.customer_type,
         subscription_fee: +this.props.createTariffPlanReducer.subscription_fee,
         cost_per_user: +this.props.createTariffPlanReducer.cost_per_user},
-        properties: { free_period: this.props.createTariffPlanReducer.properties.free_period +' days'}
+        properties: {
+        free_period
+      }
     };
 
     if (get(this.props,'createTariffPlanReducer.id')){
