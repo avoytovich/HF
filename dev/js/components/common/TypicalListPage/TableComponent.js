@@ -275,11 +275,13 @@ class TableComponent extends Component {
         }
         return '-';
 
+      case 'in_testing':
+        return  value === true ? 'No':'Yes';
+
+
       case 'birthday':
         return value!=='-' ? moment(new Date()).diff(moment(value), 'years'): '-';
 
-      case 'in_testing':
-        return  value;
 
       case 'gender':
         if (value==1){
