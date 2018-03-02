@@ -78,11 +78,15 @@ class AssetsModal extends Component {
     this.setState({next_page: this.state.next_page+1});
     getExercises(this.props.domain, this.props.path, this.state.search,  this.state.next_page+1)
       .then(list => {
-        list.length ?
-          this.setState({
-            list: [...this.state.list, ...list],
-            showLoadMore: true}):
-          this.setState({showLoadMore: false})
+        if(list.length) {
+          return this.setState({
+            list: [
+              ...this.state.list,
+              ...list],
+            showLoadMore: true
+          })
+        }
+        this.setState({showLoadMore: false})
       });
 
   };

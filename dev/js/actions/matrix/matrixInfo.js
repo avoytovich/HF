@@ -266,7 +266,6 @@ export const getExercises = (domenKey, apiKey, text, next_page, per_page) => {
   url = text ?
     `${url}&search=${text}` :
     `${url}`;
-  console.log(url);
   return Api.get(url).then(({data}) => data.data);
 };
 
