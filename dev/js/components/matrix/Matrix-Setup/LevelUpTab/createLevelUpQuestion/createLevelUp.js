@@ -101,8 +101,17 @@ class CreateLevelUpComponent extends Component {
 
   submit = (value) => {
     const {
-      sequenceType, questionKey, sequence, question, questionTitle, content_type, errors, diagnostic_assets, testing,
-      level_up
+      sequenceType,
+      questionKey,
+      sequence,
+      question,
+      questionTitle,
+      content_type,
+      errors,
+      diagnostic_assets,
+      testing,
+      level_up,
+      levelup_result,
     } = value;
     const validValue = { questionKey, questionTitle };
     const isContentType = content_type === 'functionalTest';
@@ -130,6 +139,7 @@ class CreateLevelUpComponent extends Component {
       content_type,
       testing,
       level_up,
+      levelup_result: !!levelup_result,
       ...optional,
     };
 
