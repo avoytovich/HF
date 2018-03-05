@@ -175,13 +175,17 @@ class CreateQuestionComponent extends Component {
       subtype
     } = this.getAnswerType(answerType);
     const moreProps = optional ? { test_file_id: get(diagnostic_assets, 'id') || null } : {};
-    let rangeValue = subtype === 'range' ? this.getAnswer(answerType, value) : {};
+    let answerValues = subtype === 'range' ?
+      this.getAnswer(answerType, value)
+      :
+      { values: this.getAnswer(answerType, value) };
+
     return {
       areaIds : areaIds,
       answer: {
-        type, subtype,
-        values: this.getAnswer(answerType, value),
-        ...rangeValue
+        type,
+        subtype,
+        ...answerValues,
       },
       rule: rules && rules.length ? {and: rules} : [],
       ...moreProps

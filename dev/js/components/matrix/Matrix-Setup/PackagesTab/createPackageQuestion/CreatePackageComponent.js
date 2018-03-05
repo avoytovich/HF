@@ -23,7 +23,7 @@ import Input                        from '../../../../common/Input/Input';
 import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
-import PackageLevelComponent        from './packageLevel';
+import PackageLevelComponent        from './PackageLevelComponent';
 import { submitTabs }               from '../../../../../utils/matrix';
 import MatrixPreLoader              from '../../matrixPreloader';
 import { CreateItemNavButtons }     from '../../../../common';
