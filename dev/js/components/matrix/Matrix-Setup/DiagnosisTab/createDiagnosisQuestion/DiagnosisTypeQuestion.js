@@ -17,9 +17,9 @@ import {
   BlockDivider
 }                                        from '../../../../common';
 import RulesLinks                        from '../../EvaluationsTab/createEvaluationTab/RulesLinks';
-import SequenceBlock                     from './sequenceBlock';
-import DiagnosticQuestion                from './diagnosticQuestion';
-import DiagnosticAnswers                 from './diagnosticAnswers';
+import SequenceBlock                     from './SequenceBlock';
+import DiagnosticQuestion                from './DiagnosticQuestion';
+import DiagnosticAnswers                 from './DiagnosticAnswers';
 import PackageLevelsList                 from '../../LevelUpTab/createLevelUpQuestion/PackageLevelsList'
 // UI
 import Grid                              from 'material-ui/Grid';
@@ -43,10 +43,27 @@ class DiagnosisTypeQuestion extends Component {
       sequenceList,
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle, areaIds, question, questionKey, sequence, sequenceType, answerType, content_type, levelup_result,
-        diagnostic_assets,  evaluation_result
+        questionTitle,
+        areaIds,
+        question,
+        questionKey,
+        sequence,
+        sequenceType,
+        answerType,
+        content_type,
+        levelup_result,
+        diagnostic_assets,
+        evaluation_result,
       },
-      page, reqType, packages, packageLevelsList, currentId, showLevelUp, hideArea, rules_links, SequenceBlockReqType
+      page,
+      reqType,
+      packages,
+      packageLevelsList,
+      currentId,
+      showLevelUp,
+      hideArea,
+      rules_links,
+      SequenceBlockReqType,
     } = this.props;
 
     return <BlockDivider title="Question">
@@ -156,11 +173,15 @@ class DiagnosisTypeQuestion extends Component {
 
         {/* Answers */}
         <Grid className="title answer">
-          <Typography type="title"
-                      gutterBottom>
+          <Typography
+            type="title"
+            gutterBottom
+          >
             Answers
           </Typography>
         </Grid>
+
+        {/*Picker for question type*/}
 
         <DiagnosticAnswers
           answerType={answerType}

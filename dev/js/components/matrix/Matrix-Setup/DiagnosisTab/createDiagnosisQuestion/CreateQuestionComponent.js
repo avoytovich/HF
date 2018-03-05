@@ -4,8 +4,8 @@ import { bindActionCreators }       from 'redux';
 import { browserHistory }           from 'react-router'
 
 // Components
-import DiagnosisTypeQuestion        from './diagnosisTypeQuestion';
-import DiagnosisTypeVAS             from './diagnosisTypeVAS';
+import DiagnosisTypeQuestion        from './DiagnosisTypeQuestion';
+import DiagnosisTypeVAS             from './DiagnosisVASQuestion';
 import MatrixPreLoader              from '../../matrixPreloader';
 import {
   updateCrateQuestionFields,
@@ -64,8 +64,8 @@ class CreateQuestionComponent extends Component {
     if (type === 'range') {
       const correctValue = obj[type];
       return {
-        min: correctValue.from,
-        max: correctValue.to
+        min: +correctValue.from,
+        max: +correctValue.to
       };
     }
     else {
@@ -100,15 +100,24 @@ class CreateQuestionComponent extends Component {
       sequence + 0.5 : sequenceType === 'before' ?
         sequence - 0.5 : sequence;
 
-  submit = (value) => {
+  submitQuestion = (value) => {
     const {
-      testing, sequenceType, questionKey, sequence, question, questionTitle, content_type, diagnostic_assets, errors
+      testing,
+      sequenceType,
+      questionKey,
+      sequence,
+      question,
+      questionTitle,
+      content_type,
+      diagnostic_assets,
+      errors,
     } = value;
-    const isContentType = content_type === 'functionalTest';
-    const validValue = this.createValidateObj({ questionKey, questionTitle, question }, value);
 
-    const optional = content_type !== 'vas' ?
-        this.configureQuestionResult(value, isContentType) : {};
+    const isContentType = content_type === 'functionalTest';
+    const validValue    = this.createValidateObj({ questionKey, questionTitle, question }, value);
+    const optional      = content_type !== 'vas' ?
+      this.configureQuestionResult(value, isContentType) :
+      {};
 
     const result = {
       type : 'diagnostic',
@@ -145,7 +154,10 @@ class CreateQuestionComponent extends Component {
 
   createValidateObj = (temp, value) => {
     const { answerType } = value;
-    return {...temp, [answerType]: value[answerType]};
+    return {
+      ...temp,
+      [answerType]: value[answerType]
+    };
   };
 
   validateDiagnosticAssets = (assets) =>
@@ -163,11 +175,13 @@ class CreateQuestionComponent extends Component {
       subtype
     } = this.getAnswerType(answerType);
     const moreProps = optional ? { test_file_id: get(diagnostic_assets, 'id') || null } : {};
+    let rangeValue = subtype === 'range' ? this.getAnswer(answerType, value) : {};
     return {
       areaIds : areaIds,
       answer: {
         type, subtype,
-        values: this.getAnswer(answerType, value)
+        values: this.getAnswer(answerType, value),
+        ...rangeValue
       },
       rule: rules && rules.length ? {and: rules} : [],
       ...moreProps
@@ -193,7 +207,7 @@ class CreateQuestionComponent extends Component {
           onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing')}
           onCancelClick={this.cancel}
           cancelLabel={'Cancel'}
-          onSaveClick={() => this.submit(createDiagnosisQuestion)}
+          onSaveClick={() => this.submitQuestion(createDiagnosisQuestion)}
           saveLabel={'Save'}
         />
 

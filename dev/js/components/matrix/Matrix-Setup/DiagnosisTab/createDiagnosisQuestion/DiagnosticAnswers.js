@@ -26,7 +26,6 @@ import {
   FormGroup
 }                                   from 'material-ui/Form';
 
-
 const ANSWER_TYPE = [
   {label: 'Single',   value: 'single'},
   {label: 'Range',    value: 'range'},
@@ -34,23 +33,7 @@ const ANSWER_TYPE = [
 ];
 
 class DiagnosticAnswers extends Component {
-  state = { answerLang: ['en'] };
-
-  componentDidMount() {
-    const { answerType } = this.props.store;
-    const _type = answerType === 'multiple' ? 'single' : answerType;
-    const answerList = this.props.store[_type];
-    if (Array.isArray(answerList)) {
-      const answerLang = this.props.store[_type].map(() => 'en');
-      // this.setState({answerLang});
-    }
-  }
-
-  addAnswer = (value) => {
-    const inState = this.state.answerLang;
-    this.setState({ answerLang: inState.concat('en') });
-    addNewAnswer(value);
-  };
+  addAnswer = (value) => addNewAnswer(value);
 
   answers = (type) => {
     const {
@@ -61,7 +44,6 @@ class DiagnosticAnswers extends Component {
         questionAnswerLang,
       }
     } = this.props;
-    const { answerLang } = this.state;
 
     switch (type) {
       case 'range':
@@ -109,8 +91,10 @@ class DiagnosticAnswers extends Component {
               })
             }
           </ol>
-          <div className="add-answer"
-               onClick={() => this.addAnswer('single')}>
+          <div
+            className="add-answer"
+            onClick={() => this.addAnswer('single')}
+          >
             <AddIcon /> ADD ANSWER
           </div>
         </div>;
@@ -123,20 +107,23 @@ class DiagnosticAnswers extends Component {
     return <div>
       <FormGroup>
         <Grid container className="row-item">
-          {ANSWER_TYPE.map((item, index) =>
-            (<Grid item xs={4} key={index}>
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={answerType === item.value}
-                    onChange={e => updateCrateQuestionFields(e.target.value, typePath)}
-                    value={item.value}
-                    aria-label={item.value}
-                  />
-                }
-                label={item.label} />
-            </Grid>)
-          )}
+          {
+            ANSWER_TYPE.map((item, index) => (
+              <Grid item xs={4} key={index}>
+                <FormControlLabel
+                  control={
+                    <Radio
+                      checked={answerType === item.value}
+                      onChange={e => updateCrateQuestionFields(e.target.value, typePath)}
+                      value={item.value}
+                      aria-label={item.value}
+                    />
+                  }
+                  label={item.label}
+                />
+                </Grid>
+              ))
+          }
         </Grid>
       </FormGroup>
       <Grid container className="row-item">

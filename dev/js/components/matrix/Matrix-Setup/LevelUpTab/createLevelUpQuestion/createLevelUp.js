@@ -5,8 +5,8 @@ import { bindActionCreators }       from 'redux';
 import { browserHistory }           from 'react-router'
 
 // Components
-import DiagnosisTypeQuestion        from '../../DiagnosisTab/createDiagnosisQuestion/diagnosisTypeQuestion';
-import DiagnosisTypeVAS             from '../../DiagnosisTab/createDiagnosisQuestion/diagnosisTypeVAS';
+import DiagnosisTypeQuestion        from '../../DiagnosisTab/createDiagnosisQuestion/DiagnosisTypeQuestion';
+import DiagnosisTypeVAS             from '../../DiagnosisTab/createDiagnosisQuestion/DiagnosisVASQuestion';
 import MatrixPreLoader              from '../../matrixPreloader';
 import {
   updateCrateQuestionFields,
