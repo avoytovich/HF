@@ -145,7 +145,7 @@ class CreateConditionComponent extends Component {
             {/* Question Key */}
             <UniqueKey
               domain="diagnostics"
-              path="findByKey"
+              path="findCondByKey"
               questionKey={questionKey}
               id="questionKey"
               currentId={id}
@@ -154,7 +154,7 @@ class CreateConditionComponent extends Component {
             />
           </div>
 
-          <div className="rules">
+            <div className="rules">
             <DiagnosisRulesComponent
               page="conditions"
               type="diagnostic"

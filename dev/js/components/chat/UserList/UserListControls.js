@@ -37,7 +37,7 @@ class UserListControls extends Component {
     const query = { orderBy, sortedBy, per_page, current_page: current_page - 1 };
     browserHistory.push({
       pathname: currentPath,
-      query: search ? { ...query, ...{filter:search }} : query
+      query: search ? { ...query, ...{search}} : query
     });
   };
 

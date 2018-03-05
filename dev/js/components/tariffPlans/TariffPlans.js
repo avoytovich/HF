@@ -1,28 +1,45 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
 import { browserHistory }       from 'react-router'
-import Paper                    from 'material-ui/Paper';
-import Grid                     from 'material-ui/Grid';
 import { withStyles }           from 'material-ui/styles';
-import { TARIFF_PLANS }            from '../../utils/constants/pageContent';
+import { TARIFF_PLANS }         from '../../utils/constants/pageContent';
 import TableControls            from '../common/TypicalListPage/TableControls';
 import { TableComponent }       from '../../components/common/TypicalListPage';
 import get                      from 'lodash/get';
+import parseInt                 from 'lodash/parseInt';
 import {domen, api}             from '../../config';
+import DeactivateComponent      from '../users/user-modals/deactivateModal';
+import DeleteComponent          from '../users/user-modals/deleteModal';
+import CreateTariffPlan         from './tariff-modals/CreateTariffPlan';
+import EditSimpleTariffPlan     from './tariff-modals/EditSimpleTariffPlan';
+import Modal                    from '../common/Modal/Modal';
+import { getTariffPlansWired,
+  dispatchTariffPlansPayloadWired,
+  dispatchSimpleTariffPlansPayloadWired,
+  tariffPlanCreate,
+  tariffPlanUpdate,}            from '../../actions'
+
+//UI
+import Paper                    from 'material-ui/Paper';
+import Grid                     from 'material-ui/Grid';
 import Button                   from 'material-ui/Button';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeleteIcon               from 'material-ui-icons/Delete';
 import EditIcon                 from 'material-ui-icons/Edit';
-import DeactivateComponent      from '../users/user-modals/deactivateModal';
-import DeleteComponent          from '../users/user-modals/deleteModal';
-import CreateTariffPlan         from './tariff-modals/CreateTariffPlan';
-import EditSimpleTariffPlan         from './tariff-modals/EditSimpleTariffPlan';
-import Modal                    from '../common/Modal/Modal';
-import { getTariffPlansWired,
-  tariffPlanCreate,
-  tariffPlanUpdate,
-  dispatchTariffPlansPayloadWired }           from '../../actions'
+
+const defaultTariffPlanData = {
+  errors: {},
+  name: '',
+  customer_type: '',
+  tariff_type: '',
+  subscription_fee: '',
+  cost_per_user:'',
+  period:'',
+  properties: {
+    free_period:''
+  }
+};
 
 const styles = theme => ({
   root:{
@@ -73,7 +90,10 @@ class PersonalCabinetBilling extends Component {
 
   createEntity = () => this.setState({ showCreateTariffPlanModal: !this.state.showCreateTariffPlanModal });
 
-  _toggleDeleteModal = () => this.setState({ showCreateTariffPlanModal: !this.state.showCreateTariffPlanModal });
+  _toggleDeleteModal = () => {
+    this.setState({ showCreateTariffPlanModal: !this.state.showCreateTariffPlanModal });
+    dispatchTariffPlansPayloadWired (defaultTariffPlanData);
+  };
 
   _toggleEditSimpleTariff = () => this.setState({ showEditSimpleTariff: !this.state.showEditSimpleTariff });
 
@@ -85,6 +105,7 @@ class PersonalCabinetBilling extends Component {
 
   _editSimpleTariff = () =>{
     let location = get(this.props,'location.search');
+    const free_period = parseInt(this.props.simpleTariffPlanReducer.properties.free_period) + ' days';
     const result = {
       ...this.props.simpleTariffPlanReducer,
       ...{
@@ -92,7 +113,7 @@ class PersonalCabinetBilling extends Component {
         subscription_fee: +this.props.simpleTariffPlanReducer.subscription_fee,
         cost_per_user: +this.props.simpleTariffPlanReducer.cost_per_user,
         properties: {
-          free_period: this.props.simpleTariffPlanReducer.properties.free_period+' days'
+          free_period
         }
       },
     };
@@ -100,37 +121,28 @@ class PersonalCabinetBilling extends Component {
     tariffPlanUpdate('users', 'createTariff',result, get(this.props,'simpleTariffPlanReducer.id') )
       .then(()=>{
         this.setState({showEditSimpleTariff:false});
-        dispatchTariffPlansPayloadWired ({errors: {},
-          name: '',
-          customer_type: '',
-          tariff_type: '',
-          subscription_fee: '',
-          cost_per_user:'',
-          period:'',});
+        dispatchSimpleTariffPlansPayloadWired(result);
         browserHistory.push(`/tariff-plans/${location}`);
       });
   };
 
   _createTariffPlan =() =>{
     let location = get(this.props,'location.search');
+    const free_period = parseInt(this.props.createTariffPlanReducer.properties.free_period)+ ' days';
     const result = {
       ...this.props.createTariffPlanReducer,...{tariff_type:this.props.createTariffPlanReducer.customer_type,
         subscription_fee: +this.props.createTariffPlanReducer.subscription_fee,
         cost_per_user: +this.props.createTariffPlanReducer.cost_per_user},
-        properties: { free_period: this.props.createTariffPlanReducer.properties.free_period +' days'}
+        properties: {
+        free_period
+      }
     };
 
     if (get(this.props,'createTariffPlanReducer.id')){
       tariffPlanUpdate('users', 'createTariff',result, get(this.props,'createTariffPlanReducer.id') )
         .then(()=>{
           this.setState({showCreateTariffPlanModal:false});
-          dispatchTariffPlansPayloadWired ({errors: {},
-            name: '',
-            customer_type: '',
-            tariff_type: '',
-            subscription_fee: '',
-            cost_per_user:'',
-            period:'',});
+          dispatchTariffPlansPayloadWired (defaultTariffPlanData);
           browserHistory.push(`/tariff-plans/${location}`);
         });
     }
@@ -138,18 +150,10 @@ class PersonalCabinetBilling extends Component {
       tariffPlanCreate('users', 'createTariff',result)
         .then(()=>{
           this.setState({showCreateTariffPlanModal:false});
-          dispatchTariffPlansPayloadWired ({errors: {},
-            name: '',
-            customer_type: '',
-            tariff_type: '',
-            subscription_fee: '',
-            cost_per_user:'',
-            period:'',});
+          dispatchTariffPlansPayloadWired (defaultTariffPlanData);
           browserHistory.push(`/tariff-plans/${location}`);
         });
     }
-
-
   };
 
   render() {
