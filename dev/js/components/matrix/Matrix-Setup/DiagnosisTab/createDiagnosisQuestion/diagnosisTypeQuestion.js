@@ -203,7 +203,9 @@ class DiagnosisTypeQuestion extends Component {
                 }
               />
               <Typography type="caption">
-                After successful execution of the rules to redirect the user to the next level
+                <span style={{ paddingLeft: '20px' }}>
+                  After successful execution of the rules to redirect the user to the next level.
+                </span>
               </Typography>
             </Grid>
           </Grid>
