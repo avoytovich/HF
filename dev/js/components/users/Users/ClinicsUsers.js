@@ -6,10 +6,13 @@ import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
 import Button                   from 'material-ui/Button';
 import DeactivateComponent      from '../user-modals/deactivateModal';
+import ChatComponent            from '../user-modals/chatModal';
 import DeleteComponent          from '../user-modals/deleteModal';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeleteIcon               from 'material-ui-icons/Delete';
+import ChatIcon                 from 'material-ui-icons/Chat';
+
 import {domen, api}             from '../../../config';
 
 class ClinicsUsers extends Component {
@@ -18,6 +21,7 @@ class ClinicsUsers extends Component {
     showActivateModal:false,
     showDeactivateModal:false,
     showDeleteModal: false,
+    showChatModal:false
   };
 
   _tableCellPropsFunc = (row, col) => {
@@ -45,7 +49,7 @@ class ClinicsUsers extends Component {
 
   render() {
     const { tableHeader } = CLINICS_USERS_TAB;
-    const { selected, showActivateModal,  showDeactivateModal, showDeleteModal} = this.state;
+    const { selected, showActivateModal,  showDeactivateModal, showDeleteModal, showChatModal} = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'clinic'}};
     const url = `${domen['users']}${api['clinicsUsers']}`;
     return (
@@ -72,6 +76,11 @@ class ClinicsUsers extends Component {
           <Button raised dense
                   onClick={() => this.updateModal('showDeleteModal', true)}>
             <DeleteIcon/> Delete
+          </Button>
+
+          <Button raised dense
+                  onClick={() => this.updateModal('showChatModal', true)}>
+            <ChatIcon/> Chat
           </Button>
 
         </TableControls>
@@ -133,6 +142,20 @@ class ClinicsUsers extends Component {
           open={()=>this.updateModal('showDeleteModal', false)}
           itemKey="user_id"
           query={querySelector}
+        />
+
+        <ChatComponent
+          pathReq="userProfile"
+          path="simpleUsers"
+          domen="users"
+          url={url}
+          typeKey="deactivateOpen"
+          list={selected}
+          deactivateOpen={showChatModal}
+          open={()=>this.updateModal('showChatModal', false)}
+          itemKey="user_id"
+          query={querySelector}
+          action="deactivate"
         />
 
       </div>

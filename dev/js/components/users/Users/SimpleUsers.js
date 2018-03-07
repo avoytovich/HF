@@ -80,10 +80,6 @@ class SimpleUsers extends Component {
     toggleCSVModalSimple(data, this, browserUrl)
   };
 
-  updateMessage=()=>{
-    console.log('Message')
-  }
-
   render() {
     const { tableHeader } = USERS_TAB;
     const { selected,

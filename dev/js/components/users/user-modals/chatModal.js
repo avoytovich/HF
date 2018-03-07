@@ -18,24 +18,11 @@ class ChatModal extends Component {
   _sendMessage = ({list }) => {
     const message = this.props.chatReducer.message;
     const users = list.map(el=>el.user_id);
-    console.log(users, message);
     createGroupMessage(users, message).then(() => {
-      console.log('done massages senT');
       this.props.open(this.props.typeKey, false);
       dispatchCreateMessagePayloadWired ({actionType: "CHAT", errors: {}, message: ""});
     })
   };
-
-  // _sendMessage = (list) => {
-  //   const message = this.props.chatReducer.message;
-  //   const users = list.map(el=>el.user_id);
-  //   console.log(users, message);
-  //   createGroupMessage(users, message).then(() => {
-  //     console.log('done massages senT');
-  //     this.props.open(this.props.typeKey, false);
-  //     dispatchCreateMessagePayloadWired ({actionType: "CHAT", errors: {}, message: ""});
-  //   })
-  // };
 
   transition = (props) => <Slide direction="up" {...props} />;
 
