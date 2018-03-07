@@ -16,6 +16,10 @@ export const getMessages = (dialog_id, data) => Api.post(`${domen.users}${api.ge
 
 export const createMessage = (data) => Api.post(`${domen.users}${api.createMessage}`, data);
 
+
+export const createGroupMessage = (users, message) => Api.post(`${domen.users}${api.groupMessage}`, {users, message});
+
+
 export const createDialogWired = () => createDialog()
   .then(response => {
     dispatchCreateDialogWired(response.data.data);
