@@ -17,11 +17,8 @@ export const getMessages = (dialog_id, data) => Api.post(`${domen.users}${api.ge
 export const createMessage = (data) => Api.post(`${domen.users}${api.createMessage}`, data);
 
 
-export const createGroupMessage = (list, message) => {
-  const apiList   = list.map(item => Api.post(`${domen.users}${api.createMessage}`,
-    {dialog_id: item.dialog_id, message}));
-  return Promise.all(apiList).then(res => res)
-};
+export const createGroupMessage = (users, message) => Api.post(`${domen.users}${api.groupMessage}`, {users, message});
+
 
 export const createDialogWired = () => createDialog()
   .then(response => {

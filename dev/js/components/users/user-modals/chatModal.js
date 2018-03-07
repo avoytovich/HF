@@ -7,32 +7,35 @@ import Slide                  from 'material-ui/transitions/Slide';
 import Button                 from 'material-ui/Button';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createMessage,
-  createGroupMessage,
-  getMessagesWired,
-  dispatchCreateMessagePayloadWired }      from '../../../actions';
-import { Input }                from '../../common';
+import {
+  dispatchCreateMessagePayloadWired,
+  createGroupMessage }        from '../../../actions';
+import { Input }              from '../../common';
 
 
 class ChatModal extends Component {
 
-  deactivate = ({list }) => {
-    // activateUser(domen, pathReq, list, action)
-    //   .then(() =>
-    //     getListByPost(domen, path, query, url)
-    //       .then(() => this.props.open(this.props.typeKey, false)))
-    this._sendMessage(list);
-    console.log(' go chat with', list, this.props.chatReducer.message);
-  };
-
-  _sendMessage = (list) => {
+  _sendMessage = ({list }) => {
     const message = this.props.chatReducer.message;
-    createGroupMessage(list, message).then(() => {
+    const users = list.map(el=>el.user_id);
+    console.log(users, message);
+    createGroupMessage(users, message).then(() => {
       console.log('done massages senT');
       this.props.open(this.props.typeKey, false);
-      dispatchCreateMessagePayloadWired ({actionType: "CHAT", errors: {}, message: "", dialog_id});
+      dispatchCreateMessagePayloadWired ({actionType: "CHAT", errors: {}, message: ""});
     })
   };
+
+  // _sendMessage = (list) => {
+  //   const message = this.props.chatReducer.message;
+  //   const users = list.map(el=>el.user_id);
+  //   console.log(users, message);
+  //   createGroupMessage(users, message).then(() => {
+  //     console.log('done massages senT');
+  //     this.props.open(this.props.typeKey, false);
+  //     dispatchCreateMessagePayloadWired ({actionType: "CHAT", errors: {}, message: ""});
+  //   })
+  // };
 
   transition = (props) => <Slide direction="up" {...props} />;
 
@@ -71,7 +74,7 @@ class ChatModal extends Component {
         <Button onClick={() => open(typeKey, false)} color="primary">
           Cancel
         </Button>
-        <Button onClick={() => this.deactivate(this.props)} color="primary">
+        <Button onClick={() => this._sendMessage(this.props)} color="primary">
           Send
         </Button>
       </DialogActions>
