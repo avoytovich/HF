@@ -27,7 +27,7 @@ import PersonalCabinetBilling     from '../components/PersonalCabinet/PersonalCa
 
 import * as commonComponents    from './common';
 import * as testingComponents   from './testing';
-import * as matrixComponents    from '../components/matrix/Matrix-Setup';
+import * as matrixComponents    from '../components/matrix';
 
 export const C = {
   Main,
