@@ -64,7 +64,49 @@ const validateUsersCreation = data => {
       length: {
         minimum: 2,
       },
+    },
+    [bCN('billing_info', 'card','number')]:{
+      presence: true,
+      format: {
+        pattern: /^(34|37|4|5[1-5]).*$/,
+        message: "It is not a valid credit card number"
+      },
+      length: function(value, attributes, attributeName, options, constraints) {
+        if (value) {
+          // Amex
+          if ((/^(34|37).*$/).test(value)) return {is: 15};
+          // Visa, Mastercard
+          if ((/^(4|5[1-5]).*$/).test(value)) return {is: 16};
+        }
+        // Unknown card, don't validate length
+        return false;
+      }
+    },
+
+    [bCN('billing_info', 'card','cvc')]: {
+      length: {
+        minimum: 3,
+        maximum: 3,
+      },
+    },
+    [bCN('billing_info', 'card','exp_year')]: {
+      numericality: {
+        onlyInteger: true,
+      },
+      length: {
+        maximum: 4,
+      },
+    },
+    [bCN('billing_info', 'card','exp_month')]: {
+      numericality: {
+        onlyInteger: true,
+        lessThanOrEqualTo:12,
+      },
+      length: {
+        maximum: 2,
+      },
     }
+
   };
 
   let { isValid, errors } =  validator(data, constraints);

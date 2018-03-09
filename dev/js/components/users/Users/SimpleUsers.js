@@ -5,19 +5,22 @@ import { TableComponent }       from '../../../components/common/TypicalListPage
 import { browserHistory }       from 'react-router';
 import get                      from 'lodash//get';
 import TableControls            from '../../common/TypicalListPage/TableControls';
-import Button                   from 'material-ui/Button';
 import DeactivateComponent      from '../user-modals/deactivateModal';
+import ChatComponent            from '../user-modals/chatModal';
 import DeleteComponent          from '../user-modals/deleteModal';
-import CreateSimpleAdminUser         from '../CreateUser/CreateSimpleAdminUser';
+import CreateSimpleAdminUser    from '../CreateUser/CreateSimpleAdminUser';
 import Modal                    from '../../common/Modal/Modal';
 import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
+import {domen, api}             from '../../../config';
+import { toggleCSVModalSimple,
+  dispatchCreateSimpleUserPayloadWired,
+  userCreate}                   from '../../../actions'
+
+import Button                   from 'material-ui/Button';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeleteIcon               from 'material-ui-icons/Delete';
-import {domen, api}             from '../../../config';
-import { toggleCSVModalSimple,
-  userCreate,
-  dispatchCreateSimpleUserPayloadWired }           from '../../../actions'
+import ChatIcon                 from 'material-ui-icons/Chat';
 
 class SimpleUsers extends Component {
   state = {
@@ -26,7 +29,8 @@ class SimpleUsers extends Component {
     showActivateModal:false,
     showDeactivateModal:false,
     showDeleteModal:false,
-    showCSVUploadModal: false
+    showCSVUploadModal: false,
+    showChatModal:false
   };
 
   _tableCellPropsFunc = (row, col) => {
@@ -72,13 +76,19 @@ class SimpleUsers extends Component {
   };
 
   _toggleCSVModal=(data)=>{
-    toggleCSVModalSimple(data, this, `/users-simple`)
+    const browserUrl = get(this.props,'location.pathname')+ get(this.props,'location.search');
+    toggleCSVModalSimple(data, this, browserUrl)
   };
-
 
   render() {
     const { tableHeader } = USERS_TAB;
-    const { selected, showActivateModal, showDeactivateModal, showDeleteModal, showCreateUserModal, showCSVUploadModal } = this.state;
+    const { selected,
+      showActivateModal,
+      showDeactivateModal,
+      showDeleteModal,
+      showCreateUserModal,
+      showCSVUploadModal,
+      showChatModal} = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'simple'}};
     const url = `${domen['users']}${api['simpleUsers']}`;
     return (
@@ -86,11 +96,10 @@ class SimpleUsers extends Component {
 
         <TableControls
           locationUrl={this.props.location.pathname}
-          path="users"
+          path="simpleUsers"
           selected={selected}
           createItem={this.createEntity}
           createButtonText="Add"
-          searchKey = "filter"
           toggleCSVModal={this._toggleCSVModal}
           uploadCSV={true}
         >
@@ -107,6 +116,11 @@ class SimpleUsers extends Component {
           <Button raised dense
                   onClick={() => this.updateModal('showDeleteModal', true)}>
             <DeleteIcon/> Delete
+          </Button>
+
+          <Button raised dense
+                  onClick={() => this.updateModal('showChatModal', true)}>
+            <ChatIcon/> Chat
           </Button>
 
         </TableControls>
@@ -188,6 +202,20 @@ class SimpleUsers extends Component {
           CustomContent={() => <CSVUploadModal />}
         />
 
+        <ChatComponent
+          pathReq="userProfile"
+          path="simpleUsers"
+          domen="users"
+          url={url}
+          typeKey="deactivateOpen"
+          list={selected}
+          deactivateOpen={showChatModal}
+          open={()=>this.updateModal('showChatModal', false)}
+          itemKey="user_id"
+          query={querySelector}
+          action="deactivate"
+        />
+
       </div>
     )
   }
@@ -197,6 +225,7 @@ const mapStateToProps = state => ({
   store: state.tables.diagnosis,
   createSimpleUsersReducers: state.createSimpleUsersReducers,
   CSVFileReducer :state.CSVFileReducer,
+  userReducer: state.userReducer,
 });
 
 export default  connect(mapStateToProps)(SimpleUsers);

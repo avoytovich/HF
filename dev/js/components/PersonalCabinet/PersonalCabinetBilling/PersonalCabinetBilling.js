@@ -1,15 +1,20 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
 import { browserHistory }       from 'react-router';
+import { TableComponent }       from '../../../components/common/TypicalListPage';
 import Paper                    from 'material-ui/Paper';
 import Grid                     from 'material-ui/Grid';
 import EditIcon                 from 'material-ui-icons/Edit';
+import { BILLING_HISTORY }            from '../../../utils/constants/pageContent';
+import {domen, api}             from '../../../config';
 import { withStyles }           from 'material-ui/styles';
 import get                      from 'lodash/get';
 import map                      from 'lodash/map';
-import Modal                    from '../../common/Modal/Modal';
-import BillingDetailsModal      from './billing-modals/BillingDetailsModal';
-import {getProfileWired }       from '../../../actions';
+import EditBillingModal      from './billing-modals/EditBillingModal';
+import {getProfileWired,
+  dispatchCreateUserPayloadWired }       from '../../../actions';
+import {StripeProvider} from 'react-stripe-elements';
+import {stripeKey} from '../../../utils/constants';
 
 const styles = theme => ({
   root:{
@@ -21,19 +26,18 @@ const styles = theme => ({
   },
   paper:{
     margin: '10px',
-    display:'flex',
     width:'100%',
   }
 
 });
 
 const billingDetails = [
-  {title:'Credit Card', path: 'billing_info.credit_card'},
-  {title:'Card expires on', path: 'billing_info.expires_on'},
+  {title:'Credit Card', path: 'billing_info.card.number'},
+  {title:'Card expires on', path: 'billing_info.card.exp_month'},
   {title:'Address', path: 'billing_info.address'},
   {title:'Country', path: 'billing_info.country'},
   {title:'Region', path: 'billing_info.region'},
-  {title:'Zip Code', path: 'billing_info.postal_code'},
+  {title:'Zip Code', path: 'billing_info.zip_code'},
 ];
 
 const tariffPlan = [
@@ -45,9 +49,14 @@ const tariffPlan = [
 class PersonalCabinetBilling extends Component {
 
   state = {
+    selected: [],
+    showCreateTariffPlanModal:false,
+    showActivateModal:false,
+    showDeactivateModal:false,
+    showDeleteModal:false,
+    showEditSimpleTariff:false,
     showEditBillingDetailsModal: false
   };
-
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.showEditBillingDetailsModal && nextState.showEditBillingDetailsModal) {
       return false
@@ -57,6 +66,8 @@ class PersonalCabinetBilling extends Component {
 
   componentWillMount (){
     getProfileWired(this.props.userReducer.user_id,'customers');
+    Stripe.setPublishableKey(stripeKey);
+
   }
 
   _renderItem =(el, index, profileReducer)=>{
@@ -73,21 +84,24 @@ class PersonalCabinetBilling extends Component {
   };
 
   _openEditModal = () => {
-    console.log('on edit')
+    dispatchCreateUserPayloadWired(this.props.profileReducer)
     this.setState({ showEditBillingDetailsModal: !this.state.showEditBillingDetailsModal })
   };
 
-  _updateBillingDate=()=>{
-    console.log('on submit')
-    this.setState({ showEditBillingDetailsModal: !this.state.showEditBillingDetailsModal })
-  }
+  onRowClick = (selected = []) => this.setState({selected});
+
+  onSelectAllClick = (selected) => this.setState({selected});
 
   render() {
-    const {showEditBillingDetailsModal} = this.state;
+    const { selected, showEditBillingDetailsModal} = this.state;
     const {
       classes,
       profileReducer
     } = this.props;
+    const path = `/payments/customer/${this.props.profileReducer.id}`;
+    const { tableHeader } = BILLING_HISTORY;
+    const querySelector = {...this.props.location.query};
+    const url = `${domen['users']}${api['personalCabinetBilling']}${this.props.profileReducer.id}`;
 
     return (
       <div className="profile-main-container">
@@ -129,20 +143,42 @@ class PersonalCabinetBilling extends Component {
         >
           <Grid item xs={12} sm={12} className = 'information-block'>
             <Paper className={classes.paper}>
-              Data
+              <div className = 'profile-paper-sub-header'>Billing History</div>
+
+              <TableComponent
+                url={url}
+                location={this.props.location}
+                path="personalCabinetBilling"
+                currentPath = {path}
+                domen="users"
+                reqType="POST"
+                tableHeader={ tableHeader }
+                selected={selected}
+                onRowClick={this.onRowClick}
+                onSelectAllClick={this.onSelectAllClick}
+                query= {querySelector}
+                tableCellPropsFunc={this._tableCellPropsFunc}
+              />
             </Paper>
           </Grid>
         </Grid></div>
 
+        <StripeProvider apiKey={stripeKey}>
 
-        <Modal
-          itemName="name_real"
-          open={showEditBillingDetailsModal}
-          title='Billing Details'
-          toggleModal={this._openEditModal}
-          onConfirmClick={() => this._updateBillingDate()}
-          CustomContent={() => <BillingDetailsModal />}
+        <EditBillingModal
+          pathReq="userProfile"
+          path="clinicOwnUsers"
+          domen="users"
+          typeKey="deactivateOpen"
+          title="Billing"
+          deactivateOpen={showEditBillingDetailsModal}
+          open={this._openEditModal}
+          itemKey="user_id"
+          query={this.props.location.query}
+          action="deactivate"
+          onSubmitTitle = "Submit"
         />
+        </StripeProvider>
 
       </div>
     )

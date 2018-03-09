@@ -13,6 +13,8 @@ import CreateUser               from '../CreateUser/CreateUser';
 import DeactivateComponent      from '../user-modals/deactivateModal';
 import DeleteComponent          from '../user-modals/deleteModal';
 import {domen, api}             from '../../../config';
+import {
+  getListByPost  }     from '../../../actions'
 
 const userInfo = {
   headerTitle:'Create Clinic',
@@ -29,6 +31,20 @@ class Clinics extends Component {
     showDeactivateModal:false,
     showDeleteModal: false,
   };
+
+  componentWillMount() {
+    getListByPost(
+      'users',
+      'tariffPlans',
+      {
+        current_page: "0",
+        orderBy: "created_at",
+        customer_type: 'clinic',
+        per_page: "100",
+        sortedBy: "desc"
+      }
+    );
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.showCreateModal && nextState.showCreateModal) {

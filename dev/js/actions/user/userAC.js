@@ -1,7 +1,13 @@
-import { USER } from '../index';
-import { store } from '../../index';
-import {dispatchCSVFilePayloadWired, userCreateByCSV}  from '../index';
-import { browserHistory }       from 'react-router';
+import { USER }            from '../index';
+import { store }           from '../../index';
+import {
+  dispatchCSVFilePayloadWired,
+  userCreateByCSV}         from '../index';
+import { browserHistory }  from 'react-router';
+import get                 from 'lodash/get';
+// import io                  from 'socket.io-client';
+import {socketUrl}         from '../../utils/constants';
+
 
 export const dispatchUserPayload = payload => dispatch =>
   dispatch({
@@ -16,7 +22,6 @@ export const dispatchUserClearWired = () =>
   store.dispatch({ type: `${USER}_CLEAR` });
 
 export const  toggleCSVModal = (data, that, browserUrl, userId) =>{
-  console.log(data, that, browserUrl);
   switch(data) {
     case 'add':
       that.setState({ showCSVUploadModal: !that.state.showCSVUploadModal,
@@ -45,7 +50,6 @@ export const  toggleCSVModal = (data, that, browserUrl, userId) =>{
 };
 
 export const  toggleCSVModalSimple = (data, that, browserUrl) =>{
-  console.log(data, that, browserUrl);
   switch(data) {
     case 'add':
       that.setState({ showCSVUploadModal: !that.state.showCSVUploadModal,
@@ -65,14 +69,33 @@ export const  toggleCSVModalSimple = (data, that, browserUrl) =>{
 };
 
 export const userActionByCSV = (that,api, browserUrl, userId) => {
+  const token = get(that.props,'userReducer.token');
+  const id = get(that.props,'userReducer.user_id');
   const result = {
     customer_id: userId,
     files: that.props.CSVFileReducer.files,
   };
   userCreateByCSV('users', api, result)
-    .then(()=>{
+    .then((data)=>{
+      initSocket(id, token,browserUrl);
       browserHistory.push(browserUrl);
       that.setState({showCSVUploadModal:false});
       dispatchCSVFilePayloadWired({files:[]})
     });
 };
+
+
+export const initSocket = (id, token, browserUrl) => {
+  const socket = io(socketUrl,
+    {
+      query: {
+        channel: 'notification',
+        id,
+        token,
+      }
+    });
+  socket.on(`notification:${id}`, function (data) {
+    browserHistory.push(browserUrl);
+  });
+};
+

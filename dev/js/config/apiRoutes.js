@@ -95,11 +95,13 @@ export const api = {
   createDialog        : '/dialogs',
   getMessages         : '/messages/dialog/',
   createMessage       : '/messages',
+  groupMessage        : '/messages/users',
   getAllSideAreas     : '/matrix/areas/get/side',
   personalCabinetUsers : '/users/get/all',
   tariffPlans         : '/tariffs/get/all',
   createTariff        : '/tariffs/',
   getSimpleTariff     :'/tariffs/simple',
+  personalCabinetBilling : '/payments/customer/',
   twoFactorConfirm    :'/auth/tfa/login',
 };
 

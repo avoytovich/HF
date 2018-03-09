@@ -14,8 +14,8 @@ import {
   Input,
   BlockDivider
 }                               from '../../../../common';
-import SequenceBlock            from './sequenceBlock';
-import DiagnosticQuestion       from './diagnosticQuestion';
+import SequenceBlock            from './SequenceBlock';
+import DiagnosticQuestion       from './DiagnosticQuestion';
 // UI
 import Grid                     from 'material-ui/Grid';
 import Typography               from 'material-ui/Typography';
@@ -24,7 +24,7 @@ import Menu, { MenuItem }       from 'material-ui/Menu';
 import MUIInput, { InputLabel } from 'material-ui/Input';
 import { FormControl }          from 'material-ui/Form';
 
-class diagnosisVASQuestion extends Component {
+class DiagnosisVASQuestion extends Component {
   list = CONTENT_TYPE_LIST.concat([{label: 'VAS', value: 'vas'}]);
 
   render() {
@@ -121,4 +121,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(diagnosisVASQuestion);
+export default  connect(mapStateToProps, mapDispatchToProps)(DiagnosisVASQuestion);

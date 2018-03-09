@@ -110,6 +110,11 @@ class CreateUser extends Component {
   render() {
     const createUsersReducers = { ...this.props.userData, ...this.props.createUsersReducers};
     const contacts = get(createUsersReducers,'contact_info.contacts')||[];
+    let tariffPlans = get(this.props,'tariffPlans.data',[]);
+    tariffPlans = map(tariffPlans, el =>  ({
+      label : el.name,
+      value: el.id
+    }));
     return (
       <div className="upload-container">
         <Header toggleModal={this.props.toggleModal} userData = {this.props.userData} userInfo={this.props.userInfo}
@@ -135,6 +140,18 @@ class CreateUser extends Component {
                 reducer={createUsersReducers}
                 label='Industry'
               />
+              {
+                tariffPlans.length> 0 ?
+                  <Select
+                    options={tariffPlans}
+                    id='additional_info.tariff_id'
+                    style={{ width: "100%" }}
+                    reducer={createUsersReducers}
+                    label='Tariff Plan'
+                  />
+                  :
+                  ''
+              }
             </div>
             <div className="create-user-input-container">
               <h3 className="create-user-title">Billing Address</h3>
@@ -176,7 +193,8 @@ class CreateUser extends Component {
 
 const mapStateToProps = state => ({
   userReducer: state.userReducer,
-  createUsersReducers: state.createUsersReducers
+  createUsersReducers: state.createUsersReducers,
+  tariffPlans: state.tables.tariffPlans,
 });
 
 export default connect(mapStateToProps)(CreateUser);

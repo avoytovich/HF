@@ -37,12 +37,12 @@ const styles = theme => ({
 });
 
 class AssetsModal extends Component {
-  state = { list : [], isOpen: null, selected: [] };
+  state = { list : [], isOpen: null, selected: [], next_page: 1, search: null, showLoadMore:true };
 
   componentDidMount() {
     const selected = this.props.isSelected.map(el => el && el.id);
 
-    getExercises(this.props.domain, this.props.path)
+    getExercises(this.props.domain, this.props.path, this.state.per_page)
       .then(list => this.setState({list, selected}));
   }
 
@@ -67,15 +67,35 @@ class AssetsModal extends Component {
     this.props.handleRequestClose(false);
   };
 
-  handleChange = (e) =>
-    getExercises(this.props.domain, this.props.path, e.target.value)
-    .then(list => this.setState({list}));
+  handleChange = (e) => {
+    this.setState({search: e.target.value});
+    console.log(this.state.list.length);
+    getExercises(this.props.domain, this.props.path, e.target.value, null, this.state.list.length)
+      .then(list => this.setState({list}));
+  };
+
+  _loadMoreFunction = () => {
+    this.setState({next_page: this.state.next_page+1});
+    getExercises(this.props.domain, this.props.path, this.state.search,  this.state.next_page+1)
+      .then(list => {
+        if(list.length) {
+          return this.setState({
+            list: [
+              ...this.state.list,
+              ...list],
+            showLoadMore: true
+          })
+        }
+        this.setState({showLoadMore: false})
+      });
+
+  };
 
   Transition = (props) => <Slide direction="up" {...props} />;
 
   render() {
     const { classes, open, handleRequestClose, title, multiSelect, listValue } = this.props;
-    const { selected, list } = this.state;
+    const { selected, list, showLoadMore} = this.state;
 
     return (
       <Dialog
@@ -125,14 +145,14 @@ class AssetsModal extends Component {
 
         <List>
           {list.map((item, index) => {
-            const { id, name, created_at } = item,
+            const { id, name, created_at, title } = item,
                   created = moment.unix(created_at).format(TIME_FORMAT_DOTS),
                   checked = selected.some(el => id === +el),
                   disabled = !!selected.length && !multiSelect && !checked;
 
 
             return <ListItem key={index}
-                             className={`choose-sequence-item`}>
+                             className='choose-sequence-item'>
 
               <Grid container  className="choose-sequence-item-header">
                 <Grid item xs={12}
@@ -145,7 +165,11 @@ class AssetsModal extends Component {
                   />
                   <div style={{display: 'flex', flexDirection: 'column'}}>
                     <Typography type="subheading">
-                      {name || 'Title'}
+                      <span className="choose-sequence-item-sub-title"> Name: </span> {name || '-'}
+                    </Typography>
+
+                    <Typography type="subheading">
+                      <span className="choose-sequence-item-sub-title"> Title: </span> {title || 'Title'}
                     </Typography>
 
                     <Typography type="caption" >
@@ -158,6 +182,13 @@ class AssetsModal extends Component {
 
             </ListItem>})}
         </List>
+        {showLoadMore?
+          <div className='load-more-assets-button'
+                    onClick={this._loadMoreFunction}>
+                    {'Load more'}
+          </div>:
+          ''
+        }
 
       </Dialog>
     );

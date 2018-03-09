@@ -202,7 +202,7 @@ export const CLINICS_TAB = {
   title: 'ConditionsTab',
   tableHeader: [
     { title: 'Clinic Name',    key: 'name',          className: 'left assets-title-cell'},
-    { title: 'Contact Person', key: 'contact_info.contacts[0].name',          className: 'center', sortKey: '--',  },
+    { title: 'Contact Person', key: 'contact_info.contacts[0].name',          className: 'center'  },
     { title: 'Users',          key: 'users',         className: 'left'},
     { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
@@ -214,6 +214,8 @@ export const USERS_TAB = {
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Status', key: 'status', className: 'center'  },
+    { title: 'Age', key: 'birthday', className: 'center', type: 'birthday'  },
+    { title: 'Gender', key: 'gender', className: 'center', type: 'gender'  },
     { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
@@ -237,6 +239,8 @@ export const COMPANIES_USERS_TAB = {
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Company', key: 'customer_name', className: 'center'  },
     { title: 'Status', key: 'status', className: 'center' },
+    { title: 'Age', key: 'birthday', className: 'center',  type: 'birthday'  },
+    { title: 'Gender', key: 'gender', className: 'center', type: 'gender'  },
     { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
@@ -247,7 +251,9 @@ export const CLINICS_USERS_TAB = {
   tableHeader: [
     { title: 'ID Number',          key: 'user_id',          className: 'left'},
     { title: 'Clinic', key: 'customer_name', className: 'center'  },
-    { title: 'Status', key: 'status', className: 'center'},
+    { title: 'Status', key: 'status', className: 'center' },
+    { title: 'Age', key: 'birthday', className: 'center', type: 'birthday'  },
+    { title: 'Gender', key: 'gender', className: 'center', type: 'gender'  },
     { title: 'Created',       key: 'created_at',    className: 'left', type: 'time', format: TIME_FORMAT }
   ]
 };
@@ -276,6 +282,15 @@ export const TARIFF_PLANS = {
   ]
 };
 
+export const BILLING_HISTORY = {
+  key: 'conditions',
+  title: 'ConditionsTab',
+  tableHeader: [
+    { title: 'Date',          key: 'updated_at',          className: 'left', type: 'time', format: TIME_FORMAT},
+    { title: 'Amount',          key: 'sum',          className: 'left'},
+    { title: 'Status',          key: 'cost_per_user',    className: 'left'},
+  ]
+};
 
 export const CONTENT_TYPE_LIST = [
   {label: 'Question',        value: 'question'},

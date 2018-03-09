@@ -141,28 +141,30 @@ export const submitTabs = (validValue, oldErrors, domain, path, result, url, id)
 };
 
 
-export const diagnosisQuestionCreateWired = (domain, path, result, url) => diagnosisQuestionCreate(domain, path, result)
-  .then((result) => {
-    console.log(result)
-    browserHistory.push(url);
-    clearCreateQuestion();
-  })
-  .catch(err => {
-    let errors = {};
-    let errorsReceived = get(err, 'response.data', {});
-    each(errorsReceived, (errorVal, errorPath) => set(errors, errorPath, errorVal.toString()));
-    dispatchMatrixPayloadWired({ errors: {exercise: errors} });
-  });
+export const diagnosisQuestionCreateWired = (domain, path, result, url) =>
+  diagnosisQuestionCreate(domain, path, result)
+    .then((result) => {
+      console.log(result)
+      browserHistory.push(url);
+      clearCreateQuestion();
+    })
+    .catch(err => {
+      let errors = {};
+      let errorsReceived = get(err, 'response.data', {});
+      each(errorsReceived, (errorVal, errorPath) => set(errors, errorPath, errorVal.toString()));
+      dispatchMatrixPayloadWired({ errors: { exercise: errors } });
+    });
 
-export const updateQuestionCreateWired = (domain, path, result, id,url) => updateQuestionCreate(domain, path, result, id)
-  .then((result) => {
-    console.log(result)
-    browserHistory.push(url);
-    clearCreateQuestion();
-  })
-  .catch(err => {
-    let errors = {};
-    let errorsReceived = get(err, 'response.data', {});
-    each(errorsReceived, (errorVal, errorPath) => set(errors, errorPath, errorVal.toString()));
-    dispatchMatrixPayloadWired({ errors: {exercise: errors} });
-  })
+export const updateQuestionCreateWired = (domain, path, result, id,url) =>
+  updateQuestionCreate(domain, path, result, id)
+    .then((result) => {
+      console.log(result)
+      browserHistory.push(url);
+      clearCreateQuestion();
+    })
+    .catch(err => {
+      let errors = {};
+      let errorsReceived = get(err, 'response.data', {});
+      each(errorsReceived, (errorVal, errorPath) => set(errors, errorPath, errorVal.toString()));
+      dispatchMatrixPayloadWired({ errors: {exercise: errors} });
+    })

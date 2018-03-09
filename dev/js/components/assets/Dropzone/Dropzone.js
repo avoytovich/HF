@@ -12,6 +12,7 @@ class Dropzone extends Component {
 
     return (
       <DropzoneLib
+        accept={fileTypes}
         className="dropzone"
         activeClassName="dropzone-active"
         onDrop={onDrop}
@@ -31,7 +32,7 @@ class Dropzone extends Component {
 }
 
 Dropzone.defaultProps = {
-  fileTypes: 'image/png,image/jpeg,image/bmp,video/mp4,video/mkv',
+  fileTypes: '',
   fileExtention: 'mkv',
 }
 

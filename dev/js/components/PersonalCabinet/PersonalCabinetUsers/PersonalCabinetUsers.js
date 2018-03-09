@@ -84,7 +84,8 @@ class PersonalCabinetUsers extends Component {
   };
 
   _toggleCSVModal=(data)=>{
-    toggleCSVModal(data, this, `personal-cabinet/users`, this.props.userReducer.user_id)
+    const browserUrl = get(this.props,'location.pathname')+ get(this.props,'location.search');
+    toggleCSVModal(data, this, browserUrl, this.props.userReducer.user_id)
   };
 
   render() {

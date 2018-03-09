@@ -16,9 +16,9 @@ import MUISelect                      from 'material-ui/Select';
 import Menu, { MenuItem }             from 'material-ui/Menu';
 
 const SEQUENCE_TYPE_LIST = [
-    {label: 'Normal', value: 'normal'},
-    {label: 'After',  value: 'after'},
-    {label: 'Before', value: 'before'},
+    { label: 'Normal', value: 'normal' },
+    { label: 'After',  value: 'after'  },
+    { label: 'Before', value: 'before' },
 ];
 
 class SequenceBlock extends Component {

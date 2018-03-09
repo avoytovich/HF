@@ -93,7 +93,8 @@ class CompanyOwnUsers extends Component {
   };
 
   _toggleCSVModal=(data)=>{
-    toggleCSVModal(data, this, `/company/${this.props.params.id}/users`,this.props.params.id)
+    const browserUrl = get(this.props,'location.pathname')+ get(this.props,'location.search');
+    toggleCSVModal(data, this, browserUrl,this.props.params.id)
   };
 
   render() {
@@ -229,6 +230,7 @@ const mapStateToProps = state => ({
   profileReducer: state.profileReducer,
   createSimpleUsersReducers: state.createSimpleUsersReducers,
   CSVFileReducer :state.CSVFileReducer,
+  userReducer: state.userReducer,
 });
 
 export default  connect(mapStateToProps)(CompanyOwnUsers);

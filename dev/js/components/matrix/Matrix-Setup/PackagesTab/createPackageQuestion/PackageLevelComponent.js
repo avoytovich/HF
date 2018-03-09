@@ -13,9 +13,9 @@ import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../../common/Input/Input';
 import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
-import PackageExercises             from './packageExercises';
+import PackageExercises             from './PackageExercises';
 import { CircularProgress }         from 'material-ui/Progress';
-import PackageExercisesModal        from './packageExercisesModal';
+import PackageExercisesModal        from './PackageExercisesModal';
 
 export const THERAPY = [
   { value: 'daily',           label: 'Daily'               },

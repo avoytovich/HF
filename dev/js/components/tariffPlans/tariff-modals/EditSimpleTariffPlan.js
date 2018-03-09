@@ -15,7 +15,11 @@ class EditSimpleTariffPlan extends Component {
     return (
       <div className="create-simple-tariff-plan-content">
         <div className="create-simple-tariff-plan-container">
-          <Input id='name' reducer={simpleTariffPlanReducer} label='Title' placeholder='Title'
+          <Input
+            id='name'
+            reducer={simpleTariffPlanReducer}
+            label='Title'
+            placeholder='Title'
                  />
         </div>
 
@@ -28,6 +32,15 @@ class EditSimpleTariffPlan extends Component {
             reducer={simpleTariffPlanReducer}
             label='Period'
             className="simple-tree-part"
+          />
+        </div>
+
+        <div className="create-simple-tariff-plan-container">
+          <Input
+            id='properties.free_period'
+            reducer={simpleTariffPlanReducer}
+            label='Free period, days'
+            placeholder='Free period, days'
           />
         </div>
       </div>

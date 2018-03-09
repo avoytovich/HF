@@ -56,7 +56,7 @@ class TableComponent extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.location !== nextProps.location &&
         !isEmpty(nextProps.location.query)) {
-      this.getList(this.props, {...nextProps.location.query, ...nextProps.query});
+      this.getList(this.props, {...nextProps.query, ...nextProps.location.query });
     }
   }
 
@@ -276,7 +276,27 @@ class TableComponent extends Component {
         return '-';
 
       case 'in_testing':
-        return  value===true ? 'No':'Yes';
+        return  value === true ? 'No':'Yes';
+
+
+      case 'birthday':
+        return value!=='-' ? moment(new Date()).diff(moment(value), 'years'): '-';
+
+
+      case 'gender':
+        if (value==1){
+          return  'male';
+        }
+        else if (value==2){
+        return  'female';
+      }
+        else if (value==3){
+          return  'transgender ';
+        }
+        else {
+          return  ' - '
+        }
+
 
       case 'user_status':
         if (get(row, 'deleted_at', '-')) {

@@ -5,7 +5,8 @@ import Select from '../../common/Select/Select';
 
 const tariffTypeArray = [
   {label:'Company',value:'organization'},
-  {label:'Clinic',value:'clinic'}];
+  {label:'Clinic',value:'clinic'},
+  {label:'Simple',value:'simple'}];
 
 const tariffPeriodArray = [
   {label:'Month',value:'month'},
@@ -19,8 +20,13 @@ class CreateSimpleUser extends Component {
     return (
       <div className="create-tariff-plan-content">
         <div className="create-tariff-plan-container">
-          <Input id='name' reducer={createTariffPlanReducer} label='Title' placeholder='Title'
-                 className="two-part"/>
+          <Input
+            id='name'
+            reducer={createTariffPlanReducer}
+            label='Title'
+            placeholder='Title'
+            className="two-part"
+          />
           <Select
             options={tariffTypeArray}
             id='customer_type'
@@ -31,10 +37,20 @@ class CreateSimpleUser extends Component {
         </div>
 
         <div className="create-tariff-plan-container">
-          <Input id='subscription_fee' reducer={createTariffPlanReducer} label='Cost/Period, $' placeholder='Price, $'
-                 className="tree-part"/>
-          <Input id='cost_per_user' reducer={createTariffPlanReducer} label='Cost/User, $' placeholder='Cost/User, $'
-                 className="tree-part"/>
+          <Input
+            id='subscription_fee'
+            reducer={createTariffPlanReducer}
+            label='Cost/Period, $'
+            placeholder='Price, $'
+            className="tree-part"
+          />
+          <Input
+            id='cost_per_user'
+            reducer={createTariffPlanReducer}
+            label='Cost/User, $'
+            placeholder='Cost/User, $'
+            className="tree-part"
+          />
           <Select
             options={tariffPeriodArray}
             id='period'
@@ -43,6 +59,17 @@ class CreateSimpleUser extends Component {
             className="tree-part"
           />
         </div>
+
+        <div className="create-tariff-plan-container">
+          <Input
+            id='properties.free_period'
+            reducer={createTariffPlanReducer}
+            label='Free period, days'
+            placeholder='Free period, days'
+            className="two-part"
+          />
+        </div>
+
       </div>
     )
   }
