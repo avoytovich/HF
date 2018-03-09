@@ -145,14 +145,14 @@ class AssetsModal extends Component {
 
         <List>
           {list.map((item, index) => {
-            const { id, name, created_at } = item,
+            const { id, name, created_at, title } = item,
                   created = moment.unix(created_at).format(TIME_FORMAT_DOTS),
                   checked = selected.some(el => id === +el),
                   disabled = !!selected.length && !multiSelect && !checked;
 
 
             return <ListItem key={index}
-                             className={`choose-sequence-item`}>
+                             className='choose-sequence-item'>
 
               <Grid container  className="choose-sequence-item-header">
                 <Grid item xs={12}
@@ -165,7 +165,11 @@ class AssetsModal extends Component {
                   />
                   <div style={{display: 'flex', flexDirection: 'column'}}>
                     <Typography type="subheading">
-                      {name || 'Title'}
+                      <span className="choose-sequence-item-sub-title"> Name: </span> {name || '-'}
+                    </Typography>
+
+                    <Typography type="subheading">
+                      <span className="choose-sequence-item-sub-title"> Title: </span> {title || 'Title'}
                     </Typography>
 
                     <Typography type="caption" >
