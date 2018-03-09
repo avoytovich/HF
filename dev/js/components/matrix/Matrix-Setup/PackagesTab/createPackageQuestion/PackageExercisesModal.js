@@ -128,7 +128,8 @@ class PackageExercisesModal extends Component {
                     {/*</Typography>*/}
 
                     <Typography type="subheading" color="inherit">
-                      <span className="choose-sequence-item-sub-title"> Name: </span> {item.name || item.name.en || 'Name'}
+                      {/*<span className="choose-sequence-item-sub-title"> Name: </span> {item.name || item.name.en || 'Name'}*/}
+                      {item.name || item.name.en || 'Name'}
                     </Typography>
 
                   </div>
