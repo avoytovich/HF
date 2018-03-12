@@ -183,7 +183,6 @@ class PackageLevelComponent extends Component {
                 {/*{this.state.loading && <CircularProgress size={20}/>}*/}
               </Grid>
 
-
               <PackageExercises
                 exercises={exercises}
                 level={index}

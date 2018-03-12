@@ -311,8 +311,10 @@ class CreatePackageComponent extends Component {
                 scrollable
                 fullWidth
               >
-                {packageLevels.map((item, index) =>
-                  <Tab key={index} label={`Level ${index + 1}`}/>)}
+                {
+                  packageLevels.map((item, index) =>
+                  <Tab key={index} label={`Level ${index + 1}`}/>)
+                }
               </Tabs>
             </div>
 
