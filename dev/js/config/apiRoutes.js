@@ -6,25 +6,25 @@ export let assets;
 if (process.env.NODE_CUSTOM_MODE === 'development') {
   assets = 'http://18.194.17.252/assets';
   domen = {
-    users      : 'http://18.195.77.253',
-    exercises  : 'http://18.195.76.169',
-    diagnostics: 'http://18.194.211.206',
+    users      : 'http://18.195.167.42',
+    exercises  : 'http://18.197.100.66',
+    diagnostics: 'http://52.59.238.246',
     s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com/dev',
   };
 } else if (process.env.NODE_ENV === 'production') {
   assets = 'http://54.93.106.29/assets';
   domen = {
-    users      : 'http://54.93.77.193',
-    exercises  : 'http://54.93.228.195',
-    diagnostics: 'http://35.156.163.53',
+    users      : 'http://35.156.2.183',
+    exercises  : 'http://18.196.139.202',
+    diagnostics: 'http://18.196.36.200',
     s3         : 'https://uk6yk108kj.execute-api.eu-central-1.amazonaws.com/prod',
   };
 } else {
   assets = 'http://localhost:3030/dist/assets';
   domen = {
-    users      : 'http://18.195.77.253',
-    exercises  : 'http://18.195.76.169',
-    diagnostics: 'http://18.194.211.206',
+    users      : 'http://18.195.167.42',
+    exercises  : 'http://18.197.100.66',
+    diagnostics: 'http://52.59.238.246',
     s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com/dev',
   };
 }
