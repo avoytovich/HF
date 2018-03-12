@@ -64,11 +64,6 @@ class PackageLevelComponent extends Component {
         packageLevels,
 
       },
-      commonReducer: {
-        currentLanguage: {
-          L_CREATE_QUESTION
-        },
-      },
       index,
       level,
       therapy_continuity,
@@ -175,7 +170,7 @@ class PackageLevelComponent extends Component {
       {
         [1, 2, 3, 4].map( number => {
           return (
-            <Grid container className="package-level-exercises">
+            <Grid key={number} container className="package-level-exercises">
               <Grid item xs={12} >
                 <Typography type="title">
                   Session {number}
