@@ -121,10 +121,18 @@ class PackageExercisesModal extends Component {
                     checked={selected.some(el => item.id === +el)}
                     value={`${item.id}`}
                   />
+                  <div style={{display: 'flex', flexDirection: 'column'}}>
 
-                  <Typography type="subheading" color="inherit">
-                    {item.title.en || item.name.en || 'Title'}
-                  </Typography>
+                    {/*<Typography type="subheading" color="inherit">*/}
+                      {/*<span className="choose-sequence-item-sub-title"> Title: </span> {item.title.en || item.name.en || 'Title'}*/}
+                    {/*</Typography>*/}
+
+                    <Typography type="subheading" color="inherit">
+                      {/*<span className="choose-sequence-item-sub-title"> Name: </span> {item.name || item.name.en || 'Name'}*/}
+                      {item.name || item.name.en || 'Name'}
+                    </Typography>
+
+                  </div>
                 </Grid>
               </Grid>
 
