@@ -21,13 +21,13 @@ import TestNew                  from '../components/testing/TestNew/TestNew';
 import Chat                     from './chat/Chat';
 import TariffPlans              from './tariffPlans/TariffPlans'
 import PersonalCabinetMain      from '../components/PersonalCabinetMain';
-import PersonalCabinetUsers     from '../components/PersonalCabinet/PersonalCabinetUsers/PersonalCabinetUsers';
-import PersonalCabinetProfile     from '../components/PersonalCabinet/PersonalCabinetProfile/PersonalCabinetProfile';
-import PersonalCabinetBilling     from '../components/PersonalCabinet/PersonalCabinetBilling/PersonalCabinetBilling';
+import PersonalCabinetUsers     from '../components/personalCabinet/PersonalCabinetUsers/PersonalCabinetUsers';
+import PersonalCabinetProfile     from '../components/personalCabinet/PersonalCabinetProfile/PersonalCabinetProfile';
+import PersonalCabinetBilling     from '../components/personalCabinet/PersonalCabinetBilling/PersonalCabinetBilling';
 
 import * as commonComponents    from './common';
 import * as testingComponents   from './testing';
-import * as matrixComponents    from '../components/matrix/Matrix-Setup';
+import * as matrixComponents    from '../components/matrix';
 
 export const C = {
   Main,
