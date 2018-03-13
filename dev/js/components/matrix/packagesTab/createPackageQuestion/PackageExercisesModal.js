@@ -40,10 +40,11 @@ class PackageExercisesModal extends Component {
   };
 
   save = (selected, oldList) => {
-    const list = selected.reduce((result, item) => {
+    const list  = selected.reduce((result, item) => {
       if (item) {
-        const wasSelected = oldList.find(el => el && `${el.id}` === `${item}`);
+        const wasSelected  = oldList.find(el => el && `${el.id}` === `${item}`);
         const correctValue = wasSelected || { id: +item, probability: 0 };
+        correctValue.order = this.props.order;
         return result.concat(correctValue);
       }
       return [];
@@ -61,6 +62,8 @@ class PackageExercisesModal extends Component {
   render() {
     const { open, handleRequestClose, isSelected } = this.props;
     const { selected, list } = this.state;
+
+    console.log(this.props.order);
 
     return (
       <Dialog
@@ -103,41 +106,42 @@ class PackageExercisesModal extends Component {
                 </InputAdornment>
               }
             />
-
-
           </Grid>
         </Grid>
 
         <List>
-          {list.map((item, index) =>
-            (<ListItem key={index}
-                       className={`choose-sequence-item`}>
+          {
+            list.map((item, index) =>(
+              <ListItem
+                key={index}
+                className={`choose-sequence-item`}
+              >
+                <Grid container  className="choose-sequence-item-header">
+                  <Grid item xs={12}
+                        className="choose-sequence-item-title"
+                        onClick={(event) => this.onSelect(event, `${item.id}`)}>
+                    <Checkbox
+                      checked={selected.some(el => item.id === +el)}
+                      value={`${item.id}`}
+                    />
+                    <div style={{display: 'flex', flexDirection: 'column'}}>
 
-              <Grid container  className="choose-sequence-item-header">
-                <Grid item xs={12}
-                      className="choose-sequence-item-title"
-                      onClick={(event) => this.onSelect(event, `${item.id}`)}>
-                  <Checkbox
-                    checked={selected.some(el => item.id === +el)}
-                    value={`${item.id}`}
-                  />
-                  <div style={{display: 'flex', flexDirection: 'column'}}>
+                      {/*<Typography type="subheading" color="inherit">*/}
+                        {/*<span className="choose-sequence-item-sub-title"> Title: </span> {item.title.en || item.name.en || 'Title'}*/}
+                      {/*</Typography>*/}
 
-                    {/*<Typography type="subheading" color="inherit">*/}
-                      {/*<span className="choose-sequence-item-sub-title"> Title: </span> {item.title.en || item.name.en || 'Title'}*/}
-                    {/*</Typography>*/}
+                      <Typography type="subheading" color="inherit">
+                        {/*<span className="choose-sequence-item-sub-title"> Name: </span> {item.name || item.name.en || 'Name'}*/}
+                        {item.name || item.name.en || 'Name'}
+                      </Typography>
 
-                    <Typography type="subheading" color="inherit">
-                      {/*<span className="choose-sequence-item-sub-title"> Name: </span> {item.name || item.name.en || 'Name'}*/}
-                      {item.name || item.name.en || 'Name'}
-                    </Typography>
-
-                  </div>
+                    </div>
+                  </Grid>
                 </Grid>
-              </Grid>
 
-            </ListItem>)
-          )}
+              </ListItem>
+            ))
+          }
         </List>
 
       </Dialog>

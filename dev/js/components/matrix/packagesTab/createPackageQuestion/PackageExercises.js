@@ -17,46 +17,46 @@ import Input                   from '../../../common/Input/Input';
 
 
 class PackageExercises extends Component  {
-    state = {
-      list: [],
-      error: false
-    };
+  state = {
+    list: [],
+    error: false
+  };
 
-    componentDidMount() {
-      this.sendNotification = debounce(this.sendNotification, 500, { leading:false, trailing:true });
+  componentDidMount() {
+    this.sendNotification = debounce(this.sendNotification, 500, { leading:false, trailing:true });
 
-      this.props.exercises.length &&
-      getPackageLevel(
-        'exercises',
-        'getExercises',
-        this.props.exercises.map(({ id }) => id), this.props.level
-      )
-        .then(({data}) => {
-          this.setState({list: data})
-        });
+    this.props.exercises.length &&
+    getPackageLevel(
+      'exercises',
+      'getExercises',
+      this.props.exercises.map(({ id }) => id), this.props.level
+    )
+      .then(({data}) => {
+        this.setState({list: data})
+      });
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.exercises.length !== nextProps.exercises.length) {
+      nextProps.exercises.length ?
+        getPackageLevel(
+          'exercises',
+          'getExercises',
+          nextProps.exercises.map(({ id }) => id), nextProps.level
+        )
+          .then(({data}) => {
+            this.setState({list: data})
+          }) :
+        this.setState({list: []});
     }
+  }
 
-
-    componentWillReceiveProps(nextProps) {
-      if (this.props.exercises.length !== nextProps.exercises.length) {
-        nextProps.exercises.length ?
-          getPackageLevel(
-            'exercises',
-            'getExercises',
-            nextProps.exercises.map(({ id }) => id), nextProps.level
-          )
-            .then(({data}) => {
-              this.setState({list: data})
-            }) :
-          this.setState({list: []});
-      }
-    }
-
-    handleDelete = (ID) =>  {
-      const { packageLevels } = this.props.createDiagnosisQuestion;
-      const filtered = get(packageLevels, `[${this.props.level}].exercises`).filter(el =>  el.id != ID);
-      updateCrateQuestionFields(filtered, `packageLevels[${this.props.level}].exercises`)
-    };
+  handleDelete = (ID) =>  {
+    const { packageLevels } = this.props.createDiagnosisQuestion;
+    const filtered = get(packageLevels, `[${this.props.level}].exercises`).filter(el =>  el.id != ID);
+    updateCrateQuestionFields(filtered, `packageLevels[${this.props.level}].exercises`)
+  };
 
   sendNotification = (level) =>
     notifier({
@@ -87,48 +87,59 @@ class PackageExercises extends Component  {
       return (
         <Grid item xs={12} className="package-level-exercises-list">
           {
-            this.state.list.map((item, index) => {
-             const { id, title, created_at } = item;
-             const created = moment.unix(created_at).format(TIME_FORMAT_DOTS);
+            this.state.list
+              .filter(packageItem => {
+                console.log(packageItem);
+                console.log(this.props.order);
+                // return packageItem.order === this.props.order
+                return true
+              } )
+              .map((item, index) => {
+                 const {
+                   id,
+                   title,
+                   created_at
+                 } = item;
+                 const created = moment.unix(created_at).format(TIME_FORMAT_DOTS);
 
-             const probability = get( packageLevels, `[${level}].exercises[${index}].probability`);
-             return (
-               <div key={index} className="package-level-exercises-item">
+                 const probability = get( packageLevels, `[${level}].exercises[${index}].probability`);
+                 return (
+                   <div key={index} className="package-level-exercises-item">
 
-                 <div className="exercises-information">
+                     <div className="exercises-information">
 
-                   <Typography type="subheading" className="title">
-                     { title.en }
-                   </Typography>
+                       <Typography type="subheading" className="title">
+                         { title.en }
+                       </Typography>
 
-                   <Typography type="body2">
-                     Created { created }
-                   </Typography>
+                       <Typography type="body2">
+                         Created { created }
+                       </Typography>
 
-                 </div>
+                     </div>
 
-                 <div>
-                   <Input
-                     type="number"
-                     value={probability ? (probability * 100).toFixed(0) : probability}
-                     id={`packageLevels.${level}.exercises.${index}.probability`}
-                     reducer={createDiagnosisQuestion}
-                     label={ 'Probability' }
-                     onChangeCustom={event => this.handleProbabilityChange(event, level, index)}
-                   />
-                 </div>
+                     <div>
+                       <Input
+                         type="number"
+                         value={probability ? (probability * 100).toFixed(0) : probability}
+                         id={`packageLevels.${level}.exercises.${index}.probability`}
+                         reducer={createDiagnosisQuestion}
+                         label={ 'Probability' }
+                         onChangeCustom={event => this.handleProbabilityChange(event, level, index)}
+                       />
+                     </div>
 
-                 <div className="delete-icon">
+                     <div className="delete-icon">
 
-                   <IconButton aria-label="Delete">
+                       <IconButton aria-label="Delete">
 
-                     <Delete onClick={() => this.handleDelete(id)} />
+                         <Delete onClick={() => this.handleDelete(id)} />
 
-                   </IconButton>
-                 </div>
-               </div>
-             )
-           })
+                       </IconButton>
+                     </div>
+                   </div>
+                 )
+               })
           }
         </Grid>
       );

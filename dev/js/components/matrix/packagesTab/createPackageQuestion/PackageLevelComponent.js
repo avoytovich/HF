@@ -30,7 +30,11 @@ const ORDER = {
 };
 
 class PackageLevelComponent extends Component {
-  state = { loading: true, chooseExercises: false };
+  state = {
+    loading: true,
+    chooseExercises: false,
+    currentOrder: null,
+  };
 
   componentDidMount() {
     const {
@@ -62,13 +66,14 @@ class PackageLevelComponent extends Component {
         questionKey,
         packageType,
         packageLevels,
-
       },
       index,
       level,
       therapy_continuity,
       exercises,
     } = this.props;
+
+    const { currentOrder } = this.state;
 
     return <div>
       <Grid container className="row-item">
@@ -168,7 +173,7 @@ class PackageLevelComponent extends Component {
         </Grid>
       </Grid>
       {
-        [1, 2, 3, 4].map( number => {
+        [1, 2, 3, 4].map(number => {
           return (
             <Grid key={number} container className="package-level-exercises">
               <Grid item xs={12} >
@@ -179,12 +184,19 @@ class PackageLevelComponent extends Component {
               </Grid>
 
               <PackageExercises
+                order={currentOrder}
                 exercises={exercises}
                 level={index}
               />
 
               <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button color="primary" onClick={() => this.openChooseExercises(true)}>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    this.openChooseExercises(true);
+                    this.setState({ currentOrder: number });
+                  }}
+                >
                   OPEN EXERCISES
                 </Button>
 
@@ -195,20 +207,20 @@ class PackageLevelComponent extends Component {
                 >
                   DELETE LEVEL
                 </Button>
-
-                {
-                  this.state.chooseExercises &&
-                  <PackageExercisesModal
-                    level={index}
-                    open={this.state.chooseExercises}
-                    isSelected={exercises || []}
-                    handleRequestClose={(value) => this.openChooseExercises(value)}
-                  />
-                }
               </Grid>
             </Grid>
           )
         })
+      }
+      {
+        this.state.chooseExercises &&
+        <PackageExercisesModal
+          level={index}
+          order={currentOrder}
+          open={this.state.chooseExercises}
+          isSelected={exercises || []}
+          handleRequestClose={(value) => this.openChooseExercises(value)}
+        />
       }
     </div>
   }
