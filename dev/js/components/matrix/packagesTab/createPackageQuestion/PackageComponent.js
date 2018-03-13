@@ -54,7 +54,7 @@ export const DEFAULT_LEVEL = {
   exercises         : [],
 };
 
-class CreatePackageComponent extends Component {
+class PackageComponent extends Component {
   levelList = [];
 
   state = {
@@ -361,4 +361,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(CreatePackageComponent);
+export default  connect(mapStateToProps, mapDispatchToProps)(PackageComponent);

@@ -16,26 +16,26 @@ import { debounce, get }       from 'lodash';
 import Input                   from '../../../common/Input/Input';
 
 
-class PackageExercises extends Component  {
-  state = {
-    list: [],
-    error: false
-  };
+class PackagePickedExercises extends Component  {
+    state = {
+      list: [],
+      error: false
+    };
 
   componentDidMount() {
     this.sendNotification = debounce(this.sendNotification, 500, { leading:false, trailing:true });
 
-    this.props.exercises.length &&
-    getPackageLevel(
-      'exercises',
-      'getExercises',
-      this.props.exercises.map(({ id }) => id),
-      this.props.level
-    )
-      .then(({data}) => {
-        this.setState({list: data})
-      });
-  }
+      this.props.exercises.length &&
+      getPackageLevel(
+        'exercises',
+        'getExercises',
+        this.props.exercises.map(({ id }) => id),
+        this.props.level
+      )
+        .then(({data}) => {
+          this.setState({list: data})
+        });
+    }
 
 
   componentWillReceiveProps(nextProps) {
@@ -157,4 +157,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(PackageExercises);
+export default connect(mapStateToProps, mapDispatchToProps)(PackagePickedExercises);

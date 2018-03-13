@@ -13,9 +13,9 @@ import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../common/Input/Input';
 import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
-import PackageExercises             from './PackageExercises';
+import PackagePickedExercises             from './PackagePickedExercises';
 import { CircularProgress }         from 'material-ui/Progress';
-import PackageExercisesModal        from './PackageExercisesModal';
+import PickPackageExercisesModal        from './PickPackageExercisesModal';
 
 export const THERAPY = [
   { value: 'daily',           label: 'Daily'               },
@@ -178,13 +178,12 @@ class PackageLevelComponent extends Component {
             <Grid key={order} container className="package-level-exercises">
               <Grid item xs={12} >
                 <Typography type="title">
-                  Session {order}
+                  Step {order}
                 </Typography>
                 {/*{this.state.loading && <CircularProgress size={20}/>}*/}
               </Grid>
 
-              <PackageExercises
-                order={currentOrder}
+              <PackagePickedExercises
                 exercises={exercises}
                 level={index}
               />
@@ -207,20 +206,21 @@ class PackageLevelComponent extends Component {
                 >
                   DELETE LEVEL
                 </Button>
+
+                {
+                  this.state.chooseExercises &&
+                  <PickPackageExercisesModal
+                    level={index}
+                    order={currentOrder}
+                    open={this.state.chooseExercises}
+                    isSelected={exercises || []}
+                    handleRequestClose={(value) => this.openChooseExercises(value)}
+                  />
+                }
               </Grid>
             </Grid>
           )
         })
-      }
-      {
-        this.state.chooseExercises &&
-        <PackageExercisesModal
-          level={index}
-          order={currentOrder}
-          open={this.state.chooseExercises}
-          isSelected={exercises || []}
-          handleRequestClose={(value) => this.openChooseExercises(value)}
-        />
       }
     </div>
   }
