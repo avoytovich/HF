@@ -4,7 +4,7 @@ export let domen;
 export let assets;
 
 if (process.env.NODE_CUSTOM_MODE === 'development') {
-  assets = 'http://18.194.17.252/assets';
+  assets = 'http://52.59.230.218/assets';
   domen = {
     users      : 'http://18.195.167.42',
     exercises  : 'http://18.197.100.66',
@@ -12,7 +12,7 @@ if (process.env.NODE_CUSTOM_MODE === 'development') {
     s3         : 'https://pv9ueiwsy4.execute-api.eu-central-1.amazonaws.com/dev',
   };
 } else if (process.env.NODE_ENV === 'production') {
-  assets = 'http://54.93.106.29/assets';
+  assets = 'http://18.196.9.189/assets';
   domen = {
     users      : 'http://35.156.2.183',
     exercises  : 'http://18.196.139.202',
