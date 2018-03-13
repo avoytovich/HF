@@ -16,6 +16,12 @@ import Menu, { MenuItem }           from 'material-ui/Menu';
 import PackagePickedExercises             from './PackagePickedExercises';
 import { CircularProgress }         from 'material-ui/Progress';
 import PickPackageExercisesModal        from './PickPackageExercisesModal';
+import {
+  debounce,
+  get,
+  groupBy,
+  find,
+}                               from 'lodash';
 
 export const THERAPY = [
   { value: 'daily',           label: 'Daily'               },
@@ -29,7 +35,7 @@ const ORDER = {
   1: {},
 };
 
-class PackageLevelComponent extends Component {
+class PackageLevel extends Component {
   state = {
     loading: true,
     chooseExercises: false,
@@ -174,17 +180,24 @@ class PackageLevelComponent extends Component {
       </Grid>
       {
         [1, 2, 3, 4].map(order => {
+          console.log('dd', exercises);
+          const _exercises = exercises.filter(resExercise => {
+            const exercises = get(packageLevels, `[${index}].exercises`, []);
+            const exercise  = find(exercises, ex => ex.id === resExercise.id);
+            return exercise.order === order
+          });
           return (
             <Grid key={order} container className="package-level-exercises">
               <Grid item xs={12} >
                 <Typography type="title">
-                  Step {order}
+                  Position {order}
                 </Typography>
                 {/*{this.state.loading && <CircularProgress size={20}/>}*/}
               </Grid>
 
               <PackagePickedExercises
-                exercises={exercises}
+                order={order}
+                exercises={_exercises}
                 level={index}
               />
 
@@ -192,7 +205,7 @@ class PackageLevelComponent extends Component {
                 <Button
                   color="primary"
                   onClick={() => {
-                    this.openChooseExercises(true);
+                    this.openChooseExercises(order);
                     this.setState({ currentOrder: order });
                   }}
                 >
@@ -207,13 +220,14 @@ class PackageLevelComponent extends Component {
                   DELETE LEVEL
                 </Button>
 
+
                 {
-                  this.state.chooseExercises &&
+                  this.state.chooseExercises == order &&
                   <PickPackageExercisesModal
                     level={index}
                     order={currentOrder}
                     open={this.state.chooseExercises}
-                    isSelected={exercises || []}
+                    isSelected={_exercises || []}
                     handleRequestClose={(value) => this.openChooseExercises(value)}
                   />
                 }
@@ -222,6 +236,7 @@ class PackageLevelComponent extends Component {
           )
         })
       }
+
     </div>
   }
 }
@@ -235,4 +250,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(PackageLevelComponent);
+export default  connect(mapStateToProps, mapDispatchToProps)(PackageLevel);

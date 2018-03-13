@@ -12,7 +12,12 @@ import {
 import { connect }             from 'react-redux';
 import { bindActionCreators }  from 'redux';
 import Grid                    from 'material-ui/Grid';
-import { debounce, get }       from 'lodash';
+import {
+  debounce,
+  get,
+  groupBy,
+  find,
+}                               from 'lodash';
 import Input                   from '../../../common/Input/Input';
 
 
@@ -85,17 +90,23 @@ class PackagePickedExercises extends Component  {
     };
 
     render() {
-      const { level, createDiagnosisQuestion, createDiagnosisQuestion: { packageLevels } } = this.props;
+      const {
+        level,
+        createDiagnosisQuestion,
+        createDiagnosisQuestion: {
+          packageLevels,
+        }
+      } = this.props;
       return (
         <Grid item xs={12} className="package-level-exercises-list">
           {
             this.state.list
-              .filter(packageItem => {
-                console.log(packageItem);
-                console.log(this.props.order);
-                // return packageItem.order === this.props.order
-                return true
-              } )
+              .filter(resExercise => {
+                return true;
+                const exercises = get(packageLevels, `[${this.props.level}].exercises`, []);
+                const exercise  = find(exercises, ex => ex.id === resExercise.id);
+                return exercise.order === this.props.order
+              })
               .map((item, index) => {
                  const {
                    id,

@@ -1,7 +1,7 @@
-import PackageLevelComponent from './PackageLevelComponent';
-import PackageComponent from './PackageComponent';
+import PackageLevel from './PackageLevel';
+import Package from './Package';
 
 export {
-  PackageComponent,
-  PackageLevelComponent
+  Package,
+  PackageLevel
 };

@@ -25,7 +25,7 @@ export {
 
 export {
   PackagesComponent,
-  PackageComponent
+  Package
 
 }                                 from './packagesTab';
 

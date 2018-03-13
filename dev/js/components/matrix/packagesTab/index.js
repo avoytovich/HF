@@ -1,4 +1,4 @@
 import PackagesComponent      from './PackagesComponent';
-import PackageComponent from './createPackageQuestion/PackageComponent';
+import Package from './createPackageQuestion/Package';
 
-export { PackagesComponent, PackageComponent };
+export { PackagesComponent, Package };

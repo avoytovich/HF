@@ -133,8 +133,8 @@ const router = (
             <Route path='evaluation-create/:id' component={C.CreateEvaluationComponent}/>
             <Route path='evaluation-create-new' component={C.CreateEvaluationComponent}/>
 
-            <Route path='packages-create/:id' component={C.PackageComponent}/>
-            <Route path='packages-create-new' component={C.PackageComponent}/>
+            <Route path='packages-create/:id' component={C.Package}/>
+            <Route path='packages-create-new' component={C.Package}/>
 
             <Route path='exercise-create/:id' component={C.CreateExerciseComponent}/>
             <Route path='exercise-create-new' component={C.CreateExerciseComponent}/>

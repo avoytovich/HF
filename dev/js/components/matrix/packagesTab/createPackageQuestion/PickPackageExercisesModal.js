@@ -29,7 +29,7 @@ class PickPackageExercisesModal extends Component {
   componentDidMount() {
     const selected = this.props.isSelected.map(item => item && item.id);
     getExercises('exercises', 'exercises')
-      .then(list => this.setState({list, selected}));
+      .then(list => this.setState({ list, selected }));
   }
 
   onSelect = (event, value) => {
