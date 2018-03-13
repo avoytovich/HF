@@ -35,14 +35,24 @@ class AssetsList extends Component {
   };
 
   render() {
-    const { title, list, multiSelect, valuePath, path, domain, listValue } = this.props;
+    const {
+      title,
+      list,
+      multiSelect,
+      valuePath,
+      path,
+      domain,
+      listValue
+    } = this.props;
     const { chooseFiles } = this.state;
 
     const _list = list ?
       Array.isArray(list) ?
         list :
-        list.id ? [list] : []
-      : [];
+        list.id ?
+          [list] :
+          [] :
+      [];
 
     return <div className="assets-list">
 
@@ -93,16 +103,19 @@ class AssetsList extends Component {
               OPEN RESOURCES
             </Button>
 
-            {chooseFiles &&
-            <AssetsModal
-              open={ chooseFiles }
-              isSelected={ _list }
-              path={ path }
-              valuePath={ valuePath }
-              domain={ domain }
-              multiSelect={ multiSelect }
-              listValue={ listValue }
-              handleRequestClose={(value) => this.openChooseFiles(value)}/>}
+            {
+              chooseFiles &&
+              <AssetsModal
+                open={ chooseFiles }
+                isSelected={ _list }
+                path={ path }
+                valuePath={ valuePath }
+                domain={ domain }
+                multiSelect={ multiSelect }
+                listValue={ listValue }
+                handleRequestClose={(value) => this.openChooseFiles(value)}
+              />
+            }
           </Grid>
         </Grid>
       </div>

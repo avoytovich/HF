@@ -23,7 +23,7 @@ import Input                        from '../../../common/Input/Input';
 import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 import Tabs, { Tab }                from 'material-ui/Tabs';
-import PackageLevelComponent        from './PackageLevelComponent';
+import PackageLevel                 from './PackageLevel';
 import { submitTabs }               from '../../../../utils';
 import MatrixPreLoader              from '../../matrixPreloader';
 import { CreateItemNavButtons }     from '../../../common';
@@ -54,7 +54,7 @@ export const DEFAULT_LEVEL = {
   exercises         : [],
 };
 
-class CreatePackageComponent extends Component {
+class Package extends Component {
   levelList = [];
 
   state = {
@@ -329,7 +329,7 @@ class CreatePackageComponent extends Component {
                   <div className="tab-item" key={index}>
                     {
                       +this.state.tab === index &&
-                      <PackageLevelComponent
+                      <PackageLevel
                         packageId={packageId}
                         index={index}
                         level={level}
@@ -361,4 +361,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(CreatePackageComponent);
+export default  connect(mapStateToProps, mapDispatchToProps)(Package);

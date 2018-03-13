@@ -13,9 +13,15 @@ import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../common/Input/Input';
 import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
-import PackageExercises             from './PackageExercises';
+import PackagePickedExercises             from './PackagePickedExercises';
 import { CircularProgress }         from 'material-ui/Progress';
-import PackageExercisesModal        from './PackageExercisesModal';
+import PickPackageExercisesModal        from './PickPackageExercisesModal';
+import {
+  debounce,
+  get,
+  groupBy,
+  find,
+}                               from 'lodash';
 
 export const THERAPY = [
   { value: 'daily',           label: 'Daily'               },
@@ -29,8 +35,12 @@ const ORDER = {
   1: {},
 };
 
-class PackageLevelComponent extends Component {
-  state = { loading: true, chooseExercises: false };
+class PackageLevel extends Component {
+  state = {
+    loading: true,
+    chooseExercises: false,
+    currentOrder: null,
+  };
 
   componentDidMount() {
     const {
@@ -62,18 +72,14 @@ class PackageLevelComponent extends Component {
         questionKey,
         packageType,
         packageLevels,
-
-      },
-      commonReducer: {
-        currentLanguage: {
-          L_CREATE_QUESTION
-        },
       },
       index,
       level,
       therapy_continuity,
       exercises,
     } = this.props;
+
+    const { currentOrder } = this.state;
 
     return <div>
       <Grid container className="row-item">
@@ -173,23 +179,36 @@ class PackageLevelComponent extends Component {
         </Grid>
       </Grid>
       {
-        [1, 2, 3, 4].map( number => {
+        [1, 2, 3, 4].map(order => {
+          console.log('dd', exercises);
+          const _exercises = exercises.filter(resExercise => {
+            const exercises = get(packageLevels, `[${index}].exercises`, []);
+            const exercise  = find(exercises, ex => ex.id === resExercise.id);
+            return exercise.order === order
+          });
           return (
-            <Grid container className="package-level-exercises">
+            <Grid key={order} container className="package-level-exercises">
               <Grid item xs={12} >
                 <Typography type="title">
-                  Session {number}
+                  Position {order}
                 </Typography>
                 {/*{this.state.loading && <CircularProgress size={20}/>}*/}
               </Grid>
 
-              <PackageExercises
-                exercises={exercises}
+              <PackagePickedExercises
+                order={order}
+                exercises={_exercises}
                 level={index}
               />
 
               <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button color="primary" onClick={() => this.openChooseExercises(true)}>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    this.openChooseExercises(order);
+                    this.setState({ currentOrder: order });
+                  }}
+                >
                   OPEN EXERCISES
                 </Button>
 
@@ -201,12 +220,14 @@ class PackageLevelComponent extends Component {
                   DELETE LEVEL
                 </Button>
 
+
                 {
-                  this.state.chooseExercises &&
-                  <PackageExercisesModal
+                  this.state.chooseExercises == order &&
+                  <PickPackageExercisesModal
                     level={index}
+                    order={currentOrder}
                     open={this.state.chooseExercises}
-                    isSelected={exercises || []}
+                    isSelected={_exercises || []}
                     handleRequestClose={(value) => this.openChooseExercises(value)}
                   />
                 }
@@ -215,6 +236,7 @@ class PackageLevelComponent extends Component {
           )
         })
       }
+
     </div>
   }
 }
@@ -228,4 +250,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(PackageLevelComponent);
+export default  connect(mapStateToProps, mapDispatchToProps)(PackageLevel);
