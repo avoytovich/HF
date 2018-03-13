@@ -29,7 +29,8 @@ class PackageExercises extends Component  {
     getPackageLevel(
       'exercises',
       'getExercises',
-      this.props.exercises.map(({ id }) => id), this.props.level
+      this.props.exercises.map(({ id }) => id),
+      this.props.level
     )
       .then(({data}) => {
         this.setState({list: data})
@@ -43,7 +44,8 @@ class PackageExercises extends Component  {
         getPackageLevel(
           'exercises',
           'getExercises',
-          nextProps.exercises.map(({ id }) => id), nextProps.level
+          nextProps.exercises.map(({ id }) => id),
+          nextProps.level
         )
           .then(({data}) => {
             this.setState({list: data})

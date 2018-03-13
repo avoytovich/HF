@@ -173,12 +173,12 @@ class PackageLevelComponent extends Component {
         </Grid>
       </Grid>
       {
-        [1, 2, 3, 4].map(number => {
+        [1, 2, 3, 4].map(order => {
           return (
-            <Grid key={number} container className="package-level-exercises">
+            <Grid key={order} container className="package-level-exercises">
               <Grid item xs={12} >
                 <Typography type="title">
-                  Session {number}
+                  Session {order}
                 </Typography>
                 {/*{this.state.loading && <CircularProgress size={20}/>}*/}
               </Grid>
@@ -194,7 +194,7 @@ class PackageLevelComponent extends Component {
                   color="primary"
                   onClick={() => {
                     this.openChooseExercises(true);
-                    this.setState({ currentOrder: number });
+                    this.setState({ currentOrder: order });
                   }}
                 >
                   OPEN EXERCISES
