@@ -13,9 +13,9 @@ import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../common/Input/Input';
 import SELECT                       from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
-import PackageExercises             from './PackageExercises';
+import PackagePickedExercises             from './PackagePickedExercises';
 import { CircularProgress }         from 'material-ui/Progress';
-import PackageExercisesModal        from './PackageExercisesModal';
+import PickPackageExercisesModal        from './PickPackageExercisesModal';
 
 export const THERAPY = [
   { value: 'daily',           label: 'Daily'               },
@@ -173,12 +173,12 @@ class PackageLevelComponent extends Component {
             <Grid key={number} container className="package-level-exercises">
               <Grid item xs={12} >
                 <Typography type="title">
-                  Session {number}
+                  Step {number}
                 </Typography>
                 {/*{this.state.loading && <CircularProgress size={20}/>}*/}
               </Grid>
 
-              <PackageExercises
+              <PackagePickedExercises
                 exercises={exercises}
                 level={index}
               />
@@ -198,7 +198,7 @@ class PackageLevelComponent extends Component {
 
                 {
                   this.state.chooseExercises &&
-                  <PackageExercisesModal
+                  <PickPackageExercisesModal
                     level={index}
                     open={this.state.chooseExercises}
                     isSelected={exercises || []}

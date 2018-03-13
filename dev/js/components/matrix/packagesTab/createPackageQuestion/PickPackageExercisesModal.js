@@ -19,7 +19,7 @@ import Checkbox                   from 'material-ui/Checkbox';
 import Input, { InputAdornment }  from 'material-ui/Input';
 import SearchIcon                 from 'material-ui-icons/Search';
 
-class PackageExercisesModal extends Component {
+class PickPackageExercisesModal extends Component {
   state = {
     list : [],
     isOpen: null,
@@ -149,4 +149,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapDispatchToProps)(PackageExercisesModal);
+export default connect(mapDispatchToProps)(PickPackageExercisesModal);

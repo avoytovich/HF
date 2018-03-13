@@ -1,7 +1,7 @@
 import PackageLevelComponent from './PackageLevelComponent';
-import CreatePackageComponent from './CreatePackageComponent';
+import PackageComponent from './PackageComponent';
 
 export {
-  CreatePackageComponent,
+  PackageComponent,
   PackageLevelComponent
 };

@@ -16,7 +16,7 @@ import { debounce, get }       from 'lodash';
 import Input                   from '../../../common/Input/Input';
 
 
-class PackageExercises extends Component  {
+class PackagePickedExercises extends Component  {
     state = {
       list: [],
       error: false
@@ -29,7 +29,8 @@ class PackageExercises extends Component  {
       getPackageLevel(
         'exercises',
         'getExercises',
-        this.props.exercises.map(({ id }) => id), this.props.level
+        this.props.exercises.map(({ id }) => id),
+        this.props.level
       )
         .then(({data}) => {
           this.setState({list: data})
@@ -88,7 +89,11 @@ class PackageExercises extends Component  {
         <Grid item xs={12} className="package-level-exercises-list">
           {
             this.state.list.map((item, index) => {
-             const { id, title, created_at } = item;
+             const {
+               id,
+               title,
+               created_at
+             } = item;
              const created = moment.unix(created_at).format(TIME_FORMAT_DOTS);
 
              const probability = get( packageLevels, `[${level}].exercises[${index}].probability`);
@@ -144,4 +149,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(PackageExercises);
+export default connect(mapStateToProps, mapDispatchToProps)(PackagePickedExercises);
