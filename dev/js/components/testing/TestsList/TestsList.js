@@ -44,7 +44,6 @@ class TestsList extends Component {
       .catch(err => {
         this.setState({ selected: [] });
         this._toggleDeleteModal();
-        console.log(err);
       })
   };
 

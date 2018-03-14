@@ -26,7 +26,6 @@ class ResetPassword extends Component {
         }
       }
     } = this.props;
-    console.log(token, user_id);
     return (
       <Container>
         <div className="sign-up-form-container">

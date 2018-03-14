@@ -2,7 +2,6 @@ export const getBase64Promise = (file) => new Promise((resolve, reject) => {
   var reader = new FileReader();
   reader.readAsDataURL(file);
   reader.onload = function () {
-    console.log('success');
     reader.binary = _base64ToArrayBuffer(reader.result.split(',').pop())
     resolve(reader);
   };

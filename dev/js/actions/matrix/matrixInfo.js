@@ -1,4 +1,5 @@
 import get            from 'lodash/get';
+import isEmpty        from 'lodash/isEmpty';
 import { Api }        from '../../utils';
 import { T }          from '../../actions';
 import { domen, api } from '../../config/apiRoutes';
@@ -65,6 +66,24 @@ export const updateCrateQuestionFields = (data, path) => {
       path
     }
   });
+};
+
+export const updatePickedExercisesInPackages = (data, path, level) => {
+  const currentExercisesForPackages = get(store.getState(), `createDiagnosisQuestion.${path}`, []);
+
+  // filter passed into function exercises from existing ones
+  const filteredIncomingExercisesForPackages = data
+    .filter(({ id: incomExId, order: incomExOrder }) => {
+
+      // checks if iterating exercise exists in exercises' array
+      return isEmpty(
+        currentExercisesForPackages.find(({ order, id }) => {
+          return id === incomExId && order === incomExOrder
+        })
+      );
+    });
+  const finalExercise = currentExercisesForPackages.concat(filteredIncomingExercisesForPackages);
+  return updateCrateQuestionFields(finalExercise, path)
 };
 
 export const deactivateItem = (domenKey, apiKey, ids, activate) => {

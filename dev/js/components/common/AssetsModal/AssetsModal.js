@@ -69,7 +69,6 @@ class AssetsModal extends Component {
 
   handleChange = (e) => {
     this.setState({search: e.target.value});
-    console.log(this.state.list.length);
     getExercises(this.props.domain, this.props.path, e.target.value, null, this.state.list.length)
       .then(list => this.setState({list}));
   };
