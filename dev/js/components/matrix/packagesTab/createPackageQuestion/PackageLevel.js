@@ -173,7 +173,7 @@ class PackageLevel extends Component {
             Exercises
           </Typography>
           <Typography>
-            *total probability amount in session should be equal to 1.
+            *total probability amount in position should be equal to 100.
           </Typography>
           {/*{this.state.loading && <CircularProgress size={20}/>}*/}
         </Grid>
