@@ -16,7 +16,6 @@ import {
 } from '../../config';
 
 export const createAssets = (data, key) => {
-  console.log(JSON.stringify(data));
   return Api.post(`${domen[key]}${api.assets}`, data);
 }
 

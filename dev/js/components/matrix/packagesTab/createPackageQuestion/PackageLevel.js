@@ -76,7 +76,7 @@ class PackageLevel extends Component {
       index,
       level,
       therapy_continuity,
-      exercises,
+      exercises = [],
     } = this.props;
 
     const { currentOrder } = this.state;
@@ -179,13 +179,8 @@ class PackageLevel extends Component {
         </Grid>
       </Grid>
       {
-        [1, 2, 3, 4].map(order => {
-          console.log('dd', exercises);
-          const _exercises = exercises.filter(resExercise => {
-            const exercises = get(packageLevels, `[${index}].exercises`, []);
-            const exercise  = find(exercises, ex => ex.id === resExercise.id);
-            return exercise.order === order
-          });
+        [1, 2, 3, 4].map((order) => {
+          const exercisesForCurrentPosition = exercises.filter(ex =>ex.order === order);
           return (
             <Grid key={order} container className="package-level-exercises">
               <Grid item xs={12} >
@@ -197,17 +192,18 @@ class PackageLevel extends Component {
 
               <PackagePickedExercises
                 order={order}
-                exercises={_exercises}
+                exercises={exercisesForCurrentPosition}
                 level={index}
               />
 
               <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button
                   color="primary"
-                  onClick={() => {
-                    this.openChooseExercises(order);
-                    this.setState({ currentOrder: order });
-                  }}
+                  onClick={() => this.setState({
+                      currentOrder   : order,
+                      chooseExercises: order
+                    })
+                  }
                 >
                   OPEN EXERCISES
                 </Button>
@@ -226,8 +222,9 @@ class PackageLevel extends Component {
                   <PickPackageExercisesModal
                     level={index}
                     order={currentOrder}
+                    levelExercises={exercises}
                     open={this.state.chooseExercises}
-                    isSelected={_exercises || []}
+                    isSelected={exercisesForCurrentPosition}
                     handleRequestClose={(value) => this.openChooseExercises(value)}
                   />
                 }

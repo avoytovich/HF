@@ -16,7 +16,6 @@ import { deleteItem,
 class DeleteComponent extends Component {
 
   deleteIt = ({list, path, pathReq, domen}) => {
-    console.log(path)
     deleteItem(domen, pathReq, list)
       .then(() => {
         getMatrixInfo(domen, path, this.props.query, path)

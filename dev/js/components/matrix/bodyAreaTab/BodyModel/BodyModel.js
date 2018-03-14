@@ -131,7 +131,6 @@ class BodyModel extends Component {
   // see http://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html#l-draw-event for leaflet-draw events doc
 
   _onEditStart = () => {
-    console.log('edit started');
     setTimeout(() => {
       this.layerContainer().clearLayers();
       this._drawingNewOrEditingPolygons();
@@ -139,20 +138,17 @@ class BodyModel extends Component {
   };
 
   _onEditStop = () => {
-    console.log('edit stopped');
     this._drawExistingPolygons();
   };
 
   _onDeleteStart = () => {
     setTimeout(() => {
-      console.log('delete started');
       this.layerContainer().clearLayers();
       this._drawingNewOrEditingPolygons();
     }, 10);
   };
 
   _onDeleteStop = () => {
-    console.log('delete stopped');
     this._drawExistingPolygons();
   };
 
