@@ -1,6 +1,8 @@
 import React, { Component }       from 'react';
 import { connect }                from 'react-redux';
 import { bindActionCreators }     from 'redux';
+import isEmpty                    from 'lodash/isEmpty';
+import get                        from 'lodash/get';
 import Dialog                     from 'material-ui/Dialog';
 import Slide                      from 'material-ui/transitions/Slide';
 import List, { ListItem }         from 'material-ui/List';
@@ -12,6 +14,7 @@ import CloseIcon                  from 'material-ui-icons/Close';
 import Grid                       from 'material-ui/Grid';
 import {
   updateCrateQuestionFields,
+  updatePickedExercisesInPackages,
   getExercises,
 }                                 from '../../../../actions';
 import Button                     from 'material-ui/Button';
@@ -49,7 +52,7 @@ class PickPackageExercisesModal extends Component {
       }
       return [];
     }, []);
-    updateCrateQuestionFields(list, `packageLevels[${this.props.level}].exercises`);
+    updatePickedExercisesInPackages(list, `packageLevels[${this.props.level}].exercises`);
     this.props.handleRequestClose(false);
   };
 
@@ -60,10 +63,17 @@ class PickPackageExercisesModal extends Component {
   Transition = (props) => <Slide direction="up" {...props} />;
 
   render() {
-    const { open, handleRequestClose, isSelected } = this.props;
-    const { selected, list } = this.state;
+    const {
+      open,
+      handleRequestClose,
+      isSelected,
+      levelExercises
+    } = this.props;
 
-    console.log(this.props.order);
+    const {
+      selected,
+      list
+    } = this.state;
 
     return (
       <Dialog
@@ -111,7 +121,13 @@ class PickPackageExercisesModal extends Component {
 
         <List>
           {
-            list.map((item, index) =>(
+            list
+              .filter(({ id: incomExId }) =>
+                isEmpty(
+                  levelExercises.find(({ id: pickedLevelExId }) => pickedLevelExId === incomExId)
+                )
+              )
+              .map((item, index) => (
               <ListItem
                 key={index}
                 className={`choose-sequence-item`}

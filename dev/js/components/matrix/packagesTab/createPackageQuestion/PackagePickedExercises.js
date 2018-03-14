@@ -17,8 +17,11 @@ import {
   get,
   groupBy,
   find,
+  isEqual,
+  isEmpty,
 }                               from 'lodash';
 import Input                   from '../../../common/Input/Input';
+import { store }                   from '../../../../index';
 
 
 class PackagePickedExercises extends Component  {
@@ -72,7 +75,7 @@ class PackagePickedExercises extends Component  {
       status: 'error',
     });
 
-  handleProbabilityChange = (event, level, index) => {
+  handleProbabilityChange = (event, level, index, order) => {
       const value = event.target.value ? event.target.value / 100 : '';
       updateCrateQuestionFields(value, `packageLevels.${level}.exercises.${index}.probability`);
 
@@ -84,14 +87,16 @@ class PackagePickedExercises extends Component  {
         return result;
       }, 0);
 
-      if (sum > 1) {
-        this.sendNotification(level);
-      }
+      // if (sum > 1) {
+      //   this.sendNotification(level);
+      // }
     };
 
     render() {
       const {
         level,
+        order,
+        exercises,
         createDiagnosisQuestion,
         createDiagnosisQuestion: {
           packageLevels,
@@ -101,18 +106,20 @@ class PackagePickedExercises extends Component  {
         <Grid item xs={12} className="package-level-exercises-list">
           {
             this.state.list
-              .filter(resExercise => {
-                return true;
-                const exercises = get(packageLevels, `[${this.props.level}].exercises`, []);
-                const exercise  = find(exercises, ex => ex.id === resExercise.id);
-                return exercise.order === this.props.order
-              })
-              .map((item, index) => {
+              .map((item) => {
                  const {
                    id,
                    title,
                    created_at
                  } = item;
+
+                // find index of current exercise in common packages' exercises array
+                const index = get(
+                  store.getState(),
+                  `createDiagnosisQuestion.packageLevels[${level}].exercises`,
+                  []
+                ).findIndex(ex => ex.id === item.id && ex.order === order);
+
                  const created = moment.unix(created_at).format(TIME_FORMAT_DOTS);
 
                  const probability = get( packageLevels, `[${level}].exercises[${index}].probability`);

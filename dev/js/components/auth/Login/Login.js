@@ -52,7 +52,6 @@ class Login extends Component {
         currentLanguage: { L_LOGIN },
       },
     } = this.props;
-    console.log(twoFactorCode);
 
     return (
       <Container >

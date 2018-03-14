@@ -20,7 +20,6 @@ class Range extends Component {
       onChangeCustom,
     } = this.props;
     const value = get(reducer, id, 0);
-    console.log('RANGE VALUE: ', value);
     return (
       <FormControl component="fieldset">
         <FormLabel component="legend">{label}</FormLabel>

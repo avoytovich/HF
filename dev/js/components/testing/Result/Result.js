@@ -51,7 +51,6 @@ class Result extends Component {
       label,
       treatments,
     } = this.props;
-    console.log('rendered');
     return (
       <div className="testing-inner-container-long">
         <h4>Results</h4>

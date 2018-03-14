@@ -140,7 +140,6 @@ class TestNew extends Component {
                   id='q_lang.value'
                   style={{ width: "100%" }}
                   onChangeCustom={(e) => {
-                    console.log('sdfsdfsdfsdfsdfsdfsdfsdfsdfsdf');
                     onChange(e);
                     dispatchTestingPayloadWired({
                       changingQuestionStep: 0,

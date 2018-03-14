@@ -21,7 +21,6 @@ class SequenceTitle extends Component {
   componentDidMount() {
     const { title } = this.props.item;
     this.setState({ value: title });
-    console.log(this.props);
   }
 
   handleChange = (event) => this.setState({ value: event.target.value });
