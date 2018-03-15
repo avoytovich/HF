@@ -106,7 +106,7 @@ const router = (
               <Route path='packages'    component={(props) => <C.PackagesComponent   {...props}/>}/>
               <Route path='levelUps'    component={(props) => <C.LevelUpComponent    {...props}/>}/>
               <Route path='evaluations' component={(props) => <C.EvaluationComponent {...props}/>}/>
-              <Route path='exercises'   component={(props) => <C.ExercisesComponent  {...props}/>}/>
+              <Route path='exercises'   component={(props) => <C.Exercises {...props}/>}/>
 
               {/*<Route path='tests'               component={ TestsComponent } />*/}
               {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
@@ -136,8 +136,8 @@ const router = (
             <Route path='packages-create/:id' component={C.Package}/>
             <Route path='packages-create-new' component={C.Package}/>
 
-            <Route path='exercise-create/:id' component={C.CreateExerciseComponent}/>
-            <Route path='exercise-create-new' component={C.CreateExerciseComponent}/>
+            <Route path='exercise-create/:id' component={C.CreateExercise}/>
+            <Route path='exercise-create-new' component={C.CreateExercise}/>
 
             <Route path={PAGE.chat}      component={C.Chat} />
           </Route>

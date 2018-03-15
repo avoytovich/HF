@@ -167,9 +167,9 @@ class AssetsModal extends Component {
                       <span className="choose-sequence-item-sub-title"> Name: </span> {name || '-'}
                     </Typography>
 
-                    <Typography type="subheading">
-                      <span className="choose-sequence-item-sub-title"> Title: </span> {title || 'Title'}
-                    </Typography>
+                    {/*<Typography type="subheading">*/}
+                      {/*<span className="choose-sequence-item-sub-title"> Title: </span> {title || 'Title'}*/}
+                    {/*</Typography>*/}
 
                     <Typography type="caption" >
                       Uploaded { created }

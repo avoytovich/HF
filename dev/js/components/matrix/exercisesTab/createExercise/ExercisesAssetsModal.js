@@ -23,7 +23,7 @@ import Button                     from 'material-ui/Button';
 import TextField                  from 'material-ui/TextField';
 import Checkbox                   from 'material-ui/Checkbox';
 import moment from "moment";
-import { TIME_FORMAT }            from '../../../utils/constants';
+import { TIME_FORMAT }            from '../../../../utils';
 
 
 class ExercisesAssetsModal extends Component {

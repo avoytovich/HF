@@ -11,7 +11,7 @@ import DeactivateComponent      from '../matrix-crud/deactivateModal'
 import DeleteComponent          from '../matrix-crud/deleteModal';
 
 
-class ExercisesComponent extends Component {
+class Exercises extends Component {
   state = {
     selected: [],
     deactivateOpen: false,
@@ -89,4 +89,4 @@ const mapStateToProps = state => ({
   commonReducer: state.commonReducer
 });
 
-export default  connect(mapStateToProps)(ExercisesComponent);
+export default  connect(mapStateToProps)(Exercises);

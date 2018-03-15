@@ -24,7 +24,7 @@ import MatrixPreLoader              from '../../matrixPreloader';
 import { submitTabs }               from '../../../../utils';
 import { CreateItemNavButtons }     from '../../../common';
 
-class CreateExerciseComponent extends Component {
+class CreateExercise extends Component {
   state = {
     questionType   : 'exercise',
     titleLang      : 'en',
@@ -57,7 +57,18 @@ class CreateExerciseComponent extends Component {
 
 
   done = (value) => {
-    const { id, title, comments, text, instruction, information, name, files, errors, testing_mode } = value;
+    const {
+      id,
+      title,
+      comments,
+      text,
+      instruction,
+      information,
+      name,
+      files = { video: [], poster: [] },
+      errors,
+      testing_mode
+    } = value;
     const validValue = { title, comments, instruction, information, name };
     const result = {
       title,
@@ -67,7 +78,10 @@ class CreateExerciseComponent extends Component {
       instruction,
       name,
       testing_mode,
-      file_ids: files ? files.data.map(el => el && el.id) : []
+      files: [{
+        video_id: get(files, 'video', []).map(el => el && el.id)[0],
+        image_id: get(files, 'poster', []).map(el => el && el.id)[0],
+      }]
     };
 
     submitTabs(
@@ -116,12 +130,9 @@ class CreateExerciseComponent extends Component {
         exerciseState,
         questionAnswerLang,
       },
-      commonReducer: {
-        currentLanguage: {
-          L_CREATE_QUESTION
-        },
+      routeParams: {
+        id
       },
-      routeParams: { id },
       exerciseState: {
         name,
         comments,
@@ -259,13 +270,24 @@ class CreateExerciseComponent extends Component {
 
               </div>
 
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <AssetsList
+                  title='Video'
+                  list={files ? files.video : []}
+                  path="assets"
+                  domain="exercises"
+                  valuePath="exercise.files.video"
+                />
 
-              <AssetsList
-                list={ files ? files.data : []}
-                path="assets"
-                domain="exercises"
-                valuePath="exercise.files.data"
-              />
+                <AssetsList
+                  title="Poster"
+                  list={files ? files.poster : []}
+                  path="assets"
+                  domain="exercises"
+                  valuePath="exercise.files.poster"
+                />
+              </div>
+
 
             </BlockDivider>
           }
@@ -285,4 +307,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(CreateExerciseComponent);
+export default  connect(mapStateToProps, mapDispatchToProps)(CreateExercise);
