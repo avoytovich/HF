@@ -10,6 +10,11 @@ const initialState = {
   subscription_fee: '',
   cost_per_user:'',
   period:'',
+  pricing_groups: [
+    {key:'',
+     price:''
+  }
+  ],
   properties:{
     free_period: ''
   }

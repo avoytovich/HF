@@ -92,7 +92,6 @@ class PersonalCabinetBilling extends Component {
       .then(()=>{
         this.setState({showCreateTariffPlanModal:false});
         dispatchPricingGroupsPayloadWired (defaultPricingGroupData);
-        console.log('finished');
         browserHistory.push(`/tariffs/pricing-groups${location}`);
       });
 

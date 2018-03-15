@@ -104,7 +104,8 @@ export const api = {
   personalCabinetBilling : '/payments/customer/',
   twoFactorConfirm    :'/auth/tfa/login',
   pricingGroups       : '/pgroups/get',
-  createGroup        : '/pgroups/',
+  createGroup         : '/pgroups/',
+  getPricingGroups    :'/pgroups/all'
 };
 
 export const PAGE = {

@@ -17,7 +17,8 @@ import { getTariffPlansWired,
   dispatchTariffPlansPayloadWired,
   dispatchSimpleTariffPlansPayloadWired,
   tariffPlanCreate,
-  tariffPlanUpdate,}            from '../../actions'
+  tariffPlanUpdate,
+  getPricingGroupsWired}            from '../../actions'
 
 //UI
 import Paper                    from 'material-ui/Paper';
@@ -68,7 +69,7 @@ class PersonalCabinetBilling extends Component {
   };
 
   componentWillMount (){
-    getTariffPlansWired('getSimpleTariff');
+    getPricingGroupsWired('getPricingGroups')
   }
 
   _tableCellPropsFunc = (row, col) => {
@@ -143,7 +144,7 @@ class PersonalCabinetBilling extends Component {
         .then(()=>{
           this.setState({showCreateTariffPlanModal:false});
           dispatchTariffPlansPayloadWired (defaultTariffPlanData);
-          browserHistory.push(`/tariff-plans/${location}`);
+          browserHistory.push(`/tariffs/tariff-plans${location}`);
         });
     }
     else{
@@ -151,7 +152,7 @@ class PersonalCabinetBilling extends Component {
         .then(()=>{
           this.setState({showCreateTariffPlanModal:false});
           dispatchTariffPlansPayloadWired (defaultTariffPlanData);
-          browserHistory.push(`/tariff-plans/${location}`);
+          browserHistory.push(`/tariffs/tariff-plans${location}`);
         });
     }
   };
@@ -164,7 +165,6 @@ class PersonalCabinetBilling extends Component {
     const { tableHeader } = TARIFF_PLANS;
     const { selected, showActivateModal, showDeactivateModal, showDeleteModal, showCreateTariffPlanModal,
       showEditSimpleTariff} = this.state;
-    console.log(this.props);
     const querySelector = {...this.props.location.query};
     const url = `${domen['users']}${api['tariffPlans']}`;
 
