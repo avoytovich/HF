@@ -12,9 +12,8 @@ import DeactivateComponent      from '../users/user-modals/deactivateModal';
 import DeleteComponent          from '../users/user-modals/deleteModal';
 import CreatePricingGroup       from './tariff-modals/CreatePricingGroup';
 import Modal                    from '../common/Modal/Modal';
-import {dispatchTariffPlansPayloadWired,
-  tariffPlanCreate,
-  tariffPlanUpdate,}            from '../../actions'
+import {dispatchPricingGroupsPayloadWired,
+  pricingGroupCreate}            from '../../actions'
 
 //UI
 import Paper                    from 'material-ui/Paper';
@@ -24,17 +23,10 @@ import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeleteIcon               from 'material-ui-icons/Delete';
 
-const defaultTariffPlanData = {
-  errors: {},
-  name: '',
-  customer_type: '',
-  tariff_type: '',
-  subscription_fee: '',
-  cost_per_user:'',
-  period:'',
-  properties: {
-    free_period:''
-  }
+const defaultPricingGroupData = {
+  errors  : {},
+  title   :'',
+  key     :'',
 };
 
 const styles = theme => ({
@@ -63,15 +55,15 @@ class PersonalCabinetBilling extends Component {
   };
 
   _tableCellPropsFunc = (row, col) => {
-    if (col.key === 'title') {
-      return {
-        onClick: (e) => {
-          e.stopPropagation();
-          dispatchTariffPlansPayloadWired(row);
-          this.updateModal('showCreateTariffPlanModal', true);
-        }
-      }
-    }
+    // if (col.key === 'title') {
+    //   return {
+    //     onClick: (e) => {
+    //       e.stopPropagation();
+    //       dispatchPricingGroupsPayloadWired(row);
+    //       this.updateModal('showCreateTariffPlanModal', true);
+    //     }
+    //   }
+    // }
     return {};
   };
 
@@ -83,7 +75,7 @@ class PersonalCabinetBilling extends Component {
 
   _toggleDeleteModal = () => {
     this.setState({ showCreateTariffPlanModal: !this.state.showCreateTariffPlanModal });
-    dispatchTariffPlansPayloadWired (defaultTariffPlanData);
+    dispatchPricingGroupsPayloadWired (defaultPricingGroupData);
   };
 
   updateModal = (key, value) => {
@@ -92,34 +84,18 @@ class PersonalCabinetBilling extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
-  _createTariffPlan =() =>{
+  _createPricingGroup =() =>{
     let location = get(this.props,'location.search');
-    const free_period = parseInt(this.props.createTariffPlanReducer.properties.free_period)+ ' days';
-    const result = {
-      ...this.props.createTariffPlanReducer,...{tariff_type:this.props.createTariffPlanReducer.customer_type,
-        subscription_fee: +this.props.createTariffPlanReducer.subscription_fee,
-        cost_per_user: +this.props.createTariffPlanReducer.cost_per_user},
-        properties: {
-        free_period
-      }
-    };
+    const result = this.props.createPricingGroupReducer;
 
-    if (get(this.props,'createTariffPlanReducer.id')){
-      tariffPlanUpdate('users', 'createGroup',result, get(this.props,'createTariffPlanReducer.id') )
-        .then(()=>{
-          this.setState({showCreateTariffPlanModal:false});
-          dispatchTariffPlansPayloadWired (defaultTariffPlanData);
-          browserHistory.push(`/tariff-plans/${location}`);
-        });
-    }
-    else{
-      tariffPlanCreate('users', 'createGroup',result)
-        .then(()=>{
-          this.setState({showCreateTariffPlanModal:false});
-          dispatchTariffPlansPayloadWired (defaultTariffPlanData);
-          browserHistory.push(`/tariff-plans/${location}`);
-        });
-    }
+    pricingGroupCreate('users', 'createGroup', result)
+      .then(()=>{
+        this.setState({showCreateTariffPlanModal:false});
+        dispatchPricingGroupsPayloadWired (defaultPricingGroupData);
+        console.log('finished');
+        browserHistory.push(`/tariffs/pricing-groups${location}`);
+      });
+
   };
 
   render() {
@@ -234,7 +210,7 @@ class PersonalCabinetBilling extends Component {
             open={showCreateTariffPlanModal}
             title='Pricing Group'
             toggleModal={this._toggleDeleteModal}
-            onConfirmClick={() => this._createTariffPlan()}
+            onConfirmClick={this._createPricingGroup}
             CustomContent={() => <CreatePricingGroup />}
           />
 
@@ -248,8 +224,7 @@ class PersonalCabinetBilling extends Component {
 }
 
 const mapStateToProps = state => ({
-  createTariffPlanReducer: state.createTariffPlanReducer,
-  simpleTariffPlanReducer: state.simpleTariffPlanReducer,
+  createPricingGroupReducer: state.createPricingGroupReducer
 });
 
 export default  connect(mapStateToProps)(withStyles(styles)(PersonalCabinetBilling));

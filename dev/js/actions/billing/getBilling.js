@@ -21,6 +21,12 @@ export const tariffPlanCreate = (domenKey, apiKey, body) => {
   return Api.post(`${domenPath}${apiPath}`, body);
 };
 
+export const pricingGroupCreate = (domenKey, apiKey, body) => {
+  const domenPath = domen[domenKey],
+    apiPath   = api[apiKey];
+  return Api.post(`${domenPath}${apiPath}`, body);
+};
+
 export const tariffPlanUpdate = (domenKey, apiKey, body, id) => {
   const domenPath = domen[domenKey],
     apiPath   = api[apiKey];

@@ -2,17 +2,10 @@ import { createReducer } from '../../utils';
 import { T } from '../../actions';
 
 const initialState = {
-  actionType: T.CREATE_TARIFF_PLAN,
+  actionType: T.CREATE_PRICING_GROUPS,
   errors: {},
-  name: '',
-  customer_type: '',
-  tariff_type: '',
-  subscription_fee: '',
-  cost_per_user:'',
-  period:'',
-  properties:{
-    free_period: ''
-  }
+  title:'',
+  key:'',
 };
 
-export const createTariffPlanReducer = createReducer(initialState, T.CREATE_TARIFF_PLAN);
+export const createPricingGroupReducer = createReducer(initialState, T.CREATE_PRICING_GROUPS);

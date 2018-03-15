@@ -5,20 +5,20 @@ import Input from '../../common/Input/Input';
 class CreateSimpleUser extends Component {
 
   render() {
-    const {createTariffPlanReducer} = this.props;
+    const {createPricingGroupReducer} = this.props;
     return (
       <div className="create-tariff-plan-container">
           <Input
-            id='name'
-            reducer={createTariffPlanReducer}
+            id='title'
+            reducer={createPricingGroupReducer}
             label='Title'
             placeholder='Title'
             className="two-part"
           />
 
           <Input
-            id='subscription_fee'
-            reducer={createTariffPlanReducer}
+            id='key'
+            reducer={createPricingGroupReducer}
             label='Key'
             placeholder='Key'
             className="two-part"
@@ -29,7 +29,7 @@ class CreateSimpleUser extends Component {
 }
 
 const mapStateToProps = state => ({
-  createTariffPlanReducer: state.createTariffPlanReducer
+  createPricingGroupReducer: state.createPricingGroupReducer
 });
 
 export default connect(mapStateToProps)(CreateSimpleUser);

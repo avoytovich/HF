@@ -33,4 +33,5 @@ export const T = {
   CREATE_TARIFF_PLAN                        : "CREATE_TARIFF_PLAN",
   SIMPLE_TARIFF_PLAN                        : "SIMPLE_TARIFF_PLAN",
   BILLING_DETAILS                           : "BILLING_DETAILS",
+  CREATE_PRICING_GROUPS                     : "CREATE_PRICING_GROUPS",
 };
