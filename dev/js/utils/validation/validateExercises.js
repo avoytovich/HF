@@ -8,8 +8,8 @@ export const validateExercises = data => {
   let constraints = {
     [bCN('exercise', 'ordinal')]: {
       format: {
-        pattern: "^([0-9]+[\.][0-9]+)$",
-        message: "can only contain one dot and digits"
+        pattern: "^([0-9]+[\.][0-9]{1,1})$",
+        message: "can only contain one dot and digits (only one digit after dot)."
       }
     },
     // ordinal: {
