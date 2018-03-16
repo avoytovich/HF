@@ -4,6 +4,13 @@ import { bCN } from './index';
 const validateTariffPlanCreation = data => {
 
   let constraints = {
+    key:{
+      format: {
+        pattern: /[^\s]+/,
+        flags: "i",
+        message: "Enter key without space"
+      }
+    },
     cost_per_user:{
       format: {
         pattern: /^\$?\d+(,\d{3})*(\.\d*)?$/,
