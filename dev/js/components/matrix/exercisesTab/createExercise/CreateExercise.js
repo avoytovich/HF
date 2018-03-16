@@ -201,6 +201,19 @@ class CreateExercise extends Component {
                 <Grid container className="row-item">
                   <Grid item xs={12}>
                     <Input
+                      id='exercise.name'
+                      value={name}
+                      reducer={createDiagnosisQuestion}
+                      label={ 'Name*' }
+                      className="MUIControl"
+                      placeholder={}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container className="row-item">
+                  <Grid item xs={12}>
+                    <Input
                       id='exercise.comments'
                       value={comments}
                       reducer={createDiagnosisQuestion}

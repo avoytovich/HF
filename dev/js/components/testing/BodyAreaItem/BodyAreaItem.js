@@ -21,19 +21,19 @@ class BodyAreaItem extends Component {
       step,
       id,
     } = this.props;
-    const value = get(reducer, `vas_pain_level${id}`, 0);
+    const value = get(reducer, `q_pain_baseline_VAS${id}`, 0);
     return (
       <Grid container spacing={24}>
           <Grid item xs={6}>
             <C.Select
               options={diagnosConsts.painType}
-              id='vas_pain_type.value'
+              id='q_pain_baseline_pain_type.value'
               style={{ width: "100%" }}
               onChangeCustom={(e) => {
                 onChange(e);
                 dispatchTestingPayloadWired({
                   changingQuestionStep: step,
-                  'vas_pain_type.type': 'single',
+                  'q_pain_baseline_pain_type.type': 'single',
                 })
               }}
               reducer={reducer}
@@ -44,12 +44,12 @@ class BodyAreaItem extends Component {
             <div style={{ display: 'inline-flex', alignSelf: 'flex-end'  }}>
               <C.Range
                 reducer={reducer}
-                id='vas_pain_level.value'
+                id='q_pain_baseline_VAS.value'
                 onChangeCustom={(e) => {
                   onChange(e);
                   dispatchTestingPayloadWired({
                     changingQuestionStep: step,
-                    'vas_pain_level.type': 'single',
+                    'q_pain_baseline_VAS.type': 'single',
                   })
                 }}
                 label='Pain Level'

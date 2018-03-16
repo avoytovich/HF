@@ -99,35 +99,43 @@ class ExercisesAssetsModal extends Component {
         </Grid>
 
         <List>
-          {list.map((item, index) => {
-              const { id, title, created_at } = item;
+          {
+            list.map((item, index) => {
+              const {
+                id,
+                title,
+                created_at
+              } = item;
               const created = moment.unix(created_at).format('DD MM YYYY');
+              return (
+                <ListItem
+                  key={index}
+                  className={`choose-sequence-item`}
+                >
+                  <Grid container  className="choose-sequence-item-header">
+                    <Grid item xs={12}
+                          className="choose-sequence-item-title"
+                          onClick={(event) => this.onSelect(event, `${item.id}`)}>
+                      <Checkbox
+                        checked={selected.some(el => item.id === +el)}
+                        value={`${item.id}`}
+                      />
+                      <div style={{display: 'flex', flexDirection: 'column'}}>
+                        <Typography type="subheading">
+                          {item.name_origin || item.name_real || 'Title'}
+                        </Typography>
 
-            return <ListItem key={index}
-                       className={`choose-sequence-item`}>
+                        <Typography type="caption" >
+                          Uploaded { created }
+                        </Typography>
+                      </div>
 
-              <Grid container  className="choose-sequence-item-header">
-                <Grid item xs={12}
-                      className="choose-sequence-item-title"
-                      onClick={(event) => this.onSelect(event, `${item.id}`)}>
-                  <Checkbox
-                    checked={selected.some(el => item.id === +el)}
-                    value={`${item.id}`}
-                  />
-                  <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <Typography type="subheading">
-                      {item.name_origin || item.name_real || 'Title'}
-                    </Typography>
-
-                    <Typography type="caption" >
-                      Uploaded { created }
-                    </Typography>
-                  </div>
-
-                </Grid>
-              </Grid>
-
-            </ListItem>})}
+                    </Grid>
+                  </Grid>
+                </ListItem>
+              )
+            })
+          }
         </List>
 
       </Dialog>
