@@ -206,7 +206,7 @@ class CreateExercise extends Component {
                       reducer={createDiagnosisQuestion}
                       label={ 'Name*' }
                       className="MUIControl"
-                      placeholder={}
+                      placeholder={1.1}
                     />
                   </Grid>
                 </Grid>
