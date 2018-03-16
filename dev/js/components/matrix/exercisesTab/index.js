@@ -1,4 +1,4 @@
-import ExercisesComponent      from './exercises';
-import CreateExerciseComponent from './createExercise/createExercise';
+import Exercises    from './Exercises';
+import CreateExercise from './createExercise/CreateExercise';
 
-export { ExercisesComponent, CreateExerciseComponent };
+export { Exercises, CreateExercise };

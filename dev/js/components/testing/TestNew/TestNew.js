@@ -31,6 +31,8 @@ import {
 } from '../../../config';
 
 class TestNew extends Component {
+
+  // when first question are answered and testing is being created
   _prepareData = (data) => ({
     answers: pickBy(pick(data, pickKeys.testing), el => el.value),
     user_id: this.props.userReducer.user_id,
@@ -39,14 +41,15 @@ class TestNew extends Component {
     title  : data.title,
   });
 
+  // further answers (step second and next ones)
   _prepareDataForCheckQuestion = (data, step) => {
     let currentQKeysToSend = data.questions.filter(q => q.step == step).map(q => q.key);
     if (step === 0) {
       currentQKeysToSend = currentQKeysToSend.concat(pickKeys.testing);
     }
-    if (currentQKeysToSend.includes('vas_areas')) {
-      currentQKeysToSend.push(`vas_pain_level`);
-      currentQKeysToSend.push(`vas_pain_type`);
+    if (currentQKeysToSend.includes('q_human_model')) {
+      currentQKeysToSend.push(`q_pain_baseline_VAS`);
+      currentQKeysToSend.push(`q_pain_baseline_pain_type`);
     }
     return {
       answers: pickBy(pick(data, currentQKeysToSend), el => el.value),

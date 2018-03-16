@@ -2,6 +2,7 @@ import { browserHistory } from 'react-router';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import each from 'lodash/each';
+import map from 'lodash/map';
 
 import {
   Api,
@@ -30,21 +31,21 @@ const getAnswers = (answers, questions) => {
         set(questions, `${index}.${q.key}.step`, answers[answerKey].step);
       }
       // special case for vas - pain zones (a.k.a. body areas) - level
-      if (q.key.includes('vas_pain_level')) {
-        set(returnObj, 'vas_pain_level', answers[q.key].value);
+      if (q.key.includes('q_pain_baseline_VAS')) {
+        set(returnObj, 'q_pain_baseline_VAS', answers[q.key].value);
         // prevent to render pain level as separate question
         questions.splice(index, 1)
       }
       // special case for vas - pain zones (a.k.a. body areas) - type
-      if (q.key.includes('vas_pain_type')) {
-        set(returnObj, 'vas_pain_type', answers[q.key].value);
+      if (q.key.includes('q_pain_baseline_pain_type')) {
+        set(returnObj, 'q_pain_baseline_pain_type', answers[q.key].value);
         // prevent to render pain type as separate question
         questions.splice(index, 1)
       }
     });
 
     // special case for vas - pain zones (a.k.a. body areas) - set picked zones
-    if (answerKey === 'vas_pain_areas') {
+    if (answerKey === 'q_human_model') {
       set(returnObj, 'bodyAreasPicked', answers[answerKey].value);
     }
   }
@@ -70,9 +71,12 @@ export const getExistingTestWired = (testId) => getExistingTest(testId)
       title,
     } = get(resp, 'data.data', {});
 
-    dispatchTestingPayloadWired({ title, ...getAnswers(answers, questions) });
+    // have to map to array due to backend unpredictable behaviour
+    let questionsToArray = map(questions, q => q);
+
+    dispatchTestingPayloadWired({ title, ...getAnswers(answers, questionsToArray) });
     dispatchAddQuestionsAndCondWired({
-      questions,
+      questions: questionsToArray,
       conditions,
       step,
       id,

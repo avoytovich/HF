@@ -42,7 +42,8 @@ class AssetsList extends Component {
       valuePath,
       path,
       domain,
-      listValue
+      listValue,
+      assetsListConverter,
     } = this.props;
     const { chooseFiles } = this.state;
 
@@ -54,7 +55,8 @@ class AssetsList extends Component {
           [] :
       [];
 
-    return <div className="assets-list">
+    return (
+      <div className="assets-list">
 
         <Grid container>
           <Grid item xs={12}>
@@ -106,6 +108,7 @@ class AssetsList extends Component {
             {
               chooseFiles &&
               <AssetsModal
+                assetsListConverter={assetsListConverter}
                 open={ chooseFiles }
                 isSelected={ _list }
                 path={ path }
@@ -119,6 +122,7 @@ class AssetsList extends Component {
           </Grid>
         </Grid>
       </div>
+    )
   }
 }
 
@@ -127,7 +131,8 @@ AssetsList.defaultProps = {
   title       : 'Assets',
   list        : [],
   multiSelect : true,
-  listValue   : true
+  listValue   : true,
+  assetsListConverter: null,
 };
 
 AssetsList.propTypes = {
@@ -140,7 +145,8 @@ AssetsList.propTypes = {
   ]).isRequired,
   title       : PropTypes.string,
   multiSelect : PropTypes.bool,
-  listValue   : PropTypes.bool
+  listValue   : PropTypes.bool,
+  assetsListConverter: PropTypes.func,
 };
 
 const mapStateToProps = state => ({store: state});

@@ -140,7 +140,7 @@ const removeAnswer = (state, action) => {
 const setFullQuestion = (state, action) => {
   const { body, body: {
     areas, title, question, key, step, answer, rule, content_type, test_file,
-    packageLevels, testing, levelup_result, evaluation_result, properties
+    packageLevels, testing, levelup_result, evaluation_result, properties, service,
   }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
@@ -159,7 +159,8 @@ const setFullQuestion = (state, action) => {
       rules: Array.isArray(rule) ? rule: rule.and ? rule.and : [rule],
       [_type === 'multiple' ? 'single' : _type]: parseAnswers(answer),
       diagnostic_assets: test_file ||  [],
-      packageLevelsList: configPackageLevelList(packageLevels)
+      packageLevelsList: configPackageLevelList(packageLevels),
+      service
     };
 
   return Object.assign({}, state, _body);
@@ -245,7 +246,8 @@ const parseAnswers= (answer) => {
     };
   }
   else if (answer.subtype === 'range') {
-    const { values: {max, min} } = answer;
+    const answerObj = answer.values || answer;
+    const { max, min } = answerObj;
     return {
       from: min,
       to: max
@@ -256,6 +258,7 @@ const parseAnswers= (answer) => {
     return Object.keys(list).map(item => list[item]);
   }
 };
+
 
 const configArea = (areas) => {
   return areas.map(el => el && el.id);

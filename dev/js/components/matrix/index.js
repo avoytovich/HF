@@ -19,8 +19,8 @@ export {
 }                                from './evaluationsTab'
 
 export {
-  ExercisesComponent,
-  CreateExerciseComponent
+  Exercises,
+  CreateExercise
 }                                 from './exercisesTab';
 
 export {

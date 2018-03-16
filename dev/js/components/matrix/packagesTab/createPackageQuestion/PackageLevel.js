@@ -172,9 +172,19 @@ class PackageLevel extends Component {
           <Typography type="title">
             Exercises
           </Typography>
-          <Typography>
+          <Typography
+            style={{ marginTop: '10px' }}
+          >
             *total probability amount in position should be equal to 100.
           </Typography>
+          <Button
+            style={{ marginTop: '15px' }}
+            color="primary"
+            disabled={packageLevels.length <= 1}
+            onClick={() => this.deleteLevel(level, index)}
+          >
+            DELETE LEVEL
+          </Button>
           {/*{this.state.loading && <CircularProgress size={20}/>}*/}
         </Grid>
       </Grid>
@@ -206,14 +216,6 @@ class PackageLevel extends Component {
                   }
                 >
                   OPEN EXERCISES
-                </Button>
-
-                <Button
-                  color="primary"
-                  disabled={packageLevels.length <= 1}
-                  onClick={() => this.deleteLevel(level, index)}
-                >
-                  DELETE LEVEL
                 </Button>
 
 

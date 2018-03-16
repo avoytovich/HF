@@ -55,8 +55,8 @@ class CreateQuestionComponent extends Component {
 //          const keys = Object.keys(answer.values);
 //          const answerLang = keys.map(() => 'en');
 //          this.setState({answerLang})
-          this.setState({loading: false});
         }
+        this.setState({loading: false});
       });
     }
   }
@@ -201,9 +201,17 @@ class CreateQuestionComponent extends Component {
   render() {
     const {
       createDiagnosisQuestion,
-      createDiagnosisQuestion: { content_type, questionKey, testing },
-      routeParams: { id }
+      createDiagnosisQuestion: {
+        content_type,
+        questionKey,
+        testing,
+        service,
+      },
+      routeParams: {
+        id
+      }
     } = this.props;
+    console.log(service, content_type);
     return (
       <div id="create-question">
 
@@ -226,8 +234,9 @@ class CreateQuestionComponent extends Component {
                 left="1"
                 right="2"
               />
-              : content_type === 'vas' ?
+              : content_type === 'vas' || service ?
               <DiagnosisTypeVAS
+                service={service}
                 sequenceList={this.state.sequenceList}
               />
               :
@@ -243,7 +252,12 @@ class CreateQuestionComponent extends Component {
   }
 }
 
-const mapStateToProps    = state => ({createDiagnosisQuestion: state.createDiagnosisQuestion});
-const mapDispatchToProps = dispatch => bindActionCreators({dispatch}, dispatch);
+const mapStateToProps    = state => ({
+  createDiagnosisQuestion: state.createDiagnosisQuestion
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  dispatch,
+}, dispatch);
 
 export default  connect(mapStateToProps, mapDispatchToProps)(CreateQuestionComponent);

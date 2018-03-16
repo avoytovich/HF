@@ -110,6 +110,8 @@ class PackagePickedExercises extends Component  {
                  const {
                    id,
                    title,
+                   name,
+                   ordinal,
                    created_at
                  } = item;
 
@@ -126,20 +128,13 @@ class PackagePickedExercises extends Component  {
                  return (
                    <div key={index} className="package-level-exercises-item">
 
-                     <div className="exercises-information">
+                     <Typography type="subheading" className="title package-exercise-name">
+                       { ordinal || '-'} { name }
+                     </Typography>
 
-                       <Typography type="subheading" className="title">
-                         { title.en }
-                       </Typography>
-
-                       <Typography type="body2">
-                         Created { created }
-                       </Typography>
-
-                     </div>
-
-                     <div>
+                     <div style={{ width: '50px', paddingRight: '20px', flex: 3 }}>
                        <Input
+                         style={{ width: '100%'}}
                          type="number"
                          value={probability ? (probability * 100).toFixed(0) : probability}
                          id={`packageLevels.${level}.exercises.${index}.probability`}
@@ -149,14 +144,11 @@ class PackagePickedExercises extends Component  {
                        />
                      </div>
 
-                     <div className="delete-icon">
+                     <IconButton aria-label="Delete">
 
-                       <IconButton aria-label="Delete">
+                       <Delete onClick={() => this.handleDelete(id)} />
 
-                         <Delete onClick={() => this.handleDelete(id)} />
-
-                       </IconButton>
-                     </div>
+                     </IconButton>
                    </div>
                  )
                })

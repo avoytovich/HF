@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import each from 'lodash/each';
+import map from 'lodash/map';
 import set from 'lodash/set';
 import find from 'lodash/find';
 import remove from 'lodash/remove';
@@ -43,6 +44,7 @@ const testingBodyAres = (state, action) => {
 const testingAddQuestionsAndCond = (state, action) => {
   let questions = [...state.questions];
   let conditions = [...state.conditions];
+  let questionsFromBackToArray = [];
   let {
     step,
     id,
@@ -50,13 +52,30 @@ const testingAddQuestionsAndCond = (state, action) => {
     condition,
     treatments,
   } = action.payload;
+
+  // due to unpredictable changes on the backend
+  if (!Array.isArray(action.payload.questions)) {
+    questionsFromBackToArray = map(action.payload.questions, (q, key) => q);
+  } else {
+    questionsFromBackToArray = action.payload.questions
+  }
+
+  // add step property to incoming conditions - to know on which step
+  // each of them has come
   each(action.payload.conditions, (c, p) => c.step = step);
-  questions = questions.concat(action.payload.questions);
+
+  // concat existing questions with incoming ones from the backend
+  questions = questions.concat(questionsFromBackToArray);
+
+  // concat incoming conditions filtering out ones we already have
   each(action.payload.conditions, (val, prop) => {
     if (!find(conditions, ({ key }) => key === prop)) {
       conditions.push({ ...val, key: prop })
     }
   });
+
+  // when we're receiving result - need to increment step to fire change step subscription
+  // when changing some previous questions - to unblock testing and receive new result
   const finalStep = result_status ? +step + 1 : +step;
 
   return {

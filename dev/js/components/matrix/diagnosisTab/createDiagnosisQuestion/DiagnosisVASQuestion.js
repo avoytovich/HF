@@ -32,7 +32,7 @@ class DiagnosisVASQuestion extends Component {
       sequenceList,
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
-        questionTitle, area, question, questionKey, sequence, sequenceType, answerType, content_type
+        questionTitle, area, question, questionKey, sequence, sequenceType, answerType, content_type,
       }
     } = this.props;
 
@@ -95,15 +95,19 @@ class DiagnosisVASQuestion extends Component {
         />
 
         {/* Sequence */}
-        <SequenceBlock
-          domain="diagnostics"
-          path="sequenceList"
-          value={sequence}
-          valuePath="sequence"
-          typePath="sequenceType"
-          type={sequenceType}
-          list={sequenceList}
-        />
+        {
+          questionKey !==  'q_pain_baseline_pain_type' &&
+          questionKey !==  'q_pain_baseline_VAS' &&
+          <SequenceBlock
+            domain="diagnostics"
+            path="sequenceList"
+            value={sequence}
+            valuePath="sequence"
+            typePath="sequenceType"
+            type={sequenceType}
+            list={sequenceList}
+          />
+        }
       </div>
 
       <div></div>

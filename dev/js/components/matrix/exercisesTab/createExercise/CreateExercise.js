@@ -7,6 +7,7 @@ import { diagnosisQuestionCreate,
   clearCreateQuestion,
   updateQuestionCreate,
   getExerciseById,
+  dispatchMatrixPayloadWired,
 }                                   from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -15,16 +16,20 @@ import Button                       from 'material-ui/Button';
 import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../common/Input/Input';
 import Tabs, { Tab }                from 'material-ui/Tabs';
-import { get }                      from 'lodash';
+import get                          from 'lodash/get';
+import cloneDeep                    from 'lodash/cloneDeep';
 import {
   BlockDivider,
   AssetsList
 }                                   from '../../../common';
 import MatrixPreLoader              from '../../matrixPreloader';
-import { submitTabs }               from '../../../../utils';
+import {
+  submitTabs,
+  validateExercises,
+}                                   from '../../../../utils';
 import { CreateItemNavButtons }     from '../../../common';
 
-class CreateExerciseComponent extends Component {
+class CreateExercise extends Component {
   state = {
     questionType   : 'exercise',
     titleLang      : 'en',
@@ -55,19 +60,47 @@ class CreateExerciseComponent extends Component {
     clearCreateQuestion();
   }
 
-
   done = (value) => {
-    const { id, title, comments, text, instruction, information, name, files, errors, testing_mode } = value;
+    const {
+      id,
+      title,
+      comments,
+      text,
+      instruction,
+      information,
+      name,
+      files = [{ video: [], preview: [] }],
+      errors,
+      testing_mode,
+      ordinal,
+    } = value;
+
+    let {
+      isValid,
+      errors: ordinalError,
+    } = validateExercises({ exercise: { ordinal } });
+    dispatchMatrixPayloadWired({ errors: ordinalError });
+
+    if (!isValid) {
+      return
+    }
+
     const validValue = { title, comments, instruction, information, name };
+    const video   = get(files, '[0].video', { id : null });
+    const image   = get(files, '[0].preview', { id: null });
     const result = {
       title,
+      ordinal,
       comments,
       text: 'error',
       information,
       instruction,
       name,
       testing_mode,
-      file_ids: files ? files.data.map(el => el && el.id) : []
+      files: [{
+        video_id: video.id || video[0].id,
+        image_id: image.id || image[0].id,
+      }]
     };
 
     submitTabs(
@@ -108,6 +141,12 @@ class CreateExerciseComponent extends Component {
     updateCrateQuestionFields(filtered, `exercise.files.data`)
   };
 
+  _assetsListConverter = (list, filterKey) => {
+    let newList = cloneDeep(list);
+    return newList.filter(assets => assets.type === filterKey);
+  };
+
+
   render() {
     const {
       createDiagnosisQuestion,
@@ -116,12 +155,9 @@ class CreateExerciseComponent extends Component {
         exerciseState,
         questionAnswerLang,
       },
-      commonReducer: {
-        currentLanguage: {
-          L_CREATE_QUESTION
-        },
+      routeParams: {
+        id
       },
-      routeParams: { id },
       exerciseState: {
         name,
         comments,
@@ -171,6 +207,18 @@ class CreateExerciseComponent extends Component {
                     <Typography type="title">
                       Exercise
                     </Typography>
+                  </Grid>
+                </Grid>
+
+                <Grid container className="row-item">
+                  <Grid item xs={12}>
+                    <Input
+                      id='exercise.ordinal'
+                      reducer={createDiagnosisQuestion}
+                      label={ 'Exercise Number*' }
+                      className="MUIControl"
+                      placeholder={1.1}
+                    />
                   </Grid>
                 </Grid>
 
@@ -259,13 +307,26 @@ class CreateExerciseComponent extends Component {
 
               </div>
 
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <AssetsList
+                  assetsListConverter={list => this._assetsListConverter(list, 'video')}
+                  title='Video'
+                  list={get(files, '[0].video', [])}
+                  path="assets"
+                  domain="exercises"
+                  valuePath="exercise.files[0].video"
+                />
 
-              <AssetsList
-                list={ files ? files.data : []}
-                path="assets"
-                domain="exercises"
-                valuePath="exercise.files.data"
-              />
+                <AssetsList
+                  assetsListConverter={list => this._assetsListConverter(list, 'image')}
+                  title="Poster"
+                  list={get(files, '[0].preview', [])}
+                  path="assets"
+                  domain="exercises"
+                  valuePath="exercise.files[0].preview"
+                />
+              </div>
+
 
             </BlockDivider>
           }
@@ -285,4 +346,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(CreateExerciseComponent);
+export default  connect(mapStateToProps, mapDispatchToProps)(CreateExercise);

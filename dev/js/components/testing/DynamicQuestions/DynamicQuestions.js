@@ -14,8 +14,10 @@ import {
 import { pickKeys } from '../../../config'
 
 class DynamicQuestions extends Component {
-  _pickQuestion = (
-    {
+  _pickQuestion = (questionObj, i) => {
+
+    console.log(questionObj);
+    const {
       answer,
       answer: {
         type,
@@ -27,9 +29,7 @@ class DynamicQuestions extends Component {
       content_type,
       description,
       step,
-    },
-    i
-  ) => {
+    } = questionObj;
 
     const {
       testingReducer,
@@ -190,7 +190,10 @@ class DynamicQuestions extends Component {
         treatments = [],
       }
     } = this.props;
-    const questionToRender = questions.filter(q => !pickKeys.testing.find(key => key === q.key));
+
+    // filters out 0-level questions when they're coming from backend.
+    // keys of that questions can be found here - pickKeys.testing (see variable below)
+    const questionsToRender = questions.filter(q => !pickKeys.testing.find(key => key === q.key));
 
     return questions.length || result_status ?
       (
@@ -213,7 +216,7 @@ class DynamicQuestions extends Component {
                   Questions
                 </h2>
 
-                { this._renderQuestions(questionToRender) }
+                { this._renderQuestions(questionsToRender) }
 
               </div>
             </Grid>
