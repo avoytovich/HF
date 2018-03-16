@@ -7,6 +7,7 @@ import { diagnosisQuestionCreate,
   clearCreateQuestion,
   updateQuestionCreate,
   getExerciseById,
+  dispatchMatrixPayloadWired,
 }                                   from '../../../../actions';
 import { onChange }                 from '../../../../actions/common';
 import { AsyncCreatable }           from 'react-select';
@@ -22,7 +23,10 @@ import {
   AssetsList
 }                                   from '../../../common';
 import MatrixPreLoader              from '../../matrixPreloader';
-import { submitTabs }               from '../../../../utils';
+import {
+  submitTabs,
+  validateExercises,
+}                                   from '../../../../utils';
 import { CreateItemNavButtons }     from '../../../common';
 
 class CreateExercise extends Component {
@@ -70,6 +74,17 @@ class CreateExercise extends Component {
       testing_mode,
       ordinal,
     } = value;
+
+    let {
+      isValid,
+      errors: ordinalError,
+    } = validateExercises({ exercise: { ordinal } });
+    dispatchMatrixPayloadWired({ errors: ordinalError });
+
+    if (!isValid) {
+      return
+    }
+
     const validValue = { title, comments, instruction, information, name };
     const video   = get(files, '[0].video', { id : null });
     const image   = get(files, '[0].preview', { id: null });
@@ -130,6 +145,7 @@ class CreateExercise extends Component {
     let newList = cloneDeep(list);
     return newList.filter(assets => assets.type === filterKey);
   };
+
 
   render() {
     const {
@@ -198,7 +214,6 @@ class CreateExercise extends Component {
                   <Grid item xs={12}>
                     <Input
                       id='exercise.ordinal'
-                      type="number"
                       reducer={createDiagnosisQuestion}
                       label={ 'Exercise Number*' }
                       className="MUIControl"

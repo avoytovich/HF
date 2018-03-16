@@ -15,6 +15,7 @@ export validateUsersCreation  from './validateUserCreation';
 export validSimpleUsersCreation  from './validateUserCreation';
 export validateBodyArea  from './validateBodyArea';
 export { validateMatrix }  from './validateMatrix';
+export { validateExercises }  from './validateExercises';
 
 export const validate = {
   [T.AUTH]            : validSignup,
