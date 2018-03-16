@@ -111,6 +111,7 @@ class PackagePickedExercises extends Component  {
                    id,
                    title,
                    name,
+                   ordinal,
                    created_at
                  } = item;
 
@@ -128,7 +129,7 @@ class PackagePickedExercises extends Component  {
                    <div key={index} className="package-level-exercises-item">
 
                      <Typography type="subheading" className="title package-exercise-name">
-                       { name }
+                       { ordinal || '-'} { name }
                      </Typography>
 
                      <div style={{ width: '50px', paddingRight: '20px', flex: 3 }}>
