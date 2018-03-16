@@ -5,10 +5,10 @@ const validateTariffPlanCreation = data => {
 
   let constraints = {
     cost_per_user:{
-      numericality: {
-        onlyInteger: true,
-        greaterThan: 0,
-        message: "Price should be a number",
+      format: {
+        pattern: /^\$?\d+(,\d{3})*(\.\d*)?$/,
+        flags: "i",
+        message: "Cost should be a number"
       }
     },
     subscription_fee:{
