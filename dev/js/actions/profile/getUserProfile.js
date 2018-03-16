@@ -15,3 +15,8 @@ export const getProfileWired = (id, url) => getProfile(id, url)
   .then(response => {
     dispatchProfilePayloadWired(get(response,'data.data', {}));
   });
+
+export const getDiagnosticByTherapyWired = (url, userId) => Api.get(`${domen.exercises}/${api[url]}${userId}`)
+  .then(response => {
+    dispatchProfilePayloadWired(get(response,'data', {}));
+  });

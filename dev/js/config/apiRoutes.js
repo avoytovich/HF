@@ -105,7 +105,9 @@ export const api = {
   twoFactorConfirm    :'/auth/tfa/login',
   pricingGroups       : '/pgroups/get',
   createGroup         : '/pgroups/',
-  getPricingGroups    :'/pgroups/all'
+  getPricingGroups    :'/pgroups/all',
+  updateUserPricingGroup    :'/pgroups/user/',
+  getDiagnosticByTherapy: '/therapy/get/user/'
 };
 
 export const PAGE = {

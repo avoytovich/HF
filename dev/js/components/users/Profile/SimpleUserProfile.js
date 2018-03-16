@@ -4,9 +4,10 @@ import { browserHistory }       from 'react-router'
 import Paper                    from 'material-ui/Paper';
 import Grid                     from 'material-ui/Grid';
 import { withStyles }           from 'material-ui/styles';
-import  get                     from 'lodash/get';
-import  map                     from 'lodash/map';
-import  split                   from 'lodash/split';
+import get                      from 'lodash/get';
+import map                      from 'lodash/map';
+import split                    from 'lodash/split';
+import pickBy                   from 'lodash/pickBy';
 import replace                  from 'lodash/replace';
 import Modal                    from '../../common/Modal/Modal';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal'
@@ -18,7 +19,10 @@ import {
   getProfileWired,
   activateUser,
   deleteUser,
-  userUpdate} from '../../../actions'
+  userUpdate,
+  userUpdatePricingGroup,
+  getDiagnosticByTherapyWired,
+  getPricingGroupsWired}        from '../../../actions'
 
 import moment                   from 'moment';
 
@@ -49,7 +53,8 @@ const mainInformation = [
   {title:'Email', path: 'email'},
   {title:'Country', path: 'country'},
   {title:'City', path: 'city'},
-  {title:'Language', path: 'language'}
+  {title:'Language', path: 'language'},
+  {title:'Pricing group', path: 'pricing_group'}
 ];
 
 class Profile extends Component {
@@ -68,6 +73,8 @@ class Profile extends Component {
 
   componentWillMount (){
     getProfileWired(this.props.params.userId, 'users');
+    getPricingGroupsWired('getPricingGroups');
+    getDiagnosticByTherapyWired('getDiagnosticByTherapy' , this.props.params.userId);
   }
 
   _renderItem =(el, index, simpleUserProfileReducer)=>{
@@ -77,7 +84,20 @@ class Profile extends Component {
           {el.title}
         </div>
         <div className = 'profile-paper-data-info'>
-          {get(simpleUserProfileReducer, el.path,'-')}
+          {get(simpleUserProfileReducer, el.path, '-') || '-'}
+        </div>
+      </div>
+    )
+  };
+
+  _renderDiagnosticItem =(el, index)=>{
+    return (
+      <div className = 'profile-paper-data' key={el.diagnostic_id}>
+        <div className = 'profile-paper-data-title'>
+          Diagnostic
+        </div>
+        <div className = 'profile-paper-data-info'>
+          {el.title || '-'}
         </div>
       </div>
     )
@@ -85,10 +105,14 @@ class Profile extends Component {
 
   _renderSwitcher = () => {
     if(this.props.simpleUserProfileReducer.confirmed_at){
-      return(<Switch label={this.props.simpleUserProfileReducer.deactivated_at ? 'Suspended':'Active'}
-                     checked={!this.props.simpleUserProfileReducer.deactivated_at}
-                     labelClassName={'switch-label'}
-                     onChange={this._onSwitchChange}/>)
+      return(
+        <Switch
+          label={this.props.simpleUserProfileReducer.deactivated_at ? 'Suspended':'Active'}
+          checked={!this.props.simpleUserProfileReducer.deactivated_at}
+          labelClassName={'switch-label'}
+          onChange={this._onSwitchChange}
+        />
+      )
     }
     return 'Not Confirmed'
   };
@@ -126,11 +150,20 @@ class Profile extends Component {
   };
 
   _editSimpleUser= ()=>{
-    userUpdate('users', 'userProfile', this.props.params.userId, this.props.simpleUserProfileReducer)
-      .then(() => this._toggleEditSimpleUserModal());
+    const key = get(this.props, 'simpleUserProfileReducer.pricing_group');
+    const result = pickBy(this.props.simpleUserProfileReducer, function(value, key) {
+      return value ? value : '';
+    });
+    userUpdate('users', 'userProfile', this.props.params.userId, result)
+      .then(()=>{
+      userUpdatePricingGroup('users', 'updateUserPricingGroup', this.props.params.userId, {key})
+        .then(() => this._toggleEditSimpleUserModal());
+    });
   };
 
   render() {
+    const diagnosticList = get(this.props,'simpleUserProfileReducer.data') || [];
+    console.log(diagnosticList);
     const {showEditSimpleUserModal, showDeleteUserModal} = this.state;
     const {
       classes,
@@ -201,7 +234,16 @@ class Profile extends Component {
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6} className = 'information-block'>
-
+          {diagnosticList.length>0?
+            (<Paper className={classes.paper}>
+              <div className = 'profile-paper-container'>
+                <div className = 'profile-paper-data-container'>
+                  {map(diagnosticList, (el,index) => this._renderDiagnosticItem(el,index))}
+                </div>
+                <div className="profile-paper-hr"/>
+              </div>
+            </Paper>):''
+          }
         </Grid>
       </Grid>
 
