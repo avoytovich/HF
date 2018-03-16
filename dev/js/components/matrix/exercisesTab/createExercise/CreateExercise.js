@@ -15,7 +15,8 @@ import Button                       from 'material-ui/Button';
 import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../common/Input/Input';
 import Tabs, { Tab }                from 'material-ui/Tabs';
-import { get }                      from 'lodash';
+import get                          from 'lodash/get';
+import cloneDeep                    from 'lodash/cloneDeep';
 import {
   BlockDivider,
   AssetsList
@@ -55,7 +56,6 @@ class CreateExercise extends Component {
     clearCreateQuestion();
   }
 
-
   done = (value) => {
     const {
       id,
@@ -65,13 +65,17 @@ class CreateExercise extends Component {
       instruction,
       information,
       name,
-      files = { video: [], poster: [] },
+      files = [{ video: [], preview: [] }],
       errors,
-      testing_mode
+      testing_mode,
+      ordinal,
     } = value;
     const validValue = { title, comments, instruction, information, name };
+    const video   = get(files, '[0].video', { id : null });
+    const image   = get(files, '[0].preview', { id: null });
     const result = {
       title,
+      ordinal,
       comments,
       text: 'error',
       information,
@@ -79,8 +83,8 @@ class CreateExercise extends Component {
       name,
       testing_mode,
       files: [{
-        video_id: get(files, 'video', []).map(el => el && el.id)[0],
-        image_id: get(files, 'poster', []).map(el => el && el.id)[0],
+        video_id: video.id || video[0].id,
+        image_id: image.id || image[0].id,
       }]
     };
 
@@ -120,6 +124,11 @@ class CreateExercise extends Component {
   handleDelete = (ID) =>  {
     const filtered = get(this.props.exerciseState, `files.data`).filter(el =>  el && el.id != ID);
     updateCrateQuestionFields(filtered, `exercise.files.data`)
+  };
+
+  _assetsListConverter = (list, filterKey) => {
+    let newList = cloneDeep(list);
+    return newList.filter(assets => assets.type === filterKey);
   };
 
   render() {
@@ -188,12 +197,12 @@ class CreateExercise extends Component {
                 <Grid container className="row-item">
                   <Grid item xs={12}>
                     <Input
-                      id='exercise.name'
-                      value={name}
+                      id='exercise.ordinal'
+                      type="number"
                       reducer={createDiagnosisQuestion}
-                      label={ 'Name*' }
+                      label={ 'Exercise Number*' }
                       className="MUIControl"
-                      placeholder={ 'Notes' }
+                      placeholder={1.1}
                     />
                   </Grid>
                 </Grid>
@@ -206,7 +215,7 @@ class CreateExercise extends Component {
                       reducer={createDiagnosisQuestion}
                       label={ 'Name*' }
                       className="MUIControl"
-                      placeholder={1.1}
+                      placeholder={ 'Notes' }
                     />
                   </Grid>
                 </Grid>
@@ -285,19 +294,21 @@ class CreateExercise extends Component {
 
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <AssetsList
+                  assetsListConverter={list => this._assetsListConverter(list, 'video')}
                   title='Video'
-                  list={files ? files.video : []}
+                  list={files ? files[0].video : []}
                   path="assets"
                   domain="exercises"
-                  valuePath="exercise.files.video"
+                  valuePath="exercise.files[0].video"
                 />
 
                 <AssetsList
+                  assetsListConverter={list => this._assetsListConverter(list, 'image')}
                   title="Poster"
-                  list={files ? files.poster : []}
+                  list={files ? files[0].preview : []}
                   path="assets"
                   domain="exercises"
-                  valuePath="exercise.files.poster"
+                  valuePath="exercise.files[0].preview"
                 />
               </div>
 

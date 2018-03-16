@@ -41,8 +41,10 @@ class AssetsModal extends Component {
 
   componentDidMount() {
     const selected = this.props.isSelected.map(el => el && el.id);
+    const { assetsListConverter } = this.props;
 
     getExercises(this.props.domain, this.props.path, this.state.per_page)
+      .then(list => assetsListConverter ? assetsListConverter(list) : list)
       .then(list => this.setState({list, selected}));
   }
 
@@ -142,52 +144,61 @@ class AssetsModal extends Component {
           </Grid>
         </Grid>
 
-        <List>
-          {list.map((item, index) => {
-            const { id, name, created_at, title } = item,
+        <div className="assets-modal-content-scrollable">
+          <List>
+            {
+              list.map((item, index) => {
+                const { id, name, created_at, title } = item,
                   created = moment.unix(created_at).format(TIME_FORMAT_DOTS),
                   checked = selected.some(el => id === +el),
                   disabled = !!selected.length && !multiSelect && !checked;
 
+                return (
+                  <ListItem
+                    key={index}
+                    className='choose-sequence-item'
+                  >
+                    <Grid container  className="choose-sequence-item-header">
+                      <Grid item xs={12}
+                            className="choose-sequence-item-title"
+                            onClick={(event) => !disabled && this.onSelect(event, selected, `${id}`)}>
+                        <Checkbox
+                          checked={checked}
+                          value={`${id}`}
+                          disabled={disabled}
+                        />
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
+                          <Typography type="subheading">
+                            <span className="choose-sequence-item-sub-title"> Name: </span> {name || '-'}
+                          </Typography>
 
-            return <ListItem key={index}
-                             className='choose-sequence-item'>
+                          {/*<Typography type="subheading">*/}
+                          {/*<span className="choose-sequence-item-sub-title"> Title: </span> {title || 'Title'}*/}
+                          {/*</Typography>*/}
 
-              <Grid container  className="choose-sequence-item-header">
-                <Grid item xs={12}
-                      className="choose-sequence-item-title"
-                      onClick={(event) => !disabled && this.onSelect(event, selected, `${id}`)}>
-                  <Checkbox
-                    checked={checked}
-                    value={`${id}`}
-                    disabled={disabled}
-                  />
-                  <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <Typography type="subheading">
-                      <span className="choose-sequence-item-sub-title"> Name: </span> {name || '-'}
-                    </Typography>
+                          <Typography type="caption" >
+                            Uploaded { created }
+                          </Typography>
+                        </div>
 
-                    {/*<Typography type="subheading">*/}
-                      {/*<span className="choose-sequence-item-sub-title"> Title: </span> {title || 'Title'}*/}
-                    {/*</Typography>*/}
+                      </Grid>
+                    </Grid>
 
-                    <Typography type="caption" >
-                      Uploaded { created }
-                    </Typography>
-                  </div>
+                  </ListItem>
+                )
+              })
+            }
+          </List>
+          {showLoadMore?
+            <div className='load-more-assets-button'
+                 onClick={this._loadMoreFunction}>
+              {'Load more'}
+            </div>:
+            ''
+          }
+        </div>
 
-                </Grid>
-              </Grid>
 
-            </ListItem>})}
-        </List>
-        {showLoadMore?
-          <div className='load-more-assets-button'
-                    onClick={this._loadMoreFunction}>
-                    {'Load more'}
-          </div>:
-          ''
-        }
 
       </Dialog>
     );
@@ -212,6 +223,7 @@ AssetsModal.propTypes = {
   multiSelect : PropTypes.bool,
   listValue   : PropTypes.bool,
   title       : PropTypes.string,
+  assetsListConverter: PropTypes.func,
 };
 
 
