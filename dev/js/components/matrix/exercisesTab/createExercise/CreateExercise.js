@@ -296,7 +296,7 @@ class CreateExercise extends Component {
                 <AssetsList
                   assetsListConverter={list => this._assetsListConverter(list, 'video')}
                   title='Video'
-                  list={files ? files[0].video : []}
+                  list={get(files, '[0].video', [])}
                   path="assets"
                   domain="exercises"
                   valuePath="exercise.files[0].video"
@@ -305,7 +305,7 @@ class CreateExercise extends Component {
                 <AssetsList
                   assetsListConverter={list => this._assetsListConverter(list, 'image')}
                   title="Poster"
-                  list={files ? files[0].preview : []}
+                  list={get(files, '[0].preview', [])}
                   path="assets"
                   domain="exercises"
                   valuePath="exercise.files[0].preview"
