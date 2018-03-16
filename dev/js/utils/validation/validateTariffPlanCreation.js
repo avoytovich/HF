@@ -1,4 +1,5 @@
 import validator from './validator';
+import { bCN } from './index';
 
 const validateTariffPlanCreation = data => {
 
@@ -11,10 +12,17 @@ const validateTariffPlanCreation = data => {
       }
     },
     subscription_fee:{
-      numericality: {
-        onlyInteger: true,
-        greaterThan: 0,
-        message: "Cost should be a number",
+      format: {
+        pattern: /^\$?\d+(,\d{3})*(\.\d*)?$/,
+        flags: "i",
+        message: "Cost should be a number"
+      }
+    },
+    [bCN('pricing_groups','price')]: {
+      format: {
+        pattern: /^\$?\d+(,\d{3})*(\.\d*)?$/,
+        flags: "i",
+        message: "Cost should be a number"
       }
     },
   };

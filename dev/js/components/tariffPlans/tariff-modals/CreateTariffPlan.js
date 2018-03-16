@@ -101,23 +101,21 @@ class CreateSimpleUser extends Component {
 
         {map(pricing_groups, (el,index) => {
           return(
-
             <div key={index} className="create-tariff-plan-container">
-            <Select
-          options={pricingGroupsList}
-          id={`pricing_groups[${index}].key`}
-          reducer={createTariffPlanReducer}
-          label='Type'
-          className="two-part"
-            />
-
-            <Input
-          id={`pricing_groups[${index}].price`}
-          reducer={createTariffPlanReducer}
-          label='Cost/User, $'
-          placeholder='Cost/User, $'
-          className="two-part"
-            />
+              <Select
+                options={pricingGroupsList}
+                id={`pricing_groups.${index}.key`}
+                reducer={createTariffPlanReducer}
+                label='Type'
+                className="two-part"
+              />
+              <Input
+                id={`pricing_groups.${index}.price`}
+                reducer={createTariffPlanReducer}
+                label='Cost/User, $'
+                placeholder='Cost/User, $'
+                className="two-part"
+              />
               <DeleteIcon onClick = {()=>this._deletePricingGroup(index, createTariffPlanReducer.pricing_groups)}/>
             </div>
           )

@@ -12,8 +12,8 @@ const initialState = {
   period:'',
   pricing_groups: [
     {key:'',
-     price:''
-  }
+     price:'',
+    }
   ],
   properties:{
     free_period: ''
