@@ -15,8 +15,6 @@ import { pickKeys } from '../../../config'
 
 class DynamicQuestions extends Component {
   _pickQuestion = (questionObj, i) => {
-
-    console.log(questionObj);
     const {
       answer,
       answer: {
