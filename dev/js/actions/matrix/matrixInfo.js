@@ -81,7 +81,6 @@ export const activateCustomer = (domenKey, apiKey, ids) => {
 };
 
 export const activateUser = (domenKey, apiKey, ids, value) => {
-  console.log(ids);
   const domenPath = domen[domenKey],
     apiPath   = api[apiKey],
     apiList   = ids.map(item => Api.post(`${domenPath}${apiPath}${item.user_id||item.id ||item.key}/${value}`));

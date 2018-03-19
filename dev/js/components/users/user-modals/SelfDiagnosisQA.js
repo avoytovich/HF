@@ -38,14 +38,14 @@ class SelfDiagnosisQA extends Component {
 
       <DialogContent>
           {
-            map(questionsList, function(el) {
-              return (
-                <div key={el.key} className="self-diagnosis-item">
-                  <div className="self-diagnosis-item-question">{el.question.en}</div>
-                  <div>{get(answers, `${el.key}.value`)}</div>
-                </div>
-              )
-            })
+          map(questionsList, function(el) {
+          return (
+            <div key={el.key} className="self-diagnosis-item">
+              <div className="self-diagnosis-item-question">{el.question.en}</div>
+               <div>{get(el.answer.values, `${ get(answers, `${el.key}.value`) }.en`) || get(answers, `${el.key}.value`)}</div>
+            </div>
+            )
+          })
           }
       </DialogContent>
 
