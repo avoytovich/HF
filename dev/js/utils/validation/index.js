@@ -27,5 +27,6 @@ export const validate = {
   [T.CREATE_QUESTION] : validateMatrix,
   [PROFILE]           : validSimpleUsersCreation,
   [T.CREATE_TARIFF_PLAN]:validateTariffPlanCreation,
+  [T.CREATE_PRICING_GROUPS]:validateTariffPlanCreation,
   [T.SIMPLE_TARIFF_PLAN]:validateTariffPlanCreation,
 };

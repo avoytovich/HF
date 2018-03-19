@@ -1,20 +1,35 @@
 import validator from './validator';
+import { bCN } from './index';
 
 const validateTariffPlanCreation = data => {
 
   let constraints = {
+    key:{
+      format: {
+        pattern: /[^\s]+/,
+        flags: "i",
+        message: "Enter key without space"
+      }
+    },
     cost_per_user:{
-      numericality: {
-        onlyInteger: true,
-        greaterThan: 0,
-        message: "Price should be a number",
+      format: {
+        pattern: /^\$?\d+(,\d{3})*(\.\d*)?$/,
+        flags: "i",
+        message: "Cost should be a number"
       }
     },
     subscription_fee:{
-      numericality: {
-        onlyInteger: true,
-        greaterThan: 0,
-        message: "Cost should be a number",
+      format: {
+        pattern: /^\$?\d+(,\d{3})*(\.\d*)?$/,
+        flags: "i",
+        message: "Cost should be a number"
+      }
+    },
+    [bCN('pricing_groups','price')]: {
+      format: {
+        pattern: /^\$?\d+(,\d{3})*(\.\d*)?$/,
+        flags: "i",
+        message: "Cost should be a number"
       }
     },
   };

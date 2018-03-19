@@ -283,6 +283,16 @@ export const TARIFF_PLANS = {
   ]
 };
 
+export const PRICING_GROUPS = {
+  key: 'conditions',
+  title: 'conditionsTab',
+  tableHeader: [
+    { title: 'Title',  key: 'title',           className: 'left'},
+    { title: 'Key',    key: 'key',  className: 'left'},
+    { title: 'Status', key: 'active', type:'pricing_group_status', className: 'center'},
+    ]
+};
+
 export const BILLING_HISTORY = {
   key: 'conditions',
   title: 'conditionsTab',

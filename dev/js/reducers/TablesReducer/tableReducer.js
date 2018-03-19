@@ -147,6 +147,12 @@ const initialState = {
       ]
     },
     {
+      name: 'pricingGroups',
+      changes: [
+        { path: 'sortOptional.orderBy', value: 'title' }
+      ]
+    },
+    {
       name: 'personalCabinetBilling',
       changes: [
         { path: 'sortOptional.orderBy', value: 'amount' }
