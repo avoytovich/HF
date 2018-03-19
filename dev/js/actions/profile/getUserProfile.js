@@ -20,3 +20,8 @@ export const getDiagnosticByTherapyWired = (url, userId) => Api.get(`${domen.exe
   .then(response => {
     dispatchProfilePayloadWired(get(response,'data', {}));
   });
+
+export const getDiagnosticByDiagnosticIdWired = (diagnosticId) => Api.post(`${domen.diagnostics}/diagnostics/session/${diagnosticId}/answers`)
+  .then(response => {
+    dispatchProfilePayloadWired(get(response,'data.data.result', {}));
+  });

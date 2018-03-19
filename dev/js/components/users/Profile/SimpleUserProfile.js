@@ -12,6 +12,7 @@ import replace                  from 'lodash/replace';
 import Modal                    from '../../common/Modal/Modal';
 import DeactivateComponent      from '../../common/Modal/DeactivateModal'
 import EditSimpleUser           from '../CreateUser/EditSimpleUser';
+import SelfDiagnosisQA          from '../user-modals/SelfDiagnosisQA'
 import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
 import EditIcon                 from 'material-ui-icons/Edit';
 import { Switch }               from '../../common/index';
@@ -22,6 +23,7 @@ import {
   userUpdate,
   userUpdatePricingGroup,
   getDiagnosticByTherapyWired,
+  getDiagnosticByDiagnosticIdWired,
   getPricingGroupsWired}        from '../../../actions'
 
 import moment                   from 'moment';
@@ -62,6 +64,7 @@ class Profile extends Component {
   state = {
     showEditSimpleUserModal: false,
     showDeleteUserModal: false,
+    showSelfDiagnosisQAModal: false,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -92,7 +95,7 @@ class Profile extends Component {
 
   _renderDiagnosticItem =(el, index)=>{
     return (
-      <div className = 'profile-paper-data' key={el.diagnostic_id}>
+      <div className = 'profile-paper-data' key={el.diagnostic_id} onClick={()=>this._openSelfDiagnosisQA(el.diagnostic_id)}>
         <div className = 'profile-paper-data-title'>
           Diagnostic
         </div>
@@ -125,6 +128,7 @@ class Profile extends Component {
 
   _toggleEditSimpleUserModal = () => this.setState({ showEditSimpleUserModal: !this.state.showEditSimpleUserModal });
 
+  _toggleSelfDiagnosisQAModal = () => this.setState({ showSelfDiagnosisQAModal: !this.state.showSelfDiagnosisQAModal });
 
   _toggleDeleteUserModal = () => this.setState({ showDeleteUserModal: !this.state.showDeleteUserModal });
 
@@ -161,10 +165,14 @@ class Profile extends Component {
     });
   };
 
+  _openSelfDiagnosisQA = (diagnosticId) =>{
+    const answers = getDiagnosticByDiagnosticIdWired(diagnosticId);
+    this._toggleSelfDiagnosisQAModal();
+  };
+
   render() {
     const diagnosticList = get(this.props,'simpleUserProfileReducer.data') || [];
-    console.log(diagnosticList);
-    const {showEditSimpleUserModal, showDeleteUserModal} = this.state;
+    const { showEditSimpleUserModal, showDeleteUserModal, showSelfDiagnosisQAModal } = this.state;
     const {
       classes,
       simpleUserProfileReducer
@@ -269,6 +277,12 @@ class Profile extends Component {
         toggleModal={this._toggleEditSimpleUserModal}
         onConfirmClick={() => this._editSimpleUser()}
         CustomContent={() => <EditSimpleUser />}
+      />
+
+      <SelfDiagnosisQA
+        deactivateOpen={showSelfDiagnosisQAModal}
+        open={this._toggleSelfDiagnosisQAModal}
+        itemKey="user_id"
       />
 
     </div>
