@@ -44,7 +44,7 @@ const styles = theme => ({
 
 });
 
-class PersonalCabinetBilling extends Component {
+class PricingGroups extends Component {
 
   state = {
     selected: [],
@@ -55,15 +55,6 @@ class PersonalCabinetBilling extends Component {
   };
 
   _tableCellPropsFunc = (row, col) => {
-    // if (col.key === 'title') {
-    //   return {
-    //     onClick: (e) => {
-    //       e.stopPropagation();
-    //       dispatchPricingGroupsPayloadWired(row);
-    //       this.updateModal('showCreateTariffPlanModal', true);
-    //     }
-    //   }
-    // }
     return {};
   };
 
@@ -226,4 +217,4 @@ const mapStateToProps = state => ({
   createPricingGroupReducer: state.createPricingGroupReducer
 });
 
-export default  connect(mapStateToProps)(withStyles(styles)(PersonalCabinetBilling));
+export default  connect(mapStateToProps)(withStyles(styles)(PricingGroups));

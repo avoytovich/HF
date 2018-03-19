@@ -62,7 +62,7 @@ const styles = theme => ({
 
 });
 
-class PersonalCabinetBilling extends Component {
+class TariffPlans extends Component {
 
   state = {
     selected: [],
@@ -296,4 +296,4 @@ const mapStateToProps = state => ({
   simpleTariffPlanReducer: state.simpleTariffPlanReducer,
 });
 
-export default  connect(mapStateToProps)(withStyles(styles)(PersonalCabinetBilling));
+export default  connect(mapStateToProps)(withStyles(styles)(TariffPlans));

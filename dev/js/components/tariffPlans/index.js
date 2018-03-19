@@ -2,8 +2,6 @@ import React, { Component }     from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
 import AppBar from 'material-ui/AppBar';
-import TariffPlans              from './TariffPlans';
-import PricingGroups            from './PricingGroups'
 
 import Tabs, { Tab } from 'material-ui/Tabs';
 
@@ -43,8 +41,6 @@ class TariffPlansTab extends Component {
   };
 
   render() {
-    const querySelector = {...this.props.location};
-
     return (
       <div id="matrix-setup">
         <AppBar position="static" color="default">
