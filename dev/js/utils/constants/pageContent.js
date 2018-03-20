@@ -274,7 +274,7 @@ export const TARIFF_PLANS = {
   title: 'conditionsTab',
   tableHeader: [
     { title: 'Title',          key: 'name',          className: 'left'},
-    { title: 'Type',          key: 'customer_type',          className: 'left'},
+    { title: 'Type',          key: 'customer_type',          className: 'left', type: 'customer_type'} ,
     { title: 'Cost/User, $',          key: 'cost_per_user',    className: 'left'},
     { title: 'Period',          key: 'period',          className: 'left'},
     { title: 'Cost/Period, $',          key: 'subscription_fee',          className: 'left'},

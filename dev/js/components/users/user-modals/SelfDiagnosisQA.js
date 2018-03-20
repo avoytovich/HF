@@ -17,6 +17,9 @@ class SelfDiagnosisQA extends Component {
 
   transition = (props) => <Slide direction="up" {...props} />;
 
+  _renderAnswer=(data)=>{
+    console.log(data)
+}
   render() {
     const { deactivateOpen, open} = this.props;
     const questions = this.props.simpleUserProfileReducer.questions || {};
@@ -38,11 +41,18 @@ class SelfDiagnosisQA extends Component {
 
       <DialogContent>
           {
-          map(questionsList, function(el) {
+          map(questionsList, el => {
+            const answerS = get(answers, el.key);
+            typeof(answerS.value)=='object' ? map(answerS.value, el=> {return (<div>Obj {el}</div>)}) : (<div>Not Obj</div>)
           return (
             <div key={el.key} className="self-diagnosis-item">
               <div className="self-diagnosis-item-question">{el.question.en}</div>
-               <div>{get(el.answer.values, `${ get(answers, `${el.key}.value`) }.en`) || get(answers, `${el.key}.value`)}</div>
+              <div>
+                {typeof(answerS.value)=='object' ?
+                  map(answerS.value, obj=> {return (<div>{get(el.answer.values, `${obj}.en`)}</div>)})
+                  :
+                  (<div>{get(answers, `${el.key}.value`)}</div>)}
+              </div>
             </div>
             )
           })
