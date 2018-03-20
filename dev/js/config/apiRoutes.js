@@ -103,6 +103,11 @@ export const api = {
   getSimpleTariff     :'/tariffs/simple',
   personalCabinetBilling : '/payments/customer/',
   twoFactorConfirm    :'/auth/tfa/login',
+  pricingGroups       : '/pgroups/get',
+  createGroup         : '/pgroups/',
+  getPricingGroups    :'/pgroups/all',
+  updateUserPricingGroup    :'/pgroups/user/',
+  getDiagnosticByTherapy: '/therapy/get/user/'
 };
 
 export const PAGE = {
@@ -144,7 +149,9 @@ export const PAGE = {
   packages          : '/matrix-setup/packages',
   exercises         : '/matrix-setup/exercises',
   diagnosisCreate   : '/diagnosis-create',
-  tariffPlans       : '/tariff-plans',
+  tariffs           : '/tariffs',
+  tariffPlans       : '/tariffs/tariff-plans',
+  pricingGroups     : '/tariffs/pricing-groups',
 
   personalCabinet     :  'personal-cabinet',
   personalCabinetUsers : '/personal-cabinet/users',

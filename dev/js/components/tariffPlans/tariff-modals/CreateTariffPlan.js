@@ -1,7 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Input from '../../common/Input/Input';
-import Select from '../../common/Select/Select';
+import  React, { Component } from 'react';
+import  { connect } from 'react-redux';
+import  Input from '../../common/Input/Input';
+import  Select from '../../common/Select/Select';
+import  map  from 'lodash/map';
+import  get  from 'lodash/get';
+import DeleteIcon  from 'material-ui-icons/Delete';
+import {dispatchTariffPlansPayloadWired} from '../../../actions';
 
 const tariffTypeArray = [
   {label:'Company',value:'organization'},
@@ -13,10 +17,44 @@ const tariffPeriodArray = [
   {label:'Week',value:'week'},
   {label:'Day',value:'day'}];
 
-class CreateSimpleUser extends Component {
+class CreateTariffPlan extends Component {
+  _deletePricingGroup = (index, array)=>{
+    const removed = array.splice(index,1);
+    this.setState({
+      createTariffPlanReducer:
+        {pricing_groups: array}
+    });
+  };
+
+  _addPricingGroup = (array )=>{
+    array.push({
+      key:'',
+      price:''
+    });
+    this.setState({
+      createTariffPlanReducer:
+        {pricing_groups: array}
+
+    });
+  };
+
+  componentWillMount (){
+    let {createTariffPlanReducer} = this.props;
+    let free_days = get(createTariffPlanReducer, 'properties.free_period','') ;
+    free_days = free_days.substr(0,free_days.indexOf(' '));
+    createTariffPlanReducer = {...createTariffPlanReducer, ...{properties:{free_period:free_days}}};
+    dispatchTariffPlansPayloadWired (createTariffPlanReducer);
+  }
 
   render() {
+   let pricingGroupsList = this.props.createPricingGroupListReducer;
+    pricingGroupsList = map(pricingGroupsList, el => ({
+      label : el.title,
+      value: el.key
+    }));
     const {createTariffPlanReducer} = this.props;
+
+    let pricing_groups = get(createTariffPlanReducer,'pricing_groups');
     return (
       <div className="create-tariff-plan-content">
         <div className="create-tariff-plan-container">
@@ -70,13 +108,36 @@ class CreateSimpleUser extends Component {
           />
         </div>
 
+        {map(pricing_groups, (el,index) => {
+          return(
+            <div key={index} className="create-tariff-plan-container">
+              <Select
+                options={pricingGroupsList}
+                id={`pricing_groups.${index}.key`}
+                reducer={createTariffPlanReducer}
+                label='Type'
+                className="two-part"
+              />
+              <Input
+                id={`pricing_groups.${index}.price`}
+                reducer={createTariffPlanReducer}
+                label='Cost/User, $'
+                placeholder='Cost/User, $'
+                className="two-part"
+              />
+              <DeleteIcon onClick = {()=>this._deletePricingGroup(index, createTariffPlanReducer.pricing_groups)}/>
+            </div>
+          )
+        })}
+        <div className="add-contact-person" onClick = {()=>this._addPricingGroup(createTariffPlanReducer.pricing_groups)}><span>+</span> ADD PRICING GROUP </div>
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  createTariffPlanReducer: state.createTariffPlanReducer
+  createTariffPlanReducer: state.createTariffPlanReducer,
+  createPricingGroupListReducer: state.createPricingGroupListReducer,
 });
 
-export default connect(mapStateToProps)(CreateSimpleUser);
+export default connect(mapStateToProps)(CreateTariffPlan);

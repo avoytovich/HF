@@ -163,7 +163,7 @@ class TableComponent extends Component {
    */
   matchItems(selected, id) {
     return selected.reduce((result, item, index) => {
-      return item && (item.id || item.user_id || item.customer_id) === id ? index : result;
+      return item && (item.id || item.user_id || item.customer_id || item.key) === id ? index : result;
     }, -1)
   };
 
@@ -174,8 +174,8 @@ class TableComponent extends Component {
    * @param selected
    */
   handleClick = (event, checked, selected) => {
-    let { id, deActive, user_id, customer_id } = checked;
-    id = id || user_id || customer_id;
+    let { id, deActive, user_id, customer_id, key} = checked;
+    id = id || user_id || customer_id || key;
     event && event.preventDefault();
     event && event.stopPropagation();
 
@@ -192,7 +192,7 @@ class TableComponent extends Component {
         break;
 
       case isIn >= 0:
-        result = selected.filter(item => item && (item.id || item.user_id || item.customer_id) !== id );
+        result = selected.filter(item => item && (item.id || item.user_id || item.customer_id || item.key) !== id );
         break;
 
       default:
@@ -279,6 +279,14 @@ class TableComponent extends Component {
         return  value === true ? 'No':'Yes';
 
 
+      case 'pricing_group_status':
+        return  value === true ? 'Activated':'Deactivated';
+
+
+      case 'customer_type':
+        return  value === 'organization' ? 'company': value;
+
+
       case 'birthday':
         return value!=='-' ? moment(new Date()).diff(moment(value), 'years'): '-';
 
@@ -354,7 +362,7 @@ class TableComponent extends Component {
         <TableBody>
           {
             data.map(row => {
-              const id         = row.id || row.user_id || row.customer_id;
+              const id         = row.id || row.user_id || row.customer_id || row.key;
               const isSelected = this.matchItems(selected, id) !== -1; // !row.deActive &&
               const markerActiveClass = showTestingMarker && row[keyTestingMarker];
 

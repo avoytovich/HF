@@ -92,7 +92,6 @@ export const deactivateItem = (domenKey, apiKey, ids, activate) => {
         apiList   = ids.map(item => Api.put(`${domenPath}${apiPath}/${item.id}`, {enabled: !!activate}));
   return Promise.all(apiList).then(res => res)
 };
-
 export const activateCustomer = (domenKey, apiKey, ids) => {
   const domenPath = domen[domenKey],
     apiPath   = api[apiKey],
@@ -103,14 +102,14 @@ export const activateCustomer = (domenKey, apiKey, ids) => {
 export const activateUser = (domenKey, apiKey, ids, value) => {
   const domenPath = domen[domenKey],
     apiPath   = api[apiKey],
-    apiList   = ids.map(item => Api.post(`${domenPath}${apiPath}${item.user_id||item.id}/${value}`));
+    apiList   = ids.map(item => Api.post(`${domenPath}${apiPath}${item.user_id||item.id ||item.key}/${value}`));
   return Promise.all(apiList).then(res => res)
 };
 
 export const deleteUser = (domenKey, apiKey, ids) => {
   const domenPath = domen[domenKey],
     apiPath   = api[apiKey],
-    apiList   = ids.map(item => Api.delete(`${domenPath}${apiPath}${item.user_id ||item.id}`));
+    apiList   = ids.map(item => Api.delete(`${domenPath}${apiPath}${item.user_id ||item.id ||item.key }`));
   return Promise.all(apiList).then(res => res)
 };
 

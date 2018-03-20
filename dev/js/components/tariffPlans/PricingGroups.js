@@ -2,7 +2,7 @@ import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
 import { browserHistory }       from 'react-router'
 import { withStyles }           from 'material-ui/styles';
-import { TARIFF_PLANS }         from '../../utils/constants/pageContent';
+import { PRICING_GROUPS }       from '../../utils/constants/pageContent';
 import TableControls            from '../common/TypicalListPage/TableControls';
 import { TableComponent }       from '../../components/common/TypicalListPage';
 import get                      from 'lodash/get';
@@ -10,15 +10,10 @@ import parseInt                 from 'lodash/parseInt';
 import {domen, api}             from '../../config';
 import DeactivateComponent      from '../users/user-modals/deactivateModal';
 import DeleteComponent          from '../users/user-modals/deleteModal';
-import CreateTariffPlan         from './tariff-modals/CreateTariffPlan';
-import EditSimpleTariffPlan     from './tariff-modals/EditSimpleTariffPlan';
+import CreatePricingGroup       from './tariff-modals/CreatePricingGroup';
 import Modal                    from '../common/Modal/Modal';
-import { getTariffPlansWired,
-  dispatchTariffPlansPayloadWired,
-  dispatchSimpleTariffPlansPayloadWired,
-  tariffPlanCreate,
-  tariffPlanUpdate,
-  getPricingGroupsWired}            from '../../actions'
+import {dispatchPricingGroupsPayloadWired,
+  pricingGroupCreate}            from '../../actions'
 
 //UI
 import Paper                    from 'material-ui/Paper';
@@ -27,24 +22,11 @@ import Button                   from 'material-ui/Button';
 import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeleteIcon               from 'material-ui-icons/Delete';
-import EditIcon                 from 'material-ui-icons/Edit';
 
-const defaultTariffPlanData = {
-  errors: {},
-  name: '',
-  customer_type: '',
-  tariff_type: '',
-  subscription_fee: '',
-  cost_per_user:'',
-  period:'',
-  pricing_groups: [
-    {key:'',
-      price:''
-    }
-  ],
-  properties: {
-    free_period:''
-  }
+const defaultPricingGroupData = {
+  errors  : {},
+  title   :'',
+  key     :'',
 };
 
 const styles = theme => ({
@@ -62,31 +44,17 @@ const styles = theme => ({
 
 });
 
-class TariffPlans extends Component {
+class PricingGroups extends Component {
 
   state = {
     selected: [],
     showCreateTariffPlanModal:false,
     showActivateModal:false,
     showDeactivateModal:false,
-    showDeleteModal:false,
-    showEditSimpleTariff:false,
+    showDeleteModal:false
   };
 
-  componentWillMount (){
-    getPricingGroupsWired('getPricingGroups')
-  }
-
   _tableCellPropsFunc = (row, col) => {
-    if (col.key === 'name') {
-      return {
-        onClick: (e) => {
-          e.stopPropagation();
-          dispatchTariffPlansPayloadWired(row);
-          this.updateModal('showCreateTariffPlanModal', true);
-        }
-      }
-    }
     return {};
   };
 
@@ -98,10 +66,8 @@ class TariffPlans extends Component {
 
   _toggleDeleteModal = () => {
     this.setState({ showCreateTariffPlanModal: !this.state.showCreateTariffPlanModal });
-    dispatchTariffPlansPayloadWired (defaultTariffPlanData);
+    dispatchPricingGroupsPayloadWired (defaultPricingGroupData);
   };
-
-  _toggleEditSimpleTariff = () => this.setState({ showEditSimpleTariff: !this.state.showEditSimpleTariff });
 
   updateModal = (key, value) => {
     this.setState({ [key]: value });
@@ -109,74 +75,38 @@ class TariffPlans extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
-  _editSimpleTariff = () =>{
+  _createPricingGroup =() =>{
     let location = get(this.props,'location.search');
-    const free_period = parseInt(this.props.simpleTariffPlanReducer.properties.free_period) + ' days';
-    const result = {
-      ...this.props.simpleTariffPlanReducer,
-      ...{
-        tariff_type:this.props.simpleTariffPlanReducer.customer_type,
-        subscription_fee: +this.props.simpleTariffPlanReducer.subscription_fee,
-        cost_per_user: +this.props.simpleTariffPlanReducer.cost_per_user,
-        properties: {
-          free_period
-        }
-      },
-    };
+    const result = this.props.createPricingGroupReducer;
 
-    tariffPlanUpdate('users', 'createTariff',result, get(this.props,'simpleTariffPlanReducer.id') )
+    pricingGroupCreate('users', 'createGroup', result)
       .then(()=>{
-        this.setState({showEditSimpleTariff:false});
-        dispatchSimpleTariffPlansPayloadWired(result);
-        browserHistory.push(`/tariff-plans/${location}`);
+        this.setState({showCreateTariffPlanModal:false});
+        dispatchPricingGroupsPayloadWired (defaultPricingGroupData);
+        browserHistory.push(`/tariffs/pricing-groups${location}`);
       });
-  };
 
-  _createTariffPlan =() =>{
-    let location = get(this.props,'location.search');
-    const free_period = parseInt(this.props.createTariffPlanReducer.properties.free_period)+ ' days';
-    const result = {
-      ...this.props.createTariffPlanReducer,...{tariff_type:this.props.createTariffPlanReducer.customer_type,
-        subscription_fee: +this.props.createTariffPlanReducer.subscription_fee,
-        cost_per_user: +this.props.createTariffPlanReducer.cost_per_user},
-        properties: {
-        free_period
-      }
-    };
-
-    if (get(this.props,'createTariffPlanReducer.id')){
-      tariffPlanUpdate('users', 'createTariff',result, get(this.props,'createTariffPlanReducer.id') )
-        .then(()=>{
-          this.setState({showCreateTariffPlanModal:false});
-          dispatchTariffPlansPayloadWired (defaultTariffPlanData);
-          browserHistory.push(`/tariffs/tariff-plans${location}`);
-        });
-    }
-    else{
-      tariffPlanCreate('users', 'createTariff',result)
-        .then(()=>{
-          this.setState({showCreateTariffPlanModal:false});
-          dispatchTariffPlansPayloadWired (defaultTariffPlanData);
-          browserHistory.push(`/tariffs/tariff-plans${location}`);
-        });
-    }
   };
 
   render() {
     const {
-      classes, simpleTariffPlanReducer
+      classes
     } = this.props;
 
-    const { tableHeader } = TARIFF_PLANS;
-    const { selected, showActivateModal, showDeactivateModal, showDeleteModal, showCreateTariffPlanModal,
-      showEditSimpleTariff} = this.state;
+    const { tableHeader } = PRICING_GROUPS;
+    const { selected,
+      showActivateModal,
+      showDeactivateModal,
+      showDeleteModal,
+      showCreateTariffPlanModal
+    } = this.state;
     const querySelector = {...this.props.location.query};
-    const url = `${domen['users']}${api['tariffPlans']}`;
+    const url = `${domen['users']}${api['pricingGroups']}`;
 
     return (
       <div className="profile-main-container">
         <div className="profile-sub-header">
-          <span className="profile-name">Tariff Plans</span>
+          <span className="profile-name">Pricing Groups</span>
         </div>
         <div id="diagnosis-component">
 
@@ -184,7 +114,7 @@ class TariffPlans extends Component {
             <Paper className={classes.paper}>
           <TableControls
             locationUrl={this.props.location.pathname}
-            path="tariffPlans"
+            path="pricingGroups"
             selected={selected}
             createItem={this.createEntity}
             createButtonText="Add"
@@ -208,7 +138,7 @@ class TariffPlans extends Component {
 
           <TableComponent
             location={this.props.location}
-            path="tariffPlans"
+            path="pricingGroups"
             domen="users"
             reqType="POST"
             tableHeader={ tableHeader }
@@ -220,68 +150,60 @@ class TariffPlans extends Component {
           />
 
           <DeactivateComponent
-            pathReq="createTariff"
-            path="tariffPlans"
+            pathReq="createGroup"
+            path="pricingGroups"
             domen="users"
             url={url}
             typeKey="deactivateOpen"
             list={selected}
-            title="Activate this Tariff Plans"
+            title="Activate this Pricing Groups"
             deactivateOpen={showActivateModal}
             open={()=>this.updateModal('showActivateModal', false)}
-            itemKey="name"
+            itemKey="title"
             query={querySelector}
             action="activate"
             onSubmitTitle = "Activate"
           />
 
           <DeactivateComponent
-            pathReq="createTariff"
-            path="tariffPlans"
+            pathReq="createGroup"
+            path="pricingGroups"
             domen="users"
             url={url}
             typeKey="deactivateOpen"
             list={selected}
-            title="Deactivate this Tariff Plans"
+            title="Deactivate this Pricing Groups"
             deactivateOpen={showDeactivateModal}
             open={()=>this.updateModal('showDeactivateModal', false)}
-            itemKey="name"
+            itemKey="title"
             query={querySelector}
             action="deactivate"
             onSubmitTitle = "Deactivate"
           />
 
           <DeleteComponent
-            pathReq="createTariff"
-            path="tariffPlans"
+            pathReq="createGroup"
+            path="pricingGroups"
             domen = "users"
             url={url}
             typeKey="deactivateOpen"
             list={selected}
-            title="Delete this Tariff Plans?"
+            title="Delete this Pricing Groups?"
             deactivateOpen={showDeleteModal}
             open={()=>this.updateModal('showDeleteModal', false)}
-            itemKey="name"
+            itemKey="title"
             query={querySelector}
           />
 
           <Modal
             itemName="name_real"
             open={showCreateTariffPlanModal}
-            title='Tariff Plan'
+            title='Pricing Group'
             toggleModal={this._toggleDeleteModal}
-            onConfirmClick={() => this._createTariffPlan()}
-            CustomContent={() => <CreateTariffPlan />}
+            onConfirmClick={this._createPricingGroup}
+            CustomContent={() => <CreatePricingGroup />}
           />
 
-              <Modal
-                itemName="name_real"
-                open={showEditSimpleTariff}
-                title='Tariff Plan'
-                toggleModal={this._toggleEditSimpleTariff}
-                onConfirmClick={() => this._editSimpleTariff()}
-                CustomContent={() => <EditSimpleTariffPlan />}
-              />
             </Paper>
           </Grid>
 
@@ -292,8 +214,7 @@ class TariffPlans extends Component {
 }
 
 const mapStateToProps = state => ({
-  createTariffPlanReducer: state.createTariffPlanReducer,
-  simpleTariffPlanReducer: state.simpleTariffPlanReducer,
+  createPricingGroupReducer: state.createPricingGroupReducer
 });
 
-export default  connect(mapStateToProps)(withStyles(styles)(TariffPlans));
+export default  connect(mapStateToProps)(withStyles(styles)(PricingGroups));

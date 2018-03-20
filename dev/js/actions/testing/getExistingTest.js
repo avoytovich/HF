@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import set from 'lodash/set';
 import each from 'lodash/each';
 import map from 'lodash/map';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {
   Api,

@@ -88,6 +88,15 @@ class CreateExercise extends Component {
     const validValue = { title, comments, instruction, information, name };
     const video   = get(files, '[0].video', { id : null });
     const image   = get(files, '[0].preview', { id: null });
+    let filesObj = {};
+    if (video.id || get(video, '[0].id')) {
+      filesObj.video_id = video.id || get(video, '[0].id');
+    }
+    if (image.id || get(image, '[0].id')) {
+      filesObj.image_id = image.id || get(image, '[0].id');
+    }
+    let filesFinal = Object.keys(filesObj).length ? [filesObj] : [];
+
     const result = {
       title,
       ordinal,
@@ -97,10 +106,7 @@ class CreateExercise extends Component {
       instruction,
       name,
       testing_mode,
-      files: [{
-        video_id: video.id || video[0].id,
-        image_id: image.id || image[0].id,
-      }]
+      files: filesFinal,
     };
 
     submitTabs(
