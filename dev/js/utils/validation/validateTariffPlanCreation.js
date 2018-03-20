@@ -25,6 +25,11 @@ const validateTariffPlanCreation = data => {
         message: "Cost should be a number"
       }
     },
+    [bCN('properties','free_period')]:{
+      numericality: {
+        onlyInteger: true,
+      }
+    },
     [bCN('pricing_groups','price')]: {
       format: {
         pattern: /^\$?\d+(,\d{3})*(\.\d*)?$/,
