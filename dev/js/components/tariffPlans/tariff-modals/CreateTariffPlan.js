@@ -5,6 +5,7 @@ import  Select from '../../common/Select/Select';
 import  map  from 'lodash/map';
 import  get  from 'lodash/get';
 import DeleteIcon  from 'material-ui-icons/Delete';
+import {dispatchTariffPlansPayloadWired} from '../../../actions';
 
 const tariffTypeArray = [
   {label:'Company',value:'organization'},
@@ -16,7 +17,7 @@ const tariffPeriodArray = [
   {label:'Week',value:'week'},
   {label:'Day',value:'day'}];
 
-class CreateSimpleUser extends Component {
+class CreateTariffPlan extends Component {
   _deletePricingGroup = (index, array)=>{
     const removed = array.splice(index,1);
     this.setState({
@@ -37,6 +38,14 @@ class CreateSimpleUser extends Component {
     });
   };
 
+  componentWillMount (){
+    let {createTariffPlanReducer} = this.props;
+    let free_days = get(createTariffPlanReducer, 'properties.free_period','') ;
+    free_days = free_days.substr(0,free_days.indexOf(' '));
+    createTariffPlanReducer = {...createTariffPlanReducer, ...{properties:{free_period:free_days}}};
+    dispatchTariffPlansPayloadWired (createTariffPlanReducer);
+  }
+
   render() {
    let pricingGroupsList = this.props.createPricingGroupListReducer;
     pricingGroupsList = map(pricingGroupsList, el => ({
@@ -44,8 +53,8 @@ class CreateSimpleUser extends Component {
       value: el.key
     }));
     const {createTariffPlanReducer} = this.props;
-    let pricing_groups = get(createTariffPlanReducer,'pricing_groups');
 
+    let pricing_groups = get(createTariffPlanReducer,'pricing_groups');
     return (
       <div className="create-tariff-plan-content">
         <div className="create-tariff-plan-container">
@@ -131,4 +140,4 @@ const mapStateToProps = state => ({
   createPricingGroupListReducer: state.createPricingGroupListReducer,
 });
 
-export default connect(mapStateToProps)(CreateSimpleUser);
+export default connect(mapStateToProps)(CreateTariffPlan);

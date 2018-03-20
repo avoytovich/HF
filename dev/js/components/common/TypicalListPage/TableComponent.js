@@ -283,6 +283,10 @@ class TableComponent extends Component {
         return  value === true ? 'Activated':'Deactivated';
 
 
+      case 'customer_type':
+        return  value === 'organization' ? 'company': value;
+
+
       case 'birthday':
         return value!=='-' ? moment(new Date()).diff(moment(value), 'years'): '-';
 

@@ -38,11 +38,17 @@ class SelfDiagnosisQA extends Component {
 
       <DialogContent>
           {
-          map(questionsList, function(el) {
+          map(questionsList, el => {
+            const answerS = get(answers, el.key);
           return (
             <div key={el.key} className="self-diagnosis-item">
               <div className="self-diagnosis-item-question">{el.question.en}</div>
-               <div>{get(el.answer.values, `${ get(answers, `${el.key}.value`) }.en`) || get(answers, `${el.key}.value`)}</div>
+              <div>
+                {typeof(answerS.value)=='object' ?
+                  map(answerS.value, obj=> {return (<div key={obj}>{get(el.answer.values, `${obj}.en`)}</div>)})
+                  :
+                  (<div>{get(answers, `${el.key}.value`)}</div>)}
+              </div>
             </div>
             )
           })
