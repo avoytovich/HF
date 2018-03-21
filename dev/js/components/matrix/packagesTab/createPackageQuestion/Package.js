@@ -214,7 +214,7 @@ class Package extends Component {
             <Grid container className="row-item">
               <Grid item md={6} sm={12}>
                 <Input
-                  id='questionTitle'
+                  id='title'
                   value={questionTitle}
                   className="MUIControl"
                   reducer={ createDiagnosisQuestion }
