@@ -236,8 +236,8 @@ const setFullQuestionForPackage = (state, action) => {
   } = action.payload;
   const _body = {
     areaIds      : configArea(areas.data),
-    questionTitle: title,
-    app_title    : app_title,
+    title,
+    app_title,
     questionKey  : key,
     packageLevels: configPackageLevel(packageLevels.data),
     packageType  : type,
