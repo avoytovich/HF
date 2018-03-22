@@ -158,4 +158,5 @@ export const PAGE = {
   personalCabinetUserProfile : '/personal-cabinet/users/:userId/profile',
   personalCabinetProfile : '/personal-cabinet/profile',
   personalCabinetBilling : '/personal-cabinet/billing',
+  appScreenInfo     : '/app-screen-info',
 };

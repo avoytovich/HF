@@ -27,6 +27,7 @@ import PersonalCabinetUsers     from '../components/personalCabinet/PersonalCabi
 import PersonalCabinetProfile     from '../components/personalCabinet/PersonalCabinetProfile/PersonalCabinetProfile';
 import PersonalCabinetBilling     from '../components/personalCabinet/PersonalCabinetBilling/PersonalCabinetBilling';
 
+import * as appScreenInfo       from './appScreenInfo';
 import * as commonComponents    from './common';
 import * as testingComponents   from './testing';
 import * as matrixComponents    from '../components/matrix';
@@ -55,6 +56,7 @@ export const C = {
   ...matrixComponents,
   ...commonComponents,
   ...testingComponents,
+  ...appScreenInfo,
   PersonalCabinetMain,
   Tariffs,
   TariffPlans,
