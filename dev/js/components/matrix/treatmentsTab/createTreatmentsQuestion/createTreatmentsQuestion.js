@@ -45,7 +45,8 @@ class CreateTreatmentsComponent extends Component {
       getTreatmentById('diagnostics', 'treatments', this.props.routeParams.id)
         .then(res => {
         const {package_id, package_level_id} = res.package;
-          getPackagenById('exercises', 'packages', package_id, true).then((_res) => {
+          // package_id && getPackagenById('exercises', 'packages', package_id, true).then((_res) => {
+          package_id && getPackagenById('exercises', 'packages', package_id, true).then((_res) => {
             const {data} = _res.packageLevels;
             const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
             updateCrateQuestionFields(levelsList, 'levelsList');

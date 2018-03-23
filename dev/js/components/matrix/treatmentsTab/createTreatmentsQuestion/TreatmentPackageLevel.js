@@ -38,7 +38,7 @@ class TreatmentPackageLevel extends Component {
         const {data} = _res.packageLevels;
         const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
 
-//        this.setState({levelsList});
+       this.setState({ levelsList });
         updateCrateQuestionFields(levelsList, 'levelsList');
         updateCrateQuestionFields('', 'errors.treatmentsPackage');
       });
@@ -60,11 +60,13 @@ class TreatmentPackageLevel extends Component {
   render() {
     const {
       packageItem,
-      levelItem,
+      levelItem = 1,
       levelsList,
       packageError,
       levelError
     } = this.props;
+    console.log(levelItem);
+    // const { levelsList } = this.state;
     return <Grid container className="row-item">
       <Grid item sm={6} xs={12}>
         <Typography
@@ -103,8 +105,9 @@ class TreatmentPackageLevel extends Component {
           style={{width: '100%'}}
           MenuProps={{PaperProps:{style:{width: 400}}}}
         >
-          {levelsList.map((item, index) => (
-            <MenuItem
+          {levelsList.map((item, index) => {
+
+            return <MenuItem
               key={item.value}
               value={item.value}
               style={{
@@ -113,7 +116,7 @@ class TreatmentPackageLevel extends Component {
             >
               Level {item.label}
             </MenuItem>
-          ))}
+          })}
         </Select>
       </Grid>
     </Grid>
