@@ -21,7 +21,7 @@ import Typography                   from 'material-ui/Typography';
 import Input                        from '../../../common/Input/Input';
 import { submitTabs }               from '../../../../utils';
 import MatrixPreLoader              from '../../matrixPreloader';
-import TreatmentPackageLevel        from './treatmentPackageLevel';
+import TreatmentPackageLevel        from './TreatmentPackageLevel';
 import { CreateItemNavButtons }     from '../../../common';
 
 class CreateTreatmentsComponent extends Component {
@@ -86,9 +86,9 @@ class CreateTreatmentsComponent extends Component {
       }
     };
 
-
-
-    const _result = this.props.routeParams.id ? Object.assign({}, result, {id: this.props.routeParams.id}) : result;
+    const _result = this.props.routeParams.id ?
+      Object.assign({}, result, {id: this.props.routeParams.id}) :
+      result;
 
     submitTabs(
       validValue,

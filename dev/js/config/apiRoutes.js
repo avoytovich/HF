@@ -78,6 +78,7 @@ export const api = {
   assetsDiagnostics   : '/files',
   evaluation          : '/matrix/evaluation',
   login               : '/auth/login',
+  refresh             : '/auth/refresh',
   userOwn             : '/users/my',
   organizationsUsers  : '/users/get/all',
   userAll             : '/users/get/all',
@@ -158,4 +159,5 @@ export const PAGE = {
   personalCabinetUserProfile : '/personal-cabinet/users/:userId/profile',
   personalCabinetProfile : '/personal-cabinet/profile',
   personalCabinetBilling : '/personal-cabinet/billing',
+  appScreenInfo     : '/app-screen-info',
 };

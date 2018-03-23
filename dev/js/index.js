@@ -98,6 +98,7 @@ const router = (
         <Route path={PAGE.companyOwnUsersProfile}     component={C.SimpleUserProfile} />
         <Route path={PAGE.clinicOwnUsersProfile}      component={C.SimpleUserProfile} />
         <Route path={PAGE.test}               component={C.TestsList} />
+        <Route path={PAGE.appScreenInfo}      component={C.AppScreenInfoContainer} />
         <Route path={PAGE.testNew}            component={C.TestNew} />
 
             <Route path={PAGE.matrixSetup} component={ C.MatrixComponent }>

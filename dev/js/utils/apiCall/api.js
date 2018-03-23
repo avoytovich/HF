@@ -8,7 +8,7 @@ import {
   dispatchUserPayloadWired,
   dispatchCommonPayloadWired,
   notifier,
-  loginWired,
+  refreshTokenWired,
   T,
 } from '../../actions';
 import { PAGE } from '../../config';
@@ -45,9 +45,8 @@ export class Api {
       commonReducer: {
         isLoading
       },
-      authReducer: {
-        email,
-        password,
+      userReducer: {
+        refreshToken
       },
     } = store.getState();
     if (options.needLoader) {
@@ -73,10 +72,10 @@ export class Api {
         dispatchCommonPayloadWired({ isLoading: isLoading && isLoading - 1 });
         console.log(err);
         if (get(err, 'response.status') === 401) {
-          // return loginWired({ email, password })
-          //   .then(() => Api.xhr({route, method, data, options, headersIncome}))
-          store.dispatch({ type: `${T.USER}_CLEAR` });
-          browserHistory.push(PAGE.login);
+          return refreshTokenWired({ refreshToken })
+            .then(() => Api.xhr({route, method, data, options, headersIncome}));
+          // store.dispatch({ type: `${T.USER}_CLEAR` });
+          // browserHistory.push(PAGE.login);
         }
         if (options.showErrNotif) {
           notifier({

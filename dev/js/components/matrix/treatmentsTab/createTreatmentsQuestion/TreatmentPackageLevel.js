@@ -31,9 +31,9 @@ class TreatmentPackageLevel extends Component {
   };
 
   onPackageChange = (value) => {
-    updateCrateQuestionFields(value, 'treatmentsPackage');
-
-    if (value.id) {
+    console.log('sdasdasdas');
+    if (value && value.id) {
+      updateCrateQuestionFields(value, 'treatmentsPackage');
       getPackagenById('exercises', 'packages', value.id, true).then((_res) => {
         const {data} = _res.packageLevels;
         const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
@@ -44,6 +44,8 @@ class TreatmentPackageLevel extends Component {
       });
     }
     else {
+      updateCrateQuestionFields([], 'levelsList');
+      updateCrateQuestionFields({}, 'treatmentsPackage');
       this.setState({levelsList: []});
     }
 
@@ -56,7 +58,13 @@ class TreatmentPackageLevel extends Component {
   };
 
   render() {
-    const { packageItem, levelItem, levelsList, packageError, levelError } = this.props;
+    const {
+      packageItem,
+      levelItem,
+      levelsList,
+      packageError,
+      levelError
+    } = this.props;
     return <Grid container className="row-item">
       <Grid item sm={6} xs={12}>
         <Typography
@@ -75,11 +83,8 @@ class TreatmentPackageLevel extends Component {
           placeholder={'Select package'}
           value={packageItem}
           ignoreCase ={false}
-          clearable={false}
+          clearable={true}
         />
-        {packageError && packageError.id && <Typography type="caption" style={{color: red[500], paddingTop: '5px'}}>
-          {packageError.id}
-          </Typography>}
       </Grid>
 
       <Grid item sm={6} xs={12}>
@@ -110,7 +115,6 @@ class TreatmentPackageLevel extends Component {
             </MenuItem>
           ))}
         </Select>
-        {levelError && <Typography type="caption" style={{color: red[500], paddingTop: '5px'}}>{levelError}</Typography>}
       </Grid>
     </Grid>
   }

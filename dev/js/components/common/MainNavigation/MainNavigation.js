@@ -15,6 +15,7 @@ import InsertDriveFile from 'material-ui-icons/InsertDriveFile'; // assets
 import LocalHospital from 'material-ui-icons/LocalHospital'; // Clinics
 import SettingsApplications from 'material-ui-icons/SettingsApplications'; // matrix
 import Chat from 'material-ui-icons/Chat'; // matrix
+import PermDeviceInformation from 'material-ui-icons/PermDeviceInformation'; // matrix
 import Accessibility from 'material-ui-icons/Accessibility'; // matrix
 
 import { PAGE } from '../../../config';
@@ -119,6 +120,14 @@ class MainNavigation extends Component {
               <ListItemText inset primary='Chat'/>
             </ListItem>
           </Link>
+          {/*<Link to={PAGE.appScreenInfo} activeClassName='active-route' className="nav-menu-list-item">*/}
+            {/*<ListItem button>*/}
+              {/*<ListItemIcon>*/}
+                {/*<PermDeviceInformation className="nav-icon" />*/}
+              {/*</ListItemIcon>*/}
+              {/*<ListItemText inset primary={`App's Screen Info`}/>*/}
+            {/*</ListItem>*/}
+          {/*</Link>*/}
         </List>
       </div>
     )
