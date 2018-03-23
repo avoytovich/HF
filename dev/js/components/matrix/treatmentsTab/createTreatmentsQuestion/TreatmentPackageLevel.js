@@ -102,7 +102,6 @@ class TreatmentPackageLevel extends Component {
           disabled={!levelsList.length}
           style={{width: '100%'}}
           MenuProps={{PaperProps:{style:{width: 400}}}}
-          clearableValue={true}
         >
           {levelsList.map((item, index) => (
             <MenuItem
