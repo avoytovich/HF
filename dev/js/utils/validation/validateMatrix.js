@@ -98,20 +98,20 @@ export const validateMatrix = data => {
       }
     },
     //treatmentsPackage
-    [bCN('treatmentsPackage', 'id')]: {
-      length: {
-        minimum: 1,
-        message: notEmpty('Package'),
-        tokenizer: (value) => value ? `${value}` : '',
-      }
-    },
-    treatmentsLevels: {
-      length:{
-        minimum :1,
-        tokenizer: (value) => value ? `${value}` : '',
-        tooShort: notEmpty('Level'),
-      }
-    },
+    // [bCN('treatmentsPackage', 'id')]: {
+    //   length: {
+    //     minimum: 1,
+    //     message: notEmpty('Package'),
+    //     tokenizer: (value) => value ? `${value}` : '',
+    //   }
+    // },
+    // treatmentsLevels: {
+    //   length:{
+    //     minimum :1,
+    //     tokenizer: (value) => value ? `${value}` : '',
+    //     tooShort: notEmpty('Level'),
+    //   }
+    // },
     [bCN('packageLevels', 'level_up_properties', 'vas_trend')]: {
       numericality: {
         onlyInteger: true,
