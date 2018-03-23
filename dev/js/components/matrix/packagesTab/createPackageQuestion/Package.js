@@ -94,11 +94,18 @@ class Package extends Component {
 
   done = (value) => {
     const {
-      testing_mode, areaIds,
-      questionKey, questionTitle,
-      packageLevels, therapyContinuity,
-      packageType, errors, app_title } = value;
-    const validValue = { questionKey, questionTitle };
+      testing_mode,
+      areaIds,
+      questionKey,
+      questionTitle,
+      packageLevels,
+      therapyContinuity,
+      packageType,
+      errors,
+      app_title,
+      title,
+    } = value;
+    const validValue = { questionKey, title };
 
 //    const _packageLevels = packageLevels.map((el, index) => {
 //      const oldLevel = this.levelList[index];
@@ -108,10 +115,10 @@ class Package extends Component {
     const result = {
       key      : questionKey,
       areaIds  : areaIds,
-      title    : questionTitle,
       type     : packageType,
-      app_title,
       package_levels : packageLevels,
+      title,
+      app_title,
       testing_mode,
     };
 
@@ -214,8 +221,7 @@ class Package extends Component {
             <Grid container className="row-item">
               <Grid item md={6} sm={12}>
                 <Input
-                  id='questionTitle'
-                  value={questionTitle}
+                  id='title'
                   className="MUIControl"
                   reducer={ createDiagnosisQuestion }
                   label={ L_CREATE_QUESTION.questionTitle }

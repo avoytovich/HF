@@ -223,13 +223,24 @@ const setFullBodyAreaEdit = (state, action) => {
 };
 
 const setFullQuestionForPackage = (state, action) => {
-  const { body: {areas, title, key, packageLevels, type, testing_mode }} = action.payload;
+  const {
+    body: {
+      areas,
+      title,
+      key,
+      packageLevels,
+      type,
+      testing_mode,
+      app_title,
+    }
+  } = action.payload;
   const _body = {
-    areaIds: configArea(areas.data),
-    questionTitle: title,
-    questionKey: key,
+    areaIds      : configArea(areas.data),
+    title,
+    app_title,
+    questionKey  : key,
     packageLevels: configPackageLevel(packageLevels.data),
-    packageType: type,
+    packageType  : type,
     testing_mode
   };
   return Object.assign({}, state, _body);
