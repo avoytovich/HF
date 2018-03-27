@@ -200,6 +200,11 @@ export default(state = _initialState(), action = TABLE) => {
       const { orderBy, sortedBy, search, path: pathLink } = action.payload;
       return dotProp.set(state, pathLink, value => Object.assign({}, value, {orderBy, sortedBy, search}));
 
+    case `${TABLE}_CHANGE`:
+      const { _path, value } = action.payload;
+      debugger;
+      return dotProp.set(state, _path, value);
+
     default:
       return state;
   }

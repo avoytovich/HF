@@ -16,7 +16,8 @@ import Typography                from 'material-ui/Typography';
 import SearchIcon                from 'material-ui-icons/Search';
 import UploadIcon                from 'material-ui-icons/FileUpload';
 import ArrowDropDown             from  'material-ui-icons/ArrowDropDown'
-import Menu, { MenuItem } from 'material-ui/Menu';
+import Menu, { MenuItem }        from 'material-ui/Menu';
+import { changeParamsInTable }   from '../../../actions/matrix/rulesAction';
 
 const styles = theme => ({
   formControl: {
@@ -55,6 +56,9 @@ class TableControls extends Component {
     const { sortedBy, orderBy }  = this.props.store.sortOptional;
     const query = { orderBy, sortedBy, per_page, current_page: current_page - 1 };
     const searchKey = this.props.searchKey || 'search';
+
+    changeParamsInTable(`${this.props.path}.sortOptional.search`, search);
+
     browserHistory.push({
       pathname: currentPath,
       query: search ? { ...query, [searchKey]: search} : query
