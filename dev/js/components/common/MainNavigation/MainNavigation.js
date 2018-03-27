@@ -33,7 +33,7 @@ class MainNavigation extends Component {
     const { classes } = this.props;
     return (
       <div className="content-navigation">
-        <List link>
+        <List>
 
           <Link to={PAGE.companies} activeClassName='active-route' className="nav-menu-list-item">
             <ListItem as='a' button>
