@@ -25,7 +25,7 @@ import { store }              from '../../../index'
 
 
 const DEFAULT_QUERY = {
-  per_page    : 100,
+  per_page    : 200,
   current_page: 0,
   sortedBy    : 'desc',
   orderBy     : 'title',
