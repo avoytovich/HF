@@ -97,7 +97,7 @@ class MainNavigation extends Component {
             </ListItem>
           </Link>
 
-          <Link to={PAGE.assetsDiagnostics} activeClassName='active-route' className="nav-menu-list-item">
+          <Link to={PAGE.assets} activeClassName='active-route' className="nav-menu-list-item">
             <ListItem as='a' button>
               <ListItemIcon>
                 <SettingsApplications className="nav-icon" />

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { browserHistory } from 'react-router'
-import AppBar from 'material-ui/AppBar';
-import { withStyles } from 'material-ui/styles';
+import { connect }          from 'react-redux';
+import { browserHistory }   from 'react-router'
+import AppBar               from 'material-ui/AppBar';
+import { withStyles }       from 'material-ui/styles';
+import isEmpty              from 'lodash/isEmpty';
 
 // UI
-import Tabs, { Tab } from 'material-ui/Tabs';
+import Tabs, { Tab }        from 'material-ui/Tabs';
 
 const TABS = [
   { label: 'Diagnostic', url: 'assets-diagnostics' },
@@ -28,15 +29,27 @@ class Assets extends Component {
 
   componentWillMount() {
     const { path } = this.props.routes.pop();
-    const index = this.findNewPathIndex(TABS, path);
-    this.setState({value: index});
+    const _path = path.slice(8);
+    this.findNewPathIndex(TABS, _path);
   }
 
-  findNewPathIndex = (tabs, path) => tabs.reduce((result, item, index) => {
-    if (item) return  `/assets/${item.url}` === path ? index : result;
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location !== nextProps.location &&
+      !isEmpty(nextProps.location.query)) {
+      const { path } = nextProps.routes.pop();
+      const _path = path.slice(8);
+      this.findNewPathIndex(TABS, _path);
+    }
+  }
 
-    return result;
-  }, 0);
+  findNewPathIndex = (tabs, path) => {
+    const newURL = tabs.reduce((result, item, index) => {
+      if (item) return  item.url === path ? index : result;
+
+      return result;
+    }, 0);
+    this.setState({value: newURL});
+  };
 
   handleActive = (url) => {
     browserHistory.push(`${this.props.route.path}/${url}`);
