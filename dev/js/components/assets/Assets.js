@@ -29,7 +29,7 @@ class Assets extends Component {
 
   componentWillMount() {
     const { path } = this.props.routes.pop();
-    const _path = path.slice(8);
+    const _path = path.slice(9);
     this.findNewPathIndex(TABS, _path);
   }
 
@@ -37,7 +37,7 @@ class Assets extends Component {
     if (this.props.location !== nextProps.location &&
       !isEmpty(nextProps.location.query)) {
       const { path } = nextProps.routes.pop();
-      const _path = path.slice(8);
+      const _path = path.slice(9);
       this.findNewPathIndex(TABS, _path);
     }
   }

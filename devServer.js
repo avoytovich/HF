@@ -13,7 +13,7 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.use('/dist/_assets', express.static('dist/_assets'));
+app.use('/dist/assets', express.static('dist/assets'));
 app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
