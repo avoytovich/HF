@@ -137,7 +137,7 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
         //        const _data = data.map(item => {
         //          return Object.assign({}, item, { label: item.title, value: item.key })
         //        });
-        const __data = data.reduce((result, item) => {
+        const _data = data.reduce((result, item) => {
           if (item && item.key === questionKey) return result;
 
           const updated = Object.assign({}, item, { label: item.title, value: item.key });
