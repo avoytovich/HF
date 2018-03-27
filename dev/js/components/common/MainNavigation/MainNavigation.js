@@ -68,8 +68,9 @@ class MainNavigation extends Component {
                   <ListItemText inset primary="Heal Users" />
                 </ListItem>
               </Link>
+
               <Link to={PAGE.organizationsUsers} activeClassName='active-route' className="nav-menu-list-item">
-                <ListItem button className={classes.nested}>
+                <ListItem className={classes.nested}>
                   <ListItemText inset primary="Heal Work Users" />
                 </ListItem>
               </Link>
@@ -97,7 +98,7 @@ class MainNavigation extends Component {
             </ListItem>
           </Link>
           <Link to={PAGE.matrixSetup} activeClassName='active-route' className="nav-menu-list-item">
-            <ListItem button>
+            <ListItem as='a' button>
               <ListItemIcon>
                 <SettingsApplications className="nav-icon" />
               </ListItemIcon>
