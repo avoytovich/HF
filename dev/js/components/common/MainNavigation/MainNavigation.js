@@ -100,7 +100,7 @@ class MainNavigation extends Component {
           <Link to={PAGE.assets} activeClassName='active-route' className="nav-menu-list-item">
             <ListItem as='a' button>
               <ListItemIcon>
-                <InsertDriveFile className="nav-icon" />
+                <SettingsApplications className="nav-icon" />
               </ListItemIcon>
               <ListItemText inset primary='Assets'/>
             </ListItem>
