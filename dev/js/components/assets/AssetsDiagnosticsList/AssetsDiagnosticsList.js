@@ -17,7 +17,7 @@ import {
   PAGE,
 } from '../../../config';
 import {
-  deleteAsset,
+  deleteDiagnosticAsset,
   getMatrixInfo,
   dispatchAssetsPayloadWired,
 } from '../../../actions';
@@ -39,7 +39,7 @@ class AssetsList extends Component {
       current_page,
       per_page
     } = this.props.location.query;
-    const promises = items.map(item => deleteAsset(item.id));
+    const promises = items.map(item => deleteDiagnosticAsset(item.id));
     const query = { per_page, page: current_page};
     return Promise.all(promises)
       .then(res => getMatrixInfo(domen, path, query, path))
