@@ -49,7 +49,7 @@ class RulesLinks extends Component {
               id='evaluation_result_data.page'
               style={{ width: "100%" }}
               reducer={store}
-              label='Industry'
+              label='Select page in application'
             />
           </Grid>
         </Grid>;
