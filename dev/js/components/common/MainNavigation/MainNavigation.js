@@ -34,26 +34,29 @@ class MainNavigation extends Component {
     return (
       <div className="content-navigation">
         <List>
+
           <Link to={PAGE.companies} activeClassName='active-route' className="nav-menu-list-item">
-            <ListItem button>
+            <ListItem as='a' button>
               <ListItemIcon>
                 <Domain className="nav-icon" />
               </ListItemIcon>
               <ListItemText inset primary="Companies" />
             </ListItem>
           </Link>
+
           <Link
             to={PAGE.clinics}
             activeClassName='active-route'
             className="nav-menu-list-item"
           >
-            <ListItem button>
+            <ListItem as='a' button>
               <ListItemIcon>
                 <LocalHospital className="nav-icon" />
               </ListItemIcon>
               <ListItemText inset primary="Clinics" />
             </ListItem>
           </Link>
+
           <ListItem button onClick={() => this.setState({ open: !this.state.open })}>
             <ListItemIcon>
               <Person className="nav-icon" />
@@ -61,42 +64,48 @@ class MainNavigation extends Component {
             <ListItemText inset primary='Users'/>
             { this.state.open ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
+
           <Collapse component="li" in={this.state.open} timeout="auto" unmountOnExit>
             <List className="collapsed-nav-item">
               <Link to={PAGE.simpleUsers} activeClassName='active-route' className="nav-menu-list-item">
-                <ListItem button className={classes.nested}>
+                <ListItem as='a' button className={classes.nested}>
                   <ListItemText inset primary="Heal Users" />
                 </ListItem>
               </Link>
 
               <Link to={PAGE.organizationsUsers} activeClassName='active-route' className="nav-menu-list-item">
-                <ListItem className={classes.nested}>
+                <ListItem as='a' className={classes.nested}>
                   <ListItemText inset primary="Heal Work Users" />
                 </ListItem>
               </Link>
+
               <Link to={PAGE.clinicsUsers} activeClassName='active-route' className="nav-menu-list-item">
-                <ListItem button className={classes.nested}>
+                <ListItem as='a' button className={classes.nested}>
                   <ListItemText inset primary="Heal Clinic Users" />
                 </ListItem>
               </Link>
+
             </List>
           </Collapse>
+
           <Link to={PAGE.tariffPlans} activeClassName='active-route' className="nav-menu-list-item">
-            <ListItem button>
+            <ListItem as='a' button>
               <ListItemIcon>
                 <TariffPlan className="nav-icon" />
               </ListItemIcon>
               <ListItemText inset primary='Tariff Plans'/>
             </ListItem>
           </Link>
+
           <Link to={PAGE.assets} activeClassName='active-route' className="nav-menu-list-item">
-            <ListItem button>
+            <ListItem as='a' button>
               <ListItemIcon>
                 <InsertDriveFile className="nav-icon" />
               </ListItemIcon>
               <ListItemText inset primary='Assets'/>
             </ListItem>
           </Link>
+
           <Link to={PAGE.matrixSetup} activeClassName='active-route' className="nav-menu-list-item">
             <ListItem as='a' button>
               <ListItemIcon>
@@ -105,22 +114,25 @@ class MainNavigation extends Component {
               <ListItemText inset primary='Matrix'/>
             </ListItem>
           </Link>
+
           <Link to={PAGE.test} activeClassName='active-route' className="nav-menu-list-item">
-            <ListItem button>
+            <ListItem as='a' button>
               <ListItemIcon>
                 <Accessibility className="nav-icon" />
               </ListItemIcon>
               <ListItemText inset primary='Testing'/>
             </ListItem>
           </Link>
+
           <Link to={PAGE.chat} activeClassName='active-route' className="nav-menu-list-item">
-            <ListItem button>
+            <ListItem as='a' button>
               <ListItemIcon>
                 <Chat className="nav-icon" />
               </ListItemIcon>
               <ListItemText inset primary='Chat'/>
             </ListItem>
           </Link>
+
           {/*<Link to={PAGE.appScreenInfo} activeClassName='active-route' className="nav-menu-list-item">*/}
             {/*<ListItem button>*/}
               {/*<ListItemIcon>*/}
