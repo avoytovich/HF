@@ -8,8 +8,8 @@ import { withStyles } from 'material-ui/styles';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
 const TABS = [
-  { label: 'Diagnostic',     url: 'assets-diagnostics' },
-  { label: 'Exercises',     url: 'assets-exercises' }
+  { label: 'Diagnostic', url: 'assets-diagnostics' },
+  { label: 'Exercises',  url: 'assets-exercises' }
 ];
 
 const styles = theme => ({
@@ -28,17 +28,15 @@ class Assets extends Component {
 
   componentWillMount() {
     const { path } = this.props.routes.pop();
-    this.findNewPathIndex(TABS, path);
+    const index = this.findNewPathIndex(TABS, path);
+    this.setState({value: index});
   }
 
-  findNewPathIndex = (tabs, path) => {
-    const newURL = tabs.reduce((result, item, index) => {
-      if (item) return  item.url === path ? index : result;
+  findNewPathIndex = (tabs, path) => tabs.reduce((result, item, index) => {
+    if (item) return  `/assets/${item.url}` === path ? index : result;
 
-      return result;
-    }, 0);
-    this.setState({value: newURL});
-  };
+    return result;
+  }, 0);
 
   handleActive = (url) => {
     browserHistory.push(`${this.props.route.path}/${url}`);
