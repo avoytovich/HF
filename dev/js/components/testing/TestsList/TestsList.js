@@ -68,7 +68,7 @@ class TestsList extends Component {
         query,
       },
     } = this.props;
-    const url = `${domen['diagnostics']}${api['test']}/${user_id}?${qs.stringify(query)}`;
+    const url = `${domen['diagnostics']}${api['test']}/${user_id}`;
     return (
       <div id="diagnosis-component">
 
