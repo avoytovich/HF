@@ -89,7 +89,7 @@ class MainNavigation extends Component {
           </Collapse>
 
           <Link to={PAGE.tariffPlans} activeClassName='active-route' className="nav-menu-list-item">
-            <ListItem as='a' button>
+            <ListItem as='a'  button>
               <ListItemIcon>
                 <TariffPlan className="nav-icon" />
               </ListItemIcon>
