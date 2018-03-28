@@ -55,9 +55,10 @@ const router = (
           history={history}
           onUpdate={() => window.scrollTo(0, 0)}
         >
-          <Route path={PAGE.signup} component={C.SignUp}/>
-          <Route path={PAGE.login} component={C.Login}/>
-          <Route path={PAGE.passReset} component={C.ResetPassword}/>
+          <Route path={PAGE.confirm}    component={C.ConfirmPassword} />
+          <Route path={PAGE.signup}     component={C.SignUp}/>
+          <Route path={PAGE.login}      component={C.Login}/>
+          <Route path={PAGE.passReset}  component={C.ResetPassword}/>
           <Route path={PAGE.passForgot} component={C.ForgotPassword}/>
 
           <Route path={PAGE.personalCabinet} component={C.PersonalCabinetMain}>
@@ -149,7 +150,10 @@ const router = (
 
             <Route path={PAGE.chat}      component={C.Chat} />
           </Route>
+
+
         </Router>
+
         <NotificationsSystem theme={theme}/>
       </div>
     </Provider>

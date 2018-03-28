@@ -58,6 +58,7 @@ export const api = {
   areas               : '/matrix/areas',
   passForgot          : '/auth/password/forgot/web',
   passReset           : '/auth/password/update',
+  userConfirm         : '/auth/confirm',
   findArea            : '/matrix/areas/get/side',
   findByAre           : '/matrix/questions/find/area',
   findEvalByAre       : '/matrix/evaluations/find/area',
@@ -160,4 +161,5 @@ export const PAGE = {
   personalCabinetProfile : '/personal-cabinet/profile',
   personalCabinetBilling : '/personal-cabinet/billing',
   appScreenInfo     : '/app-screen-info',
+  confirm           : 'confirm',
 };
