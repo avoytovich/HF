@@ -83,12 +83,14 @@ const router = (
               <IndexRedirect to={PAGE.tariffPlans}/>
               <Route path={PAGE.tariffPlans} component={C.TariffPlans}/>
               <Route path={PAGE.pricingGroups } component={C.PricingGroups}/>
+              <Redirect from="*" to={PAGE.tariffPlans}/>
             </Route>
 
             <Route path={PAGE.assets}             component={C.AssetsComponent} >
                 <IndexRedirect to={PAGE.assetsDiagnostics}/>
                 <Route path={PAGE.assetsExercises} component={C.AssetsExercisesList}/>
                 <Route path={PAGE.assetsDiagnostics } component={C.AssetsDiagnosticsList}/>
+                <Redirect from="*" to={PAGE.assetsDiagnostics}/>
             </Route>
 
         <Route path={PAGE.clinicProfile}      component={C.Profile} />

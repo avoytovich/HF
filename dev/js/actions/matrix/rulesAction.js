@@ -1,5 +1,8 @@
 import { store }           from '../../index'
-import { CREATE_QUESTION } from '../types';
+import {
+  CREATE_QUESTION,
+  TABLE
+}                          from '../types';
 
 
 export const addRules = ({type, path, body}) =>
@@ -73,6 +76,14 @@ export const deletePackageLevel = (id, index) =>
     {
       type:`${CREATE_QUESTION}_DELETE_PACKAGE_LEVEL`,
       payload: { id, index }
+    }
+  );
+
+export const changeParamsInTable = (path, value) =>
+  store.dispatch(
+    {
+      type:`${TABLE}_CHANGE`,
+      payload: { _path: path, value }
     }
   );
 

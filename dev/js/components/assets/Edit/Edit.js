@@ -22,16 +22,17 @@ class Edit extends Component {
     this.props.dispatch({ type: `${T.ASSETS}_CLEAR` })
   }
 
-  _onFile = (e) => {
-    const acceptedF = [...this.refs.file.tmp_files];
+  _onFile = (e, {id}) => {
+    const acceptedF = [...e.target.files];
     const { dispatchAssetsPayload } = this.props;
     const tmp_files = acceptedF.map((file) => ({
       file,
       type       : file.type.split('/').shift() === 'image' ? 'image' : 'video',
       name       : file.name.split('.').shift(),
       progress   : 100,
+      id
     }));
-    dispatchAssetsPayload({ files });
+    dispatchAssetsPayload({ tmp_files });
   };
 
   _renderFiles = (tmp_files = []) => {
@@ -100,7 +101,7 @@ class Edit extends Component {
         </AppBar>
         <div className="change-file-wrapper">
           <p>CHANGE FILE</p>
-          <input type="file" ref='file' onChange={this._onFile} className="change-file-input"/>
+          <input type="file" onChange={e => this._onFile(e, tmp_files[0])} className="change-file-input"/>
         </div>
         { this._renderFiles(tmp_files) }
       </div>

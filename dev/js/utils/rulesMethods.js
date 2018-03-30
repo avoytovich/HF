@@ -121,7 +121,7 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
       return Promise.resolve({ options: [] });
 
     default:
-      const { type, areaIds, step, state: { page }, reqType } = props;
+      const { type, areaIds, step, state: { page }, reqType, questionKey } = props;
       const body = {
         type: checkRuleType(_type || type, page),
         answerType,
@@ -134,9 +134,15 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
 
       return findByArea(questionType, 'findByAre', _body, input || key).then(res => {
         const { data } = res.data;
-        const _data = data.map(item => {
-          return Object.assign({}, item, { label: item.title, value: item.key })
-        });
+        //        const _data = data.map(item => {
+        //          return Object.assign({}, item, { label: item.title, value: item.key })
+        //        });
+        const _data = data.reduce((result, item) => {
+          if (item && item.key === questionKey) return result;
+
+          const updated = Object.assign({}, item, { label: item.title, value: item.key });
+          return result.concat(updated);
+        }, []);
 
         !input.length &&
         key &&

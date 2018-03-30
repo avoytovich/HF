@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { browserHistory } from 'react-router'
-import AppBar from 'material-ui/AppBar';
-import { withStyles } from 'material-ui/styles';
+import { connect }          from 'react-redux';
+import { browserHistory }   from 'react-router'
+import AppBar               from 'material-ui/AppBar';
+import { withStyles }       from 'material-ui/styles';
+import isEmpty              from 'lodash/isEmpty';
 
 // UI
-import Tabs, { Tab } from 'material-ui/Tabs';
+import Tabs, { Tab }        from 'material-ui/Tabs';
 
 const TABS = [
-  { label: 'Diagnostic',     url: 'assets-diagnostics' },
-  { label: 'Exercises',     url: 'assets-exercises' }
+  { label: 'Diagnostic', url: 'assets-diagnostics' },
+  { label: 'Exercises',  url: 'assets-exercises' }
 ];
 
 const styles = theme => ({
@@ -28,7 +29,17 @@ class Assets extends Component {
 
   componentWillMount() {
     const { path } = this.props.routes.pop();
-    this.findNewPathIndex(TABS, path);
+    const _path = path.slice(9);
+    this.findNewPathIndex(TABS, _path);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location !== nextProps.location &&
+      !isEmpty(nextProps.location.query)) {
+      const { path } = nextProps.routes.pop();
+      const _path = path.slice(9);
+      this.findNewPathIndex(TABS, _path);
+    }
   }
 
   findNewPathIndex = (tabs, path) => {
