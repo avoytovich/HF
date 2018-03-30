@@ -121,6 +121,27 @@ const router = (
               <Route path='diagnosis-create/:id' component={C.CreateQuestionComponent} />
               <Route path='diagnosis-create-new' component={C.CreateQuestionComponent} />
 
+              <Route path='conditions-create/:id' component={C.CreateConditionComponent}/>
+              <Route path='conditions-create-new' component={C.CreateConditionComponent}/>
+
+              <Route path='treatments-create/:id' component={C.CreateTreatmentsComponent}/>
+              <Route path='treatments-create-new' component={C.CreateTreatmentsComponent}/>
+
+              <Route path='level-up-create/:id' component={C.CreateLevelUpComponent}/>
+              <Route path='level-up-create-new' component={C.CreateLevelUpComponent}/>
+
+              <Route path='evaluation-create/:id' component={C.CreateEvaluationComponent}/>
+              <Route path='evaluation-create-new' component={C.CreateEvaluationComponent}/>
+
+              <Route path='packages-create/:id' component={C.Package}/>
+              <Route path='packages-create-new' component={C.Package}/>
+
+              <Route path='exercise-create/:id' component={C.CreateExercise}/>
+              <Route path='exercise-create-new' component={C.CreateExercise}/>
+
+              <Route path='body-area-create/:id' component={C.CreateBodyAreaComponent}/>
+              <Route path='body-area-create-new' component={C.CreateBodyAreaComponent}/>
+
               {/*<Route path='tests'               component={ TestsComponent } />*/}
               {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
               {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
@@ -129,28 +150,6 @@ const router = (
             </Route>
 
             {/* Temporary path Todo: Change routes to react-router-dom ?*/}
-            <Route path='body-area-create/:id' component={C.CreateBodyAreaComponent}/>
-            <Route path='body-area-create-new' component={C.CreateBodyAreaComponent}/>
-
-
-
-            <Route path='conditions-create/:id' component={C.CreateConditionComponent}/>
-            <Route path='conditions-create-new' component={C.CreateConditionComponent}/>
-
-            <Route path='treatments-create/:id' component={C.CreateTreatmentsComponent}/>
-            <Route path='treatments-create-new' component={C.CreateTreatmentsComponent}/>
-
-            <Route path='level-up-create/:id' component={C.CreateLevelUpComponent}/>
-            <Route path='level-up-create-new' component={C.CreateLevelUpComponent}/>
-
-            <Route path='evaluation-create/:id' component={C.CreateEvaluationComponent}/>
-            <Route path='evaluation-create-new' component={C.CreateEvaluationComponent}/>
-
-            <Route path='packages-create/:id' component={C.Package}/>
-            <Route path='packages-create-new' component={C.Package}/>
-
-            <Route path='exercise-create/:id' component={C.CreateExercise}/>
-            <Route path='exercise-create-new' component={C.CreateExercise}/>
 
             <Route path={PAGE.chat}      component={C.Chat} />
           </Route>

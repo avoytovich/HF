@@ -19,8 +19,8 @@ class Exercises extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/exercise-create/${id}`) :
-    browserHistory.push(`/exercise-create-new`);
+    browserHistory.push(`/matrix-setup/exercise-create/${id}`) :
+    browserHistory.push(`/matrix-setup/exercise-create-new`);
 
 
 

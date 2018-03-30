@@ -17,7 +17,9 @@ class BodyAreaComponent extends Component {
   };
 
   create = (id) => {
-    const path = id ? `/body-area-create/${id}` : `/body-area-create-new`;
+    const path = id ?
+      `/matrix-setup/body-area-create/${id}` :
+      `/matrix-setup/body-area-create-new`;
     browserHistory.push(path)
   };
 

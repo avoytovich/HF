@@ -21,8 +21,8 @@ class EvaluationComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/evaluation-create/${id}`):
-    browserHistory.push(`/evaluation-create-new`);
+    browserHistory.push(`/matrix-setup/evaluation-create/${id}`):
+    browserHistory.push(`/matrix-setup/evaluation-create-new`);
 
 
   deleteItems = (items = []) => {};
