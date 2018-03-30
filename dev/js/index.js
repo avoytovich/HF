@@ -106,7 +106,7 @@ const router = (
 
             <Route path={PAGE.matrixSetup} component={ C.MatrixComponent }>
 
-              <IndexRedirect to="diagnosis"/>
+              <IndexRedirect to='diagnosis'/>
 
               <Route path='diagnosis'   component={(props) => <C.DiagnosisComponent  {...props}/>}/>
               <Route path='body-area'   component={(props) => <C.BodyAreaComponent   {...props}/>}/>
@@ -117,18 +117,22 @@ const router = (
               <Route path='evaluations' component={(props) => <C.EvaluationComponent {...props}/>}/>
               <Route path='exercises'   component={(props) => <C.Exercises {...props}/>}/>
 
+
+              <Route path='diagnosis-create/:id' component={C.CreateQuestionComponent} />
+              <Route path='diagnosis-create-new' component={C.CreateQuestionComponent} />
+
               {/*<Route path='tests'               component={ TestsComponent } />*/}
               {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
               {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
               <Redirect from="*" to="diagnosis"/>
+
             </Route>
 
             {/* Temporary path Todo: Change routes to react-router-dom ?*/}
             <Route path='body-area-create/:id' component={C.CreateBodyAreaComponent}/>
             <Route path='body-area-create-new' component={C.CreateBodyAreaComponent}/>
 
-            <Route path='diagnosis-create/:id' component={C.CreateQuestionComponent}/>
-            <Route path='diagnosis-create-new' component={C.CreateQuestionComponent}/>
+
 
             <Route path='conditions-create/:id' component={C.CreateConditionComponent}/>
             <Route path='conditions-create-new' component={C.CreateConditionComponent}/>
