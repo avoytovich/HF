@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import {
-  DiagnosisRulesComponent,
-  BlockDivider,
-  AsyncAreaSelect,
-  UniqueKey
-}                                   from '../../common';
+  dispatchAppInfo,
+}                                   from '../../../actions';
 import { CreateItemNavButtons }     from '../../common';
 import Grid                         from 'material-ui/Grid';
 import Typography                   from 'material-ui/Typography';
@@ -16,6 +12,11 @@ import Input                        from '../../common/Input/Input';
 
 
 class AppScreenInfoContainer extends Component {
+  componentWillMount()  {
+    dispatchAppInfo();
+  }
+
+
   render(){
 
     const {
@@ -321,7 +322,7 @@ class AppScreenInfoContainer extends Component {
 }
 
 const mapStateToProps   = state => ({
-  createDiagnosisQuestion: state.createDiagnosisQuestion,
+  createDiagnosisQuestion: state.appScreenInfoReducer,
   commonReducer          : state.commonReducer,
 });
 
