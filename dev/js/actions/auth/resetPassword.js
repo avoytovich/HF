@@ -36,7 +36,7 @@ export const getPassToken = (code, user_id) =>
     `${domen.users}${api.userConfirm}`,
     { user_id, code}
   )
-  .then(response => response)
+  .then(({data}) => data)
   .catch(err => {
     notifier({
       title: 'Error occurred',

@@ -18,9 +18,8 @@ class ConfirmPassword extends Component {
   componentWillMount() {
     const { code, user_id } = this.props.location.query;
     if (code && user_id) {
-      getPassToken(code, user_id).then(res => {
-        const {token} = res;
-        this.setState({token});
+      getPassToken(code, user_id).then(res=> {
+        this.setState({token: res['Pass-Token']});
       });
     }
   }
@@ -40,7 +39,6 @@ class ConfirmPassword extends Component {
     } = this.props;
 
     const { token } = this.state;
-
     return (
       <Container>
         <div className="sign-up-form-container">
@@ -60,7 +58,7 @@ class ConfirmPassword extends Component {
                 type="password"
                 value={password}
                 reducer={authReducer}
-                disabled={!!token}
+                disabled={!token}
                 label='Password'
               />
 
@@ -69,7 +67,7 @@ class ConfirmPassword extends Component {
                 type="password"
                 value={confirmPassword}
                 reducer={authReducer}
-                disabled={!!token}
+                disabled={!token}
                 label='Repeat Password'
               />
             </div>
@@ -77,7 +75,7 @@ class ConfirmPassword extends Component {
             <div className="sign-up-button-wrapper">
               <Button
                 raised
-                disabled={!!token}
+                disabled={!token}
                 className="button-custom-black"
                 onClick={() => resetPasswordWired({
                   password,
