@@ -21,11 +21,12 @@ import TestNew                  from '../components/testing/TestNew/TestNew';
 import Chat                     from './chat/Chat';
 import Tariffs                  from './tariffPlans/index';
 import TariffPlans              from './tariffPlans/TariffPlans'
-import PricingGroups              from './tariffPlans/PricingGroups'
+import PricingGroups            from './tariffPlans/PricingGroups'
 import PersonalCabinetMain      from '../components/PersonalCabinetMain';
 import PersonalCabinetUsers     from '../components/personalCabinet/PersonalCabinetUsers/PersonalCabinetUsers';
-import PersonalCabinetProfile     from '../components/personalCabinet/PersonalCabinetProfile/PersonalCabinetProfile';
-import PersonalCabinetBilling     from '../components/personalCabinet/PersonalCabinetBilling/PersonalCabinetBilling';
+import PersonalCabinetProfile   from '../components/personalCabinet/PersonalCabinetProfile/PersonalCabinetProfile';
+import PersonalCabinetBilling   from '../components/personalCabinet/PersonalCabinetBilling/PersonalCabinetBilling';
+import ConfirmPassword          from './auth/confirmPassword/ConfirmPassword';
 
 import * as appScreenInfo       from './appScreenInfo';
 import * as commonComponents    from './common';
@@ -38,6 +39,7 @@ export const C = {
   TwoFactorInput,
   SignUp,
   ResetPassword,
+  ConfirmPassword,
   ForgotPassword,
   Companies,
   Clinics,

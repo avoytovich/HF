@@ -21,8 +21,8 @@ class LevelUpComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/level-up-create/${id}`):
-    browserHistory.push(`/level-up-create-new`);
+    browserHistory.push(`/matrix-setup/level-up-create/${id}`):
+    browserHistory.push(`/matrix-setup/level-up-create-new`);
 
 
   deleteItems = (items = []) => {};
