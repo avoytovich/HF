@@ -37,9 +37,9 @@ const rootReducer = persistCombineReducers(config, {
   ...createUsersReducers,
   ...tariffPlansReducers,
   ...matrixReducers.default,
-  ...appScreenInfoReducer,
   ...tableReducers.default,
   ...testingReducer,
+  ...appScreenInfoReducer.default,
   routing: routerReducer
 });
 

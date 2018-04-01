@@ -109,7 +109,9 @@ export const api = {
   createGroup         : '/pgroups/',
   getPricingGroups    :'/pgroups/all',
   updateUserPricingGroup    :'/pgroups/user/',
-  getDiagnosticByTherapy: '/therapy/get/user/'
+  getDiagnosticByTherapy: '/therapy/get/user/',
+  getAllHelpers       : '/help/all/unpaginated',
+  setAllHelpers       : '/help/all/update'
 };
 
 export const PAGE = {

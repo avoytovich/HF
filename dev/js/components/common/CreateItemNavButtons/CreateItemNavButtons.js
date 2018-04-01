@@ -25,10 +25,13 @@ class CreateItemNavButtons extends Component {
       onSaveClick,
       saveLabel,
       customNavigation,
+      langValue,
       createDiagnosisQuestion: {
         questionAnswerLang,
       },
     } = this.props;
+
+    const _langValue = langValue || questionAnswerLang;
 
     return <div className="page-sub-header">
 
@@ -38,7 +41,7 @@ class CreateItemNavButtons extends Component {
         {
           showLangSwitcher &&
             <Tabs
-              value={questionAnswerLang}
+              value={_langValue}
               indicatorColor="primary"
               className="tab-lang answer"
               textColor="primary"
@@ -120,6 +123,7 @@ CreateItemNavButtons.propTypes = {
   saveLabel: PropTypes.string,
   customNavigation: PropTypes.element,
   showLangSwitcher: PropTypes.bool,
+  langValue:PropTypes.string
 };
 
 const mapStateToProps = state => ({

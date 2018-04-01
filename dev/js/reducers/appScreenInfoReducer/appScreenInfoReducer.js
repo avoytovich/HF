@@ -2,31 +2,33 @@ import { createReducer } from '../../utils';
 import { APP_INFO } from '../../actions';
 
 const initialState = {
-  home_screen               : '',
-  start_session_screen      : '',
-  details_session_screen    : '',
-  self_diagnosis_screen     : '',
-  health_history_screen     : '',
-  pain_profile_screen       : '',
-  diagnostic_test_screen    : '',
-  progress_screen           : '',
-  prognosis_screen          : '',
-  schedule_screen           : '',
-  reminders_screen          : '',
-  favourite_exercises_screen: '',
-  activity_journal_screen   : '',
-  profile_screen            : ''
+  actionType                : APP_INFO,
+  lang                      : 'en',
+  home_screen               : { en: '', swe: ''},
+  start_session_screen      : { en: '', swe: ''},
+  details_session_screen    : { en: '', swe: ''},
+  self_diagnosis_screen     : { en: '', swe: ''},
+  health_history_screen     : { en: '', swe: ''},
+  pain_profile_screen       : { en: '', swe: ''},
+  diagnostic_test_screen    : { en: '', swe: ''},
+  progress_screen           : { en: '', swe: ''},
+  prognosis_screen          : { en: '', swe: ''},
+  schedule_screen           : { en: '', swe: ''},
+  reminders_screen          : { en: '', swe: ''},
+  favourite_exercises_screen: { en: '', swe: ''},
+  activity_journal_screen   : { en: '', swe: ''},
+  profile_screen            : { en: '', swe: ''}
 };
 
 const addInfo = (state, action) => {
-  return { ...state };
+  const { payload } = action;
+
+  if (!Array.isArray(payload)) {
+    return { ...state, ...payload };
+  }
+  return state;
 };
 
-const changeInfo = (state, action) => {
-  return { ...state };
-};
-
-export const appScreenInfoReducer = createReducer(initialState, APP_INFO, {
-  [`${APP_INFO}_ADD`]   : addInfo,
-  [`${APP_INFO}_CHANGE`]: changeInfo,
+export default createReducer(initialState, APP_INFO, {
+  [`${APP_INFO}_ADD`]     : addInfo,
 });

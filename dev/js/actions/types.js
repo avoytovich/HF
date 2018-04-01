@@ -36,6 +36,5 @@ export const T = {
   BILLING_DETAILS                           : "BILLING_DETAILS",
   CREATE_PRICING_GROUPS                     : "CREATE_PRICING_GROUPS",
   CREATE_PRICING_GROUPS_LIST                : "CREATE_PRICING_GROUPS_LIST",
-  APP_INFO_ADD                              : "APP_INFO_ADD",
-  APP_INFO_CHANGE                           : "APP_INFO_CHANGE",
+  APP_INFO                                  : "APP_INFO",
 };

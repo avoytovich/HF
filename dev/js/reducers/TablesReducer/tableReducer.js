@@ -202,7 +202,6 @@ export default(state = _initialState(), action = TABLE) => {
 
     case `${TABLE}_CHANGE`:
       const { _path, value } = action.payload;
-      debugger;
       return dotProp.set(state, _path, value);
 
     default:
