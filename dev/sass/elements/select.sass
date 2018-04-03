@@ -40,7 +40,8 @@ Select
   position: relative
   width: 100%
 
-.Select-control:hover 
+.is-focused:not(.is-open) > .Select-control,
+.Select-control:hover
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06)
 
 .Select-control .Select-input:focus 
@@ -63,10 +64,6 @@ Select
 .is-searchable.is-focused:not(.is-open) > .Select-control 
   cursor: text
 
-.is-focused:not(.is-open) > .Select-control 
-  border-color: #007eff
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1)
-
 .Select-placeholder,
 .Select--single > .Select-control .Select-value
   bottom: 0
@@ -74,7 +71,7 @@ Select
   left: 0
   line-height: 34px
   padding-left: 10px
-  padding-right: 10px
+  padding-right: 40px
   position: absolute
   right: 0
   top: 0

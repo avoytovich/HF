@@ -84,7 +84,6 @@ class TreatmentPackageLevel extends Component {
           onChange={this.onPackageChange}
           placeholder={'Select package'}
           value={packageItem}
-          ignoreCase ={false}
           clearable={true}
         />
       </Grid>
