@@ -56,10 +56,9 @@ class AppScreenInfoContainer extends Component {
         <CreateItemNavButtons
           title={'App Info'}
           showLangSwitcher={true}
-          onCancelClick={this.cancel}
-          cancelLabel={'Cancel'}
           onSaveClick={() => this.Save(AppScreenInfoReducer, this.state.list)}
           saveLabel={'Save'}
+          showCancel={false}
           langValue={lang}
         />
 

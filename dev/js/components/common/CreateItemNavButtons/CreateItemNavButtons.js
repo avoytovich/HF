@@ -26,6 +26,7 @@ class CreateItemNavButtons extends Component {
       saveLabel,
       customNavigation,
       langValue,
+      showCancel,
       createDiagnosisQuestion: {
         questionAnswerLang,
       },
@@ -75,9 +76,9 @@ class CreateItemNavButtons extends Component {
             }
 
             <div className="nav-buttons">
-              <Button onClick={onCancelClick}>
+              { showCancel && <Button onClick={onCancelClick}>
                 { cancelLabel }
-              </Button>
+              </Button>}
 
               <Button
                 raised
@@ -109,6 +110,7 @@ CreateItemNavButtons.defaultProps = {
   onSaveClick: (e, checked) => console.log(e, checked),
   saveLabel: 'Save',
   showLangSwitcher: true,
+  showCancel: false,
 };
 
 CreateItemNavButtons.propTypes = {
@@ -123,7 +125,8 @@ CreateItemNavButtons.propTypes = {
   saveLabel: PropTypes.string,
   customNavigation: PropTypes.element,
   showLangSwitcher: PropTypes.bool,
-  langValue:PropTypes.string
+  langValue:PropTypes.string,
+  showCancel: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
