@@ -21,6 +21,7 @@ export const GROUP_TYPES = [
   { key: 'in',       type: 'item',  subType: 'list'   },
   { key: 'notIn',    type: 'item',  subType: 'list'   },
 //  { key: 'multiple', type: 'item',  subType: 'list'   },
+  { key: 'treatment',type: 'item',  subType: 'single' },
   { key: 'true',     type: 'item',  subType: 'single' }
 ];
 
@@ -39,6 +40,10 @@ export const TYPES = [
 
 export const TYPES_OPTIONAL = TYPES.concat(
   { label: 'Condition',  value: 'true', subType: 'single' }
+);
+
+export const TYPES_EVALUATIONS = TYPES_OPTIONAL.concat(
+  { label: 'Treatment',  value: 'treatment', subType: 'single' }
 );
 
 export const DEF_ITEM = {
@@ -111,13 +116,14 @@ export const genCharArray = () => {
 
 export const checkQuestionType = (page) => {
   switch (page) {
-    case 'diagnosis'  :
+    case 'diagnosis':
       return TYPES;
 
-    case 'conditions'  :
-    case 'evaluations' :
-    case 'treatments' :
+    case 'conditions':
+    case 'treatments':
       return TYPES_OPTIONAL;
+    case 'evaluations':
+      return TYPES_EVALUATIONS;
 
     default:
       return TYPES;

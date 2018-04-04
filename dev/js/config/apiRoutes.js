@@ -84,6 +84,7 @@ export const api = {
   organizationsUsers  : '/users/get/all',
   userAll             : '/users/get/all',
   findConditionsByAre : '/matrix/conditions/get/area',
+  findTreatmentsByAre : '/matrix/treatments/get/area',
   // questionsByStep     : '/matrix/questions/get/area',
   questionsByStep     : '/matrix/questions/get/step',
   getConditionById    : '/matrix/conditions',
