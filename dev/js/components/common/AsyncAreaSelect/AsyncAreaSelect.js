@@ -34,7 +34,19 @@ const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
 
-class AsyncAreaSelect extends Component{
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 200,
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+  },
+};
+
+class AsyncAreaSelect extends Component {
+
   componentDidMount() {
     const { domain, path } = this.props;
     findArea(domain, path).then(res => {
@@ -43,6 +55,10 @@ class AsyncAreaSelect extends Component{
       updateCrateQuestionFields(_data, 'areas');
     });
   }
+
+  renderValue = areas => selected => selected
+    .map(id => find(areas, {id}).label)
+    .join(', ');
 
   render() {
     const {
@@ -57,7 +73,8 @@ class AsyncAreaSelect extends Component{
         <Typography
           type="caption"
           gutterBottom
-          className={`custom-select-title ${labelClass}`}>
+          className={`custom-select-title ${labelClass}`}
+        >
           { label }
         </Typography>
         <Select
@@ -66,17 +83,8 @@ class AsyncAreaSelect extends Component{
           className="async-area-select"
           placeholder={ placeholder }
           disabled={ !areas.length }
-          MenuProps={{
-            PaperProps: {
-              style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 200,
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              },
-            },
-          }}
-          renderValue={selected => selected.map(id => find(areas, {id}).label).join(', ') }
+          MenuProps={MenuProps}
+          renderValue={this.renderValue(areas)}
           onChange={event => updateCrateQuestionFields(event.target.value, valuePath)}>
           {areas.map(item => (
             <MenuItem

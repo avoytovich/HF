@@ -20,7 +20,7 @@ import * as testingReducer        from './testingReducer'
 const config = {
   key: 'root',
   // for those we need to be saved (only these will be saved)
-  whitelist: ['userReducer', 'testingReducer', 'bodyModelReducer', 'tables'],
+  whitelist: ['userReducer'],
   storage,
 };
 const rootReducer = persistCombineReducers(config, {

@@ -13,6 +13,7 @@ const initialState = {
   errors: {},
   bodyAreas: [],
   bodyAreasPicked: [],
+  start_conditions: [],
   type: 'diagnostic',
   step: 0,
   title: '',

@@ -34,12 +34,13 @@ export const TYPES = [
   { label: 'Not Equal',  value: 'notEqual', subType: 'single'   },
   { label: 'In',         value: 'in',       subType: 'single'   },
   { label: 'Not In',     value: 'notIn'},
+  { label: 'Condition',  value: 'true', subType: 'single' }
 //  { label: 'In',         value: 'in',       subType: 'single'   },
 //  { label: 'Multiple',   value: 'multiple', subType: 'multiple' }
 ];
 
 export const TYPES_OPTIONAL = TYPES.concat(
-  { label: 'Condition',  value: 'true', subType: 'single' }
+  // { label: 'Condition',  value: 'true', subType: 'single' }
 );
 
 export const TYPES_EVALUATIONS = TYPES_OPTIONAL.concat(

@@ -14,7 +14,7 @@ import { onChange } from '../../../actions'
 
 const styles = theme => ({
   formControl: {
-    width: "100%",
+    width: '100%',
     marginTop: 16,
     marginBottom: 32,
   },
@@ -63,7 +63,7 @@ class SimpleSelect extends React.Component {
         <Select
           value={value}
           name={actionType}
-          onChange={({ target: { value, }}) => onChangeFinal({ target: { name: actionType, value, id }})}
+          onChange={({ target: { value }}) => onChangeFinal({ target: { name: actionType, value, id }})}
           input={<Input style={[classes.textField, style]} id={id} />}
           {...omit(props, ['dispatch', 'onChange'])}
         >
@@ -77,13 +77,9 @@ class SimpleSelect extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-
-});
-
 const mapDispatchToProps = dispatch => bindActionCreators({
   onChange,
   dispatch,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SimpleSelect));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(SimpleSelect));

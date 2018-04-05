@@ -39,7 +39,7 @@ class ConditionsComponent extends Component {
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>
-            getConditionOptions(input, key, this.onAsyncChange, this.props, 'diagnostics', 'single', 'conditions')}
+            getConditionOptions(input, key, this.onAsyncChange, this.props, 'diagnostics')}
           onChange={(event) => this.onAsyncChange(event)}
           className="ansyc-select"
           value={key}

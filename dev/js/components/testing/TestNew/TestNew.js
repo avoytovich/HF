@@ -17,13 +17,14 @@ import Input from '../../common/Input/Input';
 import { diagnosConsts } from '../consts'
 // import Switch from '../../common/Switch/Switch';
 import Select from '../../common/Select/Select';
+import AsyncSelect from '../../common/Select/Async';
 import DynamicQuestions from '../DynamicQuestions/DynamicQuestions';
 import {
   createTestWired,
   checkQuestionWired,
   onChange,
   dispatchTestingPayloadWired,
-  T,
+  getConditions,
 } from '../../../actions';
 import {
   PAGE,
@@ -39,6 +40,7 @@ class TestNew extends Component {
     type   : data.type,
     step   : data.step,
     title  : data.title,
+    start_conditions: data.start_conditions,
   });
 
   // further answers (step second and next ones)
@@ -48,8 +50,8 @@ class TestNew extends Component {
       currentQKeysToSend = currentQKeysToSend.concat(pickKeys.testing);
     }
     if (currentQKeysToSend.includes('q_human_model')) {
-      currentQKeysToSend.push(`q_pain_baseline_VAS`);
-      currentQKeysToSend.push(`q_pain_baseline_pain_type`);
+      currentQKeysToSend.push('q_pain_baseline_VAS');
+      currentQKeysToSend.push('q_pain_baseline_pain_type');
     }
     return {
       answers: pickBy(pick(data, currentQKeysToSend), el => el.value),
@@ -65,13 +67,13 @@ class TestNew extends Component {
         testId,
       }
     } = this.props;
-   if (testId || testId === 0) {
-     let data = this._prepareDataForCheckQuestion(testingReducer, step);
-     checkQuestionWired(testId, data);
-   } else {
-     let data = this._prepareData(testingReducer);
-     createTestWired(data);
-   }
+    if (testId || testId === 0) {
+      let data = this._prepareDataForCheckQuestion(testingReducer, step);
+      checkQuestionWired(testId, data);
+    } else {
+      let data = this._prepareData(testingReducer);
+      createTestWired(data);
+    }
   };
 
   render() {
@@ -141,7 +143,7 @@ class TestNew extends Component {
                 <Select
                   options={diagnosConsts.languages}
                   id='q_lang.value'
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                   onChangeCustom={(e) => {
                     onChange(e);
                     dispatchTestingPayloadWired({
@@ -154,7 +156,7 @@ class TestNew extends Component {
                 <Select
                   options={diagnosConsts.measurements}
                   id='q_metric.value'
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                   onChangeCustom={(e) => {
                     onChange(e);
                     dispatchTestingPayloadWired({
@@ -167,7 +169,7 @@ class TestNew extends Component {
                 <Select
                   options={diagnosConsts.sex}
                   id='q_sex.value'
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                   onChangeCustom={(e) => {
                     onChange(e);
                     dispatchTestingPayloadWired({
@@ -176,6 +178,18 @@ class TestNew extends Component {
                   }}
                   reducer={testingReducer}
                   label='Sex'
+                />
+                <AsyncSelect
+                  onChangeCustom={(e) => {
+                    onChange(e);
+                    dispatchTestingPayloadWired({
+                      changingQuestionStep: 0,
+                    })
+                  }}
+                  loadOptions={getConditions}
+                  id='start_conditions'
+                  label="Conditions"
+                  reducer={testingReducer}
                 />
               </div>
             </Grid>

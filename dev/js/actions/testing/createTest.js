@@ -42,3 +42,11 @@ export const createTestWired = (data) => createTest(data)
   .catch(err => {
     console.log(err);
   });
+
+
+export const getConditions = body =>
+  Api.get(`${domen.diagnostics}${api.conditions}`, body)
+    .then(res =>
+      get(res, 'data.data', [])
+      .map(item => ({ ...item, value: item.id, label: item.title }))
+    );
