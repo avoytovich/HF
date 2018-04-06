@@ -80,10 +80,6 @@ class TestNew extends Component {
     const {
       testingReducer,
       onChange,
-      testingReducer: {
-        q_age,
-        q_sex,
-      }
     } = this.props;
     return (
       <div className="testing-container">
@@ -97,9 +93,6 @@ class TestNew extends Component {
             </div>
 
             <div className="testing-header-control-container">
-              {/*<Switch*/}
-              {/*label='Deactivated'*/}
-              {/*/>*/}
               <p
                 className="testing-header-cancel"
                 onClick={() => browserHistory.push(PAGE.test)}
