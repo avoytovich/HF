@@ -9,6 +9,7 @@ export const CREATE_QUESTION = 'CREATE_QUESTION';
 export const PROFILE         = 'PROFILE';
 export const CREATE_USERS    = 'CREATE_USERS';
 export const CSV_FILE        = 'CSV_FILE';
+export const APP_INFO        = 'APP_INFO';
 
 export const T = {
   USER                                      : 'USER',
@@ -35,4 +36,5 @@ export const T = {
   BILLING_DETAILS                           : "BILLING_DETAILS",
   CREATE_PRICING_GROUPS                     : "CREATE_PRICING_GROUPS",
   CREATE_PRICING_GROUPS_LIST                : "CREATE_PRICING_GROUPS_LIST",
+  APP_INFO                                  : "APP_INFO",
 };

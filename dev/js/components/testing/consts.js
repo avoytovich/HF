@@ -11,7 +11,7 @@ export const measurements = [
 export const sex = [
   { value: 1, label: 'Male'},
   { value: 2, label: 'Female'},
-  { value: 3, label: 'Transgender'},
+  // { value: 3, label: 'Transgender'},
 ];
 
 export const painType = [

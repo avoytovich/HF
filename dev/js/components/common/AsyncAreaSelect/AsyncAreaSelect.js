@@ -1,14 +1,13 @@
 import React, { Component }         from 'react';
 import { connect }                  from 'react-redux';
 import { bindActionCreators }       from 'redux';
+import find                         from 'lodash/find';
 import PropTypes                    from 'prop-types';
 import Typography                   from 'material-ui/Typography';
-import { Async }                    from 'react-select';
 import Select                       from 'material-ui/Select';
+import Checkbox                     from 'material-ui/Checkbox';
 import { MenuItem }                 from 'material-ui/Menu';
 import { withStyles }               from 'material-ui/styles';
-import { FormControl }              from 'material-ui/Form';
-import Input, { InputLabel }        from 'material-ui/Input';
 
 import {
   findArea,
@@ -35,7 +34,19 @@ const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
 
-class AsyncAreaSelect extends Component{
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 200,
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+  },
+};
+
+class AsyncAreaSelect extends Component {
+
   componentDidMount() {
     const { domain, path } = this.props;
     findArea(domain, path).then(res => {
@@ -45,20 +56,25 @@ class AsyncAreaSelect extends Component{
     });
   }
 
+  renderValue = areas => selected => selected
+    .map(id => find(areas, {id}).label)
+    .join(', ');
+
   render() {
     const {
       valuePath, placeholder, className, label, labelClass, store, classes,
       store: { areas }
     } = this.props;
 
-    const areaIds = store[valuePath];
+    const areaIds = store[valuePath] || [];
 
     return<div className={classes.container}>
       <div className={classes.formControl}>
         <Typography
           type="caption"
           gutterBottom
-          className={`custom-select-title ${labelClass}`}>
+          className={`custom-select-title ${labelClass}`}
+        >
           { label }
         </Typography>
         <Select
@@ -67,20 +83,15 @@ class AsyncAreaSelect extends Component{
           className="async-area-select"
           placeholder={ placeholder }
           disabled={ !areas.length }
-          MenuProps={{
-            PaperProps: {
-              style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 200,
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-          },
-            },
-          }}
+          MenuProps={MenuProps}
+          renderValue={this.renderValue(areas)}
           onChange={event => updateCrateQuestionFields(event.target.value, valuePath)}>
           {areas.map(item => (
             <MenuItem
-              key={item.id} value={item.value}>
+              key={item.id}
+              value={item.value}
+            >
+              <Checkbox checked={areaIds.indexOf(item.value) > -1} />
               {item.label}
             </MenuItem>
           ))}

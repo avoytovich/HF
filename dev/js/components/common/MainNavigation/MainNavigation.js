@@ -133,14 +133,14 @@ class MainNavigation extends Component {
             </ListItem>
           </Link>
 
-          {/*<Link to={PAGE.appScreenInfo} activeClassName='active-route' className="nav-menu-list-item">*/}
-            {/*<ListItem button>*/}
-              {/*<ListItemIcon>*/}
-                {/*<PermDeviceInformation className="nav-icon" />*/}
-              {/*</ListItemIcon>*/}
-              {/*<ListItemText inset primary={`App's Screen Info`}/>*/}
-            {/*</ListItem>*/}
-          {/*</Link>*/}
+          {/*<Link to={PAGE.appScreenInfo} activeClassName='active-route' className="nav-menu-list-item">
+            <ListItem button>
+              <ListItemIcon>
+                <PermDeviceInformation className="nav-icon" />
+              </ListItemIcon>
+              <ListItemText inset primary={`App's Screen Info`}/>
+            </ListItem>
+          </Link>*/}
         </List>
       </div>
     )

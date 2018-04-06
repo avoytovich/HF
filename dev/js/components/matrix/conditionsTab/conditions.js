@@ -20,8 +20,8 @@ class ConditionsComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/conditions-create/${id}`):
-    browserHistory.push(`/conditions-create-new`);
+    browserHistory.push(`/matrix-setup/conditions-create/${id}`):
+    browserHistory.push(`/matrix-setup/conditions-create-new`);
 
   deleteItems = (items = []) => {};
 

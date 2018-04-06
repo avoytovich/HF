@@ -9,6 +9,7 @@
   },
   "parser": "babel-eslint",
   "rules": {
+    "indent": ["warn", 2],
     "quotes": [2, "single"],
     "strict": [2, "never"],
     "babel/generator-star-spacing": 1,

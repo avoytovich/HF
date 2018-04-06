@@ -22,7 +22,8 @@ import {
   MultipleComponent,
   NotInComponent,
   NotEqualComponent,
-  ConditionsComponent
+  ConditionsComponent,
+  TreatmentComponent
 }                           from './rulesTypes';
 import { DEF_ITEM }         from '../../../utils/matrix';
 
@@ -60,7 +61,7 @@ class RulesItemComponent extends Component {
       _key: key,
       op, value, questionKey
     };
-
+    console.log(this.props)
     switch (type) {
       case 'match':
        return <MatchComponent {..._props}/>;
@@ -76,6 +77,8 @@ class RulesItemComponent extends Component {
         return <NotInComponent {..._props}/>;
       case 'true':
         return <ConditionsComponent {..._props}/>;
+      case 'treatment':
+        return <TreatmentComponent {..._props}/>;
       default:
     }
   };

@@ -55,9 +55,10 @@ const router = (
           history={history}
           onUpdate={() => window.scrollTo(0, 0)}
         >
-          <Route path={PAGE.signup} component={C.SignUp}/>
-          <Route path={PAGE.login} component={C.Login}/>
-          <Route path={PAGE.passReset} component={C.ResetPassword}/>
+          <Route path={PAGE.confirm}    component={C.ConfirmPassword} />
+          <Route path={PAGE.signup}     component={C.SignUp}/>
+          <Route path={PAGE.login}      component={C.Login}/>
+          <Route path={PAGE.passReset}  component={C.ResetPassword}/>
           <Route path={PAGE.passForgot} component={C.ForgotPassword}/>
 
           <Route path={PAGE.personalCabinet} component={C.PersonalCabinetMain}>
@@ -105,7 +106,7 @@ const router = (
 
             <Route path={PAGE.matrixSetup} component={ C.MatrixComponent }>
 
-              <IndexRedirect to="diagnosis"/>
+              <IndexRedirect to='diagnosis'/>
 
               <Route path='diagnosis'   component={(props) => <C.DiagnosisComponent  {...props}/>}/>
               <Route path='body-area'   component={(props) => <C.BodyAreaComponent   {...props}/>}/>
@@ -116,40 +117,46 @@ const router = (
               <Route path='evaluations' component={(props) => <C.EvaluationComponent {...props}/>}/>
               <Route path='exercises'   component={(props) => <C.Exercises {...props}/>}/>
 
+
+              <Route path='diagnosis-create/:id' component={C.CreateQuestionComponent} />
+              <Route path='diagnosis-create-new' component={C.CreateQuestionComponent} />
+
+              <Route path='conditions-create/:id' component={C.CreateConditionComponent}/>
+              <Route path='conditions-create-new' component={C.CreateConditionComponent}/>
+
+              <Route path='treatments-create/:id' component={C.CreateTreatmentsComponent}/>
+              <Route path='treatments-create-new' component={C.CreateTreatmentsComponent}/>
+
+              <Route path='level-up-create/:id' component={C.CreateLevelUpComponent}/>
+              <Route path='level-up-create-new' component={C.CreateLevelUpComponent}/>
+
+              <Route path='evaluation-create/:id' component={C.CreateEvaluationComponent}/>
+              <Route path='evaluation-create-new' component={C.CreateEvaluationComponent}/>
+
+              <Route path='packages-create/:id' component={C.Package}/>
+              <Route path='packages-create-new' component={C.Package}/>
+
+              <Route path='exercise-create/:id' component={C.CreateExercise}/>
+              <Route path='exercise-create-new' component={C.CreateExercise}/>
+
+              <Route path='body-area-create/:id' component={C.CreateBodyAreaComponent}/>
+              <Route path='body-area-create-new' component={C.CreateBodyAreaComponent}/>
+
               {/*<Route path='tests'               component={ TestsComponent } />*/}
               {/*<Route path='meta-controls'       component={ MetaControlsComponent } />*/}
               {/*<Route path='achievements'        component={ AchievementsComponent } />*/}
               <Redirect from="*" to="diagnosis"/>
+
             </Route>
 
             {/* Temporary path Todo: Change routes to react-router-dom ?*/}
-            <Route path='body-area-create/:id' component={C.CreateBodyAreaComponent}/>
-            <Route path='body-area-create-new' component={C.CreateBodyAreaComponent}/>
-
-            <Route path='diagnosis-create/:id' component={C.CreateQuestionComponent}/>
-            <Route path='diagnosis-create-new' component={C.CreateQuestionComponent}/>
-
-            <Route path='conditions-create/:id' component={C.CreateConditionComponent}/>
-            <Route path='conditions-create-new' component={C.CreateConditionComponent}/>
-
-            <Route path='treatments-create/:id' component={C.CreateTreatmentsComponent}/>
-            <Route path='treatments-create-new' component={C.CreateTreatmentsComponent}/>
-
-            <Route path='level-up-create/:id' component={C.CreateLevelUpComponent}/>
-            <Route path='level-up-create-new' component={C.CreateLevelUpComponent}/>
-
-            <Route path='evaluation-create/:id' component={C.CreateEvaluationComponent}/>
-            <Route path='evaluation-create-new' component={C.CreateEvaluationComponent}/>
-
-            <Route path='packages-create/:id' component={C.Package}/>
-            <Route path='packages-create-new' component={C.Package}/>
-
-            <Route path='exercise-create/:id' component={C.CreateExercise}/>
-            <Route path='exercise-create-new' component={C.CreateExercise}/>
 
             <Route path={PAGE.chat}      component={C.Chat} />
           </Route>
+
+
         </Router>
+
         <NotificationsSystem theme={theme}/>
       </div>
     </Provider>

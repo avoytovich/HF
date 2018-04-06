@@ -19,9 +19,24 @@ export const resetPasswordWired = data => resetPassword({ ...data, ...{ password
       title: 'Success',
       message: 'Password has been updated',
       status: 'success',
-    })
+    });
     browserHistory.push(PAGE.login)
   })
+  .catch(err => {
+    notifier({
+      title: 'Error occurred',
+      message: err.message || 'Something went wrong.',
+      status: 'error',
+    })
+  });
+
+
+export const getPassToken = (code, user_id) =>
+  Api.post(
+    `${domen.users}${api.userConfirm}`,
+    { user_id, code}
+  )
+  .then(({data}) => data)
   .catch(err => {
     notifier({
       title: 'Error occurred',

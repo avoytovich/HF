@@ -54,10 +54,14 @@ class MatrixComponent extends Component {
 
   handleChange = (event, value) => this.setState({ value });
 
+  correctShowing = ({pathname}) => pathname.indexOf('create') === -1;
+
   render() {
+    const showNav = this.correctShowing(this.props.location);
     return (
       <div id="matrix-setup">
-          <AppBar position="static" color="default">
+
+        {showNav && <AppBar position="static" color="default">
             <Tabs
               scrollable
               value={this.state.value}
@@ -71,7 +75,8 @@ class MatrixComponent extends Component {
                       label={item.label}
                       onClick={() => this.handleActive(item.url)}/>)}
             </Tabs>
-          </AppBar>
+          </AppBar>}
+
         <div className="content-children">
             { this.props.children }
         </div>

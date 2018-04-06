@@ -1,18 +1,14 @@
 import React, { Component }   from 'react';
 import { connect }            from 'react-redux';
 import { Async }              from 'react-select';
-import Menu, { MenuItem }     from 'material-ui/Menu';
 import get                    from 'lodash/get'
-import Select                 from 'material-ui/Select';
 import {
-  onAnswerChange,
-  getAnswerValue,
   onConditionAsyncChange,
   getConditionOptions,
   trickForUpdateComponent
 }                             from '../../../../utils';
 
-class ConditionsComponent extends Component {
+class TreatmentComponent extends Component {
 
   state = {
     type   : 'list', // list or range
@@ -31,7 +27,7 @@ class ConditionsComponent extends Component {
     return <div className="rule-types">
       <div className="main-select">
         <div className="title">
-          <div className="simple-question-variety">Condition</div>
+          <div className="simple-question-variety">Treatment</div>
         </div>
 
         <Async
@@ -39,7 +35,7 @@ class ConditionsComponent extends Component {
           id={`match-type-${this.props.path}-${this.props.pathType}`}
           name={`match-type-${this.props.path}-${this.props.pathType}`}
           loadOptions={(input) =>
-            getConditionOptions(input, key, this.onAsyncChange, this.props, 'diagnostics')}
+            getConditionOptions(input, key, this.onAsyncChange, this.props, 'diagnostics', 'findTreatmentsByAre')}
           onChange={(event) => this.onAsyncChange(event)}
           className="ansyc-select"
           value={key}
@@ -55,4 +51,4 @@ const mapStateToProps = (state, props) => ({
   itemState: get(state.createDiagnosisQuestion, `${props.path}.${props.pathType}`)
 });
 
-export default connect(mapStateToProps)(ConditionsComponent);
+export default connect(mapStateToProps)(TreatmentComponent);

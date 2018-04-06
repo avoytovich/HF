@@ -12,6 +12,7 @@ import messageListReducer         from './chatReducers/messageListReducer';
 import * as authReducers          from './authReducers';
 import * as assetsReducer         from './assetsReducer';
 import * as matrixReducers        from './matrixReducers';
+import * as appScreenInfoReducer  from './appScreenInfoReducer'
 import * as tableReducers         from './TablesReducer'
 import * as createUsersReducers   from './createUsersReducers'
 import * as tariffPlansReducers   from './tariffPlansReducers'
@@ -19,7 +20,7 @@ import * as testingReducer        from './testingReducer'
 const config = {
   key: 'root',
   // for those we need to be saved (only these will be saved)
-  whitelist: ['userReducer', 'testingReducer', 'bodyModelReducer', 'tables'],
+  whitelist: ['userReducer'],
   storage,
 };
 const rootReducer = persistCombineReducers(config, {
@@ -38,6 +39,7 @@ const rootReducer = persistCombineReducers(config, {
   ...matrixReducers.default,
   ...tableReducers.default,
   ...testingReducer,
+  ...appScreenInfoReducer.default,
   routing: routerReducer
 });
 

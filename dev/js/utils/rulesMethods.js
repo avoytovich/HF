@@ -169,7 +169,7 @@ const checkRuleType = (type, page) => {
   }
 };
 
-export const getConditionOptions = (input, key, onChangeCallBack, props, questionType, answerType, _type) => {
+export const getConditionOptions = (input, key, onChangeCallBack, props, questionType, apiPath = 'findConditionsByAre') => {
   switch(true) {
     case !input.length  && !key:
       return Promise.resolve({ options: [] });
@@ -181,13 +181,10 @@ export const getConditionOptions = (input, key, onChangeCallBack, props, questio
       const { type, areaIds, step } = props;
 
       const body = {
-//        type: _type || type,
         areaIds: areaIds || [],
-//        step: step || null,
-//        answerType
       };
 
-      return findConditionsByArea(questionType, 'findConditionsByAre', body).then(res => {
+      return findConditionsByArea(questionType, apiPath, body).then(res => {
         const { data } = res.data;
         const _data = data.map(item => {
           return Object.assign({}, item, { label: item.title, value: item.key })

@@ -90,7 +90,6 @@ class PLComponent extends Component {
           onChange={value => this.onPackageChange(value, index)}
           placeholder={'Select package'}
           value={packageId}
-          ignoreCase ={false}
           clearable={false}
         />
       </Grid>

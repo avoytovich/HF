@@ -18,8 +18,8 @@ class PackagesComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/packages-create/${id}`) :
-    browserHistory.push(`/packages-create-new`);
+    browserHistory.push(`/matrix-setup/packages-create/${id}`) :
+    browserHistory.push(`/matrix-setup/packages-create-new`);
 
   onRowClick = (selected = []) => this.setState({selected});
 

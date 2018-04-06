@@ -25,10 +25,14 @@ class CreateItemNavButtons extends Component {
       onSaveClick,
       saveLabel,
       customNavigation,
+      langValue,
+      showCancel,
       createDiagnosisQuestion: {
         questionAnswerLang,
       },
     } = this.props;
+
+    const _langValue = langValue || questionAnswerLang;
 
     return <div className="page-sub-header">
 
@@ -38,7 +42,7 @@ class CreateItemNavButtons extends Component {
         {
           showLangSwitcher &&
             <Tabs
-              value={questionAnswerLang}
+              value={_langValue}
               indicatorColor="primary"
               className="tab-lang answer"
               textColor="primary"
@@ -72,9 +76,9 @@ class CreateItemNavButtons extends Component {
             }
 
             <div className="nav-buttons">
-              <Button onClick={onCancelClick}>
+              { showCancel && <Button onClick={onCancelClick}>
                 { cancelLabel }
-              </Button>
+              </Button>}
 
               <Button
                 raised
@@ -106,6 +110,7 @@ CreateItemNavButtons.defaultProps = {
   onSaveClick: (e, checked) => console.log(e, checked),
   saveLabel: 'Save',
   showLangSwitcher: true,
+  showCancel: false,
 };
 
 CreateItemNavButtons.propTypes = {
@@ -120,6 +125,8 @@ CreateItemNavButtons.propTypes = {
   saveLabel: PropTypes.string,
   customNavigation: PropTypes.element,
   showLangSwitcher: PropTypes.bool,
+  langValue:PropTypes.string,
+  showCancel: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

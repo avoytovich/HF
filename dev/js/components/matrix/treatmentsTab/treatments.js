@@ -20,8 +20,8 @@ class TreatmentsComponent extends Component {
   };
 
   create = (id) => id ?
-    browserHistory.push(`/treatments-create/${id}`):
-    browserHistory.push(`/treatments-create-new`);
+    browserHistory.push(`/matrix-setup/treatments-create/${id}`):
+    browserHistory.push(`/matrix-setup/treatments-create-new`);
 
   onRowClick = (selected = []) => this.setState({selected});
 
