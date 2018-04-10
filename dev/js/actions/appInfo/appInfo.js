@@ -11,9 +11,14 @@ export const dispatchAppInfo = () => {
 
   Api.get(`${_domen}${_api}`).then(res => {
     const { data } = res.data;
+    const payload = data.reduce((ans, item) => ({
+      ...ans,
+      [item.key]: item,
+    }), {});
+
     store.dispatch({
       type   :[`${T.APP_INFO}_ADD`],
-      payload: data
+      payload
     });
   });
 };

@@ -62,30 +62,38 @@ class AppScreenInfoContainer extends Component {
           langValue={lang}
         />
 
-        <Grid container style={{padding: '20px'}}>
-          <Grid item sm={12} md={6}>
-            {this.state.list.map((item, index) => {
-              const value = AppScreenInfoReducer[item.key];
-              return <Grid container
-                      className="row-item"
-                      key={index}>
-                  <Grid item sm={12}>
-                    <Input
-                      id={`${item.key}.${lang}`}
-                      value={value[lang]}
-                      className="MUIControl"
-                      label={item.label}
-                      reducer={ AppScreenInfoReducer }
-                      placeholder={ placeholder }
-                      multiline={true}
-                      rows="5"
-                      cols="60"
-                    />
-                  </Grid>
-                </Grid>
-              })
-            }
-          </Grid>
+        <Grid style={{padding: '20px'}}>
+          {this.state.list.map((item, index) =>
+            <Grid container
+                    className="row-item"
+                    key={index}
+            >
+              <Grid item sm={6}>
+                <Input
+                  id={`${item.key}.information.${lang}`}
+                  className="MUIControl"
+                  label={`${item.label} Information`}
+                  reducer={ AppScreenInfoReducer }
+                  placeholder={ placeholder }
+                  multiline={true}
+                  rows="5"
+                  cols="60"
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <Input
+                  id={`${item.key}.instruction.${lang}`}
+                  className="MUIControl"
+                  label={`${item.label} Instruction`}
+                  reducer={ AppScreenInfoReducer }
+                  placeholder={ placeholder }
+                  multiline={true}
+                  rows="5"
+                  cols="60"
+                />
+              </Grid>
+            </Grid>
+          )}
         </Grid>
       </div>
     )
