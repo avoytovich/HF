@@ -191,6 +191,7 @@ class DynamicQuestions extends Component {
 
     // filters out 0-level questions when they're coming from backend.
     // keys of that questions can be found here - pickKeys.testing (see variable below)
+    // const questionsToRender = questions.filter(q => !pickKeys.testing.find(key => key === q.key));
     const questionsToRender = questions.filter(q => !pickKeys.testing.find(key => key === q.key));
 
     return questions.length || result_status ?
