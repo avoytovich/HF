@@ -34,6 +34,8 @@ class DynamicQuestions extends Component {
       onChange,
     } = this.props;
 
+    const stepToShow = i + 1;
+
     switch (type) {
       case 'single':
         if (content_type === 'functionalTest') {
@@ -41,7 +43,7 @@ class DynamicQuestions extends Component {
           each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
           return (
             <div key={i}>
-              <h5>Question { step }</h5>
+              <h5>Question { stepToShow }</h5>
               <h4>Functional test</h4>
               <div>
                 <InsertDriveFile className="testing-file-icon"/>
@@ -71,7 +73,7 @@ class DynamicQuestions extends Component {
           each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
           return (
             <div key={i}>
-              <h5>Question { step }</h5>
+              <h5>Question { stepToShow }</h5>
               <C.RadioButton
                 key={i}
                 items={items}
@@ -100,7 +102,7 @@ class DynamicQuestions extends Component {
           }
           return (
             <div key={i} className="margin-range">
-              <h5>Question { step }</h5>
+              <h5>Question { stepToShow }</h5>
               <C.Range
                 key={i}
                 reducer={testingReducer}
@@ -126,7 +128,7 @@ class DynamicQuestions extends Component {
           each(values, (val, value) => bodyAreas.push({ label: val.en, value }));
           return (
             <div key={i}>
-              <h5>Question { step }</h5>
+              <h5>Question { stepToShow }</h5>
               <C.BodyAreas
                 key={i}
                 step={step}
@@ -140,10 +142,9 @@ class DynamicQuestions extends Component {
           each(values, (val, answerId) => itemsMultiple.push({ label: val.en, answerId }));
           return (
             <div key={i}>
-              <h5>Question { step }</h5>
+              <h5>Question { stepToShow }</h5>
               <C.CheckBox
                 key={i}
-                step={step}
                 items={itemsMultiple}
                 reducer={testingReducer}
                 id={key}
@@ -159,11 +160,9 @@ class DynamicQuestions extends Component {
     }
   };
 
-  _renderQuestions = (questions) => {
-    return questions.map((q, i) => {
-      return this._pickQuestion(q, i)
-    })
-  };
+  _renderQuestions = questions => questions
+    .sort((qs1, qs2) => qs1.step > qs2.step)
+    .map(this._pickQuestion);
 
   _renderConditions = (conditions, step) => {
     return conditions.map(({ title }, i) => {
