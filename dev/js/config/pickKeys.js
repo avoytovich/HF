@@ -5,6 +5,8 @@ export const testing = [
   'q_sex',
   'q_weight',
   'q_height',
+  'q_pain_baseline_VAS',
+  'q_pain_baseline_pain_type',
 ];
 
 export const pickKeys = {

@@ -9,7 +9,7 @@ import { dispatchTestingPayloadWired } from '../../../actions';
 
 class BodyAreas extends Component {
   _renderBodyAreasItem = (items = [], step) => {
-    return items.map(({ title, id }, i) => {
+    return items.map(({ label, title = label, value, id = value }, i) => {
       return !i ?
         (
           <C.BodyAreaItem
@@ -55,7 +55,7 @@ class BodyAreas extends Component {
                     });
                   }}
                   id='bodyAreasPicked'
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                   reducer={testingReducer}
                   label='Pain Areas'
                 />
