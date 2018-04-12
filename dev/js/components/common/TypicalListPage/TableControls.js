@@ -73,6 +73,7 @@ class TableControls extends Component {
       selected,
       createItem,
       uploadCSV,
+      uploadCSVadd,
       createButtonText,
       CreateButtonIcon,
       store,
@@ -158,6 +159,18 @@ class TableControls extends Component {
                 </Menu>
 
               </Grid>):''}
+            {uploadCSVadd ?
+              (<Grid item md={3} sm={3} xs={12}>
+                <Button raised dense
+                        aria-owns={anchorEl ? 'fade-menu' : null}
+                        aria-haspopup="true"
+                        onClick={() => this.handleMenuClick('addById')}
+                        color="inherit">
+                  <UploadIcon />
+                  CSV
+                </Button>
+
+              </Grid>):''}
           </Grid>
         </Grid>
       </Grid>
@@ -176,6 +189,7 @@ TableControls.defaultProps = {
 
 TableControls.propTypes = {
   uploadCSV: PropTypes.bool,
+  uploadCSVadd: PropTypes.bool,
   createItem: PropTypes.func,
   createButtonText: PropTypes.string,
   CreateButtonIcon: PropTypes.func,
