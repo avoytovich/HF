@@ -26,10 +26,10 @@ const userInfo = {
 
 class Companies extends Component {
 
-  constructor(props) {
+  /*constructor(props) {
     super(props);
     this.state.createUsersReducers = {...props.createUsersReducers};
-  }
+  }*/
 
   state = {
     selected: [],
@@ -83,7 +83,7 @@ class Companies extends Component {
       showCreateModal: !this.state.showCreateModal,
       /*createUsersReducers: {
         ...this.state.createUsersReducers,
-        name: 'bla'
+        name: ''
       }*/
     });
     Object.keys(createUsersReducers).map(each =>
@@ -98,7 +98,7 @@ class Companies extends Component {
   };
 
   render() {
-    console.log('Companies prop', this.props);
+    //console.log('Companies prop', this.props);
     //console.log('Companies state', this.state);
     const { tableHeader } = COMPANIES_TAB;
     const { selected, showCreateModal,showActivateModal,
