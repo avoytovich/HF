@@ -57,7 +57,7 @@ class AsyncAreaSelect extends Component {
   }
 
   renderValue = areas => selected => selected
-    .map(id => find(areas, {id}).label)
+    .map(id => findArea(areas, {id}).label)
     .join(', ');
 
   render() {
