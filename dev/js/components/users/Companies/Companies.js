@@ -13,6 +13,7 @@ import CreateUser               from '../CreateUser/CreateUser';
 import DeactivateComponent      from '../user-modals/deactivateModal';
 import DeleteComponent          from '../user-modals/deleteModal';
 import {domen, api}             from '../../../config';
+import { refreshField } from './../../../utils/constants';
 import {
   getListByPost, dispatchUserPayload  }     from '../../../actions'
 import {createUsersReducers} from '../../../reducers/createUsersReducers';
@@ -78,7 +79,6 @@ class Companies extends Component {
 
   createEntity = () => {
     const { createUsersReducers } = this.props;
-    const refresh = ['name', 'email'];
     this.setState({
       showCreateModal: !this.state.showCreateModal,
       /*createUsersReducers: {
@@ -87,7 +87,7 @@ class Companies extends Component {
       }*/
     });
     Object.keys(createUsersReducers).map(each =>
-      refresh.map(field => (each == field &&
+      refreshField.map(field => (each == field &&
         dispatchUserPayload(createUsersReducers[each] = ''))));
   };
 
