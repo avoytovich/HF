@@ -76,7 +76,7 @@ class SimpleUsers extends Component {
   };
 
   _toggleCSVModal=(data)=>{
-    const browserUrl = get(this.props,'location.pathname')+ get(this.props,'location.search');
+    const browserUrl = get(this.props,'location.pathname') + get(this.props,'location.search');
     toggleCSVModalSimple(data, this, browserUrl)
   };
 

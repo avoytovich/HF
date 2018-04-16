@@ -1,6 +1,7 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { COMPANIES_USERS_TAB }              from '../../../utils/constants/pageContent';
+import { get }                  from 'lodash';
+import { COMPANIES_USERS_TAB }  from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
@@ -12,7 +13,12 @@ import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeleteIcon               from 'material-ui-icons/Delete';
 import ChatIcon                 from 'material-ui-icons/Chat';
+import UploadIcon               from 'material-ui-icons/FileUpload';
+import Modal                    from '../../common/Modal/Modal';
+import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
 import {domen, api}             from '../../../config';
+
+import { toggleCSVModal }       from '../../../actions'
 
 class OrganizationsUsers extends Component {
   state = {
@@ -52,8 +58,14 @@ class OrganizationsUsers extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
+  openCSV = () => {
+    const browserUrl = get(this.props,'location.pathname') + get(this.props,'location.search');
+    toggleCSVModal('add', this, browserUrl, get(this.state.selected, '[0].customer_id'));
+  };
+
   render() {
     const { tableHeader } = COMPANIES_USERS_TAB;
+    const { state } = this;
     const { selected, showActivateModal, showDeactivateModal, showDeleteModal, showChatModal} = this.state;
     const querySelector = {...this.props.location.query,...{customer_type: 'organization'}};
     const url = `${domen['users']}${api['organizationsUsers']}`;
@@ -63,7 +75,8 @@ class OrganizationsUsers extends Component {
         <TableControls
           locationUrl={this.props.location.pathname}
           path="organizationsUsers"
-          selected={selected}>
+          selected={selected}
+        >
 
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
@@ -85,7 +98,22 @@ class OrganizationsUsers extends Component {
             <ChatIcon/> Chat
           </Button>
 
+          <Button raised dense
+                  onClick={() => this.openCSV()}>
+            <UploadIcon />
+            CSV
+          </Button>
+
         </TableControls>
+
+        <Modal
+          itemName="name_real"
+          open={state.showCSVUploadModal}
+          title={state.CSVUploadModalTitle}
+          toggleModal={this._toggleCSVModal}
+          onConfirmClick={() => state.CSVUploadModalConfirm()}
+          CustomContent={() => <CSVUploadModal />}
+        />
 
         <TableComponent
           location={this.props.location}
@@ -166,7 +194,8 @@ class OrganizationsUsers extends Component {
 }
 
 const mapStateToProps = state => ({
-  store: state.tables.diagnosis
+  store: state.tables.diagnosis,
+  CSVFileReducer :state.CSVFileReducer,
 });
 
 export default  connect(mapStateToProps)(OrganizationsUsers);
