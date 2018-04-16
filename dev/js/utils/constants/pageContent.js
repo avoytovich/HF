@@ -319,3 +319,6 @@ export const ASSETS_ITEM  = PropTypes.PropTypes.shape({
   type          : PropTypes.string,
   updated_at    : PropTypes.number,
 }).isRequired;
+
+export const refreshField = ['name', 'email', 'legal_info',
+  'contact_info', 'additional_info', 'billing_info'];
