@@ -78,6 +78,7 @@ class Companies extends Component {
 
   createEntity = () => {
     const { createUsersReducers } = this.props;
+    const refresh = ['name', 'email'];
     this.setState({
       showCreateModal: !this.state.showCreateModal,
       /*createUsersReducers: {
@@ -85,7 +86,9 @@ class Companies extends Component {
         name: 'bla'
       }*/
     });
-    dispatchUserPayload(createUsersReducers['name'] = '');
+    Object.keys(createUsersReducers).map(each =>
+      refresh.map(field => (each == field &&
+        dispatchUserPayload(createUsersReducers[each] = ''))));
   };
 
   updateModal = (key, value) => {
@@ -95,7 +98,7 @@ class Companies extends Component {
   };
 
   render() {
-    //console.log('Companies prop', this.props);
+    console.log('Companies prop', this.props);
     //console.log('Companies state', this.state);
     const { tableHeader } = COMPANIES_TAB;
     const { selected, showCreateModal,showActivateModal,
