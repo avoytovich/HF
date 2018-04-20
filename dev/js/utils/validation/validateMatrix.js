@@ -145,7 +145,7 @@ export const validateMatrix = data => {
     [bCN('exercise', 'name')]: {
       length: {
         minimum: 2,
-        message: notEmpty('Notes'),
+        message: notEmpty('Name'),
         tokenizer: minimizeString,
       }
     },
