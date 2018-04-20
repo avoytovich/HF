@@ -50,10 +50,10 @@ class PLComponent extends Component {
       const options = data.map(item =>
         Object.assign({}, { label: item.title, value: item.id, id: item.id }));
       this.setState({options});
-      return {
+      /*return {
         options: _data,
         complete: true
-      }
+      }*/
     });
   };
 
@@ -97,7 +97,7 @@ class PLComponent extends Component {
           id='package'
           options={this.state.options}
           onInputChange={this.getPackageOptions}
-          /*onChange={value => this.onPackageChange(value, index)}*/
+          onChange={value => this.onPackageChange(value, index)}
           placeholder={'Select package'}
           value={packageId}
           clearable={false}
