@@ -1,6 +1,7 @@
 import React, { Component }         from 'react';
 import { connect }                  from 'react-redux';
 import { Async }                    from 'react-select';
+import Select from 'react-select';
 import PropTypes                    from 'prop-types';
 
 import {
@@ -11,21 +12,31 @@ import {
 
 import Grid                         from 'material-ui/Grid';
 import Typography                   from 'material-ui/Typography';
-import Select                       from 'material-ui/Select';
+import SelectMaterial               from 'material-ui/Select';
 import Menu, { MenuItem }           from 'material-ui/Menu';
 
 
 class PLComponent extends Component {
-  state = { levelsList: [] };
+  state = {
+    levelsList: [],
+    options:[]
+  };
 
   componentWillMount() {
     const id = this.props.packageId;
     if (id) {
       getPackagenById('exercises', 'packages', id, true).then((_res) => {
         if (!_res.packageLevels) return;
-
+        let options = [];
+        let optionObject= {
+          label:_res.title,
+          value:_res.id,
+          id:_res.id
+        };
+        options.push(optionObject);
         const {data} = _res.packageLevels;
         const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
+        this.setState({options: options});
         updateCrateQuestionFields(levelsList, `packageLevelsList[${this.props.index}].levelsList`);
       });
     }
@@ -36,8 +47,9 @@ class PLComponent extends Component {
     const { area } = this.props;
     return findPackage('exercises', 'getPackageByArea', input, area).then(res => {
       const { data } = res.data;
-      const _data = data.map(item =>
+      const options = data.map(item =>
         Object.assign({}, { label: item.title, value: item.id, id: item.id }));
+      this.setState({options});
       return {
         options: _data,
         complete: true
@@ -71,9 +83,6 @@ class PLComponent extends Component {
   render() {
     const { packageId, levelId, levelsList, index } = this.props;
 
-
-
-
     return <Grid container className="row-item">
       <Grid item sm={6} xs={12}>
         <Typography
@@ -83,11 +92,12 @@ class PLComponent extends Component {
           Package
         </Typography>
 
-        <Async
+        <Select
           name='package'
           id='package'
-          loadOptions={this.getPackageOptions}
-          onChange={value => this.onPackageChange(value, index)}
+          options={this.state.options}
+          onInputChange={this.getPackageOptions}
+          /*onChange={value => this.onPackageChange(value, index)}*/
           placeholder={'Select package'}
           value={packageId}
           clearable={false}
@@ -103,7 +113,7 @@ class PLComponent extends Component {
         >
           Level
         </Typography>
-        <Select
+        <SelectMaterial
           value={levelId}
           onChange={event => this.handleLevelsChange(event, index)}
           disabled={!levelsList.length}
@@ -121,7 +131,7 @@ class PLComponent extends Component {
               Level {item.label}
             </MenuItem>
           ))}
-        </Select>
+        </SelectMaterial>
       </Grid>
     </Grid>
   }
