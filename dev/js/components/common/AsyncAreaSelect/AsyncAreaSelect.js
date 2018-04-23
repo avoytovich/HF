@@ -56,9 +56,16 @@ class AsyncAreaSelect extends Component {
     });
   }
 
-  renderValue = areas => selected => selected
-    .map(id => findArea(areas, {id}).label)
-    .join(', ');
+  renderValue(areaIds, areas) {
+    return areaIds.map(item => {
+      let selected = [];
+      areas.map(each => {
+        if (each.id == item) selected.push(each.title);
+      });
+      return selected.map(select => select);
+    })
+      .join(', ');
+  }
 
   render() {
     const {
@@ -84,7 +91,7 @@ class AsyncAreaSelect extends Component {
           placeholder={ placeholder }
           disabled={ !areas.length }
           MenuProps={MenuProps}
-          renderValue={this.renderValue(areas)}
+          renderValue={this.renderValue.bind(this, areaIds, areas)}
           onChange={event => updateCrateQuestionFields(event.target.value, valuePath)}>
           {areas.map(item => (
             <MenuItem
