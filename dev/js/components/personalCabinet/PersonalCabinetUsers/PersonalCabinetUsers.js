@@ -72,7 +72,7 @@ class PersonalCabinetUsers extends Component {
   _createSimpleUser =() =>{
     let location = get(this.props,'location.search');
     const result = {
-      customer_id: this.props.userReducer.user_id,
+      customer_id: this.props.userReducer.customer_id,
       email: this.props.createSimpleUsersReducers.email,
     };
     userCreate('users', 'createSimpleUser', result)
@@ -85,7 +85,7 @@ class PersonalCabinetUsers extends Component {
 
   _toggleCSVModal=(data)=>{
     const browserUrl = get(this.props,'location.pathname')+ get(this.props,'location.search');
-    toggleCSVModal(data, this, browserUrl, this.props.userReducer.user_id)
+    toggleCSVModal(data, this, browserUrl, this.props.userReducer.customer_id)
   };
 
   render() {
@@ -93,7 +93,7 @@ class PersonalCabinetUsers extends Component {
     const { selected, showActivateModal, showDeactivateModal, showCreateUserModal,
             showCSVUploadModal, showDeleteModal } = this.state;
     const querySelector = this.props.location.query;
-    const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.userReducer.user_id}`;
+    const url = `${domen['users']}${api['clinicsOwnUsers']}/${this.props.userReducer.customer_id}`;
     return (
       <div id="diagnosis-component">
 
@@ -190,7 +190,10 @@ class PersonalCabinetUsers extends Component {
           itemName="name_real"
           open={showCreateUserModal}
           title='Add user'
-          toggleModal={()=>this.updateModal('showCreateUserModal', true)}
+          toggleModal={()=> showCreateUserModal &&
+            this.updateModal('showCreateUserModal', false) ||
+            this.updateModal('showCreateUserModal', false)
+          }
           onConfirmClick={() => this._createSimpleUser()}
           CustomContent={() => <CreateSimpleUser />}
         />
