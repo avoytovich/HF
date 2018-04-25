@@ -1,6 +1,7 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
 import { USERS_TAB }            from '../../../utils/constants/pageContent';
+import { Api }                  from '../../../utils';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router';
 import get                      from 'lodash//get';
@@ -12,9 +13,11 @@ import CreateSimpleAdminUser    from '../CreateUser/CreateSimpleAdminUser';
 import Modal                    from '../../common/Modal/Modal';
 import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
 import {domen, api}             from '../../../config';
-import { toggleCSVModalSimple,
+import {
+  toggleCSVModalSimple,
   dispatchCreateSimpleUserPayloadWired,
-  userCreate}                   from '../../../actions'
+  userCreate, notifier
+} from '../../../actions'
 
 import Button                   from 'material-ui/Button';
 import ActivateIcon             from 'material-ui-icons/Check';
@@ -104,6 +107,26 @@ class SimpleUsers extends Component {
           uploadCSV={true}
         >
 
+          <Button raised dense
+            onClick={() => {
+              selected.map((select, id) => {
+                Api.post(`${domen.users}/consultant/info/provide`, {'user_id': selected[id].user_id});
+              })
+            }}
+            className='identity'
+          >
+            <ActivateIcon/>Indentity
+          </Button>
+          <Button raised dense
+            onClick={() => {
+              selected.map((select, id) => {
+                Api.post(`${domen.users}/consultant/info/hide`, {'user_id': selected[id].user_id});
+              })
+            }}
+            className='anonymize'
+          >
+            <DeactivateIcon/> Anonymize
+          </Button>
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
             <ActivateIcon/>Activate
