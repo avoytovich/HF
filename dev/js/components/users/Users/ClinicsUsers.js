@@ -2,6 +2,7 @@ import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
 import { get }                  from 'lodash';
 import { CLINICS_USERS_TAB }    from '../../../utils/constants/pageContent';
+import { Api }                  from '../../../utils';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
 import TableControls            from '../../common/TypicalListPage/TableControls';
@@ -73,6 +74,26 @@ class ClinicsUsers extends Component {
           createButtonText="Add"
         >
 
+          <Button raised dense
+            onClick={() => {
+              selected.map((select, id) => {
+                Api.post(`${domen.users}/consultant/info/provide`, {'user_id': selected[id].user_id});
+              })
+            }}
+            className='identity'
+          >
+            <ActivateIcon/>Indentity
+          </Button>
+          <Button raised dense
+            onClick={() => {
+              selected.map((select, id) => {
+                Api.post(`${domen.users}/consultant/info/hide`, {'user_id': selected[id].user_id});
+              })
+            }}
+            className='anonymize'
+          >
+            <DeactivateIcon/> Anonymize
+          </Button>
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
             <ActivateIcon/>Activate
