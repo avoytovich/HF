@@ -1,5 +1,6 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
+import { get }                  from 'lodash';
 import { CLINICS_USERS_TAB }    from '../../../utils/constants/pageContent';
 import { TableComponent }       from '../../../components/common/TypicalListPage';
 import { browserHistory }       from 'react-router'
@@ -12,8 +13,11 @@ import ActivateIcon             from 'material-ui-icons/Check';
 import DeactivateIcon           from 'material-ui-icons/NotInterested';
 import DeleteIcon               from 'material-ui-icons/Delete';
 import ChatIcon                 from 'material-ui-icons/Chat';
-
+import UploadIcon                from 'material-ui-icons/FileUpload';
+import Modal                    from '../../common/Modal/Modal';
+import CSVUploadModal           from '../../common/Modal/CSVUploadModal';
 import {domen, api}             from '../../../config';
+import { toggleCSVModal }       from '../../../actions'
 
 class ClinicsUsers extends Component {
   state = {
@@ -47,9 +51,15 @@ class ClinicsUsers extends Component {
     if (!value) this.setState({ selected: [] });
   };
 
+  openCSV = () => {
+    const browserUrl = get(this.props,'location.pathname') + get(this.props,'location.search');
+    toggleCSVModal('add', this, browserUrl, get(this.state.selected, '[0].customer_id'));
+  };
+
   render() {
     const { tableHeader } = CLINICS_USERS_TAB;
-    const { selected, showActivateModal,  showDeactivateModal, showDeleteModal, showChatModal} = this.state;
+    const { state } = this;
+    const { selected, showActivateModal,  showDeactivateModal, showDeleteModal, showChatModal} = state;
     const querySelector = {...this.props.location.query,...{customer_type: 'clinic'}};
     const url = `${domen['users']}${api['clinicsUsers']}`;
     return (
@@ -83,7 +93,22 @@ class ClinicsUsers extends Component {
             <ChatIcon/> Chat
           </Button>
 
+          <Button raised dense
+                  onClick={() => this.openCSV()}>
+            <UploadIcon />
+            CSV
+          </Button>
+
         </TableControls>
+
+        <Modal
+          itemName="name_real"
+          open={state.showCSVUploadModal}
+          title={state.CSVUploadModalTitle}
+          toggleModal={this._toggleCSVModal}
+          onConfirmClick={() => state.CSVUploadModalConfirm()}
+          CustomContent={() => <CSVUploadModal />}
+        />
 
         <TableComponent
           location={this.props.location}
@@ -164,7 +189,8 @@ class ClinicsUsers extends Component {
 }
 
 const mapStateToProps = state => ({
-  store: state.tables.diagnosis
+  store:          state.tables.diagnosis,
+  CSVFileReducer: state.CSVFileReducer
 });
 
 export default  connect(mapStateToProps)(ClinicsUsers);

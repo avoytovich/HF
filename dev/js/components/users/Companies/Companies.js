@@ -13,8 +13,10 @@ import CreateUser               from '../CreateUser/CreateUser';
 import DeactivateComponent      from '../user-modals/deactivateModal';
 import DeleteComponent          from '../user-modals/deleteModal';
 import {domen, api}             from '../../../config';
+import { refreshField } from './../../../utils/constants';
 import {
-  getListByPost  }     from '../../../actions'
+  getListByPost, dispatchUserPayload  }     from '../../../actions'
+import {createUsersReducers} from '../../../reducers/createUsersReducers';
 
 const userInfo = {
   headerTitle:'Create Company',
@@ -24,6 +26,12 @@ const userInfo = {
 }
 
 class Companies extends Component {
+
+  /*constructor(props) {
+    super(props);
+    this.state.createUsersReducers = {...props.createUsersReducers};
+  }*/
+
   state = {
     selected: [],
     showCreateModal: false,
@@ -70,7 +78,18 @@ class Companies extends Component {
   onSelectAllClick = (selected) => this.setState({ selected });
 
   createEntity = () => {
-    this.setState({ showCreateModal: !this.state.showCreateModal })};
+    const { createUsersReducers } = this.props;
+    this.setState({
+      showCreateModal: !this.state.showCreateModal,
+      /*createUsersReducers: {
+        ...this.state.createUsersReducers,
+        name: ''
+      }*/
+    });
+    Object.keys(createUsersReducers).map(each =>
+      refreshField.map(field => (each == field &&
+        dispatchUserPayload(createUsersReducers[each] = ''))));
+  };
 
   updateModal = (key, value) => {
     this.setState({ [key]: value });
@@ -79,6 +98,8 @@ class Companies extends Component {
   };
 
   render() {
+    //console.log('Companies prop', this.props);
+    //console.log('Companies state', this.state);
     const { tableHeader } = COMPANIES_TAB;
     const { selected, showCreateModal,showActivateModal,
       showDeactivateModal, showDeleteModal } = this.state;

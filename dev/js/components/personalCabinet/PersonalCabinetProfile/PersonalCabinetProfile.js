@@ -60,7 +60,7 @@ class Profile extends Component {
   }
 
   componentWillMount (){
-    getProfileWired(this.props.userReducer.user_id, 'customers');
+    getProfileWired(this.props.userReducer.customer_id, 'customers');
   }
 
   _getUsers = ()=>{
@@ -120,7 +120,7 @@ class Profile extends Component {
 
   _createSimpleUser =() => {
     const result = {
-      customer_id: this.props.userReducer.user_id,
+      customer_id: this.props.userReducer.customer_id,
       email: this.props.createSimpleUsersReducers.email
     };
 
@@ -128,7 +128,7 @@ class Profile extends Component {
       .then(() => {
         this.setState({showCreateUserModal: false});
         dispatchCreateSimpleUserPayloadWired({email:''});
-        getProfileWired(this.props.userReducer.user_id, 'customers');
+        getProfileWired(this.props.userReducer.customer_id, 'customers');
       });
   };
 

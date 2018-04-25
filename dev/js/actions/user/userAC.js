@@ -49,12 +49,17 @@ export const  toggleCSVModal = (data, that, browserUrl, userId) =>{
   }
 };
 
-export const  toggleCSVModalSimple = (data, that, browserUrl) =>{
+export const  toggleCSVModalSimple = (data, that, browserUrl, userId) =>{
   switch(data) {
     case 'add':
       that.setState({ showCSVUploadModal: !that.state.showCSVUploadModal,
         CSVUploadModalTitle: 'Add users',
         CSVUploadModalConfirm: ()=> userActionByCSV(that,'createSimpleUserByCSV',  browserUrl)});
+      return;
+    case 'addById':
+      that.setState({ showCSVUploadModal: !that.state.showCSVUploadModal,
+        CSVUploadModalTitle: 'Add users',
+        CSVUploadModalConfirm: ()=> userActionByCSV(that,'createSimpleUserByCSV',  browserUrl, userId)});
       return;
     case 'activate':
       return;

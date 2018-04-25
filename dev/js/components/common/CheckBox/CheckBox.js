@@ -60,7 +60,7 @@ class CheckBox extends Component {
 
     return (
       <FormControl component="fieldset">
-        <FormLabel component="legend">Assign responsibility</FormLabel>
+        <FormLabel component="legend">{this.props.label}</FormLabel>
         <FormGroup>
           { this._renderCheckBoxes(items, step)}
         </FormGroup>

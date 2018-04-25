@@ -22,7 +22,7 @@ import { CreateItemNavButtons }     from '../../../common';
 
 class CreateLevelUpComponent extends Component {
   state = {
-    questionType    : 'levelUp',
+    questionType    : 'levelup',
     sequenceTypeList: [
       {label: 'Normal', value: 'normal'},
       {label: 'After',  value: 'after' },
@@ -131,7 +131,7 @@ class CreateLevelUpComponent extends Component {
     const savedErrors = {questionKey: errors.questionKey};
 
     const result = {
-      type : 'levelUp',
+      type : 'levelup',
       key  : questionKey,
       step : this.getSequenceTypeResult(sequenceType, sequence),
       title: questionTitle,
@@ -207,7 +207,7 @@ class CreateLevelUpComponent extends Component {
                 sequenceList={this.state.sequenceList}/> :
               <DiagnosisTypeQuestion
                 page='evaluations'
-                SequenceBlockReqType="levelUp"
+                SequenceBlockReqType="levelup"
                 packages={true}
                 showLevelUp={true}
                 hideArea={true}

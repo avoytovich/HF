@@ -128,7 +128,7 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
         answerSubtype: !answerType ? 'list' : undefined
       };
       const noSteps   = page === 'condition' || page === 'treatment';
-      const noAreaIds = page === 'levelUp';
+      const noAreaIds = page === 'levelup';
       let _body = noSteps   ? body  : {...body, step: step || null};
           _body = noAreaIds ? _body : {..._body, areaIds: areaIds || []};
 
@@ -160,8 +160,8 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
 
 const checkRuleType = (type, page) => {
   switch (page) {
-    case 'levelUp':
-      return 'levelUp';
+    case 'levelup':
+      return 'levelup';
     case 'evaluation':
       return 'evaluation';
     default:
