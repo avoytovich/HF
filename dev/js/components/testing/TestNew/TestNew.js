@@ -102,7 +102,7 @@ class TestNew extends Component {
               <Button
                 raised
                 dense
-                onClick={() => this._finalSubmit()}
+                onClick={this._finalSubmit}
                 color="primary"
               >
                 Next

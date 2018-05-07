@@ -64,6 +64,12 @@ const industryArray = [
 ];
 
 class CreateUser extends Component {
+  constructor(props) {
+    super(props);
+    this.props.createUsersReducers.contact_info = {
+      contacts: []
+    }
+  }
 
   componentWillMount() {
     if(this.props.userInfo){
@@ -85,9 +91,9 @@ class CreateUser extends Component {
   _addContact = (array)=>{
     array.push({
       name: "",
-        surname: "",
-        email: "",
-        phone: ""
+      surname: "",
+      email: "",
+      phone: ""
     });
     this.setState({
       createUsersReducers:{
@@ -99,16 +105,17 @@ class CreateUser extends Component {
 
   _dublicatePostalCode = ()=>{
     const newBillingData = {billing_info:
-      {postal_code: this.props.createUsersReducers.contact_info.postal_code,
-        address: this.props.createUsersReducers.contact_info.address,
-        country: this.props.createUsersReducers.contact_info.country,
-        region: this.props.createUsersReducers.contact_info.region,
-      }}
+        {postal_code: this.props.createUsersReducers.contact_info.postal_code,
+          address: this.props.createUsersReducers.contact_info.address,
+          country: this.props.createUsersReducers.contact_info.country,
+          region: this.props.createUsersReducers.contact_info.region,
+        }}
     dispatchCreateUserPayloadWired({...this.props.createUsersReducers,...newBillingData})
   }
 
   render() {
     const createUsersReducers = { ...this.props.userData, ...this.props.createUsersReducers};
+    console.log('createUsersReducers', createUsersReducers.contact_info);
     const contacts = get(createUsersReducers,'contact_info.contacts')||[];
     let tariffPlans = get(this.props,'tariffPlans.data',[]);
     tariffPlans = map(tariffPlans, el =>  ({
@@ -164,23 +171,23 @@ class CreateUser extends Component {
           </div>
 
           <div className="create-user-container">
-          <div className="create-user-contacts-container">
-            <h3 className="create-user-title">Contact Persons</h3>
-            {map(contacts, (el,index) => {
-              return(
-                <div key={index} className="create-user-input-container">
-                 <div className="delete-item-container">
-                   <Input id={`contact_info.contacts[${index}].name`} reducer={createUsersReducers} label='Name' placeholder='Name'/>
-                   <DeleteIcon onClick = {()=>this._deleteContact(index, createUsersReducers.contact_info.contacts)}/>
-                 </div>
-                  <Input id={`contact_info.contacts[${index}].surname`} reducer={createUsersReducers} label='Surname' placeholder='Surname'/>
-                  <Input id={`contact_info.contacts[${index}].email`} reducer={createUsersReducers} label='Email' placeholder='Email'/>
-                  <Input id={`contact_info.contacts[${index}].phone`} reducer={createUsersReducers} label='Phone' placeholder='Phone'/>
-                </div>
-              )
-            })}
-            <div className="add-contact-person" onClick = {()=>this._addContact(createUsersReducers.contact_info.contacts)}><span>+</span> ADD CONTACT PERSON </div>
-          </div>
+            <div className="create-user-contacts-container">
+              <h3 className="create-user-title">Contact Persons</h3>
+              {map(contacts, (el,index) => {
+                return(
+                  <div key={index} className="create-user-input-container">
+                    <div className="delete-item-container">
+                      <Input id={`contact_info.contacts[${index}].name`} reducer={createUsersReducers} label='Name' placeholder='Name'/>
+                      <DeleteIcon onClick = {()=>this._deleteContact(index, createUsersReducers.contact_info.contacts)}/>
+                    </div>
+                    <Input id={`contact_info.contacts[${index}].surname`} reducer={createUsersReducers} label='Surname' placeholder='Surname'/>
+                    <Input id={`contact_info.contacts[${index}].email`} reducer={createUsersReducers} label='Email' placeholder='Email'/>
+                    <Input id={`contact_info.contacts[${index}].phone`} reducer={createUsersReducers} label='Phone' placeholder='Phone'/>
+                  </div>
+                )
+              })}
+              <div className="add-contact-person" onClick = {()=>this._addContact(createUsersReducers.contact_info.contacts)}><span>+</span> ADD CONTACT PERSON </div>
+            </div>
             <div className="create-user-contacts-container">
               <h3 className="create-user-title"/>
             </div>

@@ -8,6 +8,14 @@ import Tabs, { Tab }        from 'material-ui/Tabs';
 import { dispatchMatrixPayloadWired } from '../../../actions';
 
 class CreateItemNavButtons extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state= {
+      showLangSwitcher: true
+    };
+  }
+
   componentWillMount() {
     dispatchMatrixPayloadWired({ questionAnswerLang: 'en' })
   }
@@ -41,38 +49,38 @@ class CreateItemNavButtons extends Component {
       <div className="navigation-zone">
         {
           showLangSwitcher &&
-            <Tabs
-              value={_langValue}
-              indicatorColor="primary"
-              className="tab-lang answer"
-              textColor="primary"
-            >
-              <Tab
-                onClick={() => dispatchMatrixPayloadWired({ questionAnswerLang: 'en' })}
-                label="English"
-                value="en"
-                className="MUITab"
-              />
-              <Tab
-                onClick={() => dispatchMatrixPayloadWired({ questionAnswerLang: 'swe' })}
-                label="Swedish"
-                value="swe"
-                className="MUITab"
-              />
-            </Tabs>
+          <Tabs
+            value={_langValue}
+            indicatorColor="primary"
+            className="tab-lang answer"
+            textColor="primary"
+          >
+            <Tab
+              onClick={() => dispatchMatrixPayloadWired({ questionAnswerLang: 'en' })}
+              label="English"
+              value="en"
+              className="MUITab"
+            />
+            <Tab
+              onClick={() => dispatchMatrixPayloadWired({ questionAnswerLang: 'swe' })}
+              label="Swedish"
+              value="swe"
+              className="MUITab"
+            />
+          </Tabs>
         }
         { !customNavigation ?
           <div className="navigation-zone-default">
             {
               showSwitch &&
-                <div>
-                  <Switch
-                    label={switchLabel}
-                    checked={!switchChecked}
-                    labelClassName={'switch-label'}
-                    onChange={onSwitchChange}
-                  />
-                </div>
+              <div>
+                <Switch
+                  label={switchLabel}
+                  checked={!switchChecked}
+                  labelClassName={'switch-label'}
+                  onChange={onSwitchChange}
+                />
+              </div>
             }
 
             <div className="nav-buttons">
@@ -131,6 +139,7 @@ CreateItemNavButtons.propTypes = {
 
 const mapStateToProps = state => ({
   createDiagnosisQuestion: state.createDiagnosisQuestion,
+  showLangSwitcher: state.showLangSwitcher,
 });
 
 export default connect(mapStateToProps)(CreateItemNavButtons);
