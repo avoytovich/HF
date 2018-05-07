@@ -4,8 +4,8 @@ import set                 from 'lodash/set';
 import get                 from 'lodash/get';
 import isEmpty             from 'lodash/isEmpty';
 import * as dotProp        from 'dot-prop-immutable';
-import { findType }        from '../../utils/matrix'
-import InitialState        from './initialState'
+import { findType }        from '../../utils/matrix';
+import InitialState        from './initialState';
 
 const createQuestionUpdate = (state, action) => {
   switch (action.type) {
@@ -232,6 +232,8 @@ const setFullQuestionForPackage = (state, action) => {
       type,
       testing_mode,
       app_title,
+      tab,
+      levelInfo
     }
   } = action.payload;
   const _body = {
@@ -239,6 +241,22 @@ const setFullQuestionForPackage = (state, action) => {
     title,
     app_title,
     questionKey  : key,
+    therapyInfoen: (() => {
+      const absorb = packageLevels.data.filter((each) => {
+        return each.level === levelInfo;
+      });
+      if (absorb.length === 0 && packageLevels.data[tab]) return packageLevels.data[tab].information['en'];
+      if (absorb[0]) return absorb[0].information['en'];
+      return '';
+    })(),
+    therapyInfoswe: (() => {
+      const absorb = packageLevels.data.filter((each) => {
+        return each.level === levelInfo;
+      });
+      if (absorb.length === 0 && packageLevels.data[tab]) return packageLevels.data[tab].information['swe'];
+      if (absorb[0]) return absorb[0].information['swe'];
+      return '';
+    })(),
     packageLevels: configPackageLevel(packageLevels.data),
     packageType  : type,
     testing_mode

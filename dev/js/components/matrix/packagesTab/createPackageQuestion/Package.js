@@ -27,6 +27,7 @@ import PackageLevel                 from './PackageLevel';
 import { submitTabs }               from '../../../../utils';
 import MatrixPreLoader              from '../../matrixPreloader';
 import { CreateItemNavButtons }     from '../../../common';
+import lang from '../../../../config/lang';
 
 
 export const THERAPY = [
@@ -61,6 +62,7 @@ class Package extends Component {
     questionType    : 'packages',
     keyIsUniqueError: '',
     tab: '0',
+    levelInfo: '0',
     loading: false
   };
 
@@ -74,13 +76,14 @@ class Package extends Component {
   componentWillMount() {
     if (this.props.params.id) {
       this.setState({loading: true});
-      getPackagenById('exercises', 'packages', this.props.params.id).then(res => {
+      getPackagenById('exercises', 'packages', this.props.params.id,
+        this.state.tab, this.state.levelInfo)
+        .then(res => {
 //        browserHistory.push(`/packages-create/${this.props.routeParams.id}?level=${0}`)
-        const { packageLevels } = res;
-        this.levelList = packageLevels.data;
-        this.setState({loading: false});
-      })
-
+          const { packageLevels } = res;
+          this.levelList = packageLevels.data;
+          this.setState({loading: false});
+        })
     }
     else {
 //      const newOne = Object.assign({}, DEFAULT_LEVEL);
@@ -92,11 +95,20 @@ class Package extends Component {
     clearCreateQuestion();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.tab != this.state.tab) {
+      getPackagenById('exercises', 'packages', this.props.params.id,
+        this.state.tab, this.state.levelInfo);
+    }
+  }
+
   done = (value) => {
     const {
       testing_mode,
       areaIds,
       questionKey,
+      therapyInfoen,
+      therapyInfoswe,
       questionTitle,
       packageLevels,
       therapyContinuity,
@@ -112,6 +124,13 @@ class Package extends Component {
 //      return oldLevel && !el.id ? Object.assign({}, el, {id: oldLevel.id}) : el;
 //    });
 
+    packageLevels[this.state.tab] = {
+      ...packageLevels[this.state.tab],
+      information: {
+        'en': therapyInfoen,
+        'swe': therapyInfoswe
+      }
+    };
     const result = {
       key      : questionKey,
       areaIds  : areaIds,
@@ -121,7 +140,6 @@ class Package extends Component {
       app_title,
       testing_mode,
     };
-
     submitTabs(
       validValue,
       errors,
@@ -136,7 +154,10 @@ class Package extends Component {
   cancel = () => browserHistory.push(`/matrix-setup/packages`);
 
   handleTabChange = (event, tab) => {
-    this.setState({ tab });
+    this.setState({
+      tab,
+      levelInfo: this.props.createDiagnosisQuestion.packageLevels[tab].level
+    });
 //    browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${tab}`);
   };
 
@@ -183,6 +204,16 @@ class Package extends Component {
       },
       routeParams: { id },
     } = this.props;
+
+    packageLevels.sort((a, b) => {
+      if (a.level > b.level) return 1;
+      if (a.level > b.level) return -1;
+      return 0;
+    });
+
+    if (this.state.tab > packageLevels.length -1) {
+      this.addNewLevel(packageLevels);
+    }
 
     return (
       <div id="create-question">
@@ -317,15 +348,14 @@ class Package extends Component {
                 scrollable
                 fullWidth
               >
-                {
-                  packageLevels.map((item, index) =>
-                  <Tab key={index} label={`Level ${index + 1}`}/>)
+                {packageLevels.map((item, index) =>
+                  <Tab key={index} label={`Level ${item.level}`} />)
                 }
               </Tabs>
             </div>
 
             {
-              packageLevels.map((level, index) => {
+               packageLevels.map((level, index) => {
                 const {
                   therapy_continuity,
                   exercises,
