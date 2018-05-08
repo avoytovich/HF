@@ -77,7 +77,7 @@ class Package extends Component {
     if (this.props.params.id) {
       this.setState({loading: true});
       getPackagenById('exercises', 'packages', this.props.params.id,
-        this.state.tab, this.state.levelInfo)
+        this.state.tab, this.state.levelInfo, this.props.createDiagnosisQuestion.packageLevels)
         .then(res => {
 //        browserHistory.push(`/packages-create/${this.props.routeParams.id}?level=${0}`)
           const { packageLevels } = res;
@@ -98,7 +98,7 @@ class Package extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.tab != this.state.tab) {
       getPackagenById('exercises', 'packages', this.props.params.id,
-        this.state.tab, this.state.levelInfo);
+        this.state.tab, this.state.levelInfo, this.props.createDiagnosisQuestion.packageLevels);
     }
   }
 
@@ -184,6 +184,7 @@ class Package extends Component {
   };
 
   render() {
+    console.log('Package PROPS', this.props);
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
@@ -211,9 +212,9 @@ class Package extends Component {
       return 0;
     });
 
-    if (this.state.tab > packageLevels.length -1) {
+    /*if (this.state.tab > packageLevels.length -1) {
       this.addNewLevel(packageLevels);
-    }
+    }*/
 
     return (
       <div id="create-question">

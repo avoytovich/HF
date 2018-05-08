@@ -233,7 +233,8 @@ const setFullQuestionForPackage = (state, action) => {
       testing_mode,
       app_title,
       tab,
-      levelInfo
+      levelInfo,
+      newPackageLevels
     }
   } = action.payload;
   const _body = {
@@ -257,7 +258,7 @@ const setFullQuestionForPackage = (state, action) => {
       if (absorb[0]) return absorb[0].information['swe'];
       return '';
     })(),
-    packageLevels: configPackageLevel(packageLevels.data),
+    packageLevels: configPackageLevel(packageLevels.data, newPackageLevels),
     packageType  : type,
     testing_mode
   };
@@ -306,7 +307,10 @@ const configPackageLevelList = (data) => {
     [];
 };
 
-const configPackageLevel = (data) => {
+const configPackageLevel = (data, newPackageLevels) => {
+  if (data.length < newPackageLevels.length) {
+    data = [...newPackageLevels];
+  }
   return data.reduce((result, el) => {
     if (el) {
       const { therapy_continuity, package_id, exercises, id, level, level_up_properties } = el;

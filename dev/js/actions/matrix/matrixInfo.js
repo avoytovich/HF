@@ -167,7 +167,7 @@ export const getConditionById = (domenKey, apiKey, id) => {
   );
 };
 
-export const getPackagenById = (domenKey, apiKey, id, tab, levelInfo, do_not_set) => {
+export const getPackagenById = (domenKey, apiKey, id, tab, levelInfo, newPackageLevels, do_not_set) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
   return Api.get(`${domenPath}${apiPath}/${id}`).then(res => {
@@ -176,7 +176,7 @@ export const getPackagenById = (domenKey, apiKey, id, tab, levelInfo, do_not_set
         !do_not_set && store.dispatch(
           {
             type:`${CREATE_QUESTION}_SET_PACKAGE_QUESTION`,
-            payload: { body: {...data, tab, levelInfo }}
+            payload: { body: {...data, tab, levelInfo, newPackageLevels }}
           }
         );
         return data;//.packageLevels;
