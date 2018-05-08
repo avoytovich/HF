@@ -184,7 +184,6 @@ class Package extends Component {
   };
 
   render() {
-    console.log('Package PROPS', this.props);
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
