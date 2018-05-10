@@ -151,7 +151,7 @@ class CreateUser extends Component {
                 tariffPlans.length> 0 ?
                   <Select
                     options={tariffPlans}
-                    id='additional_info.tariff_id'
+                    id='tariff_id'
                     style={{ width: "100%" }}
                     reducer={createUsersReducers}
                     label='Tariff Plan'
