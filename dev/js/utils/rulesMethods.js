@@ -117,7 +117,7 @@ export const getOptions = (input, key, onChangeCallBack, props, questionType, an
     case !input.length  && !key:
       return Promise.resolve({ options: [] });
 
-    case input.length && input.length < 3:
+    case input.length && input.length < 2:
       return Promise.resolve({ options: [] });
 
     default:
