@@ -103,8 +103,13 @@ class RulesLinks extends Component {
 RulesLinks.defaultProps = {
   typePath   : 'evaluation_result',
   pageOptions: [
-    {value: 'http://heal.com/screen1', label: 'Screen 1'},
-    {value: 'http://heal.com/screen2', label: 'Screen 2'}
+    {value: 'self_diagnosis_summary', label: 'Self-diagnosis Summary'},
+    {value: 'pain_profile', label: 'Pain Profile (Human Model)'},
+    {value: 'health_history_summary', label: 'Health History Summary'},
+    {value: 'session_start', label: 'Session start'},
+    {value: 'schedule_reminders', label: 'Schedule & Reminders'},
+    {value: 'progress_prognosis', label: 'Progress & Prognosis'},
+    {value: 'chat', label: 'Chat'}
   ]
 };
 
