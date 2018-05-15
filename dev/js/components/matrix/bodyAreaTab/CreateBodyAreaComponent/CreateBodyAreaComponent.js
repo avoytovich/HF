@@ -82,8 +82,7 @@ class CreateBodyAreaComponent extends Component {
     } = this.props.bodyModelReducer;
 
     let sidesNotForBothSexes = keys(CDP).filter(side => keys(CDP[side]).length < 2);
-    let hintTextSomeDrawn    = `Please make sure zones were provided for both sexes 
-                                (check side(s): ${sidesNotForBothSexes.toString().replace(/,/g, ', ')}).`;
+    let hintTextSomeDrawn    = `Please make sure zones were provided for both sexes.`;
     let hintTextNothingDrawn = 'Please make sure zones were provided for both sexes.';
 
     if (isEmpty(CDP) || sidesNotForBothSexes.length) {
