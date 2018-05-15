@@ -31,10 +31,22 @@ class DynamicQuestions extends Component {
 
     const {
       testingReducer,
+      testingReducer: {
+        q_lang
+      },
       onChange,
     } = this.props;
 
     const stepToShow = i + 1;
+
+    let labelLang = '';
+    switch(q_lang.value) {
+      case 2:
+        labelLang = question.swe;
+        break;
+      default:
+        labelLang = question.en;
+    }
 
     switch (type) {
       case 'single':
@@ -64,7 +76,7 @@ class DynamicQuestions extends Component {
                 }}
                 reducer={testingReducer}
                 id={key}
-                label={question.en}
+                label={labelLang}
               />
             </div>
           );
@@ -86,7 +98,7 @@ class DynamicQuestions extends Component {
                 }}
                 reducer={testingReducer}
                 id={key}
-                label={question.en}
+                label={labelLang}
               />
             </div>
           );
@@ -107,7 +119,7 @@ class DynamicQuestions extends Component {
                 key={i}
                 reducer={testingReducer}
                 id={`${key}.value`}
-                label={question.en}
+                label={labelLang}
                 onChangeCustom={({ target: { value }}) => {
                   const valueWithinRange = Math.ceil((value / 100) * (+max - +min)) + +min;
                   dispatchTestingPayloadWired({
@@ -148,7 +160,7 @@ class DynamicQuestions extends Component {
                 items={itemsMultiple}
                 reducer={testingReducer}
                 id={key}
-                label={question.en}
+                label={labelLang}
               />
             </div>
           );
