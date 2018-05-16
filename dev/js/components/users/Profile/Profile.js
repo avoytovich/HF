@@ -44,7 +44,8 @@ const mainInformation = [
   {title:'Region', path: 'contact_info.region'},
   {title:'Country', path: 'contact_info.country'},
   {title:'Postal Code', path: 'contact_info.postal_code'},
-  {title:'Industry', path:  'additional_info.industry'}
+  {title:'Industry', path:  'additional_info.industry'},
+  {title: 'Tariff Plan', path: 'additional_info.tariff'}
 ];
 
 const billingAddress = [

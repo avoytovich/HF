@@ -47,7 +47,8 @@ const initialState = {
   },
   additional_info: {
     // employees_number: "",
-    industry: ""
+    industry: "",
+    tariff: ""
   },
   active: false
 };
