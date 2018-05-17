@@ -28,6 +28,17 @@ class RulesLinks extends Component {
 
 
   selectedValue = (selected, store, pageOptions) => {
+
+    let messageInfo = '';
+    const {questionAnswerLang} = this.props.store;
+    switch(questionAnswerLang) {
+      case 'swe':
+        messageInfo = 'evaluation_result_data.info.swe';
+        break;
+      default:
+        messageInfo = 'evaluation_result_data.info.en';
+    }
+
     switch (selected) {
       case 'redirect':
         return <Grid container>
@@ -58,7 +69,7 @@ class RulesLinks extends Component {
         return <Grid container >
           <Grid item xs={12}>
             <Input
-              id={'evaluation_result_data.info'}
+              id={messageInfo}
               reducer={ store }
               label={ 'Message' }
               multiline={true}
@@ -73,7 +84,7 @@ class RulesLinks extends Component {
   };
 
   render() {
-    const { typeValue, typePath, store, pageOptions } = this.props;
+    const { typeValue, typePath, store, store: {questionAnswerLang}, pageOptions } = this.props;
 
     return <div style={{padding: '0 20px 0 20px'}}>
       <FormGroup>
@@ -103,8 +114,13 @@ class RulesLinks extends Component {
 RulesLinks.defaultProps = {
   typePath   : 'evaluation_result',
   pageOptions: [
-    {value: 'http://heal.com/screen1', label: 'Screen 1'},
-    {value: 'http://heal.com/screen2', label: 'Screen 2'}
+    {value: 'self_diagnosis_summary', label: 'Self-diagnosis Summary'},
+    {value: 'pain_profile', label: 'Pain Profile (Human Model)'},
+    {value: 'health_history_summary', label: 'Health History Summary'},
+    {value: 'session_start', label: 'Session start'},
+    {value: 'schedule_reminders', label: 'Schedule & Reminders'},
+    {value: 'progress_prognosis', label: 'Progress & Prognosis'},
+    {value: 'chat', label: 'Chat'}
   ]
 };
 

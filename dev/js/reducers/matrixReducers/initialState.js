@@ -1,19 +1,21 @@
 import { CREATE_QUESTION } from '../../actions';
 
 const diagnosticTab = {
-  content_type  : 'question', // 'question', 'functionalTest', 'vas'
-  area          : { label: 'All', value: null, id: null },
-  questionTitle : '',
-  question      : { en: '', swe: '' },
-  questionKey   : '',
-  sequence      : 1,
-  sequenceType  : 'normal',
-  answerType    : 'single',
-  single  : [ { en: '', swe: ''} ],
+  content_type   : 'question', // 'question', 'functionalTest', 'vas'
+  area           : { label: 'All', value: null, id: null },
+  questionTitle  : '',
+  question       : { en: '', swe: '' },
+  questionKey    : '',
+  therapyInfoen  : '',
+  therapyInfoswe : '',
+  sequence       : 1,
+  sequenceType   : 'normal',
+  answerType     : 'single',
+  single         : [ { en: '', swe: ''} ],
 //  multiple: [ { en: '', swe: ''} ],
-  range   : { from: 0, to: 100 },
+  range          : { from: 0, to: 100 },
   diagnostic_assets: { id: null },
-  rules: [],
+  rules          : [],
 };
 
 const bodyAreaTab = {

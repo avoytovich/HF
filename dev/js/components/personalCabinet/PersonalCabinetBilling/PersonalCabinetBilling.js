@@ -65,7 +65,7 @@ class PersonalCabinetBilling extends Component {
   }
 
   componentWillMount (){
-    getProfileWired(this.props.userReducer.user_id,'customers');
+    getProfileWired(this.props.userReducer.customer_id,'customers');
     Stripe.setPublishableKey(stripeKey);
 
   }

@@ -72,6 +72,7 @@ class PackageLevel extends Component {
         questionKey,
         packageType,
         packageLevels,
+        questionAnswerLang
       },
       index,
       level,
@@ -177,6 +178,21 @@ class PackageLevel extends Component {
           >
             *total probability amount in position should be equal to 100.
           </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid container className="package-level-exercises">
+        <Grid item xs={12}>
+          <Typography type="title">
+            Therapy Info
+          </Typography>
+          <div className="login-input-wrapper">
+            <Input
+              id={`therapyInfo${questionAnswerLang}`}
+              reducer={createDiagnosisQuestion}
+              value={createDiagnosisQuestion[`therapyInfo${questionAnswerLang}`]}
+            />
+          </div>
           <Button
             style={{ marginTop: '15px' }}
             color="primary"
