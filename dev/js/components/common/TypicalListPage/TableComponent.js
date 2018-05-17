@@ -255,6 +255,7 @@ class TableComponent extends Component {
    * @return {*}
    */
   formatCellValue = (row, { key, type, format }) => {
+    (key === 'name') ? key = 'title' : key;
     const value =  get(row, key, '-') || '-';
     switch (type) {
       case 'time':
