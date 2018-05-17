@@ -192,7 +192,8 @@ class Package extends Component {
         questionKey,
         packageType,
         packageLevels,
-        testing_mode
+        testing_mode,
+        questionAnswerLang
       },
       commonReducer: {
         currentLanguage: {
@@ -211,9 +212,14 @@ class Package extends Component {
       return 0;
     });
 
-    /*if (this.state.tab > packageLevels.length -1) {
-      this.addNewLevel(packageLevels);
-    }*/
+    let appTitle = '';
+    switch(questionAnswerLang) {
+      case 'swe':
+        appTitle = 'app_title.swe';
+        break;
+      default:
+        appTitle = 'app_title.en';
+    }
 
     return (
       <div id="create-question">
@@ -273,7 +279,7 @@ class Package extends Component {
             <Grid container className="row-item">
               <Grid item md={6} sm={12}>
                 <Input
-                  id='app_title'
+                  id={appTitle}
                   reducer={ createDiagnosisQuestion }
                   label={ 'App Title' }
                   style={{width: '100%'}}
