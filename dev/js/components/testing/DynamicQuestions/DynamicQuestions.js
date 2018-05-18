@@ -15,6 +15,7 @@ import { pickKeys } from '../../../config'
 
 class DynamicQuestions extends Component {
   _pickQuestion = (questionObj, i) => {
+    console.log('questionObj', questionObj);
     const {
       answer,
       answer: {
@@ -56,6 +57,8 @@ class DynamicQuestions extends Component {
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
+              <h6>Sequence { step }</h6>
+              <h6>Key { key }</h6>
               <h4>Functional test</h4>
               <div>
                 <InsertDriveFile className="testing-file-icon"/>
@@ -86,6 +89,8 @@ class DynamicQuestions extends Component {
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
+              <h6>Sequence { step }</h6>
+              <h6>Key { key }</h6>
               <C.RadioButton
                 key={i}
                 items={items}
@@ -115,6 +120,8 @@ class DynamicQuestions extends Component {
           return (
             <div key={i} className="margin-range">
               <h5>Question { stepToShow }</h5>
+              <h6>Sequence { step }</h6>
+              <h6>Key { key }</h6>
               <C.Range
                 key={i}
                 reducer={testingReducer}
@@ -141,6 +148,8 @@ class DynamicQuestions extends Component {
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
+              <h6>Sequence { step }</h6>
+              <h6>Key { key }</h6>
               <C.BodyAreas
                 key={i}
                 step={step}
@@ -155,6 +164,8 @@ class DynamicQuestions extends Component {
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
+              <h6>Sequence { step }</h6>
+              <h6>Key { key }</h6>
               <C.CheckBox
                 key={i}
                 items={itemsMultiple}
