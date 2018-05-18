@@ -261,7 +261,7 @@ export const ASSETS_TAB = {
   key: 'assets',
   title: 'Assets',
   tableHeader: [
-    { title: 'Title', key: 'name', className: 'left assets-title-cell' },
+    { title: 'Title', key: 'title', className: 'left assets-title-cell' },
     { title: 'Extension', key: 'extension', className: 'center' },
     { title: 'Description', key: 'description', className: 'left' },
     {
