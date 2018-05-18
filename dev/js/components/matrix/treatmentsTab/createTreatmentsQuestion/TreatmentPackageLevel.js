@@ -17,6 +17,10 @@ import { red }                      from 'material-ui/colors';
 class TreatmentPackageLevel extends Component {
   state = { levelsList: [] };
 
+  componentWillMount() {
+    getPackagenById('exercises', 'packages', this.props.packageItem.value, true);
+  }
+
   getPackageOptions = (input) => {
     const { area } = this.props;
     return findPackage('exercises', 'getPackageByArea', input, area).then(res => {
@@ -31,14 +35,13 @@ class TreatmentPackageLevel extends Component {
   };
 
   onPackageChange = (value) => {
-    console.log('sdasdasdas');
     if (value && value.id) {
       updateCrateQuestionFields(value, 'treatmentsPackage');
       getPackagenById('exercises', 'packages', value.id, true).then((_res) => {
         const {data} = _res.packageLevels;
         const levelsList = data.map(el => el && {label: el.level, value: el.id, id: el.id});
 
-       this.setState({ levelsList });
+        this.setState({ levelsList });
         updateCrateQuestionFields(levelsList, 'levelsList');
         updateCrateQuestionFields('', 'errors.treatmentsPackage');
       });
@@ -65,7 +68,7 @@ class TreatmentPackageLevel extends Component {
       packageError,
       levelError
     } = this.props;
-    console.log(levelItem);
+    //console.log(levelItem);
     // const { levelsList } = this.state;
     return <Grid container className="row-item">
       <Grid item sm={6} xs={12}>
