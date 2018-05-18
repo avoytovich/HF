@@ -308,7 +308,7 @@ const configPackageLevelList = (data) => {
 };
 
 const configPackageLevel = (data, newPackageLevels) => {
-  if (data.length < newPackageLevels.length) {
+  if (newPackageLevels && (data.length < newPackageLevels.length)) {
     data = [...newPackageLevels];
   }
   return data.reduce((result, el) => {
