@@ -15,7 +15,6 @@ import { pickKeys } from '../../../config'
 
 class DynamicQuestions extends Component {
   _pickQuestion = (questionObj, i) => {
-    console.log('questionObj', questionObj);
     const {
       answer,
       answer: {
@@ -41,19 +40,22 @@ class DynamicQuestions extends Component {
     const stepToShow = i + 1;
 
     let labelLang = '';
+    let answerLang = '';
     switch(q_lang.value) {
       case 2:
         labelLang = question.swe;
+        answerLang = 'swe';
         break;
       default:
         labelLang = question.en;
+        answerLang = 'en';
     }
 
     switch (type) {
       case 'single':
         if (content_type === 'functionalTest') {
           let items = [];
-          each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
+          each(values, (val, answerId) => items.push({ label: val[answerLang], value: answerId }));
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
@@ -85,7 +87,7 @@ class DynamicQuestions extends Component {
           );
         } else if (subtype === 'list') {
           let items = [];
-          each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
+          each(values, (val, answerId) => items.push({ label: val[answerLang], value: answerId }));
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
@@ -144,7 +146,7 @@ class DynamicQuestions extends Component {
       case 'multiple':
         if (content_type === 'vas') {
           const bodyAreas = [];
-          each(values, (val, value) => bodyAreas.push({ label: val.en, value }));
+          each(values, (val, value) => bodyAreas.push({ label: val[answerLang], value }));
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
@@ -160,7 +162,7 @@ class DynamicQuestions extends Component {
           );
         } else {
           let itemsMultiple = [];
-          each(values, (val, answerId) => itemsMultiple.push({ label: val.en, answerId }));
+          each(values, (val, answerId) => itemsMultiple.push({ label: val[answerLang], answerId }));
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
