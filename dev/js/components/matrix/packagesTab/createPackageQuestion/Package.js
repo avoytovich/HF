@@ -62,7 +62,7 @@ class Package extends Component {
     questionType    : 'packages',
     keyIsUniqueError: '',
     tab: '0',
-    levelInfo: '0',
+    levelInfo: 1,
     loading: false
   };
 
