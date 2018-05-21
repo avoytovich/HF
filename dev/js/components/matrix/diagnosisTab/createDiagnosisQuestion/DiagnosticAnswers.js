@@ -80,7 +80,7 @@ class DiagnosticAnswers extends Component {
                   <li  key={index} className="row-item">
                     <div className="answer-item">
                       <Input
-                        id={`single.${index}.${questionAnswerLang} answer-text-field`}
+                        id={`single.${index}.${questionAnswerLang}`}
                         reducer={store}
                         className="MUIControl"
                       />
