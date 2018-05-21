@@ -11,6 +11,14 @@ import Close from 'material-ui-icons/Close';
 
 class HeaderAssets extends Component {
 
+  componentDidMount() {
+    const { userInfo } = this.props;
+    if (userInfo) {
+      const { headerTitle } = userInfo;
+      this.props.defineTitle(headerTitle);
+    }
+  }
+
   _onSubmit = () => {
     let userType;
     if (this.props.userInfo){

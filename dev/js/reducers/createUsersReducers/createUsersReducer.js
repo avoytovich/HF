@@ -41,15 +41,8 @@ const initialState = {
       cvc: ""
     }
   },
-  legal_info: {
-    vat: "",
-    reg_num: ""
-  },
-  additional_info: {
-    // employees_number: "",
-    industry: "",
-    tariff: ""
-  },
+  legal_info: [],
+  additional_info: [],
   active: false
 };
 
