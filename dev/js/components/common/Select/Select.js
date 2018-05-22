@@ -26,13 +26,11 @@ const styles = theme => ({
 class SimpleSelect extends React.Component {
   _renderOptions = (options) => {
     return options.map((op, i) => {
-      return (
-        op.active ? <MenuItem
-          key={i}
-          style={this.props.style}
-          value={op.value}
-        > {op.value} </MenuItem> : ''
-      )
+      return op.active === false ? '' : <MenuItem
+        key={i}
+        style={this.props.style}
+        value={op.value}
+      > {op.label} </MenuItem>
     })
   }
 
