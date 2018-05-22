@@ -136,7 +136,8 @@ class CreateUser extends Component {
     tariffPlans = map(tariffPlans, el => ({
       label: el.name,
       value: el.name,
-      id: el.id
+      id: el.id,
+      active: el.active
     }));
     return (
       <div className="upload-container">
@@ -157,7 +158,7 @@ class CreateUser extends Component {
                 label="Company / Entity Name"
                 placeholder="Company / Entity Name"
               />
-              { this.state.title &&
+              {this.state.title &&
                 <Input
                   id="email"
                   reducer={createUsersReducers}
@@ -217,8 +218,8 @@ class CreateUser extends Component {
                   label="Tariff Plan"
                 />
               ) : (
-                ''
-              )}
+                  ''
+                )}
             </div>
             <div className="create-user-input-container">
               <h3 className="create-user-title">Billing Address</h3>
