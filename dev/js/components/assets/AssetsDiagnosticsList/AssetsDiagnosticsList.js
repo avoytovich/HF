@@ -49,7 +49,7 @@ class AssetsList extends Component {
   };
 
   _tableCellPropsFunc = (row, col) => {
-    if (col.key === 'name') {
+    if (col.key === 'title') {
       return {
         onClick: (e) => {
           e.stopPropagation();
