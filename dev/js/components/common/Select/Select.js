@@ -27,13 +27,11 @@ class SimpleSelect extends React.Component {
   _renderOptions = (options) => {
     return options.map((op, i) => {
       return (
-        <MenuItem
+        op.active ? <MenuItem
           key={i}
           style={this.props.style}
           value={op.value}
-        >
-          {op.label}
-        </MenuItem>
+        > {op.value} </MenuItem> : ''
       )
     })
   }
@@ -54,8 +52,8 @@ class SimpleSelect extends React.Component {
       label,
       ...props
     } = this.props;
-    const value         = get(reducer, id, '');
-    const error         = get(errors, id, false);
+    const value = get(reducer, id, '');
+    const error = get(errors, id, false);
     const onChangeFinal = onChangeCustom || onChange;
     return (
       <FormControl className={classes.formControl}>
@@ -63,14 +61,14 @@ class SimpleSelect extends React.Component {
         <Select
           value={value}
           name={actionType}
-          onChange={({ target: { value }}) => onChangeFinal({ target: { name: actionType, value, id }})}
+          onChange={({ target: { value } }) => onChangeFinal({ target: { name: actionType, value, id } })}
           input={<Input style={[classes.textField, style]} id={id} />}
           {...omit(props, ['dispatch', 'onChange'])}
         >
           {this._renderOptions(options)}
         </Select>
         {
-          error && <FormHelperText>{ error }</FormHelperText>
+          error && <FormHelperText>{error}</FormHelperText>
         }
       </FormControl>
     )
