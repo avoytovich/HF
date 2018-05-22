@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { connect }          from 'react-redux';
-import { browserHistory }   from 'react-router'
-import AppBar               from 'material-ui/AppBar';
-import { withStyles }       from 'material-ui/styles';
-import isEmpty              from 'lodash/isEmpty';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router'
+import AppBar from 'material-ui/AppBar';
+import { withStyles } from 'material-ui/styles';
+import isEmpty from 'lodash/isEmpty';
 
 // UI
-import Tabs, { Tab }        from 'material-ui/Tabs';
+import Tabs, { Tab } from 'material-ui/Tabs';
 
 const TABS = [
   { label: 'Diagnostic', url: 'assets-diagnostics' },
-  { label: 'Exercises',  url: 'assets-exercises' }
+  { label: 'Exercises', url: 'assets-exercises' }
 ];
 
 const styles = theme => ({
@@ -44,11 +44,11 @@ class Assets extends Component {
 
   findNewPathIndex = (tabs, path) => {
     const newURL = tabs.reduce((result, item, index) => {
-      if (item) return  item.url === path ? index : result;
+      if (item) return item.url === path ? index : result;
 
       return result;
     }, 0);
-    this.setState({value: newURL});
+    this.setState({ value: newURL });
   };
 
   handleActive = (url) => {
@@ -64,23 +64,23 @@ class Assets extends Component {
   render() {
     return (
       <div id="matrix-setup">
-          <AppBar position="static" color="default">
-            <Tabs
-              scrollable
-              value={this.state.value}
-              onChange={this.handleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              fullWidth
-            >
-              {TABS.map((item, i) =>
-                <Tab  key={i}
-                      label={item.label}
-                      onClick={() => this.handleActive(item.url)}/>)}
-            </Tabs>
-          </AppBar>
+        <AppBar position="static" color="default">
+          <Tabs
+            scrollable
+            value={this.state.value}
+            onChange={this.handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            fullWidth
+          >
+            {TABS.map((item, i) =>
+              <Tab key={i}
+                label={item.label}
+                onClick={() => this.handleActive(item.url)} />)}
+          </Tabs>
+        </AppBar>
         <div className="content-children">
-            { this.props.children }
+          {this.props.children}
         </div>
       </div>
     )
@@ -91,4 +91,4 @@ const mapStateToProps = state => ({
   commonReducer: state.commonReducer
 });
 
-export default  connect(mapStateToProps)(Assets);
+export default connect(mapStateToProps)(Assets);

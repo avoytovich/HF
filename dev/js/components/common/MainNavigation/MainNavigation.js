@@ -61,8 +61,8 @@ class MainNavigation extends Component {
             <ListItemIcon>
               <Person className="nav-icon" />
             </ListItemIcon>
-            <ListItemText inset primary='Users'/>
-            { this.state.open ? <ExpandLess /> : <ExpandMore />}
+            <ListItemText inset primary='Users' />
+            {this.state.open ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
 
           <Collapse component="li" in={this.state.open} timeout="auto" unmountOnExit>
@@ -89,11 +89,11 @@ class MainNavigation extends Component {
           </Collapse>
 
           <Link to={PAGE.tariffPlans} activeClassName='active-route' className="nav-menu-list-item">
-            <ListItem as='a'  button>
+            <ListItem as='a' button>
               <ListItemIcon>
                 <TariffPlan className="nav-icon" />
               </ListItemIcon>
-              <ListItemText inset primary='Tariff Plans'/>
+              <ListItemText inset primary='Tariff Plans' />
             </ListItem>
           </Link>
 
@@ -102,7 +102,7 @@ class MainNavigation extends Component {
               <ListItemIcon>
                 <InsertDriveFile className="nav-icon" />
               </ListItemIcon>
-              <ListItemText inset primary='Assets'/>
+              <ListItemText inset primary='Assets' />
             </ListItem>
           </Link>
 
@@ -111,7 +111,7 @@ class MainNavigation extends Component {
               <ListItemIcon>
                 <SettingsApplications className="nav-icon" />
               </ListItemIcon>
-              <ListItemText inset primary='Matrix'/>
+              <ListItemText inset primary='Matrix' />
             </ListItem>
           </Link>
 
@@ -120,7 +120,7 @@ class MainNavigation extends Component {
               <ListItemIcon>
                 <Accessibility className="nav-icon" />
               </ListItemIcon>
-              <ListItemText inset primary='Testing'/>
+              <ListItemText inset primary='Testing' />
             </ListItem>
           </Link>
 
@@ -129,7 +129,7 @@ class MainNavigation extends Component {
               <ListItemIcon>
                 <Chat className="nav-icon" />
               </ListItemIcon>
-              <ListItemText inset primary='Chat'/>
+              <ListItemText inset primary='Chat' />
             </ListItem>
           </Link>
 
@@ -138,7 +138,7 @@ class MainNavigation extends Component {
               <ListItemIcon>
                 <PermDeviceInformation className="nav-icon" />
               </ListItemIcon>
-              <ListItemText inset primary={`App's Screen Info`}/>
+              <ListItemText inset primary={`App's Screen Info`} />
             </ListItem>
           </Link>
         </List>
@@ -151,4 +151,4 @@ const mapStateToProps = state => ({
   commonReducer: state.commonReducer
 });
 
-export default  connect(mapStateToProps)(withStyles(styles)(MainNavigation));
+export default connect(mapStateToProps)(withStyles(styles)(MainNavigation));
