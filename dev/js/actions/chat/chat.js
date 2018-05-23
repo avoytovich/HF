@@ -28,7 +28,6 @@ export const createDialogWired = () => createDialog()
 export const getMessagesWired = (dialog_id, data) => getMessages(dialog_id, data)
   .then(response => {
     dispatchGetMessagesWired(response.data||[]);
-
   });
 
 

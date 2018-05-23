@@ -1,45 +1,46 @@
 import React, { Component } from 'react';
-import PropTypes            from 'prop-types';
-import { connect }          from 'react-redux';
-import get                  from 'lodash/get';
-import values               from 'lodash/values';
-import { browserHistory }   from 'react-router';
-import { withStyles }       from 'material-ui/styles';
-import moment               from 'moment';
-import InfiniteScroll       from 'react-infinite-scroller';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
+import values from 'lodash/values';
+import { browserHistory } from 'react-router';
+import { withStyles } from 'material-ui/styles';
+import moment from 'moment';
+import InfiniteScroll from 'react-infinite-scroller';
 import {
   getMessagesWired
-}                           from '../../../actions';
-// import io                   from 'socket.io-client';
-import {socketUrl}          from '../../../utils/constants';
+} from '../../../actions';
+import io from 'socket.io-client';
+import { socketUrl } from '../../../utils/constants';
 
 
 class MessageListComponent extends Component {
 
   componentDidMount() {
-    if ( get(this.props,'selected[0].dialog_id' )){
+    if (get(this.props, 'selected[0].dialog_id')) {
       this._initSocket();
     }
   }
 
-  componentWillReceiveProps(props){
-    const currentDialogId = get(this.props,'selected[0].dialog_id' );
-    const dialogId = get(props,'selected[0].dialog_id');
-    if ( currentDialogId !== dialogId ) {
-      this._initSocket(dialogId, get(this.props,'userReducer.token'))
+  componentWillReceiveProps(props) {
+    const currentDialogId = get(this.props, 'selected[0].dialog_id');
+    const dialogId = get(props, 'selected[0].dialog_id');
+    if (currentDialogId !== dialogId) {
+      this._initSocket(dialogId, get(this.props, 'userReducer.token'))
     }
   }
 
-  _initSocket = (id, token) => {
-    const socket = io(socketUrl,
-      {
-        query: {
-          channel: 'dialog',
-          id,
-          token,
-        }
-      });
 
+
+  _initSocket = (id, token) => {
+    const socket = io.connect(socketUrl, {
+      query: {
+        channel: 'dialog',
+        id,
+        token,
+      }
+    });
+    debugger;
     socket.on('connect', function () {
       getMessagesWired(id);
     });
@@ -48,15 +49,19 @@ class MessageListComponent extends Component {
     });
   };
 
-  _renderMessage=(el)=>{
+  _renderMessage = (el) => {
     return el.user_id === this.props.userReducer.user_id ?
       (<div key={el.id} className='admin-message-container'>
         <div className='admin-message'>{el.message}</div>
         <div className="message-time">{moment.unix(el.created_at).format('HH:mm')}</div>
-      </div>):
+      </div>) :
       (<div key={el.id} className='user-message-container'>
         <div className="message-time">{moment.unix(el.created_at).format('HH:mm')}</div>
-        <div className='user-message'>{el.message}</div>
+        <div className='user-message'>
+          {
+            el.message
+          }
+        </div>
       </div>)
   };
 
@@ -81,10 +86,10 @@ class MessageListComponent extends Component {
     } = this.props;
     const messageList = values(messageListReducer.data);
     return (
-          <div className="message-list">
-            {messageList.length > 0 ? messageList.map(el=>this._renderMessage(el)) :
-              (<div className="no-message-container">You haven’t got any messages with this user</div>)}
-          </div>
+      <div className="message-list">
+        {messageList.length > 0 ? messageList.map(el => this._renderMessage(el)) :
+          (<div className="no-message-container">You haven’t got any messages with this user</div>)}
+      </div>
     )
   }
 }

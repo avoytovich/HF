@@ -327,8 +327,9 @@ export const USERS_TAB = {
   tableHeader: [
     { title: 'ID Number', key: 'user_id', className: 'left' },
     { title: 'Status', key: 'status', className: 'center' },
-    { title: 'Age', key: 'birthday', className: 'center', type: 'birthday' },
-    { title: 'Gender', key: 'gender', className: 'center', type: 'gender' },
+    { title: 'Email', key: 'email', className: 'center' },
+    { title: 'First Name', key: 'first_name', className: 'center' },
+    { title: 'Last Name', key: 'last_name', className: 'center' },
     {
       title: 'Created',
       key: 'created_at',
@@ -346,6 +347,8 @@ export const PERSONAL_CABINET_USERS_TAB = {
     { title: 'ID Number', key: 'user_id', className: 'left' },
     { title: 'Email', key: 'email', className: 'left' },
     { title: 'Status', key: 'status', className: 'left' },
+    { title: 'First Name', key: 'first_name', className: 'center' },
+    { title: 'Last Name', key: 'last_name', className: 'center' },
     {
       title: 'Created',
       key: 'created_at',
@@ -363,8 +366,9 @@ export const COMPANIES_USERS_TAB = {
     { title: 'ID Number', key: 'user_id', className: 'left' },
     { title: 'Company', key: 'customer_name', className: 'center' },
     { title: 'Status', key: 'status', className: 'center' },
-    { title: 'Age', key: 'birthday', className: 'center', type: 'birthday' },
-    { title: 'Gender', key: 'gender', className: 'center', type: 'gender' },
+    { title: 'Email', key: 'email', className: 'center' },
+    { title: 'First Name', key: 'first_name', className: 'center' },
+    { title: 'Last Name', key: 'last_name', className: 'center' },
     {
       title: 'Created',
       key: 'created_at',
@@ -382,8 +386,9 @@ export const CLINICS_USERS_TAB = {
     { title: 'ID Number', key: 'user_id', className: 'left' },
     { title: 'Clinic', key: 'customer_name', className: 'center' },
     { title: 'Status', key: 'status', className: 'center' },
-    { title: 'Age', key: 'birthday', className: 'center', type: 'birthday' },
-    { title: 'Gender', key: 'gender', className: 'center', type: 'gender' },
+    { title: 'Email', key: 'email', className: 'center' },
+    { title: 'First Name', key: 'first_name', className: 'center' },
+    { title: 'Last Name', key: 'last_name', className: 'center' },
     {
       title: 'Created',
       key: 'created_at',
