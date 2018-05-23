@@ -40,7 +40,6 @@ class MessageListComponent extends Component {
         token,
       }
     });
-    debugger;
     socket.on('connect', function () {
       getMessagesWired(id);
     });
