@@ -93,19 +93,22 @@ class Profile extends Component {
     )
   };
 
-  _renderDiagnosticItem =(el, index)=>{
+  _renderDiagnosticItem = (el, index) => {
     return (
-      <div className = 'profile-paper-data' key={el.diagnostic_id} onClick={()=>this._openSelfDiagnosisQA(el.diagnostic_id)}>
-        <div className = 'profile-paper-data-title'>
+      <div className='profile-paper-data' key={el.diagnostic_id} onClick={() => this._openSelfDiagnosisQA(el.diagnostic_id)}>
+        <div className='profile-paper-data-title'>
           Diagnostic
         </div>
-        <div className = 'profile-paper-data-info'>
-          {el.title || '-'}
+        <div className='profile-paper-data-info'>
+          {this._formatTime(el.created_at)} / {' '}
+          {el.therapy_packages.length > 0 ?
+            el.therapy_packages.map(treatment => `${treatment.treatment_key} / not completed`)
+            : `- / completed`
+          }
         </div>
       </div>
     )
   };
-
   _renderSwitcher = () => {
     if(this.props.simpleUserProfileReducer.confirmed_at){
       return(
