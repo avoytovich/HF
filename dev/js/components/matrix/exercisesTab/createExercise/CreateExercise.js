@@ -70,7 +70,7 @@ class CreateExercise extends Component {
       instruction,
       information,
       name,
-      files = [{ video: [], preview: [] }],
+      files,
       errors,
       testing_mode,
       ordinal,
@@ -87,16 +87,43 @@ class CreateExercise extends Component {
     }
 
     const validValue = { title, comments, instruction, information, name };
-    const video = get(files, '[0].video', { id: null });
-    const image = get(files, '[0].preview', { id: null });
-    let filesObj = {};
-    if (video.id || get(video, '[0].id')) {
-      filesObj.video_id = video.id || get(video, '[0].id');
+    const videoEn   = get(files, '[en].video', { id : null });
+    const videoSwe   = get(files, '[swe].video', { id : null });
+    const imageEn   = get(files, '[en].preview', { id: null });
+    const imageSwe   = get(files, '[swe].preview', { id: null });
+    let filesObjEn = {
+      en: {
+        video_id: null,
+        image_id: null
+      }
+    };
+    let filesObjSwe = {
+      swe: {
+        video_id: null,
+        image_id: null
+      }
+    };
+    if (videoEn[0]) {
+      filesObjEn.en.video_id = videoEn[0].id;
+    } else if (get(videoEn, 'id')) {
+      filesObjEn.en.video_id = get(videoEn, 'id');
     }
-    if (image.id || get(image, '[0].id')) {
-      filesObj.image_id = image.id || get(image, '[0].id');
+    if (imageEn[0]) {
+      filesObjEn.en.image_id = imageEn[0].id;
+    } else if (get(imageEn, 'id')) {
+      filesObjEn.en.image_id = get(imageEn, 'id');
     }
-    let filesFinal = Object.keys(filesObj).length ? [filesObj] : [];
+    if (videoSwe[0]) {
+      filesObjSwe.swe.video_id = videoSwe[0].id;
+    } else if (get(videoSwe, 'id')) {
+      filesObjSwe.swe.video_id = get(videoSwe, 'id');
+    }
+    if (imageSwe[0]) {
+      filesObjSwe.swe.image_id = imageSwe[0].id;
+    } else if (get(imageSwe, 'id')) {
+      filesObjSwe.swe.image_id = get(imageSwe, 'id');
+    }
+    let filesFinal = Object.assign({}, filesObjEn, filesObjSwe);
 
     const result = {
       title,
@@ -182,6 +209,21 @@ class CreateExercise extends Component {
       informationLang,
       instructionLang,
     } = this.state;
+
+    let labelLang = '';
+    let valueVideoPath = '';
+    let valuePosterPath = '';
+    switch(questionAnswerLang) {
+      case 'swe':
+        labelLang = 'swe';
+        valueVideoPath = 'exercise.files[swe].video';
+        valuePosterPath = 'exercise.files[swe].preview';
+        break;
+      default:
+        labelLang = 'en';
+        valueVideoPath = 'exercise.files[en].video';
+        valuePosterPath = 'exercise.files[en].preview';
+    }
 
     return (
       <div id="create-question">
@@ -318,19 +360,19 @@ class CreateExercise extends Component {
                 <AssetsList
                   assetsListConverter={list => this._assetsListConverter(list, 'video')}
                   title='Video'
-                  list={get(files, '[0].video', [])}
+                  list={get(files, `[${labelLang}].video`, [])}
                   path="assets"
                   domain="exercises"
-                  valuePath="exercise.files[0].video"
+                  valuePath={valueVideoPath}
                 />
 
                 <AssetsList
                   assetsListConverter={list => this._assetsListConverter(list, 'image')}
                   title="Poster"
-                  list={get(files, '[0].preview', [])}
+                  list={get(files, `[${labelLang}].preview`, [])}
                   path="assets"
                   domain="exercises"
-                  valuePath="exercise.files[0].preview"
+                  valuePath={valuePosterPath}
                 />
               </div>
 
