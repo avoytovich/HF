@@ -17,9 +17,9 @@ import { red }                      from 'material-ui/colors';
 class TreatmentPackageLevel extends Component {
   state = { levelsList: [] };
 
-  componentWillMount() {
+  /*componentWillMount() {
     getPackagenById('exercises', 'packages', this.props.packageItem.value, true);
-  }
+  }*/
 
   getPackageOptions = (input) => {
     const { area } = this.props;
