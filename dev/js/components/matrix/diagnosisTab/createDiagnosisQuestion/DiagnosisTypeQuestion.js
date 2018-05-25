@@ -39,6 +39,7 @@ class DiagnosisTypeQuestion extends Component {
   };
 
   render() {
+    console.log('PROPS', this.props);
     const {
       sequenceList,
       createDiagnosisQuestion,
@@ -236,6 +237,7 @@ class DiagnosisTypeQuestion extends Component {
           content_type === "functionalTest" &&
           <AssetsList
             list={ diagnostic_assets }
+            title="Video"
             path="assets"
             domain="diagnostics"
             valuePath="diagnostic_assets"
