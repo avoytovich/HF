@@ -1,20 +1,23 @@
-import React, { Component }   from 'react';
+import React, { Component } from 'react';
 import Dialog, {
-       DialogActions,
-       DialogContent,
-       DialogContentText,
-       DialogTitle }          from 'material-ui/Dialog';
-import Slide                  from 'material-ui/transitions/Slide';
-import Button                 from 'material-ui/Button';
-import { connect }            from 'react-redux';
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from 'material-ui/Dialog';
+import Slide from 'material-ui/transitions/Slide';
+import Button from 'material-ui/Button';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { activateUser,
-         getListByPost }      from '../../../actions';
+import {
+  activateUser,
+  getListByPost
+} from '../../../actions';
 
 
 class DeactivateComponent extends Component {
 
-  deactivate = ({list, path, pathReq, domen,  action, query,  url }) => {
+  deactivate = ({ list, path, pathReq, domen, action, query, url }) => {
     activateUser(domen, pathReq, list, action)
       .then(() =>
         getListByPost(domen, path, query, url)
@@ -25,13 +28,13 @@ class DeactivateComponent extends Component {
 
   render() {
     const { list, deactivateOpen, open, typeKey, itemKey, title, onSubmitTitle } = this.props;
-    return  <Dialog
+    return <Dialog
       open={deactivateOpen}
       transition={this.transition}
       keepMounted
       onRequestClose={() => open(typeKey, false)}
     >
-      <DialogTitle> { title } </DialogTitle>
+      <DialogTitle> {title} </DialogTitle>
 
       <DialogContent>
         {list.map((item, index) =>
@@ -45,7 +48,7 @@ class DeactivateComponent extends Component {
           Cancel
         </Button>
         <Button onClick={() => this.deactivate(this.props)} color="primary">
-          { onSubmitTitle }
+          {onSubmitTitle}
         </Button>
       </DialogActions>
 

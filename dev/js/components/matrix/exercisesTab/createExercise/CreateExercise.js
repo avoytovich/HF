@@ -1,42 +1,43 @@
-import React, { Component }         from 'react';
-import { bindActionCreators }       from 'redux';
-import { connect }                  from 'react-redux';
-import { browserHistory }           from 'react-router'
-import { diagnosisQuestionCreate,
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router'
+import {
+  diagnosisQuestionCreate,
   updateCrateQuestionFields,
   clearCreateQuestion,
   updateQuestionCreate,
   getExerciseById,
   dispatchMatrixPayloadWired,
-}                                   from '../../../../actions';
-import { onChange }                 from '../../../../actions/common';
-import { AsyncCreatable }           from 'react-select';
-import Grid                         from 'material-ui/Grid';
-import Button                       from 'material-ui/Button';
-import Typography                   from 'material-ui/Typography';
-import Input                        from '../../../common/Input/Input';
-import Tabs, { Tab }                from 'material-ui/Tabs';
-import get                          from 'lodash/get';
-import cloneDeep                    from 'lodash/cloneDeep';
+} from '../../../../actions';
+import { onChange } from '../../../../actions/common';
+import { AsyncCreatable } from 'react-select';
+import Grid from 'material-ui/Grid';
+import Button from 'material-ui/Button';
+import Typography from 'material-ui/Typography';
+import Input from '../../../common/Input/Input';
+import Tabs, { Tab } from 'material-ui/Tabs';
+import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   BlockDivider,
   AssetsList
-}                                   from '../../../common';
-import MatrixPreLoader              from '../../matrixPreloader';
+} from '../../../common';
+import MatrixPreLoader from '../../matrixPreloader';
 import {
   submitTabs,
   validateExercises,
-}                                   from '../../../../utils';
-import { CreateItemNavButtons }     from '../../../common';
+} from '../../../../utils';
+import { CreateItemNavButtons } from '../../../common';
 
 class CreateExercise extends Component {
   state = {
-    questionType   : 'exercise',
-    titleLang      : 'en',
+    questionType: 'exercise',
+    titleLang: 'en',
     informationLang: 'en',
     instructionLang: 'en',
-    chooseFiles    : false,
-    loading        : false,
+    chooseFiles: false,
+    loading: false,
   };
 
   constructor(props) {
@@ -47,12 +48,12 @@ class CreateExercise extends Component {
 
   componentWillMount() {
     if (this.props.params.id) {
-      this.setState({loading: true});
+      this.setState({ loading: true });
       getExerciseById('exercises', 'exercises', this.props.params.id)
         .then(() => this.setState({ loading: false }));
     } else {
-//      const newOne = Object.assign({}, DEFAULT_LEVEL);
-//      updateCrateQuestionFields([newOne], 'packageLevels');
+      //      const newOne = Object.assign({}, DEFAULT_LEVEL);
+      //      updateCrateQuestionFields([newOne], 'packageLevels');
     }
   }
 
@@ -69,7 +70,7 @@ class CreateExercise extends Component {
       instruction,
       information,
       name,
-      files = [{ video: [], preview: [] }],
+      files,
       errors,
       testing_mode,
       ordinal,
@@ -86,16 +87,43 @@ class CreateExercise extends Component {
     }
 
     const validValue = { title, comments, instruction, information, name };
-    const video   = get(files, '[0].video', { id : null });
-    const image   = get(files, '[0].preview', { id: null });
-    let filesObj = {};
-    if (video.id || get(video, '[0].id')) {
-      filesObj.video_id = video.id || get(video, '[0].id');
+    const videoEn   = get(files, '[en].video', { id : null });
+    const videoSwe   = get(files, '[swe].video', { id : null });
+    const imageEn   = get(files, '[en].preview', { id: null });
+    const imageSwe   = get(files, '[swe].preview', { id: null });
+    let filesObjEn = {
+      en: {
+        video_id: null,
+        image_id: null
+      }
+    };
+    let filesObjSwe = {
+      swe: {
+        video_id: null,
+        image_id: null
+      }
+    };
+    if (videoEn[0]) {
+      filesObjEn.en.video_id = videoEn[0].id;
+    } else if (get(videoEn, 'id')) {
+      filesObjEn.en.video_id = get(videoEn, 'id');
     }
-    if (image.id || get(image, '[0].id')) {
-      filesObj.image_id = image.id || get(image, '[0].id');
+    if (imageEn[0]) {
+      filesObjEn.en.image_id = imageEn[0].id;
+    } else if (get(imageEn, 'id')) {
+      filesObjEn.en.image_id = get(imageEn, 'id');
     }
-    let filesFinal = Object.keys(filesObj).length ? [filesObj] : [];
+    if (videoSwe[0]) {
+      filesObjSwe.swe.video_id = videoSwe[0].id;
+    } else if (get(videoSwe, 'id')) {
+      filesObjSwe.swe.video_id = get(videoSwe, 'id');
+    }
+    if (imageSwe[0]) {
+      filesObjSwe.swe.image_id = imageSwe[0].id;
+    } else if (get(imageSwe, 'id')) {
+      filesObjSwe.swe.image_id = get(imageSwe, 'id');
+    }
+    let filesFinal = Object.assign({}, filesObjEn, filesObjSwe);
 
     const result = {
       title,
@@ -110,7 +138,7 @@ class CreateExercise extends Component {
     };
 
     submitTabs(
-      {exercise: validValue},
+      { exercise: validValue },
       errors,
       'exercises',
       'exercises',
@@ -119,12 +147,12 @@ class CreateExercise extends Component {
       this.props.routeParams.id
     );
 
-//    !this.props.routeParams.id ?
-//      diagnosisQuestionCreate('exercises', 'exercises', result)
-//      .then(() => browserHistory.push(`/matrix-setup/exercises`)) :
-//
-//      updateQuestionCreate('exercises', 'exercises', {...result, id: id}, id)
-//      .then(() => browserHistory.push(`/matrix-setup/exercises`))
+    //    !this.props.routeParams.id ?
+    //      diagnosisQuestionCreate('exercises', 'exercises', result)
+    //      .then(() => browserHistory.push(`/matrix-setup/exercises`)) :
+    //
+    //      updateQuestionCreate('exercises', 'exercises', {...result, id: id}, id)
+    //      .then(() => browserHistory.push(`/matrix-setup/exercises`))
 
   };
 
@@ -132,18 +160,18 @@ class CreateExercise extends Component {
 
   handleTabChange = (event, tab) => {
     this.setState({ tab });
-//    browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${tab}`);
+    //    browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${tab}`);
   };
 
 
   handleQuestionLangChange = (event, value, type) => this.setState({ [type]: value });
 
 
-  openChooseFiles = (chooseFiles) => this.setState({chooseFiles});
+  openChooseFiles = (chooseFiles) => this.setState({ chooseFiles });
 
 
-  handleDelete = (ID) =>  {
-    const filtered = get(this.props.exerciseState, `files.data`).filter(el =>  el && el.id != ID);
+  handleDelete = (ID) => {
+    const filtered = get(this.props.exerciseState, `files.data`).filter(el => el && el.id != ID);
     updateCrateQuestionFields(filtered, `exercise.files.data`)
   };
 
@@ -182,6 +210,21 @@ class CreateExercise extends Component {
       instructionLang,
     } = this.state;
 
+    let labelLang = '';
+    let valueVideoPath = '';
+    let valuePosterPath = '';
+    switch(questionAnswerLang) {
+      case 'swe':
+        labelLang = 'swe';
+        valueVideoPath = 'exercise.files[swe].video';
+        valuePosterPath = 'exercise.files[swe].preview';
+        break;
+      default:
+        labelLang = 'en';
+        valueVideoPath = 'exercise.files[en].video';
+        valuePosterPath = 'exercise.files[en].preview';
+    }
+
     return (
       <div id="create-question">
 
@@ -190,7 +233,7 @@ class CreateExercise extends Component {
           showSwitch={true}
           switchChecked={testing_mode}
           switchLabel={'Live'}
-          onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'exercise.testing_mode')}
+          onSwitchChange={(e, value) => updateCrateQuestionFields(!value, 'exercise.testing_mode')}
           onCancelClick={this.cancel}
           cancelLabel={'Cancel'}
           onSaveClick={() => this.done(this.props.exerciseState)}
@@ -198,7 +241,7 @@ class CreateExercise extends Component {
         />
         <div className="create-question-sub-container">
 
-          {  id && loading ?
+          {id && loading ?
             <MatrixPreLoader
               left="1"
               right="2"
@@ -221,7 +264,7 @@ class CreateExercise extends Component {
                     <Input
                       id='exercise.ordinal'
                       reducer={createDiagnosisQuestion}
-                      label={ 'Exercise Number*' }
+                      label={'Exercise Number*'}
                       className="MUIControl"
                       placeholder={1.1}
                     />
@@ -234,9 +277,9 @@ class CreateExercise extends Component {
                       id='exercise.name'
                       value={name}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Name*' }
+                      label={'Name*'}
                       className="MUIControl"
-                      placeholder={ 'Name' }
+                      placeholder={'Name'}
                     />
                   </Grid>
                 </Grid>
@@ -247,8 +290,8 @@ class CreateExercise extends Component {
                       id='exercise.comments'
                       value={comments}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Comments*' }
-                      placeholder={ 'Comments*' }
+                      label={'Comments*'}
+                      placeholder={'Comments*'}
                       className="MUIControl"
                       multiline={true}
                       rows="5"
@@ -264,14 +307,14 @@ class CreateExercise extends Component {
                       id={`exercise.title.${questionAnswerLang}`}
                       value={!!title && title[questionAnswerLang]}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Title*' }
+                      label={'Title*'}
                       className="MUIControl"
-                      placeholder={ 'Title*' }
+                      placeholder={'Title*'}
                     />
                   </Grid>
                 </Grid>
 
-                <Typography type="title" style={{marginTop: '40px'}}>
+                <Typography type="title" style={{ marginTop: '40px' }}>
                   Exercise Information
                 </Typography>
 
@@ -281,8 +324,8 @@ class CreateExercise extends Component {
                       id={`exercise.information.${questionAnswerLang}`}
                       value={!!information && information[questionAnswerLang]}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Information' }
-                      placeholder={ 'Information' }
+                      label={'Information'}
+                      placeholder={'Information'}
                       multiline={true}
                       className="MUIControl"
                       rows="5"
@@ -291,7 +334,7 @@ class CreateExercise extends Component {
                   </Grid>
                 </Grid>
 
-                <Typography type="title"  style={{marginTop: '40px'}}>
+                <Typography type="title" style={{ marginTop: '40px' }}>
                   Exercise Instruction
                 </Typography>
 
@@ -301,8 +344,8 @@ class CreateExercise extends Component {
                       id={`exercise.instruction.${questionAnswerLang}`}
                       value={!!instruction && instruction[questionAnswerLang]}
                       reducer={createDiagnosisQuestion}
-                      label={ 'Instruction*' }
-                      placeholder={ 'Instruction*' }
+                      label={'Instruction*'}
+                      placeholder={'Instruction*'}
                       multiline={true}
                       className="MUIControl"
                       rows="5"
@@ -317,19 +360,19 @@ class CreateExercise extends Component {
                 <AssetsList
                   assetsListConverter={list => this._assetsListConverter(list, 'video')}
                   title='Video'
-                  list={get(files, '[0].video', [])}
+                  list={get(files, `[${labelLang}].video`, [])}
                   path="assets"
                   domain="exercises"
-                  valuePath="exercise.files[0].video"
+                  valuePath={valueVideoPath}
                 />
 
                 <AssetsList
                   assetsListConverter={list => this._assetsListConverter(list, 'image')}
                   title="Poster"
-                  list={get(files, '[0].preview', [])}
+                  list={get(files, `[${labelLang}].preview`, [])}
                   path="assets"
                   domain="exercises"
-                  valuePath="exercise.files[0].preview"
+                  valuePath={valuePosterPath}
                 />
               </div>
 
@@ -343,8 +386,8 @@ class CreateExercise extends Component {
 }
 const mapStateToProps = state => ({
   createDiagnosisQuestion: state.createDiagnosisQuestion,
-  exerciseState          : state.createDiagnosisQuestion.exercise,
-  commonReducer          : state.commonReducer,
+  exerciseState: state.createDiagnosisQuestion.exercise,
+  commonReducer: state.commonReducer,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -352,4 +395,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,
 }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(CreateExercise);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateExercise);

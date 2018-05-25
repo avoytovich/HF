@@ -40,22 +40,27 @@ class DynamicQuestions extends Component {
     const stepToShow = i + 1;
 
     let labelLang = '';
+    let answerLang = '';
     switch(q_lang.value) {
       case 2:
         labelLang = question.swe;
+        answerLang = 'swe';
         break;
       default:
         labelLang = question.en;
+        answerLang = 'en';
     }
 
     switch (type) {
       case 'single':
         if (content_type === 'functionalTest') {
           let items = [];
-          each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
+          each(values, (val, answerId) => items.push({ label: val[answerLang], value: answerId }));
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
+              <h6>Sequence { step }</h6>
+              <h6>Key { key }</h6>
               <h4>Functional test</h4>
               <div>
                 <InsertDriveFile className="testing-file-icon"/>
@@ -82,10 +87,12 @@ class DynamicQuestions extends Component {
           );
         } else if (subtype === 'list') {
           let items = [];
-          each(values, (val, answerId) => items.push({ label: val.en, value: answerId }));
+          each(values, (val, answerId) => items.push({ label: val[answerLang], value: answerId }));
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
+              <h6>Sequence { step }</h6>
+              <h6>Key { key }</h6>
               <C.RadioButton
                 key={i}
                 items={items}
@@ -115,6 +122,8 @@ class DynamicQuestions extends Component {
           return (
             <div key={i} className="margin-range">
               <h5>Question { stepToShow }</h5>
+              <h6>Sequence { step }</h6>
+              <h6>Key { key }</h6>
               <C.Range
                 key={i}
                 reducer={testingReducer}
@@ -137,10 +146,12 @@ class DynamicQuestions extends Component {
       case 'multiple':
         if (content_type === 'vas') {
           const bodyAreas = [];
-          each(values, (val, value) => bodyAreas.push({ label: val.en, value }));
+          each(values, (val, value) => bodyAreas.push({ label: val[answerLang], value }));
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
+              <h6>Sequence { step }</h6>
+              <h6>Key { key }</h6>
               <C.BodyAreas
                 key={i}
                 step={step}
@@ -151,10 +162,12 @@ class DynamicQuestions extends Component {
           );
         } else {
           let itemsMultiple = [];
-          each(values, (val, answerId) => itemsMultiple.push({ label: val.en, answerId }));
+          each(values, (val, answerId) => itemsMultiple.push({ label: val[answerLang], answerId }));
           return (
             <div key={i}>
               <h5>Question { stepToShow }</h5>
+              <h6>Sequence { step }</h6>
+              <h6>Key { key }</h6>
               <C.CheckBox
                 key={i}
                 items={itemsMultiple}

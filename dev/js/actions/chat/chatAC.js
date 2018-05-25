@@ -3,7 +3,7 @@ import { store } from '../../index'
 
 export const dispatchCreateDialog = payload => dispatch =>
   dispatch({
-    type   : T.CHAT,
+    type: T.CHAT,
     payload: payload
   });
 
@@ -12,7 +12,7 @@ export const dispatchCreateDialogWired = payload =>
 
 export const dispatchGetMessages = payload => dispatch =>
   dispatch({
-    type   : T.MESSAGE_LIST,
+    type: T.MESSAGE_LIST,
     payload: payload
   });
 
@@ -21,7 +21,7 @@ export const dispatchGetMessagesWired = payload =>
 
 export const dispatchCreateMessagePayload = payload => dispatch =>
   dispatch({
-    type   : T.CHAT,
+    type: T.CHAT,
     payload: payload
   });
 

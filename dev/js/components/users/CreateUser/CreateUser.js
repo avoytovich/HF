@@ -69,6 +69,9 @@ class CreateUser extends Component {
     this.props.createUsersReducers.contact_info = {
       contacts: []
     };
+    this.state = {
+      title: null
+    }
   }
 
   componentWillMount() {
@@ -116,18 +119,25 @@ class CreateUser extends Component {
     });
   };
 
+  handleTitle = (titleValue) => {
+    this.setState({
+      title: titleValue
+    })
+  };
+
   render() {
     const createUsersReducers = {
       ...this.props.userData,
       ...this.props.createUsersReducers
     };
-    console.log('createUsersReducers', createUsersReducers.contact_info);
+    //console.log('createUsersReducers', createUsersReducers.contact_info);
     const contacts = get(createUsersReducers, 'contact_info.contacts') || [];
     let tariffPlans = get(this.props, 'tariffPlans.data', []);
     tariffPlans = map(tariffPlans, el => ({
       label: el.name,
       value: el.name,
-      id: el.id
+      id: el.id,
+      active: el.active
     }));
     return (
       <div className="upload-container">
@@ -136,6 +146,7 @@ class CreateUser extends Component {
           userData={this.props.userData}
           userInfo={this.props.userInfo}
           backButton={this.props.backButton}
+          defineTitle={this.handleTitle}
         />
         <div className="create-user-main-container">
           <div className="create-user-container">
@@ -147,12 +158,14 @@ class CreateUser extends Component {
                 label="Company / Entity Name"
                 placeholder="Company / Entity Name"
               />
-              <Input
-                id="email"
-                reducer={createUsersReducers}
-                label="Email"
-                placeholder="Email"
-              />
+              {this.state.title &&
+                <Input
+                  id="email"
+                  reducer={createUsersReducers}
+                  label="Email"
+                  placeholder="Email"
+                />
+              }
               <Input
                 id="legal_info.vat"
                 reducer={createUsersReducers}
@@ -205,8 +218,8 @@ class CreateUser extends Component {
                   label="Tariff Plan"
                 />
               ) : (
-                ''
-              )}
+                  ''
+                )}
             </div>
             <div className="create-user-input-container">
               <h3 className="create-user-title">Billing Address</h3>

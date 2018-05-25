@@ -36,25 +36,27 @@ class Input extends Component {
       },
       ...props,
     } = this.props;
+
+    console.log(reducer);
     const value = get(reducer, id, '');
     const error = get(errors, id, false);
     return (
-    <FormControl className={classes.formControl} error={!!error}>
-      <TextField
-        error={!!error}
-        id={id}
-        name={actionType}
-        value={value}
-        onChange={onChangeCustom || onChange}
-        label={label}
-        placeholder={placeholder}
-        className={classes.textField}
-        style={style}
-        margin="normal"
-        helperText={error}
-        {...omit(props, ['dispatch'])}
-      />
-    </FormControl>
+      <FormControl className={classes.formControl} error={!!error}>
+        <TextField
+          error={!!error}
+          id={id}
+          name={actionType}
+          value={value}
+          onChange={onChangeCustom || onChange}
+          label={label}
+          placeholder={placeholder}
+          className={classes.textField}
+          style={style}
+          margin="normal"
+          helperText={error}
+          {...omit(props, ['dispatch'])}
+        />
+      </FormControl>
     );
   }
 }
