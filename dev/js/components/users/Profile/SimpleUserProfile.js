@@ -1,21 +1,21 @@
-import React, { Component }     from 'react';
-import { connect }              from 'react-redux';
-import { browserHistory }       from 'react-router'
-import Paper                    from 'material-ui/Paper';
-import Grid                     from 'material-ui/Grid';
-import { withStyles }           from 'material-ui/styles';
-import get                      from 'lodash/get';
-import map                      from 'lodash/map';
-import split                    from 'lodash/split';
-import pickBy                   from 'lodash/pickBy';
-import replace                  from 'lodash/replace';
-import Modal                    from '../../common/Modal/Modal';
-import DeactivateComponent      from '../../common/Modal/DeactivateModal'
-import EditSimpleUser           from '../CreateUser/EditSimpleUser';
-import SelfDiagnosisQA          from '../user-modals/SelfDiagnosisQA'
-import ArrowRight               from 'material-ui-icons/KeyboardArrowRight';
-import EditIcon                 from 'material-ui-icons/Edit';
-import { Switch }               from '../../common/index';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router'
+import Paper from 'material-ui/Paper';
+import Grid from 'material-ui/Grid';
+import { withStyles } from 'material-ui/styles';
+import get from 'lodash/get';
+import map from 'lodash/map';
+import split from 'lodash/split';
+import pickBy from 'lodash/pickBy';
+import replace from 'lodash/replace';
+import Modal from '../../common/Modal/Modal';
+import DeactivateComponent from '../../common/Modal/DeactivateModal'
+import EditSimpleUser from '../CreateUser/EditSimpleUser';
+import SelfDiagnosisQA from '../user-modals/SelfDiagnosisQA'
+import ArrowRight from 'material-ui-icons/KeyboardArrowRight';
+import EditIcon from 'material-ui-icons/Edit';
+import { Switch } from '../../common/index';
 import {
   getProfileWired,
   activateUser,
@@ -24,39 +24,40 @@ import {
   userUpdatePricingGroup,
   getDiagnosticByTherapyWired,
   getDiagnosticByDiagnosticIdWired,
-  getPricingGroupsWired}        from '../../../actions'
+  getPricingGroupsWired
+} from '../../../actions'
 
-import moment                   from 'moment';
+import moment from 'moment';
 
 const styles = theme => ({
-  root:{
-    height:'100%',
+  root: {
+    height: '100%',
   },
   button: {
     margin: theme.spacing.unit,
-    float : 'right',
+    float: 'right',
   },
-  paper:{
+  paper: {
     margin: '10px',
     padding: '20px 0',
-    display:'flex',
-    width:'100%',
+    display: 'flex',
+    width: '100%',
   }
 
 });
 
 const Id = [
-  {title:'ID Number', path: 'user_id'},
+  { title: 'ID Number', path: 'user_id' },
 ];
 
 const mainInformation = [
-  {title:'First Name', path: 'first_name'},
-  {title:'Last Name', path: 'last_name'},
-  {title:'Email', path: 'email'},
-  {title:'Country', path: 'country'},
-  {title:'City', path: 'city'},
-  {title:'Language', path: 'language'},
-  {title:'Pricing group', path: 'pricing_group'}
+  { title: 'First Name', path: 'first_name' },
+  { title: 'Last Name', path: 'last_name' },
+  { title: 'Email', path: 'email' },
+  { title: 'Country', path: 'country' },
+  { title: 'City', path: 'city' },
+  { title: 'Language', path: 'language' },
+  { title: 'Pricing group', path: 'pricing_group' }
 ];
 
 class Profile extends Component {
@@ -74,19 +75,19 @@ class Profile extends Component {
     return true;
   }
 
-  componentWillMount (){
+  componentWillMount() {
     getProfileWired(this.props.params.userId, 'users');
     getPricingGroupsWired('getPricingGroups');
-    getDiagnosticByTherapyWired('getDiagnosticByTherapy' , this.props.params.userId);
+    getDiagnosticByTherapyWired('getDiagnosticByTherapy', this.props.params.userId);
   }
 
-  _renderItem =(el, index, simpleUserProfileReducer)=>{
+  _renderItem = (el, index, simpleUserProfileReducer) => {
     return (
-      <div className = 'profile-paper-data' key={el.path}>
-        <div className = 'profile-paper-data-title'>
+      <div className='profile-paper-data' key={el.path}>
+        <div className='profile-paper-data-title'>
           {el.title}
         </div>
-        <div className = 'profile-paper-data-info'>
+        <div className='profile-paper-data-info'>
           {get(simpleUserProfileReducer, el.path, '-') || '-'}
         </div>
       </div>
@@ -110,10 +111,10 @@ class Profile extends Component {
     )
   };
   _renderSwitcher = () => {
-    if(this.props.simpleUserProfileReducer.confirmed_at){
-      return(
+    if (this.props.simpleUserProfileReducer.confirmed_at) {
+      return (
         <Switch
-          label={this.props.simpleUserProfileReducer.deactivated_at ? 'Suspended':'Active'}
+          label={this.props.simpleUserProfileReducer.deactivated_at ? 'Suspended' : 'Active'}
           checked={!this.props.simpleUserProfileReducer.deactivated_at}
           labelClassName={'switch-label'}
           onChange={this._onSwitchChange}
@@ -136,45 +137,45 @@ class Profile extends Component {
   _toggleDeleteUserModal = () => this.setState({ showDeleteUserModal: !this.state.showDeleteUserModal });
 
 
- _onSwitchChange = () => {
-   let action = 'deactivate';
-   if(this.props.simpleUserProfileReducer.deactivated_at){
-     action = 'activate';
-   }
-   activateUser('users', 'userProfile', [{user_id: this.props.params.userId}], action)
-     .then(() => getProfileWired(this.props.params.userId, 'users'));
- };
+  _onSwitchChange = () => {
+    let action = 'deactivate';
+    if (this.props.simpleUserProfileReducer.deactivated_at) {
+      action = 'activate';
+    }
+    activateUser('users', 'userProfile', [{ user_id: this.props.params.userId }], action)
+      .then(() => getProfileWired(this.props.params.userId, 'users'));
+  };
 
   _formatTime = (data) => {
     return data ? moment.unix(data).format('DD MMM YYYY') : '-'
   };
 
-  _deleteUser = ()=>{
+  _deleteUser = () => {
     let returnUrl = split(this.props.route.path, '/:userId/', 1);
     returnUrl = replace(returnUrl[0], ':id', this.props.params.id);
-    deleteUser('users', 'userProfile', [{user_id: this.props.params.userId}])
+    deleteUser('users', 'userProfile', [{ user_id: this.props.params.userId }])
       .then(() => browserHistory.push(returnUrl));
   };
 
-  _editSimpleUser= ()=>{
+  _editSimpleUser = () => {
     const key = get(this.props, 'simpleUserProfileReducer.pricing_group');
-    const result = pickBy(this.props.simpleUserProfileReducer, function(value, key) {
+    const result = pickBy(this.props.simpleUserProfileReducer, function (value, key) {
       return value ? value : '';
     });
     userUpdate('users', 'userProfile', this.props.params.userId, result)
-      .then(()=>{
-      userUpdatePricingGroup('users', 'updateUserPricingGroup', this.props.params.userId, {key})
-        .then(() => this._toggleEditSimpleUserModal());
-    });
+      .then(() => {
+        userUpdatePricingGroup('users', 'updateUserPricingGroup', this.props.params.userId, { key })
+          .then(() => this._toggleEditSimpleUserModal());
+      });
   };
 
-  _openSelfDiagnosisQA = (diagnosticId) =>{
+  _openSelfDiagnosisQA = (diagnosticId) => {
     const answers = getDiagnosticByDiagnosticIdWired(diagnosticId);
     this._toggleSelfDiagnosisQAModal();
   };
 
   render() {
-    const diagnosticList = get(this.props,'simpleUserProfileReducer.data') || [];
+    const diagnosticList = get(this.props, 'simpleUserProfileReducer.data') || [];
     const { showEditSimpleUserModal, showDeleteUserModal, showSelfDiagnosisQAModal } = this.state;
     const {
       classes,
@@ -182,113 +183,113 @@ class Profile extends Component {
     } = this.props;
 
     return (
-    <div className="profile-main-container">
-      <div className="profile-sub-header">
-        <span className="profile-total" onClick={this._returnFunc}> Users </span>
-        <ArrowRight className="arrow-right-icon" />
-        <span className="profile-name"> User Profile </span>
+      <div className="profile-main-container">
+        <div className="profile-sub-header">
+          <span className="profile-total" onClick={this._returnFunc}> Users </span>
+          <ArrowRight className="arrow-right-icon" />
+          <span className="profile-name"> User Profile </span>
+
+        </div>
+        <Grid className={classes.root}
+          container
+          direction='row'
+          justify='space-around'
+          alignItems='flex-start'
+        >
+          <Grid item xs={12} sm={6} className='information-block'>
+            <Paper className={classes.paper}>
+              <div className='profile-paper-container'>
+
+                <div className='profile-paper-data-container'>
+                  {map(Id, (el, index) => this._renderItem(el, index, simpleUserProfileReducer))}
+                </div>
+                <div className="profile-paper-hr" />
+
+                <div className='profile-paper-data-container'>
+                  <div className='profile-paper-data'>
+                    <div className='profile-paper-data-title-status'>
+                      Status
+                  </div>
+                    <div className='profile-paper-data-info'>
+                      {this._renderSwitcher()}
+                    </div>
+                  </div>
+                </div>
+                <div className="profile-paper-hr" />
+
+                <div className='profile-paper-sub-header'>User Information
+                <EditIcon onClick={this._toggleEditSimpleUserModal} /> </div>
+                <div className='profile-paper-data-container'>
+                  {map(mainInformation, (el, index) => this._renderItem(el, index, simpleUserProfileReducer))}
+                </div>
+                <div className="profile-paper-hr" />
+
+                <div className='profile-paper-data-container'>
+                  <div className='profile-paper-data'>
+                    <div className='profile-paper-data-title'>
+                      Activated at
+                  </div>
+                    <div className='profile-paper-data-info'>
+                      {this._formatTime(get(simpleUserProfileReducer, 'activated_at', '-'))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="profile-paper-hr" />
+
+                <div className='profile-paper-data-container'>
+                  <div className='profile-paper-data'>
+                    <div className="users-count" onClick={this._toggleDeleteUserModal}> DELETE USER</div>
+                  </div>
+                </div>
+              </div>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} className='information-block'>
+            {diagnosticList.length > 0 ?
+              (<Paper className={classes.paper}>
+                <div className='profile-paper-container'>
+                  <div className='profile-paper-data-container'>
+                    {map(diagnosticList, (el, index) => this._renderDiagnosticItem(el, index))}
+                  </div>
+                  <div className="profile-paper-hr" />
+                </div>
+              </Paper>) : ''
+            }
+          </Grid>
+        </Grid>
+
+        <DeactivateComponent
+          pathReq="createQuestion"
+          path="users"
+          domen="diagnostics"
+          typeKey="deactivateOpen"
+          list={[this.props.simpleUserProfileReducer]}
+          title="Delete user?"
+          deactivateOpen={showDeleteUserModal}
+          open={() => this._toggleDeleteUserModal()}
+          itemKey="email"
+          query={this.props.location.query}
+          onSubmit={this._deleteUser}
+          onSubmitTitle="Delete"
+        />
+
+        <Modal
+          itemName="name_real"
+          open={showEditSimpleUserModal}
+          title='User Information'
+          toggleModal={this._toggleEditSimpleUserModal}
+          onConfirmClick={() => this._editSimpleUser()}
+          CustomContent={() => <EditSimpleUser />}
+        />
+
+        <SelfDiagnosisQA
+          deactivateOpen={showSelfDiagnosisQAModal}
+          open={this._toggleSelfDiagnosisQAModal}
+          itemKey="user_id"
+        />
 
       </div>
-      <Grid className={classes.root}
-            container
-            direction='row'
-            justify='space-around'
-            alignItems='flex-start'
-      >
-        <Grid item xs={12} sm={6} className = 'information-block'>
-          <Paper className={classes.paper}>
-            <div className = 'profile-paper-container'>
-
-              <div className = 'profile-paper-data-container'>
-                {map(Id, (el,index) => this._renderItem(el,index,simpleUserProfileReducer))}
-              </div>
-              <div className="profile-paper-hr"/>
-
-              <div className = 'profile-paper-data-container'>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title-status'>
-                    Status
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                    {this._renderSwitcher()}
-                  </div>
-                </div>
-              </div>
-              <div className="profile-paper-hr"/>
-
-              <div className = 'profile-paper-sub-header'>User Information
-                <EditIcon onClick={this._toggleEditSimpleUserModal} /> </div>
-              <div className = 'profile-paper-data-container'>
-                {map(mainInformation, (el,index) => this._renderItem(el,index,simpleUserProfileReducer))}
-              </div>
-              <div className="profile-paper-hr"/>
-
-              <div className = 'profile-paper-data-container'>
-                <div className = 'profile-paper-data'>
-                  <div className = 'profile-paper-data-title'>
-                    Activated at
-                  </div>
-                  <div className = 'profile-paper-data-info'>
-                    {this._formatTime(get(simpleUserProfileReducer, 'activated_at','-'))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="profile-paper-hr"/>
-
-              <div className = 'profile-paper-data-container'>
-                <div className = 'profile-paper-data'>
-                  <div className="users-count" onClick={this._toggleDeleteUserModal}> DELETE USER</div>
-                </div>
-              </div>
-            </div>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} className = 'information-block'>
-          {diagnosticList.length>0?
-            (<Paper className={classes.paper}>
-              <div className = 'profile-paper-container'>
-                <div className = 'profile-paper-data-container'>
-                  {map(diagnosticList, (el,index) => this._renderDiagnosticItem(el,index))}
-                </div>
-                <div className="profile-paper-hr"/>
-              </div>
-            </Paper>):''
-          }
-        </Grid>
-      </Grid>
-
-      <DeactivateComponent
-        pathReq="createQuestion"
-        path="users"
-        domen="diagnostics"
-        typeKey="deactivateOpen"
-        list={[this.props.simpleUserProfileReducer]}
-        title="Delete user?"
-        deactivateOpen={showDeleteUserModal}
-        open={()=>this._toggleDeleteUserModal()}
-        itemKey="email"
-        query={this.props.location.query}
-        onSubmit={this._deleteUser}
-        onSubmitTitle="Delete"
-      />
-
-      <Modal
-        itemName="name_real"
-        open={showEditSimpleUserModal}
-        title='User Information'
-        toggleModal={this._toggleEditSimpleUserModal}
-        onConfirmClick={() => this._editSimpleUser()}
-        CustomContent={() => <EditSimpleUser />}
-      />
-
-      <SelfDiagnosisQA
-        deactivateOpen={showSelfDiagnosisQAModal}
-        open={this._toggleSelfDiagnosisQAModal}
-        itemKey="user_id"
-      />
-
-    </div>
 
     )
   }
@@ -296,8 +297,8 @@ class Profile extends Component {
 
 const mapStateToProps = state => ({
   createSimpleUsersReducers: state.createSimpleUsersReducers,
-  userReducer:state.userReducer,
+  userReducer: state.userReducer,
   simpleUserProfileReducer: state.simpleUserProfileReducer,
 });
 
-export default  connect(mapStateToProps)(withStyles(styles)(Profile));
+export default connect(mapStateToProps)(withStyles(styles)(Profile));
