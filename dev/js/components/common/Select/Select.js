@@ -32,7 +32,7 @@ class SimpleSelect extends React.Component {
         value={op.value}
       > {op.label} </MenuItem>
     })
-  }
+  };
 
   render() {
     const {
