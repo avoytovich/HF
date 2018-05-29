@@ -56,7 +56,6 @@ class CreateTariffPlan extends Component {
     const {createTariffPlanReducer} = this.props;
 
     let pricing_groups = get(createTariffPlanReducer,'pricing_groups');
-    console.log(`Pricing group ${JSON.stringify((pricingGroupsList))}`);
     return (
       <div className="create-tariff-plan-content">
         <div className="create-tariff-plan-container">
