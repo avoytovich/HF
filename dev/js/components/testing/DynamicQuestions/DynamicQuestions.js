@@ -190,12 +190,12 @@ class DynamicQuestions extends Component {
     .map(this._pickQuestion);
 
   _renderConditions = (conditions, step) => {
-    return conditions.map(({ title }, i) => {
+    return conditions.map(({ key }, i) => {
       return (
         <C.Paper
           key={i}
           step={step}
-          conditionText={title}
+          conditionText={key}
         />
       )
     })
