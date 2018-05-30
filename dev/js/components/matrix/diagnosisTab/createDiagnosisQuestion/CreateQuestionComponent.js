@@ -174,42 +174,46 @@ class CreateQuestionComponent extends Component {
         areaIds,
         answerType,
         rules,
+        diagnostic_assets,
         files,
     } = value;
     const filesFinal = {
       en: {
         video_id: null,
-        image_id: null
+        //image_id: null
       },
       swe: {
         video_id: null,
-        image_id: null
+        //image_id: null
       }
     };
     const videoEn   = get(files, '[en].video', { id : null });
     const videoSwe   = get(files, '[swe].video', { id : null });
-    const imageEn   = get(files, '[en].preview', { id: null });
-    const imageSwe   = get(files, '[swe].preview', { id: null });
-    if (files.en && files.en.video && files.en.preview) {
+    //const imageEn   = get(files, '[en].preview', { id: null });
+    //const imageSwe   = get(files, '[swe].preview', { id: null });
+    if (files.en && files.en.video /*&& files.en.preview*/) {
       filesFinal.en.video_id = files.en.video.id;
-      filesFinal.en.image_id = files.en.preview.id;
+      //filesFinal.en.image_id = files.en.preview.id;
     } else {
       filesFinal.en.video_id = get(videoEn, 'id');
-      filesFinal.en.image_id = get(imageEn, 'id');
+      //filesFinal.en.image_id = get(imageEn, 'id');
     }
-    if (files.swe && files.swe.video && files.swe.preview) {
+    if (files.swe && files.swe.video /*&& files.swe.preview*/) {
       filesFinal.swe.video_id = files.swe.video.id;
-      filesFinal.swe.image_id = files.swe.preview.id;
+      //filesFinal.swe.image_id = files.swe.preview.id;
     } else {
       filesFinal.swe.video_id = get(videoSwe, 'id');
-      filesFinal.swe.image_id = get(imageSwe, 'id');
+      //filesFinal.swe.image_id = get(imageSwe, 'id');
     }
     const {
       type,
       subtype
     } = this.getAnswerType(answerType);
     const moreProps = optional ?
-      { files: filesFinal || null }
+      {
+        files: filesFinal || null,
+        test_poster_id: get(diagnostic_assets, 'id') || null
+      }
       :
       {};
     let answerValues = subtype === 'range' ?

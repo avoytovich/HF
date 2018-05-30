@@ -159,7 +159,7 @@ const setFullQuestion = (state, action) => {
       answerType: _type,
       rules: Array.isArray(rule) ? rule: rule.and ? rule.and : [rule],
       [_type === 'multiple' ? 'single' : _type]: parseAnswers(answer),
-      diagnostic_assets: test_file ||  [],
+      diagnostic_assets: files.image ||  [],
       packageLevelsList: configPackageLevelList(packageLevels),
       service
     };

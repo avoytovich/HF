@@ -83,17 +83,17 @@ class DiagnosisTypeQuestion extends Component {
 
     let labelLang = '';
     let valueVideoPath = '';
-    let valuePosterPath = '';
+    //let valuePosterPath = '';
     switch(questionAnswerLang) {
       case 'swe':
         labelLang = 'swe';
         valueVideoPath = 'files[swe].video';
-        valuePosterPath = 'files[swe].preview';
+        //valuePosterPath = 'files[swe].preview';
         break;
       default:
         labelLang = 'en';
         valueVideoPath = 'files[en].video';
-        valuePosterPath = 'files[en].preview';
+        //valuePosterPath = 'files[en].preview';
     }
 
     return <BlockDivider title="Question">
@@ -278,11 +278,11 @@ class DiagnosisTypeQuestion extends Component {
             />
             <AssetsList
               assetsListConverter={list => this._assetsListConverter(list, 'image')}
-              list={ get(files, `[${labelLang}].preview`, []) }
+              list={ diagnostic_assets }
               title="Poster"
               path="assets"
               domain="diagnostics"
-              valuePath={valuePosterPath}
+              valuePath="diagnostic_assets"
               multiSelect={false}
               listValue={false}
 
