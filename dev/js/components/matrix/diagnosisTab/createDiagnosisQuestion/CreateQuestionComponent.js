@@ -46,8 +46,6 @@ class CreateQuestionComponent extends Component {
   componentWillMount() {
     clearCreateQuestion();
     updateCrateQuestionFields(this.state.questionType, 'page');
-
-
     if (this.props.routeParams.id) {
       this.setState({loading: true});
       getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
@@ -111,6 +109,7 @@ class CreateQuestionComponent extends Component {
       questionTitle,
       content_type,
       diagnostic_assets,
+      files,
       errors,
     } = value;
 
@@ -131,7 +130,7 @@ class CreateQuestionComponent extends Component {
       ...optional,
     };
 
-    const validateAssets = isContentType && !this.validateDiagnosticAssets(diagnostic_assets);
+    const validateAssets = isContentType && !this.validateDiagnosticAssets(files);
 
     if (validateAssets){
       return notifier({
@@ -161,22 +160,56 @@ class CreateQuestionComponent extends Component {
     };
   };
 
-  validateDiagnosticAssets = (assets) =>
-    assets.hasOwnProperty('id') && !!assets.id;
+  validateDiagnosticAssets = (assets) => {
+    const { questionAnswerLang } = this.props.createDiagnosisQuestion;
+    if (assets[`${questionAnswerLang}`].video || assets[`${questionAnswerLang}`].preview) {
+      return assets[`${questionAnswerLang}`].video.hasOwnProperty('id') && !!assets[`${questionAnswerLang}`].video.id ||
+        assets[`${questionAnswerLang}`].preview.hasOwnProperty('id') && !!assets[`${questionAnswerLang}`].preview.id;
+    }
+    return false;
+  }
 
   configureQuestionResult = (value, optional) => {
     const {
         areaIds,
         answerType,
         rules,
-        diagnostic_assets
+        files,
     } = value;
+    const filesFinal = {
+      en: {
+        video_id: null,
+        image_id: null
+      },
+      swe: {
+        video_id: null,
+        image_id: null
+      }
+    };
+    const videoEn   = get(files, '[en].video', { id : null });
+    const videoSwe   = get(files, '[swe].video', { id : null });
+    const imageEn   = get(files, '[en].preview', { id: null });
+    const imageSwe   = get(files, '[swe].preview', { id: null });
+    if (files.en && files.en.video && files.en.preview) {
+      filesFinal.en.video_id = files.en.video.id;
+      filesFinal.en.image_id = files.en.preview.id;
+    } else {
+      filesFinal.en.video_id = get(videoEn, 'id');
+      filesFinal.en.image_id = get(imageEn, 'id');
+    }
+    if (files.swe && files.swe.video && files.swe.preview) {
+      filesFinal.swe.video_id = files.swe.video.id;
+      filesFinal.swe.image_id = files.swe.preview.id;
+    } else {
+      filesFinal.swe.video_id = get(videoSwe, 'id');
+      filesFinal.swe.image_id = get(imageSwe, 'id');
+    }
     const {
       type,
       subtype
     } = this.getAnswerType(answerType);
     const moreProps = optional ?
-      { test_file_id: get(diagnostic_assets, 'id') || null }
+      { files: filesFinal || null }
       :
       {};
     let answerValues = subtype === 'range' ?
@@ -211,7 +244,7 @@ class CreateQuestionComponent extends Component {
         id
       }
     } = this.props;
-    console.log(service, content_type);
+    //console.log(service, content_type);
     return (
       <div id="create-question">
 

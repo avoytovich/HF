@@ -140,13 +140,14 @@ const removeAnswer = (state, action) => {
 const setFullQuestion = (state, action) => {
   const { body, body: {
     areas, title, question, key, step, answer, rule, content_type, test_file,
-    packageLevels, testing, levelup_result, evaluation_result, properties, service,
+    packageLevels, testing, levelup_result, evaluation_result, properties, service, files
   }} = action.payload;
   const { subtype, type } = answer ;
   const _type = subtype === 'range' || type === 'range' ? 'range' : type;
   const _body = {
       areaIds: configArea(areas),
       questionTitle: title,
+      files,
       question,
       testing,
       content_type,
