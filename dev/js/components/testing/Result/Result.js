@@ -32,8 +32,8 @@ class Result extends Component {
                 return (
                   <div>
                     <p>Package</p>
-                    <p>Package id: {treat.package_id}</p>
-                    <p>Package level id: {treat.package_level_id}</p>
+                    <p>Package id: {treat.package_id ? treat.package_id : '-'}</p>
+                    <p>Package level id: {treat.package_level_id ? treat.package_level_id: '-'}</p>
                   </div>
                 )
               })
