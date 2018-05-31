@@ -8,10 +8,14 @@ import { findType }        from '../../utils/matrix';
 import InitialState        from './initialState';
 
 const createQuestionUpdate = (state, action) => {
+  console.log('action', action);
+  console.log('state', state);
   switch (action.type) {
     case `${CREATE_QUESTION}_UPDATE`:
       const {data, path } = action.payload;
+      console.log('dataREDUCER', data);
       const res =  set(state, path, data);
+      console.log('res', res);
       return Object.assign({}, res);
     default:
       return state;
