@@ -135,7 +135,8 @@ class CreateExercise extends Component {
       name,
       testing_mode,
       files: filesFinal,
-      image_id: this.props.createDiagnosisQuestion.diagnostic_assets[0].id
+      image_id: this.props.createDiagnosisQuestion.diagnostic_assets[0] &&
+        this.props.createDiagnosisQuestion.diagnostic_assets[0].id || !Array.isArray(this.props.createDiagnosisQuestion.diagnostic_assets) && files.image.id || null
     };
 
     submitTabs(
@@ -372,7 +373,7 @@ class CreateExercise extends Component {
                 <AssetsList
                   assetsListConverter={list => this._assetsListConverter(list, 'image')}
                   title="Poster"
-                  list={ diagnostic_assets }
+                  list={ diagnostic_assets[0] ? diagnostic_assets[0] : diagnostic_assets.id ? diagnostic_assets : Array.isArray(diagnostic_assets) ? [] : get(files, 'image', []) }
                   path="assets"
                   domain="exercises"
                   valuePath="diagnostic_assets"

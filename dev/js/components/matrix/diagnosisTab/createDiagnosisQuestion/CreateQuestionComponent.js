@@ -160,14 +160,11 @@ class CreateQuestionComponent extends Component {
     };
   };
 
-  validateDiagnosticAssets = (assets) => {
-    const { questionAnswerLang } = this.props.createDiagnosisQuestion;
-    if (assets[`${questionAnswerLang}`].video || assets[`${questionAnswerLang}`].preview) {
-      return assets[`${questionAnswerLang}`].video.hasOwnProperty('id') && !!assets[`${questionAnswerLang}`].video.id ||
-        assets[`${questionAnswerLang}`].preview.hasOwnProperty('id') && !!assets[`${questionAnswerLang}`].preview.id;
-    }
-    return false;
-  }
+  validateDiagnosticAssets = (assets) => (
+    (assets && assets['en'] && assets['en'].video) ||
+      (assets && assets['swe'] && assets['swe'].video) &&
+      true || false
+  );
 
   configureQuestionResult = (value, optional) => {
     const {
@@ -191,14 +188,14 @@ class CreateQuestionComponent extends Component {
     const videoSwe   = get(files, '[swe].video', { id : null });
     //const imageEn   = get(files, '[en].preview', { id: null });
     //const imageSwe   = get(files, '[swe].preview', { id: null });
-    if (files.en && files.en.video /*&& files.en.preview*/) {
+    if (files && files.en && files.en.video /*&& files.en.preview*/) {
       filesFinal.en.video_id = files.en.video.id;
       //filesFinal.en.image_id = files.en.preview.id;
     } else {
       filesFinal.en.video_id = get(videoEn, 'id');
       //filesFinal.en.image_id = get(imageEn, 'id');
     }
-    if (files.swe && files.swe.video /*&& files.swe.preview*/) {
+    if (files && files.swe && files.swe.video /*&& files.swe.preview*/) {
       filesFinal.swe.video_id = files.swe.video.id;
       //filesFinal.swe.image_id = files.swe.preview.id;
     } else {
@@ -236,6 +233,7 @@ class CreateQuestionComponent extends Component {
   cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
 
   render() {
+    console.log('Props', this.props);
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
