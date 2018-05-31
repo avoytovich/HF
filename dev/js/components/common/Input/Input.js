@@ -75,9 +75,7 @@ Input.propTypes = {
   style: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   onChange,
