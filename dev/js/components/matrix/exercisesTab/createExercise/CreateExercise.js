@@ -61,6 +61,21 @@ class CreateExercise extends Component {
     clearCreateQuestion();
   }
 
+  handleSetImageId = () => {
+    const { diagnostic_assets } = this.props.createDiagnosisQuestion;
+    const { files } = this.props.exerciseState;
+    return diagnostic_assets[0] && diagnostic_assets[0].id ||
+      !Array.isArray(diagnostic_assets) &&
+        files && files.image && files.image.id || null;
+  };
+
+  handleSetList = () => {
+    const { diagnostic_assets } = this.props.createDiagnosisQuestion;
+    return diagnostic_assets[0] ? diagnostic_assets[0] : diagnostic_assets.id ?
+      diagnostic_assets : Array.isArray(diagnostic_assets) ?
+        [] : get(files, 'image', []);
+  };
+
   done = (value) => {
     const {
       id,
@@ -135,8 +150,7 @@ class CreateExercise extends Component {
       name,
       testing_mode,
       files: filesFinal,
-      image_id: this.props.createDiagnosisQuestion.diagnostic_assets[0] &&
-        this.props.createDiagnosisQuestion.diagnostic_assets[0].id || !Array.isArray(this.props.createDiagnosisQuestion.diagnostic_assets) && files.image.id || null
+      image_id: this.handleSetImageId
     };
 
     submitTabs(
@@ -184,7 +198,6 @@ class CreateExercise extends Component {
 
 
   render() {
-    console.log('PROPS', this.props);
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {
@@ -373,7 +386,7 @@ class CreateExercise extends Component {
                 <AssetsList
                   assetsListConverter={list => this._assetsListConverter(list, 'image')}
                   title="Poster"
-                  list={ diagnostic_assets[0] ? diagnostic_assets[0] : diagnostic_assets.id ? diagnostic_assets : Array.isArray(diagnostic_assets) ? [] : get(files, 'image', []) }
+                  list={ this.handleSetList }
                   path="assets"
                   domain="exercises"
                   valuePath="diagnostic_assets"

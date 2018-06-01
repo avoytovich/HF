@@ -233,7 +233,6 @@ class CreateQuestionComponent extends Component {
   cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
 
   render() {
-    console.log('Props', this.props);
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: {

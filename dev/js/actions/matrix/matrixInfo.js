@@ -122,7 +122,6 @@ export const deleteItem = (domenKey, apiKey, ids) => {
 };
 
 export const updateQuestionCreate = (domenKey, apiKey, body, id) => {
-  console.log('body', body);
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
   return id ?
@@ -296,7 +295,6 @@ export const getExerciseById =  (domenKey, apiKey, id) => {
     .then(res => {
       if (res) {
         const { data } = res.data;
-        console.log('data', data);
         store.dispatch(
           {
             type:`${CREATE_QUESTION}_UPDATE`,
