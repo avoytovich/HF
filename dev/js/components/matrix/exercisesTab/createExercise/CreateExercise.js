@@ -383,6 +383,7 @@ class CreateExercise extends Component {
                   path="assets"
                   domain="exercises"
                   valuePath={valueVideoPath}
+                  multiSelect={false}
                 />
 
                 <AssetsList
@@ -392,6 +393,7 @@ class CreateExercise extends Component {
                   path="assets"
                   domain="exercises"
                   valuePath="diagnostic_assets"
+                  multiSelect={false}
                 />
               </div>
 
