@@ -31,6 +31,13 @@ const initialState = {
   testId: null,
 };
 
+const testingTemporaryState = (state, action) => {
+  return {
+    ...state,
+    ...action.payload
+  }
+};
+
 const testingBodyAres = (state, action) => {
   let bodyAreas = [];
   each(action.payload, (val, answerId) => {
@@ -133,6 +140,7 @@ const testingRemoveOverstepQuestionsAndCond = (state, action) => {
 };
 
 export const testingReducer = createReducer(initialState, T.TESTING, {
+  [T.TESTING_TEMPORARY_STATE]                   : testingTemporaryState,
   [T.TESTING_BODY_AREAS]                        : testingBodyAres,
   [T.TESTING_ADD_QUESTIONS_AND_COND]            : testingAddQuestionsAndCond,
   [T.TESTING_ADD_MULT_OPTION]                   : testingAddMultOption,
