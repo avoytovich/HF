@@ -30,8 +30,32 @@ import {
   PAGE,
   pickKeys,
 } from '../../../config';
+import { store } from '../../../index';
 
 class TestNew extends Component {
+
+  constructor(props) {
+    super(props);
+    if (typeof localStorage.getItem('temporaryState') === 'string') {
+      let temporaryState = JSON.parse(localStorage.getItem('temporaryState'));
+      this.state = {
+        testingReducer: temporaryState
+      }
+    }
+  }
+
+  componentWillMount() {
+    if (typeof localStorage.getItem('temporaryState') === 'string') {
+      store.dispatch({
+        type: 'TESTING_TEMPORARY_STATE',
+        payload: this.state.testingReducer
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem('temporaryState', false);
+  }
 
   // when first question are answered and testing is being created
   _prepareData = (data) => ({
@@ -67,6 +91,7 @@ class TestNew extends Component {
         testId,
       }
     } = this.props;
+    localStorage.setItem('temporaryState', JSON.stringify(testingReducer));
     if (testId || testId === 0) {
       let data = this._prepareDataForCheckQuestion(testingReducer, step);
       checkQuestionWired(testId, data);
@@ -77,6 +102,8 @@ class TestNew extends Component {
   };
 
   render() {
+    let temporaryProps = JSON.stringify(this.props.testingReducer);
+    localStorage.setItem('temporaryState', temporaryProps);
     const {
       testingReducer,
       onChange,
