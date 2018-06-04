@@ -50,7 +50,8 @@ class CreateTariffPlan extends Component {
    let pricingGroupsList = this.props.createPricingGroupListReducer;
     pricingGroupsList = map(pricingGroupsList, el => ({
       label : el.title,
-      value: el.key
+      value: el.key,
+      active: el.active
     }));
     const {createTariffPlanReducer} = this.props;
 

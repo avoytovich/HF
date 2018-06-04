@@ -60,7 +60,7 @@ class DynamicQuestions extends Component {
             <div key={i}>
               <h5>Question { stepToShow }</h5>
               <h6>Sequence { step }</h6>
-              <h6>Key { key }</h6>
+              <h6>{ key }</h6>
               <h4>Functional test</h4>
               <div>
                 <InsertDriveFile className="testing-file-icon"/>
@@ -92,7 +92,7 @@ class DynamicQuestions extends Component {
             <div key={i}>
               <h5>Question { stepToShow }</h5>
               <h6>Sequence { step }</h6>
-              <h6>Key { key }</h6>
+              <h6>{ key }</h6>
               <C.RadioButton
                 key={i}
                 items={items}
@@ -123,7 +123,7 @@ class DynamicQuestions extends Component {
             <div key={i} className="margin-range">
               <h5>Question { stepToShow }</h5>
               <h6>Sequence { step }</h6>
-              <h6>Key { key }</h6>
+              <h6>{ key }</h6>
               <C.Range
                 key={i}
                 reducer={testingReducer}
@@ -151,7 +151,7 @@ class DynamicQuestions extends Component {
             <div key={i}>
               <h5>Question { stepToShow }</h5>
               <h6>Sequence { step }</h6>
-              <h6>Key { key }</h6>
+              <h6>{ key }</h6>
               <C.BodyAreas
                 key={i}
                 step={step}
@@ -167,7 +167,7 @@ class DynamicQuestions extends Component {
             <div key={i}>
               <h5>Question { stepToShow }</h5>
               <h6>Sequence { step }</h6>
-              <h6>Key { key }</h6>
+              <h6>{ key }</h6>
               <C.CheckBox
                 key={i}
                 items={itemsMultiple}
@@ -190,12 +190,12 @@ class DynamicQuestions extends Component {
     .map(this._pickQuestion);
 
   _renderConditions = (conditions, step) => {
-    return conditions.map(({ title }, i) => {
+    return conditions.map(({ key }, i) => {
       return (
         <C.Paper
           key={i}
           step={step}
-          conditionText={title}
+          conditionText={key}
         />
       )
     })

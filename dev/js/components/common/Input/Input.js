@@ -37,7 +37,6 @@ class Input extends Component {
       ...props,
     } = this.props;
 
-    console.log(reducer);
     const value = get(reducer, id, '');
     const error = get(errors, id, false);
     return (
@@ -76,9 +75,7 @@ Input.propTypes = {
   style: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   onChange,

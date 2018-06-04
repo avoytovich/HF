@@ -24,7 +24,7 @@ class Paper extends Component {
       <PaperSheet className={classes.root} elevation={4}>
         {/*<h5>Step #{ step }</h5>*/}
         <h5>{ capitalize(label) }</h5>
-        <div style={{ fontWeight: 'lighter' }}>{ conditionText }</div>
+        <div style={{ fontWeight: 'lighter' }}>{ conditionText ? conditionText : '-' }</div>
       </PaperSheet>
     );
   }

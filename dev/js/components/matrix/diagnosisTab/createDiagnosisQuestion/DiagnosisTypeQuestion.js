@@ -5,7 +5,8 @@ import PropTypes                    from 'prop-types';
 import { get }                      from 'lodash';
 // Actions
 import {
-  updateCrateQuestionFields
+  updateCrateQuestionFields,
+  getQuestionById
 }                                   from '../../../../actions';
 // Components
 import { Input }                    from '../../../common';
@@ -30,12 +31,24 @@ import { FormControl, FormControlLabel } from 'material-ui/Form';
 import Checkbox                          from 'material-ui/Checkbox';
 import { Async }                         from 'react-select';
 import { CONTENT_TYPE_LIST }             from '../../../../utils'
+import cloneDeep from 'lodash/cloneDeep';
 
 class DiagnosisTypeQuestion extends Component {
   state = {
     questionType    : 'diagnosis',
     selectedValue   : 'single',
     keyIsUniqueError: '',
+  };
+
+  componentWillMount() {
+    if(this.props.currentId) {
+      getQuestionById('diagnostics', 'createQuestion', this.props.currentId);
+    }
+  }
+
+  _assetsListConverter = (list, filterKey) => {
+    let newList = cloneDeep(list);
+    return newList.filter(assets => assets.type === filterKey);
   };
 
   render() {
@@ -54,6 +67,8 @@ class DiagnosisTypeQuestion extends Component {
         levelup_result,
         diagnostic_assets,
         evaluation_result,
+        questionAnswerLang,
+        files,
       },
       page,
       reqType,
@@ -65,6 +80,21 @@ class DiagnosisTypeQuestion extends Component {
       rules_links,
       SequenceBlockReqType,
     } = this.props;
+
+    let labelLang = '';
+    let valueVideoPath = '';
+    //let valuePosterPath = '';
+    switch(questionAnswerLang) {
+      case 'swe':
+        labelLang = 'swe';
+        valueVideoPath = 'files[swe].video';
+        //valuePosterPath = 'files[swe].preview';
+        break;
+      default:
+        labelLang = 'en';
+        valueVideoPath = 'files[en].video';
+        //valuePosterPath = 'files[en].preview';
+    }
 
     return <BlockDivider title="Question">
 
@@ -234,15 +264,30 @@ class DiagnosisTypeQuestion extends Component {
 
         {
           content_type === "functionalTest" &&
-          <AssetsList
-            list={ diagnostic_assets }
-            path="assets"
-            domain="diagnostics"
-            valuePath="diagnostic_assets"
-            multiSelect={false}
-            listValue={false}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <AssetsList
+              assetsListConverter={list => this._assetsListConverter(list, 'video')}
+              list={ get(files, `[${labelLang}].video`, []) }
+              title="Video"
+              path="assets"
+              domain="diagnostics"
+              valuePath={valueVideoPath}
+              multiSelect={false}
+              listValue={false}
 
-          />
+            />
+            <AssetsList
+              assetsListConverter={list => this._assetsListConverter(list, 'image')}
+              list={ diagnostic_assets }
+              title="Poster"
+              path="assets"
+              domain="diagnostics"
+              valuePath="diagnostic_assets"
+              multiSelect={false}
+              listValue={false}
+
+            />
+          </div>
         }
 
         {

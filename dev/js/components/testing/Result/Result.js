@@ -28,17 +28,15 @@ class Result extends Component {
         return (
           <div>
             {
-              map(treatments, (tr => {
+              map(treatments, (treat) => {
                 return (
                   <div>
-                    <p>{ tr.title }</p>
-                    <p>Package: </p>
-                    <p>Package title: { get(tr, 'package.title', '-') }</p>
-                    <p>Package id: { get(tr, 'package.package_id', '-') }</p>
-                    <p>Package level id: { get(tr, 'package.package_level_id', '-') }</p>
+                    <p>Package</p>
+                    <p>Package id: {treat.package_id ? treat.package_id : '-'}</p>
+                    <p>Package level id: {treat.package_level_id ? treat.package_level_id: '-'}</p>
                   </div>
-                );
-              }))
+                )
+              })
             }
           </div>
         )
