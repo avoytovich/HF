@@ -1,41 +1,39 @@
 //CreateEvaluationComponent
-import React, { Component }         from 'react';
-import { connect }                  from 'react-redux';
-import { bindActionCreators }       from 'redux';
-import { browserHistory }           from 'react-router'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { browserHistory } from "react-router";
 
 // Components
-import DiagnosisTypeQuestion        from '../../diagnosisTab/createDiagnosisQuestion/DiagnosisTypeQuestion';
-import DiagnosisTypeVAS             from '../../diagnosisTab/createDiagnosisQuestion/DiagnosisVASQuestion';
-import MatrixPreLoader              from '../../matrixPreloader';
+import DiagnosisTypeQuestion from "../../diagnosisTab/createDiagnosisQuestion/DiagnosisTypeQuestion";
+import DiagnosisTypeVAS from "../../diagnosisTab/createDiagnosisQuestion/DiagnosisVASQuestion";
+import MatrixPreLoader from "../../matrixPreloader";
 import {
   updateCrateQuestionFields,
   getQuestionById,
   clearCreateQuestion
-}                                   from '../../../../actions';
-import Button                       from 'material-ui/Button';
-import { get }                      from 'lodash'
-import { submitTabs }               from '../../../../utils';
-import { notifier }                 from "../../../../actions/common/notifier";
-import { CreateItemNavButtons }     from '../../../common';
-
+} from "../../../../actions";
+import Button from "material-ui/Button";
+import { get } from "lodash";
+import { submitTabs } from "../../../../utils";
+import { notifier } from "../../../../actions/common/notifier";
+import { CreateItemNavButtons } from "../../../common";
 
 class CreateEvaluationComponent extends Component {
   state = {
-    questionType    : 'evaluation',
+    questionType: "evaluation",
     sequenceTypeList: [
-      {label: 'Normal', value: 'normal'},
-      {label: 'After',  value: 'after' },
-      {label: 'Before', value: 'before'},
-
+      { label: "Normal", value: "normal" },
+      { label: "After", value: "after" },
+      { label: "Before", value: "before" }
     ],
-    answerType      : [
-      {label: 'Single',   value: 'single'},
-      {label: 'Range',    value: 'range'},
-      {label: 'Multiple', value: 'multiple'},
+    answerType: [
+      { label: "Single", value: "single" },
+      { label: "Range", value: "range" },
+      { label: "Multiple", value: "multiple" }
     ],
-    answerLang      : ['en', 'en'],
-    sequenceList    : [],
+    answerLang: ["en", "en"],
+    sequenceList: [],
     loading: false
   };
 
@@ -45,86 +43,104 @@ class CreateEvaluationComponent extends Component {
 
   componentWillMount() {
     clearCreateQuestion();
-    updateCrateQuestionFields(this.state.questionType, 'page');
+    updateCrateQuestionFields(this.state.questionType, "page");
     if (this.props.routeParams.id) {
-      this.setState({loading: true});
-      getQuestionById('diagnostics', 'createQuestion', this.props.routeParams.id).then(({answer}) => {
+      this.setState({ loading: true });
+      getQuestionById(
+        "diagnostics",
+        "createQuestion",
+        this.props.routeParams.id
+      ).then(({ answer }) => {
         if (answer.values) {
           const keys = Object.keys(answer.values);
-          const answerLang = keys.map(() => 'en');
-          this.setState({answerLang});
-          this.setState({loading: false});
+          const answerLang = keys.map(() => "en");
+          this.setState({ answerLang });
+          this.setState({ loading: false });
         }
       });
     }
   }
 
   getAnswer = (type, obj) => {
-    if (type === 'range') {
+    if (type === "range") {
       const correctValue = obj[type];
       return {
         min: correctValue.from || 0,
         max: correctValue.to || 100
       };
-    }
-    else {
-      const correctValue = obj['single'];
+    } else {
+      const correctValue = obj["single"];
       return Object.keys(correctValue).reduce((result, item, index) => {
         if (item) {
           const key = index + 1; //letters[index];
           const value = correctValue[item];
-          return Object.assign({}, result, {[key]:value})
+          return Object.assign({}, result, { [key]: value });
         }
-        return result
+        return result;
       }, {});
     }
   };
 
-  getAnswerType = (type) => {
-    switch(type) {
-      case 'single':
-        return {type: 'single', subtype: 'list'};
-      case 'range':
-        return {type: 'single', subtype: 'range'};
-      case 'multiple':
-        return {type: 'multiple', subtype: 'list'};
+  getAnswerType = type => {
+    switch (type) {
+      case "single":
+        return { type: "single", subtype: "list" };
+      case "range":
+        return { type: "single", subtype: "range" };
+      case "multiple":
+        return { type: "multiple", subtype: "list" };
       default:
-        console.log('Wrong type');
-        return {type: 'single', subtype: 'list'};
+        console.log("Wrong type");
+        return { type: "single", subtype: "list" };
     }
   };
 
   getSequenceTypeResult = (sequenceType, sequence) =>
-    sequenceType === 'after' ?
-      sequence + 0.5 : sequenceType === 'before' ?
-        sequence - 0.5 : sequence;
+    sequenceType === "after"
+      ? sequence + 0.5
+      : sequenceType === "before"
+        ? sequence - 0.5
+        : sequence;
 
-  submit = (value) => {
+  submit = value => {
     const {
-      sequenceType, questionKey, sequence, question, questionTitle, content_type, errors, diagnostic_assets, testing,
-      level_up, evaluation_result, evaluation_result_data
+      sequenceType,
+      questionKey,
+      sequence,
+      question,
+      questionTitle,
+      content_type,
+      errors,
+      diagnostic_assets,
+      testing,
+      level_up,
+      evaluation_result,
+      evaluation_result_data
     } = value;
     const validValue = { questionKey, questionTitle };
-    const isContentType = content_type === 'functionalTest';
-    const optional = content_type !== 'vas' ?
-      this.configureQuestionResult(value, isContentType) : {};
+    const isContentType = content_type === "functionalTest";
+    const optional =
+      content_type !== "vas"
+        ? this.configureQuestionResult(value, isContentType)
+        : {};
 
-    const validateAssets = isContentType && !this.validateDiagnosticAssets(diagnostic_assets);
+    const validateAssets =
+      isContentType && !this.validateDiagnosticAssets(diagnostic_assets);
 
-    if (validateAssets){
+    if (validateAssets) {
       return notifier({
-        title: 'Assets is empty',
-        message: 'Please, select assets!',
-        status: 'error',
-      })
+        title: "Assets is empty",
+        message: "Please, select assets!",
+        status: "error"
+      });
     }
 
-    const savedErrors = {questionKey: errors.questionKey};
+    const savedErrors = { questionKey: errors.questionKey };
 
     const result = {
-      type : 'evaluation',
-      key  : questionKey,
-      step : this.getSequenceTypeResult(sequenceType, sequence),
+      type: "evaluation",
+      key: questionKey,
+      step: this.getSequenceTypeResult(sequenceType, sequence),
       title: questionTitle,
       question: { ...question },
       content_type,
@@ -132,35 +148,49 @@ class CreateEvaluationComponent extends Component {
       level_up,
       evaluation_result,
       evaluation_result_data: evaluation_result_data[evaluation_result],
-      ...optional,
+      ...optional
     };
 
     submitTabs(
       validValue,
       savedErrors,
-      'diagnostics',
-      'createQuestion',
+      "diagnostics",
+      "createQuestion",
       result,
-      '/matrix-setup/evaluations',
+      "/matrix-setup/evaluations",
       this.props.routeParams.id
     );
   };
 
-  validateDiagnosticAssets = (assets) =>
-  assets.hasOwnProperty('id') && !!assets.id;
+  validateDiagnosticAssets = assets =>
+    assets.hasOwnProperty("id") && !!assets.id;
 
   configureQuestionResult = (value, optional) => {
-    const { areaIds, answerType, rules, diagnostic_assets, packageLevelsList } = value,
+    const {
+        areaIds,
+        answerType,
+        rules,
+        diagnostic_assets,
+        packageLevelsList
+      } = value,
       { type, subtype } = this.getAnswerType(answerType),
-      moreProps = optional ? { test_file_id: get(diagnostic_assets, 'id') || null } : {};
+      moreProps = optional
+        ? { test_file_id: get(diagnostic_assets, "id") || null }
+        : {};
+    const { min, max } = this.getAnswer(answerType, value);
     return {
-//      areaIds : areaIds,
+      //      areaIds : areaIds,
       answer: {
-        type, subtype,
-        values: this.getAnswer(answerType, value)
+        type,
+        subtype,
+        values: this.getAnswer(answerType, value),
+        min,
+        max
       },
-      rule: rules && rules.length ? {and: rules} : [],
-      packageLevelIds: !packageLevelsList.length ? [] : packageLevelsList.map(el => el.levelId),
+      rule: rules && rules.length ? { and: rules } : [],
+      packageLevelIds: !packageLevelsList.length
+        ? []
+        : packageLevelsList.map(el => el.levelId),
       ...moreProps
     };
   };
@@ -170,48 +200,58 @@ class CreateEvaluationComponent extends Component {
   render() {
     const {
       createDiagnosisQuestion,
-      createDiagnosisQuestion: { content_type, questionKey, packageLevelsList, testing },
+      createDiagnosisQuestion: {
+        content_type,
+        questionKey,
+        packageLevelsList,
+        testing
+      },
       routeParams: { id }
     } = this.props;
     return (
       <div id="create-question">
-
         <CreateItemNavButtons
-          title={'Create Evaluation Question'}
+          title={"Create Evaluation Question"}
           showSwitch={true}
           switchChecked={testing}
-          switchLabel={'Live'}
-          onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing')}
+          switchLabel={"Live"}
+          onSwitchChange={(e, value) =>
+            updateCrateQuestionFields(!value, "testing")
+          }
           onCancelClick={this.cancel}
-          cancelLabel={'Cancel'}
+          cancelLabel={"Cancel"}
           onSaveClick={() => this.submit(createDiagnosisQuestion)}
-          saveLabel={'Save'}
+          saveLabel={"Save"}
         />
 
         <div className="create-question-sub-container">
-        { id && this.state.loading ?
-          <MatrixPreLoader
-            left="1"
-            right="2"
-          />
-          : content_type === 'vas' ?
-            <DiagnosisTypeVAS
-              sequenceList={this.state.sequenceList}/> :
+          {id && this.state.loading ? (
+            <MatrixPreLoader left="1" right="2" />
+          ) : content_type === "vas" ? (
+            <DiagnosisTypeVAS sequenceList={this.state.sequenceList} />
+          ) : (
             <DiagnosisTypeQuestion
-              page='evaluations'
+              page="evaluations"
               SequenceBlockReqType="evaluation"
               hideArea={true}
               rules_links={true}
               currentId={id}
-              sequenceList={this.state.sequenceList}/>
-        }
+              sequenceList={this.state.sequenceList}
+            />
+          )}
         </div>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps    = state => ({createDiagnosisQuestion: state.createDiagnosisQuestion});
-const mapDispatchToProps = dispatch => bindActionCreators({dispatch}, dispatch);
+const mapStateToProps = state => ({
+  createDiagnosisQuestion: state.createDiagnosisQuestion
+});
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ dispatch }, dispatch);
 
-export default  connect(mapStateToProps, mapDispatchToProps)(CreateEvaluationComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateEvaluationComponent);
