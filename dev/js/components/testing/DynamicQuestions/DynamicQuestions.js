@@ -186,7 +186,7 @@ class DynamicQuestions extends Component {
   };
 
   _renderQuestions = questions => questions
-    .sort((qs1, qs2) => qs1.step > qs2.step)
+    .sort((qs1, qs2) => ((qs1.step == qs2.step) ? qs1.id - qs2.id : qs1.step - qs2.step))
     .map(this._pickQuestion);
 
   _renderConditions = (conditions, step) => {

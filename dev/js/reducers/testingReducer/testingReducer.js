@@ -107,7 +107,7 @@ const testingAddMultOption = (state, action) => {
   } = action.payload;
   let multiQAnswers = get(state, path, []);
   multiQAnswers.push(answerId);
-  return { ...set({...state}, path, multiQAnswers), [id]: 'multiple' };
+  return { ...state, ...{[id]: {type: 'multiple', value: multiQAnswers}} };
 };
 
 const testingDeleteMultOption = (state, action) => {
