@@ -43,8 +43,23 @@ class RulesQuestionComponent extends Component {
   };
 
   render() {
-    const { rules, question, questionTitle } =  this.props.store;
+    const {
+      rules,
+      question,
+      questionTitle,
+      questionAnswerLang
+    } =  this.props.store;
     const { showTitle } = this.props;
+
+    let labelLang = '';
+    switch(questionAnswerLang) {
+      case 'swe':
+        labelLang = 'swe';
+        break;
+      default:
+        labelLang = 'en';
+    }
+
     return (
       <div className="rule-question">
         <div className="nav-block">
@@ -87,7 +102,7 @@ class RulesQuestionComponent extends Component {
               </Typography>
             </div>
             <div className="text">
-              {showTitle ? questionTitle : question.en}
+              {showTitle ? questionTitle : question[labelLang]}
             </div>
           </div>
         </div>

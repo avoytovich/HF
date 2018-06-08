@@ -21,6 +21,7 @@ export const T = {
   PROFILE                                   : 'PROFILE',
   CREATE_USERS                              : 'CREATE_USERS',
   TESTING                                   : 'TESTING',
+  TESTING_TEMPORARY_STATE                   : 'TESTING_TEMPORARY_STATE',
   TESTING_BODY_AREAS                        : 'TESTING_BODY_AREAS',
   TESTING_ADD_QUESTIONS_AND_COND            : 'TESTING_ADD_QUESTIONS_AND_COND',
   TESTING_DELETE_MULT_OPTION                : 'TESTING_DELETE_MULT_OPTION',
