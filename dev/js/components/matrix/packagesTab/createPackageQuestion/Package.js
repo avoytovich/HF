@@ -95,12 +95,12 @@ class Package extends Component {
     clearCreateQuestion();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  /*componentDidUpdate(prevProps, prevState) {
     if (prevState.tab != this.state.tab) {
       getPackagenById('exercises', 'packages', this.props.params.id,
         this.state.tab, this.state.levelInfo, this.props.createDiagnosisQuestion.packageLevels);
     }
-  }
+  }*/
 
   done = (value) => {
     const {
@@ -355,7 +355,7 @@ class Package extends Component {
                 fullWidth
               >
                 {packageLevels.map((item, index) =>
-                  <Tab key={index} label={`Level ${item.level}`} />)
+                  <Tab key={index} label={`Level ${++index}`} />)
                 }
               </Tabs>
             </div>
