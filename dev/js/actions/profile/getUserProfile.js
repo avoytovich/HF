@@ -25,3 +25,8 @@ export const getDiagnosticByDiagnosticIdWired = (diagnosticId) => Api.post(`${do
   .then(response => {
     dispatchProfilePayloadWired(get(response,'data.data.result', {}));
   });
+
+export const twoFactorSwitcher = (domenKey, data, action) =>  {
+  const domenPath = domen[domenKey];
+  return Api.post(`${domenPath}/auth/tfa/${action}`, data);
+}

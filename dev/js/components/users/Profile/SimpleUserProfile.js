@@ -24,10 +24,12 @@ import {
   userUpdatePricingGroup,
   getDiagnosticByTherapyWired,
   getDiagnosticByDiagnosticIdWired,
-  getPricingGroupsWired
+  getPricingGroupsWired,
+  twoFactorSwitcher
 } from '../../../actions'
 
 import moment from 'moment';
+import { Checkbox } from 'material-ui';
 
 const styles = theme => ({
   root: {
@@ -66,6 +68,7 @@ class Profile extends Component {
     showEditSimpleUserModal: false,
     showDeleteUserModal: false,
     showSelfDiagnosisQAModal: false,
+    two_factor: false
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -174,6 +177,28 @@ class Profile extends Component {
     this._toggleSelfDiagnosisQAModal();
   };
 
+  twoFactorAuthCheckBox = () => {
+    const {simpleUserProfileReducer} = this.props;
+    if(simpleUserProfileReducer.hasOwnProperty("two_factor")){
+      return (
+        <Checkbox
+        checked={simpleUserProfileReducer.two_factor}
+        value="two_factor"
+        onChange={(e)=>{this.onCheckBoxChange(e)}}
+      />
+      )
+    }
+  }
+
+  onCheckBoxChange = (e) => {
+    let action = 'enable';
+    if(!e.target.checked){
+      action = 'disable';
+    }
+    twoFactorSwitcher('users', {user_id: this.props.params.userId}, action)
+      .then(() => getProfileWired(this.props.params.userId, 'users'));
+  }
+
   render() {
     const diagnosticList = get(this.props, 'simpleUserProfileReducer.data') || [];
     const { showEditSimpleUserModal, showDeleteUserModal, showSelfDiagnosisQAModal } = this.state;
@@ -181,7 +206,6 @@ class Profile extends Component {
       classes,
       simpleUserProfileReducer
     } = this.props;
-
     return (
       <div className="profile-main-container">
         <div className="profile-sub-header">
@@ -231,6 +255,19 @@ class Profile extends Component {
                   </div>
                     <div className='profile-paper-data-info'>
                       {this._formatTime(get(simpleUserProfileReducer, 'activated_at', '-'))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="profile-paper-hr" />
+
+                <div className='profile-paper-data-container'>
+                  <div className='profile-paper-data'>
+                    <div className='profile-paper-data-title'>
+                      2 factor auth
+                  </div>
+                    <div className='profile-paper-data-info'>
+                      {this.twoFactorAuthCheckBox()}
                     </div>
                   </div>
                 </div>
