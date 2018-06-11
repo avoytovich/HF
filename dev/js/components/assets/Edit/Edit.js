@@ -22,17 +22,15 @@ class Edit extends Component {
     this.props.dispatch({ type: `${T.ASSETS}_CLEAR` })
   }
 
-  _onFile = (e, {id, title, description}) => {
+  _onFile = (e, tempFiles) => {
     const acceptedF = [...e.target.files];
     const { dispatchAssetsPayload } = this.props;
     const tmp_files = acceptedF.map((file) => ({
+      ...tempFiles,
       file,
       type       : file.type.split('/').shift() === 'image' ? 'image' : 'video',
       name       : file.name.split('.').shift(),
       progress   : 100,
-      id,
-      title,
-      description
     }));
     dispatchAssetsPayload({ tmp_files });
   };
