@@ -148,7 +148,8 @@ class PickPackageExercisesModal extends Component {
 
                       <Typography type="subheading" color="inherit">
                         {/*<span className="choose-sequence-item-sub-title"> Name: </span> {item.name || item.name.en || 'Name'}*/}
-                        {item.ordinal || '-'} {item.name || item.name.en || 'Name'}
+                        {item.ordinal || '-'} {item.name || item.name.en || 'Name'} {item.testing_mode &&
+                          <div className={'testing_mode_true'}>T</div>}
                       </Typography>
 
                     </div>
