@@ -312,9 +312,9 @@ const configPackageLevel = (data, newPackageLevels) => {
   if (newPackageLevels && (data.length < newPackageLevels.length)) {
     data = [...newPackageLevels];
   }
-  return data.reduce((result, el) => {
+  return data.reduce((result, el, index) => {
     if (el) {
-      const { therapy_continuity, package_id, exercises, id, level, level_up_properties } = el;
+      const { therapy_continuity, package_id, exercises, id, level, level_up_properties, title } = el;
       const properties = Array.isArray(level_up_properties) ?
         { vas: 1, vas_min: 1, sessions: 1 }: level_up_properties;
       return result.concat({
@@ -323,7 +323,9 @@ const configPackageLevel = (data, newPackageLevels) => {
         exercises,
         id,
         level,
-        level_up_properties: properties
+        level_up_properties: properties,
+        [`levelInfo${index}en`]: title.en,
+        [`levelInfo${index}swe`]: title.swe,
       })
     }
     return result;
