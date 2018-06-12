@@ -164,6 +164,22 @@ class PackageLevel extends Component {
 
         <Grid container className="package-level-exercises">
           <Grid item xs={12}>
+            <Typography type="title">Level Name</Typography>
+            <div className="login-input-wrapper">
+              <Input
+                id={`levelInfo${index}${questionAnswerLang}`}
+                reducer={createDiagnosisQuestion}
+                value={
+                  createDiagnosisQuestion[`levelInfo${index}${questionAnswerLang}`] ||
+                    get(packageLevels, `[${index}].levelInfo${index}${questionAnswerLang}`)
+                }
+              />
+            </div>
+          </Grid>
+        </Grid>
+
+        <Grid container className="package-level-exercises">
+          <Grid item xs={12}>
             <Typography type="title">Therapy Info</Typography>
             <div className="login-input-wrapper">
               <Input

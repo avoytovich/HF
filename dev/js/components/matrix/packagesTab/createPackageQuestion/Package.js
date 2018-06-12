@@ -131,6 +131,15 @@ class Package extends Component {
         'swe': therapyInfoswe
       }
     };
+    packageLevels.forEach((each, index) => {
+      each = {
+        ...each,
+        title: {
+          'en': this.props.createDiagnosisQuestion[`levelInfo${index}en`],
+          'swe': this.props.createDiagnosisQuestion[`levelInfo${index}swe`],
+        }
+      }
+    });
     const result = {
       key      : questionKey,
       areaIds  : areaIds,
