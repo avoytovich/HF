@@ -56,6 +56,10 @@ const initialState = {
     information: { en: '', swe: '' },
     instruction: { en: '', swe: '' }
   },
+  therapy_control_screen: {
+    information: { en: '', swe: ''},
+    instruction: { en: '', swe: ''}
+  }
 };
 
 const addInfo = (state, action) => {
