@@ -67,8 +67,7 @@ class Profile extends Component {
   state = {
     showEditSimpleUserModal: false,
     showDeleteUserModal: false,
-    showSelfDiagnosisQAModal: false,
-    two_factor: false
+    showSelfDiagnosisQAModal: false
   };
 
   shouldComponentUpdate(nextProps, nextState) {
