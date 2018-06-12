@@ -87,3 +87,11 @@ export const getExistingTestWired = (testId) => getExistingTest(testId)
     });
   })
   .catch(err => console.log(err));
+
+  export const getTreatments = () => {
+    return Api.get(`${domen.diagnostics}${api.treatments}?page=1&per_page=200`).then(({data}) => data.data)
+  }
+  export const getPackages = () => {
+    return Api.get(`${domen.exercises}${api.packages}`).then(({data}) => data.data);
+  }
+
