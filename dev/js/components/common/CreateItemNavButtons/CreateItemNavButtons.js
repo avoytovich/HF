@@ -84,9 +84,9 @@ class CreateItemNavButtons extends Component {
             }
 
             <div className="nav-buttons">
-              { showCancel && <Button onClick={onCancelClick}>
+              <Button onClick={onCancelClick} className="cancel-button">
                 { cancelLabel }
-              </Button>}
+              </Button>
 
               <Button
                 raised
