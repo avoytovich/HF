@@ -238,6 +238,7 @@ const setFullQuestionForPackage = (state, action) => {
       newPackageLevels
     }
   } = action.payload;
+
   const _body = {
     areaIds      : configArea(areas.data),
     title,
@@ -247,6 +248,12 @@ const setFullQuestionForPackage = (state, action) => {
     packageType  : type,
     testing_mode
   };
+  packageLevels.data.forEach((each, index) => {
+    _body[`therapyInfo${index}en`] = each.information.en;
+    _body[`therapyInfo${index}swe`] = each.information.swe;
+    _body[`levelInfo${index}en`] = each.title.en;
+    _body[`levelInfo${index}swe`] = each.title.swe;
+  });
   return Object.assign({}, state, _body);
 };
 
@@ -316,11 +323,7 @@ const configPackageLevel = (data, newPackageLevels) => {
         exercises,
         id,
         level,
-        level_up_properties: properties,
-        [`levelInfo${index}en`]: title.en,
-        [`levelInfo${index}swe`]: title.swe,
-        [`therapyInfo${index}en`]: information.en,
-        [`therapyInfo${index}swe`]: information.swe,
+        level_up_properties: properties
       })
     }
     return result;

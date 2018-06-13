@@ -70,7 +70,6 @@ class PackageLevel extends Component {
       therapy_continuity,
       exercises = []
     } = this.props;
-
     const { currentOrder } = this.state;
 
     return (
@@ -169,10 +168,6 @@ class PackageLevel extends Component {
               <Input
                 id={`levelInfo${index}${questionAnswerLang}`}
                 reducer={createDiagnosisQuestion}
-                value={
-                  createDiagnosisQuestion[`levelInfo${index}${questionAnswerLang}`] ||
-                    get(packageLevels, `[${index}].levelInfo${index}${questionAnswerLang}`)
-                }
               />
             </div>
           </Grid>
@@ -185,10 +180,6 @@ class PackageLevel extends Component {
               <Input
                 id={`therapyInfo${index}${questionAnswerLang}`}
                 reducer={createDiagnosisQuestion}
-                value={
-                  createDiagnosisQuestion[`therapyInfo${index}${questionAnswerLang}`] ||
-                    get(packageLevels, `[${index}].therapyInfo${index}${questionAnswerLang}`)
-                }
               />
             </div>
             <Button

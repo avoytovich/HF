@@ -2,7 +2,7 @@ import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
 import { browserHistory }           from 'react-router'
-import { get } from 'lodash';
+import { get }                      from 'lodash';
 import {
   updateCrateQuestionFields,
   clearCreateQuestion,
@@ -146,9 +146,9 @@ class Package extends Component {
           get(packageLevels, `[${index}].therapyInfo${index}swe`),
       }
     });
-    packageLevels.sort((a, b) => {
+    /*packageLevels.sort((a, b) => {
       return a.id - b.id;
-    });
+    });*/
     const result = {
       key      : questionKey,
       areaIds  : areaIds,
