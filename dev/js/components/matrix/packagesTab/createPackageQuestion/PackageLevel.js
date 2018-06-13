@@ -183,10 +183,11 @@ class PackageLevel extends Component {
             <Typography type="title">Therapy Info</Typography>
             <div className="login-input-wrapper">
               <Input
-                id={`therapyInfo${questionAnswerLang}`}
+                id={`therapyInfo${index}${questionAnswerLang}`}
                 reducer={createDiagnosisQuestion}
                 value={
-                  createDiagnosisQuestion[`therapyInfo${questionAnswerLang}`]
+                  createDiagnosisQuestion[`therapyInfo${index}${questionAnswerLang}`] ||
+                    get(packageLevels, `[${index}].therapyInfo${index}${questionAnswerLang}`)
                 }
               />
             </div>
