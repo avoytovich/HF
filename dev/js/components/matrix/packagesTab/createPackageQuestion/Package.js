@@ -2,6 +2,7 @@ import React, { Component }         from 'react';
 import { bindActionCreators }       from 'redux';
 import { connect }                  from 'react-redux';
 import { browserHistory }           from 'react-router'
+import { get }                      from 'lodash';
 import {
   updateCrateQuestionFields,
   clearCreateQuestion,
@@ -107,8 +108,8 @@ class Package extends Component {
       testing_mode,
       areaIds,
       questionKey,
-      therapyInfoen,
-      therapyInfoswe,
+      //therapyInfoen,
+      //therapyInfoswe,
       questionTitle,
       packageLevels,
       therapyContinuity,
@@ -124,13 +125,30 @@ class Package extends Component {
 //      return oldLevel && !el.id ? Object.assign({}, el, {id: oldLevel.id}) : el;
 //    });
 
-    packageLevels[this.state.tab] = {
+    /*packageLevels[this.state.tab] = {
       ...packageLevels[this.state.tab],
       information: {
         'en': therapyInfoen,
         'swe': therapyInfoswe
       }
-    };
+    };*/
+    packageLevels.forEach((each, index) => {
+      each['title'] = {
+        'en': this.props.createDiagnosisQuestion[`levelInfo${index}en`] ||
+          get(packageLevels, `[${index}].levelInfo${index}en`),
+        'swe': this.props.createDiagnosisQuestion[`levelInfo${index}swe`] ||
+          get(packageLevels, `[${index}].levelInfo${index}swe`),
+      };
+      each['information'] = {
+        'en': this.props.createDiagnosisQuestion[`therapyInfo${index}en`] ||
+          get(packageLevels, `[${index}].therapyInfo${index}en`),
+        'swe': this.props.createDiagnosisQuestion[`therapyInfo${index}swe`] ||
+          get(packageLevels, `[${index}].therapyInfo${index}swe`),
+      }
+    });
+    /*packageLevels.sort((a, b) => {
+      return a.id - b.id;
+    });*/
     const result = {
       key      : questionKey,
       areaIds  : areaIds,

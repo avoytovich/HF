@@ -26,7 +26,8 @@ class AppScreenInfoContainer extends Component {
       { key: 'schedule_screen', label: 'Schedule & Reminders Screen' },
       { key: 'favourite_exercises_screen', label: 'Favourite Exercises Screen' },
       { key: 'activity_journal_screen', label: 'Activity Journal Screen' },
-      { key: 'profile_screen', label: 'Profile Screen' }
+      { key: 'profile_screen', label: 'Profile Screen' },
+      { key: 'therapy_control_screen', label: 'Therapy Control Screen' }
     ]
   };
 

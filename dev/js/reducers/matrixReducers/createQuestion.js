@@ -238,31 +238,22 @@ const setFullQuestionForPackage = (state, action) => {
       newPackageLevels
     }
   } = action.payload;
+
   const _body = {
     areaIds      : configArea(areas.data),
     title,
     app_title,
     questionKey  : key,
-    therapyInfoen: (() => {
-      const absorb = packageLevels.data.filter((each) => {
-        return each.level === levelInfo;
-      });
-      if (absorb.length === 0 && packageLevels.data[tab]) return packageLevels.data[tab].information['en'];
-      if (absorb[0]) return absorb[0].information['en'];
-      return '';
-    })(),
-    therapyInfoswe: (() => {
-      const absorb = packageLevels.data.filter((each) => {
-        return each.level === levelInfo;
-      });
-      if (absorb.length === 0 && packageLevels.data[tab]) return packageLevels.data[tab].information['swe'];
-      if (absorb[0]) return absorb[0].information['swe'];
-      return '';
-    })(),
     packageLevels: configPackageLevel(packageLevels.data, newPackageLevels),
     packageType  : type,
     testing_mode
   };
+  packageLevels.data.forEach((each, index) => {
+    _body[`therapyInfo${index}en`] = each.information.en;
+    _body[`therapyInfo${index}swe`] = each.information.swe;
+    _body[`levelInfo${index}en`] = each.title.en;
+    _body[`levelInfo${index}swe`] = each.title.swe;
+  });
   return Object.assign({}, state, _body);
 };
 
@@ -312,9 +303,18 @@ const configPackageLevel = (data, newPackageLevels) => {
   if (newPackageLevels && (data.length < newPackageLevels.length)) {
     data = [...newPackageLevels];
   }
-  return data.reduce((result, el) => {
+  return data.reduce((result, el, index) => {
     if (el) {
-      const { therapy_continuity, package_id, exercises, id, level, level_up_properties } = el;
+      const {
+        therapy_continuity,
+        package_id,
+        exercises,
+        id,
+        level,
+        level_up_properties,
+        title,
+        information
+      } = el;
       const properties = Array.isArray(level_up_properties) ?
         { vas: 1, vas_min: 1, sessions: 1 }: level_up_properties;
       return result.concat({

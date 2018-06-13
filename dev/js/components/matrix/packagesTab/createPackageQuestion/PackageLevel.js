@@ -70,7 +70,6 @@ class PackageLevel extends Component {
       therapy_continuity,
       exercises = []
     } = this.props;
-
     const { currentOrder } = this.state;
 
     return (
@@ -164,14 +163,23 @@ class PackageLevel extends Component {
 
         <Grid container className="package-level-exercises">
           <Grid item xs={12}>
+            <Typography type="title">Level Name</Typography>
+            <div className="login-input-wrapper">
+              <Input
+                id={`levelInfo${index}${questionAnswerLang}`}
+                reducer={createDiagnosisQuestion}
+              />
+            </div>
+          </Grid>
+        </Grid>
+
+        <Grid container className="package-level-exercises">
+          <Grid item xs={12}>
             <Typography type="title">Therapy Info</Typography>
             <div className="login-input-wrapper">
               <Input
-                id={`therapyInfo${questionAnswerLang}`}
+                id={`therapyInfo${index}${questionAnswerLang}`}
                 reducer={createDiagnosisQuestion}
-                value={
-                  createDiagnosisQuestion[`therapyInfo${questionAnswerLang}`]
-                }
               />
             </div>
             <Button
