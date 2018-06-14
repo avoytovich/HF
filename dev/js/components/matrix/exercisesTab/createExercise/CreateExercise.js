@@ -173,8 +173,6 @@ class CreateExercise extends Component {
 
   };
 
-  cancel = () => browserHistory.push(`/matrix-setup/exercises`);
-
   handleTabChange = (event, tab) => {
     this.setState({ tab });
     //    browserHistory.push(`/packages-create/${this.props.routeParams.packageId}?level=${tab}`);
@@ -220,6 +218,7 @@ class CreateExercise extends Component {
         files,
         testing_mode
       },
+      router
     } = this.props;
 
     const {
@@ -253,7 +252,7 @@ class CreateExercise extends Component {
           switchChecked={testing_mode}
           switchLabel={'Live'}
           onSwitchChange={(e, value) => updateCrateQuestionFields(!value, 'exercise.testing_mode')}
-          onCancelClick={this.cancel}
+          router={router}
           cancelLabel={'Cancel'}
           onSaveClick={() => this.done(this.props.exerciseState)}
           saveLabel={'Save'}
