@@ -169,8 +169,6 @@ class Package extends Component {
     );
   };
 
-  cancel = () => browserHistory.push(`/matrix-setup/packages`);
-
   handleTabChange = (event, tab) => {
     this.setState({
       tab,
@@ -222,6 +220,7 @@ class Package extends Component {
         packageId
       },
       routeParams: { id },
+      router
     } = this.props;
 
     packageLevels.sort((a, b) => {
@@ -248,7 +247,7 @@ class Package extends Component {
           switchChecked={testing_mode}
           switchLabel={'Live'}
           onSwitchChange={(e, value) => updateCrateQuestionFields(!value , 'testing_mode')}
-          onCancelClick={this.cancel}
+          router={router}
           cancelLabel={'Cancel'}
           onSaveClick={() => this.done(createDiagnosisQuestion)}
           saveLabel={'Save'}

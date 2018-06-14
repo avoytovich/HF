@@ -127,6 +127,11 @@ class CreateBodyAreaComponent extends Component {
     return returnArr;
   };
 
+  cancel = () => {
+    const {router} = this.props;
+    router.goBack();
+  }
+
   render() {
     let {
       createDiagnosisQuestion,
@@ -150,7 +155,7 @@ class CreateBodyAreaComponent extends Component {
           <span>{screenTitle}</span>
           <div className="nav-buttons">
 
-            <Button onClick={() => browserHistory.push(PAGE.bodyArea)}>
+            <Button className="cancel-button" onClick={() => this.cancel()}>
               Cancel
             </Button>
 

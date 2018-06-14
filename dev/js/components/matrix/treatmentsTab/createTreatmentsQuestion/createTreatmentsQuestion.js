@@ -119,8 +119,6 @@ class CreateTreatmentsComponent extends Component {
     );
   };
 
-  cancel = () => browserHistory.push(`/matrix-setup/treatments`);
-
   render() {
     const {
       createDiagnosisQuestion,
@@ -137,7 +135,8 @@ class CreateTreatmentsComponent extends Component {
       routeParams: { id },
       commonReducer: {
         currentLanguage: { L_CREATE_QUESTION }
-      }
+      },
+      router
     } = this.props;
 
     return (
@@ -151,7 +150,8 @@ class CreateTreatmentsComponent extends Component {
           onSwitchChange={(e, value) =>
             updateCrateQuestionFields(!value, "testing")
           }
-          onCancelClick={this.cancel}
+          
+          router={router}
           cancelLabel={"Cancel"}
           onSaveClick={() => this.done(createDiagnosisQuestion)}
           saveLabel={"Save"}

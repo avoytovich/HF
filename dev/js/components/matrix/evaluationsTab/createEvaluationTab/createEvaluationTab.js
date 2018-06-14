@@ -194,12 +194,11 @@ class CreateEvaluationComponent extends Component {
       ...moreProps
     };
   };
-
-  cancel = () => browserHistory.push(`/matrix-setup/evaluations`);
-
+  
   render() {
     const {
       createDiagnosisQuestion,
+      router,
       createDiagnosisQuestion: {
         content_type,
         questionKey,
@@ -208,6 +207,7 @@ class CreateEvaluationComponent extends Component {
       },
       routeParams: { id }
     } = this.props;
+
     return (
       <div id="create-question">
         <CreateItemNavButtons
@@ -218,7 +218,7 @@ class CreateEvaluationComponent extends Component {
           onSwitchChange={(e, value) =>
             updateCrateQuestionFields(!value, "testing")
           }
-          onCancelClick={this.cancel}
+          router={router}
           cancelLabel={"Cancel"}
           onSaveClick={() => this.submit(createDiagnosisQuestion)}
           saveLabel={"Save"}
