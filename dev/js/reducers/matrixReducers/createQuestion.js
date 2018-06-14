@@ -332,6 +332,44 @@ const configPackageLevel = (data, newPackageLevels) => {
 
 const deletePackageLevel = (state, action) => {
   const { id, index } = action.payload;
+  for (let i = index; i < state.packageLevels.length; i++) {
+    state = dotProp.set(
+      state,
+      `levelInfo${i}en`,
+      state[`levelInfo${i+1}en`]
+    );
+    state = dotProp.delete(
+      state,
+      `levelInfo${i+1}en`
+    );
+    state = dotProp.set(
+      state,
+      `levelInfo${i}swe`,
+      state[`levelInfo${i+1}swe`]
+    );
+    state = dotProp.delete(
+      state,
+      `levelInfo${i+1}swe`
+    );
+    state = dotProp.set(
+      state,
+      `therapyInfo${i}en`,
+      state[`therapyInfo${i+1}en`]
+    );
+    state = dotProp.delete(
+      state,
+      `therapyInfo${i+1}en`
+    );
+    state = dotProp.set(
+      state,
+      `therapyInfo${i}swe`,
+      state[`therapyInfo${i+1}swe`]
+    );
+    state = dotProp.delete(
+      state,
+      `therapyInfo${i+1}swe`
+    );
+  }
   return dotProp.set(
     state,
     'packageLevels',
