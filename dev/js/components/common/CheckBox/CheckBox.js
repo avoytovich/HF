@@ -36,10 +36,10 @@ class CheckBox extends Component {
         onChangeCustom,
       }                   = this.props;
       const assets = get(reducer, `${id}.value`);
-      let value = false;
-      assets &&
-        assets.forEach(each => (value = (--each == i) ? true : false));
-      //const value        = get(reducer, `${id}.value[${i}]`);
+      // let value = false;
+      // assets &&
+      //   assets.forEach(each => (value = (--each == i) ? true : false));
+      const value        = get(reducer, `${id}.value[${i}]`);
       const onChangeFinal = onChangeCustom || this._onChange;
       return (
         <FormControlLabel
