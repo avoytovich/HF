@@ -20,6 +20,11 @@ class CreateItemNavButtons extends Component {
     dispatchMatrixPayloadWired({ questionAnswerLang: 'en' })
   }
 
+  cancel = () => {
+    const {router} = this.props;
+    router.goBack();
+  }
+
   render() {
     const {
       title,
@@ -84,7 +89,7 @@ class CreateItemNavButtons extends Component {
             }
 
             <div className="nav-buttons">
-              <Button onClick={onCancelClick} className="cancel-button">
+              <Button onClick={()=> this.cancel()} className="cancel-button">
                 { cancelLabel }
               </Button>
 

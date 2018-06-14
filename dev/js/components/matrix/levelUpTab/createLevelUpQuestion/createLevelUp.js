@@ -193,8 +193,6 @@ class CreateLevelUpComponent extends Component {
     };
   };
 
-  cancel = () => browserHistory.push(`/matrix-setup/levelUps`);
-
   render() {
     const {
       createDiagnosisQuestion,
@@ -204,7 +202,8 @@ class CreateLevelUpComponent extends Component {
         packageLevelsList,
         testing
       },
-      routeParams: { id }
+      routeParams: { id },
+      router
     } = this.props;
     return (
       <div id="create-question">
@@ -216,7 +215,7 @@ class CreateLevelUpComponent extends Component {
           onSwitchChange={(e, value) =>
             updateCrateQuestionFields(!value, "testing")
           }
-          onCancelClick={this.cancel}
+          router={router}
           cancelLabel={"Cancel"}
           onSaveClick={() => this.submit(createDiagnosisQuestion)}
           saveLabel={"Save"}

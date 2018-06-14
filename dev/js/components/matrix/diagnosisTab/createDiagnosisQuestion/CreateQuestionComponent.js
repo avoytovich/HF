@@ -228,13 +228,12 @@ class CreateQuestionComponent extends Component {
     };
   };
 
-  cancel = () => browserHistory.push(`/matrix-setup/diagnosis`);
-
   render() {
     const {
       createDiagnosisQuestion,
       createDiagnosisQuestion: { content_type, questionKey, testing, service },
-      routeParams: { id }
+      routeParams: { id },
+      router
     } = this.props;
     //console.log(service, content_type);
     return (
@@ -247,7 +246,7 @@ class CreateQuestionComponent extends Component {
           onSwitchChange={(e, value) =>
             updateCrateQuestionFields(!value, "testing")
           }
-          onCancelClick={this.cancel}
+          router={router}
           cancelLabel={"Cancel"}
           onSaveClick={() => this.submitQuestion(createDiagnosisQuestion)}
           saveLabel={"Save"}
