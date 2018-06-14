@@ -29,6 +29,9 @@ class EditBillingModal extends Component {
       if(status==200){
         const new_billing_info = {... get(profileReducer,'billing_info'), ...{stripe_token:response.id}}
         profileReducer.billing_info = new_billing_info;
+        profileReducer.legal_info = profileReducer.legal_info || [];
+        profileReducer.contact_info = profileReducer.contact_info || [];
+        profileReducer.additional_info = profileReducer.additional_info || [];
         userUpdate('users', 'customers', profileReducer.id,  profileReducer)
         that.props.open();
       }
