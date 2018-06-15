@@ -27,7 +27,7 @@ export const userCreateByCSV = (domenKey, apiKey, body) => {
 export const userUpdate = (domenKey, apiKey, customer_id,  body) => {
   const domenPath = domen[domenKey],
     apiPath   = api[apiKey];
-  return Api.put(`${domenPath}${apiPath}${customer_id}`, body);
+  return Api.put(`${domenPath}${apiPath}${customer_id}`, body).then(({data}) => dispatchCreateUserPayloadWired(data.data));
 };
 
 export const userUpdatePricingGroup = (domenKey, apiKey, customer_id,  body) => {

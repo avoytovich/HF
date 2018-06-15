@@ -57,6 +57,7 @@ class PersonalCabinetBilling extends Component {
     showEditSimpleTariff:false,
     showEditBillingDetailsModal: false
   };
+  
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.showEditBillingDetailsModal && nextState.showEditBillingDetailsModal) {
       return false
@@ -67,7 +68,6 @@ class PersonalCabinetBilling extends Component {
   componentWillMount (){
     getProfileWired(this.props.userReducer.customer_id,'customers');
     Stripe.setPublishableKey(stripeKey);
-
   }
 
   _renderItem =(el, index, profileReducer)=>{
@@ -96,7 +96,8 @@ class PersonalCabinetBilling extends Component {
     const { selected, showEditBillingDetailsModal} = this.state;
     const {
       classes,
-      profileReducer
+      profileReducer,
+      createUsersReducers
     } = this.props;
     const path = `/payments/customer/${this.props.profileReducer.id}`;
     const { tableHeader } = BILLING_HISTORY;
@@ -118,7 +119,7 @@ class PersonalCabinetBilling extends Component {
               <div className = 'profile-paper-container'>
                 <div className = 'profile-paper-sub-header'>Billing Details <EditIcon onClick={this._openEditModal}/></div>
                 <div className = 'profile-paper-data-container'>
-                  {map(billingDetails, (el,index) => this._renderItem(el,index,profileReducer))}
+                  {map(billingDetails, (el,index) => this._renderItem(el,index,createUsersReducers))}
                 </div>
               </div>
             </Paper>
@@ -188,7 +189,8 @@ class PersonalCabinetBilling extends Component {
 const mapStateToProps = state => ({
   profileReducer: state.profileReducer,
   createSimpleUsersReducers: state.createSimpleUsersReducers,
-  userReducer: state.userReducer
+  userReducer: state.userReducer,
+  createUsersReducers: state.createUsersReducers
 });
 
 export default  connect(mapStateToProps)(withStyles(styles)(PersonalCabinetBilling));
