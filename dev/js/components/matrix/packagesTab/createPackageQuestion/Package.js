@@ -117,8 +117,19 @@ class Package extends Component {
       errors,
       app_title,
       title,
+      questionAnswerLang,
     } = value;
-    const validValue = { questionKey, title };
+    let levelName = `therapyInfo0${questionAnswerLang}`;
+    const validValue = {
+      questionKey,
+      app_title: {
+        [`${questionAnswerLang}`]: app_title[`${questionAnswerLang}`]
+      },
+      title };
+    packageLevels.forEach((each, i) => {
+      validValue[`therapyInfo${i}${questionAnswerLang}`] = value[`therapyInfo${i}${questionAnswerLang}`];
+      validValue[`levelInfo${i}${questionAnswerLang}`] = value[`levelInfo${i}${questionAnswerLang}`];
+    });
 
 //    const _packageLevels = packageLevels.map((el, index) => {
 //      const oldLevel = this.levelList[index];

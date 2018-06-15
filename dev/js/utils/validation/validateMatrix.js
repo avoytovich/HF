@@ -2,7 +2,7 @@ import validator from './validator';
 import { bCN } from './index';
 import validate from 'validate.js';
 
-const minimizeString = (value) => validate.isEmpty(value) ? '' : value.trim();
+const minimizeString = (value) => (validate.isEmpty(value) ? '' : value.trim());
 
 export const validateMatrix = data => {
   const tooShort = (title) => `^${title} is too short (minimum is %{count} characters)`;
@@ -12,7 +12,6 @@ export const validateMatrix = data => {
   const notLessThanOrEqualTo = (title, lessThen) => `^${title} must be less than or equal to ${lessThen | 100}`;
   const notEmpty = (title) => `^${title} cannot be empty`;
   const notURL = (title) => `^${title} doesn't look like a valid link`;
-
   const constraints = {
     questionTitle: {
       length: {
@@ -32,12 +31,26 @@ export const validateMatrix = data => {
         tooLong : tooLong('Key')
       },
     },
-    app_title: {
+    /*app_title: {
       length: {
         minimum: 2,
         tokenizer: minimizeString,
         tooShort: tooShort('App title'),
       },
+    },*/
+    [bCN('app_title', 'en')] : {
+      length:{
+        minimum: 2,
+        tokenizer: minimizeString,
+        tooShort: tooShort('App title'),
+      }
+    },
+    [bCN('app_title', 'swe')] : {
+      length:{
+        minimum : 2,
+        tokenizer: minimizeString,
+        tooShort: tooShort('App title'),
+      }
     },
     [bCN('question', 'en')] : {
       length:{
@@ -211,6 +224,18 @@ export const validateMatrix = data => {
       }
     }
   };
+  Object.keys(data)
+    .filter((each) => (each.search('therapyInfo') != -1 ||
+      each.search('levelInfo') != -1))
+    .forEach((each) => (
+      constraints[each] = {
+        length: {
+          minimum: 2,
+          tokenizer: minimizeString,
+          tooShort: tooShort('Input data'),
+        }
+      }
+    ));
 
   const { isValid, errors } = validator(data, constraints);
   return {isValid, errors}
