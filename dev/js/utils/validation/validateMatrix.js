@@ -12,6 +12,7 @@ export const validateMatrix = data => {
   const notLessThanOrEqualTo = (title, lessThen) => `^${title} must be less than or equal to ${lessThen | 100}`;
   const notEmpty = (title) => `^${title} cannot be empty`;
   const notURL = (title) => `^${title} doesn't look like a valid link`;
+
   const constraints = {
     questionTitle: {
       length: {

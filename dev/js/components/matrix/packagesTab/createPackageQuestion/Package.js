@@ -119,7 +119,7 @@ class Package extends Component {
       title,
       questionAnswerLang,
     } = value;
-    let levelName = `therapyInfo0${questionAnswerLang}`;
+
     const validValue = {
       questionKey,
       app_title: {
