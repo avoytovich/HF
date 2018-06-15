@@ -41,7 +41,8 @@ class Result extends Component {
     if(!isEmpty(treatmentsData) && !isEmpty(packagesData)){
       return Object.entries(treatments).map(([key, value]) => ({
         treatmentName: treatmentsData.find(n => n.key === key).title,
-        packageName: packagesData.find(n => n.id === value.package_id).title
+        packageName: packagesData.find(n => n.id === value.package_id).title,
+        packageLevelsName: packagesData.find(n => n.id === value.package_id).packageLevels.data
       }))
     }
     return;
@@ -69,6 +70,11 @@ class Result extends Component {
                   <div key={index}>
                     <p>Treatment Name: {data.treatmentName}</p>
                     <p>Package Name: {data.packageName}</p>
+                    {/* {map(data.packageLevelsName, (elements, index) => {
+                      {elements.title.map((element, i) => {
+                        return <p>{}</p> 
+                      })};
+                    })} */}
                   </div>
                 )
               })
