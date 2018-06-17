@@ -31,6 +31,50 @@ class EqualComponent extends Component {
   onAsyncChange = (value, edit) =>
     this.setState({...onSingleAsyncChange(value, edit, this.props)});
 
+
+  renderAnswersItem = (listType, selectValue, value) => {
+    switch (listType) {
+      case "list":
+        return (
+          <Select
+            id={`answer-${this.props.path}-${this.props.pathType}`}
+            name={`answer-${this.props.path}-${this.props.pathType}`}
+            value={selectValue}
+            onChange={event => onAnswerChange(event, this.props, "value")}
+            className="types-select"
+            margin="normal"
+            fullWidth={true}
+            renderValue={item => item}
+          >
+            {this.state.answers.map((option, index) => {
+              return (
+                <MenuItem value={option.label} key={index}>
+                  {option.value}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        );
+
+      case "range":
+        return (
+          <div className="range-answer">
+            <div className="range-answer-title">{value || 0}</div>
+
+            <input
+              type="range"
+              id={`range-${this.props.path}-${this.props.pathType}`}
+              name={`range-${this.props.path}-${this.props.pathType}`}
+              value={value}
+              min={this.state.min}
+              max={this.state.max}
+              onChange={event => onAnswerChange(event, this.props, "value")}
+            />
+          </div>
+        );
+    }
+  };
+
   render() {
     const { key, op, value } = this.props.itemState,
             selectValue      = getAnswerValue(this.state.answers, value);
@@ -57,36 +101,19 @@ class EqualComponent extends Component {
           Answer
         </div>
 
-        {this.state.type === 'list' ?
+        {!!key ?
+          this.renderAnswersItem(this.state.type, selectValue, value) :
           <Select
             id={`answer-${this.props.path}-${this.props.pathType}`}
             name={`answer-${this.props.path}-${this.props.pathType}`}
-            value={ selectValue || 'A' }
-            onChange={(event) => onAnswerChange(event, this.props, 'value') }
+            value={'1'}
+            disabled={true}
             className="types-select"
             margin="normal"
-            disabled={!this.state.answers.length}
             fullWidth={true}
             renderValue={item => item}
-          >
-            {this.state.answers.map((option, index) => {
-              return <MenuItem value={option.label} key={index}>{option.value}</MenuItem>
-            })}
-          </Select>
-          :
-          <div className="range-answer">
-            <div className="range-answer-title">
-              {value || 0}
-            </div>
-            <input type="range"
-                   id={`range-${this.props.path}-${this.props.pathType}`}
-                   name={`range-${this.props.path}-${this.props.pathType}`}
-                   value={value}
-                   min={this.state.min}
-                   max={this.state.max}
-                   onChange={(event) => onAnswerChange(event, this.props, 'value')}
-            />
-          </div>}
+          />
+        }
       </div>
     </div>;
   }

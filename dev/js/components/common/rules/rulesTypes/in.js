@@ -59,11 +59,11 @@ class InComponent extends Component {
           multiple
           id={`answer-${this.props.path}-${this.props.pathType}`}
           name={`answer-${this.props.path}-${this.props.pathType}`}
-          value={ selectValue }
+          value={ selectValue || '1' }
           onChange={(event) => onAnswerChange(event, this.props, 'value')}
           className="types-select"
           margin="normal"
-          disabled={!this.state.answers.length}
+          disabled={!!key}
           fullWidth={true}
           renderValue={item => `${item},`}
         >
