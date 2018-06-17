@@ -7,6 +7,8 @@ import Tabs, { Tab }        from 'material-ui/Tabs';
 
 import { dispatchMatrixPayloadWired } from '../../../actions';
 
+import Save from 'material-ui-icons/Save'
+
 class CreateItemNavButtons extends Component {
 
   constructor(props) {
@@ -98,7 +100,9 @@ class CreateItemNavButtons extends Component {
                 dense
                 onClick={onSaveClick}
                 color="primary"
+                className="nav-menu-save-button"
               >
+                <Save className="save-icon"/>
                 { saveLabel }
               </Button>
             </div>
