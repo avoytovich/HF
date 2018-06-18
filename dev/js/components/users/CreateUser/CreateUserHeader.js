@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
-import { userCreate, userUpdate }     from '../../../actions';
+import { userCreate, userUpdate, submitUserFields }     from '../../../actions';
+
 // UI
 import{ get } from 'lodash';
 import AppBar from 'material-ui/AppBar';
@@ -19,7 +20,14 @@ class HeaderAssets extends Component {
     }
   }
 
-  _onSubmit = () => {
+  _onSubmit = (createUsersReducers) => {
+    const {
+      errors,
+      email
+    } = createUsersReducers;
+
+    const validValues = {email};
+
     let userType;
     if (this.props.userInfo){
       userType = this.props.userInfo.userType;
@@ -30,7 +38,11 @@ class HeaderAssets extends Component {
     else{
        userType = 'organization';
     }
-    const result = {...this.props.createUsersReducers, ...{type: userType, entryFee: 100}};
+
+    const result = {...createUsersReducers, ...{type: userType, entryFee: 100}};
+    
+    const {isValid} = submitUserFields(validValues, errors, result);
+    if(!isValid) return;
 
     if(get(this.props,'userInfo.actionType') ==='create'){
       userCreate('users', 'customers', result)
@@ -50,6 +62,9 @@ class HeaderAssets extends Component {
 
   render() {
     const headerTitle = get(this.props,'userInfo.headerTitle');
+    const {
+      createUsersReducers
+    } = this.props;
     return (
       <AppBar
         position="static"
@@ -70,7 +85,7 @@ class HeaderAssets extends Component {
           <div>
             <p
               className="upload-header-save-button"
-              onClick={this._onSubmit}
+              onClick={()=> {this._onSubmit(createUsersReducers)}}
             >
               SAVE
             </p>

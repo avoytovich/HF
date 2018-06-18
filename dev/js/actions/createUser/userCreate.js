@@ -1,13 +1,14 @@
 import { Api }        from '../../utils';
 import { domen, api } from '../../config/apiRoutes';
 import { TABLE,
-  CREATE_QUESTION }   from '../index'
+  CREATE_QUESTION, CREATE_USERS }   from '../index'
 import { store }      from '../../index'
 import qs             from 'query-string';
 import { T, CSV_FILE} from '../index'
 import {
   toFormData,
 } from '../../utils';
+import validateUserCreation from '../../utils/validation/validateUserCreation'
 
 export const userCreate = (domenKey, apiKey, body) => {
   const domenPath = domen[domenKey],
@@ -64,4 +65,21 @@ export const dispatchCSVFilePayload = payload => dispatch =>
 
 export const dispatchCSVFilePayloadWired = payload =>
   dispatchCSVFilePayload(payload)(store.dispatch);
+
+export const updateCrateUsersFields = (data, path) => {
+  return store.dispatch({type:`${CREATE_USERS}_UPDATE`,
+    payload:{
+      data,
+      path
+    }
+  });
+};
+
+export const submitUserFields = (validValues, oldErrors, result) => {
+  const {errors, isValid} = validateUserCreation(validValues);
+  if(!isValid){
+    updateCrateUsersFields({...oldErrors, ...errors}, 'errors');
+  }
+  return { isValid };
+}
 

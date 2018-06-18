@@ -125,6 +125,7 @@ class CreateUser extends Component {
     })
   };
 
+
   render() {
     const createUsersReducers = {
       ...this.props.userData,
@@ -139,6 +140,8 @@ class CreateUser extends Component {
       id: el.id,
       active: el.active
     }));
+
+
     return (
       <div className="upload-container">
         <Header
