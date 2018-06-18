@@ -115,7 +115,8 @@ class CreateEvaluationComponent extends Component {
       testing,
       level_up,
       evaluation_result,
-      evaluation_result_data
+      evaluation_result_data,
+      files
     } = value;
     const validValue = { questionKey, questionTitle };
     const isContentType = content_type === "functionalTest";
@@ -125,7 +126,7 @@ class CreateEvaluationComponent extends Component {
         : {};
 
     const validateAssets =
-      isContentType && !this.validateDiagnosticAssets(diagnostic_assets);
+      isContentType && !this.validateDiagnosticAssets(files, diagnostic_assets);
 
     if (validateAssets) {
       return notifier({
@@ -162,20 +163,56 @@ class CreateEvaluationComponent extends Component {
     );
   };
 
-  validateDiagnosticAssets = assets =>
-    assets.hasOwnProperty("id") && !!assets.id;
+  validateDiagnosticAssets = (assetsVideo, assetsPoster) =>
+    (assetsPoster && assetsPoster.hasOwnProperty("id") && !!assetsPoster.id &&
+    assetsVideo && assetsVideo["en"] && assetsVideo["en"].video) ||
+    (assetsPoster && assetsPoster.hasOwnProperty("id") && !!assetsPoster.id &&
+    assetsVideo && assetsVideo["swe"] && assetsVideo["swe"].video && true) ||
+    false;
 
   configureQuestionResult = (value, optional) => {
     const {
-        areaIds,
-        answerType,
-        rules,
-        diagnostic_assets,
-        packageLevelsList
-      } = value,
-      { type, subtype } = this.getAnswerType(answerType),
+      areaIds,
+      answerType,
+      rules,
+      diagnostic_assets,
+      packageLevelsList,
+      files
+    } = value;
+    const filesFinal = {
+      en: {
+        video_id: null
+        //image_id: null
+      },
+      swe: {
+        video_id: null
+        //image_id: null
+      }
+    };
+    const videoEn = get(files, "[en].video", { id: null });
+    const videoSwe = get(files, "[swe].video", { id: null });
+    //const imageEn   = get(files, '[en].preview', { id: null });
+    //const imageSwe   = get(files, '[swe].preview', { id: null });
+    if (files && files.en && files.en.video /*&& files.en.preview*/) {
+      filesFinal.en.video_id = files.en.video.id;
+      //filesFinal.en.image_id = files.en.preview.id;
+    } else {
+      filesFinal.en.video_id = get(videoEn, "id");
+      //filesFinal.en.image_id = get(imageEn, 'id');
+    }
+    if (files && files.swe && files.swe.video /*&& files.swe.preview*/) {
+      filesFinal.swe.video_id = files.swe.video.id;
+      //filesFinal.swe.image_id = files.swe.preview.id;
+    } else {
+      filesFinal.swe.video_id = get(videoSwe, "id");
+      //filesFinal.swe.image_id = get(imageSwe, 'id');
+    }
+      const { type, subtype } = this.getAnswerType(answerType),
       moreProps = optional
-        ? { test_file_id: get(diagnostic_assets, "id") || null }
+        ? {
+            files: filesFinal || null,
+            test_poster_id: get(diagnostic_assets, "id") || null
+          }
         : {};
     const { min, max } = this.getAnswer(answerType, value);
     return {
