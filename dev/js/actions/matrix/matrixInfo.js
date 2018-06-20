@@ -271,7 +271,7 @@ export const getPackageLevel = (domenKey, apiKey, list, level) => {
 //  );
 };
 
-export const getExercises = (domenKey, apiKey, text, next_page, per_page) => {
+ export const getExercises = (domenKey, apiKey, text, next_page, per_page) => {
   const domenPath = domen[domenKey],
         apiPath   = api[apiKey];
 
@@ -284,7 +284,7 @@ export const getExercises = (domenKey, apiKey, text, next_page, per_page) => {
   url = text ?
     `${url}&search=${text}` :
     `${url}`;
-  return Api.get(url).then(({data}) => data.data);
+  return  Api.get(url).then(({data}) => data.data);
 };
 
 
