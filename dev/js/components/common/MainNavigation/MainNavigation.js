@@ -85,6 +85,12 @@ class MainNavigation extends Component {
                 </ListItem>
               </Link>
 
+              <Link to={PAGE.deletedUsers} activeClassName='active-route' className='nav-menu-list-item'>
+                <ListItem as='a' button className={classes.nested}>
+                  <ListItemText inset primary="Heal Deleted Users"/>
+                </ListItem>
+              </Link>
+
             </List>
           </Collapse>
 

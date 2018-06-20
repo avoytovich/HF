@@ -2,7 +2,7 @@ import React, { Component }       from 'react';
 import { connect }                from 'react-redux';
 import { bindActionCreators }     from 'redux';
 import isEmpty                    from 'lodash/isEmpty';
-import get                        from 'lodash/get';
+import debounce                        from 'lodash/debounce';
 import Dialog                     from 'material-ui/Dialog';
 import Slide                      from 'material-ui/transitions/Slide';
 import List, { ListItem }         from 'material-ui/List';
@@ -23,10 +23,15 @@ import Input, { InputAdornment }  from 'material-ui/Input';
 import SearchIcon                 from 'material-ui-icons/Search';
 
 class PickPackageExercisesModal extends Component {
+
+  constructor(props){
+    super(props);
+    this.getExercisesBySearch = debounce(this.getExercisesBySearch, 300);
+  }
   state = {
     list : [],
     isOpen: null,
-    selected: [],
+    selected: []
   };
 
   componentDidMount() {
@@ -56,9 +61,14 @@ class PickPackageExercisesModal extends Component {
     this.props.handleRequestClose(false);
   };
 
-  handleChange = (e) =>
-    getExercises('exercises', 'exercises', e.target.value)
-    .then(list => this.setState({list}));
+  getExercisesBySearch = (value) => {
+    getExercises('exercises', 'exercises', value, null).then(list => this.setState({list}));
+  };
+
+  handleChange = (e) => {
+    this.getExercisesBySearch(e.target.value);
+  };
+
 
   Transition = (props) => <Slide direction="up" {...props} />;
 
@@ -121,13 +131,7 @@ class PickPackageExercisesModal extends Component {
 
         <List>
           {
-            list
-              .filter(({ id: incomExId }) =>
-                isEmpty(
-                  levelExercises.find(({ id: pickedLevelExId }) => pickedLevelExId === incomExId)
-                )
-              )
-              .map((item, index) => (
+            list.map((item, index) => (
               <ListItem
                 key={index}
                 className={`choose-sequence-item`}
@@ -165,6 +169,16 @@ class PickPackageExercisesModal extends Component {
     );
   }
 }
+
+
+PickPackageExercisesModal.defaultProps = {
+  title       : 'Exercises',
+  isSelected  : [],
+  multiSelect : true,
+  listValue   : true,
+  domain      : 'exercises',
+  path        : 'exercises',
+};
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   dispatch,

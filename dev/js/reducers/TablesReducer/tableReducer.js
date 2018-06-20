@@ -96,6 +96,12 @@ const initialState = {
       ]
     },
     {
+      name: 'deletedUsers',
+      changes: [
+        {path: 'sortOptional.orderBy', value: 'first_name'}
+      ]
+    },
+    {
       name: 'organizationsUsers',
       changes: [
         { path: 'sortOptional.orderBy', value: 'first_name' }
