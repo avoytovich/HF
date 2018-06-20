@@ -92,10 +92,6 @@ class TableComponent extends Component {
    * @param _query: {object}  - count of items per pa
    */
   getList = ({ reqType, domen, path, url }, _query) => {
-    console.log(`req type ${reqType}`);
-    console.log(domen);
-    console.log(path);
-    console.log(url);
     switch (reqType) {
       case 'POST':
         getListByPost(domen, path, _query, url);
