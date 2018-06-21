@@ -213,6 +213,7 @@ class DynamicQuestions extends Component {
       }
     } = this.props;
 
+
     // filters out 0-level questions when they're coming from backend.
     // keys of that questions can be found here - pickKeys.testing (see variable below)
     // const questionsToRender = questions.filter(q => !pickKeys.testing.find(key => key === q.key));
@@ -255,6 +256,8 @@ class DynamicQuestions extends Component {
                       treatments={treatments}
                       result={result_status}
                       label={result_status}
+                      allTreatments={this.props.treatmentInfo}
+                      allPackages={this.props.packagesInfo}
                     />
 
                   </Grid>

@@ -6,6 +6,7 @@ import each from 'lodash/each';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
+import isUndefined from 'lodash/isUndefined';
 import { bindActionCreators } from 'redux';
 import Grid from 'material-ui/Grid';
 import AddAlert from 'material-ui-icons/AddAlert';
@@ -16,37 +17,38 @@ import { getTreatments, getPackages, resolve } from '../../../actions/testing/ge
 
 class Result extends Component {
 
-  state = {
-    treatmentsData: [],
-    packagesData: []
-  }
+  // state = {
+  //   treatmentsData: [],
+  //   packagesData: []
+  // }
 
-  //get all treatments for future filtering by key
-  componentDidMount(){
-    getTreatments().then(data => {
-      this.setState({
-        treatmentsData: data
-      });
-    });
-    getPackages().then(data => {
-      this.setState({
-        packagesData: data
-      })
-    })
-    //Future re-write with Promise.all for remove repeating set state: DRY
-  }
+  // //get all treatments for future filtering by key
+  // componentDidMount(){
+  //   getTreatments().then(data => {
+  //     this.setState({
+  //       treatmentsData: data
+  //     });
+  //   });
+  //   getPackages().then(data => {
+  //     this.setState({
+  //       packagesData: data
+  //     })
+  //   })
+  //   //Future re-write with Promise.all for remove repeating set state: DRY
+  // }
 
   createTreatDetail = (treatments) => {
-    const {treatmentsData, packagesData}  = this.state;
-    if(!isEmpty(treatmentsData) && !isEmpty(packagesData)){
+    const {allTreatments, allPackages}  = this.props;
+    console.log(allTreatments);
+    console.log(allPackages);
+    if(!isUndefined(allTreatments) && !isUndefined(allPackages)){
       return Object.entries(treatments).map(([key, value]) => ({
-        treatmentName: treatmentsData.find(n => n.key === key).title,
-        packageName: packagesData.find(n => n.id === value.package_id).title,
-        packageLevelsName: packagesData.find(n => n.id === value.package_id).packageLevels.data
+        treatmentName: allTreatments.find(n => n.key === key).title,
+        packageName: allPackages.find(n => n.id === value.package_id).title
       }))
-    }
+    };
     return;
-  }
+  };
 
   _pickText = (result, treatments) => {
     const { condition } = this.props;
@@ -70,14 +72,10 @@ class Result extends Component {
                   <div key={index}>
                     <p>Treatment Name: {data.treatmentName}</p>
                     <p>Package Name: {data.packageName}</p>
-                    {/* {map(data.packageLevelsName, (elements, index) => {
-                      {elements.title.map((element, i) => {
-                        return <p>{}</p> 
-                      })};
-                    })} */}
                   </div>
                 )
               })
+
             }
           </div>
         )
