@@ -31,17 +31,35 @@ import {
   pickKeys,
 } from '../../../config';
 import { store } from '../../../index';
+import {getPackages, getTreatments} from '../../../actions/testing/getExistingTest';
 
 class TestNew extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      treatmentsData: [],
+      packagesData: []
+    };
     if (typeof localStorage.getItem('temporaryState') === 'string') {
       let temporaryState = JSON.parse(localStorage.getItem('temporaryState'));
       this.state = {
         testingReducer: temporaryState
       }
     }
+  }
+
+  componentDidMount(){
+    getTreatments().then(data => {
+      this.setState({
+        treatmentsData: data
+      });
+    });
+    getPackages().then(data => {
+      this.setState({
+        packagesData: data
+      })
+    })
   }
 
   componentWillMount() {
@@ -271,7 +289,7 @@ class TestNew extends Component {
 
           </Grid>
 
-          <DynamicQuestions />
+          <DynamicQuestions packagesInfo={this.state.packagesData} treatmentInfo={this.state.treatmentsData}/>
 
         </div>
       </div>
