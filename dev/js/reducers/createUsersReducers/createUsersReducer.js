@@ -1,5 +1,6 @@
 import { createReducer } from '../../utils';
-import { CREATE_USERS } from '../../actions';
+import {CREATE_QUESTION, CREATE_USERS} from '../../actions';
+import set from 'lodash/set';
 
 const initialState = {
   actionType: CREATE_USERS,
@@ -46,4 +47,17 @@ const initialState = {
   active: false
 };
 
-export const createUsersReducers = createReducer(initialState, CREATE_USERS);
+const createUserUpdate = (state, action) => {
+  switch (action.type) {
+    case `${CREATE_USERS}_UPDATE`:
+      const {data, path } = action.payload;
+      const res =  set(state, path, data);
+      return Object.assign({}, res);
+    default:
+      return state;
+  }
+};
+
+export const createUsersReducers = createReducer(Object.assign({}, initialState), CREATE_USERS, {
+  [`${CREATE_USERS}_UPDATE`]: createUserUpdate
+});

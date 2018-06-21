@@ -116,7 +116,7 @@ class Profile extends Component {
     if (this.props.simpleUserProfileReducer.confirmed_at) {
       return (
         <Switch
-          label={this.props.simpleUserProfileReducer.deactivated_at ? 'Suspended' : 'Active'}
+          label={this.props.simpleUserProfileReducer.deactivated_at ? 'Deactivated' : 'Active'}
           checked={!this.props.simpleUserProfileReducer.deactivated_at}
           labelClassName={'switch-label'}
           onChange={this._onSwitchChange}

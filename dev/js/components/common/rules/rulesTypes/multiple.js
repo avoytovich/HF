@@ -70,12 +70,9 @@ class MultipleComponent extends Component {
           fullWidth={true}
           renderValue={item => `${item},`}
         >
-          {sortBy(this.state.answers, [a => capitalize(a.value)]).map((option, index) =>
-            (<MenuItem key={index}
-                       className="CMuiInput"
-                       value={option.label }>
-              {option.value}
-            </MenuItem>))}
+          {this.state.answers.map((option, index) => {
+            return <MenuItem value={option.label} key={index}>{option.value}</MenuItem>
+          })}
         </Select>
       </div>
     </div>;

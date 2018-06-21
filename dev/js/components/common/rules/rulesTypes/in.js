@@ -59,20 +59,17 @@ class InComponent extends Component {
           multiple
           id={`answer-${this.props.path}-${this.props.pathType}`}
           name={`answer-${this.props.path}-${this.props.pathType}`}
-          value={ selectValue }
+          value={ selectValue || '1' }
           onChange={(event) => onAnswerChange(event, this.props, 'value')}
           className="types-select"
           margin="normal"
-          disabled={!this.state.answers.length}
+          disabled={!!key}
           fullWidth={true}
           renderValue={item => `${item},`}
         >
-          {sortBy(this.state.answers, [a => capitalize(a.value)]).map((option, index) =>
-            (<MenuItem key={index}
-                       className="CMuiInput"
-                       value={option.label }>
-              {option.value}
-            </MenuItem>))}
+          {this.state.answers.map((option, index) => {
+            return <MenuItem value={option.label} key={index}>{option.value}</MenuItem>
+          })}
         </Select>
 
       </div>

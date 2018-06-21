@@ -31,7 +31,7 @@ export const editAssetsWired = (data,domenKey) => editAssets(data,domenKey)
   });
 
 export const editAssetsPreValidate = (data, domenKey) => {
-  const { errors, isValid } = validAssets({ files: [data] });
+  const { errors, isValid } = validAssets({ tmp_files: [data] });
   if (isValid) {
     return editAssetsWired(data, domenKey);
   }

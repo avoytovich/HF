@@ -47,8 +47,18 @@ const packageTab = {
       exercises: []
     }
   ],
-  app_title     : '',
+  app_title: {
+    en: '',
+    swe: '',
+  }
 };
+
+for (let i = 0; i < 11; i++) {
+  packageTab[`therapyInfo${i}en`] = '';
+  packageTab[`therapyInfo${i}swe`] = '';
+  packageTab[`levelInfo${i}en`] = '';
+  packageTab[`levelInfo${i}swe`] = '';
+}
 
 const levelUp = {
   levelup_result: false,

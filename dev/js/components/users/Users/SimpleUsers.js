@@ -16,7 +16,7 @@ import {domen, api}             from '../../../config';
 import {
   toggleCSVModalSimple,
   dispatchCreateSimpleUserPayloadWired,
-  userCreate, notifier
+  userCreate, notifier, getListByPost
 } from '../../../actions'
 
 import Button                   from 'material-ui/Button';
@@ -35,6 +35,7 @@ class SimpleUsers extends Component {
     showCSVUploadModal: false,
     showChatModal:false
   };
+
 
   _tableCellPropsFunc = (row, col) => {
     if (col.key === 'user_id') {
@@ -83,6 +84,17 @@ class SimpleUsers extends Component {
     toggleCSVModalSimple(data, this, browserUrl)
   };
 
+  provideUserData = (list, action, query, url) => {
+    list.map((el, id) => {
+      Api.post(`${domen.users}/consultant/info/${action}`, {'user_id': list[id].user_id})
+        .then(response => {
+          if(response.status === 202){
+            getListByPost('users', 'simpleUsers', query, url);
+          }
+        })
+    })
+  };
+
   render() {
     const { tableHeader } = USERS_TAB;
     const { selected,
@@ -108,25 +120,19 @@ class SimpleUsers extends Component {
         >
 
           <Button raised dense
-            onClick={() => {
-              selected.map((select, id) => {
-                Api.post(`${domen.users}/consultant/info/provide`, {'user_id': selected[id].user_id});
-              })
-            }}
+            onClick={()=>{this.provideUserData(selected, 'provide', querySelector, url)}}
             className='identity'
           >
             <ActivateIcon/>Indentity
           </Button>
+
           <Button raised dense
-            onClick={() => {
-              selected.map((select, id) => {
-                Api.post(`${domen.users}/consultant/info/hide`, {'user_id': selected[id].user_id});
-              })
-            }}
+            onClick={()=>{this.provideUserData(selected, 'hide', querySelector, url)}}
             className='anonymize'
           >
             <DeactivateIcon/> Anonymize
           </Button>
+
           <Button raised dense
                   onClick={() => this.updateModal('showActivateModal', true)}>
             <ActivateIcon/>Activate

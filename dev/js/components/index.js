@@ -10,6 +10,7 @@ import ClinicOwnUsers           from '../components/users/Clinics/ClinicsUsers';
 import Profile                  from '../components/users/Profile/Profile';
 import SimpleUserProfile        from '../components/users/Profile/SimpleUserProfile';
 import SimpleUsers              from '../components/users/Users/SimpleUsers';
+import DeletedUsers             from '../components/users/Users/DeletedUsers';
 import OrganizationsUsers       from '../components/users/Users/OrganizationsUsers';
 import ClinicsUsers             from '../components/users/Users/ClinicsUsers';
 import CompanyOwnUsers          from '../components/users/Companies/CompanyUsers';
@@ -50,6 +51,7 @@ export const C = {
   SimpleUsers,
   OrganizationsUsers,
   ClinicsUsers,
+  DeletedUsers,
   AssetsComponent,
   AssetsExercisesList,
   AssetsDiagnosticsList,

@@ -81,6 +81,7 @@ class DiagnosisTypeQuestion extends Component {
       SequenceBlockReqType
     } = this.props;
 
+
     let labelLang = "";
     let valueVideoPath = "";
     //let valuePosterPath = '';

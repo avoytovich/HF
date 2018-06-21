@@ -23,6 +23,7 @@ import {
 }                                     from './utils';
 import { dispatchCommonPayloadWired } from './actions';
 import { configureStore }             from './config/store';
+import DeletedUsers from './components/users/Users/DeletedUsers';
 
 export const { persistor, store } = configureStore();
 export const history = syncHistoryWithStore(browserHistory, store);
@@ -77,6 +78,7 @@ const router = (
             <Route path={PAGE.simpleUsers}        component={C.SimpleUsers} />
             <Route path={PAGE.organizationsUsers} component={C.OrganizationsUsers} />
             <Route path={PAGE.clinicsUsers}       component={C.ClinicsUsers} />
+            <Route path={PAGE.deletedUsers}       component={C.DeletedUsers} />
             <Route path={PAGE.simpleUsersProfile}        component={C.SimpleUserProfile} />
             <Route path={PAGE.organizationsUsersProfile} component={C.SimpleUserProfile} />
             <Route path={PAGE.clinicsUsersProfile}       component={C.SimpleUserProfile} />

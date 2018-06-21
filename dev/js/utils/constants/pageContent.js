@@ -340,6 +340,19 @@ export const USERS_TAB = {
   ]
 };
 
+export const DELETED_USERS_TAB = {
+  key: 'condition',
+  title: 'conditionsTab',
+  tableHeader: [
+    { title: 'ID Number', key: 'user_id', className: 'left' },
+    { title: 'Email', key: 'email', className:'left'},
+    { title: 'Status', key: 'status', className: 'left'},
+    { title: 'First Name', key: 'first_name', className: 'left'},
+    { title: 'Last Name', key: 'last_name', className: 'left'},
+    { title: 'Deleted At', key: 'deleted_at', className: 'left', type: 'time', format: TIME_FORMAT}
+  ]
+};
+
 export const PERSONAL_CABINET_USERS_TAB = {
   key: 'conditions',
   title: 'conditionsTab',
