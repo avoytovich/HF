@@ -95,7 +95,7 @@ class CreateConditionComponent extends Component {
       },
       router
     } = this.props;
-
+SVGPathSegCurvetoCubicRel 
     return (
       <div id="create-question">
         <CreateItemNavButtons

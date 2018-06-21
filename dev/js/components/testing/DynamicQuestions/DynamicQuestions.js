@@ -256,8 +256,6 @@ class DynamicQuestions extends Component {
                       treatments={treatments}
                       result={result_status}
                       label={result_status}
-                      allTreatments={this.props.treatmentInfo}
-                      allPackages={this.props.packagesInfo}
                     />
 
                   </Grid>
