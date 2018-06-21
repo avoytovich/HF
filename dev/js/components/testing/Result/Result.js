@@ -37,18 +37,18 @@ class Result extends Component {
   //   //Future re-write with Promise.all for remove repeating set state: DRY
   // }
 
-  createTreatDetail = (treatments) => {
-    const {allTreatments, allPackages}  = this.props;
-    console.log(allTreatments);
-    console.log(allPackages);
-    if(!isUndefined(allTreatments) && !isUndefined(allPackages)){
-      return Object.entries(treatments).map(([key, value]) => ({
-        treatmentName: allTreatments.find(n => n.key === key).title,
-        packageName: allPackages.find(n => n.id === value.package_id).title
-      }))
-    };
-    return;
-  };
+  // createTreatDetail = (treatments) => {
+  //   const {allTreatments, allPackages}  = this.props;
+  //   console.log(allTreatments);
+  //   console.log(allPackages);
+  //   if(!isUndefined(allTreatments) && !isUndefined(allPackages)){
+  //     return Object.entries(treatments).map(([key, value]) => ({
+  //       treatmentName: allTreatments.find(n => n.key === key).title,
+  //       packageName: allPackages.find(n => n.id === value.package_id).title
+  //     }))
+  //   };
+  //   return;
+  // };
 
   _pickText = (result, treatments) => {
     const { condition } = this.props;
@@ -63,15 +63,14 @@ class Result extends Component {
         return 'Questions in the queue are missing - please check the rules';
 
       case 'treatment':
-      const treatmentDetails = this.createTreatDetail(treatments);
         return (
           <div>
             {
-              map(treatmentDetails, (data, index) => {
+              map(treatments, (data, index) => {
                 return (
                   <div key={index}>
-                    <p>Treatment Name: {data.treatmentName}</p>
-                    <p>Package Name: {data.packageName}</p>
+                    <p>Package id: {data.package_id}</p>
+                    <p>Package Level id: {data.package_level_id}</p>
                   </div>
                 )
               })
